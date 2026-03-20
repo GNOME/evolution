@@ -18,16 +18,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-03-03 13:24+0000\n"
-"PO-Revision-Date: 2026-03-19 08:00+0300\n"
-"Last-Translator: Sabri Ünal <yakushabb@gmail.com>\n"
+"POT-Creation-Date: 2026-03-20 11:12+0000\n"
+"PO-Revision-Date: 2026-03-21 01:16+0300\n"
+"Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Gtranslator 49.0\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -270,8 +270,7 @@ msgid ""
 "The option can let choose whether an old or a new contact editor will be "
 "used in the application"
 msgstr ""
-"Bu seçenek eski ya da yeni bağlantı düzenleyicinin kullanılmasını "
-"belirler"
+"Bu seçenek eski ya da yeni bağlantı düzenleyicinin kullanılmasını belirler"
 
 #: ../data/org.gnome.evolution.bogofilter.gschema.xml.in.h:1
 msgid "Convert mail messages to Unicode"
@@ -323,8 +322,8 @@ msgstr "Doğum günü ve yıl dönümü anımsatıcı birimleri"
 msgid ""
 "Units for a birthday or anniversary reminder, “minutes”, “hours” or “days”"
 msgstr ""
-"Doğum günü veya yıl dönümü için birimler; “minutes” (dakika), “hours” (saat), "
-"ya da “days” (gün)"
+"Doğum günü veya yıl dönümü için birimler; “minutes” (dakika), “hours” "
+"(saat), ya da “days” (gün)"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:7
 msgid "Compress weekends in month view"
@@ -496,8 +495,7 @@ msgstr "Gün Görünümünde son olarak kullanılan ikinci saat dilimleri"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:43
 msgid "List of recently used second time zones in a Day View"
-msgstr ""
-"Gün Görünümünde son olarak kullanılan ikinci saat dilimlerinin listesi"
+msgstr "Gün Görünümünde son olarak kullanılan ikinci saat dilimlerinin listesi"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:44
 msgid "Maximum number of recently used timezones to remember"
@@ -791,9 +789,8 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain"
 msgstr ""
-"Uygun/meşgul verisi için başka seçenek olmadığında kullanılacak URL "
-"şablonu, %u posta adresinin kullanıcı bölümü ile, %d alan adı bölümü ile "
-"değiştirilir"
+"Uygun/meşgul verisi için başka seçenek olmadığında kullanılacak URL şablonu, "
+"%u posta adresinin kullanıcı bölümü ile, %d alan adı bölümü ile değiştirilir"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:107
 msgid "Recurrent Events in Italic"
@@ -1382,8 +1379,8 @@ msgid ""
 "Recognize emoticons in text and replace them with images or Unicode "
 "characters."
 msgstr ""
-"Metinlerdeki yüz ifadelerini tanı ve resim ya da Evrensel "
-"karekterlerle değiştir."
+"Metinlerdeki yüz ifadelerini tanı ve resim ya da Evrensel karekterlerle "
+"değiştir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:15
 msgid "Unicode emoticons"
@@ -1950,8 +1947,12 @@ msgid "Save file format for drag-and-drop operation"
 msgstr "Sürükle bırak işlemi için dosya biçimini kaydet"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
-msgid "Can be either “mbox” or “pdf”."
-msgstr "“mbox” ya da “pdf” olabilir."
+msgid ""
+"Can be either “mbox”, “eml” or “pdf”. The “eml” can switch to the “mbox” "
+"when there is more than one message selected."
+msgstr ""
+"“mbox”, “eml” ya da “pdf” olabilir. Birden çok ileti seçildiğinde “eml” "
+"biçimi “mbox” biçimine dönüştürülebilir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Show image animations"
@@ -4342,311 +4343,6 @@ msgstr "Posta Düzenleyici"
 msgid "The Evolution Team"
 msgstr "Evolution Takımı"
 
-#: ../data/ui/evolution-shortcuts.ui.h:1
-msgctxt "shortcut window"
-msgid "Keyboard Shortcuts"
-msgstr "Klavye Kısayolları"
-
-#: ../data/ui/evolution-shortcuts.ui.h:2
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Genel"
-
-#: ../data/ui/evolution-shortcuts.ui.h:3
-msgctxt "shortcut window"
-msgid "Select Mail component"
-msgstr "Posta bileşenini seç"
-
-#: ../data/ui/evolution-shortcuts.ui.h:4
-msgctxt "shortcut window"
-msgid "Select Contacts component"
-msgstr "Bağlantılar bileşenini seç"
-
-#: ../data/ui/evolution-shortcuts.ui.h:5
-msgctxt "shortcut window"
-msgid "Select Calendar component"
-msgstr "Takvim bileşenini seç"
-
-#: ../data/ui/evolution-shortcuts.ui.h:6
-msgctxt "shortcut window"
-msgid "Select Tasks component"
-msgstr "Görevler bileşenini seç"
-
-#: ../data/ui/evolution-shortcuts.ui.h:7
-msgctxt "shortcut window"
-msgid "Select Memos component"
-msgstr "Notlar bileşenini seç"
-
-#: ../data/ui/evolution-shortcuts.ui.h:8
-msgctxt "shortcut window"
-msgid "Create a new item in current component"
-msgstr "Geçerli bileşende yeni öge oluştur"
-
-#: ../data/ui/evolution-shortcuts.ui.h:9
-msgctxt "shortcut window"
-msgid "Cycle focus between panes"
-msgstr "Odağı bölmeler arasında döndür"
-
-#: ../data/ui/evolution-shortcuts.ui.h:10
-msgctxt "shortcut window"
-msgid "Open the Evolution user guide"
-msgstr "Evolution kullanıcı rehberini aç"
-
-#: ../data/ui/evolution-shortcuts.ui.h:11
-msgctxt "shortcut window"
-msgid "Focus search bar"
-msgstr "Arama çubuğuna odaklan"
-
-#: ../data/ui/evolution-shortcuts.ui.h:12
-msgctxt "shortcut window"
-msgid "Clear search bar"
-msgstr "Arama çubuğunu temizle"
-
-#: ../data/ui/evolution-shortcuts.ui.h:13
-msgctxt "shortcut window"
-msgid "Move mails or contacts to folder"
-msgstr "Postaları veya bağlantıları klasöre taşı"
-
-#: ../data/ui/evolution-shortcuts.ui.h:14
-msgctxt "shortcut window"
-msgid "Copy mails or contacts to folder"
-msgstr "Postaları veya bağlantıları klasöre kopyala"
-
-#: ../data/ui/evolution-shortcuts.ui.h:15
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Tercihler"
-
-#: ../data/ui/evolution-shortcuts.ui.h:16
-msgctxt "shortcut window"
-msgid "Open new window"
-msgstr "Yeni pencere aç"
-
-#: ../data/ui/evolution-shortcuts.ui.h:17
-msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Pencereyi kapat"
-
-#: ../data/ui/evolution-shortcuts.ui.h:18
-msgctxt "shortcut window"
-msgid "Quit Evolution"
-msgstr "Evolutionʼdan çık"
-
-#: ../data/ui/evolution-shortcuts.ui.h:19
-msgctxt "shortcut window"
-msgid "Mail"
-msgstr "Posta"
-
-#: ../data/ui/evolution-shortcuts.ui.h:20
-msgctxt "shortcut window"
-msgid "Create a new message"
-msgstr "Yeni ileti oluştur"
-
-#: ../data/ui/evolution-shortcuts.ui.h:21
-msgctxt "shortcut window"
-msgid "Send and receive messages"
-msgstr "İletileri gönder ve al"
-
-#: ../data/ui/evolution-shortcuts.ui.h:22
-msgctxt "shortcut window"
-msgid "Apply filters to selection"
-msgstr "Süzgeçleri seçime uygula"
-
-#: ../data/ui/evolution-shortcuts.ui.h:23
-msgctxt "shortcut window"
-msgid "Open selection in new window"
-msgstr "Seçimi yeni pencerede aç"
-
-#: ../data/ui/evolution-shortcuts.ui.h:24
-msgctxt "shortcut window"
-msgid "Go to folder"
-msgstr "Klasöre git"
-
-#: ../data/ui/evolution-shortcuts.ui.h:25
-msgctxt "shortcut window"
-msgid "Jump to the next unread message"
-msgstr "Sonraki okunmamış iletiye atla"
-
-#: ../data/ui/evolution-shortcuts.ui.h:26
-msgctxt "shortcut window"
-msgid "Jump to the previous unread message"
-msgstr "Önceki okunmamış iletiye atla"
-
-#: ../data/ui/evolution-shortcuts.ui.h:27
-msgctxt "shortcut window"
-msgid "Scroll up"
-msgstr "Yukarı kaydır"
-
-#: ../data/ui/evolution-shortcuts.ui.h:28
-msgctxt "shortcut window"
-msgid "Scroll down"
-msgstr "Aşağı kaydır"
-
-#: ../data/ui/evolution-shortcuts.ui.h:29
-msgctxt "shortcut window"
-msgid "Mail Message"
-msgstr "Posta İletisi"
-
-#: ../data/ui/evolution-shortcuts.ui.h:30
-msgctxt "shortcut window"
-msgid "Copy selected messages to folder"
-msgstr "Seçili iletileri klasöre kopyala"
-
-#: ../data/ui/evolution-shortcuts.ui.h:31
-msgctxt "shortcut window"
-msgid "Move selected messages to folder"
-msgstr "Seçili iletileri klasöre taşı"
-
-#: ../data/ui/evolution-shortcuts.ui.h:32
-msgctxt "shortcut window"
-msgid "Archive selected messages"
-msgstr "Seçili iletileri arşivle"
-
-#: ../data/ui/evolution-shortcuts.ui.h:33
-msgctxt "shortcut window"
-msgid "Mark selected messages as read"
-msgstr "Seçili iletileri okundu olarak imle"
-
-#: ../data/ui/evolution-shortcuts.ui.h:34
-msgctxt "shortcut window"
-msgid "Mark selected messages as unread"
-msgstr "Seçili iletileri okunmadı olarak imle"
-
-#: ../data/ui/evolution-shortcuts.ui.h:35
-msgctxt "shortcut window"
-msgid "Mark selected messages as junk"
-msgstr "Seçili iletileri gereksiz imle"
-
-#: ../data/ui/evolution-shortcuts.ui.h:36
-msgctxt "shortcut window"
-msgid "Mark selected messages as not junk"
-msgstr "Seçili iletileri gereksiz değil imle"
-
-#: ../data/ui/evolution-shortcuts.ui.h:37
-msgctxt "shortcut window"
-msgid "Flag selected messages for follow-up"
-msgstr "Seçili iletileri takip için imle"
-
-#: ../data/ui/evolution-shortcuts.ui.h:38
-msgctxt "shortcut window"
-msgid "Forward selected messages"
-msgstr "Seçili iletileri yönlendir"
-
-#: ../data/ui/evolution-shortcuts.ui.h:39
-msgctxt "shortcut window"
-msgid "Reply to sender"
-msgstr "Gönderene yanıtla"
-
-#: ../data/ui/evolution-shortcuts.ui.h:40
-msgctxt "shortcut window"
-msgid "Reply to list"
-msgstr "Listeye yanıtla"
-
-#: ../data/ui/evolution-shortcuts.ui.h:41
-msgctxt "shortcut window"
-msgid "Reply to all recipients"
-msgstr "Tüm alıcılara yanıtla"
-
-#: ../data/ui/evolution-shortcuts.ui.h:42
-msgctxt "shortcut window"
-msgid "Alternative reply"
-msgstr "Alternatif yanıt"
-
-#: ../data/ui/evolution-shortcuts.ui.h:43
-msgctxt "shortcut window"
-msgid "Delete mail"
-msgstr "Postayı sil"
-
-#: ../data/ui/evolution-shortcuts.ui.h:44
-msgctxt "shortcut window"
-msgid "Undelete mail"
-msgstr "Posta silme"
-
-#: ../data/ui/evolution-shortcuts.ui.h:45
-msgctxt "shortcut window"
-msgid "Calendar"
-msgstr "Takvim"
-
-#: ../data/ui/evolution-shortcuts.ui.h:46
-msgctxt "shortcut window"
-msgid "Create a new appointment"
-msgstr "Yeni randevu oluştur"
-
-#: ../data/ui/evolution-shortcuts.ui.h:47
-msgctxt "shortcut window"
-msgid "Create a new meeting"
-msgstr "Yeni toplantı oluştur"
-
-#: ../data/ui/evolution-shortcuts.ui.h:48
-msgctxt "shortcut window"
-msgid "Create a new task"
-msgstr "Yeni görev oluştur"
-
-#: ../data/ui/evolution-shortcuts.ui.h:49
-msgctxt "shortcut window"
-msgid "Create a new memo"
-msgstr "Yeni not oluştur"
-
-#: ../data/ui/evolution-shortcuts.ui.h:50
-msgctxt "shortcut window"
-msgid "Go to today"
-msgstr "Bugüne git"
-
-#: ../data/ui/evolution-shortcuts.ui.h:51
-msgctxt "shortcut window"
-msgid "Go to date"
-msgstr "Tarihe git"
-
-#: ../data/ui/evolution-shortcuts.ui.h:52
-msgctxt "shortcut window"
-msgid "Day View"
-msgstr "Gün Görünümü"
-
-#: ../data/ui/evolution-shortcuts.ui.h:53
-msgctxt "shortcut window"
-msgid "Work Week View"
-msgstr "Çalışma Haftası Görünümü"
-
-#: ../data/ui/evolution-shortcuts.ui.h:54
-msgctxt "shortcut window"
-msgid "Week View"
-msgstr "Hafta Görünümü"
-
-#: ../data/ui/evolution-shortcuts.ui.h:55
-msgctxt "shortcut window"
-msgid "Month View"
-msgstr "Ay Görünümü"
-
-#: ../data/ui/evolution-shortcuts.ui.h:56
-msgctxt "shortcut window"
-msgid "List View"
-msgstr "Liste Görünümü"
-
-#: ../data/ui/evolution-shortcuts.ui.h:57
-msgctxt "shortcut window"
-msgid "Delete event"
-msgstr "Olayı sil"
-
-#: ../data/ui/evolution-shortcuts.ui.h:58
-msgctxt "shortcut window"
-msgid "Contacts"
-msgstr "Bağlantılar"
-
-#: ../data/ui/evolution-shortcuts.ui.h:59
-msgctxt "shortcut window"
-msgid "Create a new contact"
-msgstr "Yeni bağlantı oluştur"
-
-#: ../data/ui/evolution-shortcuts.ui.h:60
-msgctxt "shortcut window"
-msgid "Create a new contact list"
-msgstr "Yeni bağlantı listesi oluştur"
-
-#: ../data/ui/evolution-shortcuts.ui.h:61
-msgctxt "shortcut window"
-msgid "Delete contact"
-msgstr "Bağlantı sil"
-
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
 msgstr "_Adres Kartları"
@@ -5239,7 +4935,7 @@ msgstr "_Ev Sayfası:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1070
 #: ../src/calendar/gui/e-comp-editor-event.c:1173
-#: ../src/modules/itip-formatter/itip-view.c:2759
+#: ../src/modules/itip-formatter/itip-view.c:2816
 msgid "_Calendar:"
 msgstr "_Takvim:"
 
@@ -5729,7 +5425,7 @@ msgstr "Geçersiz bağlantı."
 #: ../src/calendar/gui/e-comp-editor.c:2290
 #: ../src/calendar/gui/e-comp-editor.c:2369
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:753
+#: ../src/shell/e-shell-window-actions.c:963
 msgid "_Help"
 msgstr "_Yardım"
 
@@ -6397,7 +6093,7 @@ msgid "Certificate"
 msgstr "Sertifika"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:207
-#: ../src/mail/em-utils.c:2079
+#: ../src/mail/em-utils.c:2082
 #, c-format
 msgid "Key ID: %s"
 msgstr "Anahtar Kimliği: %s"
@@ -6411,19 +6107,19 @@ msgid "PGP key (%s)"
 msgstr "PGP anahtarı (%s)"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:244
-#: ../src/mail/em-utils.c:2138
+#: ../src/mail/em-utils.c:2141
 #, c-format
 msgid "User ID: %s"
 msgstr "Kullanıcı Kimliği: %s"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:253
-#: ../src/mail/em-utils.c:2090
+#: ../src/mail/em-utils.c:2093
 #, c-format
 msgid "Fingerprint: %s"
 msgstr "Parmak İzi: %s"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:262
-#: ../src/mail/em-utils.c:2106
+#: ../src/mail/em-utils.c:2109
 #, c-format
 msgid "Created: %s"
 msgstr "Oluşturuldu: %s"
@@ -7055,7 +6751,7 @@ msgstr "Bu bağlantıyı (%s) silmek istediğinizden emin misiniz?"
 #: ../src/mail/e-mail-account-manager.c:727
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1286
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1666
-#: ../src/shell/e-shell-window-actions.c:653
+#: ../src/shell/e-shell-window-actions.c:863
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_Sil"
@@ -7870,8 +7566,7 @@ msgid ""
 "Some attachments are being downloaded. Saving the appointment would result "
 "in the loss of these attachments."
 msgstr ""
-"İndirilen ekler var. Randevuyu kaydetmek bu eklerin yitimine neden "
-"olabilir."
+"İndirilen ekler var. Randevuyu kaydetmek bu eklerin yitimine neden olabilir."
 
 #: ../src/calendar/calendar.error.xml.h:59
 msgid "Would you like to send updated task information to participants?"
@@ -7894,21 +7589,20 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this memo."
 msgstr ""
-"Tüm katılımcılara bu notu kabul etmelerine izin veren e-posta "
-"davetiyeleri gönderilecek."
+"Tüm katılımcılara bu notu kabul etmelerine izin veren e-posta davetiyeleri "
+"gönderilecek."
 
 #: ../src/calendar/calendar.error.xml.h:63
 msgid "Would you like to send updated memo information to participants?"
-msgstr ""
-"Katılımcılara güncellenmiş not bilgilerini göndermek ister misiniz?"
+msgstr "Katılımcılara güncellenmiş not bilgilerini göndermek ister misiniz?"
 
 #: ../src/calendar/calendar.error.xml.h:64
 msgid ""
 "Sending updated information allows other participants to keep their memo "
 "lists up to date."
 msgstr ""
-"Güncellenmiş bilgileri göndermek diğer katılımcıların not listelerini "
-"güncel tutmalarını sağlar."
+"Güncellenmiş bilgileri göndermek diğer katılımcıların not listelerini güncel "
+"tutmalarını sağlar."
 
 #: ../src/calendar/calendar.error.xml.h:65
 msgid "Editor could not be loaded."
@@ -8380,7 +8074,7 @@ msgstr "Gizli"
 #: ../src/calendar/gui/memotypes.xml.in.h:6
 #: ../src/calendar/gui/tasktypes.xml.in.h:5
 msgid "Organizer"
-msgstr "Organizatör"
+msgstr "Düzenleyen"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:13
 #: ../src/calendar/gui/e-meeting-list-view.c:612
@@ -8418,11 +8112,11 @@ msgstr "Bulunmaz"
 #: ../src/calendar/gui/caltypes.xml.in.h:19
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2229
 msgid "Recurrence"
-msgstr "Yineleme"
+msgstr "Yineleniş"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:20
 msgid "Occurs"
-msgstr "Yer alır"
+msgstr "Gerçekleşir"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:21
 msgid "Less Than"
@@ -8430,7 +8124,7 @@ msgstr "Daha Küçük"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:22
 msgid "Exactly"
-msgstr "Tam olarak"
+msgstr "Tam Olarak"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:23
 msgid "More Than"
@@ -8450,11 +8144,11 @@ msgstr "Tanım İçerir"
 
 #: ../src/calendar/gui/comp-util.c:1606 ../src/calendar/gui/comp-util.c:3090
 #: ../src/calendar/importers/icalendar-importer.c:1546
-#: ../src/modules/itip-formatter/itip-view.c:3194
+#: ../src/modules/itip-formatter/itip-view.c:3251
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
-msgstr[0] "%d misafirle"
+msgstr[0] "%d konukla"
 
 #: ../src/calendar/gui/comp-util.c:1665
 #, c-format
@@ -8515,7 +8209,7 @@ msgstr "İptal Edilmiş"
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:175
 #: ../src/calendar/gui/e-meeting-store.c:198
-#: ../src/modules/itip-formatter/itip-view.c:7696
+#: ../src/modules/itip-formatter/itip-view.c:7753
 msgid "Accepted"
 msgstr "Onaylandı"
 
@@ -8523,7 +8217,7 @@ msgstr "Onaylandı"
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:177
 #: ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/modules/itip-formatter/itip-view.c:7702
+#: ../src/modules/itip-formatter/itip-view.c:7759
 msgid "Declined"
 msgstr "Reddedildi"
 
@@ -8539,7 +8233,7 @@ msgstr "Belirsiz"
 #: ../src/calendar/gui/e-meeting-list-view.c:199
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7705
+#: ../src/modules/itip-formatter/itip-view.c:7762
 msgid "Delegated"
 msgstr "Devredildi"
 
@@ -8850,6 +8544,7 @@ msgstr "Atlama düğmesi"
 msgid "Click here, you can find more events."
 msgstr "Buraya tıklayın, daha çok olay bulabilirsiniz."
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:391
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2321
@@ -8857,6 +8552,7 @@ msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Şunda ses çal:"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:395
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2319
@@ -8864,6 +8560,7 @@ msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Şunda uyarı göster:"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:399
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2325
@@ -8871,6 +8568,7 @@ msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Şunda e-posta gönder:"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-alarm-list.c:403
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2323
@@ -9308,8 +9006,8 @@ msgstr "Tür"
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1302
 #: ../src/calendar/gui/print.c:1319 ../src/e-util/e-charset.c:49
 #: ../src/modules/calendar/e-calendar-preferences.c:803
-#: ../src/modules/itip-formatter/itip-view.c:4306
-#: ../src/modules/itip-formatter/itip-view.c:7708
+#: ../src/modules/itip-formatter/itip-view.c:4363
+#: ../src/modules/itip-formatter/itip-view.c:7765
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Bilinmiyor"
@@ -9931,7 +9629,7 @@ msgstr "Katılı_mcılar…"
 #: ../src/plugins/sender-validation/sender-validation.c:694
 #: ../src/plugins/sender-validation/sender-validation.c:805
 #: ../src/plugins/templates/templates.c:488
-#: ../src/shell/e-shell-window-actions.c:751 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:961 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "Dü_zenle"
 
@@ -10254,22 +9952,26 @@ msgstr "Öntanımlı zaman ekle…"
 msgid "Remove predefined times"
 msgstr "Öntanımlı zamanları kaldır"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1986
 msgid "Set a custom predefined time to"
 msgstr "Özel öntanımlı zamanı"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:1999
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "_gün"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2015
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "_saat"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2031
 msgctxt "cal-reminders"
@@ -10289,71 +9991,83 @@ msgstr "Anımsatıcılar"
 msgid "_Reminder"
 msgstr "_Anımsatıcı"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2356
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "dakika"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2358
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "saat"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2360
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "gün"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2377
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "öncesinde"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2379
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "sonrasında"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ start ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2395
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "başlangıçtan"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [ end ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2397
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "bitişten"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2416
 msgid "Re_peat the reminder"
 msgstr "_Anımsatıcıyı"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2441
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "kez ek olarak her"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ minutes ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2478
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "dakikada bir yinele"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ hours ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2480
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "saatte bir yinele"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [ days ]
 #: ../src/calendar/gui/e-comp-editor-page-reminders.c:2482
 msgctxt "cal-reminders"
@@ -10619,7 +10333,7 @@ msgstr "Değişiklikler kaydediliyor…"
 #: ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1741
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1503
 #: ../src/mail/em-subscription-editor.c:1734
-#: ../src/shell/e-shell-window-actions.c:618
+#: ../src/shell/e-shell-window-actions.c:828
 #: ../src/smime/gui/certificate-manager.c:2124
 msgid "_Close"
 msgstr "_Kapat"
@@ -10633,14 +10347,14 @@ msgstr "Geçerli pencereyi kapat"
 #: ../src/e-util/e-html-editor-actions.c:1355 ../src/e-util/e-text.c:2031
 #: ../src/e-util/e-web-view.c:1663 ../src/mail/e-mail-browser.c:583
 #: ../src/mail/e-mail-viewer.c:1755 ../src/mail/mail.error.xml.h:147
-#: ../src/shell/e-shell-window-actions.c:639
+#: ../src/shell/e-shell-window-actions.c:849
 msgid "_Copy"
 msgstr "_Kopyala"
 
 #: ../src/calendar/gui/e-comp-editor.c:2264 ../src/e-util/e-focus-tracker.c:223
 #: ../src/e-util/e-focus-tracker.c:279 ../src/e-util/e-focus-tracker.c:332
 #: ../src/e-util/e-web-view.c:1665 ../src/e-util/e-web-view.c:2321
-#: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:641
+#: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:851
 msgid "Copy the selection"
 msgstr "Seçimi kopyala"
 
@@ -10655,20 +10369,20 @@ msgstr "Araç çubuğundaki eylemleri özelleştir"
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2276
 #: ../src/e-util/e-html-editor-actions.c:1362 ../src/e-util/e-text.c:2017
-#: ../src/mail/e-mail-browser.c:590 ../src/shell/e-shell-window-actions.c:646
+#: ../src/mail/e-mail-browser.c:590 ../src/shell/e-shell-window-actions.c:856
 msgid "Cu_t"
 msgstr "K_es"
 
 #: ../src/calendar/gui/e-comp-editor.c:2278 ../src/e-util/e-focus-tracker.c:216
 #: ../src/e-util/e-focus-tracker.c:272 ../src/e-util/e-focus-tracker.c:326
 #: ../src/e-util/e-web-view.c:2330 ../src/mail/e-mail-browser.c:592
-#: ../src/shell/e-shell-window-actions.c:648
+#: ../src/shell/e-shell-window-actions.c:858
 msgid "Cut the selection"
 msgstr "Seçimi kes"
 
 #: ../src/calendar/gui/e-comp-editor.c:2285 ../src/e-util/e-focus-tracker.c:237
 #: ../src/e-util/e-focus-tracker.c:293
-#: ../src/shell/e-shell-window-actions.c:655
+#: ../src/shell/e-shell-window-actions.c:865
 msgid "Delete the selection"
 msgstr "Seçimi sil"
 
@@ -10680,14 +10394,14 @@ msgstr "Yardımı görüntüle"
 #: ../src/calendar/gui/e-comp-editor.c:2297
 #: ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-text.c:2043
 #: ../src/mail/e-mail-browser.c:597 ../src/mail/e-mail-viewer.c:1762
-#: ../src/shell/e-shell-window-actions.c:674
+#: ../src/shell/e-shell-window-actions.c:884
 msgid "_Paste"
 msgstr "_Yapıştır"
 
 #: ../src/calendar/gui/e-comp-editor.c:2299 ../src/e-util/e-focus-tracker.c:230
 #: ../src/e-util/e-focus-tracker.c:286 ../src/e-util/e-focus-tracker.c:338
 #: ../src/e-util/e-web-view.c:2339 ../src/mail/e-mail-browser.c:599
-#: ../src/shell/e-shell-window-actions.c:676
+#: ../src/shell/e-shell-window-actions.c:886
 msgid "Paste the clipboard"
 msgstr "Panodan yapıştır"
 
@@ -10708,13 +10422,13 @@ msgstr "Ön İz_le…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2318
 #: ../src/e-util/e-html-editor-actions.c:1383 ../src/e-util/e-web-view.c:1687
-#: ../src/mail/e-mail-browser.c:604 ../src/shell/e-shell-window-actions.c:702
+#: ../src/mail/e-mail-browser.c:604 ../src/shell/e-shell-window-actions.c:912
 msgid "Select _All"
 msgstr "Tümünü _Seç"
 
 #: ../src/calendar/gui/e-comp-editor.c:2320 ../src/e-util/e-focus-tracker.c:244
 #: ../src/e-util/e-focus-tracker.c:300 ../src/mail/e-mail-browser.c:606
-#: ../src/shell/e-shell-window-actions.c:704
+#: ../src/shell/e-shell-window-actions.c:914
 msgid "Select all text"
 msgstr "Tüm metni seç"
 
@@ -10732,7 +10446,7 @@ msgstr "_Sınıflandırma"
 #: ../src/e-util/e-html-editor-actions.c:1427
 #: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
-#: ../src/shell/e-shell-window-actions.c:752
+#: ../src/shell/e-shell-window-actions.c:962
 msgid "_File"
 msgstr "_Dosya"
 
@@ -10756,7 +10470,7 @@ msgstr "_Seçenekler"
 
 #: ../src/calendar/gui/e-comp-editor.c:2397
 #: ../src/e-util/e-html-editor-actions.c:1469 ../src/mail/e-mail-browser.c:620
-#: ../src/mail/e-mail-viewer.c:1931 ../src/shell/e-shell-window-actions.c:757
+#: ../src/mail/e-mail-viewer.c:1931 ../src/shell/e-shell-window-actions.c:967
 #: ../src/smime/gui/certificate-manager.c:1588 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "_Görünüm"
@@ -10828,22 +10542,26 @@ msgctxt "estimated-duration"
 msgid "None"
 msgstr "Yok"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #: ../src/calendar/gui/e-estimated-duration-entry.c:206
 msgid "Set an estimated duration for"
 msgstr "Öngörülen süreyi"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:219
 msgctxt "estimated-duration"
 msgid "_days"
 msgstr "_gün"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:235
 msgctxt "estimated-duration"
 msgid "_hours"
 msgstr "_saat"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: this is part of: "Set an estimated duration for [nnn] days [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
 #: ../src/calendar/gui/e-estimated-duration-entry.c:251
 msgctxt "estimated-duration"
@@ -13383,12 +13101,12 @@ msgid "Open New Message window"
 msgstr "Yeni İleti Penceresi aç"
 
 #: ../src/composer/e-composer-actions.c:392
-#: ../src/shell/e-shell-window-actions.c:688
+#: ../src/shell/e-shell-window-actions.c:898
 msgid "_Preferences"
 msgstr "_Tercihler"
 
 #: ../src/composer/e-composer-actions.c:394
-#: ../src/shell/e-shell-window-actions.c:690
+#: ../src/shell/e-shell-window-actions.c:900
 msgid "Configure Evolution"
 msgstr "Evolutionʼı Yapılandır"
 
@@ -14656,7 +14374,7 @@ msgid "Attached message"
 msgstr "Ekli ileti"
 
 #: ../src/e-util/e-attachment.c:2383 ../src/e-util/e-attachment.c:3321
-#: ../src/mail/em-utils.c:2202
+#: ../src/mail/em-utils.c:2205
 msgid "Operation was cancelled"
 msgstr "İşlem iptal edildi"
 
@@ -15459,34 +15177,39 @@ msgstr "Öntanımlı lokali kullan"
 msgid "Format:"
 msgstr "Biçim:"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
 #: ../src/e-util/e-dialog-widgets.c:181
 msgctxt "time-unit"
 msgid "days"
 msgstr "gün"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ weeks ]"
 #: ../src/e-util/e-dialog-widgets.c:183
 msgctxt "time-unit"
 msgid "weeks"
 msgstr "hafta"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ months ]"
 #: ../src/e-util/e-dialog-widgets.c:185
 msgctxt "time-unit"
 msgid "months"
 msgstr "ay"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ years ]"
 #: ../src/e-util/e-dialog-widgets.c:187
 msgctxt "time-unit"
 msgid "years"
 msgstr "yıl"
 
+# Bir tümcenin parçası olduğundan böyle bırakılmalıdır.
 #. Translators: This is part of: "Do not synchronize locally mails older than [ xxx ] [ days ]"
 #: ../src/e-util/e-dialog-widgets.c:245
 msgid "Do not synchronize locally mails older than"
-msgstr "Şundan eski e-postaları yerel olarak eşzamanlama:"
+msgstr "Şundan eski postaları yerel olarak eşzamanlama"
 
 #. Translators: The %s is replaced with a spin button; always keep it in the string at the right position
 #: ../src/e-util/e-dialog-widgets.c:439
@@ -19161,9 +18884,9 @@ msgstr "SMTP sunucusu"
 msgid "(No Subject)"
 msgstr "(Konu Yok)"
 
-#: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:613
-#: ../src/shell/e-shell-window-actions.c:620
-#: ../src/shell/e-shell-window-actions.c:627
+#: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:823
+#: ../src/shell/e-shell-window-actions.c:830
+#: ../src/shell/e-shell-window-actions.c:837
 msgid "Close this window"
 msgstr "Bu pencereyi kapat"
 
@@ -21388,12 +21111,12 @@ msgstr "“%s” klasörü taşınıyor (%d/%d)"
 msgid "Copying folder “%s” (%d/%d)"
 msgstr "“%s” klasörü kopyalanıyor (%d/%d)"
 
-#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2396
+#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2399
 #: ../src/mail/mail.error.xml.h:153
 msgid "_Move"
 msgstr "_Taşı"
 
-#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2396
+#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2399
 msgid "C_opy"
 msgstr "_Kopyala"
 
@@ -21519,61 +21242,61 @@ msgstr[0] "%d iletiyi birden açmak istediğinize emin misiniz?"
 msgid "Message Filters"
 msgstr "İleti Süzgeçleri"
 
-#: ../src/mail/em-utils.c:987
+#: ../src/mail/em-utils.c:990
 #, c-format
 msgid "Messages from %s"
 msgstr "%s konumundan iletiler"
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
-#: ../src/mail/em-utils.c:1542
+#: ../src/mail/em-utils.c:1545
 msgctxt "reply-attribution"
 msgid "Re"
 msgstr "Ynt"
 
 #. Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context.
-#: ../src/mail/em-utils.c:1545
+#: ../src/mail/em-utils.c:1548
 msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1847
+#: ../src/mail/em-utils.c:1850
 msgid "Deleting old messages"
 msgstr "Eski iletiler siliniyor"
 
-#: ../src/mail/em-utils.c:2036
+#: ../src/mail/em-utils.c:2039
 msgctxt "trust"
 msgid "_Unknown"
 msgstr "_Bilinmiyor"
 
-#: ../src/mail/em-utils.c:2037
+#: ../src/mail/em-utils.c:2040
 msgctxt "trust"
 msgid "_Never trust"
 msgstr "_Asla güvenme"
 
-#: ../src/mail/em-utils.c:2038
+#: ../src/mail/em-utils.c:2041
 msgctxt "trust"
 msgid "Trust _marginally"
 msgstr "_Aşırı güven"
 
-#: ../src/mail/em-utils.c:2039
+#: ../src/mail/em-utils.c:2042
 msgctxt "trust"
 msgid "Trust _fully"
 msgstr "_Tümüyle güven"
 
-#: ../src/mail/em-utils.c:2040
+#: ../src/mail/em-utils.c:2043
 msgctxt "trust"
 msgid "Trust _ultimately"
 msgstr "_Sınırsız güven"
 
-#: ../src/mail/em-utils.c:2159
+#: ../src/mail/em-utils.c:2162
 msgid "Set trust level for the key:"
 msgstr "Anahtar için güven düzeyini ayarla:"
 
-#: ../src/mail/em-utils.c:2392 ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/em-utils.c:2395 ../src/mail/filtertypes.xml.in.h:72
 msgid "Move to Folder"
 msgstr "Klasöre Taşı"
 
-#: ../src/mail/em-utils.c:2392 ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/em-utils.c:2395 ../src/mail/filtertypes.xml.in.h:73
 msgid "Copy to Folder"
 msgstr "Klasöre Kopyala"
 
@@ -26095,7 +25818,7 @@ msgstr "Sonraki 7 Günün Randevuları"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1909
 msgid "Occurs Less Than 5 Times"
-msgstr "5 Kezden Az Bulunur"
+msgstr "5 Kezden Az Gerçekleşir"
 
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1916
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:842
@@ -27092,7 +26815,7 @@ msgstr "Bitiş zamanı:"
 
 #: ../src/modules/itip-formatter/itip-view.c:1413
 msgid "Imported event will have removed the organizer and all the attendees."
-msgstr "İçe aktarılan olay, düzenleyiciyi ve tüm katılımcıları kaldıracak."
+msgstr "İçe aktarılan olay, düzenleyeni ve tüm katılımcıları kaldıracak."
 
 #: ../src/modules/itip-formatter/itip-view.c:1461
 msgid "Ope_n Calendar"
@@ -27141,7 +26864,7 @@ msgstr "Olay Olarak İçe _Aktar"
 
 #: ../src/modules/itip-formatter/itip-view.c:2295
 #: ../src/modules/itip-formatter/itip-view.c:2528
-#: ../src/modules/itip-formatter/itip-view.c:8032
+#: ../src/modules/itip-formatter/itip-view.c:8089
 msgid "Due date:"
 msgstr "Tamamlanma tarihi:"
 
@@ -27180,39 +26903,43 @@ msgstr "Anımsatıcımı _sakla"
 msgid "_Inherit reminder"
 msgstr "_Anımsatıcıyı benzet"
 
-#: ../src/modules/itip-formatter/itip-view.c:2762
+#: ../src/modules/itip-formatter/itip-view.c:2726
+msgid "The attendee was guessed, because the organizer did not provide any."
+msgstr "Katılımcı öngörüldü, çünkü düzenlen herhangi birini sağlamadı."
+
+#: ../src/modules/itip-formatter/itip-view.c:2819
 msgid "_Tasks:"
 msgstr "_Görevler:"
 
-#: ../src/modules/itip-formatter/itip-view.c:2765
+#: ../src/modules/itip-formatter/itip-view.c:2822
 msgid "_Memos:"
 msgstr "_Notlar:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3854
+#: ../src/modules/itip-formatter/itip-view.c:3911
 msgid "Sa_ve"
 msgstr "Kay_det"
 
-#: ../src/modules/itip-formatter/itip-view.c:4382
-#: ../src/modules/itip-formatter/itip-view.c:6264
+#: ../src/modules/itip-formatter/itip-view.c:4439
+#: ../src/modules/itip-formatter/itip-view.c:6321
 msgid "Attendee status updated"
 msgstr "Katılımcı durumu güncellendi"
 
-#: ../src/modules/itip-formatter/itip-view.c:4714
+#: ../src/modules/itip-formatter/itip-view.c:4771
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "“%2$s” takvimindeki “%1$s” randevusu bu toplantı ile çakışıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4721
+#: ../src/modules/itip-formatter/itip-view.c:4778
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "“%2$s” görev listesindeki “%1$s” görevi bu görevle çakışıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4728
+#: ../src/modules/itip-formatter/itip-view.c:4785
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "“%2$s” not listesindeki “%1$s” notu bu notla çakışıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4741
+#: ../src/modules/itip-formatter/itip-view.c:4798
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -27220,290 +26947,290 @@ msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "“%s” takvimindeki %d randevu bu toplantı ile çakışıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4750
+#: ../src/modules/itip-formatter/itip-view.c:4807
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
 "The task list “%s” contains %d tasks which conflict with this task"
 msgstr[0] "“%s” görev listesi, bu görev ile çakışan %d görev içeriyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4759
+#: ../src/modules/itip-formatter/itip-view.c:4816
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
 "The memo list “%s” contains %d memos which conflict with this memo"
 msgstr[0] "“%s” not listesi, bu not ile çakışan %d not içeriyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:4801
+#: ../src/modules/itip-formatter/itip-view.c:4858
 #, c-format
 msgid "Found the appointment in the calendar “%s” as accepted"
 msgstr "Randevu, “%s” takviminde kabul edildi olarak bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4807
+#: ../src/modules/itip-formatter/itip-view.c:4864
 #, c-format
 msgid "Found the appointment in the calendar “%s” as declined"
 msgstr "Randevu, “%s” takviminde reddedildi olarak bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4812
+#: ../src/modules/itip-formatter/itip-view.c:4869
 #, c-format
 msgid "Found the appointment in the calendar “%s” as tentatively accepted"
 msgstr "Randevu, “%s” takviminde belirsizce kabul edildi olarak bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4817
+#: ../src/modules/itip-formatter/itip-view.c:4874
 #, c-format
 msgid "Found the appointment in the calendar “%s” as delegated"
 msgstr "Randevu, “%s” takviminde devredildi olarak bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4822
+#: ../src/modules/itip-formatter/itip-view.c:4879
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Randevu, “%s” takviminde bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4829
+#: ../src/modules/itip-formatter/itip-view.c:4886
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Görev, “%s” görev listesinde bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4834
+#: ../src/modules/itip-formatter/itip-view.c:4891
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Not, “%s” not listesinde bulundu"
 
-#: ../src/modules/itip-formatter/itip-view.c:4845
+#: ../src/modules/itip-formatter/itip-view.c:4902
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Bu toplantı daveti artık kullanılamaz. Güncellenmelidir."
 
-#: ../src/modules/itip-formatter/itip-view.c:4967
+#: ../src/modules/itip-formatter/itip-view.c:5024
 msgid "Unable to find any calendars"
 msgstr "Hiçbir takvim bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:4975
+#: ../src/modules/itip-formatter/itip-view.c:5032
 msgid "Unable to find this meeting in any calendar"
 msgstr "Bu toplantı hiçbir takvimde bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:4980
+#: ../src/modules/itip-formatter/itip-view.c:5037
 msgid "Unable to find this task in any task list"
 msgstr "Bu görev hiçbir görev listesinde bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:4985
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "Unable to find this memo in any memo list"
 msgstr "Bu not hiçbir not listesinde bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5283
+#: ../src/modules/itip-formatter/itip-view.c:5340
 msgid "Searching for an existing version of this appointment"
 msgstr "Bu randevunun var olan sürümü aranıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:5284
+#: ../src/modules/itip-formatter/itip-view.c:5341
 msgid "Cannot search for existing event, no calendar selected for search"
 msgstr "Var olan olay aranamıyor, aranacak takvim seçilmedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5288
+#: ../src/modules/itip-formatter/itip-view.c:5345
 msgid "Searching for an existing version of this task"
 msgstr "Bu görevin var olan sürümü aranıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:5289
+#: ../src/modules/itip-formatter/itip-view.c:5346
 msgid "Cannot search for existing task, no task list found"
 msgstr "Var olan görev aranamıyor, görev listesi bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5293
+#: ../src/modules/itip-formatter/itip-view.c:5350
 msgid "Searching for an existing version of this memo"
 msgstr "Bu notun var olan sürümü aranıyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:5294
+#: ../src/modules/itip-formatter/itip-view.c:5351
 msgid "Cannot search for existing memo, no memo list found"
 msgstr "Var olan not aranamıyor, not listesi bulunamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5696
+#: ../src/modules/itip-formatter/itip-view.c:5753
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "“%s” takvimine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5704
+#: ../src/modules/itip-formatter/itip-view.c:5761
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "“%s” görev listesine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5712
+#: ../src/modules/itip-formatter/itip-view.c:5769
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "“%s” not listesine öge gönderilemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5733
+#: ../src/modules/itip-formatter/itip-view.c:5790
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5738
+#: ../src/modules/itip-formatter/itip-view.c:5795
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5743
+#: ../src/modules/itip-formatter/itip-view.c:5800
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Onaylanmış olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5753
+#: ../src/modules/itip-formatter/itip-view.c:5810
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Belirsiz olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5758
+#: ../src/modules/itip-formatter/itip-view.c:5815
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Belirsiz olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5763
+#: ../src/modules/itip-formatter/itip-view.c:5820
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Belirsiz olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5773
+#: ../src/modules/itip-formatter/itip-view.c:5830
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5778
+#: ../src/modules/itip-formatter/itip-view.c:5835
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5783
+#: ../src/modules/itip-formatter/itip-view.c:5840
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Reddedilmiş olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5793
+#: ../src/modules/itip-formatter/itip-view.c:5850
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” takvimine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5798
+#: ../src/modules/itip-formatter/itip-view.c:5855
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” görev listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5803
+#: ../src/modules/itip-formatter/itip-view.c:5860
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "İptal edilmiş olarak “%s” not listesine gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:5814
+#: ../src/modules/itip-formatter/itip-view.c:5871
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "“%s” takvimine içe aktarıldı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5819
+#: ../src/modules/itip-formatter/itip-view.c:5876
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "“%s” görev listesine içe aktarıldı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5824
+#: ../src/modules/itip-formatter/itip-view.c:5881
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "“%s” not listesine içe aktarıldı"
 
-#: ../src/modules/itip-formatter/itip-view.c:5843
+#: ../src/modules/itip-formatter/itip-view.c:5900
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Değişiklikler takvime kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5846
+#: ../src/modules/itip-formatter/itip-view.c:5903
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Değişiklikler görev listesine kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5849
+#: ../src/modules/itip-formatter/itip-view.c:5906
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Değişiklikler not listesine kaydediliyor. Lütfen bekleyin…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5988
+#: ../src/modules/itip-formatter/itip-view.c:6045
 msgid "Unable to parse item"
 msgstr "Öge ayrıştırılamadı"
 
-#: ../src/modules/itip-formatter/itip-view.c:6188
+#: ../src/modules/itip-formatter/itip-view.c:6245
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Düzenleyen, %s temsilcisini kaldırdı "
 
-#: ../src/modules/itip-formatter/itip-view.c:6205
+#: ../src/modules/itip-formatter/itip-view.c:6262
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Temsilciye iptal bildirimi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6209
+#: ../src/modules/itip-formatter/itip-view.c:6266
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Temsilciye iptal uyarısı gönderilemedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6255
+#: ../src/modules/itip-formatter/itip-view.c:6312
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Katılımcı güncellenemedi. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:6289
+#: ../src/modules/itip-formatter/itip-view.c:6346
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Toplantı geçersiz ve güncellenemez"
 
-#: ../src/modules/itip-formatter/itip-view.c:6374
+#: ../src/modules/itip-formatter/itip-view.c:6431
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Durum geçersiz olduğu için katılımcı durumu güncellenmedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6450
-#: ../src/modules/itip-formatter/itip-view.c:6488
+#: ../src/modules/itip-formatter/itip-view.c:6507
+#: ../src/modules/itip-formatter/itip-view.c:6545
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "Bu öge yerinde bulunamadığı için katılımcı bilgileri güncellenemedi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6549
+#: ../src/modules/itip-formatter/itip-view.c:6606
 msgid "Meeting information sent"
 msgstr "Toplantı bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6554
+#: ../src/modules/itip-formatter/itip-view.c:6611
 msgid "Task information sent"
 msgstr "Görev bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6559
+#: ../src/modules/itip-formatter/itip-view.c:6616
 msgid "Memo information sent"
 msgstr "Not bilgisi gönderildi"
 
-#: ../src/modules/itip-formatter/itip-view.c:6570
+#: ../src/modules/itip-formatter/itip-view.c:6627
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Toplantı bilgisi gönderilemedi, toplantı yok"
 
-#: ../src/modules/itip-formatter/itip-view.c:6575
+#: ../src/modules/itip-formatter/itip-view.c:6632
 msgid "Unable to send task information, the task does not exist"
 msgstr "Görev bilgisi gönderilemedi, görev yok"
 
-#: ../src/modules/itip-formatter/itip-view.c:6580
+#: ../src/modules/itip-formatter/itip-view.c:6637
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Not bilgisi gönderilemedi, not yok"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6625
+#: ../src/modules/itip-formatter/itip-view.c:6682
 msgid "calendar.ics"
 msgstr "takvim.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6630
+#: ../src/modules/itip-formatter/itip-view.c:6687
 msgid "Save Calendar"
 msgstr "Takvimi Kaydet"
 
-#: ../src/modules/itip-formatter/itip-view.c:6678
-#: ../src/modules/itip-formatter/itip-view.c:6691
+#: ../src/modules/itip-formatter/itip-view.c:6735
+#: ../src/modules/itip-formatter/itip-view.c:6748
 msgid "The calendar attached is not valid"
 msgstr "Eklenmiş takvim geçerli değil"
 
-#: ../src/modules/itip-formatter/itip-view.c:6679
-#: ../src/modules/itip-formatter/itip-view.c:6692
+#: ../src/modules/itip-formatter/itip-view.c:6736
+#: ../src/modules/itip-formatter/itip-view.c:6749
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "İleti takvim içerdiğini belirtiyor ama geçerli iCalendar değil."
 
-#: ../src/modules/itip-formatter/itip-view.c:6774
-#: ../src/modules/itip-formatter/itip-view.c:6859
-#: ../src/modules/itip-formatter/itip-view.c:6987
+#: ../src/modules/itip-formatter/itip-view.c:6831
+#: ../src/modules/itip-formatter/itip-view.c:6916
+#: ../src/modules/itip-formatter/itip-view.c:7044
 msgid "The item in the calendar is not valid"
 msgstr "Takvimdeki öge geçerli değil"
 
-#: ../src/modules/itip-formatter/itip-view.c:6775
-#: ../src/modules/itip-formatter/itip-view.c:6860
-#: ../src/modules/itip-formatter/itip-view.c:6988
+#: ../src/modules/itip-formatter/itip-view.c:6832
+#: ../src/modules/itip-formatter/itip-view.c:6917
+#: ../src/modules/itip-formatter/itip-view.c:7045
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -27511,23 +27238,23 @@ msgstr ""
 "İleti takvim içeriyor ama takvim olay, görev ya da uygun/meşgul bilgisi "
 "içermiyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:6869
+#: ../src/modules/itip-formatter/itip-view.c:6926
 msgid "The calendar attached contains multiple items"
 msgstr "Eklenmiş takvim çoklu öge içeriyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:6870
+#: ../src/modules/itip-formatter/itip-view.c:6927
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "Bu ögelerin tümünü işlemek için, dosya kaydedilmeli ve takvim içe aktarılmalı"
 
-#: ../src/modules/itip-formatter/itip-view.c:7647
+#: ../src/modules/itip-formatter/itip-view.c:7704
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/modules/itip-formatter/itip-view.c:7699
+#: ../src/modules/itip-formatter/itip-view.c:7756
 msgid "Tentatively Accepted"
 msgstr "Belirsiz Olarak Kabul Edildi"
 
@@ -30562,13 +30289,13 @@ msgstr "Özel Görünüm"
 msgid "Current view is a customized view"
 msgstr "Geçerli görünüm özel görünümdür"
 
-#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:744
+#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:954
 msgid "_New"
 msgstr "_Yeni"
 
 #: ../src/shell/e-shell-view.c:1154
-msgid "Customi_ze…"
-msgstr "Ö_zelleştir…"
+msgid "Customi_ze User Interface…"
+msgstr "Kullanıcı Arayüzünü Ö_zelleştir…"
 
 #: ../src/shell/e-shell-view.c:1156
 msgid "Customize user interface, like toolbar content and shortcuts"
@@ -30642,153 +30369,467 @@ msgstr "Görünümü seç: %s"
 msgid "Delete view: %s"
 msgstr "Görünümü sil: %s"
 
-#: ../src/shell/e-shell-window-actions.c:241
+#: ../src/shell/e-shell-window-actions.c:129
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Genel"
+
+#: ../src/shell/e-shell-window-actions.c:130
+msgctxt "shortcut window"
+msgid "Select Mail component"
+msgstr "Posta bileşenini seç"
+
+#: ../src/shell/e-shell-window-actions.c:131
+msgctxt "shortcut window"
+msgid "Select Contacts component"
+msgstr "Bağlantılar bileşenini seç"
+
+#: ../src/shell/e-shell-window-actions.c:132
+msgctxt "shortcut window"
+msgid "Select Calendar component"
+msgstr "Takvim bileşenini seç"
+
+#: ../src/shell/e-shell-window-actions.c:133
+msgctxt "shortcut window"
+msgid "Select Tasks component"
+msgstr "Görevler bileşenini seç"
+
+#: ../src/shell/e-shell-window-actions.c:134
+msgctxt "shortcut window"
+msgid "Select Memos component"
+msgstr "Notlar bileşenini seç"
+
+#: ../src/shell/e-shell-window-actions.c:135
+msgctxt "shortcut window"
+msgid "Create a new item in current component"
+msgstr "Geçerli bileşende yeni öge oluştur"
+
+#: ../src/shell/e-shell-window-actions.c:136
+msgctxt "shortcut window"
+msgid "Cycle focus between panes"
+msgstr "Odağı bölmeler arasında döndür"
+
+#: ../src/shell/e-shell-window-actions.c:137
+msgctxt "shortcut window"
+msgid "Open the Evolution user guide"
+msgstr "Evolution kullanıcı rehberini aç"
+
+#: ../src/shell/e-shell-window-actions.c:138
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Klavye kısayolları"
+
+#: ../src/shell/e-shell-window-actions.c:139
+msgctxt "shortcut window"
+msgid "Focus search bar"
+msgstr "Arama çubuğuna odaklan"
+
+#: ../src/shell/e-shell-window-actions.c:140
+msgctxt "shortcut window"
+msgid "Clear search bar"
+msgstr "Arama çubuğunu temizle"
+
+#: ../src/shell/e-shell-window-actions.c:141
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Tercihler"
+
+#: ../src/shell/e-shell-window-actions.c:142
+msgctxt "shortcut window"
+msgid "Open new window"
+msgstr "Yeni pencere aç"
+
+#: ../src/shell/e-shell-window-actions.c:143
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "Pencereyi kapat"
+
+#: ../src/shell/e-shell-window-actions.c:144
+msgctxt "shortcut window"
+msgid "Quit Evolution"
+msgstr "Evolutionʼdan çık"
+
+#: ../src/shell/e-shell-window-actions.c:146
+msgctxt "shortcut window"
+msgid "Mail"
+msgstr "Posta"
+
+#: ../src/shell/e-shell-window-actions.c:147
+msgctxt "shortcut window"
+msgid "Create a new message"
+msgstr "Yeni ileti oluştur"
+
+#: ../src/shell/e-shell-window-actions.c:148
+msgctxt "shortcut window"
+msgid "Send and receive messages"
+msgstr "İletileri gönder ve al"
+
+#: ../src/shell/e-shell-window-actions.c:149
+msgctxt "shortcut window"
+msgid "Apply filters to selection"
+msgstr "Süzgeçleri seçime uygula"
+
+#: ../src/shell/e-shell-window-actions.c:150
+msgctxt "shortcut window"
+msgid "Open selection in new window"
+msgstr "Seçimi yeni pencerede aç"
+
+#: ../src/shell/e-shell-window-actions.c:151
+msgctxt "shortcut window"
+msgid "Go to folder"
+msgstr "Klasöre git"
+
+#: ../src/shell/e-shell-window-actions.c:152
+msgctxt "shortcut window"
+msgid "Move mails to folder"
+msgstr "Postaları klasöre taşı"
+
+#: ../src/shell/e-shell-window-actions.c:153
+msgctxt "shortcut window"
+msgid "Copy mails to folder"
+msgstr "Postaları klasöre kopyala"
+
+#: ../src/shell/e-shell-window-actions.c:154
+msgctxt "shortcut window"
+msgid "Jump to the next unread message"
+msgstr "Sonraki okunmamış iletiye atla"
+
+#: ../src/shell/e-shell-window-actions.c:155
+msgctxt "shortcut window"
+msgid "Jump to the previous unread message"
+msgstr "Önceki okunmamış iletiye atla"
+
+#: ../src/shell/e-shell-window-actions.c:156
+msgctxt "shortcut window"
+msgid "Scroll up"
+msgstr "Yukarı kaydır"
+
+#: ../src/shell/e-shell-window-actions.c:157
+msgctxt "shortcut window"
+msgid "Scroll down"
+msgstr "Aşağı kaydır"
+
+#: ../src/shell/e-shell-window-actions.c:159
+msgctxt "shortcut window"
+msgid "Mail Message"
+msgstr "Posta İletisi"
+
+#: ../src/shell/e-shell-window-actions.c:160
+msgctxt "shortcut window"
+msgid "Mark selected messages as read"
+msgstr "Seçili iletileri okundu olarak imle"
+
+#: ../src/shell/e-shell-window-actions.c:161
+msgctxt "shortcut window"
+msgid "Mark selected messages as unread"
+msgstr "Seçili iletileri okunmadı olarak imle"
+
+#: ../src/shell/e-shell-window-actions.c:162
+msgctxt "shortcut window"
+msgid "Mark selected messages as junk"
+msgstr "Seçili iletileri gereksiz imle"
+
+#: ../src/shell/e-shell-window-actions.c:163
+msgctxt "shortcut window"
+msgid "Mark selected messages as not junk"
+msgstr "Seçili iletileri gereksiz değil imle"
+
+#: ../src/shell/e-shell-window-actions.c:164
+msgctxt "shortcut window"
+msgid "Flag selected messages for follow-up"
+msgstr "Seçili iletileri takip için imle"
+
+#: ../src/shell/e-shell-window-actions.c:165
+msgctxt "shortcut window"
+msgid "Forward selected messages"
+msgstr "Seçili iletileri yönlendir"
+
+#: ../src/shell/e-shell-window-actions.c:166
+msgctxt "shortcut window"
+msgid "Reply to sender"
+msgstr "Gönderene yanıtla"
+
+#: ../src/shell/e-shell-window-actions.c:167
+msgctxt "shortcut window"
+msgid "Reply to list"
+msgstr "Listeye yanıtla"
+
+#: ../src/shell/e-shell-window-actions.c:168
+msgctxt "shortcut window"
+msgid "Reply to all recipients"
+msgstr "Tüm alıcılara yanıtla"
+
+#: ../src/shell/e-shell-window-actions.c:169
+msgctxt "shortcut window"
+msgid "Alternative reply"
+msgstr "Alternatif yanıt"
+
+#: ../src/shell/e-shell-window-actions.c:170
+msgctxt "shortcut window"
+msgid "Archive selected messages"
+msgstr "Seçili iletileri arşivle"
+
+#: ../src/shell/e-shell-window-actions.c:171
+msgctxt "shortcut window"
+msgid "Delete message"
+msgstr "İletiyi sil"
+
+#: ../src/shell/e-shell-window-actions.c:172
+msgctxt "shortcut window"
+msgid "Undelete message"
+msgstr "İletiyi silme"
+
+#: ../src/shell/e-shell-window-actions.c:174
+msgctxt "shortcut window"
+msgid "Calendar"
+msgstr "Takvim"
+
+#: ../src/shell/e-shell-window-actions.c:175
+msgctxt "shortcut window"
+msgid "Create a new appointment"
+msgstr "Yeni randevu oluştur"
+
+#: ../src/shell/e-shell-window-actions.c:176
+msgctxt "shortcut window"
+msgid "Create a new meeting"
+msgstr "Yeni toplantı oluştur"
+
+#: ../src/shell/e-shell-window-actions.c:177
+msgctxt "shortcut window"
+msgid "Create a new task"
+msgstr "Yeni görev oluştur"
+
+#: ../src/shell/e-shell-window-actions.c:178
+msgctxt "shortcut window"
+msgid "Create a new memo"
+msgstr "Yeni not oluştur"
+
+#: ../src/shell/e-shell-window-actions.c:179
+msgctxt "shortcut window"
+msgid "Go to today"
+msgstr "Bugüne git"
+
+#: ../src/shell/e-shell-window-actions.c:180
+msgctxt "shortcut window"
+msgid "Go to date"
+msgstr "Tarihe git"
+
+#: ../src/shell/e-shell-window-actions.c:181
+msgctxt "shortcut window"
+msgid "Day View"
+msgstr "Gün Görünümü"
+
+#: ../src/shell/e-shell-window-actions.c:182
+msgctxt "shortcut window"
+msgid "Work Week View"
+msgstr "Çalışma Haftası Görünümü"
+
+#: ../src/shell/e-shell-window-actions.c:183
+msgctxt "shortcut window"
+msgid "Week View"
+msgstr "Hafta Görünümü"
+
+#: ../src/shell/e-shell-window-actions.c:184
+msgctxt "shortcut window"
+msgid "Month View"
+msgstr "Ay Görünümü"
+
+#: ../src/shell/e-shell-window-actions.c:185
+msgctxt "shortcut window"
+msgid "Year View"
+msgstr "Yıl Görünümü"
+
+#: ../src/shell/e-shell-window-actions.c:186
+msgctxt "shortcut window"
+msgid "List View"
+msgstr "Liste Görünümü"
+
+#: ../src/shell/e-shell-window-actions.c:187
+msgctxt "shortcut window"
+msgid "Delete event"
+msgstr "Olayı sil"
+
+#: ../src/shell/e-shell-window-actions.c:189
+msgctxt "shortcut window"
+msgid "Contacts"
+msgstr "Bağlantılar"
+
+#: ../src/shell/e-shell-window-actions.c:190
+msgctxt "shortcut window"
+msgid "Create a new contact"
+msgstr "Yeni bağlantı oluştur"
+
+#: ../src/shell/e-shell-window-actions.c:191
+msgctxt "shortcut window"
+msgid "Create a new contact list"
+msgstr "Yeni bağlantı listesi oluştur"
+
+#: ../src/shell/e-shell-window-actions.c:192
+msgctxt "shortcut window"
+msgid "Move contacts to address book"
+msgstr "Bağlantıları adres defterine taşı"
+
+#: ../src/shell/e-shell-window-actions.c:193
+msgctxt "shortcut window"
+msgid "Copy contacts to address book"
+msgstr "Bağlantıları adres defterine kopyala"
+
+#: ../src/shell/e-shell-window-actions.c:194
+msgctxt "shortcut window"
+msgid "Delete contact"
+msgstr "Bağlantı sil"
+
+#: ../src/shell/e-shell-window-actions.c:234
+msgid "Keyboard Shortcuts"
+msgstr "Klavye Kısayolları"
+
+#: ../src/shell/e-shell-window-actions.c:451
 msgid "Categories Editor"
 msgstr "Katagori Düzenleyici"
 
-#: ../src/shell/e-shell-window-actions.c:368
+#: ../src/shell/e-shell-window-actions.c:578
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy kurulu değil."
 
-#: ../src/shell/e-shell-window-actions.c:369
+#: ../src/shell/e-shell-window-actions.c:579
 msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy çalıştırılamadı."
 
-#: ../src/shell/e-shell-window-actions.c:587
+#: ../src/shell/e-shell-window-actions.c:797
 msgid "Collect_ion Account"
 msgstr "Koleksiyon _Hesabı"
 
-#: ../src/shell/e-shell-window-actions.c:589
+#: ../src/shell/e-shell-window-actions.c:799
 msgid "Create a new collection account"
 msgstr "Yeni koleksiyon hesabı oluştur"
 
-#: ../src/shell/e-shell-window-actions.c:597
+#: ../src/shell/e-shell-window-actions.c:807
 msgid "_About"
 msgstr "_Hakkında"
 
-#: ../src/shell/e-shell-window-actions.c:599
+#: ../src/shell/e-shell-window-actions.c:809
 msgid "Show information about Evolution"
 msgstr "Evolution hakkında bilgi göster"
 
-#: ../src/shell/e-shell-window-actions.c:604
+#: ../src/shell/e-shell-window-actions.c:814
 msgid "_Accounts"
 msgstr "_Hesaplar"
 
-#: ../src/shell/e-shell-window-actions.c:606
+#: ../src/shell/e-shell-window-actions.c:816
 msgid "Configure Evolution Accounts"
 msgstr "Evolution Hesaplarını Yapılandır"
 
-#: ../src/shell/e-shell-window-actions.c:611
-#: ../src/shell/e-shell-window-actions.c:625
+#: ../src/shell/e-shell-window-actions.c:821
+#: ../src/shell/e-shell-window-actions.c:835
 msgid "_Close Window"
 msgstr "_Pencereyi Kapat"
 
-#: ../src/shell/e-shell-window-actions.c:632
+#: ../src/shell/e-shell-window-actions.c:842
 msgid "_Contents"
 msgstr "_İçindekiler"
 
-#: ../src/shell/e-shell-window-actions.c:634
+#: ../src/shell/e-shell-window-actions.c:844
 msgid "Open the Evolution User Guide"
 msgstr "Evolution Kullanıcı Rehberiʼni Aç"
 
-#: ../src/shell/e-shell-window-actions.c:660
+#: ../src/shell/e-shell-window-actions.c:870
 msgid "I_mport…"
 msgstr "İç_e Aktar…"
 
-#: ../src/shell/e-shell-window-actions.c:662
+#: ../src/shell/e-shell-window-actions.c:872
 msgid "Import data from other programs"
 msgstr "Diğer programlardan veri aktar"
 
-#: ../src/shell/e-shell-window-actions.c:667
+#: ../src/shell/e-shell-window-actions.c:877
 msgid "New _Window"
 msgstr "Yeni _Pencere"
 
-#: ../src/shell/e-shell-window-actions.c:669
+#: ../src/shell/e-shell-window-actions.c:879
 msgid "Create a new window displaying this view"
 msgstr "Bu görünümü görüntüleyecek yeni pencere oluştur"
 
-#: ../src/shell/e-shell-window-actions.c:681
+#: ../src/shell/e-shell-window-actions.c:891
 msgid "Available Cate_gories"
 msgstr "Kullanılabilir Kate_goriler"
 
-#: ../src/shell/e-shell-window-actions.c:683
+#: ../src/shell/e-shell-window-actions.c:893
 msgid "Manage available categories"
 msgstr "Kullanılabilir kategorileri yönet"
 
-#: ../src/shell/e-shell-window-actions.c:695
+#: ../src/shell/e-shell-window-actions.c:905
 msgid "_Quit"
 msgstr "Çı_k"
 
-#: ../src/shell/e-shell-window-actions.c:697
+#: ../src/shell/e-shell-window-actions.c:907
 msgid "Exit the program"
 msgstr "Programdan çık"
 
-#: ../src/shell/e-shell-window-actions.c:709
+#: ../src/shell/e-shell-window-actions.c:919
 msgid "_Keyboard Shortcuts"
 msgstr "_Klavye Kısayolları"
 
-#: ../src/shell/e-shell-window-actions.c:711
+#: ../src/shell/e-shell-window-actions.c:921
 msgid "Show keyboard shortcuts"
 msgstr "Klavye kısayolarını göster"
 
-#: ../src/shell/e-shell-window-actions.c:716
+#: ../src/shell/e-shell-window-actions.c:926
 msgid "Show _WebKit GPU information"
 msgstr "_WebKit GPU bilgisini göster"
 
-#: ../src/shell/e-shell-window-actions.c:718
+#: ../src/shell/e-shell-window-actions.c:928
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr "Ön izleme bölmesinde WebKit GPU bilgisini göster"
 
-#: ../src/shell/e-shell-window-actions.c:723
+#: ../src/shell/e-shell-window-actions.c:933
 msgid "Submit _Bug Report…"
 msgstr "_Hata Raporu Gönder…"
 
-#: ../src/shell/e-shell-window-actions.c:725
+#: ../src/shell/e-shell-window-actions.c:935
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Bug Buddy kullanarak hata raporu gönder"
 
-#: ../src/shell/e-shell-window-actions.c:730
+#: ../src/shell/e-shell-window-actions.c:940
 msgid "_Work Offline"
 msgstr "Çe_vrimdışı Çalış"
 
-#: ../src/shell/e-shell-window-actions.c:732
+#: ../src/shell/e-shell-window-actions.c:942
 msgid "Put Evolution into offline mode"
 msgstr "Evolutionʼu çevrim dışı kipe sok"
 
-#: ../src/shell/e-shell-window-actions.c:737
+#: ../src/shell/e-shell-window-actions.c:947
 msgid "_Work Online"
 msgstr "Ç_evrim İçi Çalış"
 
-#: ../src/shell/e-shell-window-actions.c:739
+#: ../src/shell/e-shell-window-actions.c:949
 msgid "Put Evolution into online mode"
 msgstr "Evolutionʼu çevrim içi kipe sok"
 
-#: ../src/shell/e-shell-window-actions.c:754
+#: ../src/shell/e-shell-window-actions.c:964
 msgid "Lay_out"
 msgstr "_Düzen"
 
-#: ../src/shell/e-shell-window-actions.c:755
+#: ../src/shell/e-shell-window-actions.c:965
 msgid "_Search"
 msgstr "A_ra"
 
-#: ../src/shell/e-shell-window-actions.c:756
+#: ../src/shell/e-shell-window-actions.c:966
 msgid "_Switcher Appearance"
 msgstr "_Değiştirici Görünümü"
 
-#: ../src/shell/e-shell-window-actions.c:758
+#: ../src/shell/e-shell-window-actions.c:968
 msgid "_Window"
 msgstr "_Pencere"
 
-#: ../src/shell/e-shell-window-actions.c:766
+#: ../src/shell/e-shell-window-actions.c:976
 msgid "Page Set_up…"
 msgstr "Sayfa _Ayarı…"
 
-#: ../src/shell/e-shell-window-actions.c:768
+#: ../src/shell/e-shell-window-actions.c:978
 msgid "Change the page settings for your current printer"
 msgstr "Güncel yazıcı için sayfa ayarlarını değiştir"
 
-#: ../src/shell/e-shell-window-actions.c:956
-#: ../src/shell/e-shell-window-actions.c:1048
+#: ../src/shell/e-shell-window-actions.c:1166
+#: ../src/shell/e-shell-window-actions.c:1258
 #, c-format
 msgid "Switch to %s"
 msgstr "%s Konumuna Geç"
@@ -31262,7 +31303,7 @@ msgstr "_Sertifikayı görüntüle"
 
 #: ../src/smime/gui/certificate-manager.c:1537
 msgid "You have certificates on file that identify these mail servers:"
-msgstr "Dosyada bu e-posta sunucularını tanımlayan sertifikalarınız var:"
+msgstr "Dosyada bu posta sunucularını tanımlayan sertifikalarınız var:"
 
 #: ../src/smime/gui/certificate-manager.c:1568
 msgid "Host name"
@@ -31324,16 +31365,16 @@ msgstr "“%s” için parolayı gir, jeton “%s”"
 #: ../src/smime/gui/component.c:55
 #, c-format
 msgid "Enter the password for “%s”"
-msgstr "“%s” için parolayı gir"
+msgstr "“%s” için parola gir"
 
 #. we're setting the password initially
 #: ../src/smime/gui/component.c:83
 msgid "Enter new password for certificate database"
-msgstr "Sertifika veri tabanı için yeni parolayı girin"
+msgstr "Sertifika veri tabanı için yeni parola gir"
 
 #: ../src/smime/gui/component.c:86
 msgid "Enter new password"
-msgstr "Yeni parolayı girin"
+msgstr "Yeni parola gir"
 
 #: ../src/smime/gui/e-cert-selector.c:168
 msgid "Select certificate"
@@ -31341,7 +31382,7 @@ msgstr "Sertifika seç"
 
 #: ../src/smime/gui/smime-ui.ui.h:1
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Bu kurumlardan sizi tanımlayan sertifikalara sahipsiniz:"
+msgstr "Bu kurumlardan sizi tanımlayan sertifikalarınız var:"
 
 #: ../src/smime/gui/smime-ui.ui.h:2
 msgid "Certificates Table"
@@ -31362,7 +31403,7 @@ msgstr "Sertifikalarınız"
 
 #: ../src/smime/gui/smime-ui.ui.h:10
 msgid "You have certificates on file that identify these people:"
-msgstr "Bu kişileri tanımlayan sertifikalara dosya üzerinde sahipsiniz:"
+msgstr "Dosyada bu kişileri tanımlayan sertifikalar var:"
 
 #: ../src/smime/gui/smime-ui.ui.h:12
 msgid "Contact Certificates"
@@ -31371,9 +31412,7 @@ msgstr "Bağlantı Sertifikaları"
 #: ../src/smime/gui/smime-ui.ui.h:13
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
-msgstr ""
-"Bu sertifika otoritelerini tanımlayan sertifikalara dosya üzerinde "
-"sahipsiniz:"
+msgstr "Dosyada bu sertifika otoritelerini tanımlayan sertifikalar var:"
 
 #: ../src/smime/gui/smime-ui.ui.h:14
 msgid "Authorities"
@@ -31442,7 +31481,7 @@ msgstr "PKCS12 Dosya Parolası"
 
 #: ../src/smime/lib/e-pkcs12.c:288
 msgid "Enter password for PKCS12 file:"
-msgstr "PKC12 dosyası için parola girin:"
+msgstr "PKC12 dosyası için parola gir:"
 
 #: ../src/smime/lib/e-pkcs12.c:390
 #, c-format
