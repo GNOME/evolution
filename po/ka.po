@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-01-29 13:27+0000\n"
-"PO-Revision-Date: 2026-01-30 05:37+0100\n"
+"POT-Creation-Date: 2026-03-21 11:48+0000\n"
+"PO-Revision-Date: 2026-03-23 03:33+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.8\n"
+"X-Generator: Poedit 3.9\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -1709,7 +1709,9 @@ msgid "Save file format for drag-and-drop operation"
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
-msgid "Can be either “mbox” or “pdf”."
+msgid ""
+"Can be either “mbox”, “eml” or “pdf”. The “eml” can switch to the “mbox” "
+"when there is more than one message selected."
 msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
@@ -3763,311 +3765,6 @@ msgstr "ელფოსტის კომპოზიტორი"
 msgid "The Evolution Team"
 msgstr "Evolution-ის გუნდი"
 
-#: ../data/ui/evolution-shortcuts.ui.h:1
-msgctxt "shortcut window"
-msgid "Keyboard Shortcuts"
-msgstr "კლავიატურის მალსახმობები"
-
-#: ../data/ui/evolution-shortcuts.ui.h:2
-msgctxt "shortcut window"
-msgid "General"
-msgstr "ძირითადი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:3
-msgctxt "shortcut window"
-msgid "Select Mail component"
-msgstr "აირჩიეთ ფოსტის კომპონენტი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:4
-msgctxt "shortcut window"
-msgid "Select Contacts component"
-msgstr "აირჩიეთ კონტაქტების კომპონენტი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:5
-msgctxt "shortcut window"
-msgid "Select Calendar component"
-msgstr "აირჩიეთ კალენდრის კომპონენტი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:6
-msgctxt "shortcut window"
-msgid "Select Tasks component"
-msgstr "აირჩიეთ ამოცანების კომპოენტი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:7
-msgctxt "shortcut window"
-msgid "Select Memos component"
-msgstr "აირჩეთ მემოების კომპონენტი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:8
-msgctxt "shortcut window"
-msgid "Create a new item in current component"
-msgstr "ახალი ელემენტის შექმნა მიმდინარე კომპონენტში"
-
-#: ../data/ui/evolution-shortcuts.ui.h:9
-msgctxt "shortcut window"
-msgid "Cycle focus between panes"
-msgstr "ფოკუსის გადართვა პანელებს შორის"
-
-#: ../data/ui/evolution-shortcuts.ui.h:10
-msgctxt "shortcut window"
-msgid "Open the Evolution user guide"
-msgstr "Evolution-ის მოხმმარებლის სახელმძღვანელოს გახსნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:11
-msgctxt "shortcut window"
-msgid "Focus search bar"
-msgstr "ფოკუსი ძებნის პანელზე"
-
-#: ../data/ui/evolution-shortcuts.ui.h:12
-msgctxt "shortcut window"
-msgid "Clear search bar"
-msgstr "ძებნის ზოლის გასუფთავება"
-
-#: ../data/ui/evolution-shortcuts.ui.h:13
-msgctxt "shortcut window"
-msgid "Move mails or contacts to folder"
-msgstr "ელფოსტების ან კონტაქტების გადატანა საქაღალდეში"
-
-#: ../data/ui/evolution-shortcuts.ui.h:14
-msgctxt "shortcut window"
-msgid "Copy mails or contacts to folder"
-msgstr "ელფოსტების ან კონტაქტების კოპირება საქაღალდეში"
-
-#: ../data/ui/evolution-shortcuts.ui.h:15
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "გამართვა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:16
-msgctxt "shortcut window"
-msgid "Open new window"
-msgstr "ახალ ფანჯრის გახსნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:17
-msgctxt "shortcut window"
-msgid "Close window"
-msgstr "ფანჯრის დახურვა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:18
-msgctxt "shortcut window"
-msgid "Quit Evolution"
-msgstr "Evolution-დან გასვლა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:19
-msgctxt "shortcut window"
-msgid "Mail"
-msgstr "წერილი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:20
-msgctxt "shortcut window"
-msgid "Create a new message"
-msgstr "ახალი შეტყობინების შექმნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:21
-msgctxt "shortcut window"
-msgid "Send and receive messages"
-msgstr "შეტყობინებების გაგზავნა და მიღება"
-
-#: ../data/ui/evolution-shortcuts.ui.h:22
-msgctxt "shortcut window"
-msgid "Apply filters to selection"
-msgstr "მონიშნულის გაფილტვრა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:23
-msgctxt "shortcut window"
-msgid "Open selection in new window"
-msgstr "მონიშნულის გახსნა ახალ ფანჯარაში"
-
-#: ../data/ui/evolution-shortcuts.ui.h:24
-msgctxt "shortcut window"
-msgid "Go to folder"
-msgstr "საქაღალდეზე გადასვლა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:25
-msgctxt "shortcut window"
-msgid "Jump to the next unread message"
-msgstr "გადასვლა შემდეგ წაუკითხავ შეტყობინებაზე"
-
-#: ../data/ui/evolution-shortcuts.ui.h:26
-msgctxt "shortcut window"
-msgid "Jump to the previous unread message"
-msgstr "გადასვლა წინა წაუკითხავ შეტყობინებაზე"
-
-#: ../data/ui/evolution-shortcuts.ui.h:27
-msgctxt "shortcut window"
-msgid "Scroll up"
-msgstr "მაღლა აწევა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:28
-msgctxt "shortcut window"
-msgid "Scroll down"
-msgstr "დაბლა ჩამოწევა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:29
-msgctxt "shortcut window"
-msgid "Mail Message"
-msgstr "ელფოსტის შეტყობინება"
-
-#: ../data/ui/evolution-shortcuts.ui.h:30
-msgctxt "shortcut window"
-msgid "Copy selected messages to folder"
-msgstr "მონიშნული შეტყობინებების კოპირება საქაღალდეში"
-
-#: ../data/ui/evolution-shortcuts.ui.h:31
-msgctxt "shortcut window"
-msgid "Move selected messages to folder"
-msgstr "მონიშნული შეტყობინებების გადატანა საქაღალდეში"
-
-#: ../data/ui/evolution-shortcuts.ui.h:32
-msgctxt "shortcut window"
-msgid "Archive selected messages"
-msgstr "მონიშნული შეტყობინებების დაარქივება"
-
-#: ../data/ui/evolution-shortcuts.ui.h:33
-msgctxt "shortcut window"
-msgid "Mark selected messages as read"
-msgstr "მონიშნული შეტყობინებების წაკითხულად დაყენება"
-
-#: ../data/ui/evolution-shortcuts.ui.h:34
-msgctxt "shortcut window"
-msgid "Mark selected messages as unread"
-msgstr "მონიშნული შეტყობინებების წაუკითხავად დაყენება"
-
-#: ../data/ui/evolution-shortcuts.ui.h:35
-msgctxt "shortcut window"
-msgid "Mark selected messages as junk"
-msgstr "მონიშნული შეტყობინებების ნაგვად მონიშვნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:36
-msgctxt "shortcut window"
-msgid "Mark selected messages as not junk"
-msgstr "მონიშნული შეტყობინების არა-სპამად დაყენება"
-
-#: ../data/ui/evolution-shortcuts.ui.h:37
-msgctxt "shortcut window"
-msgid "Flag selected messages for follow-up"
-msgstr "ალმის დასმა მონიშნულ შეტყობინებებზე მატ მისაყოლად"
-
-#: ../data/ui/evolution-shortcuts.ui.h:38
-msgctxt "shortcut window"
-msgid "Forward selected messages"
-msgstr "მონიშნული შეტყობინებების გადაგზავნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:39
-msgctxt "shortcut window"
-msgid "Reply to sender"
-msgstr "პასუხი გამომგზავნს"
-
-#: ../data/ui/evolution-shortcuts.ui.h:40
-msgctxt "shortcut window"
-msgid "Reply to list"
-msgstr "პასუხი სიაზე"
-
-#: ../data/ui/evolution-shortcuts.ui.h:41
-msgctxt "shortcut window"
-msgid "Reply to all recipients"
-msgstr "პასუხი ყველა მიმღებს"
-
-#: ../data/ui/evolution-shortcuts.ui.h:42
-msgctxt "shortcut window"
-msgid "Alternative reply"
-msgstr "ალტერნატიული პასუხი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:43
-msgctxt "shortcut window"
-msgid "Delete mail"
-msgstr "ელფოსტის წაშლა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:44
-msgctxt "shortcut window"
-msgid "Undelete mail"
-msgstr "წაშლილი ელფოსტის აღდგენა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:45
-msgctxt "shortcut window"
-msgid "Calendar"
-msgstr "კალენდარი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:46
-msgctxt "shortcut window"
-msgid "Create a new appointment"
-msgstr "ახალი შეხვედრის შექმნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:47
-msgctxt "shortcut window"
-msgid "Create a new meeting"
-msgstr "ახალი შეხვედრის შექმნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:48
-msgctxt "shortcut window"
-msgid "Create a new task"
-msgstr "ახალი ამოცანის შექმნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:49
-msgctxt "shortcut window"
-msgid "Create a new memo"
-msgstr "ახალი მემოს შექმნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:50
-msgctxt "shortcut window"
-msgid "Go to today"
-msgstr "დღევანდელზე გადასვლა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:51
-msgctxt "shortcut window"
-msgid "Go to date"
-msgstr "თარიღზე გადასვლა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:52
-msgctxt "shortcut window"
-msgid "Day View"
-msgstr "დღის ხედი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:53
-msgctxt "shortcut window"
-msgid "Work Week View"
-msgstr "სამუშაო კვირის ხედი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:54
-msgctxt "shortcut window"
-msgid "Week View"
-msgstr "კვირის ხედი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:55
-msgctxt "shortcut window"
-msgid "Month View"
-msgstr "თვის ხედი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:56
-msgctxt "shortcut window"
-msgid "List View"
-msgstr "სიის ხედი"
-
-#: ../data/ui/evolution-shortcuts.ui.h:57
-msgctxt "shortcut window"
-msgid "Delete event"
-msgstr "მოვლენის წაშლა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:58
-msgctxt "shortcut window"
-msgid "Contacts"
-msgstr "კონტაქტები"
-
-#: ../data/ui/evolution-shortcuts.ui.h:59
-msgctxt "shortcut window"
-msgid "Create a new contact"
-msgstr "ახალი კონტაქტის შექმნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:60
-msgctxt "shortcut window"
-msgid "Create a new contact list"
-msgstr "ახალი კონტაქტების სიის შექმნა"
-
-#: ../data/ui/evolution-shortcuts.ui.h:61
-msgctxt "shortcut window"
-msgid "Delete contact"
-msgstr "კონტაქტის წაშლა"
-
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
 msgstr "მისამართის _ბარათები"
@@ -4641,7 +4338,7 @@ msgstr "_საწყისი გვერდი:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1070
 #: ../src/calendar/gui/e-comp-editor-event.c:1173
-#: ../src/modules/itip-formatter/itip-view.c:2759
+#: ../src/modules/itip-formatter/itip-view.c:2816
 msgid "_Calendar:"
 msgstr "_კალენდარი:"
 
@@ -5131,7 +4828,7 @@ msgstr "არასწორი კონტაქტი."
 #: ../src/calendar/gui/e-comp-editor.c:2290
 #: ../src/calendar/gui/e-comp-editor.c:2369
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:753
+#: ../src/shell/e-shell-window-actions.c:963
 msgid "_Help"
 msgstr "და_ხმარება"
 
@@ -5798,7 +5495,7 @@ msgid "Certificate"
 msgstr "სერტიფიკატი"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:207
-#: ../src/mail/em-utils.c:2079
+#: ../src/mail/em-utils.c:2082
 #, c-format
 msgid "Key ID: %s"
 msgstr ""
@@ -5812,19 +5509,19 @@ msgid "PGP key (%s)"
 msgstr "PGP გასაღები (%s)"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:244
-#: ../src/mail/em-utils.c:2138
+#: ../src/mail/em-utils.c:2141
 #, c-format
 msgid "User ID: %s"
 msgstr "მომხმარებლის ID: %s"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:253
-#: ../src/mail/em-utils.c:2090
+#: ../src/mail/em-utils.c:2093
 #, c-format
 msgid "Fingerprint: %s"
 msgstr "ანაბეჭდი: %s"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:262
-#: ../src/mail/em-utils.c:2106
+#: ../src/mail/em-utils.c:2109
 #, c-format
 msgid "Created: %s"
 msgstr "შექმნილია: %s"
@@ -6433,7 +6130,7 @@ msgstr ""
 #: ../src/mail/e-mail-account-manager.c:727
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1286
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1666
-#: ../src/shell/e-shell-window-actions.c:653
+#: ../src/shell/e-shell-window-actions.c:863
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "_წაშლა"
@@ -7656,7 +7353,7 @@ msgid "Public"
 msgstr "საჯარო"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:10
-#: ../src/calendar/gui/comp-util.c:2957
+#: ../src/calendar/gui/comp-util.c:2960
 #: ../src/calendar/gui/e-cal-list-view.c:287
 #: ../src/calendar/gui/e-cal-model.c:293 ../src/calendar/gui/e-task-table.c:437
 #: ../src/calendar/gui/memotypes.xml.in.h:11
@@ -7664,7 +7361,7 @@ msgid "Private"
 msgstr "პირადი"
 
 #: ../src/calendar/gui/caltypes.xml.in.h:11
-#: ../src/calendar/gui/comp-util.c:2960
+#: ../src/calendar/gui/comp-util.c:2963
 #: ../src/calendar/gui/e-cal-list-view.c:288
 #: ../src/calendar/gui/e-cal-model.c:295 ../src/calendar/gui/e-task-table.c:438
 #: ../src/calendar/gui/memotypes.xml.in.h:12
@@ -7744,9 +7441,9 @@ msgstr ""
 msgid "Description Contains"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:1606 ../src/calendar/gui/comp-util.c:3087
-#: ../src/calendar/importers/icalendar-importer.c:1543
-#: ../src/modules/itip-formatter/itip-view.c:3194
+#: ../src/calendar/gui/comp-util.c:1606 ../src/calendar/gui/comp-util.c:3090
+#: ../src/calendar/importers/icalendar-importer.c:1546
+#: ../src/modules/itip-formatter/itip-view.c:3251
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -7812,7 +7509,7 @@ msgstr "შეწყვეტილია"
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:175
 #: ../src/calendar/gui/e-meeting-store.c:198
-#: ../src/modules/itip-formatter/itip-view.c:7692
+#: ../src/modules/itip-formatter/itip-view.c:7753
 msgid "Accepted"
 msgstr "მიღებულია"
 
@@ -7820,7 +7517,7 @@ msgstr "მიღებულია"
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:177
 #: ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/modules/itip-formatter/itip-view.c:7698
+#: ../src/modules/itip-formatter/itip-view.c:7759
 msgid "Declined"
 msgstr "უარყოფილია"
 
@@ -7836,7 +7533,7 @@ msgstr "სავარაუდო"
 #: ../src/calendar/gui/e-meeting-list-view.c:199
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7701
+#: ../src/modules/itip-formatter/itip-view.c:7762
 msgid "Delegated"
 msgstr "დელეგირებული"
 
@@ -7977,73 +7674,73 @@ msgstr "კომენტარი:"
 msgid "Start Date:"
 msgstr "დაწყების თარიღი:"
 
-#: ../src/calendar/gui/comp-util.c:2839
+#: ../src/calendar/gui/comp-util.c:2842
 msgid "End Date:"
 msgstr "დასრულების თარიღი:"
 
-#: ../src/calendar/gui/comp-util.c:2851
+#: ../src/calendar/gui/comp-util.c:2854
 #: ../src/modules/itip-formatter/itip-view.c:2294
 #: ../src/modules/itip-formatter/itip-view.c:2525
 msgid "Recurs:"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2860
+#: ../src/calendar/gui/comp-util.c:2863
 msgid "Due Date:"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2877
+#: ../src/calendar/gui/comp-util.c:2880
 #: ../src/modules/itip-formatter/itip-view.c:2296
 #: ../src/modules/itip-formatter/itip-view.c:2531
 msgid "Estimated duration:"
 msgstr ""
 
-#: ../src/calendar/gui/comp-util.c:2893
+#: ../src/calendar/gui/comp-util.c:2896
 #: ../src/modules/itip-formatter/itip-view.c:2297
 #: ../src/modules/itip-formatter/itip-view.c:2534
 msgid "Status:"
 msgstr "მდგომარეობა:"
 
-#: ../src/calendar/gui/comp-util.c:2901
+#: ../src/calendar/gui/comp-util.c:2904
 #: ../src/modules/itip-formatter/itip-view.c:2299
 #: ../src/modules/itip-formatter/itip-view.c:2540
 msgid "Categories:"
 msgstr "კატეგორიები:"
 
-#: ../src/calendar/gui/comp-util.c:2944 ../src/calendar/gui/e-task-table.c:462
+#: ../src/calendar/gui/comp-util.c:2947 ../src/calendar/gui/e-task-table.c:462
 #: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:327
 msgid "High"
 msgstr "მაღალი"
 
-#: ../src/calendar/gui/comp-util.c:2946 ../src/calendar/gui/e-cal-model.c:1795
+#: ../src/calendar/gui/comp-util.c:2949 ../src/calendar/gui/e-cal-model.c:1795
 #: ../src/calendar/gui/e-task-table.c:463
 #: ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:326
 msgid "Normal"
 msgstr "ჩვეულებრივი"
 
-#: ../src/calendar/gui/comp-util.c:2948 ../src/calendar/gui/e-task-table.c:464
+#: ../src/calendar/gui/comp-util.c:2951 ../src/calendar/gui/e-task-table.c:464
 #: ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:325
 msgid "Low"
 msgstr "დაბალი"
 
-#: ../src/calendar/gui/comp-util.c:2950
+#: ../src/calendar/gui/comp-util.c:2953
 msgid "Priority:"
 msgstr "პრიორიტეტი:"
 
-#: ../src/calendar/gui/comp-util.c:2968
+#: ../src/calendar/gui/comp-util.c:2971
 msgid "Classification:"
 msgstr "კლასიფიკაცია:"
 
-#: ../src/calendar/gui/comp-util.c:2981
+#: ../src/calendar/gui/comp-util.c:2984
 msgid "Organizer:"
 msgstr "ორგანიზატორი:"
 
-#: ../src/calendar/gui/comp-util.c:3023
+#: ../src/calendar/gui/comp-util.c:3026
 #: ../src/modules/itip-formatter/itip-view.c:2300
 #: ../src/modules/itip-formatter/itip-view.c:2543
 msgid "Attendees:"
 msgstr "დამსწრეები:"
 
-#: ../src/calendar/gui/comp-util.c:3147
+#: ../src/calendar/gui/comp-util.c:3150
 msgid "Web Page:"
 msgstr ""
 
@@ -8607,8 +8304,8 @@ msgstr "ტიპი"
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1302
 #: ../src/calendar/gui/print.c:1319 ../src/e-util/e-charset.c:49
 #: ../src/modules/calendar/e-calendar-preferences.c:803
-#: ../src/modules/itip-formatter/itip-view.c:4306
-#: ../src/modules/itip-formatter/itip-view.c:7704
+#: ../src/modules/itip-formatter/itip-view.c:4363
+#: ../src/modules/itip-formatter/itip-view.c:7765
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "უცნობია"
@@ -8653,12 +8350,12 @@ msgstr "დიახ"
 msgid "No"
 msgstr "არა"
 
-#: ../src/calendar/gui/e-cal-model-calendar.c:90
+#: ../src/calendar/gui/e-cal-model-calendar.c:99
 #: ../src/calendar/gui/e-task-table.c:521
 msgid "Free"
 msgstr "თავისუფალი"
 
-#: ../src/calendar/gui/e-cal-model-calendar.c:93
+#: ../src/calendar/gui/e-cal-model-calendar.c:102
 #: ../src/calendar/gui/e-meeting-time-sel.c:528
 #: ../src/calendar/gui/e-task-table.c:522
 msgid "Busy"
@@ -9057,8 +8754,8 @@ msgstr ""
 #: ../src/e-util/e-attachment-paned.c:173 ../src/mail/message-list.etspec.h:4
 msgid "Attachment"
 msgid_plural "Attachments"
-msgstr[0] "დანართი"
-msgstr[1] ""
+msgstr[0] "მიმაგრებული ფაილი"
+msgstr[1] "მიმაგრებული ფაილები"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:242
 #: ../src/e-util/e-attachment.c:2747
@@ -9230,7 +8927,7 @@ msgstr ""
 #: ../src/plugins/sender-validation/sender-validation.c:694
 #: ../src/plugins/sender-validation/sender-validation.c:805
 #: ../src/plugins/templates/templates.c:488
-#: ../src/shell/e-shell-window-actions.c:751 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:961 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "ჩასწორება"
 
@@ -9916,7 +9613,7 @@ msgstr ""
 #: ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1741
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1503
 #: ../src/mail/em-subscription-editor.c:1734
-#: ../src/shell/e-shell-window-actions.c:618
+#: ../src/shell/e-shell-window-actions.c:828
 #: ../src/smime/gui/certificate-manager.c:2124
 msgid "_Close"
 msgstr "_დახურვა"
@@ -9930,14 +9627,14 @@ msgstr "მიმდინარე ფანჯრის დახურვა"
 #: ../src/e-util/e-html-editor-actions.c:1355 ../src/e-util/e-text.c:2031
 #: ../src/e-util/e-web-view.c:1663 ../src/mail/e-mail-browser.c:583
 #: ../src/mail/e-mail-viewer.c:1755 ../src/mail/mail.error.xml.h:147
-#: ../src/shell/e-shell-window-actions.c:639
+#: ../src/shell/e-shell-window-actions.c:849
 msgid "_Copy"
 msgstr "კოპირება"
 
 #: ../src/calendar/gui/e-comp-editor.c:2264 ../src/e-util/e-focus-tracker.c:223
 #: ../src/e-util/e-focus-tracker.c:279 ../src/e-util/e-focus-tracker.c:332
 #: ../src/e-util/e-web-view.c:1665 ../src/e-util/e-web-view.c:2321
-#: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:641
+#: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:851
 msgid "Copy the selection"
 msgstr "მონიშნულის კოპირება"
 
@@ -9952,20 +9649,20 @@ msgstr ""
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2276
 #: ../src/e-util/e-html-editor-actions.c:1362 ../src/e-util/e-text.c:2017
-#: ../src/mail/e-mail-browser.c:590 ../src/shell/e-shell-window-actions.c:646
+#: ../src/mail/e-mail-browser.c:590 ../src/shell/e-shell-window-actions.c:856
 msgid "Cu_t"
 msgstr "ამო_ჭრა"
 
 #: ../src/calendar/gui/e-comp-editor.c:2278 ../src/e-util/e-focus-tracker.c:216
 #: ../src/e-util/e-focus-tracker.c:272 ../src/e-util/e-focus-tracker.c:326
 #: ../src/e-util/e-web-view.c:2330 ../src/mail/e-mail-browser.c:592
-#: ../src/shell/e-shell-window-actions.c:648
+#: ../src/shell/e-shell-window-actions.c:858
 msgid "Cut the selection"
 msgstr "მონიშნულის ამოჭრა"
 
 #: ../src/calendar/gui/e-comp-editor.c:2285 ../src/e-util/e-focus-tracker.c:237
 #: ../src/e-util/e-focus-tracker.c:293
-#: ../src/shell/e-shell-window-actions.c:655
+#: ../src/shell/e-shell-window-actions.c:865
 msgid "Delete the selection"
 msgstr "მონიშნულის წაშლა"
 
@@ -9977,14 +9674,14 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor.c:2297
 #: ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-text.c:2043
 #: ../src/mail/e-mail-browser.c:597 ../src/mail/e-mail-viewer.c:1762
-#: ../src/shell/e-shell-window-actions.c:674
+#: ../src/shell/e-shell-window-actions.c:884
 msgid "_Paste"
 msgstr "_ჩასმა"
 
 #: ../src/calendar/gui/e-comp-editor.c:2299 ../src/e-util/e-focus-tracker.c:230
 #: ../src/e-util/e-focus-tracker.c:286 ../src/e-util/e-focus-tracker.c:338
 #: ../src/e-util/e-web-view.c:2339 ../src/mail/e-mail-browser.c:599
-#: ../src/shell/e-shell-window-actions.c:676
+#: ../src/shell/e-shell-window-actions.c:886
 msgid "Paste the clipboard"
 msgstr ""
 
@@ -10005,13 +9702,13 @@ msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor.c:2318
 #: ../src/e-util/e-html-editor-actions.c:1383 ../src/e-util/e-web-view.c:1687
-#: ../src/mail/e-mail-browser.c:604 ../src/shell/e-shell-window-actions.c:702
+#: ../src/mail/e-mail-browser.c:604 ../src/shell/e-shell-window-actions.c:912
 msgid "Select _All"
 msgstr "ყველაფრის _მონიშვნა"
 
 #: ../src/calendar/gui/e-comp-editor.c:2320 ../src/e-util/e-focus-tracker.c:244
 #: ../src/e-util/e-focus-tracker.c:300 ../src/mail/e-mail-browser.c:606
-#: ../src/shell/e-shell-window-actions.c:704
+#: ../src/shell/e-shell-window-actions.c:914
 msgid "Select all text"
 msgstr "მთელი ტექსტის არჩევა"
 
@@ -10029,7 +9726,7 @@ msgstr ""
 #: ../src/e-util/e-html-editor-actions.c:1427
 #: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
-#: ../src/shell/e-shell-window-actions.c:752
+#: ../src/shell/e-shell-window-actions.c:962
 msgid "_File"
 msgstr "_ფაილი"
 
@@ -10053,7 +9750,7 @@ msgstr "_პარამეტრები"
 
 #: ../src/calendar/gui/e-comp-editor.c:2397
 #: ../src/e-util/e-html-editor-actions.c:1469 ../src/mail/e-mail-browser.c:620
-#: ../src/mail/e-mail-viewer.c:1931 ../src/shell/e-shell-window-actions.c:757
+#: ../src/mail/e-mail-viewer.c:1931 ../src/shell/e-shell-window-actions.c:967
 #: ../src/smime/gui/certificate-manager.c:1588 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "ხ_ედი"
@@ -10924,7 +10621,7 @@ msgstr "ახალი კალენდარი"
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:282
 #: ../src/modules/calendar/e-task-shell-view-actions.c:249
 msgid "New Task List"
-msgstr ""
+msgstr "ახალი ამოცანების სია"
 
 #: ../src/calendar/importers/icalendar-importer.c:441
 msgid "Cre_ate new calendar"
@@ -10968,25 +10665,25 @@ msgid "Evolution Calendar intelligent importer"
 msgstr ""
 
 #: ../src/calendar/importers/icalendar-importer.c:1323
-#: ../src/calendar/importers/icalendar-importer.c:1712
+#: ../src/calendar/importers/icalendar-importer.c:1715
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "შეხვედრა"
 
 #: ../src/calendar/importers/icalendar-importer.c:1323
-#: ../src/calendar/importers/icalendar-importer.c:1712
+#: ../src/calendar/importers/icalendar-importer.c:1715
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "გაფრთხილება"
 
 #: ../src/calendar/importers/icalendar-importer.c:1326
-#: ../src/calendar/importers/icalendar-importer.c:1713
+#: ../src/calendar/importers/icalendar-importer.c:1716
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "დავალება"
 
 #: ../src/calendar/importers/icalendar-importer.c:1329
-#: ../src/calendar/importers/icalendar-importer.c:1714
+#: ../src/calendar/importers/icalendar-importer.c:1717
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "მემორანდუმი"
@@ -11039,7 +10736,7 @@ msgstr "კლასიფიკაცია"
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
 #: ../src/calendar/importers/icalendar-importer.c:1378
-#: ../src/calendar/importers/icalendar-importer.c:1757
+#: ../src/calendar/importers/icalendar-importer.c:1760
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "შეჯამება"
@@ -11053,7 +10750,7 @@ msgstr "მდებარეობა"
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
 #: ../src/calendar/importers/icalendar-importer.c:1393
-#: ../src/calendar/importers/icalendar-importer.c:1752
+#: ../src/calendar/importers/icalendar-importer.c:1755
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "დაწყება"
@@ -11065,50 +10762,50 @@ msgid "Due"
 msgstr "ვადა"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1414
+#: ../src/calendar/importers/icalendar-importer.c:1417
 msgctxt "iCalImp"
 msgid "End"
 msgstr "დასასრული"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1423
+#: ../src/calendar/importers/icalendar-importer.c:1426
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "კატეგორიები"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1448
+#: ../src/calendar/importers/icalendar-importer.c:1451
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "დასრულებულია"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1455
+#: ../src/calendar/importers/icalendar-importer.c:1458
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "ბმული"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1473
 #: ../src/calendar/importers/icalendar-importer.c:1476
+#: ../src/calendar/importers/icalendar-importer.c:1479
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "ორგანიზატორი"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1559
+#: ../src/calendar/importers/icalendar-importer.c:1562
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "დამსწრეები"
 
-#: ../src/calendar/importers/icalendar-importer.c:1578
-#: ../src/calendar/importers/icalendar-importer.c:1586
+#: ../src/calendar/importers/icalendar-importer.c:1581
+#: ../src/calendar/importers/icalendar-importer.c:1589
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "აღწერა"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1747
+#: ../src/calendar/importers/icalendar-importer.c:1750
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "ტიპი"
@@ -12677,12 +12374,12 @@ msgid "Open New Message window"
 msgstr "ახალი შეტყოვიბინების ფანჯრის გახსნა"
 
 #: ../src/composer/e-composer-actions.c:392
-#: ../src/shell/e-shell-window-actions.c:688
+#: ../src/shell/e-shell-window-actions.c:898
 msgid "_Preferences"
 msgstr "გამართვა"
 
 #: ../src/composer/e-composer-actions.c:394
-#: ../src/shell/e-shell-window-actions.c:690
+#: ../src/shell/e-shell-window-actions.c:900
 msgid "Configure Evolution"
 msgstr "Evolution-ის მორგება"
 
@@ -13517,7 +13214,7 @@ msgstr "ციფრული ხელმოწერა"
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "ხელმომწერი:"
-msgstr[1] ""
+msgstr[1] "ხელმომწერები:"
 
 #: ../src/em-format/e-mail-formatter-secure-button.c:431
 msgid "Encryption"
@@ -13683,8 +13380,8 @@ msgstr ""
 msgid "Reply-To"
 msgstr "უპასუხეთ"
 
-#: ../src/em-format/e-mail-part-headers.c:45 ../src/e-util/e-dateedit.c:607
-#: ../src/e-util/e-dateedit.c:629 ../src/mail/message-list.etspec.h:7
+#: ../src/em-format/e-mail-part-headers.c:45 ../src/e-util/e-dateedit.c:638
+#: ../src/e-util/e-dateedit.c:660 ../src/mail/message-list.etspec.h:7
 #: ../src/modules/mail/em-mailer-prefs.c:77
 msgid "Date"
 msgstr "თარიღი"
@@ -13844,7 +13541,7 @@ msgstr "%s"
 msgid "%s (%d%% complete)"
 msgstr ""
 
-#: ../src/e-util/e-activity-proxy.c:339
+#: ../src/e-util/e-activity-proxy.c:385
 #: ../src/e-util/e-autoar-gtk-chooser.c:195
 #: ../src/e-util/e-ui-customize-dialog.c:982
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
@@ -13889,7 +13586,7 @@ msgid "Attached message"
 msgstr ""
 
 #: ../src/e-util/e-attachment.c:2383 ../src/e-util/e-attachment.c:3321
-#: ../src/mail/em-utils.c:2202
+#: ../src/mail/em-utils.c:2205
 msgid "Operation was cancelled"
 msgstr "ოპერაცია გაუქმდა"
 
@@ -14003,7 +13700,7 @@ msgstr ""
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
 msgstr[0] "მიმაგრებული ფაილის შენახვა"
-msgstr[1] ""
+msgstr[1] "მიმაგრებული ფაილების შენახვა"
 
 #: ../src/e-util/e-attachment-store.c:865
 msgid "Do _not extract files from the attachment"
@@ -14567,54 +14264,54 @@ msgstr "ნაგულისხმები"
 msgid "Running…"
 msgstr "გაშვებულია…"
 
-#: ../src/e-util/e-dateedit.c:572
+#: ../src/e-util/e-dateedit.c:603
 msgid "Date and Time"
 msgstr "თარიღი და დრო"
 
-#: ../src/e-util/e-dateedit.c:606
+#: ../src/e-util/e-dateedit.c:637
 msgid "Text entry to input date"
 msgstr ""
 
-#: ../src/e-util/e-dateedit.c:628
+#: ../src/e-util/e-dateedit.c:659
 msgid "Click this button to show a calendar"
 msgstr ""
 
-#: ../src/e-util/e-dateedit.c:683
+#: ../src/e-util/e-dateedit.c:714
 msgid "Drop-down combination box to select time"
 msgstr ""
 
-#: ../src/e-util/e-dateedit.c:684
+#: ../src/e-util/e-dateedit.c:715
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:9
 msgid "Time"
 msgstr "დრო"
 
-#: ../src/e-util/e-dateedit.c:761
+#: ../src/e-util/e-dateedit.c:792
 msgid "No_w"
 msgstr ""
 
-#: ../src/e-util/e-dateedit.c:768 ../src/e-util/e-split-date-edit.c:405
+#: ../src/e-util/e-dateedit.c:799 ../src/e-util/e-split-date-edit.c:405
 msgid "_Today"
 msgstr "_დღეს"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. * is not permitted.
-#: ../src/e-util/e-dateedit.c:777 ../src/e-util/e-split-date-edit.c:412
+#: ../src/e-util/e-dateedit.c:808 ../src/e-util/e-split-date-edit.c:412
 #: ../src/mail/em-folder-selector.c:620
 msgid "_None"
 msgstr "არ_ცერთი"
 
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
-#: ../src/e-util/e-dateedit.c:1965 ../src/e-util/e-dateedit.c:2218
+#: ../src/e-util/e-dateedit.c:2010 ../src/e-util/e-dateedit.c:2263
 msgctxt "date"
 msgid "None"
 msgstr "არცერთი"
 
-#: ../src/e-util/e-dateedit.c:2101 ../src/e-util/e-dateedit.c:2585
+#: ../src/e-util/e-dateedit.c:2146 ../src/e-util/e-dateedit.c:2630
 msgid "Invalid Date Value"
 msgstr ""
 
-#: ../src/e-util/e-dateedit.c:2141 ../src/e-util/e-dateedit.c:2642
+#: ../src/e-util/e-dateedit.c:2186 ../src/e-util/e-dateedit.c:2687
 msgid "Invalid Time Value"
 msgstr ""
 
@@ -17327,8 +17024,8 @@ msgstr ""
 #: ../src/e-util/e-ui-customize-dialog.c:588
 msgid "_Unset from other action"
 msgid_plural "_Unset from other actions"
-msgstr[0] "გა_უქმება სხვა ქმედებებიდან"
-msgstr[1] ""
+msgstr[0] "გა_უქმება სხვა ქმედებიდან"
+msgstr[1] "გა_უქმება სხვა ქმედებებიდან"
 
 #: ../src/e-util/e-ui-customize-dialog.c:640
 #, c-format
@@ -18343,9 +18040,9 @@ msgstr "SMTP სერვერი"
 msgid "(No Subject)"
 msgstr ""
 
-#: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:613
-#: ../src/shell/e-shell-window-actions.c:620
-#: ../src/shell/e-shell-window-actions.c:627
+#: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:823
+#: ../src/shell/e-shell-window-actions.c:830
+#: ../src/shell/e-shell-window-actions.c:837
 msgid "Close this window"
 msgstr "ამ ფანჯრის დახურვა"
 
@@ -18366,7 +18063,7 @@ msgstr ""
 msgid "Evolution Account Assistant"
 msgstr ""
 
-#: ../src/mail/e-mail-config-assistant.c:1009
+#: ../src/mail/e-mail-config-assistant.c:1010
 msgid "_Revise Details"
 msgstr ""
 
@@ -18596,7 +18293,7 @@ msgstr ""
 #: ../src/mail/e-mail-config-identity-page.c:673
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:27
 msgid "Optional Information"
-msgstr ""
+msgstr "დამატებითი ინფორმაცია"
 
 #: ../src/mail/e-mail-config-identity-page.c:682
 msgid "Re_ply-To:"
@@ -19836,8 +19533,8 @@ msgstr ""
 #: ../src/mail/e-mail-reader.c:5293
 msgid "Modify labels for selected message"
 msgid_plural "Modify labels for selected messages"
-msgstr[0] "ჭდეების შეცვლა მონიშნული შეტყობინებებისთვის"
-msgstr[1] ""
+msgstr[0] "ჭდეების შეცვლა მონიშნული შეტყობინებისთვის"
+msgstr[1] "ჭდეების შეცვლა მონიშნული შეტყობინებებისთვის"
 
 #: ../src/mail/e-mail-reader.c:5301
 msgid "Set _Selected"
@@ -19898,7 +19595,7 @@ msgstr[1] ""
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "შეტყობინების შენახვა"
-msgstr[1] ""
+msgstr[1] "შეტყობინებების შენახვა"
 
 #. Translators: This is part of a suggested file name
 #. * used when saving a message or multiple messages to
@@ -19909,7 +19606,7 @@ msgstr[1] ""
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "შეტყობინება"
-msgstr[1] ""
+msgstr[1] "შეტყობინებები"
 
 #: ../src/mail/e-mail-reader-utils.c:3488
 msgid "Parsing message"
@@ -20550,12 +20247,12 @@ msgstr ""
 msgid "Copying folder “%s” (%d/%d)"
 msgstr ""
 
-#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2396
+#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2399
 #: ../src/mail/mail.error.xml.h:153
 msgid "_Move"
 msgstr "_გადაადგილება"
 
-#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2396
+#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2399
 msgid "C_opy"
 msgstr "_კოპირება"
 
@@ -20684,61 +20381,61 @@ msgstr[1] ""
 msgid "Message Filters"
 msgstr ""
 
-#: ../src/mail/em-utils.c:987
+#: ../src/mail/em-utils.c:990
 #, c-format
 msgid "Messages from %s"
 msgstr ""
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
-#: ../src/mail/em-utils.c:1542
+#: ../src/mail/em-utils.c:1545
 msgctxt "reply-attribution"
 msgid "Re"
 msgstr "რე"
 
 #. Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context.
-#: ../src/mail/em-utils.c:1545
+#: ../src/mail/em-utils.c:1548
 msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1847
+#: ../src/mail/em-utils.c:1850
 msgid "Deleting old messages"
 msgstr ""
 
-#: ../src/mail/em-utils.c:2036
+#: ../src/mail/em-utils.c:2039
 msgctxt "trust"
 msgid "_Unknown"
 msgstr "_უცნობი"
 
-#: ../src/mail/em-utils.c:2037
+#: ../src/mail/em-utils.c:2040
 msgctxt "trust"
 msgid "_Never trust"
 msgstr "არასდროს _ენდო"
 
-#: ../src/mail/em-utils.c:2038
+#: ../src/mail/em-utils.c:2041
 msgctxt "trust"
 msgid "Trust _marginally"
 msgstr "შეზღუდული ნ_დობა"
 
-#: ../src/mail/em-utils.c:2039
+#: ../src/mail/em-utils.c:2042
 msgctxt "trust"
 msgid "Trust _fully"
 msgstr ""
 
-#: ../src/mail/em-utils.c:2040
+#: ../src/mail/em-utils.c:2043
 msgctxt "trust"
 msgid "Trust _ultimately"
 msgstr "სრული _ნდობა"
 
-#: ../src/mail/em-utils.c:2159
+#: ../src/mail/em-utils.c:2162
 msgid "Set trust level for the key:"
 msgstr ""
 
-#: ../src/mail/em-utils.c:2392 ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/em-utils.c:2395 ../src/mail/filtertypes.xml.in.h:72
 msgid "Move to Folder"
 msgstr "საქაღალდეში გადატანა"
 
-#: ../src/mail/em-utils.c:2392 ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/em-utils.c:2395 ../src/mail/filtertypes.xml.in.h:73
 msgid "Copy to Folder"
 msgstr ""
 
@@ -23966,7 +23663,7 @@ msgstr ""
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:829
 msgid "One Level"
-msgstr ""
+msgstr "ერთი დონე"
 
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:831
 msgid "Subtree"
@@ -26141,7 +25838,7 @@ msgstr "შემოტანა მოვლენის სა_ხით"
 
 #: ../src/modules/itip-formatter/itip-view.c:2295
 #: ../src/modules/itip-formatter/itip-view.c:2528
-#: ../src/modules/itip-formatter/itip-view.c:8028
+#: ../src/modules/itip-formatter/itip-view.c:8089
 msgid "Due date:"
 msgstr ""
 
@@ -26180,39 +25877,43 @@ msgstr ""
 msgid "_Inherit reminder"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:2762
+#: ../src/modules/itip-formatter/itip-view.c:2726
+msgid "The attendee was guessed, because the organizer did not provide any."
+msgstr ""
+
+#: ../src/modules/itip-formatter/itip-view.c:2819
 msgid "_Tasks:"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:2765
+#: ../src/modules/itip-formatter/itip-view.c:2822
 msgid "_Memos:"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:3854
+#: ../src/modules/itip-formatter/itip-view.c:3911
 msgid "Sa_ve"
 msgstr "_შენახვა"
 
-#: ../src/modules/itip-formatter/itip-view.c:4382
-#: ../src/modules/itip-formatter/itip-view.c:6260
+#: ../src/modules/itip-formatter/itip-view.c:4439
+#: ../src/modules/itip-formatter/itip-view.c:6321
 msgid "Attendee status updated"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4714
+#: ../src/modules/itip-formatter/itip-view.c:4771
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4721
+#: ../src/modules/itip-formatter/itip-view.c:4778
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4728
+#: ../src/modules/itip-formatter/itip-view.c:4785
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4741
+#: ../src/modules/itip-formatter/itip-view.c:4798
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -26221,7 +25922,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4750
+#: ../src/modules/itip-formatter/itip-view.c:4807
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
@@ -26229,7 +25930,7 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4759
+#: ../src/modules/itip-formatter/itip-view.c:4816
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
@@ -26237,297 +25938,297 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4801
+#: ../src/modules/itip-formatter/itip-view.c:4858
 #, c-format
 msgid "Found the appointment in the calendar “%s” as accepted"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4807
+#: ../src/modules/itip-formatter/itip-view.c:4864
 #, c-format
 msgid "Found the appointment in the calendar “%s” as declined"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4812
+#: ../src/modules/itip-formatter/itip-view.c:4869
 #, c-format
 msgid "Found the appointment in the calendar “%s” as tentatively accepted"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4817
+#: ../src/modules/itip-formatter/itip-view.c:4874
 #, c-format
 msgid "Found the appointment in the calendar “%s” as delegated"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4822
+#: ../src/modules/itip-formatter/itip-view.c:4879
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4829
+#: ../src/modules/itip-formatter/itip-view.c:4886
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4834
+#: ../src/modules/itip-formatter/itip-view.c:4891
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4845
+#: ../src/modules/itip-formatter/itip-view.c:4902
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4967
+#: ../src/modules/itip-formatter/itip-view.c:5024
 msgid "Unable to find any calendars"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4975
+#: ../src/modules/itip-formatter/itip-view.c:5032
 msgid "Unable to find this meeting in any calendar"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4980
+#: ../src/modules/itip-formatter/itip-view.c:5037
 msgid "Unable to find this task in any task list"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:4985
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "Unable to find this memo in any memo list"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5283
+#: ../src/modules/itip-formatter/itip-view.c:5340
 msgid "Searching for an existing version of this appointment"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5284
+#: ../src/modules/itip-formatter/itip-view.c:5341
 msgid "Cannot search for existing event, no calendar selected for search"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5288
+#: ../src/modules/itip-formatter/itip-view.c:5345
 msgid "Searching for an existing version of this task"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5289
+#: ../src/modules/itip-formatter/itip-view.c:5346
 msgid "Cannot search for existing task, no task list found"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5293
+#: ../src/modules/itip-formatter/itip-view.c:5350
 msgid "Searching for an existing version of this memo"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5294
+#: ../src/modules/itip-formatter/itip-view.c:5351
 msgid "Cannot search for existing memo, no memo list found"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5692
+#: ../src/modules/itip-formatter/itip-view.c:5753
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5700
+#: ../src/modules/itip-formatter/itip-view.c:5761
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5708
+#: ../src/modules/itip-formatter/itip-view.c:5769
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5729
+#: ../src/modules/itip-formatter/itip-view.c:5790
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5734
+#: ../src/modules/itip-formatter/itip-view.c:5795
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5739
+#: ../src/modules/itip-formatter/itip-view.c:5800
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5749
+#: ../src/modules/itip-formatter/itip-view.c:5810
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5754
+#: ../src/modules/itip-formatter/itip-view.c:5815
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5759
+#: ../src/modules/itip-formatter/itip-view.c:5820
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5769
+#: ../src/modules/itip-formatter/itip-view.c:5830
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5774
+#: ../src/modules/itip-formatter/itip-view.c:5835
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5779
+#: ../src/modules/itip-formatter/itip-view.c:5840
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5789
+#: ../src/modules/itip-formatter/itip-view.c:5850
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5794
+#: ../src/modules/itip-formatter/itip-view.c:5855
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5799
+#: ../src/modules/itip-formatter/itip-view.c:5860
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5810
+#: ../src/modules/itip-formatter/itip-view.c:5871
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "შემოტანილია კალენდარში \"%s\""
 
-#: ../src/modules/itip-formatter/itip-view.c:5815
+#: ../src/modules/itip-formatter/itip-view.c:5876
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5820
+#: ../src/modules/itip-formatter/itip-view.c:5881
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5839
+#: ../src/modules/itip-formatter/itip-view.c:5900
 msgid "Saving changes to the calendar. Please wait…"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5842
+#: ../src/modules/itip-formatter/itip-view.c:5903
 msgid "Saving changes to the task list. Please wait…"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5845
+#: ../src/modules/itip-formatter/itip-view.c:5906
 msgid "Saving changes to the memo list. Please wait…"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:5984
+#: ../src/modules/itip-formatter/itip-view.c:6045
 msgid "Unable to parse item"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6184
+#: ../src/modules/itip-formatter/itip-view.c:6245
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6201
+#: ../src/modules/itip-formatter/itip-view.c:6262
 msgid "Sent a cancellation notice to the delegate"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6205
+#: ../src/modules/itip-formatter/itip-view.c:6266
 msgid "Could not send the cancellation notice to the delegate"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6251
+#: ../src/modules/itip-formatter/itip-view.c:6312
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6285
+#: ../src/modules/itip-formatter/itip-view.c:6346
 msgid "The meeting is invalid and cannot be updated"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6370
+#: ../src/modules/itip-formatter/itip-view.c:6431
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6446
-#: ../src/modules/itip-formatter/itip-view.c:6484
+#: ../src/modules/itip-formatter/itip-view.c:6507
+#: ../src/modules/itip-formatter/itip-view.c:6545
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6545
+#: ../src/modules/itip-formatter/itip-view.c:6606
 msgid "Meeting information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6550
+#: ../src/modules/itip-formatter/itip-view.c:6611
 msgid "Task information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6555
+#: ../src/modules/itip-formatter/itip-view.c:6616
 msgid "Memo information sent"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6566
+#: ../src/modules/itip-formatter/itip-view.c:6627
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6571
+#: ../src/modules/itip-formatter/itip-view.c:6632
 msgid "Unable to send task information, the task does not exist"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6576
+#: ../src/modules/itip-formatter/itip-view.c:6637
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6621
+#: ../src/modules/itip-formatter/itip-view.c:6682
 msgid "calendar.ics"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6626
+#: ../src/modules/itip-formatter/itip-view.c:6687
 msgid "Save Calendar"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6674
-#: ../src/modules/itip-formatter/itip-view.c:6687
+#: ../src/modules/itip-formatter/itip-view.c:6735
+#: ../src/modules/itip-formatter/itip-view.c:6748
 msgid "The calendar attached is not valid"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6675
-#: ../src/modules/itip-formatter/itip-view.c:6688
+#: ../src/modules/itip-formatter/itip-view.c:6736
+#: ../src/modules/itip-formatter/itip-view.c:6749
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6770
-#: ../src/modules/itip-formatter/itip-view.c:6855
-#: ../src/modules/itip-formatter/itip-view.c:6983
+#: ../src/modules/itip-formatter/itip-view.c:6831
+#: ../src/modules/itip-formatter/itip-view.c:6916
+#: ../src/modules/itip-formatter/itip-view.c:7044
 msgid "The item in the calendar is not valid"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6771
-#: ../src/modules/itip-formatter/itip-view.c:6856
-#: ../src/modules/itip-formatter/itip-view.c:6984
+#: ../src/modules/itip-formatter/itip-view.c:6832
+#: ../src/modules/itip-formatter/itip-view.c:6917
+#: ../src/modules/itip-formatter/itip-view.c:7045
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6865
+#: ../src/modules/itip-formatter/itip-view.c:6926
 msgid "The calendar attached contains multiple items"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:6866
+#: ../src/modules/itip-formatter/itip-view.c:6927
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: ../src/modules/itip-formatter/itip-view.c:7643
+#: ../src/modules/itip-formatter/itip-view.c:7704
 msgctxt "cal-itip"
 msgid "None"
 msgstr "არცერთი"
 
-#: ../src/modules/itip-formatter/itip-view.c:7695
+#: ../src/modules/itip-formatter/itip-view.c:7756
 msgid "Tentatively Accepted"
 msgstr ""
 
@@ -29469,13 +29170,13 @@ msgstr ""
 msgid "Current view is a customized view"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:744
+#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:954
 msgid "_New"
 msgstr "_ახალი"
 
 #: ../src/shell/e-shell-view.c:1154
-msgid "Customi_ze…"
-msgstr "_ხელით…"
+msgid "Customi_ze User Interface…"
+msgstr "მომხმარებლის ინტერფეისის მორ_გება…"
 
 #: ../src/shell/e-shell-view.c:1156
 msgid "Customize user interface, like toolbar content and shortcuts"
@@ -29549,153 +29250,467 @@ msgstr ""
 msgid "Delete view: %s"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:241
+#: ../src/shell/e-shell-window-actions.c:129
+msgctxt "shortcut window"
+msgid "General"
+msgstr "ძირითადი"
+
+#: ../src/shell/e-shell-window-actions.c:130
+msgctxt "shortcut window"
+msgid "Select Mail component"
+msgstr "აირჩიეთ ფოსტის კომპონენტი"
+
+#: ../src/shell/e-shell-window-actions.c:131
+msgctxt "shortcut window"
+msgid "Select Contacts component"
+msgstr "აირჩიეთ კონტაქტების კომპონენტი"
+
+#: ../src/shell/e-shell-window-actions.c:132
+msgctxt "shortcut window"
+msgid "Select Calendar component"
+msgstr "აირჩიეთ კალენდრის კომპონენტი"
+
+#: ../src/shell/e-shell-window-actions.c:133
+msgctxt "shortcut window"
+msgid "Select Tasks component"
+msgstr "აირჩიეთ ამოცანების კომპოენტი"
+
+#: ../src/shell/e-shell-window-actions.c:134
+msgctxt "shortcut window"
+msgid "Select Memos component"
+msgstr "აირჩეთ მემოების კომპონენტი"
+
+#: ../src/shell/e-shell-window-actions.c:135
+msgctxt "shortcut window"
+msgid "Create a new item in current component"
+msgstr "ახალი ელემენტის შექმნა მიმდინარე კომპონენტში"
+
+#: ../src/shell/e-shell-window-actions.c:136
+msgctxt "shortcut window"
+msgid "Cycle focus between panes"
+msgstr "ფოკუსის გადართვა პანელებს შორის"
+
+#: ../src/shell/e-shell-window-actions.c:137
+msgctxt "shortcut window"
+msgid "Open the Evolution user guide"
+msgstr "Evolution-ის მოხმმარებლის სახელმძღვანელოს გახსნა"
+
+#: ../src/shell/e-shell-window-actions.c:138
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "კლავიატურის მალსახმობები"
+
+#: ../src/shell/e-shell-window-actions.c:139
+msgctxt "shortcut window"
+msgid "Focus search bar"
+msgstr "ფოკუსი ძებნის პანელზე"
+
+#: ../src/shell/e-shell-window-actions.c:140
+msgctxt "shortcut window"
+msgid "Clear search bar"
+msgstr "ძებნის ზოლის გასუფთავება"
+
+#: ../src/shell/e-shell-window-actions.c:141
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "გამართვა"
+
+#: ../src/shell/e-shell-window-actions.c:142
+msgctxt "shortcut window"
+msgid "Open new window"
+msgstr "ახალ ფანჯრის გახსნა"
+
+#: ../src/shell/e-shell-window-actions.c:143
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "ფანჯრის დახურვა"
+
+#: ../src/shell/e-shell-window-actions.c:144
+msgctxt "shortcut window"
+msgid "Quit Evolution"
+msgstr "Evolution-დან გასვლა"
+
+#: ../src/shell/e-shell-window-actions.c:146
+msgctxt "shortcut window"
+msgid "Mail"
+msgstr "წერილი"
+
+#: ../src/shell/e-shell-window-actions.c:147
+msgctxt "shortcut window"
+msgid "Create a new message"
+msgstr "ახალი შეტყობინების შექმნა"
+
+#: ../src/shell/e-shell-window-actions.c:148
+msgctxt "shortcut window"
+msgid "Send and receive messages"
+msgstr "შეტყობინებების გაგზავნა და მიღება"
+
+#: ../src/shell/e-shell-window-actions.c:149
+msgctxt "shortcut window"
+msgid "Apply filters to selection"
+msgstr "მონიშნულის გაფილტვრა"
+
+#: ../src/shell/e-shell-window-actions.c:150
+msgctxt "shortcut window"
+msgid "Open selection in new window"
+msgstr "მონიშნულის გახსნა ახალ ფანჯარაში"
+
+#: ../src/shell/e-shell-window-actions.c:151
+msgctxt "shortcut window"
+msgid "Go to folder"
+msgstr "საქაღალდეზე გადასვლა"
+
+#: ../src/shell/e-shell-window-actions.c:152
+msgctxt "shortcut window"
+msgid "Move mails to folder"
+msgstr "ელფოსტების გადატანა საქაღალდეში"
+
+#: ../src/shell/e-shell-window-actions.c:153
+msgctxt "shortcut window"
+msgid "Copy mails to folder"
+msgstr "ელფოსტების კოპირება საქაღალდეში"
+
+#: ../src/shell/e-shell-window-actions.c:154
+msgctxt "shortcut window"
+msgid "Jump to the next unread message"
+msgstr "გადასვლა შემდეგ წაუკითხავ შეტყობინებაზე"
+
+#: ../src/shell/e-shell-window-actions.c:155
+msgctxt "shortcut window"
+msgid "Jump to the previous unread message"
+msgstr "გადასვლა წინა წაუკითხავ შეტყობინებაზე"
+
+#: ../src/shell/e-shell-window-actions.c:156
+msgctxt "shortcut window"
+msgid "Scroll up"
+msgstr "მაღლა აწევა"
+
+#: ../src/shell/e-shell-window-actions.c:157
+msgctxt "shortcut window"
+msgid "Scroll down"
+msgstr "დაბლა ჩამოწევა"
+
+#: ../src/shell/e-shell-window-actions.c:159
+msgctxt "shortcut window"
+msgid "Mail Message"
+msgstr "ელფოსტის შეტყობინება"
+
+#: ../src/shell/e-shell-window-actions.c:160
+msgctxt "shortcut window"
+msgid "Mark selected messages as read"
+msgstr "მონიშნული შეტყობინებების წაკითხულად დაყენება"
+
+#: ../src/shell/e-shell-window-actions.c:161
+msgctxt "shortcut window"
+msgid "Mark selected messages as unread"
+msgstr "მონიშნული შეტყობინებების წაუკითხავად დაყენება"
+
+#: ../src/shell/e-shell-window-actions.c:162
+msgctxt "shortcut window"
+msgid "Mark selected messages as junk"
+msgstr "მონიშნული შეტყობინებების ნაგვად მონიშვნა"
+
+#: ../src/shell/e-shell-window-actions.c:163
+msgctxt "shortcut window"
+msgid "Mark selected messages as not junk"
+msgstr "მონიშნული შეტყობინების არა-სპამად დაყენება"
+
+#: ../src/shell/e-shell-window-actions.c:164
+msgctxt "shortcut window"
+msgid "Flag selected messages for follow-up"
+msgstr "ალმის დასმა მონიშნულ შეტყობინებებზე მატ მისაყოლად"
+
+#: ../src/shell/e-shell-window-actions.c:165
+msgctxt "shortcut window"
+msgid "Forward selected messages"
+msgstr "მონიშნული შეტყობინებების გადაგზავნა"
+
+#: ../src/shell/e-shell-window-actions.c:166
+msgctxt "shortcut window"
+msgid "Reply to sender"
+msgstr "პასუხი გამომგზავნს"
+
+#: ../src/shell/e-shell-window-actions.c:167
+msgctxt "shortcut window"
+msgid "Reply to list"
+msgstr "პასუხი სიაზე"
+
+#: ../src/shell/e-shell-window-actions.c:168
+msgctxt "shortcut window"
+msgid "Reply to all recipients"
+msgstr "პასუხი ყველა მიმღებს"
+
+#: ../src/shell/e-shell-window-actions.c:169
+msgctxt "shortcut window"
+msgid "Alternative reply"
+msgstr "ალტერნატიული პასუხი"
+
+#: ../src/shell/e-shell-window-actions.c:170
+msgctxt "shortcut window"
+msgid "Archive selected messages"
+msgstr "მონიშნული შეტყობინებების დაარქივება"
+
+#: ../src/shell/e-shell-window-actions.c:171
+msgctxt "shortcut window"
+msgid "Delete message"
+msgstr "შეტყობინების წაშლა"
+
+#: ../src/shell/e-shell-window-actions.c:172
+msgctxt "shortcut window"
+msgid "Undelete message"
+msgstr "შეტყობინებების წაშლის გაუქმება"
+
+#: ../src/shell/e-shell-window-actions.c:174
+msgctxt "shortcut window"
+msgid "Calendar"
+msgstr "კალენდარი"
+
+#: ../src/shell/e-shell-window-actions.c:175
+msgctxt "shortcut window"
+msgid "Create a new appointment"
+msgstr "ახალი შეხვედრის შექმნა"
+
+#: ../src/shell/e-shell-window-actions.c:176
+msgctxt "shortcut window"
+msgid "Create a new meeting"
+msgstr "ახალი შეხვედრის შექმნა"
+
+#: ../src/shell/e-shell-window-actions.c:177
+msgctxt "shortcut window"
+msgid "Create a new task"
+msgstr "ახალი ამოცანის შექმნა"
+
+#: ../src/shell/e-shell-window-actions.c:178
+msgctxt "shortcut window"
+msgid "Create a new memo"
+msgstr "ახალი მემოს შექმნა"
+
+#: ../src/shell/e-shell-window-actions.c:179
+msgctxt "shortcut window"
+msgid "Go to today"
+msgstr "დღევანდელზე გადასვლა"
+
+#: ../src/shell/e-shell-window-actions.c:180
+msgctxt "shortcut window"
+msgid "Go to date"
+msgstr "თარიღზე გადასვლა"
+
+#: ../src/shell/e-shell-window-actions.c:181
+msgctxt "shortcut window"
+msgid "Day View"
+msgstr "დღის ხედი"
+
+#: ../src/shell/e-shell-window-actions.c:182
+msgctxt "shortcut window"
+msgid "Work Week View"
+msgstr "სამუშაო კვირის ხედი"
+
+#: ../src/shell/e-shell-window-actions.c:183
+msgctxt "shortcut window"
+msgid "Week View"
+msgstr "კვირის ხედი"
+
+#: ../src/shell/e-shell-window-actions.c:184
+msgctxt "shortcut window"
+msgid "Month View"
+msgstr "თვის ხედი"
+
+#: ../src/shell/e-shell-window-actions.c:185
+msgctxt "shortcut window"
+msgid "Year View"
+msgstr "წლის ხედი"
+
+#: ../src/shell/e-shell-window-actions.c:186
+msgctxt "shortcut window"
+msgid "List View"
+msgstr "სიის ხედი"
+
+#: ../src/shell/e-shell-window-actions.c:187
+msgctxt "shortcut window"
+msgid "Delete event"
+msgstr "მოვლენის წაშლა"
+
+#: ../src/shell/e-shell-window-actions.c:189
+msgctxt "shortcut window"
+msgid "Contacts"
+msgstr "კონტაქტები"
+
+#: ../src/shell/e-shell-window-actions.c:190
+msgctxt "shortcut window"
+msgid "Create a new contact"
+msgstr "ახალი კონტაქტის შექმნა"
+
+#: ../src/shell/e-shell-window-actions.c:191
+msgctxt "shortcut window"
+msgid "Create a new contact list"
+msgstr "ახალი კონტაქტების სიის შექმნა"
+
+#: ../src/shell/e-shell-window-actions.c:192
+msgctxt "shortcut window"
+msgid "Move contacts to address book"
+msgstr "კონტაქტების გადატანა მისამართების წიგნაკში"
+
+#: ../src/shell/e-shell-window-actions.c:193
+msgctxt "shortcut window"
+msgid "Copy contacts to address book"
+msgstr "კონტაქტების კოპირება მისამართების წიგნაკში"
+
+#: ../src/shell/e-shell-window-actions.c:194
+msgctxt "shortcut window"
+msgid "Delete contact"
+msgstr "კონტაქტის წაშლა"
+
+#: ../src/shell/e-shell-window-actions.c:234
+msgid "Keyboard Shortcuts"
+msgstr "კლავიატურის მალსახმობები"
+
+#: ../src/shell/e-shell-window-actions.c:451
 msgid "Categories Editor"
 msgstr "კატეგორიების რედაქტორი"
 
-#: ../src/shell/e-shell-window-actions.c:368
+#: ../src/shell/e-shell-window-actions.c:578
 msgid "Bug Buddy is not installed."
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:369
+#: ../src/shell/e-shell-window-actions.c:579
 msgid "Bug Buddy could not be run."
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:587
+#: ../src/shell/e-shell-window-actions.c:797
 msgid "Collect_ion Account"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:589
+#: ../src/shell/e-shell-window-actions.c:799
 msgid "Create a new collection account"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:597
+#: ../src/shell/e-shell-window-actions.c:807
 msgid "_About"
 msgstr "_შესახებ"
 
-#: ../src/shell/e-shell-window-actions.c:599
+#: ../src/shell/e-shell-window-actions.c:809
 msgid "Show information about Evolution"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:604
+#: ../src/shell/e-shell-window-actions.c:814
 msgid "_Accounts"
 msgstr "_ანგარიშები"
 
-#: ../src/shell/e-shell-window-actions.c:606
+#: ../src/shell/e-shell-window-actions.c:816
 msgid "Configure Evolution Accounts"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:611
-#: ../src/shell/e-shell-window-actions.c:625
+#: ../src/shell/e-shell-window-actions.c:821
+#: ../src/shell/e-shell-window-actions.c:835
 msgid "_Close Window"
 msgstr "_დახურე ფანჯარა"
 
-#: ../src/shell/e-shell-window-actions.c:632
+#: ../src/shell/e-shell-window-actions.c:842
 msgid "_Contents"
 msgstr "_შინაარსი"
 
-#: ../src/shell/e-shell-window-actions.c:634
+#: ../src/shell/e-shell-window-actions.c:844
 msgid "Open the Evolution User Guide"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:660
+#: ../src/shell/e-shell-window-actions.c:870
 msgid "I_mport…"
 msgstr "_შემოტანა…"
 
-#: ../src/shell/e-shell-window-actions.c:662
+#: ../src/shell/e-shell-window-actions.c:872
 msgid "Import data from other programs"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:667
+#: ../src/shell/e-shell-window-actions.c:877
 msgid "New _Window"
 msgstr "ახალი _ფანჯარა"
 
-#: ../src/shell/e-shell-window-actions.c:669
+#: ../src/shell/e-shell-window-actions.c:879
 msgid "Create a new window displaying this view"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:681
+#: ../src/shell/e-shell-window-actions.c:891
 msgid "Available Cate_gories"
 msgstr "ხელმისაწვდომი _კატეგორიები"
 
-#: ../src/shell/e-shell-window-actions.c:683
+#: ../src/shell/e-shell-window-actions.c:893
 msgid "Manage available categories"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:695
+#: ../src/shell/e-shell-window-actions.c:905
 msgid "_Quit"
 msgstr "_გასვლა"
 
-#: ../src/shell/e-shell-window-actions.c:697
+#: ../src/shell/e-shell-window-actions.c:907
 msgid "Exit the program"
 msgstr "პროგრამიდან გასვლა"
 
-#: ../src/shell/e-shell-window-actions.c:709
+#: ../src/shell/e-shell-window-actions.c:919
 msgid "_Keyboard Shortcuts"
 msgstr "კლავიატურის მალსახმობები"
 
-#: ../src/shell/e-shell-window-actions.c:711
+#: ../src/shell/e-shell-window-actions.c:921
 msgid "Show keyboard shortcuts"
 msgstr "კლავიატურის მალსახმობების ჩვენება"
 
-#: ../src/shell/e-shell-window-actions.c:716
+#: ../src/shell/e-shell-window-actions.c:926
 msgid "Show _WebKit GPU information"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:718
+#: ../src/shell/e-shell-window-actions.c:928
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:723
+#: ../src/shell/e-shell-window-actions.c:933
 msgid "Submit _Bug Report…"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:725
+#: ../src/shell/e-shell-window-actions.c:935
 msgid "Submit a bug report using Bug Buddy"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:730
+#: ../src/shell/e-shell-window-actions.c:940
 msgid "_Work Offline"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:732
+#: ../src/shell/e-shell-window-actions.c:942
 msgid "Put Evolution into offline mode"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:737
+#: ../src/shell/e-shell-window-actions.c:947
 msgid "_Work Online"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:739
+#: ../src/shell/e-shell-window-actions.c:949
 msgid "Put Evolution into online mode"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:754
+#: ../src/shell/e-shell-window-actions.c:964
 msgid "Lay_out"
 msgstr "_განლაგება"
 
-#: ../src/shell/e-shell-window-actions.c:755
+#: ../src/shell/e-shell-window-actions.c:965
 msgid "_Search"
 msgstr "ძებნა"
 
-#: ../src/shell/e-shell-window-actions.c:756
+#: ../src/shell/e-shell-window-actions.c:966
 msgid "_Switcher Appearance"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:758
+#: ../src/shell/e-shell-window-actions.c:968
 msgid "_Window"
 msgstr "_ფანჯარა"
 
-#: ../src/shell/e-shell-window-actions.c:766
+#: ../src/shell/e-shell-window-actions.c:976
 msgid "Page Set_up…"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:768
+#: ../src/shell/e-shell-window-actions.c:978
 msgid "Change the page settings for your current printer"
 msgstr ""
 
-#: ../src/shell/e-shell-window-actions.c:956
-#: ../src/shell/e-shell-window-actions.c:1048
+#: ../src/shell/e-shell-window-actions.c:1166
+#: ../src/shell/e-shell-window-actions.c:1258
 #, c-format
 msgid "Switch to %s"
 msgstr ""
@@ -30330,6 +30345,25 @@ msgstr ""
 #: ../src/smime/lib/e-pkcs12.c:470
 msgid "Imported Certificate"
 msgstr ""
+
+#~ msgctxt "shortcut window"
+#~ msgid "Copy selected messages to folder"
+#~ msgstr "მონიშნული შეტყობინებების კოპირება საქაღალდეში"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Move selected messages to folder"
+#~ msgstr "მონიშნული შეტყობინებების გადატანა საქაღალდეში"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Delete mail"
+#~ msgstr "ელფოსტის წაშლა"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Undelete mail"
+#~ msgstr "წაშლილი ელფოსტის აღდგენა"
+
+#~ msgid "Customi_ze…"
+#~ msgstr "_ხელით…"
 
 #~ msgid "Error removing list"
 #~ msgstr "სიის წაშლის შეცდომა"
