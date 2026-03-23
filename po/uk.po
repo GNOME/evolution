@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-02-02 17:34+0000\n"
-"PO-Revision-Date: 2026-02-03 06:10+0200\n"
+"POT-Creation-Date: 2026-03-23 02:34+0000\n"
+"PO-Revision-Date: 2026-03-23 14:49+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -1970,8 +1970,12 @@ msgid "Save file format for drag-and-drop operation"
 msgstr "Зберегти формат файл для перетягування"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:108
-msgid "Can be either “mbox” or “pdf”."
-msgstr "Може бути або «mbox», або «pdf»."
+msgid ""
+"Can be either “mbox”, “eml” or “pdf”. The “eml” can switch to the “mbox” "
+"when there is more than one message selected."
+msgstr ""
+"Можливі значення: «mbox», «eml» або «pdf». «eml» може перемикатися на"
+" «mbox», якщо позначено декілька повідомлень."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:109
 msgid "Show image animations"
@@ -4415,311 +4419,6 @@ msgstr "Редактор повідомлень"
 msgid "The Evolution Team"
 msgstr "Команда розробників Evolution"
 
-#: ../data/ui/evolution-shortcuts.ui.h:1
-msgctxt "shortcut window"
-msgid "Keyboard Shortcuts"
-msgstr "Клавіатурні скорочення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:2
-msgctxt "shortcut window"
-msgid "General"
-msgstr "Загальні"
-
-#: ../data/ui/evolution-shortcuts.ui.h:3
-msgctxt "shortcut window"
-msgid "Select Mail component"
-msgstr "Вибрати компонент «Пошта»"
-
-#: ../data/ui/evolution-shortcuts.ui.h:4
-msgctxt "shortcut window"
-msgid "Select Contacts component"
-msgstr "Вибрати компонент «Контакти»"
-
-#: ../data/ui/evolution-shortcuts.ui.h:5
-msgctxt "shortcut window"
-msgid "Select Calendar component"
-msgstr "Вибрати компонент «Календар»"
-
-#: ../data/ui/evolution-shortcuts.ui.h:6
-msgctxt "shortcut window"
-msgid "Select Tasks component"
-msgstr "Вибрати компонент «Завдання»"
-
-#: ../data/ui/evolution-shortcuts.ui.h:7
-msgctxt "shortcut window"
-msgid "Select Memos component"
-msgstr "Вибрати компонент «Примітки»"
-
-#: ../data/ui/evolution-shortcuts.ui.h:8
-msgctxt "shortcut window"
-msgid "Create a new item in current component"
-msgstr "Створити запис у поточному компоненті"
-
-#: ../data/ui/evolution-shortcuts.ui.h:9
-msgctxt "shortcut window"
-msgid "Cycle focus between panes"
-msgstr "Циклічний перехід фокусування між панелями"
-
-#: ../data/ui/evolution-shortcuts.ui.h:10
-msgctxt "shortcut window"
-msgid "Open the Evolution user guide"
-msgstr "Відкрити підручник користувача Evolution"
-
-#: ../data/ui/evolution-shortcuts.ui.h:11
-msgctxt "shortcut window"
-msgid "Focus search bar"
-msgstr "Фокусувати панель пошуку"
-
-#: ../data/ui/evolution-shortcuts.ui.h:12
-msgctxt "shortcut window"
-msgid "Clear search bar"
-msgstr "Очистити панель пошуку"
-
-#: ../data/ui/evolution-shortcuts.ui.h:13
-msgctxt "shortcut window"
-msgid "Move mails or contacts to folder"
-msgstr "Перемістити пошту чи контакти до теки"
-
-#: ../data/ui/evolution-shortcuts.ui.h:14
-msgctxt "shortcut window"
-msgid "Copy mails or contacts to folder"
-msgstr "Копіювати пошту або контакти до теки"
-
-#: ../data/ui/evolution-shortcuts.ui.h:15
-msgctxt "shortcut window"
-msgid "Preferences"
-msgstr "Налаштування"
-
-#: ../data/ui/evolution-shortcuts.ui.h:16
-msgctxt "shortcut window"
-msgid "Open new window"
-msgstr "Відкрити нове вікно"
-
-#: ../data/ui/evolution-shortcuts.ui.h:17
-msgctxt "shortcut window"
-msgid "Close window"
-msgstr "Закрити вікно"
-
-#: ../data/ui/evolution-shortcuts.ui.h:18
-msgctxt "shortcut window"
-msgid "Quit Evolution"
-msgstr "Вийти з Evolution"
-
-#: ../data/ui/evolution-shortcuts.ui.h:19
-msgctxt "shortcut window"
-msgid "Mail"
-msgstr "Пошта"
-
-#: ../data/ui/evolution-shortcuts.ui.h:20
-msgctxt "shortcut window"
-msgid "Create a new message"
-msgstr "Створити нове повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:21
-msgctxt "shortcut window"
-msgid "Send and receive messages"
-msgstr "Надіслати і отримати повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:22
-msgctxt "shortcut window"
-msgid "Apply filters to selection"
-msgstr "Застосувати фільтри до вибраного"
-
-#: ../data/ui/evolution-shortcuts.ui.h:23
-msgctxt "shortcut window"
-msgid "Open selection in new window"
-msgstr "Відкрити вибране у новому вікні"
-
-#: ../data/ui/evolution-shortcuts.ui.h:24
-msgctxt "shortcut window"
-msgid "Go to folder"
-msgstr "Перейти до теки"
-
-#: ../data/ui/evolution-shortcuts.ui.h:25
-msgctxt "shortcut window"
-msgid "Jump to the next unread message"
-msgstr "Перейти до наступного непрочитаного повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:26
-msgctxt "shortcut window"
-msgid "Jump to the previous unread message"
-msgstr "Перейти до попереднього непрочитаного повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:27
-msgctxt "shortcut window"
-msgid "Scroll up"
-msgstr "Гортати вгору"
-
-#: ../data/ui/evolution-shortcuts.ui.h:28
-msgctxt "shortcut window"
-msgid "Scroll down"
-msgstr "Гортати вниз"
-
-#: ../data/ui/evolution-shortcuts.ui.h:29
-msgctxt "shortcut window"
-msgid "Mail Message"
-msgstr "Надіслати повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:30
-msgctxt "shortcut window"
-msgid "Copy selected messages to folder"
-msgstr "Скопіювати позначені повідомлення до теки"
-
-#: ../data/ui/evolution-shortcuts.ui.h:31
-msgctxt "shortcut window"
-msgid "Move selected messages to folder"
-msgstr "Перемістити позначені повідомлення до теки"
-
-#: ../data/ui/evolution-shortcuts.ui.h:32
-msgctxt "shortcut window"
-msgid "Archive selected messages"
-msgstr "Архівувати позначені повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:33
-msgctxt "shortcut window"
-msgid "Mark selected messages as read"
-msgstr "Позначити вибрані повідомлення як прочитані"
-
-#: ../data/ui/evolution-shortcuts.ui.h:34
-msgctxt "shortcut window"
-msgid "Mark selected messages as unread"
-msgstr "Позначити вибрані повідомлення як непрочитані"
-
-#: ../data/ui/evolution-shortcuts.ui.h:35
-msgctxt "shortcut window"
-msgid "Mark selected messages as junk"
-msgstr "Позначити вибрані повідомлення як спам"
-
-#: ../data/ui/evolution-shortcuts.ui.h:36
-msgctxt "shortcut window"
-msgid "Mark selected messages as not junk"
-msgstr "Позначити вибрані повідомлення як неспам"
-
-#: ../data/ui/evolution-shortcuts.ui.h:37
-msgctxt "shortcut window"
-msgid "Flag selected messages for follow-up"
-msgstr "Позначити «до виконання» вибрані повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:38
-msgctxt "shortcut window"
-msgid "Forward selected messages"
-msgstr "Переслати вибрані повідомлення"
-
-#: ../data/ui/evolution-shortcuts.ui.h:39
-msgctxt "shortcut window"
-msgid "Reply to sender"
-msgstr "Відповісти відправнику"
-
-#: ../data/ui/evolution-shortcuts.ui.h:40
-msgctxt "shortcut window"
-msgid "Reply to list"
-msgstr "Відповісти до списку листування"
-
-#: ../data/ui/evolution-shortcuts.ui.h:41
-msgctxt "shortcut window"
-msgid "Reply to all recipients"
-msgstr "Відповісти всім одержувачам"
-
-#: ../data/ui/evolution-shortcuts.ui.h:42
-msgctxt "shortcut window"
-msgid "Alternative reply"
-msgstr "Альтернативна відповідь"
-
-#: ../data/ui/evolution-shortcuts.ui.h:43
-msgctxt "shortcut window"
-msgid "Delete mail"
-msgstr "Вилучити лист"
-
-#: ../data/ui/evolution-shortcuts.ui.h:44
-msgctxt "shortcut window"
-msgid "Undelete mail"
-msgstr "Скасувати вилучення листа"
-
-#: ../data/ui/evolution-shortcuts.ui.h:45
-msgctxt "shortcut window"
-msgid "Calendar"
-msgstr "Календар"
-
-#: ../data/ui/evolution-shortcuts.ui.h:46
-msgctxt "shortcut window"
-msgid "Create a new appointment"
-msgstr "Створити нову зустріч"
-
-#: ../data/ui/evolution-shortcuts.ui.h:47
-msgctxt "shortcut window"
-msgid "Create a new meeting"
-msgstr "Створити новий запис зібрання"
-
-#: ../data/ui/evolution-shortcuts.ui.h:48
-msgctxt "shortcut window"
-msgid "Create a new task"
-msgstr "Створити нове завдання"
-
-#: ../data/ui/evolution-shortcuts.ui.h:49
-msgctxt "shortcut window"
-msgid "Create a new memo"
-msgstr "Створити нову примітку"
-
-#: ../data/ui/evolution-shortcuts.ui.h:50
-msgctxt "shortcut window"
-msgid "Go to today"
-msgstr "Перейти до списку на сьогодні"
-
-#: ../data/ui/evolution-shortcuts.ui.h:51
-msgctxt "shortcut window"
-msgid "Go to date"
-msgstr "Перейти до дати"
-
-#: ../data/ui/evolution-shortcuts.ui.h:52
-msgctxt "shortcut window"
-msgid "Day View"
-msgstr "Перегляд дня"
-
-#: ../data/ui/evolution-shortcuts.ui.h:53
-msgctxt "shortcut window"
-msgid "Work Week View"
-msgstr "Перегляд робочого тижня"
-
-#: ../data/ui/evolution-shortcuts.ui.h:54
-msgctxt "shortcut window"
-msgid "Week View"
-msgstr "Перегляд тижня"
-
-#: ../data/ui/evolution-shortcuts.ui.h:55
-msgctxt "shortcut window"
-msgid "Month View"
-msgstr "Перегляд місяця"
-
-#: ../data/ui/evolution-shortcuts.ui.h:56
-msgctxt "shortcut window"
-msgid "List View"
-msgstr "Перегляд списком"
-
-#: ../data/ui/evolution-shortcuts.ui.h:57
-msgctxt "shortcut window"
-msgid "Delete event"
-msgstr "Вилучити подію"
-
-#: ../data/ui/evolution-shortcuts.ui.h:58
-msgctxt "shortcut window"
-msgid "Contacts"
-msgstr "Контакти"
-
-#: ../data/ui/evolution-shortcuts.ui.h:59
-msgctxt "shortcut window"
-msgid "Create a new contact"
-msgstr "Створити новий контакт"
-
-#: ../data/ui/evolution-shortcuts.ui.h:60
-msgctxt "shortcut window"
-msgid "Create a new contact list"
-msgstr "Створити новий список контактів"
-
-#: ../data/ui/evolution-shortcuts.ui.h:61
-msgctxt "shortcut window"
-msgid "Delete contact"
-msgstr "Вилучити контакт"
-
 #: ../data/views/addressbook/galview.xml.h:1
 msgid "_Address Cards"
 msgstr "_Адресні картки"
@@ -5310,7 +5009,7 @@ msgstr "_Домашня сторінка:"
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:29
 #: ../src/addressbook/gui/widgets/e-bulk-edit-contacts.c:1070
 #: ../src/calendar/gui/e-comp-editor-event.c:1173
-#: ../src/modules/itip-formatter/itip-view.c:2759
+#: ../src/modules/itip-formatter/itip-view.c:2816
 msgid "_Calendar:"
 msgstr "_Календар:"
 
@@ -5800,7 +5499,7 @@ msgstr "Неправильний контакт."
 #: ../src/calendar/gui/e-comp-editor.c:2290
 #: ../src/calendar/gui/e-comp-editor.c:2369
 #: ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:2
-#: ../src/shell/e-shell-window-actions.c:753
+#: ../src/shell/e-shell-window-actions.c:963
 msgid "_Help"
 msgstr "_Довідка"
 
@@ -6467,7 +6166,7 @@ msgid "Certificate"
 msgstr "Сертифікат"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:207
-#: ../src/mail/em-utils.c:2079
+#: ../src/mail/em-utils.c:2082
 #, c-format
 msgid "Key ID: %s"
 msgstr "Ід. ключа: %s"
@@ -6481,19 +6180,19 @@ msgid "PGP key (%s)"
 msgstr "Ключ PGP (%s)"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:244
-#: ../src/mail/em-utils.c:2138
+#: ../src/mail/em-utils.c:2141
 #, c-format
 msgid "User ID: %s"
 msgstr "Користувач: %s"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:253
-#: ../src/mail/em-utils.c:2090
+#: ../src/mail/em-utils.c:2093
 #, c-format
 msgid "Fingerprint: %s"
 msgstr "Відбиток: %s"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:262
-#: ../src/mail/em-utils.c:2106
+#: ../src/mail/em-utils.c:2109
 #, c-format
 msgid "Created: %s"
 msgstr "Створено: %s"
@@ -7127,7 +6826,7 @@ msgstr "Вилучити цей контакт (%s)?"
 #: ../src/mail/e-mail-account-manager.c:727
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1286
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1666
-#: ../src/shell/e-shell-window-actions.c:653
+#: ../src/shell/e-shell-window-actions.c:863
 #: ../src/smime/gui/certificate-manager.c:1598 ../src/smime/gui/smime-ui.ui.h:8
 msgid "_Delete"
 msgstr "В_илучити"
@@ -8521,7 +8220,7 @@ msgstr "Опис містить"
 
 #: ../src/calendar/gui/comp-util.c:1606 ../src/calendar/gui/comp-util.c:3090
 #: ../src/calendar/importers/icalendar-importer.c:1546
-#: ../src/modules/itip-formatter/itip-view.c:3194
+#: ../src/modules/itip-formatter/itip-view.c:3251
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -8589,7 +8288,7 @@ msgstr "Скасовано"
 #: ../src/calendar/gui/e-meeting-list-view.c:196
 #: ../src/calendar/gui/e-meeting-store.c:175
 #: ../src/calendar/gui/e-meeting-store.c:198
-#: ../src/modules/itip-formatter/itip-view.c:7692
+#: ../src/modules/itip-formatter/itip-view.c:7753
 msgid "Accepted"
 msgstr "Прийнято"
 
@@ -8597,7 +8296,7 @@ msgstr "Прийнято"
 #: ../src/calendar/gui/e-meeting-list-view.c:197
 #: ../src/calendar/gui/e-meeting-store.c:177
 #: ../src/calendar/gui/e-meeting-store.c:200
-#: ../src/modules/itip-formatter/itip-view.c:7698
+#: ../src/modules/itip-formatter/itip-view.c:7759
 msgid "Declined"
 msgstr "Відхилено"
 
@@ -8613,7 +8312,7 @@ msgstr "Експериментальний"
 #: ../src/calendar/gui/e-meeting-list-view.c:199
 #: ../src/calendar/gui/e-meeting-store.c:181
 #: ../src/calendar/gui/e-meeting-store.c:204
-#: ../src/modules/itip-formatter/itip-view.c:7701
+#: ../src/modules/itip-formatter/itip-view.c:7762
 msgid "Delegated"
 msgstr "Доручено"
 
@@ -9390,8 +9089,8 @@ msgstr "Тип"
 #: ../src/calendar/gui/e-meeting-store.c:211 ../src/calendar/gui/print.c:1302
 #: ../src/calendar/gui/print.c:1319 ../src/e-util/e-charset.c:49
 #: ../src/modules/calendar/e-calendar-preferences.c:803
-#: ../src/modules/itip-formatter/itip-view.c:4306
-#: ../src/modules/itip-formatter/itip-view.c:7704
+#: ../src/modules/itip-formatter/itip-view.c:4363
+#: ../src/modules/itip-formatter/itip-view.c:7765
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:97
 msgid "Unknown"
 msgstr "Невідоме"
@@ -9436,12 +9135,12 @@ msgstr "Так"
 msgid "No"
 msgstr "Ні"
 
-#: ../src/calendar/gui/e-cal-model-calendar.c:90
+#: ../src/calendar/gui/e-cal-model-calendar.c:99
 #: ../src/calendar/gui/e-task-table.c:521
 msgid "Free"
 msgstr "Вільний"
 
-#: ../src/calendar/gui/e-cal-model-calendar.c:93
+#: ../src/calendar/gui/e-cal-model-calendar.c:102
 #: ../src/calendar/gui/e-meeting-time-sel.c:528
 #: ../src/calendar/gui/e-task-table.c:522
 msgid "Busy"
@@ -10063,7 +9762,7 @@ msgstr "_Учасники…"
 #: ../src/plugins/sender-validation/sender-validation.c:694
 #: ../src/plugins/sender-validation/sender-validation.c:805
 #: ../src/plugins/templates/templates.c:488
-#: ../src/shell/e-shell-window-actions.c:751 ../src/smime/gui/smime-ui.ui.h:11
+#: ../src/shell/e-shell-window-actions.c:961 ../src/smime/gui/smime-ui.ui.h:11
 msgid "_Edit"
 msgstr "З_міни"
 
@@ -10756,7 +10455,7 @@ msgstr "Збереження змін…"
 #: ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1741
 #: ../src/mail/em-filter-editor.c:45 ../src/mail/em-folder-properties.c:1503
 #: ../src/mail/em-subscription-editor.c:1734
-#: ../src/shell/e-shell-window-actions.c:618
+#: ../src/shell/e-shell-window-actions.c:828
 #: ../src/smime/gui/certificate-manager.c:2124
 msgid "_Close"
 msgstr "_Закрити"
@@ -10770,14 +10469,14 @@ msgstr "Закрити поточне вікно"
 #: ../src/e-util/e-html-editor-actions.c:1355 ../src/e-util/e-text.c:2031
 #: ../src/e-util/e-web-view.c:1663 ../src/mail/e-mail-browser.c:583
 #: ../src/mail/e-mail-viewer.c:1755 ../src/mail/mail.error.xml.h:147
-#: ../src/shell/e-shell-window-actions.c:639
+#: ../src/shell/e-shell-window-actions.c:849
 msgid "_Copy"
 msgstr "_Скопіювати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2264 ../src/e-util/e-focus-tracker.c:223
 #: ../src/e-util/e-focus-tracker.c:279 ../src/e-util/e-focus-tracker.c:332
 #: ../src/e-util/e-web-view.c:1665 ../src/e-util/e-web-view.c:2321
-#: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:641
+#: ../src/mail/e-mail-browser.c:585 ../src/shell/e-shell-window-actions.c:851
 msgid "Copy the selection"
 msgstr "Копіювати виділене"
 
@@ -10792,20 +10491,20 @@ msgstr "Налаштувати пункти на панелі інструмен
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2276
 #: ../src/e-util/e-html-editor-actions.c:1362 ../src/e-util/e-text.c:2017
-#: ../src/mail/e-mail-browser.c:590 ../src/shell/e-shell-window-actions.c:646
+#: ../src/mail/e-mail-browser.c:590 ../src/shell/e-shell-window-actions.c:856
 msgid "Cu_t"
 msgstr "_Вирізати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2278 ../src/e-util/e-focus-tracker.c:216
 #: ../src/e-util/e-focus-tracker.c:272 ../src/e-util/e-focus-tracker.c:326
 #: ../src/e-util/e-web-view.c:2330 ../src/mail/e-mail-browser.c:592
-#: ../src/shell/e-shell-window-actions.c:648
+#: ../src/shell/e-shell-window-actions.c:858
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
 
 #: ../src/calendar/gui/e-comp-editor.c:2285 ../src/e-util/e-focus-tracker.c:237
 #: ../src/e-util/e-focus-tracker.c:293
-#: ../src/shell/e-shell-window-actions.c:655
+#: ../src/shell/e-shell-window-actions.c:865
 msgid "Delete the selection"
 msgstr "Вилучити виділене"
 
@@ -10817,14 +10516,14 @@ msgstr "Переглянути довідку"
 #: ../src/calendar/gui/e-comp-editor.c:2297
 #: ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-text.c:2043
 #: ../src/mail/e-mail-browser.c:597 ../src/mail/e-mail-viewer.c:1762
-#: ../src/shell/e-shell-window-actions.c:674
+#: ../src/shell/e-shell-window-actions.c:884
 msgid "_Paste"
 msgstr "Вст_авити"
 
 #: ../src/calendar/gui/e-comp-editor.c:2299 ../src/e-util/e-focus-tracker.c:230
 #: ../src/e-util/e-focus-tracker.c:286 ../src/e-util/e-focus-tracker.c:338
 #: ../src/e-util/e-web-view.c:2339 ../src/mail/e-mail-browser.c:599
-#: ../src/shell/e-shell-window-actions.c:676
+#: ../src/shell/e-shell-window-actions.c:886
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
 
@@ -10845,13 +10544,13 @@ msgstr "_Перегляд…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2318
 #: ../src/e-util/e-html-editor-actions.c:1383 ../src/e-util/e-web-view.c:1687
-#: ../src/mail/e-mail-browser.c:604 ../src/shell/e-shell-window-actions.c:702
+#: ../src/mail/e-mail-browser.c:604 ../src/shell/e-shell-window-actions.c:912
 msgid "Select _All"
 msgstr "Вибрати _все"
 
 #: ../src/calendar/gui/e-comp-editor.c:2320 ../src/e-util/e-focus-tracker.c:244
 #: ../src/e-util/e-focus-tracker.c:300 ../src/mail/e-mail-browser.c:606
-#: ../src/shell/e-shell-window-actions.c:704
+#: ../src/shell/e-shell-window-actions.c:914
 msgid "Select all text"
 msgstr "Виділити весь текст"
 
@@ -10869,7 +10568,7 @@ msgstr "Класи_фікація"
 #: ../src/e-util/e-html-editor-actions.c:1427
 #: ../src/e-util/e-mail-signature-editor.c:540 ../src/mail/e-mail-browser.c:618
 #: ../src/mail/e-mail-notes.c:1161 ../src/mail/e-mail-viewer.c:1929
-#: ../src/shell/e-shell-window-actions.c:752
+#: ../src/shell/e-shell-window-actions.c:962
 msgid "_File"
 msgstr "_Файл"
 
@@ -10893,7 +10592,7 @@ msgstr "_Параметри"
 
 #: ../src/calendar/gui/e-comp-editor.c:2397
 #: ../src/e-util/e-html-editor-actions.c:1469 ../src/mail/e-mail-browser.c:620
-#: ../src/mail/e-mail-viewer.c:1931 ../src/shell/e-shell-window-actions.c:757
+#: ../src/mail/e-mail-viewer.c:1931 ../src/shell/e-shell-window-actions.c:967
 #: ../src/smime/gui/certificate-manager.c:1588 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "П_ерегляд"
@@ -13523,12 +13222,12 @@ msgid "Open New Message window"
 msgstr "Відкрити вікно створення нового повідомлення"
 
 #: ../src/composer/e-composer-actions.c:392
-#: ../src/shell/e-shell-window-actions.c:688
+#: ../src/shell/e-shell-window-actions.c:898
 msgid "_Preferences"
 msgstr "_Параметри"
 
 #: ../src/composer/e-composer-actions.c:394
-#: ../src/shell/e-shell-window-actions.c:690
+#: ../src/shell/e-shell-window-actions.c:900
 msgid "Configure Evolution"
 msgstr "Налаштувати Evolution"
 
@@ -14773,7 +14472,7 @@ msgstr "%s"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% виконано)"
 
-#: ../src/e-util/e-activity-proxy.c:339
+#: ../src/e-util/e-activity-proxy.c:385
 #: ../src/e-util/e-autoar-gtk-chooser.c:195
 #: ../src/e-util/e-ui-customize-dialog.c:982
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1828
@@ -14820,7 +14519,7 @@ msgid "Attached message"
 msgstr "Долучене повідомлення"
 
 #: ../src/e-util/e-attachment.c:2383 ../src/e-util/e-attachment.c:3321
-#: ../src/mail/em-utils.c:2202
+#: ../src/mail/em-utils.c:2205
 msgid "Operation was cancelled"
 msgstr "Операцію було відмінено"
 
@@ -19415,9 +19114,9 @@ msgstr "Сервер SMTP"
 msgid "(No Subject)"
 msgstr "(Немає теми)"
 
-#: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:613
-#: ../src/shell/e-shell-window-actions.c:620
-#: ../src/shell/e-shell-window-actions.c:627
+#: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:823
+#: ../src/shell/e-shell-window-actions.c:830
+#: ../src/shell/e-shell-window-actions.c:837
 msgid "Close this window"
 msgstr "Закрити це вікно"
 
@@ -19438,7 +19137,7 @@ msgstr "_Пропустити пошук"
 msgid "Evolution Account Assistant"
 msgstr "Помічник з облікових записів Evolution"
 
-#: ../src/mail/e-mail-config-assistant.c:1009
+#: ../src/mail/e-mail-config-assistant.c:1010
 msgid "_Revise Details"
 msgstr "_Змінити подробиці"
 
@@ -20354,12 +20053,10 @@ msgid "Add a note for the selected message"
 msgstr "Додати примітку до вибраного листа"
 
 #: ../src/mail/e-mail-reader.c:3146
-#| msgid "Compose Message"
 msgid "Copy Message _Link"
 msgstr "Копіювати п_осилання на повідомлення"
 
 #: ../src/mail/e-mail-reader.c:3148
-#| msgid "Choose reply options for the selected message"
 msgid "Copy mid: link for the selected message"
 msgstr "Копіювання середньою: посилання на позначене повідомлення"
 
@@ -21718,12 +21415,12 @@ msgstr "Перенесення теки «%s» (%d/%d)"
 msgid "Copying folder “%s” (%d/%d)"
 msgstr "Копіювання теки «%s» (%d/%d)"
 
-#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2396
+#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2399
 #: ../src/mail/mail.error.xml.h:153
 msgid "_Move"
 msgstr "П_еремістити"
 
-#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2396
+#: ../src/mail/em-folder-utils.c:568 ../src/mail/em-utils.c:2399
 msgid "C_opy"
 msgstr "_Копіювати"
 
@@ -21858,61 +21555,61 @@ msgstr[3] "Відкрити %d повідомлення одночасно?"
 msgid "Message Filters"
 msgstr "Фільтри повідомлень"
 
-#: ../src/mail/em-utils.c:987
+#: ../src/mail/em-utils.c:990
 #, c-format
 msgid "Messages from %s"
 msgstr "Повідомлення від %s"
 
 #. Translators: This is a reply attribution in the message reply subject. Both 'Re'-s in the 'reply-attribution' translation context should translate into the same string.
-#: ../src/mail/em-utils.c:1542
+#: ../src/mail/em-utils.c:1545
 msgctxt "reply-attribution"
 msgid "Re"
 msgstr "На"
 
 #. Translators: This is a reply attribution separator in the message reply subject. This should match the ':' in 'Re: %s' in the 'reply-attribution' translation context.
-#: ../src/mail/em-utils.c:1545
+#: ../src/mail/em-utils.c:1548
 msgctxt "reply-attribution"
 msgid ":"
 msgstr ":"
 
-#: ../src/mail/em-utils.c:1847
+#: ../src/mail/em-utils.c:1850
 msgid "Deleting old messages"
 msgstr "Вилучення старих листів"
 
-#: ../src/mail/em-utils.c:2036
+#: ../src/mail/em-utils.c:2039
 msgctxt "trust"
 msgid "_Unknown"
 msgstr "_Невідома"
 
-#: ../src/mail/em-utils.c:2037
+#: ../src/mail/em-utils.c:2040
 msgctxt "trust"
 msgid "_Never trust"
 msgstr "Ні_коли не довіряти"
 
-#: ../src/mail/em-utils.c:2038
+#: ../src/mail/em-utils.c:2041
 msgctxt "trust"
 msgid "Trust _marginally"
 msgstr "Довіряти _частково"
 
-#: ../src/mail/em-utils.c:2039
+#: ../src/mail/em-utils.c:2042
 msgctxt "trust"
 msgid "Trust _fully"
 msgstr "Довіряти _повністю"
 
-#: ../src/mail/em-utils.c:2040
+#: ../src/mail/em-utils.c:2043
 msgctxt "trust"
 msgid "Trust _ultimately"
 msgstr "Довіряти _беззастережно"
 
-#: ../src/mail/em-utils.c:2159
+#: ../src/mail/em-utils.c:2162
 msgid "Set trust level for the key:"
 msgstr "Встановити такий рівень довіри до ключа:"
 
-#: ../src/mail/em-utils.c:2392 ../src/mail/filtertypes.xml.in.h:72
+#: ../src/mail/em-utils.c:2395 ../src/mail/filtertypes.xml.in.h:72
 msgid "Move to Folder"
 msgstr "Перемістити в теку"
 
-#: ../src/mail/em-utils.c:2392 ../src/mail/filtertypes.xml.in.h:73
+#: ../src/mail/em-utils.c:2395 ../src/mail/filtertypes.xml.in.h:73
 msgid "Copy to Folder"
 msgstr "Скопіювати у теку"
 
@@ -27513,7 +27210,7 @@ msgstr "І_мпортувати як подію"
 
 #: ../src/modules/itip-formatter/itip-view.c:2295
 #: ../src/modules/itip-formatter/itip-view.c:2528
-#: ../src/modules/itip-formatter/itip-view.c:8028
+#: ../src/modules/itip-formatter/itip-view.c:8089
 msgid "Due date:"
 msgstr "Дата завершення:"
 
@@ -27552,39 +27249,43 @@ msgstr "З_берегти нагадування"
 msgid "_Inherit reminder"
 msgstr "_Успадковувати нагадування"
 
-#: ../src/modules/itip-formatter/itip-view.c:2762
+#: ../src/modules/itip-formatter/itip-view.c:2726
+msgid "The attendee was guessed, because the organizer did not provide any."
+msgstr "Учасника вгадано, оскільки організатор не надав списку учасників."
+
+#: ../src/modules/itip-formatter/itip-view.c:2819
 msgid "_Tasks:"
 msgstr "_Завдання"
 
-#: ../src/modules/itip-formatter/itip-view.c:2765
+#: ../src/modules/itip-formatter/itip-view.c:2822
 msgid "_Memos:"
 msgstr "_Примітки:"
 
-#: ../src/modules/itip-formatter/itip-view.c:3854
+#: ../src/modules/itip-formatter/itip-view.c:3911
 msgid "Sa_ve"
 msgstr "З_берегти"
 
-#: ../src/modules/itip-formatter/itip-view.c:4382
-#: ../src/modules/itip-formatter/itip-view.c:6260
+#: ../src/modules/itip-formatter/itip-view.c:4439
+#: ../src/modules/itip-formatter/itip-view.c:6321
 msgid "Attendee status updated"
 msgstr "Стан учасника оновлено!"
 
-#: ../src/modules/itip-formatter/itip-view.c:4714
+#: ../src/modules/itip-formatter/itip-view.c:4771
 #, c-format
 msgid "An appointment “%s” in the calendar “%s” conflicts with this meeting"
 msgstr "Зустріч «%s» в календарі «%s» конфліктує з цією нарадою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4721
+#: ../src/modules/itip-formatter/itip-view.c:4778
 #, c-format
 msgid "A task “%s” in the task list “%s” conflicts with this task"
 msgstr "Завдання «%s» у списку завдань «%s» конфліктує із цим завданням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4728
+#: ../src/modules/itip-formatter/itip-view.c:4785
 #, c-format
 msgid "A memo “%s” in the memo list “%s” conflicts with this memo"
 msgstr "Примітка «%s» у списку приміток «%s» конфліктує із цією приміткою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4741
+#: ../src/modules/itip-formatter/itip-view.c:4798
 #, c-format
 msgid ""
 "The calendar “%s” contains an appointment which conflicts with this meeting"
@@ -27597,7 +27298,7 @@ msgstr[2] ""
 "Календар «%s» містить %d зустрічей, які конфліктують з цим зібранням"
 msgstr[3] "Календар «%s» містить зустріч, яка конфліктує з цим зібранням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4750
+#: ../src/modules/itip-formatter/itip-view.c:4807
 #, c-format
 msgid "The task list “%s” contains a task which conflicts with this task"
 msgid_plural ""
@@ -27611,7 +27312,7 @@ msgstr[2] ""
 msgstr[3] ""
 "У списку завдань «%s» міститься один запис, який конфліктує із цим завданням"
 
-#: ../src/modules/itip-formatter/itip-view.c:4759
+#: ../src/modules/itip-formatter/itip-view.c:4816
 #, c-format
 msgid "The memo list “%s” contains a memo which conflicts with this memo"
 msgid_plural ""
@@ -27629,264 +27330,264 @@ msgstr[3] ""
 "У списку приміток «%s» міститься %d примітка, які конфліктують із цією "
 "приміткою"
 
-#: ../src/modules/itip-formatter/itip-view.c:4801
+#: ../src/modules/itip-formatter/itip-view.c:4858
 #, c-format
 msgid "Found the appointment in the calendar “%s” as accepted"
 msgstr "Знайдено зустріч в календарі «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:4807
+#: ../src/modules/itip-formatter/itip-view.c:4864
 #, c-format
 msgid "Found the appointment in the calendar “%s” as declined"
 msgstr "Знайдено зустріч в календарі «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:4812
+#: ../src/modules/itip-formatter/itip-view.c:4869
 #, c-format
 msgid "Found the appointment in the calendar “%s” as tentatively accepted"
 msgstr "Знайдено зустріч в календарі «%s» як умовно прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:4817
+#: ../src/modules/itip-formatter/itip-view.c:4874
 #, c-format
 msgid "Found the appointment in the calendar “%s” as delegated"
 msgstr "Знайдено зустріч в календарі «%s» як делеговане"
 
-#: ../src/modules/itip-formatter/itip-view.c:4822
+#: ../src/modules/itip-formatter/itip-view.c:4879
 #, c-format
 msgid "Found the appointment in the calendar “%s”"
 msgstr "Знайдено зустріч в календарі «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4829
+#: ../src/modules/itip-formatter/itip-view.c:4886
 #, c-format
 msgid "Found the task in the task list “%s”"
 msgstr "Знайдено завдання у списку завдань «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4834
+#: ../src/modules/itip-formatter/itip-view.c:4891
 #, c-format
 msgid "Found the memo in the memo list “%s”"
 msgstr "Знайдено примітку у списку приміток «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:4845
+#: ../src/modules/itip-formatter/itip-view.c:4902
 msgid "This meeting invitation is obsolete. It had been updated."
 msgstr "Це запрошення на нараду є застарілими. Вона була оновлена."
 
-#: ../src/modules/itip-formatter/itip-view.c:4967
+#: ../src/modules/itip-formatter/itip-view.c:5024
 msgid "Unable to find any calendars"
 msgstr "Не вдалося знайти жоден календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:4975
+#: ../src/modules/itip-formatter/itip-view.c:5032
 msgid "Unable to find this meeting in any calendar"
 msgstr "Не вдалося знайти цю зустріч у жодному календарі"
 
-#: ../src/modules/itip-formatter/itip-view.c:4980
+#: ../src/modules/itip-formatter/itip-view.c:5037
 msgid "Unable to find this task in any task list"
 msgstr "Не вдалося знайти це завдання у жодному списку завдань"
 
-#: ../src/modules/itip-formatter/itip-view.c:4985
+#: ../src/modules/itip-formatter/itip-view.c:5042
 msgid "Unable to find this memo in any memo list"
 msgstr "Не вдалося знайти цю примітку у жодному списку приміток"
 
-#: ../src/modules/itip-formatter/itip-view.c:5283
+#: ../src/modules/itip-formatter/itip-view.c:5340
 msgid "Searching for an existing version of this appointment"
 msgstr "Пошук наявної версії цієї зустрічі"
 
-#: ../src/modules/itip-formatter/itip-view.c:5284
+#: ../src/modules/itip-formatter/itip-view.c:5341
 msgid "Cannot search for existing event, no calendar selected for search"
 msgstr "Пошук наявної події неможливий, не вибрано календаря для пошуку"
 
-#: ../src/modules/itip-formatter/itip-view.c:5288
+#: ../src/modules/itip-formatter/itip-view.c:5345
 msgid "Searching for an existing version of this task"
 msgstr "Шукаємо наявну версію цього завдання"
 
-#: ../src/modules/itip-formatter/itip-view.c:5289
+#: ../src/modules/itip-formatter/itip-view.c:5346
 msgid "Cannot search for existing task, no task list found"
 msgstr "Пошук наявного завдання неможливий, не знайдено списку подій"
 
-#: ../src/modules/itip-formatter/itip-view.c:5293
+#: ../src/modules/itip-formatter/itip-view.c:5350
 msgid "Searching for an existing version of this memo"
 msgstr "Шукаємо наявну версію цієї примітки"
 
-#: ../src/modules/itip-formatter/itip-view.c:5294
+#: ../src/modules/itip-formatter/itip-view.c:5351
 msgid "Cannot search for existing memo, no memo list found"
 msgstr "Пошук наявної примітки неможливий, не знайдено списку приміток"
 
-#: ../src/modules/itip-formatter/itip-view.c:5692
+#: ../src/modules/itip-formatter/itip-view.c:5753
 #, c-format
 msgid "Unable to send item to calendar “%s”. %s"
 msgstr "Не вдалося надіслати календар «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5700
+#: ../src/modules/itip-formatter/itip-view.c:5761
 #, c-format
 msgid "Unable to send item to task list “%s”. %s"
 msgstr "Не вдалося надіслати запис до списку завдань «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5708
+#: ../src/modules/itip-formatter/itip-view.c:5769
 #, c-format
 msgid "Unable to send item to memo list “%s”. %s"
 msgstr "Не вдалося надіслати список приміток «%s».  %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:5729
+#: ../src/modules/itip-formatter/itip-view.c:5790
 #, c-format
 msgid "Sent to calendar “%s” as accepted"
 msgstr "Надіслано до календаря «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5734
+#: ../src/modules/itip-formatter/itip-view.c:5795
 #, c-format
 msgid "Sent to task list “%s” as accepted"
 msgstr "Надіслано до списку завдань «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5739
+#: ../src/modules/itip-formatter/itip-view.c:5800
 #, c-format
 msgid "Sent to memo list “%s” as accepted"
 msgstr "Надіслано до списку приміток «%s» як прийняте"
 
-#: ../src/modules/itip-formatter/itip-view.c:5749
+#: ../src/modules/itip-formatter/itip-view.c:5810
 #, c-format
 msgid "Sent to calendar “%s” as tentative"
 msgstr "Надіслано до календаря «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5754
+#: ../src/modules/itip-formatter/itip-view.c:5815
 #, c-format
 msgid "Sent to task list “%s” as tentative"
 msgstr "Надіслано до списку завдань «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5759
+#: ../src/modules/itip-formatter/itip-view.c:5820
 #, c-format
 msgid "Sent to memo list “%s” as tentative"
 msgstr "Надіслано до списку приміток «%s» як можливе"
 
-#: ../src/modules/itip-formatter/itip-view.c:5769
+#: ../src/modules/itip-formatter/itip-view.c:5830
 #, c-format
 msgid "Sent to calendar “%s” as declined"
 msgstr "Надіслано до календаря «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5774
+#: ../src/modules/itip-formatter/itip-view.c:5835
 #, c-format
 msgid "Sent to task list “%s” as declined"
 msgstr "Надіслано до списку завдань «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5779
+#: ../src/modules/itip-formatter/itip-view.c:5840
 #, c-format
 msgid "Sent to memo list “%s” as declined"
 msgstr "Надіслано до списку приміток «%s» як відхилене"
 
-#: ../src/modules/itip-formatter/itip-view.c:5789
+#: ../src/modules/itip-formatter/itip-view.c:5850
 #, c-format
 msgid "Sent to calendar “%s” as cancelled"
 msgstr "Надіслано до календаря «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5794
+#: ../src/modules/itip-formatter/itip-view.c:5855
 #, c-format
 msgid "Sent to task list “%s” as cancelled"
 msgstr "Надіслано до списку завдань «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5799
+#: ../src/modules/itip-formatter/itip-view.c:5860
 #, c-format
 msgid "Sent to memo list “%s” as cancelled"
 msgstr "Надіслано до списку приміток «%s» як скасоване"
 
-#: ../src/modules/itip-formatter/itip-view.c:5810
+#: ../src/modules/itip-formatter/itip-view.c:5871
 #, c-format
 msgid "Imported to calendar “%s”"
 msgstr "Імпортовано до календаря «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5815
+#: ../src/modules/itip-formatter/itip-view.c:5876
 #, c-format
 msgid "Imported to task list “%s”"
 msgstr "Імпортовано до списку завдань «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5820
+#: ../src/modules/itip-formatter/itip-view.c:5881
 #, c-format
 msgid "Imported to memo list “%s”"
 msgstr "Імпортовано до списку приміток «%s»"
 
-#: ../src/modules/itip-formatter/itip-view.c:5839
+#: ../src/modules/itip-formatter/itip-view.c:5900
 msgid "Saving changes to the calendar. Please wait…"
 msgstr "Збереження змін до календаря. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5842
+#: ../src/modules/itip-formatter/itip-view.c:5903
 msgid "Saving changes to the task list. Please wait…"
 msgstr "Збереження змін до списку завдань. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5845
+#: ../src/modules/itip-formatter/itip-view.c:5906
 msgid "Saving changes to the memo list. Please wait…"
 msgstr "Збереження змін до списку приміток. Заждіть…"
 
-#: ../src/modules/itip-formatter/itip-view.c:5984
+#: ../src/modules/itip-formatter/itip-view.c:6045
 msgid "Unable to parse item"
 msgstr "Не вдалося розібрати елемент"
 
-#: ../src/modules/itip-formatter/itip-view.c:6184
+#: ../src/modules/itip-formatter/itip-view.c:6245
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Організатор вилучив уповноваженого %s "
 
-#: ../src/modules/itip-formatter/itip-view.c:6201
+#: ../src/modules/itip-formatter/itip-view.c:6262
 msgid "Sent a cancellation notice to the delegate"
 msgstr "Надіслано уповноваженому сповіщення про скасування"
 
-#: ../src/modules/itip-formatter/itip-view.c:6205
+#: ../src/modules/itip-formatter/itip-view.c:6266
 msgid "Could not send the cancellation notice to the delegate"
 msgstr "Не вдалося надіслати сповіщення про скасування"
 
-#: ../src/modules/itip-formatter/itip-view.c:6251
+#: ../src/modules/itip-formatter/itip-view.c:6312
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Не вдалося оновити учасника. %s"
 
-#: ../src/modules/itip-formatter/itip-view.c:6285
+#: ../src/modules/itip-formatter/itip-view.c:6346
 msgid "The meeting is invalid and cannot be updated"
 msgstr "Засідання неправильне і його неможливо оновити"
 
-#: ../src/modules/itip-formatter/itip-view.c:6370
+#: ../src/modules/itip-formatter/itip-view.c:6431
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
 
-#: ../src/modules/itip-formatter/itip-view.c:6446
-#: ../src/modules/itip-formatter/itip-view.c:6484
+#: ../src/modules/itip-formatter/itip-view.c:6507
+#: ../src/modules/itip-formatter/itip-view.c:6545
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Не вдалося оновити стан учасника, оскільки відповідного запису вже не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6545
+#: ../src/modules/itip-formatter/itip-view.c:6606
 msgid "Meeting information sent"
 msgstr "Інформацію про зібрання надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6550
+#: ../src/modules/itip-formatter/itip-view.c:6611
 msgid "Task information sent"
 msgstr "Інформацію про завдання надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6555
+#: ../src/modules/itip-formatter/itip-view.c:6616
 msgid "Memo information sent"
 msgstr "Інформацію про примітку надіслано"
 
-#: ../src/modules/itip-formatter/itip-view.c:6566
+#: ../src/modules/itip-formatter/itip-view.c:6627
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "Не вдалося надіслати інформацію про зустріч, зустріч не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6571
+#: ../src/modules/itip-formatter/itip-view.c:6632
 msgid "Unable to send task information, the task does not exist"
 msgstr "Не вдалося надіслати інформацію про завдання, завдання не існує"
 
-#: ../src/modules/itip-formatter/itip-view.c:6576
+#: ../src/modules/itip-formatter/itip-view.c:6637
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "Не вдалося надіслати інформацію про примітку, примітка не існує"
 
 #. Translators: This is a default filename for a calendar.
-#: ../src/modules/itip-formatter/itip-view.c:6621
+#: ../src/modules/itip-formatter/itip-view.c:6682
 msgid "calendar.ics"
 msgstr "календар.ics"
 
-#: ../src/modules/itip-formatter/itip-view.c:6626
+#: ../src/modules/itip-formatter/itip-view.c:6687
 msgid "Save Calendar"
 msgstr "Зберегти календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:6674
-#: ../src/modules/itip-formatter/itip-view.c:6687
+#: ../src/modules/itip-formatter/itip-view.c:6735
+#: ../src/modules/itip-formatter/itip-view.c:6748
 msgid "The calendar attached is not valid"
 msgstr "Долучений календар недійсний"
 
-#: ../src/modules/itip-formatter/itip-view.c:6675
-#: ../src/modules/itip-formatter/itip-view.c:6688
+#: ../src/modules/itip-formatter/itip-view.c:6736
+#: ../src/modules/itip-formatter/itip-view.c:6749
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -27894,15 +27595,15 @@ msgstr ""
 "Це повідомлення заявляє, що містить календар, але календар не є дійсним "
 "iCalendar."
 
-#: ../src/modules/itip-formatter/itip-view.c:6770
-#: ../src/modules/itip-formatter/itip-view.c:6855
-#: ../src/modules/itip-formatter/itip-view.c:6983
+#: ../src/modules/itip-formatter/itip-view.c:6831
+#: ../src/modules/itip-formatter/itip-view.c:6916
+#: ../src/modules/itip-formatter/itip-view.c:7044
 msgid "The item in the calendar is not valid"
 msgstr "Елемент календаря - недійсний"
 
-#: ../src/modules/itip-formatter/itip-view.c:6771
-#: ../src/modules/itip-formatter/itip-view.c:6856
-#: ../src/modules/itip-formatter/itip-view.c:6984
+#: ../src/modules/itip-formatter/itip-view.c:6832
+#: ../src/modules/itip-formatter/itip-view.c:6917
+#: ../src/modules/itip-formatter/itip-view.c:7045
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -27910,23 +27611,23 @@ msgstr ""
 "Це повідомлення містить календар, але календар не містить подій, задач або "
 "відомостей про зайнятість."
 
-#: ../src/modules/itip-formatter/itip-view.c:6865
+#: ../src/modules/itip-formatter/itip-view.c:6926
 msgid "The calendar attached contains multiple items"
 msgstr "Долучений календар містить декілька об'єктів"
 
-#: ../src/modules/itip-formatter/itip-view.c:6866
+#: ../src/modules/itip-formatter/itip-view.c:6927
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
-#: ../src/modules/itip-formatter/itip-view.c:7643
+#: ../src/modules/itip-formatter/itip-view.c:7704
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Немає"
 
-#: ../src/modules/itip-formatter/itip-view.c:7695
+#: ../src/modules/itip-formatter/itip-view.c:7756
 msgid "Tentatively Accepted"
 msgstr "Експериментально прийнято"
 
@@ -31026,13 +30727,14 @@ msgstr "Спеціальний вигляд"
 msgid "Current view is a customized view"
 msgstr "Поточний огляд налаштований користувачем"
 
-#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:744
+#: ../src/shell/e-shell-view.c:1147 ../src/shell/e-shell-window-actions.c:954
 msgid "_New"
 msgstr "_Створити"
 
 #: ../src/shell/e-shell-view.c:1154
-msgid "Customi_ze…"
-msgstr "_Налаштувати…"
+#| msgid "Customize User Interface"
+msgid "Customi_ze User Interface…"
+msgstr "На_лаштувати інтерфейс користувача…"
 
 #: ../src/shell/e-shell-view.c:1156
 msgid "Customize user interface, like toolbar content and shortcuts"
@@ -31108,155 +30810,482 @@ msgstr "Виберіть перегляд: %s"
 msgid "Delete view: %s"
 msgstr "Вилучити перегляд: %s"
 
-#: ../src/shell/e-shell-window-actions.c:241
+#: ../src/shell/e-shell-window-actions.c:129
+msgctxt "shortcut window"
+msgid "General"
+msgstr "Загальні"
+
+#: ../src/shell/e-shell-window-actions.c:130
+msgctxt "shortcut window"
+msgid "Select Mail component"
+msgstr "Вибрати компонент «Пошта»"
+
+#: ../src/shell/e-shell-window-actions.c:131
+msgctxt "shortcut window"
+msgid "Select Contacts component"
+msgstr "Вибрати компонент «Контакти»"
+
+#: ../src/shell/e-shell-window-actions.c:132
+msgctxt "shortcut window"
+msgid "Select Calendar component"
+msgstr "Вибрати компонент «Календар»"
+
+#: ../src/shell/e-shell-window-actions.c:133
+msgctxt "shortcut window"
+msgid "Select Tasks component"
+msgstr "Вибрати компонент «Завдання»"
+
+#: ../src/shell/e-shell-window-actions.c:134
+msgctxt "shortcut window"
+msgid "Select Memos component"
+msgstr "Вибрати компонент «Примітки»"
+
+#: ../src/shell/e-shell-window-actions.c:135
+msgctxt "shortcut window"
+msgid "Create a new item in current component"
+msgstr "Створити запис у поточному компоненті"
+
+#: ../src/shell/e-shell-window-actions.c:136
+msgctxt "shortcut window"
+msgid "Cycle focus between panes"
+msgstr "Циклічний перехід фокусування між панелями"
+
+#: ../src/shell/e-shell-window-actions.c:137
+msgctxt "shortcut window"
+msgid "Open the Evolution user guide"
+msgstr "Відкрити підручник користувача Evolution"
+
+#: ../src/shell/e-shell-window-actions.c:138
+#| msgctxt "shortcut window"
+#| msgid "Keyboard Shortcuts"
+msgctxt "shortcut window"
+msgid "Keyboard shortcuts"
+msgstr "Клавіатурні скорочення"
+
+#: ../src/shell/e-shell-window-actions.c:139
+msgctxt "shortcut window"
+msgid "Focus search bar"
+msgstr "Фокусувати панель пошуку"
+
+#: ../src/shell/e-shell-window-actions.c:140
+msgctxt "shortcut window"
+msgid "Clear search bar"
+msgstr "Очистити панель пошуку"
+
+#: ../src/shell/e-shell-window-actions.c:141
+msgctxt "shortcut window"
+msgid "Preferences"
+msgstr "Налаштування"
+
+#: ../src/shell/e-shell-window-actions.c:142
+msgctxt "shortcut window"
+msgid "Open new window"
+msgstr "Відкрити нове вікно"
+
+#: ../src/shell/e-shell-window-actions.c:143
+msgctxt "shortcut window"
+msgid "Close window"
+msgstr "Закрити вікно"
+
+#: ../src/shell/e-shell-window-actions.c:144
+msgctxt "shortcut window"
+msgid "Quit Evolution"
+msgstr "Вийти з Evolution"
+
+#: ../src/shell/e-shell-window-actions.c:146
+msgctxt "shortcut window"
+msgid "Mail"
+msgstr "Пошта"
+
+#: ../src/shell/e-shell-window-actions.c:147
+msgctxt "shortcut window"
+msgid "Create a new message"
+msgstr "Створити нове повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:148
+msgctxt "shortcut window"
+msgid "Send and receive messages"
+msgstr "Надіслати і отримати повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:149
+msgctxt "shortcut window"
+msgid "Apply filters to selection"
+msgstr "Застосувати фільтри до вибраного"
+
+#: ../src/shell/e-shell-window-actions.c:150
+msgctxt "shortcut window"
+msgid "Open selection in new window"
+msgstr "Відкрити вибране у новому вікні"
+
+#: ../src/shell/e-shell-window-actions.c:151
+msgctxt "shortcut window"
+msgid "Go to folder"
+msgstr "Перейти до теки"
+
+#: ../src/shell/e-shell-window-actions.c:152
+#| msgctxt "shortcut window"
+#| msgid "Move mails or contacts to folder"
+msgctxt "shortcut window"
+msgid "Move mails to folder"
+msgstr "Перемістити пошту до теки"
+
+#: ../src/shell/e-shell-window-actions.c:153
+#| msgctxt "shortcut window"
+#| msgid "Copy mails or contacts to folder"
+msgctxt "shortcut window"
+msgid "Copy mails to folder"
+msgstr "Копіювати пошту до теки"
+
+#: ../src/shell/e-shell-window-actions.c:154
+msgctxt "shortcut window"
+msgid "Jump to the next unread message"
+msgstr "Перейти до наступного непрочитаного повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:155
+msgctxt "shortcut window"
+msgid "Jump to the previous unread message"
+msgstr "Перейти до попереднього непрочитаного повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:156
+msgctxt "shortcut window"
+msgid "Scroll up"
+msgstr "Гортати вгору"
+
+#: ../src/shell/e-shell-window-actions.c:157
+msgctxt "shortcut window"
+msgid "Scroll down"
+msgstr "Гортати вниз"
+
+#: ../src/shell/e-shell-window-actions.c:159
+msgctxt "shortcut window"
+msgid "Mail Message"
+msgstr "Надіслати повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:160
+msgctxt "shortcut window"
+msgid "Mark selected messages as read"
+msgstr "Позначити вибрані повідомлення як прочитані"
+
+#: ../src/shell/e-shell-window-actions.c:161
+msgctxt "shortcut window"
+msgid "Mark selected messages as unread"
+msgstr "Позначити вибрані повідомлення як непрочитані"
+
+#: ../src/shell/e-shell-window-actions.c:162
+msgctxt "shortcut window"
+msgid "Mark selected messages as junk"
+msgstr "Позначити вибрані повідомлення як спам"
+
+#: ../src/shell/e-shell-window-actions.c:163
+msgctxt "shortcut window"
+msgid "Mark selected messages as not junk"
+msgstr "Позначити вибрані повідомлення як неспам"
+
+#: ../src/shell/e-shell-window-actions.c:164
+msgctxt "shortcut window"
+msgid "Flag selected messages for follow-up"
+msgstr "Позначити «до виконання» вибрані повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:165
+msgctxt "shortcut window"
+msgid "Forward selected messages"
+msgstr "Переслати вибрані повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:166
+msgctxt "shortcut window"
+msgid "Reply to sender"
+msgstr "Відповісти відправнику"
+
+#: ../src/shell/e-shell-window-actions.c:167
+msgctxt "shortcut window"
+msgid "Reply to list"
+msgstr "Відповісти до списку листування"
+
+#: ../src/shell/e-shell-window-actions.c:168
+msgctxt "shortcut window"
+msgid "Reply to all recipients"
+msgstr "Відповісти всім одержувачам"
+
+#: ../src/shell/e-shell-window-actions.c:169
+msgctxt "shortcut window"
+msgid "Alternative reply"
+msgstr "Альтернативна відповідь"
+
+#: ../src/shell/e-shell-window-actions.c:170
+msgctxt "shortcut window"
+msgid "Archive selected messages"
+msgstr "Архівувати позначені повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:171
+#| msgid "_Delete messages"
+msgctxt "shortcut window"
+msgid "Delete message"
+msgstr "Вилучити повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:172
+#| msgid "_Undelete Message"
+msgctxt "shortcut window"
+msgid "Undelete message"
+msgstr "Відновити повідомлення"
+
+#: ../src/shell/e-shell-window-actions.c:174
+msgctxt "shortcut window"
+msgid "Calendar"
+msgstr "Календар"
+
+#: ../src/shell/e-shell-window-actions.c:175
+msgctxt "shortcut window"
+msgid "Create a new appointment"
+msgstr "Створити нову зустріч"
+
+#: ../src/shell/e-shell-window-actions.c:176
+msgctxt "shortcut window"
+msgid "Create a new meeting"
+msgstr "Створити новий запис зібрання"
+
+#: ../src/shell/e-shell-window-actions.c:177
+msgctxt "shortcut window"
+msgid "Create a new task"
+msgstr "Створити нове завдання"
+
+#: ../src/shell/e-shell-window-actions.c:178
+msgctxt "shortcut window"
+msgid "Create a new memo"
+msgstr "Створити нову примітку"
+
+#: ../src/shell/e-shell-window-actions.c:179
+msgctxt "shortcut window"
+msgid "Go to today"
+msgstr "Перейти до списку на сьогодні"
+
+#: ../src/shell/e-shell-window-actions.c:180
+msgctxt "shortcut window"
+msgid "Go to date"
+msgstr "Перейти до дати"
+
+#: ../src/shell/e-shell-window-actions.c:181
+msgctxt "shortcut window"
+msgid "Day View"
+msgstr "Перегляд дня"
+
+#: ../src/shell/e-shell-window-actions.c:182
+msgctxt "shortcut window"
+msgid "Work Week View"
+msgstr "Перегляд робочого тижня"
+
+#: ../src/shell/e-shell-window-actions.c:183
+msgctxt "shortcut window"
+msgid "Week View"
+msgstr "Перегляд тижня"
+
+#: ../src/shell/e-shell-window-actions.c:184
+msgctxt "shortcut window"
+msgid "Month View"
+msgstr "Перегляд місяця"
+
+#: ../src/shell/e-shell-window-actions.c:185
+#| msgid "_Year View"
+msgctxt "shortcut window"
+msgid "Year View"
+msgstr "Перегляд року"
+
+#: ../src/shell/e-shell-window-actions.c:186
+msgctxt "shortcut window"
+msgid "List View"
+msgstr "Перегляд списком"
+
+#: ../src/shell/e-shell-window-actions.c:187
+msgctxt "shortcut window"
+msgid "Delete event"
+msgstr "Вилучити подію"
+
+#: ../src/shell/e-shell-window-actions.c:189
+msgctxt "shortcut window"
+msgid "Contacts"
+msgstr "Контакти"
+
+#: ../src/shell/e-shell-window-actions.c:190
+msgctxt "shortcut window"
+msgid "Create a new contact"
+msgstr "Створити новий контакт"
+
+#: ../src/shell/e-shell-window-actions.c:191
+msgctxt "shortcut window"
+msgid "Create a new contact list"
+msgstr "Створити новий список контактів"
+
+#: ../src/shell/e-shell-window-actions.c:192
+#| msgid "Move selected contacts to another address book"
+msgctxt "shortcut window"
+msgid "Move contacts to address book"
+msgstr "Перемістити контакти до адресної книги"
+
+#: ../src/shell/e-shell-window-actions.c:193
+#| msgid "Copy selected contacts to another address book"
+msgctxt "shortcut window"
+msgid "Copy contacts to address book"
+msgstr "Копіювати контакти до адресної книги"
+
+#: ../src/shell/e-shell-window-actions.c:194
+msgctxt "shortcut window"
+msgid "Delete contact"
+msgstr "Вилучити контакт"
+
+#: ../src/shell/e-shell-window-actions.c:234
+#| msgctxt "shortcut window"
+#| msgid "Keyboard Shortcuts"
+msgid "Keyboard Shortcuts"
+msgstr "Клавіатурні скорочення"
+
+#: ../src/shell/e-shell-window-actions.c:451
 msgid "Categories Editor"
 msgstr "Редактор категорій"
 
-#: ../src/shell/e-shell-window-actions.c:368
+#: ../src/shell/e-shell-window-actions.c:578
 msgid "Bug Buddy is not installed."
 msgstr "Bug Buddy не встановлено."
 
-#: ../src/shell/e-shell-window-actions.c:369
+#: ../src/shell/e-shell-window-actions.c:579
 msgid "Bug Buddy could not be run."
 msgstr "Не вдалося запустити Bug Buddy."
 
-#: ../src/shell/e-shell-window-actions.c:587
+#: ../src/shell/e-shell-window-actions.c:797
 msgid "Collect_ion Account"
 msgstr "Обліковий запис-з_бірка"
 
-#: ../src/shell/e-shell-window-actions.c:589
+#: ../src/shell/e-shell-window-actions.c:799
 msgid "Create a new collection account"
 msgstr "Створити обліковий запис-збірку"
 
-#: ../src/shell/e-shell-window-actions.c:597
+#: ../src/shell/e-shell-window-actions.c:807
 msgid "_About"
 msgstr "_Про програму"
 
-#: ../src/shell/e-shell-window-actions.c:599
+#: ../src/shell/e-shell-window-actions.c:809
 msgid "Show information about Evolution"
 msgstr "Показати інформацію про Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:604
+#: ../src/shell/e-shell-window-actions.c:814
 msgid "_Accounts"
 msgstr "_Облікові записи"
 
-#: ../src/shell/e-shell-window-actions.c:606
+#: ../src/shell/e-shell-window-actions.c:816
 msgid "Configure Evolution Accounts"
 msgstr "Налаштувати облікові записи Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:611
-#: ../src/shell/e-shell-window-actions.c:625
+#: ../src/shell/e-shell-window-actions.c:821
+#: ../src/shell/e-shell-window-actions.c:835
 msgid "_Close Window"
 msgstr "_Закрити вікно"
 
-#: ../src/shell/e-shell-window-actions.c:632
+#: ../src/shell/e-shell-window-actions.c:842
 msgid "_Contents"
 msgstr "_Зміст"
 
-#: ../src/shell/e-shell-window-actions.c:634
+#: ../src/shell/e-shell-window-actions.c:844
 msgid "Open the Evolution User Guide"
 msgstr "Відкрити посібник користувача Evolution"
 
-#: ../src/shell/e-shell-window-actions.c:660
+#: ../src/shell/e-shell-window-actions.c:870
 msgid "I_mport…"
 msgstr "_Імпортувати…"
 
-#: ../src/shell/e-shell-window-actions.c:662
+#: ../src/shell/e-shell-window-actions.c:872
 msgid "Import data from other programs"
 msgstr "Імпорт даних з інших програм"
 
-#: ../src/shell/e-shell-window-actions.c:667
+#: ../src/shell/e-shell-window-actions.c:877
 msgid "New _Window"
 msgstr "Створити _вікно"
 
-#: ../src/shell/e-shell-window-actions.c:669
+#: ../src/shell/e-shell-window-actions.c:879
 msgid "Create a new window displaying this view"
 msgstr "Створити нове вікно з цим оглядом"
 
-#: ../src/shell/e-shell-window-actions.c:681
+#: ../src/shell/e-shell-window-actions.c:891
 msgid "Available Cate_gories"
 msgstr "Доступні _категорії"
 
-#: ../src/shell/e-shell-window-actions.c:683
+#: ../src/shell/e-shell-window-actions.c:893
 msgid "Manage available categories"
 msgstr "Керувати доступними категоріями"
 
-#: ../src/shell/e-shell-window-actions.c:695
+#: ../src/shell/e-shell-window-actions.c:905
 msgid "_Quit"
 msgstr "Ви_йти"
 
-#: ../src/shell/e-shell-window-actions.c:697
+#: ../src/shell/e-shell-window-actions.c:907
 msgid "Exit the program"
 msgstr "Вийти з програми"
 
-#: ../src/shell/e-shell-window-actions.c:709
+#: ../src/shell/e-shell-window-actions.c:919
 msgid "_Keyboard Shortcuts"
 msgstr "_Клавіатурні скорочення"
 
-#: ../src/shell/e-shell-window-actions.c:711
+#: ../src/shell/e-shell-window-actions.c:921
 msgid "Show keyboard shortcuts"
 msgstr "Показати клавіатурні скорочення"
 
-#: ../src/shell/e-shell-window-actions.c:716
+#: ../src/shell/e-shell-window-actions.c:926
 msgid "Show _WebKit GPU information"
 msgstr "Показати дані WebKit щодо _граф. процесора"
 
-#: ../src/shell/e-shell-window-actions.c:718
+#: ../src/shell/e-shell-window-actions.c:928
 msgid "Show WebKit GPU information page in the preview panel"
 msgstr ""
 "Показувати сторінку відомостей щодо графічного процесора WebKit на панелі "
 "попереднього перегляду"
 
-#: ../src/shell/e-shell-window-actions.c:723
+#: ../src/shell/e-shell-window-actions.c:933
 msgid "Submit _Bug Report…"
 msgstr "_Надіслати повідомлення про помилку…"
 
-#: ../src/shell/e-shell-window-actions.c:725
+#: ../src/shell/e-shell-window-actions.c:935
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Відіслати звіт про помилку за допомогою Bug Buddy"
 
-#: ../src/shell/e-shell-window-actions.c:730
+#: ../src/shell/e-shell-window-actions.c:940
 msgid "_Work Offline"
 msgstr "Пра_цювати автономно"
 
-#: ../src/shell/e-shell-window-actions.c:732
+#: ../src/shell/e-shell-window-actions.c:942
 msgid "Put Evolution into offline mode"
 msgstr "Перевести Evolution у автономний режим"
 
-#: ../src/shell/e-shell-window-actions.c:737
+#: ../src/shell/e-shell-window-actions.c:947
 msgid "_Work Online"
 msgstr "Пра_цювати у мережі"
 
-#: ../src/shell/e-shell-window-actions.c:739
+#: ../src/shell/e-shell-window-actions.c:949
 msgid "Put Evolution into online mode"
 msgstr "Перевести Evolution у режим з'єднання з мережею"
 
-#: ../src/shell/e-shell-window-actions.c:754
+#: ../src/shell/e-shell-window-actions.c:964
 msgid "Lay_out"
 msgstr "_Розташування"
 
-#: ../src/shell/e-shell-window-actions.c:755
+#: ../src/shell/e-shell-window-actions.c:965
 msgid "_Search"
 msgstr "П_ошук"
 
-#: ../src/shell/e-shell-window-actions.c:756
+#: ../src/shell/e-shell-window-actions.c:966
 msgid "_Switcher Appearance"
 msgstr "_Вигляд перемикача"
 
-#: ../src/shell/e-shell-window-actions.c:758
+#: ../src/shell/e-shell-window-actions.c:968
 msgid "_Window"
 msgstr "_Вікно"
 
-#: ../src/shell/e-shell-window-actions.c:766
+#: ../src/shell/e-shell-window-actions.c:976
 msgid "Page Set_up…"
 msgstr "Пара_метри сторінки…"
 
-#: ../src/shell/e-shell-window-actions.c:768
+#: ../src/shell/e-shell-window-actions.c:978
 msgid "Change the page settings for your current printer"
 msgstr "Змінити орієнтацію сторінки для вашого поточного принтера"
 
-#: ../src/shell/e-shell-window-actions.c:956
-#: ../src/shell/e-shell-window-actions.c:1048
+#: ../src/shell/e-shell-window-actions.c:1166
+#: ../src/shell/e-shell-window-actions.c:1258
 #, c-format
 msgid "Switch to %s"
 msgstr "Перемикнутись на %s"
@@ -31939,6 +31968,28 @@ msgstr "Неможливо записати сховище на диск, код
 #: ../src/smime/lib/e-pkcs12.c:470
 msgid "Imported Certificate"
 msgstr "Імпортований сертифікат"
+
+#~ msgid "Can be either “mbox” or “pdf”."
+#~ msgstr "Може бути або «mbox», або «pdf»."
+
+#~ msgctxt "shortcut window"
+#~ msgid "Copy selected messages to folder"
+#~ msgstr "Скопіювати позначені повідомлення до теки"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Move selected messages to folder"
+#~ msgstr "Перемістити позначені повідомлення до теки"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Delete mail"
+#~ msgstr "Вилучити лист"
+
+#~ msgctxt "shortcut window"
+#~ msgid "Undelete mail"
+#~ msgstr "Скасувати вилучення листа"
+
+#~ msgid "Customi_ze…"
+#~ msgstr "_Налаштувати…"
 
 #~ msgid "Error removing list"
 #~ msgstr "Помилка при вилученні списку"
