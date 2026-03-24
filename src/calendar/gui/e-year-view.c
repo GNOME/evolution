@@ -1749,7 +1749,7 @@ year_view_construct_year_widget (EYearView *self)
 		GtkWidget *vbox;
 		gchar buffer[128];
 
-		g_date_strftime (buffer, sizeof (buffer), "%B", date);
+		g_date_strftime (buffer, sizeof (buffer), e_get_localized_month_name_format (), date);
 		g_date_add_months (date, 1);
 
 		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);

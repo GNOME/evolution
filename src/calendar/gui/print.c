@@ -714,7 +714,19 @@ format_date (struct tm *tm,
              gchar *buffer,
              gint bufflen)
 {
-	GString *fmt = g_string_new ("");
+	GString *fmt;
+
+	if (flags == (DATE_MONTH | DATE_YEAR)) {
+		e_utf8_strftime (buffer, bufflen, e_get_localized_month_name_with_year_format (), tm);
+		buffer[bufflen - 1] = '\0';
+		return buffer;
+	} else if (flags == DATE_MONTH) {
+		e_utf8_strftime (buffer, bufflen, e_get_localized_month_name_format (), tm);
+		buffer[bufflen - 1] = '\0';
+		return buffer;
+	}
+
+	fmt = g_string_new ("");
 
 	if (flags & DATE_DAYNAME) {
 		g_string_append (fmt, "%A");
@@ -725,9 +737,12 @@ format_date (struct tm *tm,
 		g_string_append (fmt, e_cal_recur_get_localized_nth (tm->tm_mday - 1));
 	}
 	if (flags & DATE_MONTH) {
-		if (flags & (DATE_DAY | DATE_DAYNAME))
+		if (flags & (DATE_DAY | DATE_DAYNAME)) {
 			g_string_append_c (fmt, ' ');
-		g_string_append (fmt, "%B");
+			g_string_append (fmt, "%B");
+		} else {
+			g_string_append (fmt, e_get_localized_month_name_format ());
+		}
 		if ((flags & (DATE_DAY | DATE_YEAR)) == (DATE_DAY | DATE_YEAR))
 			g_string_append_c (fmt, ',');
 	}
