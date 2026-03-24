@@ -1365,7 +1365,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 			layout_yr = gtk_widget_create_pango_layout (widget, NULL);
 
 			/* This is a strftime() format. %B = Month name. */
-			e_utf8_strftime (buffer, sizeof (buffer), C_("CalItem", "%B"), &tmp_tm);
+			e_utf8_strftime (buffer, sizeof (buffer), e_get_localized_month_name_format (), &tmp_tm);
 			/* This is a strftime() format. %Y = Year. */
 			e_utf8_strftime (buffer_yr, sizeof (buffer_yr), C_("CalItem", "%Y"), &tmp_tm);
 
@@ -1403,8 +1403,7 @@ e_calendar_item_draw_month (ECalendarItem *calitem,
 
 			g_object_unref (layout_yr);
 		} else {
-			/* This is a strftime() format. %B = Month name, %Y = Year. */
-			e_utf8_strftime (buffer, sizeof (buffer), C_("CalItem", "%B %Y"), &tmp_tm);
+			e_utf8_strftime (buffer, sizeof (buffer), e_get_localized_month_name_with_year_format (), &tmp_tm);
 
 			pango_layout_set_font_description (layout, font_desc);
 			pango_layout_set_text (layout, buffer, -1);
@@ -2259,7 +2258,7 @@ e_calendar_item_recalc_sizes (ECalendarItem *calitem)
 	for (tmp_tm.tm_mon = 0; tmp_tm.tm_mon < 12; tmp_tm.tm_mon++) {
 		mktime (&tmp_tm);
 
-		e_utf8_strftime (buffer, sizeof (buffer), C_("CalItem", "%B"), &tmp_tm);
+		e_utf8_strftime (buffer, sizeof (buffer), e_get_localized_month_name_format (), &tmp_tm);
 
 		pango_layout_set_text (layout, buffer, -1);
 		pango_layout_get_pixel_size (layout, &width, NULL);

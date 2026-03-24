@@ -1628,6 +1628,56 @@ e_utf8_strftime_match_lc_messages (gchar *string,
 }
 
 /**
+ * e_get_localized_month_name_format:
+ *
+ * Gets localized strftime() format specifier for a month name, which
+ * is without day. That is usually "%OB", but can be different for
+ * some locales.
+ *
+ * Returns: localized strftime() format specifier for a month name
+ *
+ * Since: 3.62
+ **/
+const gchar *
+e_get_localized_month_name_format (void)
+{
+	const gchar *format;
+
+	/* Translators: This is a strftime() format. %B = Month name, used for a month name without actual day. */
+	format = C_("CalItem", "%B");
+
+	if (!format || !*format || g_str_equal (format, "%B"))
+		format = "%OB";
+
+	return format;
+}
+
+/**
+ * e_get_localized_month_name_with_year_format:
+ *
+ * Gets localized strftime() format specifier for a month name with year,
+ * which is without day. That is usually "%OB %Y", but can be different for
+ * some locales.
+ *
+ * Returns: localized strftime() format specifier for a month name and year
+ *
+ * Since: 3.62
+ **/
+const gchar *
+e_get_localized_month_name_with_year_format (void)
+{
+	const gchar *format;
+
+	/* Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m" */
+	format = C_("partial-date", "%B %Y");
+
+	if (!format || !*format || g_str_equal (format, "%B %Y"))
+		format = "%OB %Y";
+
+	return format;
+}
+
+/**
  * e_get_month_name:
  * @month: month index
  * @abbreviated: if %TRUE, abbreviate the month name
@@ -1663,7 +1713,7 @@ e_get_month_name (GDateMonth month,
 		for (ii = G_DATE_JANUARY; ii <= G_DATE_DECEMBER; ii++) {
 			g_date_strftime (buffer, sizeof (buffer), "%b", &date);
 			abbr_names[ii] = g_intern_string (buffer);
-			g_date_strftime (buffer, sizeof (buffer), "%B", &date);
+			g_date_strftime (buffer, sizeof (buffer), e_get_localized_month_name_format (), &date);
 			full_names[ii] = g_intern_string (buffer);
 			g_date_add_months (&date, 1);
 		}

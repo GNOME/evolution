@@ -462,7 +462,7 @@ accum_time_attribute (GString *buffer,
 				} else if (date->day == 0) {
 					day = 1;
 					/* Translators: strftime format for partial date, when only the month is filled; it will be shown as a month name; month number is "%m" */
-					format = C_("partial-date", "%B");
+					format = e_get_localized_month_name_format ();
 				} else {
 					/* Translators: strftime format for partial date, when only the day and the month are filled; it will be shown as a month name followed by a day number; month number is "%m" */
 					format = C_("partial-date", "%B %d");
@@ -479,8 +479,7 @@ accum_time_attribute (GString *buffer,
 				}
 			} else /* if (date->day == 0) */ {
 				day = 1;
-				/* Translators: strftime format for partial date, when only the month and the year are filled; the month will be shown as a month name; month number is "%m" */
-				format = C_("partial-date", "%B %Y");
+				format = e_get_localized_month_name_with_year_format ();
 			}
 		}
 

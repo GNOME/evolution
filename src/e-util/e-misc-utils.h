@@ -148,6 +148,10 @@ gsize		e_utf8_strftime_match_lc_messages
 						 gsize max,
 						 const gchar *fmt,
 						 const struct tm *tm);
+const gchar *	e_get_localized_month_name_format
+						(void);
+const gchar *	e_get_localized_month_name_with_year_format
+						(void);
 const gchar *	e_get_month_name		(GDateMonth month,
 						 gboolean abbreviated);
 const gchar *	e_get_weekday_name		(GDateWeekday weekday,

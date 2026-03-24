@@ -354,7 +354,7 @@ on_idle_create_widget (ESourceRegistry *registry)
 		GtkWidget *vbox;
 		gchar buffer[128];
 
-		g_date_strftime (buffer, sizeof (buffer), "%B", date);
+		g_date_strftime (buffer, sizeof (buffer), "%OB", date);
 		g_date_add_months (date, 1);
 
 		vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 2);
