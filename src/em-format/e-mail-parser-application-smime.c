@@ -67,7 +67,7 @@ empe_app_smime_parse (EMailParserExtension *extension,
 
 	ct = camel_mime_part_get_content_type (part);
 	smime_type_param = camel_content_type_param (ct, "smime-type");
-	as_attachment = !smime_type_param || !*smime_type_param || g_ascii_strcasecmp (smime_type_param, "certs-only") == 0;
+	as_attachment = smime_type_param && g_ascii_strcasecmp (smime_type_param, "certs-only") == 0;
 
 	/* When it's a guessed type, then rather not interpret it as a signed/encrypted message */
 	is_guessed = g_strcmp0 (camel_content_type_param (ct, E_MAIL_PART_X_EVOLUTION_GUESSED), "1") == 0;
@@ -90,6 +90,8 @@ empe_app_smime_parse (EMailParserExtension *extension,
 				if (parent_part) {
 					ct = camel_mime_part_get_content_type (parent_part);
 					add_as_attachment = !camel_content_type_is (ct, "multipart", "signed");
+				} else {
+					add_as_attachment = TRUE;
 				}
 
 				g_object_unref (part_list);
