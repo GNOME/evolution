@@ -200,7 +200,7 @@ make_part_attachment (EMailParser *parser,
 		}
 
 		len = part_id->len;
-		g_string_append (part_id, ".text_html");
+		g_string_append (part_id, ".text_html.attachment");
 		mail_part = e_mail_part_new (part, part_id->str);
 		e_mail_part_set_mime_type (mail_part, "text/html");
 		g_string_truncate (part_id, len);
@@ -537,10 +537,18 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 				e_mail_parser_parse_part (
 					parser, sp, part_id,
 					cancellable, &work_queue);
-			} else if (emp_pp->show_suppressed) {
-				make_part_attachment (
-					parser, sp, part_id, FALSE,
-					cancellable, &work_queue);
+			} else {
+				GQueue html_parts = G_QUEUE_INIT;
+
+				e_mail_parser_parse_part (
+					parser, sp, part_id,
+					cancellable, &html_parts);
+
+				hide_parts (&html_parts);
+				e_queue_transfer (&html_parts, &work_queue);
+
+				if (emp_pp->show_suppressed)
+					make_part_attachment (parser, sp, part_id, FALSE, cancellable, &work_queue);
 			}
 
 			has_html = TRUE;
