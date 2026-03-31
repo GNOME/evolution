@@ -34,6 +34,7 @@ typedef struct _EMailDisplayPopupPreferPlainClass EMailDisplayPopupPreferPlainCl
 struct _EMailDisplayPopupPreferPlain {
 	EExtension parent;
 
+	gboolean showing_text_plain;
 	gchar *text_plain_id;
 	gchar *text_html_id;
 	gchar *iframe_src;
@@ -71,6 +72,8 @@ toggle_part (EUIAction *action,
 {
 	EMailDisplayPopupExtension *extension = user_data;
 	EMailDisplayPopupPreferPlain *pp_extension = (EMailDisplayPopupPreferPlain *) extension;
+	EMailDisplay *mail_display = E_MAIL_DISPLAY (e_extension_get_extensible (E_EXTENSION (extension)));
+	EMailPartList *part_list;
 	GUri *guri;
 	GHashTable *query;
 	gchar *uri, *query_str;
@@ -89,12 +92,12 @@ toggle_part (EUIAction *action,
 	query = soup_form_decode (g_uri_get_query (guri));
 	g_hash_table_replace (
 		query, g_strdup ("part_id"),
-		pp_extension->text_html_id ?
+		pp_extension->showing_text_plain ?
 			pp_extension->text_html_id :
 			pp_extension->text_plain_id);
 	g_hash_table_replace (
 		query, g_strdup ("mime_type"),
-		pp_extension->text_html_id ?
+		pp_extension->showing_text_plain ?
 			(gpointer) "text/html" :
 			(gpointer) "text/plain");
 
@@ -106,10 +109,26 @@ toggle_part (EUIAction *action,
 	uri = g_uri_to_string_partial (guri, G_URI_HIDE_PASSWORD);
 	g_uri_unref (guri);
 
-	e_web_view_set_iframe_src (E_WEB_VIEW (e_extension_get_extensible (E_EXTENSION (extension))),
-		pp_extension->iframe_id, uri);
+	e_web_view_set_iframe_src (E_WEB_VIEW (mail_display), pp_extension->iframe_id, uri);
 
 	g_free (uri);
+
+	pp_extension->showing_text_plain = !pp_extension->showing_text_plain;
+
+	part_list = e_mail_display_get_part_list (mail_display);
+	if (part_list) {
+		EMailPart *mail_part;
+
+		mail_part = e_mail_part_list_ref_part (part_list, pp_extension->text_plain_id);
+		if (mail_part)
+			mail_part->is_hidden = !pp_extension->showing_text_plain;
+		g_clear_object (&mail_part);
+
+		mail_part = e_mail_part_list_ref_part (part_list, pp_extension->text_html_id);
+		if (mail_part)
+			mail_part->is_hidden = pp_extension->showing_text_plain;
+		g_clear_object (&mail_part);
+	}
 }
 
 const gint ID_LEN = G_N_ELEMENTS (".alternative-prefer-plain.");
@@ -236,11 +255,8 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	gchar *part_id, *pos, *prefix;
 	GUri *guri;
 	GHashTable *query;
-	EMailPartList *part_list;
 	gboolean is_text_plain;
 	const gchar *action_name;
-	GQueue queue = G_QUEUE_INIT;
-	GList *head, *link;
 
 	display = E_MAIL_DISPLAY (e_extension_get_extensible (
 			E_EXTENSION (extension)));
@@ -302,42 +318,59 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	prefix = g_strndup (part_id, (pos - part_id) + ID_LEN - 1);
 
 	action_name = NULL;
-	part_list = e_mail_display_get_part_list (display);
-	e_mail_part_list_queue_parts (part_list, NULL, &queue);
-	head = g_queue_peek_head_link (&queue);
 
-	for (link = head; link != NULL; link = g_list_next (link)) {
-		EMailPart *p = link->data;
+	set_text_plain_id (pp_extension, NULL);
+	set_text_html_id (pp_extension, NULL);
 
-		if (e_mail_part_id_has_prefix (p, prefix) &&
-		    (e_mail_part_id_has_substr (p, "text_html") ||
-		     e_mail_part_id_has_substr (p, "plain_text"))) {
-			const gchar *p_id;
+	if (!pp_extension->text_plain_id && !pp_extension->text_html_id) {
+		EMailPartList *part_list;
+		GQueue queue = G_QUEUE_INIT;
+		GList *link;
 
-			p_id = e_mail_part_get_id (p);
+		part_list = e_mail_display_get_part_list (display);
+		e_mail_part_list_queue_parts (part_list, NULL, &queue);
 
-			pos = strstr (p_id, ".alternative-prefer-plain.");
+		for (link = g_queue_peek_head_link (&queue);
+		     link && (!pp_extension->text_plain_id || !pp_extension->text_html_id);
+		     link = g_list_next (link)) {
+			EMailPart *p = link->data;
 
-			if (is_text_plain) {
-				if (strstr (pos + ID_LEN, "text_html") != NULL) {
-					action_name = "show-text-html-part";
-					set_text_html_id (pp_extension, p_id);
-					set_text_plain_id (pp_extension, NULL);
-					break;
-				}
-			} else {
-				if (strstr (pos + ID_LEN, "plain_text") != NULL) {
-					action_name = "show-plain-text-part";
-					set_text_html_id (pp_extension, NULL);
+			if (e_mail_part_id_has_prefix (p, prefix) &&
+			    (e_mail_part_id_has_substr (p, "text_html") ||
+			     e_mail_part_id_has_substr (p, "plain_text"))) {
+				const gchar *p_id;
+
+				p_id = e_mail_part_get_id (p);
+
+				pos = strstr (p_id, ".alternative-prefer-plain.");
+
+				if (!pp_extension->text_plain_id &&
+				    strstr (pos + ID_LEN, "plain_text") != NULL) {
 					set_text_plain_id (pp_extension, p_id);
-					break;
+					e_mail_part_set_is_printable (p, TRUE);
+				}
+
+				if (!pp_extension->text_html_id &&
+				    strstr (pos + ID_LEN, "text_html") != NULL &&
+				    !strstr (pos + ID_LEN, ".text_html.attachment")) {
+					set_text_html_id (pp_extension, p_id);
+					e_mail_part_set_is_printable (p, TRUE);
 				}
 			}
 		}
+
+		while (!g_queue_is_empty (&queue))
+			g_object_unref (g_queue_pop_head (&queue));
 	}
 
-	while (!g_queue_is_empty (&queue))
-		g_object_unref (g_queue_pop_head (&queue));
+	pp_extension->showing_text_plain = is_text_plain;
+
+	if (pp_extension->text_plain_id && pp_extension->text_html_id) {
+		if (is_text_plain)
+			action_name = "show-text-html-part";
+		else
+			action_name = "show-plain-text-part";
+	}
 
 	if (action_name) {
 		action = e_ui_action_group_get_action (pp_extension->action_group, action_name);
