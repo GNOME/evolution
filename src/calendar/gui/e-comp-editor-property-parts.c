@@ -2520,6 +2520,7 @@ ecepp_color_rgba_to_string (const GdkRGBA *rgba)
 		{ "plum",		  221, 160, 221 },
 		{ "powderblue",		  176, 224, 230 },
 		{ "purple",		  128,   0, 128 },
+		{ "rebeccapurple",        102,  51, 153 },  /* added in CSS Color 4 */
 		{ "red",		  255,   0,   0 },
 		{ "rosybrown",		  188, 143, 143 },
 		{ "royalblue",		   65, 105, 225 },
