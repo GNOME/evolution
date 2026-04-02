@@ -325,7 +325,7 @@ rss_store_initable_init (GInitable *initable,
 	self = CAMEL_RSS_STORE (initable);
 	store = CAMEL_STORE (initable);
 
-	camel_store_set_flags (store, camel_store_get_flags (store) | CAMEL_STORE_VTRASH | CAMEL_STORE_VJUNK | CAMEL_STORE_IS_BUILTIN);
+	camel_store_set_flags (store, (camel_store_get_flags (store) | CAMEL_STORE_VTRASH | CAMEL_STORE_VJUNK | CAMEL_STORE_IS_BUILTIN) & ~CAMEL_STORE_CAN_EDIT_FOLDERS);
 
 	/* Chain up to parent method. */
 	if (!parent_initable_interface->init (initable, cancellable, error))

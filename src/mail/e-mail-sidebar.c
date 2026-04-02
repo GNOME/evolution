@@ -489,6 +489,10 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 		can_delete &= !(folder_flags & CAMEL_FOLDER_SYSTEM);
 	}
 
+	/* Check if the store supports creating/editing folders */
+	if ((camel_store_get_flags (store) & CAMEL_STORE_CAN_EDIT_FOLDERS) == 0)
+		allows_children = FALSE;
+
 	/* GOA and UOA-based accounts cannot be disabled from Evolution. */
 	if (is_store && !store_is_local && !store_is_vfolder && !store_is_builtin) {
 		EMFolderTree *folder_tree;
