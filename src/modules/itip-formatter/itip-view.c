@@ -1260,7 +1260,7 @@ encode_agenda_iframe_html (GtkTextDirection text_direction)
 
 	use_24h_format = calendar_config_get_24_hour_format ();
 
-	g_string_append (buffer, "<div id=\"itip-agenda-column\" style=\"width:100%; height:1441;\" class=\"-e-web-view-background-color\">");
+	g_string_append (buffer, "<div id=\"itip-agenda-column\" style=\"height:1441;\" class=\"-e-web-view-background-color\">");
 	g_string_append_printf (buffer, "<div id=\"itip-agenda-div\"></div><table class=\"itip-agenda -e-web-view-text-color\"%s>",
 		text_direction == GTK_TEXT_DIR_RTL ? " style=\"direction:rtl;\"" : "");
 
@@ -2269,7 +2269,8 @@ itip_view_write (gpointer itip_part_ptr,
 	if (show_day_agenda) {
 		agenda_table_encoded = encode_agenda_iframe_html (text_direction);
 
-		g_string_append (buffer, "<div style='display: grid; grid: auto / auto auto;'>");
+		g_string_append_printf (buffer, "<div style='display: grid; grid: auto / %s;'>",
+			is_rtl ? "auto minmax(50%, 1fr)" : "minmax(50%, 1fr) auto");
 
 		if (is_rtl) {
 			g_string_append (buffer, "<div>");

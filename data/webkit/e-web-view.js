@@ -1983,6 +1983,7 @@ EvoItip.UpdateAgenda = function(iframe_id, html, width, scrollToTime)
 	}
 
 	innerDoc.body.style.width = width + "px";
+	innerDoc.body.style.overflowX = "hidden";
 
 	var compInfoDiv = Evo.FindElement(iframe_id, "itip-comp-info-div");
 	if (compInfoDiv) {
@@ -2049,8 +2050,6 @@ EvoItip.resizeAgendaFramesRecursive = function(doc)
 		var parentFrame = agendaIframe.ownerDocument.defaultView.frameElement;
 		var scrollTop = document.scrollingElement.scrollTop;
 
-		parentFrame.style.width = "400px";
-		parentFrame.style.width = (agendaIframe.ownerDocument.scrollingElement.scrollWidth + 5) + "px";
 		parentFrame.style.height = parentFrame.ownerDocument.documentElement.clientHeight + "px";
 
 		if (doc.scrollingElement.scrollHeight > parentFrame.clientHeight)
