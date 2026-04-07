@@ -5001,6 +5001,27 @@ webkit_editor_can_paste_cb (GObject *source_object,
 	}
 }
 
+static gboolean
+webkit_editor_focus_in_event_cb (EWebKitEditor *wk_editor,
+                                 GdkEventFocus *event,
+                                 gpointer user_data)
+{
+	/* Recheck clipboard capabilities when editor receives focus */
+	webkit_web_view_can_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor),
+		WEBKIT_EDITING_COMMAND_PASTE, NULL, webkit_editor_can_paste_cb, NULL);
+
+	return FALSE; /* Continue with default focus handling */
+}
+
+static void
+webkit_editor_realize_cb (EWebKitEditor *wk_editor,
+                          gpointer user_data)
+{
+	/* Check clipboard capabilities once widget is fully realized */
+	webkit_web_view_can_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor),
+		WEBKIT_EDITING_COMMAND_PASTE, NULL, webkit_editor_can_paste_cb, NULL);
+}
+
 static void
 webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
                                WebKitLoadEvent load_event)
@@ -5066,6 +5087,7 @@ webkit_editor_load_changed_cb (EWebKitEditor *wk_editor,
 		initialized_callback (E_CONTENT_EDITOR (wk_editor), initialized_user_data);
 	}
 
+	/* Check can-paste on load-finished (initial check, may be too early for WebKit) */
 	webkit_web_view_can_execute_editing_command (WEBKIT_WEB_VIEW (wk_editor),
 		WEBKIT_EDITING_COMMAND_PASTE, NULL, webkit_editor_can_paste_cb, NULL);
 
@@ -6022,6 +6044,14 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 	g_signal_connect (
 		wk_editor, "load-changed",
 		G_CALLBACK (webkit_editor_load_changed_cb), NULL);
+
+	g_signal_connect (
+		wk_editor, "focus-in-event",
+		G_CALLBACK (webkit_editor_focus_in_event_cb), NULL);
+
+	g_signal_connect (
+		wk_editor, "realize",
+		G_CALLBACK (webkit_editor_realize_cb), NULL);
 
 	g_signal_connect (
 		wk_editor, "context-menu",
