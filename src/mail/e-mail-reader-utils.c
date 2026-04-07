@@ -2841,13 +2841,17 @@ reply_to_message_got_message_cb (GObject *source_object,
 			if (g_uri_split (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL,
 					 NULL, NULL, NULL, &path, NULL, NULL, NULL) &&
 			    path && *path) {
-				ccd->address = camel_internet_address_new ();
-				if (camel_address_decode (CAMEL_ADDRESS (ccd->address), path) < 0) {
-					g_clear_object (&ccd->address);
+				gchar *decoded_path = g_uri_unescape_string (path, NULL);
+				if (decoded_path) {
+					ccd->address = camel_internet_address_new ();
+					if (camel_address_decode (CAMEL_ADDRESS (ccd->address), decoded_path) < 0) {
+						g_clear_object (&ccd->address);
+					}
+					g_free (decoded_path);
 				}
 			}
 
-			g_free (path);
+			g_clear_pointer (&path, g_free);
 		}
 	}
 

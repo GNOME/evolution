@@ -231,7 +231,7 @@ action_add_to_address_book_cb (EUIAction *action,
 	EMailDisplay *display;
 	EMailSession *session;
 	EShellBackend *shell_backend;
-	CamelInternetAddress *cia;
+	CamelInternetAddress *cia = NULL;
 	EPhotoCache *photo_cache;
 	EWebView *web_view;
 	const gchar *uri;
@@ -253,14 +253,20 @@ action_add_to_address_book_cb (EUIAction *action,
 
 	if (g_uri_split (uri, SOUP_HTTP_URI_FLAGS | G_URI_FLAGS_PARSE_RELAXED, NULL, NULL, NULL,
 			 NULL, &path, NULL, NULL, NULL) && path && *path) {
-		cia = camel_internet_address_new ();
-		if (camel_address_decode (CAMEL_ADDRESS (cia), path) < 0) {
-			g_clear_object (&cia);
-			g_clear_pointer (&path, g_free);
+		gchar *decoded_path = g_uri_unescape_string (path, NULL);
+		g_clear_pointer (&path, g_free);
+
+		if (decoded_path) {
+			cia = camel_internet_address_new ();
+			if (camel_address_decode (CAMEL_ADDRESS (cia), decoded_path) < 0) {
+				g_clear_object (&cia);
+				g_free (decoded_path);
+				return;
+			}
+			g_free (decoded_path);
+		} else {
 			return;
 		}
-
-		g_clear_pointer (&path, g_free);
 	} else {
 		g_clear_pointer (&path, g_free);
 		return;
@@ -280,7 +286,7 @@ action_add_to_address_book_cb (EUIAction *action,
 	if (camel_internet_address_get (cia, 0, NULL, &address_only))
 		e_photo_cache_remove_photo (photo_cache, address_only);
 
-	g_object_unref (cia);
+	g_clear_object (&cia);
 }
 
 static void
@@ -2899,14 +2905,19 @@ action_search_folder_recipient_cb (EUIAction *action,
 			 NULL, &path, NULL, NULL, NULL) && path && *path) {
 		CamelFolder *folder;
 		CamelInternetAddress *inet_addr;
+		gchar *decoded_path;
 
+		decoded_path = g_uri_unescape_string (path, NULL);
 		folder = e_mail_reader_ref_folder (reader);
 
-		inet_addr = camel_internet_address_new ();
-		camel_address_decode (CAMEL_ADDRESS (inet_addr), path);
-		vfolder_gui_add_from_address (
-			session, inet_addr, AUTO_TO, folder);
-		g_object_unref (inet_addr);
+		if (decoded_path) {
+			inet_addr = camel_internet_address_new ();
+			camel_address_decode (CAMEL_ADDRESS (inet_addr), decoded_path);
+			vfolder_gui_add_from_address (
+				session, inet_addr, AUTO_TO, folder);
+			g_object_unref (inet_addr);
+			g_free (decoded_path);
+		}
 
 		g_clear_object (&folder);
 	}
@@ -2940,14 +2951,19 @@ action_search_folder_sender_cb (EUIAction *action,
 			 NULL, &path, NULL, NULL, NULL) && path && *path) {
 		CamelFolder *folder;
 		CamelInternetAddress *inet_addr;
+		gchar *decoded_path;
 
+		decoded_path = g_uri_unescape_string (path, NULL);
 		folder = e_mail_reader_ref_folder (reader);
 
-		inet_addr = camel_internet_address_new ();
-		camel_address_decode (CAMEL_ADDRESS (inet_addr), path);
-		vfolder_gui_add_from_address (
-			session, inet_addr, AUTO_FROM, folder);
-		g_object_unref (inet_addr);
+		if (decoded_path) {
+			inet_addr = camel_internet_address_new ();
+			camel_address_decode (CAMEL_ADDRESS (inet_addr), decoded_path);
+			vfolder_gui_add_from_address (
+				session, inet_addr, AUTO_FROM, folder);
+			g_object_unref (inet_addr);
+			g_free (decoded_path);
+		}
 
 		g_clear_object (&folder);
 	}

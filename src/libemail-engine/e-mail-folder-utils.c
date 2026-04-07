@@ -1882,7 +1882,7 @@ e_mail_folder_uri_parse (CamelSession *session,
 		if (host != NULL) {
 			gchar *uid;
 			if (user == NULL || *user == '\0')
-				uid = g_strdup (host);
+				uid = g_steal_pointer (&host);
 			else
 				uid = g_strconcat (user, "@", host, NULL);
 

@@ -307,10 +307,14 @@ webview_mailto_copy (EWebView *web_view,
 		     NULL, &path, NULL, NULL, NULL);
 
 	inet_addr = camel_internet_address_new ();
-	if (path != NULL) {
-		camel_address_decode (CAMEL_ADDRESS (inet_addr), path);
-		g_clear_pointer (&path, g_free);
+	if (path != NULL && *path) {
+		gchar *decoded_path = g_uri_unescape_string (path, NULL);
+		if (decoded_path) {
+			camel_address_decode (CAMEL_ADDRESS (inet_addr), decoded_path);
+			g_free (decoded_path);
+		}
 	}
+	g_clear_pointer (&path, g_free);
 
 	if (only_email_address &&
 	    camel_internet_address_get (inet_addr, 0, &name, &email) &&
@@ -2143,9 +2147,14 @@ web_view_update_actions (EWebView *web_view)
 				 NULL, &path, NULL, NULL, NULL) && path != NULL) {
 			CamelInternetAddress *inet_addr;
 			const gchar *name = NULL, *email = NULL;
+			gchar *decoded_path;
 
 			inet_addr = camel_internet_address_new ();
-			camel_address_decode (CAMEL_ADDRESS (inet_addr), path);
+			decoded_path = g_uri_unescape_string (path, NULL);
+			if (decoded_path) {
+				camel_address_decode (CAMEL_ADDRESS (inet_addr), decoded_path);
+				g_free (decoded_path);
+			}
 
 			action = e_ui_action_group_get_action (action_group, "mailto-copy-raw");
 			e_ui_action_set_visible (action,

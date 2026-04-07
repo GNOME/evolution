@@ -4193,9 +4193,15 @@ e_util_get_uri_tooltip (const gchar *uri)
 
 	address = camel_internet_address_new ();
 	if (guri != NULL) {
-		camel_address_decode (CAMEL_ADDRESS (address), g_uri_get_path (guri));
-		camel_internet_address_sanitize_ascii_domain (address);
-		who = camel_address_format (CAMEL_ADDRESS (address));
+		const gchar *path = g_uri_get_path (guri);
+		if (path && *path) {
+			gchar *decoded_path = g_uri_unescape_string (path, NULL);
+			if (decoded_path && camel_address_decode (CAMEL_ADDRESS (address), decoded_path) > 0) {
+				camel_internet_address_sanitize_ascii_domain (address);
+				who = camel_address_format (CAMEL_ADDRESS (address));
+			}
+			g_free (decoded_path);
+		}
 	}
 
 	if (!who && g_str_has_prefix (uri, "mailto:") && g_uri_get_query (guri)) {
@@ -4215,7 +4221,8 @@ e_util_get_uri_tooltip (const gchar *uri)
 
 	g_object_unref (address);
 
-	if (!who) {
+	if (!who || !*who) {
+		g_free (who);
 		who = g_strdup (strchr (uri, ':') + 1);
 		camel_url_decode (who);
 	}
