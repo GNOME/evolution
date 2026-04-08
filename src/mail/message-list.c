@@ -533,7 +533,6 @@ regen_data_free (RegenData *regen_data)
 	g_clear_pointer (&regen_data->expand_state, xmlFreeDoc);
 	g_mutex_clear (&regen_data->select_lock);
 	g_clear_pointer (&regen_data->select_uid, g_free);
-	g_free (regen_data->select_uid);
 
 	g_slice_free (RegenData, regen_data);
 }
