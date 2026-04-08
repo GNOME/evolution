@@ -6936,6 +6936,8 @@ message_list_regen_done_cb (GObject *source_object,
 				0, CAMEL_MESSAGE_SEEN);
 		}
 	}
+
+	e_util_call_malloc_trim_limited ();
 }
 
 static gboolean

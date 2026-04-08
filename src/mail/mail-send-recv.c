@@ -1550,6 +1550,8 @@ static void
 refresh_folders_done (struct _refresh_folders_msg *m)
 {
 	receive_done (m->info);
+
+	e_util_call_malloc_trim_limited ();
 }
 
 static void
