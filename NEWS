@@ -1,3 +1,18 @@
+Evolution 3.60.1 2026-04-10
+---------------------------
+
+Bug Fixes:
+	I#3184 - itip-formatter: Layout has excessive empty space, long content
+	I#3215 - Composer: Inherit theme color not honoured on send
+	I#3265 - prefer-plain: Remote content load reverts shown part
+	I#3272 - Blank email body for some S/MIME Encrypted mails
+	I#3273 - Incorrect month name declination in some locales
+	I#3283 - Paste into 'add/edit note' window not working after open
+
+Translations:
+	Emin Tufan Çetin (tr)
+	Марко Костић (sr)
+
 Evolution 3.60.0 2026-03-13
 ---------------------------
 
