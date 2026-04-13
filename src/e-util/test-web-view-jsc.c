@@ -1802,7 +1802,7 @@ test_get_element_from_point (TestFixture *fixture)
 		"			yy += ii.offsetTop - ii.scrollTop;\n"
 		"		}\n"
 		"	}\n"
-		"	var res = [];\n"
+		"	var res = {};\n"
 		"	res[\"left\"] = xx + (elem.offsetWidth / 2) - window.scrollX;\n"
 		"	res[\"right\"] = xx + elem.offsetWidth - 2 - window.scrollX;\n"
 		"	res[\"top\"] = yy + (elem.offsetHeight / 2) - window.scrollY;\n"
