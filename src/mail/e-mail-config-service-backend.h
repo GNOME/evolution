@@ -51,6 +51,8 @@ typedef struct _EMailConfigServiceBackend EMailConfigServiceBackend;
 typedef struct _EMailConfigServiceBackendClass EMailConfigServiceBackendClass;
 typedef struct _EMailConfigServiceBackendPrivate EMailConfigServiceBackendPrivate;
 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(EMailConfigServiceBackend, g_object_unref)
+
 struct _EMailConfigServiceBackend {
 	EExtension parent;
 	EMailConfigServiceBackendPrivate *priv;

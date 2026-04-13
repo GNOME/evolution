@@ -464,6 +464,7 @@ src/modules/itip-formatter/e-mail-formatter-itip.c
 src/modules/itip-formatter/itip-view.c
 src/modules/itip-formatter/org-gnome-itip-formatter.error.xml
 src/modules/mail-config/e-mail-config-google-summary.c
+src/modules/mail-config/e-mail-config-jmap-backend.c
 src/modules/mail-config/e-mail-config-local-accounts.c
 src/modules/mail-config/e-mail-config-remote-accounts.c
 src/modules/mail-config/e-mail-config-sendmail-backend.c

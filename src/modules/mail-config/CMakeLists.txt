@@ -8,6 +8,8 @@ set(sources
 	e-mail-config-remote-accounts.c
 	e-mail-config-imapx-options.c
 	e-mail-config-imapx-options.h
+	e-mail-config-jmap-backend.c
+	e-mail-config-jmap-backend.h
 	e-mail-config-sendmail-backend.c
 	e-mail-config-sendmail-backend.h
 	e-mail-config-smtp-backend.c

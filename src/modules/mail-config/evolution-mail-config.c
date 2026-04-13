@@ -20,6 +20,7 @@
 
 #include "e-mail-config-sendmail-backend.h"
 #include "e-mail-config-smtp-backend.h"
+#include "e-mail-config-jmap-backend.h"
 
 #include "e-mail-config-imapx-options.h"
 
@@ -41,6 +42,7 @@ e_module_load (GTypeModule *type_module)
 	e_mail_config_imapx_options_type_register (type_module);
 	e_mail_config_sendmail_backend_type_register (type_module);
 	e_mail_config_smtp_backend_type_register (type_module);
+	e_mail_config_jmap_backend_type_register (type_module);
 
 	e_mail_config_google_summary_type_register (type_module);
 	e_mail_config_yahoo_summary_type_register (type_module);
