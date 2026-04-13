@@ -3,6 +3,9 @@ FROM fedora:41
 RUN dnf -y install \
 	abseil-cpp-devel \
 	boost-devel \
+	clang \
+	clang-analyzer \
+	clang-tools-extra \
 	cmake \
 	gcc \
 	gcc-c++ \
@@ -16,7 +19,10 @@ RUN dnf -y install \
 	intltool \
 	itstool \
 	krb5-devel \
+	libasan \
+	libubsan \
 	libphonenumber-devel \
+	llvm \
 	make \
 	ninja-build \
 	openldap-devel \
@@ -74,6 +80,10 @@ RUN dnf -y install \
 
 # Enable sudo for wheel users
 RUN sed -i -e 's/# %wheel/%wheel/' -e '0,/%wheel/{s/%wheel/# %wheel/}' /etc/sudoers
+
+RUN cd /usr/local/bin && \
+    curl -L https://github.com/mozilla/grcov/releases/download/v0.10.6/grcov-x86_64-unknown-linux-gnu.tar.bz2 \
+    | tar jxvf -
 
 ARG HOST_USER_ID=5555
 ENV HOST_USER_ID ${HOST_USER_ID}
