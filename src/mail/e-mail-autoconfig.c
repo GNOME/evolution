@@ -65,6 +65,7 @@
 
 #include <string.h>
 #include <glib/gi18n-lib.h>
+#include <json-glib/json-glib.h>
 
 /* For error codes. */
 #include <libsoup/soup.h>
@@ -143,6 +144,350 @@ e_mail_config_result_clear (EMailAutoconfigResult *result)
 	g_clear_pointer (&result->host, g_free);
 	g_clear_pointer (&result->auth_mechanism, g_free);
 }
+
+static void
+mail_autoconfig_abort_soup_session_cb (GCancellable *cancellable,
+                                       SoupSession *soup_session)
+{
+	soup_session_abort (soup_session);
+}
+
+/* -------------------------------------------------------------------------
+ * PACC - Provider Auto-Configuration for Clients
+ *        draft-ietf-mailmaint-pacc-02
+ *
+ * Retrieves configuration from:
+ *   https://ua-auto-config.{domain}/.well-known/user-agent-configuration.json
+ *
+ * and validates it against a DNS TXT record at _ua-auto-config.{domain}
+ * containing a SHA-256 digest of the JSON body.
+ * -------------------------------------------------------------------------*/
+
+/* Parse one TXT record string and check whether its SHA-256 digest tag
+ * matches local_digest. */
+static gboolean
+mail_autoconfig_pacc_check_txt_record (const gchar *txt,
+                                       const guint8 *local_digest,
+                                       gsize local_digest_len)
+{
+	gchar **pairs;
+	gint i;
+	gchar *v_val = NULL, *a_val = NULL, *d_val = NULL;
+	gboolean matched = FALSE;
+
+	pairs = g_strsplit (txt, ";", -1);
+
+	for (i = 0; pairs[i] != NULL; i++) {
+		gchar *pair = g_strstrip (pairs[i]);
+
+		if (g_str_has_prefix(pair, "v=")) {
+			v_val = g_strdup (pair + 2);
+		} else if (g_str_has_prefix(pair, "a=")) {
+			a_val = g_strdup (pair + 2);
+		} else if (g_str_has_prefix(pair, "d=")) {
+			d_val = g_strdup (pair + 2);
+		}
+	}
+
+	g_strfreev (pairs);
+
+	/* All three mandatory tags must be present */
+	if (!v_val || !a_val || !d_val)
+		goto done;
+
+	/* version must be UAAC1, algorithm must be sha256 */
+	if (!g_str_equal (v_val, "UAAC1") || !g_str_equal (a_val, "sha256"))
+		goto done;
+
+	{
+		guchar *remote_digest;
+		gsize remote_digest_len;
+
+		remote_digest = g_base64_decode (d_val, &remote_digest_len);
+
+		if (remote_digest &&
+		    remote_digest_len == local_digest_len &&
+		    memcmp (remote_digest, local_digest, local_digest_len) == 0)
+			matched = TRUE;
+
+		g_free (remote_digest);
+	}
+
+ done:
+	g_free (v_val);
+	g_free (a_val);
+	g_free (d_val);
+	return matched;
+}
+
+/* Query _ua-auto-config.{domain} TXT and verify the SHA-256 digest of
+ * json_data against it */
+static gboolean
+mail_autoconfig_pacc_validate_dns (const gchar *domain,
+                                   const guint8 *json_data,
+                                   gsize json_len,
+                                   GCancellable *cancellable)
+{
+	GResolver *resolver;
+	GList *records, *link;
+	gchar *qname;
+	GChecksum *checksum;
+	guint8 local_digest[32];
+	gsize digest_len = sizeof (local_digest);
+	gboolean validated = FALSE;
+
+	checksum = g_checksum_new (G_CHECKSUM_SHA256);
+	g_checksum_update (checksum, json_data, json_len);
+	g_checksum_get_digest (checksum, local_digest, &digest_len);
+	g_checksum_free (checksum);
+
+	qname = g_strconcat ("_ua-auto-config.", domain, NULL);
+
+	resolver = g_resolver_get_default ();
+	records = g_resolver_lookup_records (resolver, qname, G_RESOLVER_RECORD_TXT, cancellable, NULL);
+	g_object_unref (resolver);
+	g_free (qname);
+
+	if (!records)
+		return FALSE;
+
+	for (link = records; link && !validated; link = g_list_next (link)) {
+		GVariant *var = link->data;
+		gchar **strv = NULL;
+
+		/* Each TXT record is a GVariant of type (as): an array of
+		 * string segments that together form the record value. */
+		g_variant_get (var, "(^as)", &strv);
+
+		if (strv) {
+			GString *txt = g_string_new ("");
+			gint i;
+
+			for (i = 0; strv[i]; i++)
+				g_string_append (txt, strv[i]);
+
+			if (camel_debug ("autoconfig"))
+				printf ("mail-autoconfig-pacc: DNS TXT for domain '%s': '%s'\n",
+				        domain, txt->str);
+
+			validated = mail_autoconfig_pacc_check_txt_record (
+				txt->str, local_digest, digest_len);
+
+			g_string_free (txt, TRUE);
+			g_strfreev (strv);
+		}
+	}
+
+	g_list_free_full (records, (GDestroyNotify) g_variant_unref);
+	return validated;
+}
+
+/* Parse the PACC JSON body and populate imap/pop3/smtp results. */
+static gboolean
+mail_autoconfig_parse_pacc_json (EMailAutoconfig *autoconfig,
+                                 const guint8 *json_data,
+                                 gsize json_len,
+                                 GError **error)
+{
+	JsonParser *parser;
+	JsonNode *root;
+	JsonObject *root_obj, *protocols_obj;
+	EMailAutoconfigPrivate *priv = autoconfig->priv;
+	gboolean success = FALSE;
+
+	parser = json_parser_new_immutable ();
+
+	if (!json_parser_load_from_data (parser, (const gchar *) json_data,
+	                                 (gssize) json_len, error)) {
+		g_object_unref (parser);
+		return FALSE;
+	}
+
+	root = json_parser_get_root (parser);
+	if (!JSON_NODE_HOLDS_OBJECT (root)) {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
+		                     _("PACC configuration is not a JSON object"));
+		g_object_unref (parser);
+		return FALSE;
+	}
+
+	root_obj = json_node_get_object (root);
+
+	if (!json_object_has_member (root_obj, "protocols")) {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
+		                     _("PACC configuration missing `protocols` object"));
+		g_object_unref (parser);
+		return FALSE;
+	}
+
+	protocols_obj = json_object_get_object_member (root_obj, "protocols");
+	if (!protocols_obj) {
+		g_set_error_literal (error, G_IO_ERROR, G_IO_ERROR_INVALID_DATA,
+		                     _("PACC configuration `protocols` is not an object"));
+		g_object_unref (parser);
+		return FALSE;
+	}
+
+	/* Per spec: use the full email address as username; default ports with TLS */
+
+	if (!priv->imap_result.set &&
+	    json_object_has_member (protocols_obj, "imap")) {
+		JsonObject *imap_obj = json_object_get_object_member (protocols_obj, "imap");
+		if (imap_obj && json_object_has_member (imap_obj, "host")) {
+			const gchar *host = json_object_get_string_member (imap_obj, "host");
+			if (host && *host) {
+				priv->imap_result.host = g_strdup (host);
+				priv->imap_result.user = g_strdup (priv->email_address);
+				priv->imap_result.port = 993;
+				priv->imap_result.security_method =
+					CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+				priv->imap_result.set = TRUE;
+			}
+		}
+	}
+
+	if (!priv->pop3_result.set &&
+	    json_object_has_member (protocols_obj, "pop3")) {
+		JsonObject *pop3_obj = json_object_get_object_member (protocols_obj, "pop3");
+		if (pop3_obj && json_object_has_member (pop3_obj, "host")) {
+			const gchar *host = json_object_get_string_member (pop3_obj, "host");
+			if (host && *host) {
+				priv->pop3_result.host = g_strdup (host);
+				priv->pop3_result.user = g_strdup (priv->email_address);
+				priv->pop3_result.port = 995;
+				priv->pop3_result.security_method =
+					CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+				priv->pop3_result.set = TRUE;
+			}
+		}
+	}
+
+	if (!priv->smtp_result.set &&
+	    json_object_has_member (protocols_obj, "smtp")) {
+		JsonObject *smtp_obj = json_object_get_object_member (protocols_obj, "smtp");
+		if (smtp_obj && json_object_has_member (smtp_obj, "host")) {
+			const gchar *host = json_object_get_string_member (smtp_obj, "host");
+			if (host && *host) {
+				priv->smtp_result.host = g_strdup (host);
+				priv->smtp_result.user = g_strdup (priv->email_address);
+				priv->smtp_result.port = 465;
+				priv->smtp_result.security_method =
+					CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
+				priv->smtp_result.set = TRUE;
+			}
+		}
+	}
+
+	success = priv->imap_result.set ||
+	          priv->pop3_result.set ||
+	          priv->smtp_result.set;
+
+	g_object_unref (parser);
+	return success;
+}
+
+/* Fetch and validate PACC configuration for domain.
+ * Returns TRUE if at least one protocol (IMAP/POP3/SMTP) was configured. */
+static gboolean
+mail_autoconfig_lookup_pacc (EMailAutoconfig *autoconfig,
+                             const gchar *domain,
+                             GCancellable *cancellable)
+{
+	ESourceRegistry *registry;
+	ESource *proxy_source;
+	SoupSession *soup_session;
+	SoupMessage *soup_message;
+	GBytes *response_body;
+	gulong cancel_id = 0;
+	gchar *uri;
+	const gchar *content_type;
+	gboolean success = FALSE;
+
+	registry = e_mail_autoconfig_get_registry (autoconfig);
+	proxy_source = e_source_registry_ref_builtin_proxy (registry);
+
+	soup_session = soup_session_new_with_options (
+		"proxy-resolver", G_PROXY_RESOLVER (proxy_source),
+		"timeout", 15,
+		"user-agent", "Evolution/" VERSION VERSION_SUBSTRING " " VERSION_COMMENT,
+		NULL);
+
+	g_object_unref (proxy_source);
+
+	if (G_IS_CANCELLABLE (cancellable))
+		cancel_id = g_cancellable_connect (
+			cancellable,
+			G_CALLBACK (mail_autoconfig_abort_soup_session_cb),
+			g_object_ref (soup_session),
+			(GDestroyNotify) g_object_unref);
+
+	uri = g_strconcat ("https://ua-auto-config.", domain,
+	                   "/.well-known/user-agent-configuration.json", NULL);
+
+	soup_message = soup_message_new (SOUP_METHOD_GET, uri);
+	g_free (uri);
+
+	if (!soup_message)
+		goto out;
+
+	soup_message_headers_append (
+		soup_message_get_request_headers (soup_message),
+		"Accept", "application/json");
+
+	response_body = soup_session_send_and_read (
+		soup_session, soup_message, cancellable, NULL);
+
+	if (camel_debug ("autoconfig"))
+		printf ("mail-autoconfig-pacc: domain:'%s' status:%d n-bytes:%" G_GUINT64_FORMAT "\n",
+		        domain,
+		        soup_message_get_status (soup_message),
+		        response_body ? (guint64) g_bytes_get_size (response_body) : (guint64) 0);
+
+	if (!g_cancellable_is_cancelled (cancellable) &&
+	    SOUP_STATUS_IS_SUCCESSFUL (soup_message_get_status (soup_message)) &&
+	    response_body) {
+		content_type = soup_message_headers_get_content_type (
+			soup_message_get_response_headers (soup_message), NULL);
+
+		if (!content_type || !g_str_has_prefix (content_type, "application/json")) {
+			if (camel_debug ("autoconfig"))
+				printf ("mail-autoconfig-pacc: unexpected Content-Type: %s\n",
+				        content_type ? content_type : "(null)");
+		} else {
+			const guint8 *data = g_bytes_get_data (response_body, NULL);
+			gsize data_len = g_bytes_get_size (response_body);
+
+			if (mail_autoconfig_pacc_validate_dns (domain, data, data_len, cancellable)) {
+				GError *local_error = NULL;
+
+				if (!mail_autoconfig_parse_pacc_json (autoconfig, data, data_len, &local_error)) {
+					if (camel_debug ("autoconfig") && local_error)
+						printf ("mail-autoconfig-pacc: JSON parse error: %s\n",
+						        local_error->message);
+					g_clear_error (&local_error);
+				} else {
+					success = TRUE;
+				}
+			} else if (camel_debug ("autoconfig")) {
+				printf ("mail-autoconfig-pacc: DNS digest validation failed for domain '%s'\n",
+				        domain);
+			}
+		}
+	}
+
+	g_clear_object (&soup_message);
+	if (response_body)
+		g_bytes_unref (response_body);
+
+ out:
+	if (cancel_id > 0)
+		g_cancellable_disconnect (cancellable, cancel_id);
+
+	g_object_unref (soup_session);
+	return success;
+}
+
+/* Thunderbird XML autoconfig parser implementation */
 
 static void
 mail_autoconfig_parse_start_element (GMarkupParseContext *context,
@@ -447,13 +792,6 @@ mail_autoconfig_resolve_name_server (const gchar *domain,
 	return name_server;
 }
 
-static void
-mail_autoconfig_abort_soup_session_cb (GCancellable *cancellable,
-                                       SoupSession *soup_session)
-{
-	soup_session_abort (soup_session);
-}
-
 static gboolean
 mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 				 const gchar *uri,
@@ -473,10 +811,6 @@ mail_autoconfig_lookup_uri_sync (EMailAutoconfig *autoconfig,
 			_("Invalid URI: “%s”"), uri);
 		return FALSE;
 	}
-
-	soup_message_headers_append (
-		soup_message_get_request_headers (soup_message),
-		"User-Agent", "Evolution/" VERSION VERSION_SUBSTRING " " VERSION_COMMENT);
 
 	data = soup_session_send_and_read (soup_session, soup_message, cancellable, &local_error);
 
@@ -553,6 +887,7 @@ mail_autoconfig_lookup (EMailAutoconfig *autoconfig,
 	soup_session = soup_session_new_with_options (
 		"proxy-resolver", G_PROXY_RESOLVER (proxy_source),
 		"timeout", 15,
+		"user-agent", "Evolution/" VERSION VERSION_SUBSTRING " " VERSION_COMMENT,
 		NULL);
 
 	g_object_unref (proxy_source);
@@ -1035,6 +1370,16 @@ mail_autoconfig_initable_init (GInitable *initable,
 
 	if (autoconfig->priv->use_domain && *autoconfig->priv->use_domain)
 		domain = autoconfig->priv->use_domain;
+
+	/* First try PACC (draft-ietf-mailmaint-pacc-02): fetch
+	 * https://ua-auto-config.{domain}/.well-known/user-agent-configuration.json
+	 * and validate its SHA-256 digest against the _ua-auto-config.{domain} DNS TXT record. */
+	if (!g_cancellable_is_cancelled (cancellable) &&
+	    mail_autoconfig_lookup_pacc (autoconfig, domain, cancellable)) {
+		return TRUE;
+	}
+
+	/* Fall back to legacy Thunderbird-style XML autoconfig. */
 
 	emailmd5 = mail_autoconfig_calc_emailmd5 (email_address);
 
