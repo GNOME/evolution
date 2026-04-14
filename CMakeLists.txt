@@ -267,6 +267,7 @@ pkg_check_modules(GNOME_PLATFORM REQUIRED
 	${GNOME_DESKTOP_DEPENDENCY}
 	gsettings-desktop-schemas>=${gsettings_desktop_schemas_minimum_version}
 	gtk+-3.0>=${gdk_minimum_version}
+	json-glib-1.0
 	libxml-2.0>=${libxml_minimum_version}
 	shared-mime-info>=${shared_mime_info_minimum_version}
 	webkit2gtk-4.1>=${webkit2gtk_minimum_version}
