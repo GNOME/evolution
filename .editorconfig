@@ -14,3 +14,6 @@ tab_width = 8
 indent_style = tab
 tab_width = 8
 
+[*.ui]
+indent_style = spaces
+tab_width = 2
