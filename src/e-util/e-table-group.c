@@ -618,7 +618,7 @@ etg_event (GnomeCanvasItem *item,
 	ETableGroup *table_group = E_TABLE_GROUP (item);
 	gboolean return_val = TRUE;
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 
 	case GDK_FOCUS_CHANGE:
 		table_group->has_focus = event->focus_change.in;

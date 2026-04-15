@@ -2416,10 +2416,12 @@ emit_event (GnomeCanvas *canvas,
 	gint finished;
 	GnomeCanvasItem *item;
 	GnomeCanvasItem *parent;
+	GdkEventType event_type;
 	guint mask;
 
 	/* Perform checks for grabbed items */
 
+	event_type = gdk_event_get_event_type (event);
 	if (canvas->grabbed_item &&
 	    !is_descendant (canvas->current_item, canvas->grabbed_item)) {
 		/* I think this warning is annoying and I don't know what it's for
@@ -2430,7 +2432,7 @@ emit_event (GnomeCanvas *canvas,
 	}
 
 	if (canvas->grabbed_item) {
-		switch (event->type) {
+		switch (event_type) {
 		case GDK_ENTER_NOTIFY:
 			mask = GDK_ENTER_NOTIFY_MASK;
 			break;
@@ -2480,7 +2482,7 @@ emit_event (GnomeCanvas *canvas,
 
 	ev = gdk_event_copy (event);
 
-	switch (ev->type)
+	switch (event_type)
 	{
 	case GDK_ENTER_NOTIFY:
 	case GDK_LEAVE_NOTIFY:
@@ -2510,9 +2512,9 @@ emit_event (GnomeCanvas *canvas,
 	item = canvas->current_item;
 
 	if (canvas->focused_item
-	    && ((event->type == GDK_KEY_PRESS) ||
-		(event->type == GDK_KEY_RELEASE) ||
-		(event->type == GDK_FOCUS_CHANGE)))
+	    && ((event_type == GDK_KEY_PRESS) ||
+		(event_type == GDK_KEY_RELEASE) ||
+		(event_type == GDK_FOCUS_CHANGE)))
 		item = canvas->focused_item;
 
 	/* The event is propagated up the hierarchy (for if someone connected to
@@ -2548,7 +2550,9 @@ pick_current_item (GnomeCanvas *canvas,
                    GdkEvent *event)
 {
 	gint button_down;
-	gdouble x, y;
+	gdouble x = 0, y = 0;
+	gdouble x_root = 0, y_root = 0;
+	GdkModifierType state = 0;
 	gint cx, cy;
 	gint retval;
 
@@ -2572,30 +2576,25 @@ pick_current_item (GnomeCanvas *canvas,
 	 * synthesize an enter event.
 	 */
 	if (event != &canvas->pick_event) {
-		if ((event->type == GDK_MOTION_NOTIFY) ||
-		    (event->type == GDK_BUTTON_RELEASE)) {
+		GdkEventType event_type = gdk_event_get_event_type (event);
+		if (event_type == GDK_MOTION_NOTIFY || event_type == GDK_BUTTON_RELEASE) {
 			/* these fields have the same offsets in both types of events */
 
 			canvas->pick_event.crossing.type = GDK_ENTER_NOTIFY;
-			canvas->pick_event.crossing.window = event->motion.window;
+			canvas->pick_event.crossing.window = gdk_event_get_window (event);
 			canvas->pick_event.crossing.send_event = event->motion.send_event;
 			canvas->pick_event.crossing.subwindow = NULL;
-			canvas->pick_event.crossing.x = event->motion.x;
-			canvas->pick_event.crossing.y = event->motion.y;
+			gdk_event_get_coords (event, &x, &y);
+			canvas->pick_event.crossing.x = x;
+			canvas->pick_event.crossing.y = y;
 			canvas->pick_event.crossing.mode = GDK_CROSSING_NORMAL;
 			canvas->pick_event.crossing.detail = GDK_NOTIFY_NONLINEAR;
 			canvas->pick_event.crossing.focus = FALSE;
-			canvas->pick_event.crossing.state = event->motion.state;
-
-			/* these fields don't have the same offsets in both types of events */
-
-			if (event->type == GDK_MOTION_NOTIFY) {
-				canvas->pick_event.crossing.x_root = event->motion.x_root;
-				canvas->pick_event.crossing.y_root = event->motion.y_root;
-			} else {
-				canvas->pick_event.crossing.x_root = event->button.x_root;
-				canvas->pick_event.crossing.y_root = event->button.y_root;
-			}
+			gdk_event_get_state (event, &state);
+			canvas->pick_event.crossing.state = state;
+			gdk_event_get_root_coords (event, &x_root, &y_root);
+			canvas->pick_event.crossing.x_root = x_root;
+			canvas->pick_event.crossing.y_root = y_root;
 		} else
 			canvas->pick_event = *event;
 	}
@@ -2694,6 +2693,8 @@ gnome_canvas_button (GtkWidget *widget,
 	GnomeCanvas *canvas;
 	GtkLayout *layout;
 	GdkWindow *bin_window;
+	guint button = 0;
+	GdkModifierType state = 0;
 	gint mask;
 	gint retval;
 
@@ -2711,17 +2712,18 @@ gnome_canvas_button (GtkWidget *widget,
 	 * dispatch normally regardless of the event's window if an item has
 	 * has a pointer grab in effect
 	 */
-	if (!canvas->grabbed_item && event->window != bin_window)
+	if (!canvas->grabbed_item && gdk_event_get_window ((GdkEvent *) event) != bin_window)
 		return retval;
 
-	switch (event->button) {
-		case 1:
+	gdk_event_get_button ((GdkEvent *) event, &button);
+	switch (button) {
+		case GDK_BUTTON_PRIMARY:
 			mask = GDK_BUTTON1_MASK;
 			break;
-		case 2:
+		case GDK_BUTTON_MIDDLE:
 			mask = GDK_BUTTON2_MASK;
 			break;
-		case 3:
+		case GDK_BUTTON_SECONDARY:
 			mask = GDK_BUTTON3_MASK;
 			break;
 		case 4:
@@ -2734,13 +2736,14 @@ gnome_canvas_button (GtkWidget *widget,
 			mask = 0;
 	}
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type ((GdkEvent *) event)) {
 		case GDK_BUTTON_PRESS:
 		case GDK_2BUTTON_PRESS:
 		case GDK_3BUTTON_PRESS:
 			/* Pick the current item as if the button were
 			 * not pressed, and then process the event. */
-			canvas->state = event->state;
+			gdk_event_get_state ((GdkEvent *) event, &state);
+			canvas->state = state;
 			pick_current_item (canvas, (GdkEvent *) event);
 			canvas->state ^= mask;
 			retval = emit_event (canvas, (GdkEvent *) event);
@@ -2749,10 +2752,12 @@ gnome_canvas_button (GtkWidget *widget,
 		case GDK_BUTTON_RELEASE:
 			/* Process the event as if the button were pressed,
 			 * then repick after the button has been released. */
-			canvas->state = event->state;
+			gdk_event_get_state ((GdkEvent *) event, &state);
+			canvas->state = state;
 			retval = emit_event (canvas, (GdkEvent *) event);
 			event->state ^= mask;
-			canvas->state = event->state;
+			gdk_event_get_state ((GdkEvent *) event, &state);
+			canvas->state = state;
 			pick_current_item (canvas, (GdkEvent *) event);
 			event->state ^= mask;
 			break;
@@ -2772,6 +2777,7 @@ gnome_canvas_motion (GtkWidget *widget,
 	GnomeCanvas *canvas;
 	GtkLayout *layout;
 	GdkWindow *bin_window;
+	GdkModifierType state = 0;
 
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -2781,10 +2787,11 @@ gnome_canvas_motion (GtkWidget *widget,
 	layout = GTK_LAYOUT (widget);
 	bin_window = gtk_layout_get_bin_window (layout);
 
-	if (event->window != bin_window)
+	if (gdk_event_get_window ((GdkEvent *) event) != bin_window)
 		return FALSE;
 
-	canvas->state = event->state;
+	gdk_event_get_state ((GdkEvent *) event, &state);
+	canvas->state = state;
 	pick_current_item (canvas, (GdkEvent *) event);
 	return emit_event (canvas, (GdkEvent *) event);
 }
@@ -2803,13 +2810,15 @@ gnome_canvas_key (GtkWidget *widget,
 
 	if (!emit_event (canvas, (GdkEvent *) event)) {
 		GtkWidgetClass *widget_class;
+		GdkEventType event_type;
 
 		widget_class = GTK_WIDGET_CLASS (gnome_canvas_parent_class);
+		event_type = gdk_event_get_event_type ((GdkEvent *) event);
 
-		if (event->type == GDK_KEY_PRESS) {
+		if (event_type == GDK_KEY_PRESS) {
 			if (widget_class->key_press_event)
 				return (* widget_class->key_press_event) (widget, event);
-		} else if (event->type == GDK_KEY_RELEASE) {
+		} else if (event_type == GDK_KEY_RELEASE) {
 			if (widget_class->key_release_event)
 				return (* widget_class->key_release_event) (widget, event);
 		} else
@@ -2828,6 +2837,8 @@ gnome_canvas_crossing (GtkWidget *widget,
 	GnomeCanvas *canvas;
 	GtkLayout *layout;
 	GdkWindow *bin_window;
+	GdkModifierType state = 0;
+	gdouble x = 0, y = 0, x_root = 0, y_root = 0;
 
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -2837,17 +2848,20 @@ gnome_canvas_crossing (GtkWidget *widget,
 	layout = GTK_LAYOUT (canvas);
 	bin_window = gtk_layout_get_bin_window (layout);
 
-	if (event->window != bin_window)
+	if (gdk_event_get_window ((GdkEvent *) event) != bin_window)
 		return FALSE;
 
 	/* XXX Detect and disregard synthesized crossing events generated
 	 *     by synth_crossing() in gtkwidget.c.  The pointer coordinates
 	 *     are invalid and pick_current_item() relies on them. */
-	if (event->x == 0 && event->y == 0 &&
-	    event->x_root == 0 && event->y_root == 0)
+	gdk_event_get_coords ((GdkEvent *) event, &x, &y);
+	gdk_event_get_root_coords ((GdkEvent *) event, &x_root, &y_root);
+	if (x == 0 && y == 0 &&
+	    x_root == 0 && y_root == 0)
 		return FALSE;
 
-	canvas->state = event->state;
+	gdk_event_get_state ((GdkEvent *) event, &state);
+	canvas->state = state;
 	return pick_current_item (canvas, (GdkEvent *) event);
 }
 

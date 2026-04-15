@@ -1506,6 +1506,11 @@ folder_tree_button_press_event (GtkWidget *widget,
 	GtkTreeView *tree_view;
 	GtkTreePath *path;
 	gulong handler_id;
+	guint button = 0;
+	gdouble x = 0, y = 0;
+
+	gdk_event_get_button ((GdkEvent *) event, &button);
+	gdk_event_get_coords ((GdkEvent *) event, &x, &y);
 
 	tree_view = GTK_TREE_VIEW (widget);
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -1515,11 +1520,11 @@ folder_tree_button_press_event (GtkWidget *widget,
 
 	self->priv->cursor_set = TRUE;
 
-	if (event->button != 3)
+	if (button != GDK_BUTTON_SECONDARY)
 		goto chainup;
 
 	if (!gtk_tree_view_get_path_at_pos (
-		tree_view, event->x, event->y,
+		tree_view, x, y,
 		&path, NULL, NULL, NULL))
 		goto chainup;
 
@@ -1551,15 +1556,21 @@ folder_tree_key_press_event (GtkWidget *widget,
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 
-	if (event && event->type == GDK_KEY_PRESS &&
-		(event->keyval == GDK_KEY_space ||
-		 event->keyval == '.' ||
-		 event->keyval == ',' ||
-		 event->keyval == '[' ||
-		 event->keyval == ']')) {
-		g_signal_emit (widget, signals[HIDDEN_KEY_EVENT], 0, event);
+	if (event) {
+		guint keyval = 0;
 
-		return TRUE;
+		gdk_event_get_keyval ((GdkEvent *) event, &keyval);
+
+		if (gdk_event_get_event_type ((GdkEvent *) event) == GDK_KEY_PRESS &&
+			(keyval == GDK_KEY_space ||
+			 keyval == '.' ||
+			 keyval == ',' ||
+			 keyval == '[' ||
+			 keyval == ']')) {
+			g_signal_emit (widget, signals[HIDDEN_KEY_EVENT], 0, event);
+
+			return TRUE;
+		}
 	}
 
 	self = EM_FOLDER_TREE (widget);

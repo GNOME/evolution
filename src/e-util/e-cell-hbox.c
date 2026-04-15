@@ -191,16 +191,17 @@ ecv_event (ECellView *ecell_view,
 	gint i;
 	gint subcell_offset = 0;
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 	case GDK_2BUTTON_PRESS:
 	case GDK_3BUTTON_PRESS:
-		y = event->button.y;
+	case GDK_MOTION_NOTIFY: {
+		gdouble event_cx = 0, event_cy = 0;
+		gdk_event_get_coords (event, &event_cx, &event_cy);
+		y = event_cy;
 		break;
-	case GDK_MOTION_NOTIFY:
-		y = event->motion.y;
-		break;
+	}
 	default:
 		/* nada */
 		break;

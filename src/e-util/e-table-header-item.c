@@ -1205,9 +1205,10 @@ ethi_end_resize (ETableHeaderItem *ethi)
 
 static gboolean
 ethi_maybe_start_drag (ETableHeaderItem *ethi,
-                       GdkEventMotion *event)
+                       GdkEvent *event)
 {
 	GnomeCanvasItem *item;
+	gdouble x = 0, y = 0;
 
 	if (!ethi->maybe_drag)
 		return FALSE;
@@ -1219,7 +1220,8 @@ ethi_maybe_start_drag (ETableHeaderItem *ethi,
 
 	item = GNOME_CANVAS_ITEM (ethi);
 
-	return gtk_drag_check_threshold (GTK_WIDGET (item->canvas), ethi->click_x, ethi->click_y, event->x, event->y);
+	gdk_event_get_coords (event, &x, &y);
+	return gtk_drag_check_threshold (GTK_WIDGET (item->canvas), ethi->click_x, ethi->click_y, x, y);
 }
 
 static void
@@ -1234,13 +1236,15 @@ ethi_start_drag (ETableHeaderItem *ethi,
 	cairo_surface_t *s;
 	cairo_t *cr;
 	GHashTable *arrows;
+	gdouble motion_x = 0, motion_y = 0;
 
 	GtkTargetEntry  ethi_drag_types[] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
-	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
+	gdk_event_get_coords (event, &motion_x, &motion_y);
+	ethi->drag_col = ethi_find_col_by_x (ethi, motion_x);
 
 	if (ethi->drag_col == -1)
 		return;
@@ -1943,7 +1947,7 @@ ethi_event (GnomeCanvasItem *item,
 			sort_flag = E_TABLE_HEADER_ITEM_SORT_FLAG_ADD_AS_LAST;
 	}
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_ENTER_NOTIFY:
 		convert (canvas, event_x_win, event_y_win, &x, &y);
 		set_cursor (ethi, x);
@@ -1982,7 +1986,7 @@ ethi_event (GnomeCanvasItem *item,
 			e_table_header_set_size (ethi->eth, ethi->resize_col, new_width);
 
 			gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ethi));
-		} else if (ethi_maybe_start_drag (ethi, &event->motion)) {
+		} else if (ethi_maybe_start_drag (ethi, event)) {
 			ethi_start_drag (ethi, event);
 		} else
 			set_cursor (ethi, x);
@@ -1997,7 +2001,7 @@ ethi_event (GnomeCanvasItem *item,
 		convert (canvas, event_x_win, event_y_win, &x, &y);
 
 		if (is_pointer_on_division (ethi, x, &start, &col) &&
-		    event_button == 1) {
+		    event_button == GDK_BUTTON_PRIMARY) {
 			ETableCol *ecol;
 
 				/*
@@ -2020,7 +2024,7 @@ ethi_event (GnomeCanvasItem *item,
 			else if (ethi->tree)
 				e_tree_freeze_state_change (ethi->tree);
 		} else {
-			if (event_button == 1) {
+			if (event_button == GDK_BUTTON_PRIMARY) {
 				ethi->click_x = event_x_win;
 				ethi->click_y = event_y_win;
 				ethi->maybe_drag = TRUE;
@@ -2030,7 +2034,7 @@ ethi_event (GnomeCanvasItem *item,
 					ethi->selected_col = col;
 				if (gtk_widget_get_can_focus (GTK_WIDGET (item->canvas)))
 					e_canvas_item_grab_focus (item, TRUE);
-			} else if (event_button == 3) {
+			} else if (event_button == GDK_BUTTON_SECONDARY) {
 				ethi_header_context_menu (ethi, event);
 			} else
 				ethi_button_pressed (ethi, event);
@@ -2041,7 +2045,7 @@ ethi_event (GnomeCanvasItem *item,
 		if (!resizing)
 			break;
 
-		if (event_button != 1)
+		if (event_button != GDK_BUTTON_PRIMARY)
 			break;
 		else {
 			gint width = 0;

@@ -630,7 +630,7 @@ cal_shell_content_datepicker_button_press_cb (ECalendar *calendar,
 	if (!event)
 		return FALSE;
 
-	if (event->type == GDK_2BUTTON_PRESS) {
+	if (gdk_event_get_event_type (event) == GDK_2BUTTON_PRESS) {
 		ECalendarItem *calitem = e_calendar_get_item (calendar);
 		gdouble xwin = 0.0, ywin = 0.0;
 		GDate sel_start, sel_end;
