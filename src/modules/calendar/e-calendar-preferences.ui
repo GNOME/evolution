@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
@@ -1629,25 +1629,130 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="alignment1">
+          <object class="GtkBox" id="alarm_options_vbox">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="margin-bottom">10</property>
+            <property name="spacing">4</property>
             <property name="margin-start">10</property>
+            <property name="margin-bottom">10</property>
             <child>
-              <object class="GtkBox" id="alarm_options_vbox">
-                <property name="orientation">vertical</property>
+              <object class="GtkCheckButton" id="notify_with_tray">
+                <property name="label" translatable="yes">Display Reminders window with _notifications</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="notify_window_on_top">
+                <property name="label" translatable="yes">Keep reminder notification _window always on top</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="notify_enable_display">
+                <property name="label" translatable="yes">Enable de_sktop notifications</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="notify_enable_audio">
+                <property name="label" translatable="yes">Enable _audio notifications</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="task_reminder_for_completed">
+                <property name="label" translatable="yes">Display reminders for completed _tasks</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="allow-past-reminders">
+                <property name="label" translatable="yes">Display reminders for _past events</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="use_underline">True</property>
+                <property name="draw_indicator">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="hbox6">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">4</property>
                 <child>
-                  <object class="GtkCheckButton" id="notify_with_tray">
-                    <property name="label" translatable="yes">Display Reminders window with _notifications</property>
+                  <object class="GtkCheckButton" id="default_reminder">
+                    <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Set default reminder [time-period] before every new appointment&quot;">Set _default reminder</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
                     <property name="use_underline">True</property>
                     <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="default_reminder_interval">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="adjustment">adjustment1</property>
+                    <property name="climb_rate">1</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1656,13 +1761,16 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="notify_window_on_top">
-                    <property name="label" translatable="yes">Keep reminder notification _window always on top</property>
+                  <object class="GtkComboBox" id="default_reminder_units">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="model">model2</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="renderer2"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1671,13 +1779,10 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="notify_enable_display">
-                    <property name="label" translatable="yes">Enable de_sktop notifications</property>
+                  <object class="GtkLabel" id="label16">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Set default reminder [time-period] before every new appointment&quot;">before every new appointment</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1685,9 +1790,22 @@
                     <property name="position">3</property>
                   </packing>
                 </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">7</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="hbox7">
+                <property name="orientation">horizontal</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="spacing">4</property>
                 <child>
-                  <object class="GtkCheckButton" id="notify_enable_audio">
-                    <property name="label" translatable="yes">Enable _audio notifications</property>
+                  <object class="GtkCheckButton" id="ba_reminder">
+                    <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every anniversary/birthday&quot;">Show a _reminder</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1697,253 +1815,129 @@
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">4</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="task_reminder_for_completed">
-                    <property name="label" translatable="yes">Display reminders for completed _tasks</property>
+                  <object class="GtkSpinButton" id="ba_reminder_interval">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
+                    <property name="adjustment">adjustment2</property>
+                    <property name="climb_rate">1</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">5</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="allow-past-reminders">
-                    <property name="label" translatable="yes">Display reminders for _past events</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="use_underline">True</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">6</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox6">
-                    <property name="orientation">horizontal</property>
+                  <object class="GtkComboBox" id="ba_reminder_units">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">4</property>
+                    <property name="model">model3</property>
                     <child>
-                      <object class="GtkCheckButton" id="default_reminder">
-                        <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Set default reminder [time-period] before every new appointment&quot;">Set _default reminder</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="default_reminder_interval">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="adjustment">adjustment1</property>
-                        <property name="climb_rate">1</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBox" id="default_reminder_units">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="model">model2</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="renderer2"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label16">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Set default reminder [time-period] before every new appointment&quot;">before every new appointment</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">3</property>
-                      </packing>
+                      <object class="GtkCellRendererText" id="renderer3"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">7</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="hbox7">
-                    <property name="orientation">horizontal</property>
+                  <object class="GtkLabel" id="ba_reminder_label">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="spacing">4</property>
-                    <child>
-                      <object class="GtkCheckButton" id="ba_reminder">
-                        <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every anniversary/birthday&quot;">Show a _reminder</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="ba_reminder_interval">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="adjustment">adjustment2</property>
-                        <property name="climb_rate">1</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBox" id="ba_reminder_units">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="model">model3</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="renderer3"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="ba_reminder_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every anniversary/birthday&quot;">before every anniversary/birthday</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
+                    <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every anniversary/birthday&quot;">before every anniversary/birthday</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">8</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="defall_reminder_hbox">
-                    <property name="orientation">horizontal</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="spacing">4</property>
-                    <child>
-                      <object class="GtkCheckButton" id="defall_reminder">
-                        <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every event in chosen calendars&quot;">Show a r_eminder</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_underline">True</property>
-                        <property name="draw_indicator">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkSpinButton" id="defall_reminder_interval">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="adjustment">defall_reminder_adjustment</property>
-                        <property name="climb_rate">1</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkComboBox" id="defall_reminder_units">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="model">model3</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="defall_reminder_renderer"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="defall_reminder_label">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every event in chosen calendars&quot;">before every event in chosen calendars</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">3</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">9</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">8</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="defall_reminder_hbox">
+                <property name="orientation">horizontal</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="spacing">4</property>
+                <child>
+                  <object class="GtkCheckButton" id="defall_reminder">
+                    <property name="label" translatable="yes" comments="This is the first half of a user preference. &quot;Show a reminder [time-period] before every event in chosen calendars&quot;">Show a r_eminder</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="use_underline">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSpinButton" id="defall_reminder_interval">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="adjustment">defall_reminder_adjustment</property>
+                    <property name="climb_rate">1</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkComboBox" id="defall_reminder_units">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="model">model3</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="defall_reminder_renderer"/>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="defall_reminder_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes" comments="This is the last half of a user preference. &quot;Show a reminder [time-period] before every event in chosen calendars&quot;">before every event in chosen calendars</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">3</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">9</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -2065,82 +2059,76 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="default-freebusy-alignment">
+          <object class="GtkBox" id="default-freebusy-vbox">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="spacing">6</property>
             <property name="margin-start">12</property>
             <child>
-              <object class="GtkBox" id="default-freebusy-vbox">
-                <property name="orientation">vertical</property>
+              <object class="GtkGrid" id="default-freebusy-grid">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">6</property>
+                <property name="column-spacing">6</property>
+                <property name="row-spacing">6</property>
                 <child>
-                  <object class="GtkGrid" id="default-freebusy-grid">
+                  <object class="GtkLabel" id="label33">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="column-spacing">6</property>
-                    <property name="row-spacing">6</property>
-                    <child>
-                      <object class="GtkLabel" id="label33">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">_Template:</property>
-                        <property name="use_underline">True</property>
-                        <property name="mnemonic_widget">template_url</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="template_url">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="invisible_char">●</property>
-                        <property name="halign">GTK_ALIGN_FILL</property>
-                        <property name="hexpand">True</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label32">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">%u and %d will be replaced by user and domain from the email address.</property>
-                        <property name="wrap">True</property>
-                        <property name="xalign">0.0</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label-publish-auth-info">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Specify login user name as part of the URL in case the server requires authentication, like: https://USER@example.com/</property>
-                        <property name="wrap">True</property>
-                        <property name="xalign">0.0</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">2</property>
-                      </packing>
-                    </child>
+                    <property name="label" translatable="yes">_Template:</property>
+                    <property name="use_underline">True</property>
+                    <property name="mnemonic_widget">template_url</property>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkEntry" id="template_url">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="invisible_char">●</property>
+                    <property name="halign">GTK_ALIGN_FILL</property>
+                    <property name="hexpand">True</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label32">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">%u and %d will be replaced by user and domain from the email address.</property>
+                    <property name="wrap">True</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="label-publish-auth-info">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Specify login user name as part of the URL in case the server requires authentication, like: https://USER@example.com/</property>
+                    <property name="wrap">True</property>
+                    <property name="xalign">0.0</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">1</property>
+                    <property name="top-attach">2</property>
                   </packing>
                 </child>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
             </child>
           </object>
           <packing>

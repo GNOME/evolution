@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!-- Generated with glade 3.20.0 -->
 <interface>
   <requires lib="gtk+" version="3.10"/>
@@ -31,45 +31,38 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="alignment1">
+          <object class="GtkBox" id="hbox1">
+            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+            <property name="spacing">6</property>
             <property name="margin-start">24</property>
             <child>
-              <object class="GtkBox" id="hbox1">
-                <property name="orientation">horizontal</property>
+              <object class="GtkLabel" id="label8">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="spacing">6</property>
-                <child>
-                  <object class="GtkLabel" id="label8">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">_Name:</property>
-                    <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">entry-create</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="entry-create">
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="invisible_char">●</property>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
+                <property name="label" translatable="yes">_Name:</property>
+                <property name="use_underline">True</property>
+                <property name="mnemonic_widget">entry-create</property>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entry-create">
+                <property name="visible">True</property>
+                <property name="sensitive">False</property>
+                <property name="can_focus">True</property>
+                <property name="invisible_char">●</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
             </child>
           </object>
           <packing>
@@ -109,26 +102,19 @@
           </packing>
         </child>
         <child>
-          <object class="GtkAlignment" id="alignment2">
+          <object class="GtkScrolledWindow" id="scrolledwindow2">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can_focus">True</property>
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+            <property name="shadow_type">in</property>
             <property name="margin-start">24</property>
             <child>
-              <object class="GtkScrolledWindow" id="scrolledwindow2">
+              <object class="GtkTreeView" id="custom-replace">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="shadow_type">in</property>
-                <child>
-                  <object class="GtkTreeView" id="custom-replace">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection"/>
-                    </child>
-                  </object>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection"/>
                 </child>
               </object>
             </child>

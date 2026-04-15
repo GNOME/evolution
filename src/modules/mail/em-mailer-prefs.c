@@ -1233,7 +1233,7 @@ static EMConfigItem emmp_items[] = {
 	{ E_CONFIG_PAGE, (gchar *) "10.html", (gchar *) "vboxHtmlMail", emmp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "10.html/00.general", (gchar *) "html-general-vbox", emmp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "10.html/10.images", (gchar *) "loading-images-vbox", emmp_widget_glade },
-	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) "frameColours", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) "labels-box", emmp_widget_glade },
 	/* this is a table, so we can't use it { E_CONFIG_SECTION, "20.labels/00.labels", "tableColours", emmp_widget_glade }, */
 	{ E_CONFIG_PAGE, (gchar *) "30.headers", (gchar *) "vboxHeaderTab", emmp_widget_glade },
 	/* no subvbox for section { E_CONFIG_PAGE, "30.headers/00.headers", "vbox199", emmp_widget_glade }, */
@@ -1994,9 +1994,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	em_prefs_bind_settings (prefs, settings, "show-animated-images", "chkShowAnimatedImages", "active");
 	em_prefs_bind_settings (prefs, settings, "preview-unset-html-colors", "chkUnsetHTMLColors", "active");
 
-	container = e_builder_get_widget (prefs->priv->builder, "labels-alignment");
+	container = e_builder_get_widget (prefs->priv->builder, "labels-box");
 	widget = e_mail_label_manager_new ();
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	e_binding_bind_property (
@@ -2197,7 +2197,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	prefs->priv->user_headers_list = GTK_TREE_VIEW (e_builder_get_widget (prefs->priv->builder, "treeUserHeaders"));
 
 	if (!g_settings_is_writable (prefs->priv->eds_settings, "camel-message-info-user-headers")) {
-		widget = e_builder_get_widget (prefs->priv->builder, "user-headers-alignment");
+		widget = e_builder_get_widget (prefs->priv->builder, "user-headers-section");
 		gtk_widget_set_sensitive (widget, FALSE);
 	}
 

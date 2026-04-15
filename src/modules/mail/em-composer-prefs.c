@@ -1768,9 +1768,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Signatures */
 	container = e_builder_get_widget (
-		prefs->builder, "signature-alignment");
+		prefs->builder, "signature-section");
 	widget = e_mail_signature_manager_new (registry);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	/* The mail shell backend responds to the "window-added" signal
