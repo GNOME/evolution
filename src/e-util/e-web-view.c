@@ -566,7 +566,7 @@ web_view_context_menu_cb (WebKitWebView *webkit_web_view,
 	WebKitHitTestResultContext context;
 	EWebView *web_view;
 	gchar *link_uri = NULL;
-	gdouble xx, yy;
+	gdouble xx = 0, yy = 0;
 
 	web_view = E_WEB_VIEW (webkit_web_view);
 
@@ -1893,7 +1893,11 @@ static gboolean
 web_view_scroll_event (GtkWidget *widget,
                        GdkEventScroll *event)
 {
-	if (event->state & GDK_CONTROL_MASK) {
+	GdkModifierType state = 0;
+
+	gdk_event_get_state ((GdkEvent *) event, &state);
+
+	if (state & GDK_CONTROL_MASK) {
 		GdkScrollDirection direction = event->direction;
 
 		if (direction == GDK_SCROLL_SMOOTH) {
@@ -2379,7 +2383,7 @@ web_view_toplevel_event_after_cb (GtkWidget *widget,
 				  GdkEvent *event,
 				  EWebView *web_view)
 {
-	if (event && event->type == GDK_MOTION_NOTIFY && web_view->priv->has_hover_link &&
+	if (event && gdk_event_get_event_type (event) == GDK_MOTION_NOTIFY && web_view->priv->has_hover_link &&
 	    gdk_event_get_window (event) != gtk_widget_get_window (GTK_WIDGET (web_view))) {
 		/* This won't reset WebKitGTK's cached link the cursor stays on, but do this,
 		   instead of sending a fake signal to the WebKitGTK. */

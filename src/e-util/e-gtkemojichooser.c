@@ -313,7 +313,7 @@ update_hover (GtkWidget *widget,
               GdkEvent  *event,
               gpointer   data)
 {
-  if (event->type == GDK_ENTER_NOTIFY)
+  if (gdk_event_get_event_type (event) == GDK_ENTER_NOTIFY)
     gtk_widget_set_state_flags (widget, GTK_STATE_FLAG_PRELIGHT, FALSE);
   else
     gtk_widget_unset_state_flags (widget, GTK_STATE_FLAG_PRELIGHT);

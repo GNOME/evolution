@@ -2430,16 +2430,19 @@ etdp_button_press_event_cb (GtkWidget *widget,
 
 	g_return_val_if_fail (E_IS_TO_DO_PANE (to_do_pane), FALSE);
 
-	if (event->type == GDK_BUTTON_PRESS &&
+	if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS &&
 	    gdk_event_triggers_context_menu (event)) {
 		GtkTreeSelection *selection;
 		GtkTreePath *path;
+		gdouble x = 0, y = 0;
+
+		gdk_event_get_coords (event, &x, &y);
 
 		selection = gtk_tree_view_get_selection (to_do_pane->priv->tree_view);
 		if (gtk_tree_selection_get_mode (selection) == GTK_SELECTION_SINGLE)
 			gtk_tree_selection_unselect_all (selection);
 
-		if (gtk_tree_view_get_path_at_pos (to_do_pane->priv->tree_view, event->button.x, event->button.y, &path, NULL, NULL, NULL)) {
+		if (gtk_tree_view_get_path_at_pos (to_do_pane->priv->tree_view, (gint) x, (gint) y, &path, NULL, NULL, NULL)) {
 			gtk_tree_selection_select_path (selection, path);
 			gtk_tree_view_set_cursor (to_do_pane->priv->tree_view, path, NULL, FALSE);
 

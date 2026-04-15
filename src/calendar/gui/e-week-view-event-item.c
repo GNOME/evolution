@@ -206,7 +206,7 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 	if (pos == E_CALENDAR_VIEW_POS_NONE)
 		return FALSE;
 
-	if (event_button == 1) {
+	if (event_button == GDK_BUTTON_PRIMARY) {
 		week_view->pressed_event_num = event_item->priv->event_num;
 		week_view->pressed_span_num = event_item->priv->span_num;
 
@@ -224,7 +224,7 @@ week_view_event_item_button_press (EWeekViewEventItem *event_item,
 
 		return TRUE;
 
-	} else if (event_button == 3) {
+	} else if (event_button == GDK_BUTTON_SECONDARY) {
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view))) {
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			if (week_view->event_destroyed) {
@@ -1126,7 +1126,7 @@ week_view_event_item_event (GnomeCanvasItem *item,
 
 	event_item = E_WEEK_VIEW_EVENT_ITEM (item);
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_2BUTTON_PRESS:
 		return week_view_event_item_double_click (event_item, event);
 	case GDK_BUTTON_PRESS:

@@ -788,7 +788,7 @@ e_meeting_time_selector_item_event (GnomeCanvasItem *item,
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (item);
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
 		return e_meeting_time_selector_item_button_press (
 			mts_item,
@@ -821,11 +821,13 @@ e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
 	EMeetingTime start_time, end_time;
 	EMeetingTimeSelectorPosition position;
 	GDate *start_date, *end_date;
+	gdouble dx = 0, dy = 0;
 	gint x, y;
 
 	mts = mts_item->mts;
-	x = (gint) event->button.x;
-	y = (gint) event->button.y;
+	gdk_event_get_coords (event, &dx, &dy);
+	x = (gint) dx;
+	y = (gint) dy;
 
 	/* Check if we are starting a drag of the vertical meeting time bars.*/
 	position = e_meeting_time_selector_item_get_drag_position (
@@ -949,7 +951,7 @@ e_meeting_time_selector_item_button_release (EMeetingTimeSelectorItem *mts_item,
 		e_meeting_time_selector_remove_timeout (mts);
 		gnome_canvas_item_ungrab (
 			GNOME_CANVAS_ITEM (mts_item),
-			event->button.time);
+			gdk_event_get_time (event));
 	}
 
 	return FALSE;
@@ -966,11 +968,13 @@ e_meeting_time_selector_item_motion_notify (EMeetingTimeSelectorItem *mts_item,
 	EMeetingTimeSelector *mts;
 	EMeetingTimeSelectorPosition position;
 	GdkCursor *cursor;
+	gdouble dx = 0, dy = 0;
 	gint x, y;
 
 	mts = mts_item->mts;
-	x = (gint) event->motion.x;
-	y = (gint) event->motion.y;
+	gdk_event_get_coords (event, &dx, &dy);
+	x = (gint) dx;
+	y = (gint) dy;
 
 	if (mts->dragging_position != E_MEETING_TIME_SELECTOR_POS_NONE) {
 		e_meeting_time_selector_drag_meeting_time (mts, x);

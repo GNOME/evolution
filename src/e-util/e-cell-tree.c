@@ -342,7 +342,7 @@ static void
 adjust_event_position (GdkEvent *event,
                        gint offset)
 {
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 	case GDK_2BUTTON_PRESS:
@@ -362,7 +362,7 @@ event_in_expander (GdkEvent *event,
                    gint offset,
                    gint height)
 {
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
 		return (event->button.x > (offset - INDENT_AMOUNT) && event->button.x < offset);
 	case GDK_MOTION_NOTIFY:
@@ -456,7 +456,7 @@ ect_event (ECellView *ecell_view,
 	layout = GTK_LAYOUT (tree_view->canvas);
 	window = gtk_layout_get_bin_window (layout);
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
 
 		if (E_CELL_TREE (tree_view->cell_view.ecell)->show_expander &&

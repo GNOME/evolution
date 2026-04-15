@@ -690,20 +690,22 @@ e_day_view_time_item_event (GnomeCanvasItem *item,
                             GdkEvent *event)
 {
 	EDayViewTimeItem *time_item;
+	guint button = 0;
 
 	time_item = E_DAY_VIEW_TIME_ITEM (item);
+	gdk_event_get_button (event, &button);
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
-		if (event->button.button == 1) {
+		if (button == GDK_BUTTON_PRIMARY) {
 			e_day_view_time_item_on_button_press (time_item, event);
-		} else if (event->button.button == 3) {
+		} else if (button == GDK_BUTTON_SECONDARY) {
 			e_day_view_time_item_show_popup_menu (time_item, event);
 			return TRUE;
 		}
 		break;
 	case GDK_BUTTON_RELEASE:
-		if (event->button.button == 1)
+		if (button == GDK_BUTTON_PRIMARY)
 			e_day_view_time_item_on_button_release (
 				time_item, event);
 		break;
@@ -923,6 +925,7 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 	GdkGrabStatus grab_status;
 	GdkDevice *event_device;
 	guint32 event_time;
+	gdouble ev_x = 0, ev_y = 0;
 	gint row;
 
 	day_view = e_day_view_time_item_get_day_view (time_item);
@@ -930,9 +933,10 @@ e_day_view_time_item_on_button_press (EDayViewTimeItem *time_item,
 
 	canvas = GNOME_CANVAS_ITEM (time_item)->canvas;
 
+	gdk_event_get_coords (event, &ev_x, &ev_y);
 	row = e_day_view_time_item_convert_position_to_row (
 		time_item,
-		event->button.y);
+		(gint) ev_y);
 
 	if (row == -1)
 		return;
@@ -992,6 +996,7 @@ e_day_view_time_item_on_motion_notify (EDayViewTimeItem *time_item,
 	EDayView *day_view;
 	GnomeCanvas *canvas;
 	gdouble window_y;
+	gdouble ev_x = 0, ev_y = 0;
 	gint y, row;
 
 	if (!time_item->priv->dragging_selection)
@@ -1002,12 +1007,13 @@ e_day_view_time_item_on_motion_notify (EDayViewTimeItem *time_item,
 
 	canvas = GNOME_CANVAS_ITEM (time_item)->canvas;
 
-	y = event->motion.y;
+	gdk_event_get_coords (event, &ev_x, &ev_y);
+	y = (gint) ev_y;
 	row = e_day_view_time_item_convert_position_to_row (time_item, y);
 
 	if (row != -1) {
 		gnome_canvas_world_to_window (
-			canvas, 0, event->motion.y,
+			canvas, 0, ev_y,
 			NULL, &window_y);
 		e_day_view_update_selection (day_view, -1, row);
 		e_day_view_check_auto_scroll (day_view, -1, (gint) window_y);

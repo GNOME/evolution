@@ -223,24 +223,29 @@ e_menu_bar_window_event_after_cb (GtkWindow *window,
 			          GdkEvent *event,
 			          EMenuBar *self)
 {
+	GdkEventType event_type;
+
 	g_return_if_fail (event != NULL);
 
-	if (event->type != GDK_KEY_PRESS &&
-	    event->type != GDK_KEY_RELEASE &&
-	    event->type != GDK_BUTTON_RELEASE &&
-	    event->type != GDK_FOCUS_CHANGE)
+	event_type = gdk_event_get_event_type (event);
+	if (event_type != GDK_KEY_PRESS &&
+	    event_type != GDK_KEY_RELEASE &&
+	    event_type != GDK_BUTTON_RELEASE &&
+	    event_type != GDK_FOCUS_CHANGE)
 		return;
 
-	if (event->type == GDK_KEY_PRESS) {
-		GdkEventKey *key_event;
+	if (event_type == GDK_KEY_PRESS) {
+		GdkModifierType state = 0;
+		guint keyval = 0;
 		gboolean has_modifier_pressed;
 
-		key_event = (GdkEventKey *) event;
-		has_modifier_pressed = (key_event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK |
+		gdk_event_get_state (event, &state);
+		gdk_event_get_keyval (event, &keyval);
+		has_modifier_pressed = (state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK |
 					GDK_SUPER_MASK | GDK_HYPER_MASK |
 					GDK_META_MASK)) != 0;
 
-		if ((key_event->keyval == GDK_KEY_Alt_L || key_event->keyval == GDK_KEY_Alt_R) &&
+		if ((keyval == GDK_KEY_Alt_L || keyval == GDK_KEY_Alt_R) &&
 		    !has_modifier_pressed) {
 			if (self->priv->delayed_hide_id) {
 				g_source_remove (self->priv->delayed_hide_id);
@@ -258,20 +263,25 @@ e_menu_bar_window_event_after_cb (GtkWindow *window,
 				self->priv->delayed_show_id =
 					g_timeout_add (250, delayed_show_cb, self);
 			}
-		} else if (key_event->keyval == GDK_KEY_F10 && !has_modifier_pressed && self->priv->menu_button &&
+		} else if (keyval == GDK_KEY_F10 && !has_modifier_pressed && self->priv->menu_button &&
 			   gtk_widget_get_visible (self->priv->menu_button)) {
 			e_menu_bar_popup_menu (self);
 		}
-	} else if (event->type != GDK_BUTTON_RELEASE || !(event->button.state & GDK_MOD1_MASK)) {
-		if (self->priv->delayed_show_id) {
-			g_source_remove (self->priv->delayed_show_id);
-			self->priv->delayed_show_id = 0;
-		}
+	} else {
+		GdkModifierType state = 0;
 
-		if (gtk_widget_get_visible (GTK_WIDGET (self->priv->inner_menu_bar)) &&
-		    !self->priv->delayed_hide_id) {
-			self->priv->delayed_hide_id =
-				g_timeout_add (500, delayed_hide_cb, self);
+		gdk_event_get_state (event, &state);
+		if (event_type != GDK_BUTTON_RELEASE || !(state & GDK_MOD1_MASK)) {
+			if (self->priv->delayed_show_id) {
+				g_source_remove (self->priv->delayed_show_id);
+				self->priv->delayed_show_id = 0;
+			}
+
+			if (gtk_widget_get_visible (GTK_WIDGET (self->priv->inner_menu_bar)) &&
+			    !self->priv->delayed_hide_id) {
+				self->priv->delayed_hide_id =
+					g_timeout_add (500, delayed_hide_cb, self);
+			}
 		}
 	}
 }

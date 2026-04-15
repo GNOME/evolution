@@ -347,7 +347,11 @@ item_key_press (ETableItem *item,
                 GdkEvent *event,
                 ETableClickToAdd *etcta)
 {
-	switch (event->key.keyval) {
+	guint keyval = 0;
+
+	gdk_event_get_keyval (event, &keyval);
+
+	switch (keyval) {
 		case GDK_KEY_Return:
 		case GDK_KEY_KP_Enter:
 		case GDK_KEY_ISO_Enter:
@@ -438,7 +442,7 @@ etcta_event (GnomeCanvasItem *item,
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 
-	switch (e->type) {
+	switch (gdk_event_get_event_type (e)) {
 	case GDK_FOCUS_CHANGE:
 		if (!e->focus_change.in)
 			return TRUE;
@@ -491,8 +495,12 @@ etcta_event (GnomeCanvasItem *item,
 		}
 		break;
 
-	case GDK_KEY_PRESS:
-		switch (e->key.keyval) {
+	case GDK_KEY_PRESS: {
+		guint keyval = 0;
+
+		gdk_event_get_keyval (e, &keyval);
+
+		switch (keyval) {
 		case GDK_KEY_Tab:
 		case GDK_KEY_KP_Tab:
 		case GDK_KEY_ISO_Left_Tab:
@@ -512,6 +520,7 @@ etcta_event (GnomeCanvasItem *item,
 			break;
 		}
 		break;
+	}
 
 	default:
 		return FALSE;

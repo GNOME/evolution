@@ -222,9 +222,11 @@ e_canvas_vbox_event (GnomeCanvasItem *item,
 {
 	gint return_val = TRUE;
 
-	switch (event->type) {
-	case GDK_KEY_PRESS:
-		switch (event->key.keyval) {
+	switch (gdk_event_get_event_type (event)) {
+	case GDK_KEY_PRESS: {
+		guint keyval = 0;
+		gdk_event_get_keyval (event, &keyval);
+		switch (keyval) {
 		case GDK_KEY_Left:
 		case GDK_KEY_KP_Left:
 		case GDK_KEY_Right:
@@ -242,6 +244,7 @@ e_canvas_vbox_event (GnomeCanvasItem *item,
 			break;
 		}
 		break;
+	}
 	default:
 		return_val = FALSE;
 		break;

@@ -1302,7 +1302,7 @@ white_item_event (GnomeCanvasItem *white_item,
 
 		gdk_event_get_button (event, &event_button);
 
-		if (event->type == GDK_BUTTON_PRESS && (event_button == 1 || event_button == 2)) {
+		if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS && (event_button == GDK_BUTTON_PRIMARY || event_button == GDK_BUTTON_MIDDLE)) {
 			focus_first_etable_item (e_table->group);
 			return_val = TRUE;
 		}
@@ -1330,15 +1330,18 @@ et_canvas_root_event (GnomeCanvasItem *root,
                       GdkEvent *event,
                       ETable *e_table)
 {
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
 	case GDK_2BUTTON_PRESS:
-	case GDK_BUTTON_RELEASE:
-		if (event->button.button != 4 && event->button.button != 5) {
+	case GDK_BUTTON_RELEASE: {
+		guint button = 0;
+		gdk_event_get_button (event, &button);
+		if (button != 4 && button != 5) {
 			et_eti_leave_edit (e_table);
 			return TRUE;
 		}
 		break;
+	}
 	default:
 		break;
 	}

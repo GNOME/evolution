@@ -2048,16 +2048,20 @@ static gint
 e_calendar_item_key_press_event (ECalendarItem *calitem,
                                  GdkEvent *event)
 {
-	guint keyval = event->key.keyval;
+	guint keyval = 0;
+	GdkModifierType state = 0;
 	gboolean is_rtl;
 	gboolean multi_selection;
 
-	if (event->key.state & GDK_CONTROL_MASK ||
-	    event->key.state & GDK_MOD1_MASK)
+	gdk_event_get_keyval (event, &keyval);
+	gdk_event_get_state (event, &state);
+
+	if (state & GDK_CONTROL_MASK ||
+	    state & GDK_MOD1_MASK)
 		return FALSE;
 
 	is_rtl = gtk_widget_get_direction (GTK_WIDGET (GNOME_CANVAS_ITEM (calitem)->canvas)) == GTK_TEXT_DIR_RTL;
-	multi_selection = event->key.state & GDK_SHIFT_MASK;
+	multi_selection = state & GDK_SHIFT_MASK;
 
 	switch (keyval) {
 	case GDK_KEY_Up:
@@ -2083,7 +2087,7 @@ e_calendar_item_key_press_event (ECalendarItem *calitem,
 	case GDK_KEY_space:
 	case GDK_KEY_Return:
 	case GDK_KEY_KP_Enter:
-		e_calendar_item_stop_selecting (calitem, event->key.time);
+		e_calendar_item_stop_selecting (calitem, gdk_event_get_time (event));
 		break;
 	default:
 		return FALSE;
@@ -2099,7 +2103,7 @@ e_calendar_item_event (GnomeCanvasItem *item,
 
 	calitem = E_CALENDAR_ITEM (item);
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
 		return e_calendar_item_button_press (calitem, event);
 	case GDK_BUTTON_RELEASE:
@@ -2373,14 +2377,14 @@ e_calendar_item_button_press (ECalendarItem *calitem,
 						      &all_week))
 		return FALSE;
 
-	if (event_button == 3 && day == -1
+	if (event_button == GDK_BUTTON_SECONDARY && day == -1
 	    && e_calendar_item_get_display_popup (calitem)) {
 		e_calendar_item_show_popup_menu (
 			calitem, button_event, month_offset);
 		return TRUE;
 	}
 
-	if (event_button != 1 || day == -1)
+	if (event_button != GDK_BUTTON_PRIMARY || day == -1)
 		return FALSE;
 
 	if (calitem->max_days_selected < 1)
@@ -2486,13 +2490,15 @@ e_calendar_item_motion (ECalendarItem *calitem,
 	gint start_month, start_day, end_month, end_day, month_offset, day;
 	gint tmp_month, tmp_day, days_in_selection;
 	gboolean all_week, round_up_end = FALSE, round_down_start = FALSE;
+	gdouble x = 0, y = 0;
 
 	if (!calitem->selecting)
 		return FALSE;
 
+	gdk_event_get_coords (event, &x, &y);
 	if (!e_calendar_item_convert_position_to_day (calitem,
-						      event->button.x,
-						      event->button.y,
+						      x,
+						      y,
 						      TRUE,
 						      &month_offset, &day,
 						      &all_week))

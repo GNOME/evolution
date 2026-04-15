@@ -642,23 +642,31 @@ etfci_event (GnomeCanvasItem *item,
 	GnomeCanvas *canvas = item->canvas;
 	gint x, y;
 
-	switch (e->type) {
-	case GDK_MOTION_NOTIFY:
-		gnome_canvas_w2c (canvas, e->motion.x, e->motion.y, &x, &y);
+	switch (gdk_event_get_event_type (e)) {
+	case GDK_MOTION_NOTIFY: {
+		gdouble ex = 0, ey = 0;
+		gdk_event_get_coords (e, &ex, &ey);
+		gnome_canvas_w2c (canvas, ex, ey, &x, &y);
 
 		if (etfci_maybe_start_drag (etfci, x, y))
 			etfci_start_drag (etfci, e, x, y);
 		break;
+	}
 
-	case GDK_BUTTON_PRESS:
-		gnome_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
+	case GDK_BUTTON_PRESS: {
+		gdouble ex = 0, ey = 0;
+		guint ebutton = 0;
+		gdk_event_get_coords (e, &ex, &ey);
+		gdk_event_get_button (e, &ebutton);
+		gnome_canvas_w2c (canvas, ex, ey, &x, &y);
 
-		if (e->button.button == 1) {
+		if (ebutton == GDK_BUTTON_PRIMARY) {
 			etfci->click_x = x;
 			etfci->click_y = y;
 			etfci->maybe_drag = TRUE;
 		}
 		break;
+	}
 
 	case GDK_BUTTON_RELEASE: {
 		etfci->maybe_drag = FALSE;

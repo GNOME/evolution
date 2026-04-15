@@ -4445,10 +4445,10 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 
 	e_day_view_stop_editing_event (day_view);
 
-	if (event_button == 1) {
+	if (event_button == GDK_BUTTON_PRIMARY) {
 		GdkGrabStatus grab_status;
 
-		if (button_event->type == GDK_2BUTTON_PRESS) {
+		if (gdk_event_get_event_type (button_event) == GDK_2BUTTON_PRESS) {
 			time_t dtstart, dtend;
 
 			day_view_get_selected_time_range ((ECalendarView *) day_view, &dtstart, &dtend);
@@ -4489,7 +4489,7 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 			day_view->bc_event_time = event_time;
 			e_day_view_start_selection (day_view, day, -1);
 		}
-	} else if (event_button == 3) {
+	} else if (event_button == GDK_BUTTON_SECONDARY) {
 		if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
@@ -4512,33 +4512,13 @@ e_day_view_convert_event_coords (EDayView *day_view,
                                  gint *y_return)
 {
 	gint event_x, event_y, win_x, win_y;
+	gdouble x = 0, y = 0;
 	GdkWindow *event_window;
 
-	/* Get the event window, x & y from the appropriate event struct. */
-	switch (event->type) {
-	case GDK_BUTTON_PRESS:
-	case GDK_2BUTTON_PRESS:
-	case GDK_3BUTTON_PRESS:
-	case GDK_BUTTON_RELEASE:
-		event_x = event->button.x;
-		event_y = event->button.y;
-		event_window = event->button.window;
-		break;
-	case GDK_MOTION_NOTIFY:
-		event_x = event->motion.x;
-		event_y = event->motion.y;
-		event_window = event->motion.window;
-		break;
-	case GDK_ENTER_NOTIFY:
-	case GDK_LEAVE_NOTIFY:
-		event_x = event->crossing.x;
-		event_y = event->crossing.y;
-		event_window = event->crossing.window;
-		break;
-	default:
-		/* Shouldn't get here. */
-		g_return_val_if_reached (FALSE);
-	}
+	gdk_event_get_coords (event, &x, &y);
+	event_x = x;
+	event_y = y;
+	event_window = gdk_event_get_window (event);
 
 	while (event_window && event_window != window
 	       && event_window != gdk_get_default_root_window ()) {
@@ -4609,10 +4589,10 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 	e_day_view_stop_editing_event (day_view);
 
 	/* Start the selection drag. */
-	if (event_button == 1) {
+	if (event_button == GDK_BUTTON_PRIMARY) {
 		GdkGrabStatus grab_status;
 
-		if (button_event->type == GDK_2BUTTON_PRESS) {
+		if (gdk_event_get_event_type (button_event) == GDK_2BUTTON_PRESS) {
 			time_t dtstart, dtend;
 
 			day_view_get_selected_time_range ((ECalendarView *) day_view, &dtstart, &dtend);
@@ -4653,7 +4633,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 			e_day_view_start_selection (day_view, day, row);
 			g_signal_emit_by_name (day_view, "selected_time_changed");
 		}
-	} else if (event_button == 3) {
+	} else if (event_button == GDK_BUTTON_SECONDARY) {
 		if (!gtk_widget_has_focus (GTK_WIDGET (day_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
@@ -4757,21 +4737,21 @@ e_day_view_on_long_event_button_press (EDayView *day_view,
 
 	gdk_event_get_button (button_event, &event_button);
 
-	if (event_button == 1) {
-		if (button_event->type == GDK_BUTTON_PRESS) {
+	if (event_button == GDK_BUTTON_PRIMARY) {
+		if (gdk_event_get_event_type (button_event) == GDK_BUTTON_PRESS) {
 			e_day_view_on_long_event_click (
 				day_view, event_num,
 				button_event, pos,
 				event_x, event_y);
 			return TRUE;
-		} else if (button_event->type == GDK_2BUTTON_PRESS) {
+		} else if (gdk_event_get_event_type (button_event) == GDK_2BUTTON_PRESS) {
 			e_day_view_on_event_double_click (
 				day_view, -1,
 				event_num);
 			g_signal_stop_emission_by_name (day_view->top_canvas, "button_press_event");
 			return TRUE;
 		}
-	} else if (event_button == 3) {
+	} else if (event_button == GDK_BUTTON_SECONDARY) {
 		EDayViewEvent *e;
 
 		if (!is_array_index_in_bounds (day_view->long_events, event_num))
@@ -4804,14 +4784,14 @@ e_day_view_on_event_button_press (EDayView *day_view,
 
 	gdk_event_get_button (button_event, &event_button);
 
-	if (event_button == 1) {
-		if (button_event->type == GDK_BUTTON_PRESS) {
+	if (event_button == GDK_BUTTON_PRIMARY) {
+		if (gdk_event_get_event_type (button_event) == GDK_BUTTON_PRESS) {
 			e_day_view_on_event_click (
 				day_view, day, event_num,
 				button_event, pos,
 				event_x, event_y);
 			return TRUE;
-		} else if (button_event->type == GDK_2BUTTON_PRESS) {
+		} else if (gdk_event_get_event_type (button_event) == GDK_2BUTTON_PRESS) {
 			e_day_view_on_event_double_click (
 				day_view, day,
 				event_num);
@@ -4819,7 +4799,7 @@ e_day_view_on_event_button_press (EDayView *day_view,
 			g_signal_stop_emission_by_name (day_view->main_canvas, "button_press_event");
 			return TRUE;
 		}
-	} else if (event_button == 3) {
+	} else if (event_button == GDK_BUTTON_SECONDARY) {
 		EDayViewEvent *e;
 
 		if (!is_array_index_in_bounds (day_view->events[day], event_num))
@@ -6626,7 +6606,8 @@ e_day_view_do_key_press (GtkWidget *widget,
                          GdkEventKey *event)
 {
 	EDayView *day_view;
-	guint keyval;
+	guint keyval = 0;
+	GdkModifierType state = 0;
 	gboolean stop_emission;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -6634,7 +6615,8 @@ e_day_view_do_key_press (GtkWidget *widget,
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	day_view = E_DAY_VIEW (widget);
-	keyval = event->keyval;
+	gdk_event_get_keyval ((GdkEvent *) event, &keyval);
+	gdk_event_get_state ((GdkEvent *) event, &state);
 
 	/* The Escape key aborts a resize operation. */
 	if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
@@ -6642,7 +6624,7 @@ e_day_view_do_key_press (GtkWidget *widget,
 			if (day_view->grabbed_pointer != NULL) {
 				gdk_device_ungrab (
 					day_view->grabbed_pointer,
-					event->time);
+					gdk_event_get_time ((GdkEvent *) event));
 				g_object_unref (day_view->grabbed_pointer);
 				day_view->grabbed_pointer = NULL;
 			}
@@ -6652,9 +6634,9 @@ e_day_view_do_key_press (GtkWidget *widget,
 	}
 
 	/* Alt + Arrow Keys to move a selected event through time lines */
-	if (((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
-		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-		&&((event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK)) {
+	if (((state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+		&&((state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+		&&((state & GDK_MOD1_MASK) == GDK_MOD1_MASK)) {
 		if (keyval == GDK_KEY_Up || keyval == GDK_KEY_KP_Up)
 			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_UP);
 		else if (keyval == GDK_KEY_Down || keyval == GDK_KEY_KP_Down)
@@ -6667,39 +6649,39 @@ e_day_view_do_key_press (GtkWidget *widget,
 
 	/*Go to the start/end of a work day*/
 	if ((keyval == GDK_KEY_Home)
-			&&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
-			&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-			&&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+			&&((state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+			&&((state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+			&&((state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
 		e_day_view_goto_start_of_work_day (day_view);
 		return TRUE;
 	}
 	if ((keyval == GDK_KEY_End)
-	    &&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
-	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+	    &&((state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+	    &&((state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+	    &&((state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
 		e_day_view_goto_end_of_work_day (day_view);
 		return TRUE;
 	}
 
 	/* In DayView, Shift+Home/End, Change the duration to the time that begins/ends the current work day */
 	if ((keyval == GDK_KEY_Home)
-	    &&((event->state & GDK_SHIFT_MASK) == GDK_SHIFT_MASK)
-	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+	    &&((state & GDK_SHIFT_MASK) == GDK_SHIFT_MASK)
+	    &&((state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+	    &&((state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
 		e_day_view_change_duration_to_start_of_work_day (day_view);
 		return TRUE;
 	}
 	if ((keyval == GDK_KEY_End)
-	    &&((event->state & GDK_SHIFT_MASK) == GDK_SHIFT_MASK)
-	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+	    &&((state & GDK_SHIFT_MASK) == GDK_SHIFT_MASK)
+	    &&((state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+	    &&((state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
 		e_day_view_change_duration_to_end_of_work_day (day_view);
 		return TRUE;
 	}
 
 	/* Handle the cursor keys for moving & extending the selection. */
 	stop_emission = TRUE;
-	if (event->state & GDK_SHIFT_MASK) {
+	if (state & GDK_SHIFT_MASK) {
 		switch (keyval) {
 		case GDK_KEY_Up:
 			e_day_view_cursor_key_up_shifted (day_view, event);
@@ -6717,8 +6699,8 @@ e_day_view_do_key_press (GtkWidget *widget,
 			stop_emission = FALSE;
 			break;
 		}
-	} else if (!(event->state & GDK_MOD1_MASK) &&
-		   !(event->state & GDK_CONTROL_MASK)) {
+	} else if (!(state & GDK_MOD1_MASK) &&
+		   !(state & GDK_CONTROL_MASK)) {
 		switch (keyval) {
 		case GDK_KEY_Up:
 			e_day_view_cursor_key_up (day_view, event);
@@ -6755,7 +6737,7 @@ e_day_view_do_key_press (GtkWidget *widget,
 	 * character. */
 	if ((keyval != GDK_KEY_Return && keyval != GDK_KEY_KP_Enter) &&
 	    (((keyval >= 0x20) && (keyval <= 0xFF)
-	      && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
+	      && (state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 	     || (event->length == 0)
 	     || (keyval == GDK_KEY_Tab)
 	     || (keyval == GDK_KEY_Escape)
@@ -7482,12 +7464,14 @@ e_day_view_start_editing_event (EDayView *day_view,
 	e_canvas_item_grab_focus (event->canvas_item, TRUE);
 
 	if (key_event) {
+		guint keyval = 0;
+		gdk_event_get_keyval ((GdkEvent *) key_event, &keyval);
 		if (gtk_im_context_filter_keypress (((EText *)(event->canvas_item))->im_context, key_event)) {
 			((EText *)(event->canvas_item))->need_im_reset = TRUE;
-		} else if (key_event->keyval != GDK_KEY_Return && key_event->keyval != GDK_KEY_KP_Enter) {
+		} else if (keyval != GDK_KEY_Return && keyval != GDK_KEY_KP_Enter) {
 			gchar *initial_text;
 
-			initial_text = e_utf8_from_gtk_event_key (GTK_WIDGET (day_view), key_event->keyval, key_event->string);
+			initial_text = e_utf8_from_gtk_event_key (GTK_WIDGET (day_view), keyval, key_event->string);
 			gnome_canvas_item_set (
 				event->canvas_item,
 				"text", initial_text,
@@ -7562,11 +7546,16 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
                                GdkEvent *event,
                                EDayView *day_view)
 {
-	switch (event->type) {
+	guint keyval = 0;
+	GdkModifierType state = 0;
+
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_KEY_PRESS:
+		gdk_event_get_keyval (event, &keyval);
+		gdk_event_get_state (event, &state);
 		if (!E_TEXT (item)->preedit_len && event && (
-		     event->key.keyval == GDK_KEY_Return ||
-		     event->key.keyval == GDK_KEY_KP_Enter)) {
+		     keyval == GDK_KEY_Return ||
+		     keyval == GDK_KEY_KP_Enter)) {
 			day_view->resize_event_num = -1;
 
 			/* We set the keyboard focus to the EDayView, so the
@@ -7577,22 +7566,22 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			 * other events getting to the EText item. */
 			g_signal_stop_emission_by_name (item, "event");
 			return TRUE;
-		} else if (event->key.keyval == GDK_KEY_Escape) {
+		} else if (keyval == GDK_KEY_Escape) {
 			cancel_editing (day_view);
 			g_signal_stop_emission_by_name (item, "event");
 			/* focus should go to day view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 			return TRUE;
-	       } else if ((event->key.keyval == GDK_KEY_Up)
-			  && (event->key.state & GDK_SHIFT_MASK)
-			  && (event->key.state & GDK_CONTROL_MASK)
-			  && !(event->key.state & GDK_MOD1_MASK)) {
+	       } else if ((keyval == GDK_KEY_Up)
+			  && (state & GDK_SHIFT_MASK)
+			  && (state & GDK_CONTROL_MASK)
+			  && !(state & GDK_MOD1_MASK)) {
 		       e_day_view_change_event_end_time_up (day_view);
 		       return TRUE;
-	       } else if ((event->key.keyval == GDK_KEY_Down)
-			  && (event->key.state & GDK_SHIFT_MASK)
-			  && (event->key.state & GDK_CONTROL_MASK)
-			  && !(event->key.state & GDK_MOD1_MASK)) {
+	       } else if ((keyval == GDK_KEY_Down)
+			  && (state & GDK_SHIFT_MASK)
+			  && (state & GDK_CONTROL_MASK)
+			  && !(state & GDK_MOD1_MASK)) {
 		       e_day_view_change_event_end_time_down (day_view);
 		       return TRUE;
 		}
@@ -7631,6 +7620,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			gboolean main_canvas = TRUE;
 			GdkWindow *window;
 			GtkLayout *layout;
+			gdouble x_root = 0, y_root = 0;
 
 			if (day_view->editing_event_num != -1)
 				break;
@@ -7691,8 +7681,9 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			g_object_set_data (G_OBJECT (item), "event-num", GINT_TO_POINTER (event_num));
 			g_object_set_data (G_OBJECT (item), "event-day", GINT_TO_POINTER (day));
 
-			pevent->x = ((GdkEventCrossing *) event)->x_root;
-			pevent->y = ((GdkEventCrossing *) event)->y_root;
+			gdk_event_get_root_coords (event, &x_root, &y_root);
+			pevent->x = x_root;
+			pevent->y = y_root;
 
 		return TRUE;
 		}
@@ -7702,6 +7693,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 		{
 			EDayViewEvent *pevent;
 			gint event_num, day;
+			gdouble x_root = 0, y_root = 0;
 
 			e_day_view_check_layout (day_view);
 
@@ -7712,8 +7704,9 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			if (!pevent)
 				break;
 
-			pevent->x = ((GdkEventMotion *) event)->x_root;
-			pevent->y = ((GdkEventMotion *) event)->y_root;
+			gdk_event_get_root_coords (event, &x_root, &y_root);
+			pevent->x = x_root;
+			pevent->y = y_root;
 
 			return TRUE;
 		}
