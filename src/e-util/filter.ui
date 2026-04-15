@@ -79,12 +79,14 @@
       </row>
     </data>
   </object>
-  <object class="GtkVBox" id="filter_datespec">
+  <object class="GtkBox" id="filter_datespec">
+    <property name="orientation">vertical</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="spacing">6</property>
     <child>
-      <object class="GtkHBox" id="hbox5">
+      <object class="GtkBox" id="hbox5">
+        <property name="orientation">horizontal</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">4</property>
@@ -147,7 +149,8 @@
         <property name="show_tabs">False</property>
         <property name="show_border">False</property>
         <child>
-          <object class="GtkVBox" id="vbox9">
+          <object class="GtkBox" id="vbox9">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -181,7 +184,8 @@ the current time when filtering occurs.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox7">
+          <object class="GtkBox" id="vbox7">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -227,7 +231,8 @@ the beginning of the specified day.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox8">
+          <object class="GtkBox" id="vbox8">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
@@ -252,7 +257,8 @@ a time relative to when filtering occurs.</property>
                 <property name="margin-top">5</property>
                 <property name="margin-start">58</property>
                 <child>
-                  <object class="GtkHBox" id="hbox6">
+                  <object class="GtkBox" id="hbox6">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
@@ -351,7 +357,8 @@ a time relative to when filtering occurs.</property>
       <column type="gboolean"/>
     </columns>
   </object>
-  <object class="GtkVBox" id="rule_editor">
+  <object class="GtkBox" id="rule_editor">
+    <property name="orientation">vertical</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">12</property>
@@ -388,7 +395,8 @@ a time relative to when filtering occurs.</property>
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="rule_frame">
+      <object class="GtkBox" id="rule_frame">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">6</property>
@@ -410,7 +418,8 @@ a time relative to when filtering occurs.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox10">
+          <object class="GtkBox" id="hbox10">
+            <property name="orientation">horizontal</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">12</property>
@@ -426,7 +435,8 @@ a time relative to when filtering occurs.</property>
               </packing>
             </child>
             <child>
-              <object class="GtkHBox" id="hbox4">
+              <object class="GtkBox" id="hbox4">
+                <property name="orientation">horizontal</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
@@ -477,7 +487,8 @@ a time relative to when filtering occurs.</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkVBox" id="vbox5">
+                  <object class="GtkBox" id="vbox5">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>

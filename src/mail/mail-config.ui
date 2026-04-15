@@ -172,13 +172,15 @@
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <child>
-      <object class="GtkVBox" id="vboxComposerGeneral">
+      <object class="GtkBox" id="vboxComposerGeneral">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">12</property>
         <property name="spacing">6</property>
         <child>
-          <object class="GtkVBox" id="default-behavior-section">
+          <object class="GtkBox" id="default-behavior-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -204,7 +206,8 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="default-behavior-vbox">
+                  <object class="GtkBox" id="default-behavior-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">8</property>
@@ -372,7 +375,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="hboxWrapCharactersCount">
+                      <object class="GtkBox" id="hboxWrapCharactersCount">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -413,7 +417,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="hboxComposerCharset">
+                      <object class="GtkBox" id="hboxComposerCharset">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -459,7 +464,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="replies-and-forwards-section">
+          <object class="GtkBox" id="replies-and-forwards-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -758,13 +764,15 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vboxSignatures">
+      <object class="GtkBox" id="vboxSignatures">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">12</property>
         <property name="spacing">12</property>
         <child>
-          <object class="GtkVBox" id="signature-section">
+          <object class="GtkBox" id="signature-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -826,13 +834,15 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vboxSpellChecking">
+      <object class="GtkBox" id="vboxSpellChecking">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">12</property>
         <property name="spacing">12</property>
         <child>
-          <object class="GtkVBox" id="languages-section">
+          <object class="GtkBox" id="languages-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -936,7 +946,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="spell-options-section">
+          <object class="GtkBox" id="spell-options-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -962,7 +973,8 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="spell-options-vbox">
+                  <object class="GtkBox" id="spell-options-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
@@ -1017,7 +1029,8 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="confirmation-section">
+      <object class="GtkBox" id="confirmation-section">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">12</property>
@@ -1042,7 +1055,8 @@
             <property name="can_focus">False</property>
             <property name="margin-start">12</property>
             <child>
-              <object class="GtkVBox" id="confirmation-vbox">
+              <object class="GtkBox" id="confirmation-vbox">
+                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
@@ -1804,13 +1818,15 @@
     <property name="can_focus">True</property>
     <property name="scrollable">True</property>
     <child>
-      <object class="GtkVBox" id="vboxMailGeneral">
+      <object class="GtkBox" id="vboxMailGeneral">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">12</property>
         <property name="spacing">12</property>
         <child>
-          <object class="GtkVBox" id="start-up-section">
+          <object class="GtkBox" id="start-up-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -1836,12 +1852,14 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="start-up-vbox">
+                  <object class="GtkBox" id="start-up-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkHBox" id="start-up-hbox1">
+                      <object class="GtkBox" id="start-up-hbox1">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
@@ -1869,7 +1887,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="start-up-hbox2">
+                      <object class="GtkBox" id="start-up-hbox2">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
@@ -1913,7 +1932,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="message-display-section">
+          <object class="GtkBox" id="message-display-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -1939,7 +1959,8 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="message-display-vbox">
+                  <object class="GtkBox" id="message-display-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
@@ -2044,7 +2065,8 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkHBox" id="minfontsize-hbox">
+                              <object class="GtkBox" id="minfontsize-hbox">
+                                <property name="orientation">horizontal</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="spacing">6</property>
@@ -2095,7 +2117,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="hboxReadTimeout">
+                      <object class="GtkBox" id="hboxReadTimeout">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -2152,7 +2175,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="hboxHighlightColor">
+                      <object class="GtkBox" id="hboxHighlightColor">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -2208,7 +2232,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkHBox" id="hboxDefaultCharset">
+                      <object class="GtkBox" id="hboxDefaultCharset">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -2301,7 +2326,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="delete-mail-section">
+          <object class="GtkBox" id="delete-mail-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -2327,12 +2353,14 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="delete-mail-vbox">
+                  <object class="GtkBox" id="delete-mail-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkHBox" id="hbox220">
+                      <object class="GtkBox" id="hbox220">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
@@ -2442,7 +2470,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="archive-mail-section">
+          <object class="GtkBox" id="archive-mail-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -2468,12 +2497,14 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="archive-mail-vbox">
+                  <object class="GtkBox" id="archive-mail-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
                     <child>
-                      <object class="GtkHBox" id="archive-mail-hbox">
+                      <object class="GtkBox" id="archive-mail-hbox">
+                        <property name="orientation">horizontal</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">4</property>
@@ -2533,13 +2564,15 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vboxHtmlMail">
+      <object class="GtkBox" id="vboxHtmlMail">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">12</property>
         <property name="spacing">12</property>
         <child>
-          <object class="GtkVBox" id="html-general-section">
+          <object class="GtkBox" id="html-general-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -2565,7 +2598,8 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="html-general-vbox">
+                  <object class="GtkBox" id="html-general-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
@@ -2618,7 +2652,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="loading-images-section">
+          <object class="GtkBox" id="loading-images-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -2644,7 +2679,8 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="loading-images-vbox">
+                  <object class="GtkBox" id="loading-images-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
@@ -2965,7 +3001,8 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="frameColours">
+      <object class="GtkBox" id="frameColours">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">12</property>
@@ -3020,13 +3057,15 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vboxHeaderTab">
+      <object class="GtkBox" id="vboxHeaderTab">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="border_width">12</property>
         <property name="spacing">12</property>
         <child>
-          <object class="GtkVBox" id="photograph-section">
+          <object class="GtkBox" id="photograph-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -3052,7 +3091,8 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkVBox" id="photograph-vbox">
+                  <object class="GtkBox" id="photograph-vbox">
+                    <property name="orientation">vertical</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
@@ -3105,7 +3145,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="message-headers-section">
+          <object class="GtkBox" id="message-headers-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -3150,12 +3191,14 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkHBox" id="message-headers-hbox">
+                  <object class="GtkBox" id="message-headers-hbox">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkVBox" id="vbox199">
+                      <object class="GtkBox" id="vbox199">
+                        <property name="orientation">vertical</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">12</property>
@@ -3206,7 +3249,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkVBox" id="vbox200">
+                      <object class="GtkBox" id="vbox200">
+                        <property name="orientation">vertical</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -3277,7 +3321,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="user-headers-section">
+          <object class="GtkBox" id="user-headers-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -3304,12 +3349,14 @@
                 <property name="can_focus">False</property>
                 <property name="margin-start">12</property>
                 <child>
-                  <object class="GtkHBox" id="user-headers-hbox">
+                  <object class="GtkBox" id="user-headers-hbox">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">12</property>
                     <child>
-                      <object class="GtkVBox" id="user-headers-vbox1">
+                      <object class="GtkBox" id="user-headers-vbox1">
+                        <property name="orientation">vertical</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">12</property>
@@ -3345,7 +3392,8 @@
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkVBox" id="user-headers-vbox2">
+                      <object class="GtkBox" id="user-headers-vbox2">
+                        <property name="orientation">vertical</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="spacing">6</property>
@@ -3416,7 +3464,8 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="datetime-format-section">
+          <object class="GtkBox" id="datetime-format-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -3478,14 +3527,16 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vboxJunk">
+      <object class="GtkBox" id="vboxJunk">
+        <property name="orientation">vertical</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="valign">start</property>
         <property name="border_width">12</property>
         <property name="spacing">12</property>
         <child>
-          <object class="GtkVBox" id="junk-general-section">
+          <object class="GtkBox" id="junk-general-section">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="spacing">6</property>
@@ -3527,7 +3578,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox237">
+                  <object class="GtkBox" id="hbox237">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">4</property>
@@ -3653,7 +3705,8 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox243">
+                  <object class="GtkBox" id="hbox243">
+                    <property name="orientation">horizontal</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="spacing">6</property>
