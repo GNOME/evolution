@@ -1409,11 +1409,13 @@ e_contact_card_box_card_event_cb (GtkWidget *container,
 	EContactCardBox *self = E_CONTACT_CARD_BOX (user_data);
 	guint item_index = G_MAXUINT;
 	gboolean ret = FALSE;
+	guint button;
 
 	if (card)
 		item_index = e_contact_card_box_get_card_index (self, card);
 
-	if (event->type == GDK_BUTTON_PRESS && event->button.button == GDK_BUTTON_PRIMARY) {
+	gdk_event_get_button (event, &button);
+	if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS && button == GDK_BUTTON_PRIMARY) {
 		if (card) {
 			gboolean modify;
 			gboolean extend;

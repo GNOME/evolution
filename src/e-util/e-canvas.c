@@ -50,16 +50,18 @@ canvas_emit_event (GnomeCanvas *canvas,
 	gint finished;
 	GnomeCanvasItem *item;
 	GnomeCanvasItem *parent;
+	GdkEventType event_type;
 	guint mask;
 
 	/* Choose where we send the event */
 
 	item = canvas->current_item;
+	event_type = gdk_event_get_event_type (event);
 
 	if (canvas->focused_item &&
-		((event->type == GDK_KEY_PRESS) ||
-		 (event->type == GDK_KEY_RELEASE) ||
-		 (event->type == GDK_FOCUS_CHANGE)))
+		((event_type == GDK_KEY_PRESS) ||
+		 (event_type == GDK_KEY_RELEASE) ||
+		 (event_type == GDK_FOCUS_CHANGE)))
 		item = canvas->focused_item;
 
 	if (canvas->grabbed_item)
@@ -68,7 +70,7 @@ canvas_emit_event (GnomeCanvas *canvas,
 	/* Perform checks for grabbed items */
 
 	if (canvas->grabbed_item) {
-		switch (event->type) {
+		switch (event_type) {
 			case GDK_ENTER_NOTIFY:
 				mask = GDK_ENTER_NOTIFY_MASK;
 				break;
@@ -113,7 +115,7 @@ canvas_emit_event (GnomeCanvas *canvas,
 
 	ev = gdk_event_copy (event);
 
-	switch (ev->type) {
+	switch (event_type) {
 		case GDK_ENTER_NOTIFY:
 		case GDK_LEAVE_NOTIFY:
 			gnome_canvas_window_to_world (
@@ -196,6 +198,8 @@ pick_current_item (GnomeCanvas *canvas,
 {
 	gint button_down;
 	gdouble x, y;
+	gdouble x_root, y_root;
+	GdkModifierType state;
 	gint cx, cy;
 	gint retval;
 
@@ -219,29 +223,33 @@ pick_current_item (GnomeCanvas *canvas,
 	 * synthesize an enter event.
 	 */
 	if (event != &canvas->pick_event) {
-		if ((event->type == GDK_MOTION_NOTIFY) ||
-		    (event->type == GDK_BUTTON_RELEASE)) {
+		GdkEventType event_type = gdk_event_get_event_type (event);
+		if (event_type == GDK_MOTION_NOTIFY || event_type == GDK_BUTTON_RELEASE) {
 			/* these fields have the same offsets in both types of events */
 
 			canvas->pick_event.crossing.type = GDK_ENTER_NOTIFY;
-			canvas->pick_event.crossing.window = event->motion.window;
+			canvas->pick_event.crossing.window = gdk_event_get_window (event);
 			canvas->pick_event.crossing.send_event = event->motion.send_event;
 			canvas->pick_event.crossing.subwindow = NULL;
-			canvas->pick_event.crossing.x = event->motion.x;
-			canvas->pick_event.crossing.y = event->motion.y;
+			gdk_event_get_coords (event, &x, &y);
+			canvas->pick_event.crossing.x = x;
+			canvas->pick_event.crossing.y = y;
 			canvas->pick_event.crossing.mode = GDK_CROSSING_NORMAL;
 			canvas->pick_event.crossing.detail = GDK_NOTIFY_NONLINEAR;
 			canvas->pick_event.crossing.focus = FALSE;
-			canvas->pick_event.crossing.state = event->motion.state;
+			gdk_event_get_state (event, &state);
+			canvas->pick_event.crossing.state = state;
 
 			/* these fields don't have the same offsets in both types of events */
 
-			if (event->type == GDK_MOTION_NOTIFY) {
-				canvas->pick_event.crossing.x_root = event->motion.x_root;
-				canvas->pick_event.crossing.y_root = event->motion.y_root;
+			if (event_type == GDK_MOTION_NOTIFY) {
+				gdk_event_get_root_coords (event, &x_root, &y_root);
+				canvas->pick_event.crossing.x_root = x_root;
+				canvas->pick_event.crossing.y_root = y_root;
 			} else {
-				canvas->pick_event.crossing.x_root = event->button.x_root;
-				canvas->pick_event.crossing.y_root = event->button.y_root;
+				gdk_event_get_root_coords (event, &x_root, &y_root);
+				canvas->pick_event.crossing.x_root = x_root;
+				canvas->pick_event.crossing.y_root = y_root;
 			}
 		} else
 			canvas->pick_event = *event;
@@ -435,6 +443,8 @@ canvas_button_event (GtkWidget *widget,
 {
 	GnomeCanvas *canvas;
 	GdkWindow *bin_window;
+	guint button;
+	GdkModifierType state;
 	gint mask;
 	gint retval;
 
@@ -455,10 +465,11 @@ canvas_button_event (GtkWidget *widget,
 
         /* dispatch normally regardless of the event's window if an item has
 	   has a pointer grab in effect */
-	if (!canvas->grabbed_item && event->window != bin_window)
+	if (!canvas->grabbed_item && gdk_event_get_window ((GdkEvent *) event) != bin_window)
 		return retval;
 
-	switch (event->button) {
+	gdk_event_get_button ((GdkEvent *) event, &button);
+	switch (button) {
 		case 1:
 			mask = GDK_BUTTON1_MASK;
 			break;
@@ -478,13 +489,14 @@ canvas_button_event (GtkWidget *widget,
 			mask = 0;
 	}
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type ((GdkEvent *) event)) {
 		case GDK_BUTTON_PRESS:
 		case GDK_2BUTTON_PRESS:
 		case GDK_3BUTTON_PRESS:
 			/* Pick the current item as if the button were not
 			 * pressed, and then process the event. */
-			canvas->state = event->state;
+			gdk_event_get_state ((GdkEvent *) event, &state);
+			canvas->state = state;
 			pick_current_item (canvas, (GdkEvent *) event);
 			canvas->state ^= mask;
 			retval = canvas_emit_event (canvas, (GdkEvent *) event);
@@ -493,10 +505,12 @@ canvas_button_event (GtkWidget *widget,
 		case GDK_BUTTON_RELEASE:
 			/* Process the event as if the button were pressed,
 			 * then repick after the button has been released. */
-			canvas->state = event->state;
+			gdk_event_get_state ((GdkEvent *) event, &state);
+			canvas->state = state;
 			retval = canvas_emit_event (canvas, (GdkEvent *) event);
 			event->state ^= mask;
-			canvas->state = event->state;
+			gdk_event_get_state ((GdkEvent *) event, &state);
+			canvas->state = state;
 			pick_current_item (canvas, (GdkEvent *) event);
 			event->state ^= mask;
 			break;
@@ -520,7 +534,7 @@ canvas_key_event (GtkWidget *widget,
 
 	canvas = GNOME_CANVAS (widget);
 
-	full_event.type = event->type;
+	full_event.type = gdk_event_get_event_type ((GdkEvent *) event);
 	full_event.key = *event;
 
 	return canvas_emit_event (canvas, &full_event);
@@ -546,7 +560,7 @@ canvas_focus_in_event (GtkWidget *widget,
 	gtk_im_context_focus_in (ecanvas->im_context);
 
 	if (canvas->focused_item) {
-		full_event.type = event->type;
+		full_event.type = gdk_event_get_event_type ((GdkEvent *) event);
 		full_event.focus_change = *event;
 		return canvas_emit_event (canvas, &full_event);
 	} else {
@@ -574,7 +588,7 @@ canvas_focus_out_event (GtkWidget *widget,
 	gtk_im_context_focus_out (ecanvas->im_context);
 
 	if (canvas->focused_item) {
-		full_event.type = event->type;
+		full_event.type = gdk_event_get_event_type ((GdkEvent *) event);
 		full_event.focus_change = *event;
 		return canvas_emit_event (canvas, &full_event);
 	} else {

@@ -1212,7 +1212,7 @@ white_item_event (GnomeCanvasItem *white_item,
 
 		gdk_event_get_button (event, &event_button);
 
-		if (event->type == GDK_BUTTON_PRESS && (event_button == 1 || event_button == 2)) {
+		if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS && (event_button == GDK_BUTTON_PRIMARY || event_button == GDK_BUTTON_MIDDLE)) {
 			gnome_canvas_item_grab_focus (GNOME_CANVAS_ITEM (tree->priv->item));
 			return_val = TRUE;
 		}
@@ -1226,11 +1226,13 @@ et_canvas_root_event (GnomeCanvasItem *root,
                       GdkEvent *event,
                       ETree *tree)
 {
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS:
 	case GDK_2BUTTON_PRESS:
-	case GDK_BUTTON_RELEASE:
-		if (event->button.button != 4 && event->button.button != 5) {
+	case GDK_BUTTON_RELEASE: {
+		guint button;
+		gdk_event_get_button (event, &button);
+		if (button != 4 && button != 5) {
 			if (gtk_widget_has_focus (GTK_WIDGET (root->canvas))) {
 				GnomeCanvasItem *item = GNOME_CANVAS (root->canvas)->focused_item;
 
@@ -1241,6 +1243,7 @@ et_canvas_root_event (GnomeCanvasItem *root,
 			}
 		}
 		break;
+	}
 	default:
 		break;
 	}

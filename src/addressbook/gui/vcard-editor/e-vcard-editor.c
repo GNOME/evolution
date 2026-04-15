@@ -4334,16 +4334,18 @@ eve_event_after_cb (EVCardEditor *self,
 		    GdkEvent *event,
 		    gpointer user_data)
 {
-	if (event->type == GDK_KEY_PRESS) {
-		GdkEventKey *key_event;
+	if (gdk_event_get_event_type (event) == GDK_KEY_PRESS) {
+		GdkModifierType state;
+		guint keyval;
 		gboolean has_modifier_pressed;
 
-		key_event = (GdkEventKey *) event;
-		has_modifier_pressed = (key_event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK |
+		gdk_event_get_state (event, &state);
+		has_modifier_pressed = (state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK |
 					GDK_SUPER_MASK | GDK_HYPER_MASK |
 					GDK_META_MASK)) != 0;
 
-		if (key_event->keyval == GDK_KEY_F10 && !has_modifier_pressed && self->add_menu_button) {
+		gdk_event_get_keyval (event, &keyval);
+		if (keyval == GDK_KEY_F10 && !has_modifier_pressed && self->add_menu_button) {
 			if (self->add_menu_needs_update)
 				eve_update_add_menu (self);
 

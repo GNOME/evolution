@@ -1592,8 +1592,8 @@ e_text_event (GnomeCanvasItem *item,
 
 	window = gtk_widget_get_window (GTK_WIDGET (item->canvas));
 
-	e_tep_event.type = event->type;
-	switch (event->type) {
+	e_tep_event.type = gdk_event_get_event_type (event);
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_FOCUS_CHANGE:
 		if (text->editable) {
 			GdkEventFocus *focus_event;
@@ -1647,12 +1647,17 @@ e_text_event (GnomeCanvasItem *item,
 		}
 		return_val = 0;
 		break;
-	case GDK_KEY_PRESS:
+	case GDK_KEY_PRESS: {
+		guint keyval;
+		GdkModifierType kstate;
+
+		gdk_event_get_keyval (event, &keyval);
+		gdk_event_get_state (event, &kstate);
 
 		/* Handle S-F10 key binding here. */
 
-		if (event->key.keyval == GDK_KEY_F10
-		    && (event->key.state & GDK_SHIFT_MASK)
+		if (keyval == GDK_KEY_F10
+		    && (kstate & GDK_SHIFT_MASK)
 		    && text->handle_popup) {
 
 			/* Simulate a GdkEventButton here, so that we can
@@ -1661,12 +1666,12 @@ e_text_event (GnomeCanvasItem *item,
 			GdkEvent *button_event;
 
 			button_event = gdk_event_new (GDK_BUTTON_PRESS);
-			button_event->button.time = event->key.time;
+			button_event->button.time = gdk_event_get_time (event);
 			button_event->button.button = 0;
 			e_text_do_popup (text, button_event, 0);
 			return 1;
 		}
-
+	}
 		/* Fall Through */
 
 	case GDK_KEY_RELEASE:
@@ -1702,7 +1707,7 @@ e_text_event (GnomeCanvasItem *item,
 			_get_tep (text);
 			ret = e_text_event_processor_handle_event (text->tep, &e_tep_event);
 
-			if (event->type == GDK_KEY_PRESS)
+			if (gdk_event_get_event_type (event) == GDK_KEY_PRESS)
 				g_signal_emit (
 					text, e_text_signals[E_TEXT_KEYPRESS], 0,
 					e_tep_event.key.keyval, e_tep_event.key.state);
@@ -1714,23 +1719,29 @@ e_text_event (GnomeCanvasItem *item,
 		}
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
-	case GDK_BUTTON_RELEASE:
+	case GDK_BUTTON_RELEASE: {
+		guint event_button;
+		gdouble event_bx, event_by;
+
+		gdk_event_get_button (event, &event_button);
+		gdk_event_get_coords (event, &event_bx, &event_by);
+
 		if ((!text->editing)
 		    && text->editable
-		    && (event->button.button == 1 ||
-			event->button.button == 2)) {
+		    && (event_button == GDK_BUTTON_PRIMARY ||
+			event_button == GDK_BUTTON_MIDDLE)) {
 			e_canvas_item_grab_focus (item, TRUE);
 			start_editing (text);
 		}
 
 		/* We follow convention and emit popup events on right-clicks. */
-		if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
+		if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS && event_button == GDK_BUTTON_SECONDARY) {
 			if (text->handle_popup) {
 				e_text_do_popup (
 					text, event,
 					get_position_from_xy (
-						text, event->button.x,
-						event->button.y));
+						text, event_bx,
+						event_by));
 				return 1;
 			}
 			else {
@@ -1740,7 +1751,7 @@ e_text_event (GnomeCanvasItem *item,
 
 		/* Create our own double and triple click events,
 		 * as gnome-canvas doesn't forward them to us */
-		if (event->type == GDK_BUTTON_PRESS) {
+		if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS) {
 			if (text->dbl_timeout == 0 &&
 			    text->tpl_timeout == 0) {
 				text->dbl_timeout = e_named_timeout_add (
@@ -1769,8 +1780,8 @@ e_text_event (GnomeCanvasItem *item,
 			_get_tep (text);
 			return_val = e_text_event_processor_handle_event (
 				text->tep, &e_tep_event);
-			if (event->button.button == 1) {
-				if (event->type == GDK_BUTTON_PRESS)
+			if (event_button == GDK_BUTTON_PRIMARY) {
+				if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS)
 					text->button_down = TRUE;
 				else
 					text->button_down = FALSE;
@@ -1780,6 +1791,7 @@ e_text_event (GnomeCanvasItem *item,
 			text->last_state = button.state;
 		}
 		break;
+	}
 	case GDK_MOTION_NOTIFY:
 		if (text->editing) {
 			GdkEventMotion motion = event->motion;

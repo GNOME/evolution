@@ -128,7 +128,7 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 		GnomeCanvasItem *canvas_item;
 
 		canvas_item = GNOME_CANVAS_ITEM (object);
-		if (event->type == GDK_FOCUS_CHANGE) {
+		if (gdk_event_get_event_type (event) == GDK_FOCUS_CHANGE) {
 			ea_event =
 				ea_calendar_helpers_get_accessible_for (canvas_item);
 			if (!ea_event)
@@ -139,7 +139,7 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 	}
 	else if (E_IS_DAY_VIEW (object)) {
 		EDayView *day_view = E_DAY_VIEW (object);
-		if (event->type == GDK_FOCUS_CHANGE) {
+		if (gdk_event_get_event_type (event) == GDK_FOCUS_CHANGE) {
 			if (event->focus_change.in) {
 				/* give main item chance to emit focus */
 				gnome_canvas_item_grab_focus (day_view->main_canvas_item);
@@ -147,7 +147,7 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 		}
 	}
 	else if (E_IS_DAY_VIEW_MAIN_ITEM (object)) {
-		if (event->type == GDK_FOCUS_CHANGE) {
+		if (gdk_event_get_event_type (event) == GDK_FOCUS_CHANGE) {
 			/* we should emit focus on main item */
 			ea_event = atk_gobject_accessible_for_object (object);
 #ifdef ACC_DEBUG
@@ -157,7 +157,7 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 		}
 	} else if (E_IS_WEEK_VIEW (object)) {
 		EWeekView *week_view = E_WEEK_VIEW (object);
-		if (event->type == GDK_FOCUS_CHANGE) {
+		if (gdk_event_get_event_type (event) == GDK_FOCUS_CHANGE) {
 			if (event->focus_change.in) {
 				/* give main item chance to emit focus */
 				gnome_canvas_item_grab_focus (week_view->main_canvas_item);
@@ -165,7 +165,7 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 		}
 	}
 	else if (E_IS_WEEK_VIEW_MAIN_ITEM (object)) {
-		if (event->type == GDK_FOCUS_CHANGE) {
+		if (gdk_event_get_event_type (event) == GDK_FOCUS_CHANGE) {
 			/* we should emit focus on main item */
 			ea_event = atk_gobject_accessible_for_object (object);
 			atk_object_notify_state_change (ea_event, ATK_STATE_FOCUSED, event->focus_change.in);

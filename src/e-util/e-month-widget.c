@@ -398,8 +398,12 @@ e_month_widget_button_press_event_cb (GtkWidget *widget,
 {
 	EMonthWidget *self = E_MONTH_WIDGET (widget);
 
-	self->priv->button_press_day = event->type == GDK_BUTTON_PRESS ?
-		e_month_widget_get_day_at_position (self, event->x, event->y) : 0;
+	gdouble x, y;
+
+	gdk_event_get_coords ((GdkEvent *) event, &x, &y);
+
+	self->priv->button_press_day = gdk_event_get_event_type ((GdkEvent *) event) == GDK_BUTTON_PRESS ?
+		e_month_widget_get_day_at_position (self, x, y) : 0;
 
 	return FALSE;
 }
@@ -410,10 +414,13 @@ e_month_widget_button_release_event_cb (GtkWidget *widget,
 					gpointer user_data)
 {
 	EMonthWidget *self = E_MONTH_WIDGET (widget);
+	gdouble x, y;
 	guint day;
 
-	day = event->type == GDK_BUTTON_RELEASE ?
-		e_month_widget_get_day_at_position (self, event->x, event->y) : 0;
+	gdk_event_get_coords ((GdkEvent *) event, &x, &y);
+
+	day = gdk_event_get_event_type ((GdkEvent *) event) == GDK_BUTTON_RELEASE ?
+		e_month_widget_get_day_at_position (self, x, y) : 0;
 
 	if (day && self->priv->button_press_day == day) {
 		g_signal_emit (self, signals[DAY_CLICKED], 0, event, self->priv->year, self->priv->month, day, NULL);

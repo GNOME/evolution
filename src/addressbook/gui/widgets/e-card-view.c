@@ -362,12 +362,15 @@ e_card_view_button_press_event_cb (GtkWidget *widget,
 				   gpointer user_data)
 {
 	ECardView *self = E_CARD_VIEW (widget);
+	GdkEventType event_type = gdk_event_get_event_type (event);
+	guint button;
 
-	if (event->type == GDK_2BUTTON_PRESS && event->button.button == GDK_BUTTON_PRIMARY) {
+	gdk_event_get_button (event, &button);
+	if (event_type == GDK_2BUTTON_PRESS && button == GDK_BUTTON_PRIMARY) {
 		g_signal_emit (self, signals[DOUBLE_CLICK], 0, NULL);
 
 		return TRUE;
-	} else if (event->type == GDK_BUTTON_PRESS && event->button.button == GDK_BUTTON_SECONDARY) {
+	} else if (event_type == GDK_BUTTON_PRESS && button == GDK_BUTTON_SECONDARY) {
 		gboolean ret = FALSE;
 
 		g_signal_emit_by_name (self, "popup-menu", &ret);

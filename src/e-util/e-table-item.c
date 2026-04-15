@@ -2408,7 +2408,7 @@ eti_event (GnomeCanvasItem *item,
 	gdk_event_get_state (event, &event_state);
 	event_time = gdk_event_get_time (event);
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_BUTTON_PRESS: {
 		gdouble x1, y1;
 		gint col, row;
@@ -2519,7 +2519,7 @@ eti_event (GnomeCanvasItem *item,
 				}
 			}
 
-			if (event_button == 1) {
+			if (event_button == GDK_BUTTON_PRIMARY) {
 				return_val = TRUE;
 
 				eti->maybe_in_drag = TRUE;
@@ -2583,7 +2583,7 @@ eti_event (GnomeCanvasItem *item,
 			eti_ungrab (eti, event_time);
 		}
 
-		if (event_button == 1) {
+		if (event_button == GDK_BUTTON_PRIMARY) {
 			if (eti->maybe_in_drag) {
 				eti->maybe_in_drag = FALSE;
 				if (!eti->maybe_did_something)
@@ -2696,7 +2696,7 @@ eti_event (GnomeCanvasItem *item,
 					eti, 0,
 					model_to_view_row (eti, model_row));
 
-			if (event_button == 1) {
+			if (event_button == GDK_BUTTON_PRIMARY) {
 				if (eti->maybe_in_drag) {
 					eti->maybe_in_drag = FALSE;
 					if (!eti->maybe_did_something)
@@ -2809,7 +2809,7 @@ eti_event (GnomeCanvasItem *item,
 		gint cursor_row, cursor_col;
 		gint handled = TRUE;
 
-		d (g_print ("%s: GDK_KEY_PRESS received, keyval: %d\n", G_STRFUNC, (gint) e->key.keyval));
+		d (g_print ("%s: GDK_KEY_PRESS received, keyval: %d\n", G_STRFUNC, (gint) event_keyval));
 
 		g_object_get (
 			eti->selection,

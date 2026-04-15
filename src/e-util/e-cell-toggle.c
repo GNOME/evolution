@@ -299,10 +299,13 @@ cell_toggle_event (ECellView *ecell_view,
 	gpointer _value = e_table_model_value_at (
 		ecell_view->e_table_model, model_col, row);
 	const gint value = GPOINTER_TO_INT (_value);
+	guint keyval = 0;
 
-	switch (event->type) {
+	gdk_event_get_keyval (event, &keyval);
+
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_KEY_PRESS:
-		if (event->key.keyval != GDK_KEY_space)
+		if (keyval != GDK_KEY_space)
 			return FALSE;
 		/* Fall through */
 	case GDK_BUTTON_PRESS:

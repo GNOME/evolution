@@ -1004,6 +1004,7 @@ ect_event (ECellView *ecell_view,
 	gint preedit_len;
 	CellEdit *edit = text_view->edit;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
+	GdkEventType event_type = gdk_event_get_event_type (event);
 	gint return_val = 0;
 	d (gboolean press = FALSE);
 
@@ -1017,8 +1018,8 @@ ect_event (ECellView *ecell_view,
 		edit_display = TRUE;
 	}
 
-	e_tep_event.type = event->type;
-	switch (event->type) {
+	e_tep_event.type = event_type;
+	switch (event_type) {
 	case GDK_FOCUS_CHANGE:
 		break;
 	case GDK_KEY_PRESS: /* Fall Through */
@@ -1043,7 +1044,9 @@ ect_event (ECellView *ecell_view,
 				return 1;
 		}
 
-		if (event->key.keyval == GDK_KEY_Escape) {
+		guint keyval;
+		gdk_event_get_keyval (event, &keyval);
+		if (keyval == GDK_KEY_Escape) {
 			/* if not changed, then pass this even to parent */
 			return_val = text_view->edit != NULL && text_view->edit->text && text_view->edit->old_text && 0 != strcmp (text_view->edit->text, text_view->edit->old_text);
 			ect_cancel_edit (text_view);
@@ -1096,10 +1099,12 @@ ect_event (ECellView *ecell_view,
 		d (g_print ("%s: %s\n", G_STRFUNC, press ? "GDK_BUTTON_PRESS" : "GDK_BUTTON_RELEASE"));
 		event->button.x -= 4;
 		event->button.y -= 1;
+		guint button_num;
+		gdk_event_get_button (event, &button_num);
 		if ((!edit_display)
 		    && e_table_model_is_cell_editable (ecell_view->e_table_model, model_col, row)
-		    && event->type == GDK_BUTTON_RELEASE
-		    && event->button.button == 1) {
+		    && event_type == GDK_BUTTON_RELEASE
+		    && button_num == GDK_BUTTON_PRIMARY) {
 			GdkEventButton button = event->button;
 
 			e_table_item_enter_edit (text_view->cell_view.e_table_item_view, view_col, row);
@@ -1118,8 +1123,8 @@ ect_event (ECellView *ecell_view,
 			return_val = e_text_event_processor_handle_event (
 				edit->tep, &e_tep_event);
 			*actions = edit->actions;
-			if (event->button.button == 1) {
-				if (event->type == GDK_BUTTON_PRESS)
+			if (button_num == GDK_BUTTON_PRIMARY) {
+				if (event_type == GDK_BUTTON_PRESS)
 					edit->button_down = TRUE;
 				else
 					edit->button_down = FALSE;
@@ -1143,8 +1148,8 @@ ect_event (ECellView *ecell_view,
 			return_val = e_text_event_processor_handle_event (
 				edit->tep, &e_tep_event);
 			*actions = edit->actions;
-			if (event->button.button == 1) {
-				if (event->type == GDK_BUTTON_PRESS)
+			if (button_num == GDK_BUTTON_PRIMARY) {
+				if (event_type == GDK_BUTTON_PRESS)
 					edit->button_down = TRUE;
 				else
 					edit->button_down = FALSE;

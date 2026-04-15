@@ -211,39 +211,43 @@ etgc_event (GnomeCanvasItem *item,
 	gint old_col;
 	EFocus direction = E_FOCUS_START;
 
-	switch (event->type) {
-	case GDK_KEY_PRESS:
-		if (event->key.keyval == GDK_KEY_Tab ||
-		    event->key.keyval == GDK_KEY_KP_Tab ||
-		    event->key.keyval == GDK_KEY_ISO_Left_Tab) {
+	switch (gdk_event_get_event_type (event)) {
+	case GDK_KEY_PRESS: {
+		guint keyval;
+		GdkModifierType state;
+		gdk_event_get_keyval (event, &keyval);
+		gdk_event_get_state (event, &state);
+		if (keyval == GDK_KEY_Tab ||
+		    keyval == GDK_KEY_KP_Tab ||
+		    keyval == GDK_KEY_ISO_Left_Tab) {
 			change_focus = TRUE;
 			use_col = TRUE;
-			start_col = (event->key.state & GDK_SHIFT_MASK) ? -1 : 0;
-			direction = (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START;
-		} else if (event->key.keyval == GDK_KEY_Left ||
-			   event->key.keyval == GDK_KEY_KP_Left) {
+			start_col = (state & GDK_SHIFT_MASK) ? -1 : 0;
+			direction = (state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START;
+		} else if (keyval == GDK_KEY_Left ||
+			   keyval == GDK_KEY_KP_Left) {
 			change_focus = TRUE;
 			use_col = TRUE;
 			start_col = -1;
 			direction = E_FOCUS_END;
-		} else if (event->key.keyval == GDK_KEY_Right ||
-			   event->key.keyval == GDK_KEY_KP_Right) {
+		} else if (keyval == GDK_KEY_Right ||
+			   keyval == GDK_KEY_KP_Right) {
 			change_focus = TRUE;
 			use_col = TRUE;
 			start_col = 0;
 			direction = E_FOCUS_START;
-		} else if (event->key.keyval == GDK_KEY_Down ||
-			   event->key.keyval == GDK_KEY_KP_Down) {
+		} else if (keyval == GDK_KEY_Down ||
+			   keyval == GDK_KEY_KP_Down) {
 			change_focus = TRUE;
 			use_col = FALSE;
 			direction = E_FOCUS_START;
-		} else if (event->key.keyval == GDK_KEY_Up ||
-			   event->key.keyval == GDK_KEY_KP_Up) {
+		} else if (keyval == GDK_KEY_Up ||
+			   keyval == GDK_KEY_KP_Up) {
 			change_focus = TRUE;
 			use_col = FALSE;
 			direction = E_FOCUS_END;
-		} else if (event->key.keyval == GDK_KEY_Return ||
-			   event->key.keyval == GDK_KEY_KP_Enter) {
+		} else if (keyval == GDK_KEY_Return ||
+			   keyval == GDK_KEY_KP_Enter) {
 			change_focus = TRUE;
 			use_col = FALSE;
 			direction = E_FOCUS_START;
@@ -302,6 +306,7 @@ etgc_event (GnomeCanvasItem *item,
 		}
 		return_val = FALSE;
 		break;
+	}
 	default:
 		return_val = FALSE;
 		break;

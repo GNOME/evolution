@@ -582,12 +582,19 @@ memo_table_key_press (ETable *table,
 		      gint col,
 		      GdkEvent *event)
 {
-	if (event && event->type == GDK_KEY_PRESS &&
-	    (event->key.keyval == GDK_KEY_Return || event->key.keyval == GDK_KEY_KP_Enter) &&
-	    (event->key.state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) == 0 &&
-	    !e_table_is_editing (table)) {
-		memo_table_open_at_row (table, row);
-		return TRUE;
+	if (event && gdk_event_get_event_type (event) == GDK_KEY_PRESS) {
+		guint keyval = 0;
+		GdkModifierType state = 0;
+
+		gdk_event_get_keyval (event, &keyval);
+		gdk_event_get_state (event, &state);
+
+		if ((keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter) &&
+		    (state & (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK)) == 0 &&
+		    !e_table_is_editing (table)) {
+			memo_table_open_at_row (table, row);
+			return TRUE;
+		}
 	}
 
 	return FALSE;
@@ -602,9 +609,9 @@ memo_table_white_space_event (ETable *table,
 	g_return_val_if_fail (E_IS_MEMO_TABLE (table), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	if (event->type == GDK_BUTTON_PRESS &&
+	if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS &&
 	    gdk_event_get_button (event, &event_button) &&
-	    event_button == 3) {
+	    event_button == GDK_BUTTON_SECONDARY) {
 		GtkWidget *table_canvas;
 
 		table_canvas = GTK_WIDGET (table->table_canvas);

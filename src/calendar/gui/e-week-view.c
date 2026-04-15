@@ -3207,7 +3207,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 
 	e_week_view_set_popup_event (week_view, event_num);
 
-	if (event_button == 1 && button_event->type == GDK_2BUTTON_PRESS) {
+	if (event_button == GDK_BUTTON_PRIMARY && gdk_event_get_event_type (button_event) == GDK_2BUTTON_PRESS) {
 		time_t dtstart, dtend;
 
 		e_calendar_view_get_selected_time_range ((ECalendarView *) week_view, &dtstart, &dtend);
@@ -3222,7 +3222,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 		return TRUE;
 	}
 
-	if (event_button == 1) {
+	if (event_button == GDK_BUTTON_PRIMARY) {
 		GdkGrabStatus grab_status;
 		GdkWindow *window;
 		GdkDevice *event_device;
@@ -3262,7 +3262,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 			/* FIXME: Optimise? */
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
-	} else if (event_button == 3) {
+	} else if (event_button == GDK_BUTTON_SECONDARY) {
 		if (!gtk_widget_has_focus (GTK_WIDGET (week_view)))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
@@ -3357,10 +3357,12 @@ e_week_view_on_motion (GtkWidget *widget,
                        EWeekView *week_view)
 {
 	gint x, y, day;
+	gdouble event_x, event_y;
 
 	/* Convert the mouse position to a week & day. */
-	x = mevent->x;
-	y = mevent->y;
+	gdk_event_get_coords ((GdkEvent *) mevent, &event_x, &event_y);
+	x = (gint) event_x;
+	y = (gint) event_y;
 	day = e_week_view_convert_position_to_day (week_view, x, y);
 	if (day == -1)
 		return FALSE;
@@ -3812,6 +3814,7 @@ background_item_event_cb (GnomeCanvasItem *item,
 {
 	gint event_num;
 	guint event_button = 0;
+	gdouble x_root, y_root;
 	EWeekViewEvent *pevent;
 
 	e_week_view_check_layout (view);
@@ -3819,13 +3822,14 @@ background_item_event_cb (GnomeCanvasItem *item,
 	event_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	pevent = e_week_view_get_event (view, -1, event_num);
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 		case GDK_ENTER_NOTIFY:
 		if (view->editing_event_num == -1) {
 			g_return_val_if_fail (pevent != NULL, FALSE);
 
-			pevent->x = ((GdkEventCrossing *) event)->x_root;
-			pevent->y = ((GdkEventCrossing *) event)->y_root;
+			gdk_event_get_root_coords (event, &x_root, &y_root);
+			pevent->x = x_root;
+			pevent->y = y_root;
 
 			return TRUE;
 		} else {
@@ -3834,15 +3838,16 @@ background_item_event_cb (GnomeCanvasItem *item,
 		case GDK_MOTION_NOTIFY:
 			g_return_val_if_fail (pevent != NULL, FALSE);
 
-			pevent->x = ((GdkEventMotion *) event)->x_root;
-			pevent->y = ((GdkEventMotion *) event)->y_root;
+			gdk_event_get_root_coords (event, &x_root, &y_root);
+			pevent->x = x_root;
+			pevent->y = y_root;
 
 			e_week_view_maybe_start_event_drag_on_motion (view, event, event_num);
 			return TRUE;
 		case GDK_LEAVE_NOTIFY:
 		case GDK_KEY_PRESS:
 		case GDK_BUTTON_PRESS:
-			if (gdk_event_get_button (event, &event_button) && event_button == 1)
+			if (gdk_event_get_button (event, &event_button) && event_button == GDK_BUTTON_PRIMARY)
 				e_week_view_set_popup_event (view, event_num);
 
 			return FALSE;
@@ -4382,7 +4387,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	nevent = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "event-num"));
 	pevent = e_week_view_get_event (week_view, -1, nevent);
 
-	switch (gdk_event->type) {
+	switch (gdk_event_get_event_type (gdk_event)) {
 	case GDK_KEY_PRESS:
 		gdk_event_get_keyval (gdk_event, &event_keyval);
 
@@ -4435,7 +4440,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			return FALSE;
 
 		gdk_event_get_button (gdk_event, &event_button);
-		if (event_button == 3) {
+		if (event_button == GDK_BUTTON_SECONDARY) {
 			EWeekViewEvent *e;
 
 			if (E_TEXT (item)->editing) {
@@ -4462,7 +4467,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			return TRUE;
 		}
 
-		if (event_button != 3) {
+		if (event_button != GDK_BUTTON_SECONDARY) {
 			week_view->pressed_event_num = event_num;
 			week_view->pressed_span_num = span_num;
 			e_week_view_set_popup_event (week_view, week_view->pressed_event_num);
@@ -5192,6 +5197,7 @@ e_week_view_do_key_press (GtkWidget *widget,
 	EWeekView *week_view;
 	gchar *initial_text;
 	guint keyval;
+	GdkModifierType state;
 	gboolean stop_emission;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -5199,7 +5205,8 @@ e_week_view_do_key_press (GtkWidget *widget,
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	week_view = E_WEEK_VIEW (widget);
-	keyval = event->keyval;
+	gdk_event_get_keyval ((GdkEvent *) event, &keyval);
+	gdk_event_get_state ((GdkEvent *) event, &state);
 
 	/* The Escape key aborts a resize operation. */
 #if 0
@@ -5213,8 +5220,8 @@ e_week_view_do_key_press (GtkWidget *widget,
 
 	/* Handle the cursor keys for moving the selection */
 	stop_emission = FALSE;
-	if (!(event->state & GDK_SHIFT_MASK)
-		&& !(event->state & GDK_MOD1_MASK)) {
+	if (!(state & GDK_SHIFT_MASK)
+		&& !(state & GDK_MOD1_MASK)) {
 		stop_emission = TRUE;
 		switch (keyval) {
 		case GDK_KEY_Page_Up:
@@ -5250,9 +5257,9 @@ e_week_view_do_key_press (GtkWidget *widget,
 		return TRUE;
 
 	/*Navigation through days with arrow keys*/
-	if (((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
-		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
-		&&((event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK)) {
+	if (((state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
+		&&((state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+		&&((state & GDK_MOD1_MASK) == GDK_MOD1_MASK)) {
 		if (keyval == GDK_KEY_Up || keyval == GDK_KEY_KP_Up)
 			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_UP);
 		else if (keyval == GDK_KEY_Down || keyval == GDK_KEY_KP_Down)
@@ -5268,18 +5275,18 @@ e_week_view_do_key_press (GtkWidget *widget,
 
 	/* We only want to start an edit with a return key or a simple
 	 * character. */
-	if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
+	if (keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter) {
 		initial_text = NULL;
-	} else if (((event->keyval >= 0x20) && (event->keyval <= 0xFF)
-		    && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
+	} else if (((keyval >= 0x20) && (keyval <= 0xFF)
+		    && (state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 		   || (event->length == 0)
-		   || (event->keyval == GDK_KEY_Tab)
-		   || (event->keyval == GDK_KEY_Escape)
-		   || (event->keyval == GDK_KEY_Delete)
-		   || (event->keyval == GDK_KEY_KP_Delete)) {
+		   || (keyval == GDK_KEY_Tab)
+		   || (keyval == GDK_KEY_Escape)
+		   || (keyval == GDK_KEY_Delete)
+		   || (keyval == GDK_KEY_KP_Delete)) {
 		return FALSE;
 	} else
-		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
+		initial_text = e_utf8_from_gtk_event_key (widget, keyval, event->string);
 
 	e_week_view_add_new_event_in_selected_range (week_view, initial_text, FALSE);
 
@@ -5346,27 +5353,31 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
                                   EWeekView *week_view)
 {
 	gint day;
+	guint keyval = 0;
+	GdkModifierType state = 0;
 
-	if (event->type == GDK_BUTTON_PRESS) {
+	if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS) {
 		e_week_view_jump_to_button_item (week_view, item);
 		return TRUE;
 	}
-	else if (event->type == GDK_KEY_PRESS) {
+	else if (gdk_event_get_event_type (event) == GDK_KEY_PRESS) {
+		gdk_event_get_keyval (event, &keyval);
+		gdk_event_get_state (event, &state);
 		/* return, if Tab, Control or Alt is pressed */
-		if ((event->key.keyval == GDK_KEY_Tab) ||
-		    (event->key.state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
+		if ((keyval == GDK_KEY_Tab) ||
+		    (state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 			return FALSE;
 		/* with a return key or a simple character (from 0x20 to 0xff),
 		 * jump to the day
 		 */
-		if ((event->key.keyval == GDK_KEY_Return || event->key.keyval == GDK_KEY_KP_Enter) ||
-		    ((event->key.keyval >= 0x20) &&
-		     (event->key.keyval <= 0xFF))) {
+		if ((keyval == GDK_KEY_Return || keyval == GDK_KEY_KP_Enter) ||
+		    ((keyval >= 0x20) &&
+		     (keyval <= 0xFF))) {
 			e_week_view_jump_to_button_item (week_view, item);
 			return TRUE;
 		}
 	}
-	else if (event->type == GDK_FOCUS_CHANGE) {
+	else if (gdk_event_get_event_type (event) == GDK_FOCUS_CHANGE) {
 		GdkEventFocus *focus_event = (GdkEventFocus *) event;
 
 		for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {

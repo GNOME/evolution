@@ -259,7 +259,7 @@ addressbook_view_card_event_cb (EContactCardBox *box,
 	EAddressbookView *view = user_data;
 	guint event_button = 0;
 
-	switch (event->type) {
+	switch (gdk_event_get_event_type (event)) {
 	case GDK_2BUTTON_PRESS:
 		gdk_event_get_button (event, &event_button);
 		if (event_button == GDK_BUTTON_PRIMARY) {
@@ -289,13 +289,20 @@ addressbook_view_card_event_cb (EContactCardBox *box,
 			return TRUE;
 		}
 		break;
-	case GDK_KEY_PRESS:
-		if (((event->key.state & GDK_SHIFT_MASK) != 0 && event->key.keyval == GDK_KEY_F10) ||
-		    ((event->key.state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) == 0 && event->key.keyval == GDK_KEY_Menu)) {
+	case GDK_KEY_PRESS: {
+		guint keyval = 0;
+		GdkModifierType state = 0;
+
+		gdk_event_get_keyval (event, &keyval);
+		gdk_event_get_state (event, &state);
+
+		if (((state & GDK_SHIFT_MASK) != 0 && keyval == GDK_KEY_F10) ||
+		    ((state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK | GDK_MOD1_MASK)) == 0 && keyval == GDK_KEY_Menu)) {
 			addressbook_view_emit_popup_event (view, event);
 			return TRUE;
 		}
 		break;
+	}
 	default:
 		break;
 	}
@@ -410,7 +417,7 @@ table_white_space_event (ETable *table,
 
 	gdk_event_get_button (event, &event_button);
 
-	if (event->type == GDK_BUTTON_PRESS && event_button == 3) {
+	if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS && event_button == GDK_BUTTON_SECONDARY) {
 		addressbook_view_emit_popup_event (view, event);
 		return TRUE;
 	}
