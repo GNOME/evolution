@@ -145,7 +145,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVBox" id="members-vbox">
+              <object class="GtkBox" id="members-vbox">
+                <property name="orientation">vertical</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">6</property>
@@ -245,7 +246,8 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkVBox" id="members-buttons">
+                          <object class="GtkBox" id="members-buttons">
+                            <property name="orientation">vertical</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="spacing">6</property>
