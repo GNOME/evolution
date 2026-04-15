@@ -40,13 +40,15 @@
       </row>
     </data>
   </object>
-  <object class="GtkVBox" id="toplevel">
+  <object class="GtkBox" id="toplevel">
+    <property name="orientation">vertical</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
     <property name="spacing">12</property>
     <child>
-      <object class="GtkHBox" id="hbox2">
+      <object class="GtkBox" id="hbox2">
+        <property name="orientation">horizontal</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="spacing">6</property>
@@ -239,7 +241,8 @@ Please select a follow up action from the “Flag” menu.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox1">
+          <object class="GtkBox" id="vbox1">
+            <property name="orientation">vertical</property>
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
