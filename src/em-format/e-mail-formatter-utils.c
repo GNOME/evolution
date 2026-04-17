@@ -442,14 +442,15 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		scan = ng;
 		while (scan) {
 			const gchar *newsgroup = scan->data;
+			gchar *escaped = g_markup_escape_text (newsgroup, -1);
 
 			if (flags & E_MAIL_FORMATTER_HEADER_FLAG_NOLINKS)
-				g_string_append_printf (
-					html, "%s", newsgroup);
+				g_string_append (html, escaped);
 			else
 				g_string_append_printf (
 					html, "<a href=\"news:%s\">%s</a>",
-					newsgroup, newsgroup);
+					escaped, escaped);
+			g_free (escaped);
 			scan = g_slist_next (scan);
 			if (scan)
 				g_string_append_printf (html, ", ");
