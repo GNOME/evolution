@@ -550,6 +550,15 @@ dbx_read_email (DbxImporter *m,
 		return FALSE;
 	}
 
+	if ((guint32) hdr.count * 4 > hdr.size) {
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Corrupt DBX file: header count %d exceeds block size %d",
+			hdr.count, hdr.size);
+		g_free (buffer);
+		return FALSE;
+	}
+
 	for (i = 0; i < hdr.count; i++) {
 		guchar type = buffer[i *4];
 		gint val;
@@ -560,6 +569,14 @@ dbx_read_email (DbxImporter *m,
 
 		switch (type) {
 		case 0x01:
+			if (hdr.count * 4 + val >= hdr.size) {
+				g_set_error (
+					&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+					"Corrupt DBX file: type 0x01 offset %d out of bounds (size %d)",
+					hdr.count * 4 + val, hdr.size);
+				g_free (buffer);
+				return FALSE;
+			}
 			*flags = buffer[hdr.count*4 + val];
 			d (printf ("Got type 0x01 flags %02x\n", *flags));
 			break;
@@ -568,7 +585,16 @@ dbx_read_email (DbxImporter *m,
 			d (printf ("Got type 0x81 flags %02x\n", *flags));
 			break;
 		case 0x04:
-			dataptr = GUINT32_FROM_LE (*(guint32 *)(buffer + hdr.count *4 + val));
+			if (hdr.count * 4 + val + 4 > hdr.size) {
+				g_set_error (
+					&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+					"Corrupt DBX file: type 0x04 offset %d out of bounds (size %d)",
+					hdr.count * 4 + val + 4, hdr.size);
+				g_free (buffer);
+				return FALSE;
+			}
+			memcpy (&dataptr, buffer + hdr.count * 4 + val, 4);
+			dataptr = GUINT32_FROM_LE (dataptr);
 			d (printf ("Got type 0x04 data pointer %x\n", dataptr));
 			break;
 		case 0x84:
