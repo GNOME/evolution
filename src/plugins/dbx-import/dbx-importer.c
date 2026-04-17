@@ -409,7 +409,16 @@ static gboolean dbx_load_indices (DbxImporter *m)
 
 	indexptr = GUINT32_FROM_LE (indexptr);
 	m->index_count = itemcount = GUINT32_FROM_LE (itemcount);
-	m->indices = g_malloc (itemcount * 4);
+
+	if (itemcount > 100 * 1024 * 1024) {
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"DBX file claims %u entries, which exceeds the limit",
+			itemcount);
+		return FALSE;
+	}
+
+	m->indices = g_malloc_n (itemcount, sizeof (guint32));
 
 	d (printf ("indexptr %x, itemcount %d\n", indexptr, itemcount));
 
