@@ -319,11 +319,21 @@ static gint dbx_pread (gint fd, gpointer buf, guint32 count, guint32 offset)
 	return read (fd, buf, count);
 }
 
-static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *index_ofs)
+#define DBX_MAX_INDEX_DEPTH 1000
+
+static gboolean dbx_load_index_table_rec (DbxImporter *m, guint32 pos, guint32 *index_ofs, gint depth)
 {
 	struct _dbx_tableindexstruct tindex;
 	struct _dbx_indexstruct index;
 	gint i;
+
+	if (depth > DBX_MAX_INDEX_DEPTH) {
+		g_set_error (
+			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			"Corrupt DBX file: Index table nesting exceeds "
+			"maximum depth (%d)", DBX_MAX_INDEX_DEPTH);
+		return FALSE;
+	}
 
 	d (printf ("Loading index table at 0x%x\n", pos));
 
@@ -350,7 +360,7 @@ static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *inde
 		pos, tindex.indexCount, tindex.anotherTablePtr));
 
 	if (tindex.indexCount > 0) {
-		if (!dbx_load_index_table (m, tindex.anotherTablePtr, index_ofs))
+		if (!dbx_load_index_table_rec (m, tindex.anotherTablePtr, index_ofs, depth + 1))
 			return FALSE;
 	}
 
@@ -381,12 +391,17 @@ static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *inde
 		}
 		m->indices[(*index_ofs)++] = index.indexptr;
 		if (index.indexCount > 0) {
-			if (!dbx_load_index_table (m, index.anotherTablePtr, index_ofs))
+			if (!dbx_load_index_table_rec (m, index.anotherTablePtr, index_ofs, depth + 1))
 				return FALSE;
 		}
 		pos += sizeof (index);
 	}
 	return TRUE;
+}
+
+static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *index_ofs)
+{
+	return dbx_load_index_table_rec (m, pos, index_ofs, 0);
 }
 static gboolean dbx_load_indices (DbxImporter *m)
 {
