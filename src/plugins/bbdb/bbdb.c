@@ -295,7 +295,8 @@ bbdb_do_it (EBookClient *client,
             const gchar *name,
             const gchar *email)
 {
-	gchar *query_string, *delim, *temp_name = NULL;
+	gchar *query_string, *temp_name = NULL;
+	const gchar *delim;
 	GSList *contacts = NULL;
 	gboolean status;
 	EContact *contact;

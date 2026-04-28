@@ -248,7 +248,6 @@ composer_presend_check_recipients (EMsgComposer *composer,
 	GSettings *settings;
 	gchar *to_cc_domain = NULL;
 	gboolean check_passed = FALSE;
-	gint hidden = 0;
 	gint shown = 0;
 	gint num = 0;
 	gint num_to_cc = 0;
@@ -365,7 +364,7 @@ composer_presend_check_recipients (EMsgComposer *composer,
 			num++;
 			if (e_destination_is_evolution_list (recipients[ii])
 			    && !e_destination_list_show_addresses (recipients[ii])) {
-				hidden++;
+				/* nothing to do, it's hidden */
 			} else {
 				shown++;
 			}

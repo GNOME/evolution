@@ -970,8 +970,7 @@ empv_folder_or_parent_is_outgoing (MailFolderCache *folder_cache,
 	    (info_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_SENT)
 		return TRUE;
 
-	dash = strrchr (fullname, '/');
-	if (!dash)
+	if (!strchr (fullname, '/'))
 		return FALSE;
 
 	path = g_strdup (fullname);

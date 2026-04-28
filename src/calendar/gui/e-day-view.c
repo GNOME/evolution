@@ -1433,7 +1433,7 @@ static void
 day_view_update_style_settings (EDayView *day_view)
 {
 	gint hour;
-	gint minute, max_minute_width, i;
+	gint minute, max_minute_width;
 	gint month, day, width;
 	gint longest_month_width, longest_abbreviated_month_width;
 	gint longest_weekday_width, longest_abbreviated_weekday_width;
@@ -1588,7 +1588,7 @@ day_view_update_style_settings (EDayView *day_view)
 	}
 
 	max_minute_width = 0;
-	for (minute = 0, i = 0; minute < 60; minute += 5, i++) {
+	for (minute = 0; minute < 60; minute += 5) {
 		gint minute_width;
 
 		g_snprintf (buffer, sizeof (buffer), "%02i", minute);

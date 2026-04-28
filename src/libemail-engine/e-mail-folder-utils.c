@@ -1527,7 +1527,6 @@ mail_folder_utils_splice_to_stream (CamelStream *stream,
 	gssize n_read;
 	gsize bytes_copied, n_written;
 	gchar buffer[8192];
-	goffset file_offset;
 	gboolean res;
 
 	g_return_val_if_fail (CAMEL_IS_STREAM (stream), -1);
@@ -1536,7 +1535,6 @@ mail_folder_utils_splice_to_stream (CamelStream *stream,
 	if (g_cancellable_set_error_if_cancelled (cancellable, error))
 		return -1;
 
-	file_offset = 0;
 	bytes_copied = 0;
 	res = TRUE;
 	do {
@@ -1554,7 +1552,6 @@ mail_folder_utils_splice_to_stream (CamelStream *stream,
 			break;
 		}
 
-		file_offset += n_read;
 		bytes_copied += n_written;
 		if (bytes_copied > G_MAXSSIZE)
 			bytes_copied = G_MAXSSIZE;

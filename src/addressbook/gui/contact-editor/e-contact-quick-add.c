@@ -629,7 +629,7 @@ e_contact_quick_add_email (EClientCache *client_cache,
 {
 	gchar *name = NULL;
 	gchar *addr = NULL;
-	gchar *lt, *gt;
+	const gchar *lt, *gt;
 
 	/* Handle something of the form "Foo <foo@bar.com>".  This is more
 	 * more forgiving than the free-form parser, allowing for unquoted

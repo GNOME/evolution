@@ -155,7 +155,7 @@ shell_xdg_migrate_rename_files (const gchar *src_directory,
 		GString *buffer;
 		gchar *old_filename;
 		gchar *new_filename;
-		gchar *cp;
+		const gchar *cp;
 
 		buffer = g_string_new (basename);
 

@@ -428,12 +428,11 @@ static void
 print_emails (EContact *contact,
               EContactPrintContext *ctxt)
 {
-	gint i;
 	GList *emails, *l;
 
 	emails = e_vcard_get_attributes_by_name (E_VCARD (contact), EVC_EMAIL);
 
-	for (i = 1, l = emails; l; l = g_list_next (l), i++) {
+	for (l = emails; l; l = g_list_next (l)) {
 		EVCardAttribute *attr = l->data;
 		gchar *email_address;
 		gchar *formatted_email;

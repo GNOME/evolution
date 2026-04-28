@@ -252,7 +252,8 @@ mail_display_popup_prefer_plain_update_actions (EMailDisplayPopupExtension *exte
 	EMailDisplay *display;
 	EMailDisplayPopupPreferPlain *pp_extension;
 	EUIAction *action;
-	gchar *part_id, *pos, *prefix;
+	gchar *part_id, *prefix;
+	const gchar *pos;
 	GUri *guri;
 	GHashTable *query;
 	gboolean is_text_plain;

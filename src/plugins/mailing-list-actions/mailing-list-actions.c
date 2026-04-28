@@ -165,7 +165,7 @@ emla_list_action_cb (CamelFolder *folder,
                      AsyncContext *context)
 {
 	const gchar *header = NULL, *headerpos;
-	gchar *end, *url = NULL;
+	gchar *url = NULL;
 	gint t;
 	EAlertSink *alert_sink;
 	CamelMimeMessage *message;
@@ -177,7 +177,7 @@ emla_list_action_cb (CamelFolder *folder,
 	EShellBackend *shell_backend;
 	GtkWindow *window;
 	CamelStore *store;
-	const gchar *uid;
+	const gchar *end, *uid;
 	GError *error = NULL;
 
 	window = e_mail_reader_get_window (context->reader);

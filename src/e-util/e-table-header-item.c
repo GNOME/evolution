@@ -1233,8 +1233,6 @@ ethi_start_drag (ETableHeaderItem *ethi,
 	gint col_width;
 	cairo_surface_t *s;
 	cairo_t *cr;
-
-	gint group_indent = 0;
 	GHashTable *arrows;
 
 	GtkTargetEntry  ethi_drag_types[] = {
@@ -1255,8 +1253,6 @@ ethi_start_drag (ETableHeaderItem *ethi,
 		for (i = 0; i < length; i++) {
 			ETableColumnSpecification *spec;
 			GtkSortType sort_type;
-
-			group_indent++;
 
 			spec = e_table_sort_info_grouping_get_nth (
 				ethi->sort_info, i, &sort_type);

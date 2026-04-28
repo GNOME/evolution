@@ -1116,7 +1116,6 @@ e_shell_window_fill_switcher_actions (EShellWindow *shell_window,
 	EShell *shell;
 	GPtrArray *group;
 	GList *list, *iter;
-	guint ii = 1;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
@@ -1131,7 +1130,7 @@ e_shell_window_fill_switcher_actions (EShellWindow *shell_window,
 
 	action_group = e_shell_window_get_ui_action_group (shell_window, "shell");
 
-	for (iter = list; iter != NULL; iter = iter->next, ii++) {
+	for (iter = list; iter != NULL; iter = iter->next) {
 		EShellBackend *shell_backend = iter->data;
 		EShellBackendClass *backend_class;
 		EShellViewClass *class;

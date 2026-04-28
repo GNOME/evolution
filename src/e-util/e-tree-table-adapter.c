@@ -378,12 +378,11 @@ insert_children (ETreeTableAdapter *etta,
 {
 	ETreePath path, tmp;
 	gint count = 0;
-	gint pos = 0;
 
 	path = ((node_t *) gnode->data)->path;
 	for (tmp = e_tree_model_node_get_first_child (etta->priv->source_model, path);
 	     tmp;
-	     tmp = e_tree_model_node_get_next (etta->priv->source_model, tmp), pos++) {
+	     tmp = e_tree_model_node_get_next (etta->priv->source_model, tmp)) {
 		GNode *child = create_gnode (etta, tmp);
 		node_t *node = (node_t *) child->data;
 		if (node->expanded)

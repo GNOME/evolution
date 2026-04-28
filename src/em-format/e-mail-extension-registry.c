@@ -162,28 +162,29 @@ GQueue *
 e_mail_extension_registry_get_fallback (EMailExtensionRegistry *registry,
                                         const gchar *mime_type)
 {
-	gchar *s, *type;
+	const gchar *ptr;
+	gchar *wptr, *type;
 	gsize len;
 	GQueue *parsers;
 
 	g_return_val_if_fail (E_IS_MAIL_EXTENSION_REGISTRY (registry), NULL);
 	g_return_val_if_fail (mime_type && *mime_type, NULL);
 
-	s = strchr (mime_type, '/');
-	if (!s)
+	ptr = strchr (mime_type, '/');
+	if (!ptr)
 		return NULL;
 
-	len = s - mime_type;
+	len = ptr - mime_type;
 
-	s = g_alloca (len);
-	strncpy (s, mime_type, len);
-	type = g_ascii_strdown (s, len);
-	s = g_strdup_printf ("%s/*", type);
+	wptr = g_alloca (len);
+	strncpy (wptr, mime_type, len);
+	type = g_ascii_strdown (wptr, len);
+	wptr = g_strdup_printf ("%s/*", type);
 
-	parsers = g_hash_table_lookup (registry->priv->table, s);
+	parsers = g_hash_table_lookup (registry->priv->table, wptr);
 
 	g_free (type);
-	g_free (s);
+	g_free (wptr);
 
 	return parsers;
 }

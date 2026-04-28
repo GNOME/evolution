@@ -716,7 +716,7 @@ comp_editor_title_changed (GtkWidget *widget,
 	GtkWindow *editor = GTK_WINDOW (widget);
 	const gchar *title = gtk_window_get_title (editor);
 	gchar *new_title;
-	gchar *splitter;
+	const gchar *splitter;
 	gchar *comp_name, *task_name;
 
 	if (!mc)

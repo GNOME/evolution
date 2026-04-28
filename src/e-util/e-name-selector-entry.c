@@ -1613,7 +1613,7 @@ user_insert_text (ENameSelectorEntry *name_selector_entry,
 						g_string_append (prefer_text, addr);
 					}
 				} else {
-					gchar *addr_start = strchr (addr, '<'), *name_end = addr_start;
+					const gchar *addr_start = strchr (addr, '<'), *name_end = addr_start;
 
 					while (name_end > addr && g_ascii_isspace (name_end[-1]))
 						name_end--;
@@ -2120,7 +2120,6 @@ static gboolean
 user_focus_in (ENameSelectorEntry *name_selector_entry,
                GdkEventFocus *event_focus)
 {
-	gint n;
 	GList *l, *known;
 	GString *str = g_string_new ("");
 	gint sel_start_pos = -1, sel_end_pos = -1;
@@ -2131,7 +2130,7 @@ user_focus_in (ENameSelectorEntry *name_selector_entry,
 	g_signal_handlers_block_matched (name_selector_entry->priv->destination_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, name_selector_entry);
 
 	known = e_destination_store_list_destinations (name_selector_entry->priv->destination_store);
-	for (l = known, n = 0; l != NULL; l = l->next, n++) {
+	for (l = known; l != NULL; l = l->next) {
 		EDestination *dest = l->data;
 
 		if (dest) {

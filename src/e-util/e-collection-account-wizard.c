@@ -2621,7 +2621,8 @@ e_collection_account_wizard_next (ECollectionAccountWizard *wizard)
 				text = gtk_entry_get_text (GTK_ENTRY (wizard->priv->servers_entry));
 
 				if (text && *text) {
-					gchar *ptr;
+					const gchar *ptr;
+					gchar *wptr;
 
 					if (g_ascii_strncasecmp (text, "http://", 7) == 0)
 						text += 7;
@@ -2633,9 +2634,9 @@ e_collection_account_wizard_next (ECollectionAccountWizard *wizard)
 					tmp = ptr ? g_strndup (text, ptr - text) : g_strdup (text);
 
 					/* eventually skip the path */
-					ptr = strchr (tmp, '/');
-					if (ptr)
-						*ptr = '\0';
+					wptr = strchr (tmp, '/');
+					if (wptr)
+						*wptr = '\0';
 
 					text = tmp;
 				}

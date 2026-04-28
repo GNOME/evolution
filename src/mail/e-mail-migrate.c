@@ -236,9 +236,9 @@ static void
 em_rename_view_in_folder (gpointer data,
                           gpointer user_data)
 {
-	const gchar *filename = data;
+	gchar *filename = data, *dotpos;
 	const gchar *views_dir = user_data;
-	gchar *folderpos, *dotpos;
+	gchar *folderpos;
 
 	g_return_if_fail (filename != NULL);
 	g_return_if_fail (views_dir != NULL);

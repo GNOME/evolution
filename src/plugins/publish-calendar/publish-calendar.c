@@ -373,21 +373,25 @@ ask_question (GMountOperation *op,
 	/* this has been stolen from file-chooser */
 	GtkWidget *dialog;
 	gint cnt, len;
-	gchar *primary;
+	const gchar *primary;
 	const gchar *secondary = NULL;
+	gchar *tmp = NULL;
 	gint res;
 
 	primary = strstr (message, "\n");
 	if (primary) {
 		secondary = primary + 1;
-		primary = g_strndup (message, strlen (message) - strlen (primary));
+		tmp = g_strndup (message, strlen (message) - strlen (primary));
+		primary = tmp;
+	} else {
+		primary = message;
 	}
 
 	dialog = gtk_message_dialog_new (
 		NULL,
 		0, GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_NONE, "%s", primary);
-	g_free (primary);
+	g_free (tmp);
 
 	if (secondary) {
 		gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
