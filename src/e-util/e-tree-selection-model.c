@@ -667,7 +667,7 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 		object_class,
 		PROP_CURSOR_ROW,
 		g_param_spec_int (
-			"cursor_row",
+			"cursor-row",
 			"Cursor Row",
 			NULL,
 			0, G_MAXINT, 0,
@@ -677,7 +677,7 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 		object_class,
 		PROP_CURSOR_COL,
 		g_param_spec_int (
-			"cursor_col",
+			"cursor-col",
 			"Cursor Column",
 			NULL,
 			0, G_MAXINT, 0,

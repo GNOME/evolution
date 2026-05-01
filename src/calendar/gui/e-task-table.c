@@ -337,9 +337,9 @@ task_table_constructed (GObject *object)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold-column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
 		NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
@@ -351,9 +351,9 @@ task_table_constructed (GObject *object)
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold-column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
 		NULL);
 
 	e_binding_bind_property (
@@ -392,9 +392,9 @@ task_table_constructed (GObject *object)
 	cell = e_cell_estimated_duration_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold-column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
 		NULL);
 	e_table_extras_add_cell (extras, "estimatedduration", cell);
 	g_object_unref (cell);
@@ -407,9 +407,9 @@ task_table_constructed (GObject *object)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold-column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
 		"editable", FALSE,
 		NULL);
 
@@ -433,9 +433,9 @@ task_table_constructed (GObject *object)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold-column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
 		"editable", FALSE,
 		NULL);
 
@@ -460,9 +460,9 @@ task_table_constructed (GObject *object)
 	cell = e_cell_percent_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold-column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
 		NULL);
 
 	popup_cell = e_cell_combo_new ();
@@ -492,9 +492,9 @@ task_table_constructed (GObject *object)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold-column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
 		"editable", FALSE,
 		NULL);
 
@@ -517,9 +517,9 @@ task_table_constructed (GObject *object)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"strikeout_column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
-		"bold_column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_TASKS_FIELD_STRIKEOUT,
+		"bold-column", E_CAL_MODEL_TASKS_FIELD_OVERDUE,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
 		"editable", FALSE,
 		NULL);
 

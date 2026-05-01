@@ -60,7 +60,7 @@ e_text_event_processor_class_init (ETextEventProcessorClass *class)
 		object_class,
 		PROP_ALLOW_NEWLINES,
 		g_param_spec_boolean (
-			"allow_newlines",
+			"allow-newlines",
 			"Allow newlines",
 			"Allow newlines",
 			FALSE,

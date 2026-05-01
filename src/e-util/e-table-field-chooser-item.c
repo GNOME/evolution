@@ -685,7 +685,7 @@ e_table_field_chooser_item_class_init (ETableFieldChooserItemClass *class)
 		object_class,
 		PROP_DND_CODE,
 		g_param_spec_string (
-			"dnd_code",
+			"dnd-code",
 			"DnD code",
 			NULL,
 			NULL,
@@ -695,7 +695,7 @@ e_table_field_chooser_item_class_init (ETableFieldChooserItemClass *class)
 		object_class,
 		PROP_FULL_HEADER,
 		g_param_spec_object (
-			"full_header",
+			"full-header",
 			"Full Header",
 			NULL,
 			E_TYPE_TABLE_HEADER,

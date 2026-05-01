@@ -463,15 +463,15 @@ create_child_node (ETableGroupContainer *etgc,
 		etg->header, etg->model, etgc->sort_info, etgc->n + 1);
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (child),
-		"alternating_row_colors", etgc->alternating_row_colors,
-		"horizontal_draw_grid", etgc->horizontal_draw_grid,
-		"vertical_draw_grid", etgc->vertical_draw_grid,
+		"alternating-row-colors", etgc->alternating_row_colors,
+		"horizontal-draw-grid", etgc->horizontal_draw_grid,
+		"vertical-draw-grid", etgc->vertical_draw_grid,
 		"drawfocus", etgc->draw_focus,
-		"cursor_mode", etgc->cursor_mode,
-		"selection_model", etgc->selection_model,
-		"length_threshold", etgc->length_threshold,
-		"uniform_row_height", etgc->uniform_row_height,
-		"minimum_width", etgc->minimum_width - GROUP_INDENT,
+		"cursor-mode", etgc->cursor_mode,
+		"selection-model", etgc->selection_model,
+		"length-threshold", etgc->length_threshold,
+		"uniform-row-height", etgc->uniform_row_height,
+		"minimum-width", etgc->minimum_width - GROUP_INDENT,
 		NULL);
 
 	g_signal_connect (
@@ -872,7 +872,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"minimum_width", etgc->minimum_width - GROUP_INDENT,
+				"minimum-width", etgc->minimum_width - GROUP_INDENT,
 				NULL);
 		}
 		break;
@@ -882,7 +882,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"length_threshold", etgc->length_threshold,
+				"length-threshold", etgc->length_threshold,
 				NULL);
 		}
 		break;
@@ -892,7 +892,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"uniform_row_height", etgc->uniform_row_height,
+				"uniform-row-height", etgc->uniform_row_height,
 				NULL);
 		}
 		break;
@@ -907,7 +907,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"selection_model", etgc->selection_model,
+				"selection-model", etgc->selection_model,
 				NULL);
 		}
 		break;
@@ -918,7 +918,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"alternating_row_colors", etgc->alternating_row_colors,
+				"alternating-row-colors", etgc->alternating_row_colors,
 				NULL);
 		}
 		break;
@@ -929,7 +929,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"horizontal_draw_grid", etgc->horizontal_draw_grid,
+				"horizontal-draw-grid", etgc->horizontal_draw_grid,
 				NULL);
 		}
 		break;
@@ -940,7 +940,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"vertical_draw_grid", etgc->vertical_draw_grid,
+				"vertical-draw-grid", etgc->vertical_draw_grid,
 				NULL);
 		}
 		break;
@@ -962,7 +962,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"cursor_mode", etgc->cursor_mode,
+				"cursor-mode", etgc->cursor_mode,
 				NULL);
 		}
 		break;
@@ -1038,7 +1038,7 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 		object_class,
 		PROP_TABLE_ALTERNATING_ROW_COLORS,
 		g_param_spec_boolean (
-			"alternating_row_colors",
+			"alternating-row-colors",
 			"Alternating Row Colors",
 			"Alternating Row Colors",
 			FALSE,
@@ -1048,7 +1048,7 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 		object_class,
 		PROP_TABLE_HORIZONTAL_DRAW_GRID,
 		g_param_spec_boolean (
-			"horizontal_draw_grid",
+			"horizontal-draw-grid",
 			"Horizontal Draw Grid",
 			"Horizontal Draw Grid",
 			FALSE,
@@ -1058,7 +1058,7 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 		object_class,
 		PROP_TABLE_VERTICAL_DRAW_GRID,
 		g_param_spec_boolean (
-			"vertical_draw_grid",
+			"vertical-draw-grid",
 			"Vertical Draw Grid",
 			"Vertical Draw Grid",
 			FALSE,
@@ -1078,7 +1078,7 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 		object_class,
 		PROP_CURSOR_MODE,
 		g_param_spec_int (
-			"cursor_mode",
+			"cursor-mode",
 			"Cursor mode",
 			"Cursor mode",
 			E_CURSOR_LINE,
@@ -1090,7 +1090,7 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 		object_class,
 		PROP_SELECTION_MODEL,
 		g_param_spec_object (
-			"selection_model",
+			"selection-model",
 			"Selection model",
 			"Selection model",
 			E_TYPE_SELECTION_MODEL,
@@ -1100,7 +1100,7 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 		object_class,
 		PROP_LENGTH_THRESHOLD,
 		g_param_spec_int (
-			"length_threshold",
+			"length-threshold",
 			"Length Threshold",
 			"Length Threshold",
 			-1, G_MAXINT, 0,
@@ -1110,7 +1110,7 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 		object_class,
 		PROP_UNIFORM_ROW_HEIGHT,
 		g_param_spec_boolean (
-			"uniform_row_height",
+			"uniform-row-height",
 			"Uniform row height",
 			"Uniform row height",
 			FALSE,
@@ -1150,7 +1150,7 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 		object_class,
 		PROP_MINIMUM_WIDTH,
 		g_param_spec_double (
-			"minimum_width",
+			"minimum-width",
 			"Minimum width",
 			"Minimum Width",
 			0.0, G_MAXDOUBLE, 0.0,

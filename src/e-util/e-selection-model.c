@@ -186,7 +186,7 @@ e_selection_model_class_init (ESelectionModelClass *class)
 		object_class,
 		PROP_SELECTION_MODE,
 		g_param_spec_int (
-			"selection_mode",
+			"selection-mode",
 			"Selection Mode",
 			NULL,
 			GTK_SELECTION_NONE,
@@ -198,7 +198,7 @@ e_selection_model_class_init (ESelectionModelClass *class)
 		object_class,
 		PROP_CURSOR_MODE,
 		g_param_spec_int (
-			"cursor_mode",
+			"cursor-mode",
 			"Cursor Mode",
 			NULL,
 			E_CURSOR_LINE,

@@ -1012,7 +1012,7 @@ eti_show_cursor (ETableItem *eti,
 #if 0
 	g_object_get (
 		eti->selection,
-		"cursor_row", &cursor_row,
+		"cursor-row", &cursor_row,
 		NULL);
 #else
 	cursor_row = e_selection_model_cursor_row (eti->selection);
@@ -1047,7 +1047,7 @@ eti_check_cursor_bounds (ETableItem *eti)
 
 	g_object_get (
 		eti->selection,
-		"cursor_row", &cursor_row,
+		"cursor-row", &cursor_row,
 		NULL);
 
 	if (cursor_row == -1) {
@@ -1354,8 +1354,8 @@ e_table_item_redraw_range (ETableItem *eti,
 
 	g_object_get (
 		eti->selection,
-		"cursor_col", &cursor_col,
-		"cursor_row", &cursor_row,
+		"cursor-col", &cursor_col,
+		"cursor-row", &cursor_row,
 		NULL);
 
 	if ((start_col == cursor_col) ||
@@ -1639,7 +1639,7 @@ eti_set_property (GObject *object,
 	case PROP_CURSOR_ROW:
 		g_object_get (
 			eti->selection,
-			"cursor_col", &cursor_col,
+			"cursor-col", &cursor_col,
 			NULL);
 
 		e_table_item_focus (eti, cursor_col != -1 ? cursor_col : 0, view_to_model_row (eti, g_value_get_int (value)), 0);
@@ -1685,7 +1685,7 @@ eti_get_property (GObject *object,
 	case PROP_CURSOR_ROW:
 		g_object_get (
 			eti->selection,
-			"cursor_row", &row,
+			"cursor-row", &row,
 			NULL);
 		g_value_set_int (value, model_to_view_row (eti, row));
 		break;
@@ -2019,8 +2019,8 @@ eti_draw (GnomeCanvasItem *item,
 
 		g_object_get (
 			eti->selection,
-			"cursor_col", &cursor_col,
-			"cursor_row", &cursor_row,
+			"cursor-col", &cursor_col,
+			"cursor-row", &cursor_row,
 			NULL);
 
 		for (col = first_col; col < last_col; col++) {
@@ -2295,8 +2295,8 @@ eti_cursor_move_left (ETableItem *eti)
 	gint cursor_col, cursor_row;
 	g_object_get (
 		eti->selection,
-		"cursor_col", &cursor_col,
-		"cursor_row", &cursor_row,
+		"cursor-col", &cursor_col,
+		"cursor-row", &cursor_row,
 		NULL);
 
 	eti_cursor_move (eti, model_to_view_row (eti, cursor_row), model_to_view_col (eti, cursor_col) - 1);
@@ -2308,8 +2308,8 @@ eti_cursor_move_right (ETableItem *eti)
 	gint cursor_col, cursor_row;
 	g_object_get (
 		eti->selection,
-		"cursor_col", &cursor_col,
-		"cursor_row", &cursor_row,
+		"cursor-col", &cursor_col,
+		"cursor-row", &cursor_row,
 		NULL);
 
 	eti_cursor_move (eti, model_to_view_row (eti, cursor_row), model_to_view_col (eti, cursor_col) + 1);
@@ -2428,8 +2428,8 @@ eti_event (GnomeCanvasItem *item,
 
 			g_object_get (
 				eti->selection,
-				"cursor_row", &cursor_row,
-				"cursor_col", &cursor_col,
+				"cursor-row", &cursor_row,
+				"cursor-col", &cursor_col,
 				NULL);
 
 			if (cursor_col == view_to_model_col (eti, col) && cursor_row == view_to_model_row (eti, row)) {
@@ -2461,8 +2461,8 @@ eti_event (GnomeCanvasItem *item,
 
 			g_object_get (
 				eti->selection,
-				"cursor_row", &cursor_row,
-				"cursor_col", &cursor_col,
+				"cursor-row", &cursor_row,
+				"cursor-col", &cursor_col,
 				NULL);
 
 			eti->maybe_did_something =
@@ -2473,8 +2473,8 @@ eti_event (GnomeCanvasItem *item,
 				event_state);
 			g_object_get (
 				eti->selection,
-				"cursor_row", &new_cursor_row,
-				"cursor_col", &new_cursor_col,
+				"cursor-row", &new_cursor_row,
+				"cursor-col", &new_cursor_col,
 				NULL);
 
 			if (cursor_row != new_cursor_row || cursor_col != new_cursor_col) {
@@ -2604,8 +2604,8 @@ eti_event (GnomeCanvasItem *item,
 
 			g_object_get (
 				eti->selection,
-				"cursor_row", &cursor_row,
-				"cursor_col", &cursor_col,
+				"cursor-row", &cursor_row,
+				"cursor-col", &cursor_col,
 				NULL);
 
 			if (eti_editing (eti) && cursor_row == view_to_model_row (eti, row) && cursor_col == view_to_model_col (eti, col)) {
@@ -2665,8 +2665,8 @@ eti_event (GnomeCanvasItem *item,
 
 			g_object_get (
 				eti->selection,
-				"cursor_row", &model_row,
-				"cursor_col", &model_col,
+				"cursor-row", &model_row,
+				"cursor-col", &model_col,
 				NULL);
 
 			/* Clone the event and alter its position. */
@@ -2764,8 +2764,8 @@ eti_event (GnomeCanvasItem *item,
 
 		g_object_get (
 			eti->selection,
-			"cursor_row", &cursor_row,
-			"cursor_col", &cursor_col,
+			"cursor-row", &cursor_row,
+			"cursor-col", &cursor_col,
 			NULL);
 
 		flags = 0;
@@ -2797,8 +2797,8 @@ eti_event (GnomeCanvasItem *item,
 
 		g_object_get (
 			eti->selection,
-			"cursor_row", &cursor_row,
-			"cursor_col", &cursor_col,
+			"cursor-row", &cursor_row,
+			"cursor-col", &cursor_col,
 			NULL);
 
 		if (cursor_row == -1 && cursor_col == -1)
@@ -2909,8 +2909,8 @@ eti_event (GnomeCanvasItem *item,
 				}
 				g_object_get (
 					eti->selection,
-					"cursor_row", &cursor_row,
-					"cursor_col", &cursor_col,
+					"cursor-row", &cursor_row,
+					"cursor-col", &cursor_col,
 					NULL);
 
 				if (cursor_col >= 0 && cursor_row >= 0 && return_val &&
@@ -3010,8 +3010,8 @@ eti_event (GnomeCanvasItem *item,
 
 		g_object_get (
 			eti->selection,
-			"cursor_row", &cursor_row,
-			"cursor_col", &cursor_col,
+			"cursor-row", &cursor_row,
+			"cursor-col", &cursor_col,
 			NULL);
 
 		if (cursor_col == -1)
@@ -3158,7 +3158,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_SELECTION_MODEL,
 		g_param_spec_object (
-			"selection_model",
+			"selection-model",
 			"Selection model",
 			"Selection model",
 			E_TYPE_SELECTION_MODEL,
@@ -3168,7 +3168,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_TABLE_ALTERNATING_ROW_COLORS,
 		g_param_spec_boolean (
-			"alternating_row_colors",
+			"alternating-row-colors",
 			"Alternating Row Colors",
 			"Alternating Row Colors",
 			FALSE,
@@ -3178,7 +3178,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_TABLE_HORIZONTAL_DRAW_GRID,
 		g_param_spec_boolean (
-			"horizontal_draw_grid",
+			"horizontal-draw-grid",
 			"Horizontal Draw Grid",
 			"Horizontal Draw Grid",
 			FALSE,
@@ -3188,7 +3188,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_TABLE_VERTICAL_DRAW_GRID,
 		g_param_spec_boolean (
-			"vertical_draw_grid",
+			"vertical-draw-grid",
 			"Vertical Draw Grid",
 			"Vertical Draw Grid",
 			FALSE,
@@ -3208,7 +3208,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_CURSOR_MODE,
 		g_param_spec_int (
-			"cursor_mode",
+			"cursor-mode",
 			"Cursor mode",
 			"Cursor mode",
 			E_CURSOR_LINE,
@@ -3220,7 +3220,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_LENGTH_THRESHOLD,
 		g_param_spec_int (
-			"length_threshold",
+			"length-threshold",
 			"Length Threshold",
 			"Length Threshold",
 			-1, G_MAXINT, 0,
@@ -3230,7 +3230,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_MINIMUM_WIDTH,
 		g_param_spec_double (
-			"minimum_width",
+			"minimum-width",
 			"Minimum width",
 			"Minimum Width",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -3260,7 +3260,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_CURSOR_ROW,
 		g_param_spec_int (
-			"cursor_row",
+			"cursor-row",
 			"Cursor row",
 			"Cursor row",
 			0, G_MAXINT, 0,
@@ -3270,7 +3270,7 @@ e_table_item_class_init (ETableItemClass *class)
 		object_class,
 		PROP_UNIFORM_ROW_HEIGHT,
 		g_param_spec_boolean (
-			"uniform_row_height",
+			"uniform-row-height",
 			"Uniform row height",
 			"Uniform row height",
 			FALSE,
@@ -3470,7 +3470,7 @@ e_table_item_get_focused_column (ETableItem *eti)
 
 	g_object_get (
 		eti->selection,
-		"cursor_col", &cursor_col,
+		"cursor-col", &cursor_col,
 		NULL);
 
 	return cursor_col;

@@ -341,7 +341,7 @@ e_cell_pixbuf_class_init (ECellPixbufClass *class)
 		object_class,
 		PROP_SELECTED_COLUMN,
 		g_param_spec_int (
-			"selected_column",
+			"selected-column",
 			"Selected Column",
 			NULL,
 			0, G_MAXINT, 0,
@@ -351,7 +351,7 @@ e_cell_pixbuf_class_init (ECellPixbufClass *class)
 		object_class,
 		PROP_FOCUSED_COLUMN,
 		g_param_spec_int (
-			"focused_column",
+			"focused-column",
 			"Focused Column",
 			NULL,
 			0, G_MAXINT, 0,
@@ -361,7 +361,7 @@ e_cell_pixbuf_class_init (ECellPixbufClass *class)
 		object_class,
 		PROP_UNSELECTED_COLUMN,
 		g_param_spec_int (
-			"unselected_column",
+			"unselected-column",
 			"Unselected Column",
 			NULL,
 			0, G_MAXINT, 0,

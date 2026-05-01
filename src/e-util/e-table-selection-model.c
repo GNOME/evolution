@@ -61,7 +61,7 @@ model_pre_change (ETableModel *etm,
 
 		g_object_get (
 			etsm,
-			"cursor_row", &cursor_row,
+			"cursor-row", &cursor_row,
 			NULL);
 		g_free (etsm->cursor_id);
 		if (cursor_row != -1)

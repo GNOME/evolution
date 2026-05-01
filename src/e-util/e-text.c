@@ -614,7 +614,7 @@ e_text_set_property (GObject *object,
 		if (!text->allow_newlines)
 			g_object_set (
 				text->tep,
-				"allow_newlines", FALSE,
+				"allow-newlines", FALSE,
 				NULL);
 		break;
 
@@ -791,7 +791,7 @@ e_text_set_property (GObject *object,
 		_get_tep (text);
 		g_object_set (
 			text->tep,
-			"allow_newlines", g_value_get_boolean (value),
+			"allow-newlines", g_value_get_boolean (value),
 			NULL);
 		break;
 
@@ -2939,7 +2939,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_EVENT_PROCESSOR,
 		g_param_spec_object (
-			"event_processor",
+			"event-processor",
 			"Event Processor",
 			"Event Processor",
 			E_TYPE_TEXT_EVENT_PROCESSOR,
@@ -3000,7 +3000,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_CLIP_WIDTH,
 		g_param_spec_double (
-			"clip_width",
+			"clip-width",
 			"Clip Width",
 			"Clip Width",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -3010,7 +3010,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_CLIP_HEIGHT,
 		g_param_spec_double (
-			"clip_height",
+			"clip-height",
 			"Clip Height",
 			"Clip Height",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -3030,7 +3030,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_FILL_CLIP_RECTANGLE,
 		g_param_spec_boolean (
-			"fill_clip_rectangle",
+			"fill-clip-rectangle",
 			"Fill clip rectangle",
 			"Fill clip rectangle",
 			FALSE,
@@ -3040,7 +3040,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_X_OFFSET,
 		g_param_spec_double (
-			"x_offset",
+			"x-offset",
 			"X Offset",
 			"X Offset",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -3050,7 +3050,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_Y_OFFSET,
 		g_param_spec_double (
-			"y_offset",
+			"y-offset",
 			"Y Offset",
 			"Y Offset",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -3070,7 +3070,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_TEXT_WIDTH,
 		g_param_spec_double (
-			"text_width",
+			"text-width",
 			"Text width",
 			"Text width",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -3080,7 +3080,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_TEXT_HEIGHT,
 		g_param_spec_double (
-			"text_height",
+			"text-height",
 			"Text height",
 			"Text height",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -3100,7 +3100,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_USE_ELLIPSIS,
 		g_param_spec_boolean (
-			"use_ellipsis",
+			"use-ellipsis",
 			"Use ellipsis",
 			"Use ellipsis",
 			FALSE,
@@ -3120,7 +3120,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_LINE_WRAP,
 		g_param_spec_boolean (
-			"line_wrap",
+			"line-wrap",
 			"Line wrap",
 			"Line wrap",
 			FALSE,
@@ -3130,7 +3130,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_BREAK_CHARACTERS,
 		g_param_spec_string (
-			"break_characters",
+			"break-characters",
 			"Break characters",
 			"Break characters",
 			NULL,
@@ -3139,7 +3139,7 @@ e_text_class_init (ETextClass *class)
 	g_object_class_install_property (
 		gobject_class, PROP_MAX_LINES,
 		g_param_spec_int (
-			"max_lines",
+			"max-lines",
 			"Max lines",
 			"Max lines",
 			0, G_MAXINT, 0,
@@ -3169,7 +3169,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_ALLOW_NEWLINES,
 		g_param_spec_boolean (
-			"allow_newlines",
+			"allow-newlines",
 			"Allow newlines",
 			"Allow newlines",
 			FALSE,
@@ -3179,7 +3179,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_CURSOR_POS,
 		g_param_spec_int (
-			"cursor_pos",
+			"cursor-pos",
 			"Cursor position",
 			"Cursor position",
 			0, G_MAXINT, 0,
@@ -3189,7 +3189,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_IM_CONTEXT,
 		g_param_spec_object (
-			"im_context",
+			"im-context",
 			"IM Context",
 			"IM Context",
 			GTK_TYPE_IM_CONTEXT,
@@ -3199,7 +3199,7 @@ e_text_class_init (ETextClass *class)
 		gobject_class,
 		PROP_HANDLE_POPUP,
 		g_param_spec_boolean (
-			"handle_popup",
+			"handle-popup",
 			"Handle Popup",
 			"Handle Popup",
 			FALSE,

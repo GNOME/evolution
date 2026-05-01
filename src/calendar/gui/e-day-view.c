@@ -2475,7 +2475,7 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			gnome_canvas_rect_get_type (),
-			"line_width", 1.0,
+			"line-width", 1.0,
 			NULL);
 	gnome_canvas_item_hide (day_view->drag_long_event_rect_item);
 
@@ -2483,9 +2483,9 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			e_text_get_type (),
-			"line_wrap", TRUE,
+			"line-wrap", TRUE,
 			"clip", TRUE,
-			"max_lines", 1,
+			"max-lines", 1,
 			"editable", TRUE,
 			"fill-color", &black_rgba,
 			NULL);
@@ -2581,7 +2581,7 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			gnome_canvas_rect_get_type (),
-			"line_width", 1.0,
+			"line-width", 1.0,
 			NULL);
 	gnome_canvas_item_hide (day_view->drag_rect_item);
 
@@ -2589,7 +2589,7 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			gnome_canvas_rect_get_type (),
-			"line_width", 1.0,
+			"line-width", 1.0,
 			NULL);
 	gnome_canvas_item_hide (day_view->drag_bar_item);
 
@@ -2597,7 +2597,7 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			e_text_get_type (),
-			"line_wrap", TRUE,
+			"line-wrap", TRUE,
 			"clip", TRUE,
 			"editable", TRUE,
 			"fill-color", &black_rgba,
@@ -6277,11 +6277,11 @@ e_day_view_reshape_long_event (EDayView *day_view,
 				GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 				e_text_get_type (),
 				"clip", TRUE,
-				"max_lines", 1,
+				"max-lines", 1,
 				"editable", TRUE,
-				"use_ellipsis", TRUE,
+				"use-ellipsis", TRUE,
 				"fill-color", &rgba,
-				"im_context", E_CANVAS (day_view->top_canvas)->im_context,
+				"im-context", E_CANVAS (day_view->top_canvas)->im_context,
 				NULL);
 		g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
 		g_object_set_data (G_OBJECT (event->canvas_item), "event-day", GINT_TO_POINTER (E_DAY_VIEW_LONG_EVENT));
@@ -6351,9 +6351,9 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 	gnome_canvas_item_set (
 		event->canvas_item,
-		"x_offset", (gdouble) MAX (0, text_x - item_x),
-		"clip_width", (gdouble) MAX (0, item_w - (E_DAY_VIEW_LONG_EVENT_TIME_X_PAD * 2)),
-		"clip_height", (gdouble) item_h,
+		"x-offset", (gdouble) MAX (0, text_x - item_x),
+		"clip-width", (gdouble) MAX (0, item_w - (E_DAY_VIEW_LONG_EVENT_TIME_X_PAD * 2)),
+		"clip-height", (gdouble) item_h,
 		NULL);
 	e_canvas_item_move_absolute (
 		event->canvas_item,
@@ -6476,12 +6476,12 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			event->canvas_item = gnome_canvas_item_new (
 				GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 				e_text_get_type (),
-				"line_wrap", TRUE,
+				"line-wrap", TRUE,
 				"editable", TRUE,
 				"clip", TRUE,
-				"use_ellipsis", TRUE,
+				"use-ellipsis", TRUE,
 				"fill-color", &rgba,
-				"im_context", E_CANVAS (day_view->main_canvas)->im_context,
+				"im-context", E_CANVAS (day_view->main_canvas)->im_context,
 				NULL);
 			g_object_set_data (G_OBJECT (event->canvas_item), "event-num", GINT_TO_POINTER (event_num));
 			g_object_set_data (G_OBJECT (event->canvas_item), "event-day", GINT_TO_POINTER (day));
@@ -6498,9 +6498,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		item_w = MAX (item_w, 0);
 		gnome_canvas_item_set (
 			event->canvas_item,
-			"clip_width", (gdouble) item_w,
-			"clip_height", (gdouble) item_h,
-			"x_offset", (gdouble) icons_offset,
+			"clip-width", (gdouble) item_w,
+			"clip-height", (gdouble) item_h,
+			"x-offset", (gdouble) icons_offset,
 			NULL);
 		e_canvas_item_move_absolute (
 			event->canvas_item,
@@ -7484,7 +7484,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 	/* Try to move the cursor to the end of the text. */
 	g_object_get (
 		event->canvas_item,
-		"event_processor", &event_processor,
+		"event-processor", &event_processor,
 		NULL);
 	if (event_processor) {
 		command.action = E_TEP_MOVE;
@@ -8071,7 +8071,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
 
-	g_object_set (event->canvas_item, "handle_popup", FALSE, NULL);
+	g_object_set (event->canvas_item, "handle-popup", FALSE, NULL);
 	g_object_get (
 		event->canvas_item,
 		"text", &text,
@@ -8897,8 +8897,8 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 
 	gnome_canvas_item_set (
 		day_view->drag_long_event_item,
-		"clip_width", item_w - (E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD) * 2,
-		"clip_height", item_h - (E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD) * 2,
+		"clip-width", item_w - (E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH + E_DAY_VIEW_LONG_EVENT_X_PAD) * 2,
+		"clip-height", item_h - (E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT + E_DAY_VIEW_LONG_EVENT_Y_PAD) * 2,
 		NULL);
 	e_canvas_item_move_absolute (
 		day_view->drag_long_event_item,
@@ -9071,8 +9071,8 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 
 	gnome_canvas_item_set (
 		day_view->drag_item,
-		"clip_width", item_w - E_DAY_VIEW_BAR_WIDTH - E_DAY_VIEW_EVENT_X_PAD * 2,
-		"clip_height", item_h - (E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD) * 2,
+		"clip-width", item_w - E_DAY_VIEW_BAR_WIDTH - E_DAY_VIEW_EVENT_X_PAD * 2,
+		"clip-height", item_h - (E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD) * 2,
 		NULL);
 	e_canvas_item_move_absolute (
 		day_view->drag_item,

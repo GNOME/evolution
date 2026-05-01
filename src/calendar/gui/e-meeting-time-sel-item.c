@@ -94,7 +94,7 @@ e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *class)
 		object_class,
 		PROP_MEETING_TIME_SELECTOR,
 		g_param_spec_pointer (
-			"meeting_time_selector",
+			"meeting-time-selector",
 			NULL,
 			NULL,
 			G_PARAM_WRITABLE));

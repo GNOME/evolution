@@ -276,7 +276,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		return;
 	}
 
-	g_object_get (G_OBJECT (event->canvas_item), "x_offset", &x_offset, NULL);
+	g_object_get (G_OBJECT (event->canvas_item), "x-offset", &x_offset, NULL);
 
 	/* Determine the position of the label, so we know where to place the
 	 * icons. Note that since the top canvas never scrolls we don't need
@@ -770,7 +770,7 @@ e_day_view_top_item_class_init (EDayViewTopItemClass *class)
 		object_class,
 		PROP_DAY_VIEW,
 		g_param_spec_object (
-			"day_view",
+			"day-view",
 			"Day View",
 			NULL,
 			E_TYPE_DAY_VIEW,
@@ -780,7 +780,7 @@ e_day_view_top_item_class_init (EDayViewTopItemClass *class)
 		object_class,
 		PROP_SHOW_DATES,
 		g_param_spec_boolean (
-			"show_dates",
+			"show-dates",
 			"Show Dates",
 			NULL,
 			TRUE,

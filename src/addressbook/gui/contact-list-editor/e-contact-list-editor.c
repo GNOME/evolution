@@ -1642,7 +1642,7 @@ e_contact_list_editor_class_init (EContactListEditorClass *class)
 		object_class,
 		PROP_IS_NEW_LIST,
 		g_param_spec_boolean (
-			"is_new_list",
+			"is-new-list",
 			"Is New List",
 			NULL,
 			FALSE,
@@ -1686,7 +1686,7 @@ e_contact_list_editor_new (EShell *shell,
 		editor,
 		"client", book_client,
 		"contact", list_contact,
-		"is_new_list", is_new_list,
+		"is-new-list", is_new_list,
 		"editable", editable,
 		NULL);
 
@@ -1937,7 +1937,7 @@ e_contact_list_editor_set_is_new_list (EContactListEditor *editor,
 	editor->priv->is_new_list = is_new_list;
 	contact_list_editor_update (editor);
 
-	g_object_notify (G_OBJECT (editor), "is_new_list");
+	g_object_notify (G_OBJECT (editor), "is-new-list");
 }
 
 gboolean

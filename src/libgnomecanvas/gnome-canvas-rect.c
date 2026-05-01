@@ -478,7 +478,7 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 		object_class,
 		PROP_LINE_WIDTH,
 		g_param_spec_double (
-			"line_width",
+			"line-width",
 			NULL,
 			NULL,
 			0.0,
@@ -490,7 +490,7 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 		object_class,
 		PROP_CAP_STYLE,
 		g_param_spec_enum (
-			"cap_style",
+			"cap-style",
 			NULL,
 			NULL,
 			CAIRO_GOBJECT_TYPE_LINE_CAP,
@@ -501,7 +501,7 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 		object_class,
 		PROP_JOIN_STYLE,
 		g_param_spec_enum (
-			"join_style",
+			"join-style",
 			NULL,
 			NULL,
 			CAIRO_GOBJECT_TYPE_LINE_JOIN,

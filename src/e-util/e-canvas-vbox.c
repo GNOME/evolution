@@ -76,7 +76,7 @@ e_canvas_vbox_class_init (ECanvasVboxClass *class)
 		object_class,
 		PROP_MINIMUM_WIDTH,
 		g_param_spec_double (
-			"minimum_width",
+			"minimum-width",
 			"Minimum width",
 			"Minimum Width",
 			0.0, G_MAXDOUBLE, 0.0,

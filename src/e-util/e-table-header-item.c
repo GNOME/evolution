@@ -1483,9 +1483,9 @@ ethi_popup_field_chooser (GtkWidget *widget,
 
 	g_object_set (
 		info->ethi->etfcd.widget,
-		"full_header", info->ethi->full_header,
+		"full-header", info->ethi->full_header,
 		"header", info->ethi->eth,
-		"dnd_code", info->ethi->dnd_code,
+		"dnd-code", info->ethi->dnd_code,
 		NULL);
 
 	gtk_widget_show (etfcd);
@@ -2160,7 +2160,7 @@ ethi_class_init (ETableHeaderItemClass *class)
 		object_class,
 		PROP_DND_CODE,
 		g_param_spec_string (
-			"dnd_code",
+			"dnd-code",
 			"DnD code",
 			NULL,
 			NULL,
@@ -2180,7 +2180,7 @@ ethi_class_init (ETableHeaderItemClass *class)
 		object_class,
 		PROP_FULL_HEADER,
 		g_param_spec_object (
-			"full_header",
+			"full-header",
 			"Full Header",
 			NULL,
 			E_TYPE_TABLE_HEADER,
@@ -2200,7 +2200,7 @@ ethi_class_init (ETableHeaderItemClass *class)
 		object_class,
 		PROP_SORT_INFO,
 		g_param_spec_object (
-			"sort_info",
+			"sort-info",
 			"Sort Info",
 			NULL,
 			E_TYPE_TABLE_SORT_INFO,

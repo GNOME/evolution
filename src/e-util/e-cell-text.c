@@ -1805,7 +1805,7 @@ e_cell_text_class_init (ECellTextClass *class)
 		object_class,
 		PROP_STRIKEOUT_COLUMN,
 		g_param_spec_int (
-			"strikeout_column",
+			"strikeout-column",
 			"Strikeout Column",
 			NULL,
 			-1, G_MAXINT, -1,
@@ -1815,7 +1815,7 @@ e_cell_text_class_init (ECellTextClass *class)
 		object_class,
 		PROP_UNDERLINE_COLUMN,
 		g_param_spec_int (
-			"underline_column",
+			"underline-column",
 			"Underline Column",
 			NULL,
 			-1, G_MAXINT, -1,
@@ -1825,7 +1825,7 @@ e_cell_text_class_init (ECellTextClass *class)
 		object_class,
 		PROP_BOLD_COLUMN,
 		g_param_spec_int (
-			"bold_column",
+			"bold-column",
 			"Bold Column",
 			NULL,
 			-1, G_MAXINT, -1,
@@ -1855,7 +1855,7 @@ e_cell_text_class_init (ECellTextClass *class)
 		object_class,
 		PROP_COLOR_COLUMN,
 		g_param_spec_int (
-			"color_column",
+			"color-column",
 			"Color Column",
 			NULL,
 			-1, G_MAXINT, -1,
@@ -1875,7 +1875,7 @@ e_cell_text_class_init (ECellTextClass *class)
 		object_class,
 		PROP_BG_COLOR_COLUMN,
 		g_param_spec_int (
-			"bg_color_column",
+			"bg-color-column",
 			"BG Color Column",
 			NULL,
 			-1, G_MAXINT, -1,
@@ -2104,13 +2104,13 @@ e_cell_text_init (ECellText *ect)
  * a finer control of the way the string is displayed.  The arguments supported
  * allow the control of strikeout, underline, bold, and color.
  *
- * The arguments "strikeout_column", "underline_column", "bold_column"
- * and "color_column" set and return an integer that points to a
+ * The arguments "strikeout-column", "underline-column", "bold-column"
+ * and "color-column" set and return an integer that points to a
  * column in the model that controls these settings.  So controlling
  * the way things are rendered is achieved by having special columns
  * in the model that will be used to flag whether the text should be
  * rendered with strikeout, or bolded.  In the case of the
- * "color_column" argument, the column in the model is expected to
+ * "color-column" argument, the column in the model is expected to
  * have a string that can be parsed by gdk_rgba_parse().
  *
  * Returns: an ECell object that can be used to render strings.

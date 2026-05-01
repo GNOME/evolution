@@ -270,7 +270,7 @@ e_table_header_class_init (ETableHeaderClass *class)
 		object_class,
 		PROP_WIDTH_EXTRAS,
 		g_param_spec_double (
-			"width_extras",
+			"width-extras",
 			"Width of Extras",
 			"Width of Extras",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -280,7 +280,7 @@ e_table_header_class_init (ETableHeaderClass *class)
 		object_class,
 		PROP_SORT_INFO,
 		g_param_spec_object (
-			"sort_info",
+			"sort-info",
 			"Sort Info",
 			"Sort Info",
 			E_TYPE_TABLE_SORT_INFO,

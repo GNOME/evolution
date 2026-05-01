@@ -449,7 +449,7 @@ et_search_search (ETableSearch *search,
 
 	g_object_get (
 		et->selection,
-		"cursor_row", &cursor,
+		"cursor-row", &cursor,
 		NULL);
 
 	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) &&
@@ -499,7 +499,7 @@ et_search_accept (ETableSearch *search,
 	if (col == NULL)
 		return;
 
-	g_object_get (et->selection, "cursor_row", &cursor, NULL);
+	g_object_get (et->selection, "cursor-row", &cursor, NULL);
 
 	e_selection_model_select_as_key_press (
 		E_SELECTION_MODEL (et->selection),
@@ -712,9 +712,9 @@ e_table_setup_header (ETable *e_table)
 		gnome_canvas_root (e_table->header_canvas),
 		e_table_header_item_get_type (),
 		"ETableHeader", e_table->header,
-		"full_header", e_table->full_header,
-		"sort_info", e_table->sort_info,
-		"dnd_code", pointer,
+		"full-header", e_table->full_header,
+		"sort-info", e_table->sort_info,
+		"dnd-code", pointer,
 		"table", e_table,
 		NULL);
 
@@ -1095,14 +1095,14 @@ et_build_groups (ETable *et)
 
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (et->group),
-		"alternating_row_colors", alternating_row_colors,
-		"horizontal_draw_grid", et->horizontal_draw_grid,
-		"vertical_draw_grid", et->vertical_draw_grid,
+		"alternating-row-colors", alternating_row_colors,
+		"horizontal-draw-grid", et->horizontal_draw_grid,
+		"vertical-draw-grid", et->vertical_draw_grid,
 		"drawfocus", et->draw_focus,
-		"cursor_mode", et->cursor_mode,
-		"length_threshold", et->length_threshold,
-		"uniform_row_height", et->uniform_row_height && !et->is_grouped,
-		"selection_model", et->selection,
+		"cursor-mode", et->cursor_mode,
+		"length-threshold", et->length_threshold,
+		"uniform-row-height", et->uniform_row_height && !et->is_grouped,
+		"selection-model", et->selection,
 		NULL);
 
 	g_signal_connect (
@@ -1630,13 +1630,13 @@ e_table_set_state_object (ETable *e_table,
 	if (e_table->sorter)
 		g_object_set (
 			e_table->sorter,
-			"sort_info", e_table->sort_info,
+			"sort-info", e_table->sort_info,
 			NULL);
 	if (e_table->header_item)
 		g_object_set (
 			e_table->header_item,
 			"ETableHeader", e_table->header,
-			"sort_info", e_table->sort_info,
+			"sort-info", e_table->sort_info,
 			NULL);
 	if (e_table->click_to_add)
 		g_object_set (
@@ -1831,7 +1831,7 @@ et_real_construct (ETable *e_table,
 		G_CALLBACK (sort_info_changed), e_table);
 
 	g_value_set_object (val, e_table->sort_info);
-	g_object_set_property (G_OBJECT (e_table->header), "sort_info", val);
+	g_object_set_property (G_OBJECT (e_table->header), "sort-info", val);
 	g_free (val);
 
 	e_table->sorter = e_table_sorter_new (
@@ -1840,8 +1840,8 @@ et_real_construct (ETable *e_table,
 	g_object_set (
 		e_table->selection,
 		"model", etm,
-		"selection_mode", specification->selection_mode,
-		"cursor_mode", specification->cursor_mode,
+		"selection-mode", specification->selection_mode,
+		"cursor-mode", specification->cursor_mode,
 		"sorter", e_table->sorter,
 		"header", e_table->header,
 		NULL);
@@ -1973,7 +1973,7 @@ e_table_set_cursor_row (ETable *e_table,
 
 	g_object_set (
 		e_table->selection,
-		"cursor_row", row,
+		"cursor-row", row,
 		NULL);
 }
 
@@ -1994,7 +1994,7 @@ e_table_get_cursor_row (ETable *e_table)
 
 	g_object_get (
 		e_table->selection,
-		"cursor_row", &row,
+		"cursor-row", &row,
 		NULL);
 	return row;
 }
@@ -2180,7 +2180,7 @@ et_set_property (GObject *object,
 		if (etable->group) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etable->group),
-				"length_threshold",
+				"length-threshold",
 				etable->length_threshold,
 				NULL);
 		}
@@ -2190,7 +2190,7 @@ et_set_property (GObject *object,
 		if (etable->group) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etable->group),
-				"uniform_row_height", etable->uniform_row_height && !etable->is_grouped,
+				"uniform-row-height", etable->uniform_row_height && !etable->is_grouped,
 				NULL);
 		}
 		break;
@@ -3427,7 +3427,7 @@ e_table_class_init (ETableClass *class)
 		object_class,
 		PROP_LENGTH_THRESHOLD,
 		g_param_spec_int (
-			"length_threshold",
+			"length-threshold",
 			"Length Threshold",
 			NULL,
 			0, G_MAXINT, 0,
@@ -3437,7 +3437,7 @@ e_table_class_init (ETableClass *class)
 		object_class,
 		PROP_UNIFORM_ROW_HEIGHT,
 		g_param_spec_boolean (
-			"uniform_row_height",
+			"uniform-row-height",
 			"Uniform row height",
 			NULL,
 			FALSE,
@@ -3447,7 +3447,7 @@ e_table_class_init (ETableClass *class)
 		object_class,
 		PROP_ALWAYS_SEARCH,
 		g_param_spec_boolean (
-			"always_search",
+			"always-search",
 			"Always search",
 			NULL,
 			FALSE,
@@ -3457,7 +3457,7 @@ e_table_class_init (ETableClass *class)
 		object_class,
 		PROP_USE_CLICK_TO_ADD,
 		g_param_spec_boolean (
-			"use_click_to_add",
+			"use-click-to-add",
 			"Use click to add",
 			NULL,
 			FALSE,
@@ -3607,7 +3607,7 @@ table_size_allocate (GtkWidget *widget,
 
 	g_object_set (table->priv->info_text,
 		"width", width,
-		"clip_width", width,
+		"clip-width", width,
 		NULL);
 }
 
@@ -3645,12 +3645,12 @@ e_table_set_info_message (ETable *table,
 			table->priv->info_text = gnome_canvas_item_new (
 				GNOME_CANVAS_GROUP (gnome_canvas_root (table->table_canvas)),
 				e_text_get_type (),
-				"line_wrap", TRUE,
+				"line-wrap", TRUE,
 				"clip", TRUE,
 				"justification", GTK_JUSTIFY_LEFT,
 				"text", info_message,
 				"width", (gdouble) allocation.width - 60.0,
-				"clip_width", (gdouble) allocation.width - 60.0,
+				"clip-width", (gdouble) allocation.width - 60.0,
 				NULL);
 
 			e_canvas_item_move_absolute (table->priv->info_text, 30, 30);

@@ -111,7 +111,7 @@ gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)
 	g_object_class_install_property
 		(gobject_class,
 		 PROP_SIZE_PIXELS,
-		 g_param_spec_boolean ("size_pixels", NULL, NULL,
+		 g_param_spec_boolean ("size-pixels", NULL, NULL,
 				       FALSE,
 				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 

@@ -300,8 +300,8 @@ memo_table_constructed (GObject *object)
 	 */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 	e_table_extras_add_cell (extras, "calstring", cell);
 	g_object_unref (cell);
@@ -311,8 +311,8 @@ memo_table_constructed (GObject *object)
 	 */
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	e_binding_bind_property (
@@ -351,8 +351,8 @@ memo_table_constructed (GObject *object)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	popup_cell = e_cell_combo_new ();

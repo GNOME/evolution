@@ -214,7 +214,7 @@ etcta_set_property (GObject *object,
 		if (etcta->row)
 			gnome_canvas_item_set (
 				etcta->row,
-				"minimum_width", etcta->width,
+				"minimum-width", etcta->width,
 				NULL);
 		if (etcta->text)
 			gnome_canvas_item_set (
@@ -398,11 +398,11 @@ finish_editing (ETableClickToAdd *etcta)
 			e_table_item_get_type (),
 			"ETableHeader", etcta->eth,
 			"ETableModel", etcta->one,
-			"minimum_width", etcta->width,
-			"horizontal_draw_grid", TRUE,
-			"vertical_draw_grid", TRUE,
-			"selection_model", etcta->selection,
-			"cursor_mode", E_CURSOR_SPREADSHEET,
+			"minimum-width", etcta->width,
+			"horizontal-draw-grid", TRUE,
+			"vertical-draw-grid", TRUE,
+			"selection-model", etcta->selection,
+			"cursor-mode", E_CURSOR_SPREADSHEET,
 			NULL);
 
 		g_signal_connect (
@@ -457,11 +457,11 @@ etcta_event (GnomeCanvasItem *item,
 				e_table_item_get_type (),
 				"ETableHeader", etcta->eth,
 				"ETableModel", etcta->one,
-				"minimum_width", etcta->width,
-				"horizontal_draw_grid", TRUE,
-				"vertical_draw_grid", TRUE,
-				"selection_model", etcta->selection,
-				"cursor_mode", E_CURSOR_SPREADSHEET,
+				"minimum-width", etcta->width,
+				"horizontal-draw-grid", TRUE,
+				"vertical-draw-grid", TRUE,
+				"selection-model", etcta->selection,
+				"cursor-mode", E_CURSOR_SPREADSHEET,
 				NULL);
 
 			g_signal_connect (

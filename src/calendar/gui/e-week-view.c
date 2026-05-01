@@ -4011,12 +4011,12 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 				GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
 				e_text_get_type (),
 				"clip", TRUE,
-				"max_lines", 1,
+				"max-lines", 1,
 				"editable", TRUE,
 				"text", summary ? summary : "",
-				"use_ellipsis", TRUE,
+				"use-ellipsis", TRUE,
 				"fill-color", &color,
-				"im_context", E_CANVAS (week_view->main_canvas)->im_context,
+				"im-context", E_CANVAS (week_view->main_canvas)->im_context,
 				NULL);
 
 		g_free (summary);
@@ -4186,8 +4186,8 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 	gnome_canvas_item_set (
 		span->text_item,
-		"clip_width", (gdouble) text_w,
-		"clip_height", (gdouble) text_h,
+		"clip-width", (gdouble) text_w,
+		"clip-height", (gdouble) text_h,
 		NULL);
 	e_canvas_item_move_absolute (span->text_item, text_x, text_y);
 	gnome_canvas_item_request_update (span->background_item);
@@ -4290,7 +4290,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,  event->spans_index + span_num);
 
 	/* Try to move the cursor to the end of the text. */
-	g_object_get (span->text_item, "event_processor", &event_processor, NULL);
+	g_object_get (span->text_item, "event-processor", &event_processor, NULL);
 	if (event_processor) {
 		command.action = E_TEP_MOVE;
 		command.position = E_TEP_END_OF_BUFFER;
@@ -4870,7 +4870,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	}
 
 	text = NULL;
-	g_object_set (span->text_item, "handle_popup", FALSE, NULL);
+	g_object_set (span->text_item, "handle-popup", FALSE, NULL);
 	g_object_get (span->text_item, "text", &text, NULL);
 
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));

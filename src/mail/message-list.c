@@ -2249,17 +2249,17 @@ create_composite_cell (GSettings *mail_settings,
 	e_cell_date_set_format_component (E_CELL_DATE (cell_date), "mail");
 	g_object_set (
 		cell_date,
-		"bold_column", COL_UNREAD,
+		"bold-column", COL_UNREAD,
 		"italic-column", COL_ITALIC,
-		"color_column", COL_COLOUR,
+		"color-column", COL_COLOUR,
 		NULL);
 
 	cell_from = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell_from,
-		"bold_column", COL_UNREAD,
+		"bold-column", COL_UNREAD,
 		"italic-column", COL_ITALIC,
-		"color_column", COL_COLOUR,
+		"color-column", COL_COLOUR,
 		NULL);
 
 	cell_preview = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -2365,9 +2365,9 @@ message_list_create_extras (GSettings *mail_settings)
 	e_cell_date_set_format_component (E_CELL_DATE (cell), "mail");
 	g_object_set (
 		cell,
-		"bold_column", COL_UNREAD,
+		"bold-column", COL_UNREAD,
 		"italic-column", COL_ITALIC,
-		"color_column", COL_COLOUR,
+		"color-column", COL_COLOUR,
 		NULL);
 	e_table_extras_add_cell (extras, "render_date", cell);
 	g_object_unref (cell);
@@ -2375,9 +2375,9 @@ message_list_create_extras (GSettings *mail_settings)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"bold_column", COL_UNREAD,
+		"bold-column", COL_UNREAD,
 		"italic-column", COL_ITALIC,
-		"color_column", COL_COLOUR,
+		"color-column", COL_COLOUR,
 		"ellipsize-mode", PANGO_ELLIPSIZE_MIDDLE,
 		NULL);
 	e_table_extras_add_cell (extras, "render_location", cell);
@@ -2387,9 +2387,9 @@ message_list_create_extras (GSettings *mail_settings)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"bold_column", COL_UNREAD,
+		"bold-column", COL_UNREAD,
 		"italic-column", COL_ITALIC,
-		"color_column", COL_COLOUR,
+		"color-column", COL_COLOUR,
 		NULL);
 	e_table_extras_add_cell (extras, "render_text", cell);
 	g_object_unref (cell);
@@ -2402,9 +2402,9 @@ message_list_create_extras (GSettings *mail_settings)
 	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
 	g_object_set (
 		cell,
-		"bold_column", COL_UNREAD,
+		"bold-column", COL_UNREAD,
 		"italic-column", COL_ITALIC,
-		"color_column", COL_COLOUR,
+		"color-column", COL_COLOUR,
 		NULL);
 	e_table_extras_add_cell (extras, "render_size", cell);
 	g_object_unref (cell);
@@ -2513,7 +2513,7 @@ message_list_setup_etree (MessageList *message_list)
 
 		item = e_tree_get_item (E_TREE (message_list));
 
-		g_object_set (message_list, "uniform_row_height", TRUE, NULL);
+		g_object_set (message_list, "uniform-row-height", TRUE, NULL);
 		g_object_set_data (
 			G_OBJECT (((GnomeCanvasItem *) item)->canvas),
 			"freeze-cursor", &data);

@@ -759,8 +759,8 @@ create_children (EDateEdit *dedit)
 	calendar = E_CALENDAR (priv->calendar);
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (e_calendar_get_item (calendar)),
-		"maximum_days_selected", 1,
-		"move_selection_when_moving", FALSE,
+		"maximum-days-selected", 1,
+		"move-selection-when-moving", FALSE,
 		NULL);
 
 	g_signal_connect (
@@ -1337,7 +1337,7 @@ e_date_edit_get_show_week_numbers (EDateEdit *dedit)
 
 	g_object_get (
 		e_calendar_get_item (E_CALENDAR (dedit->priv->calendar)),
-		"show_week_numbers", &show_week_numbers, NULL);
+		"show-week-numbers", &show_week_numbers, NULL);
 
 	return show_week_numbers;
 }
@@ -1350,7 +1350,7 @@ e_date_edit_set_show_week_numbers (EDateEdit *dedit,
 
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (e_calendar_get_item (E_CALENDAR (dedit->priv->calendar))),
-		"show_week_numbers", show_week_numbers, NULL);
+		"show-week-numbers", show_week_numbers, NULL);
 
 	g_object_notify (G_OBJECT (dedit), "show-week-numbers");
 }

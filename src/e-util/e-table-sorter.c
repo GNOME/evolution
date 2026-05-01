@@ -473,7 +473,7 @@ e_table_sorter_class_init (ETableSorterClass *class)
 		object_class,
 		PROP_SORT_INFO,
 		g_param_spec_object (
-			"sort_info",
+			"sort-info",
 			"Sort Info",
 			NULL,
 			E_TYPE_TABLE_SORT_INFO,

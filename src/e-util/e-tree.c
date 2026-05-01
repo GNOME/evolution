@@ -398,7 +398,7 @@ connect_header (ETree *tree,
 
 	g_value_init (val, G_TYPE_OBJECT);
 	g_value_set_object (val, tree->priv->sort_info);
-	g_object_set_property (G_OBJECT (tree->priv->header), "sort_info", val);
+	g_object_set_property (G_OBJECT (tree->priv->header), "sort-info", val);
 	g_free (val);
 }
 
@@ -575,7 +575,7 @@ et_search_accept (ETableSearch *search,
 	if (col == NULL)
 		return;
 
-	g_object_get (tree->priv->selection, "cursor_row", &cursor, NULL);
+	g_object_get (tree->priv->selection, "cursor-row", &cursor, NULL);
 
 	e_selection_model_select_as_key_press (
 		E_SELECTION_MODEL (tree->priv->selection),
@@ -730,9 +730,9 @@ e_tree_setup_header (ETree *tree)
 		gnome_canvas_root (tree->priv->header_canvas),
 		e_table_header_item_get_type (),
 		"ETableHeader", tree->priv->header,
-		"full_header", tree->priv->full_header,
-		"sort_info", tree->priv->sort_info,
-		"dnd_code", pointer,
+		"full-header", tree->priv->full_header,
+		"sort-info", tree->priv->sort_info,
+		"dnd-code", pointer,
 		"tree", tree,
 		NULL);
 
@@ -1129,14 +1129,14 @@ et_build_item (ETree *tree)
 		e_table_item_get_type (),
 		"ETableHeader", tree->priv->header,
 		"ETableModel", tree->priv->etta,
-		"selection_model", tree->priv->selection,
-		"alternating_row_colors", alternating_row_colors,
-		"horizontal_draw_grid", tree->priv->horizontal_draw_grid,
-		"vertical_draw_grid", tree->priv->vertical_draw_grid,
+		"selection-model", tree->priv->selection,
+		"alternating-row-colors", alternating_row_colors,
+		"horizontal-draw-grid", tree->priv->horizontal_draw_grid,
+		"vertical-draw-grid", tree->priv->vertical_draw_grid,
 		"drawfocus", tree->priv->draw_focus,
-		"cursor_mode", tree->priv->cursor_mode,
-		"length_threshold", tree->priv->length_threshold,
-		"uniform_row_height", tree->priv->uniform_row_height,
+		"cursor-mode", tree->priv->cursor_mode,
+		"length-threshold", tree->priv->length_threshold,
+		"uniform-row-height", tree->priv->uniform_row_height,
 		NULL);
 
 	g_signal_connect (
@@ -1398,7 +1398,7 @@ e_tree_set_state_object (ETree *tree,
 		g_object_set (
 			tree->priv->header_item,
 			"ETableHeader", tree->priv->header,
-			"sort_info", tree->priv->sort_info,
+			"sort-info", tree->priv->sort_info,
 			NULL);
 
 	if (tree->priv->item)
@@ -1627,8 +1627,8 @@ et_real_construct (ETree *tree,
 		tree->priv->selection,
 		"model", tree->priv->model,
 		"etta", tree->priv->etta,
-		"selection_mode", specification->selection_mode,
-		"cursor_mode", specification->cursor_mode,
+		"selection-mode", specification->selection_mode,
+		"cursor-mode", specification->cursor_mode,
 		NULL);
 
 	g_signal_connect (
@@ -1903,7 +1903,7 @@ et_set_property (GObject *object,
 		if (tree->priv->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (tree->priv->item),
-				"length_threshold",
+				"length-threshold",
 				tree->priv->length_threshold,
 				NULL);
 		}
@@ -1914,7 +1914,7 @@ et_set_property (GObject *object,
 		if (tree->priv->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (tree->priv->item),
-				"horizontal_draw_grid",
+				"horizontal-draw-grid",
 				tree->priv->horizontal_draw_grid,
 				NULL);
 		}
@@ -1925,7 +1925,7 @@ et_set_property (GObject *object,
 		if (tree->priv->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (tree->priv->item),
-				"vertical_draw_grid",
+				"vertical-draw-grid",
 				tree->priv->vertical_draw_grid,
 				NULL);
 		}
@@ -1947,7 +1947,7 @@ et_set_property (GObject *object,
 		if (tree->priv->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (tree->priv->item),
-				"uniform_row_height",
+				"uniform-row-height",
 				tree->priv->uniform_row_height,
 				NULL);
 		}
@@ -3106,7 +3106,7 @@ e_tree_class_init (ETreeClass *class)
 		object_class,
 		PROP_LENGTH_THRESHOLD,
 		g_param_spec_int (
-			"length_threshold",
+			"length-threshold",
 			"Length Threshold",
 			"Length Threshold",
 			0, G_MAXINT, 0,
@@ -3116,7 +3116,7 @@ e_tree_class_init (ETreeClass *class)
 		object_class,
 		PROP_HORIZONTAL_DRAW_GRID,
 		g_param_spec_boolean (
-			"horizontal_draw_grid",
+			"horizontal-draw-grid",
 			"Horizontal Draw Grid",
 			"Horizontal Draw Grid",
 			FALSE,
@@ -3126,7 +3126,7 @@ e_tree_class_init (ETreeClass *class)
 		object_class,
 		PROP_VERTICAL_DRAW_GRID,
 		g_param_spec_boolean (
-			"vertical_draw_grid",
+			"vertical-draw-grid",
 			"Vertical Draw Grid",
 			"Vertical Draw Grid",
 			FALSE,
@@ -3156,7 +3156,7 @@ e_tree_class_init (ETreeClass *class)
 		object_class,
 		PROP_UNIFORM_ROW_HEIGHT,
 		g_param_spec_boolean (
-			"uniform_row_height",
+			"uniform-row-height",
 			"Uniform row height",
 			"Uniform row height",
 			FALSE,
@@ -3176,7 +3176,7 @@ e_tree_class_init (ETreeClass *class)
 		object_class,
 		PROP_ALWAYS_SEARCH,
 		g_param_spec_boolean (
-			"always_search",
+			"always-search",
 			"Always search",
 			"Always search",
 			FALSE,
@@ -3195,7 +3195,7 @@ e_tree_class_init (ETreeClass *class)
 	gtk_widget_class_install_style_property (
 		widget_class,
 		g_param_spec_int (
-			"expander_size",
+			"expander-size",
 			"Expander Size",
 			"Size of the expander arrow",
 			0, G_MAXINT, 12,
@@ -3282,7 +3282,7 @@ tree_size_allocate (GtkWidget *widget,
 
 	g_object_set (
 		tree->priv->info_text, "width", width,
-		"clip_width", width, NULL);
+		"clip-width", width, NULL);
 }
 
 /**
@@ -3319,12 +3319,12 @@ e_tree_set_info_message (ETree *tree,
 			tree->priv->info_text = gnome_canvas_item_new (
 				GNOME_CANVAS_GROUP (gnome_canvas_root (tree->priv->table_canvas)),
 				e_text_get_type (),
-				"line_wrap", TRUE,
+				"line-wrap", TRUE,
 				"clip", TRUE,
 				"justification", GTK_JUSTIFY_LEFT,
 				"text", info_message,
 				"width", (gdouble) allocation.width - 60.0,
-				"clip_width", (gdouble) allocation.width - 60.0,
+				"clip-width", (gdouble) allocation.width - 60.0,
 				NULL);
 
 			e_canvas_item_move_absolute (tree->priv->info_text, 30, 30);

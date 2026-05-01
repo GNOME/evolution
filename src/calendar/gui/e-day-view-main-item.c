@@ -247,7 +247,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	is_editing = day_view->editing_event_day == day && day_view->editing_event_num == event_num;
 
 	if (event->canvas_item)
-		g_object_get (event->canvas_item, "x_offset", &text_x_offset, NULL);
+		g_object_get (event->canvas_item, "x-offset", &text_x_offset, NULL);
 
 	/* Draw shadow around the event when selected */
 	if (!draw_flat_events && is_editing && (gtk_widget_has_focus (day_view->main_canvas))) {

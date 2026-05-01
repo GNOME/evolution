@@ -303,15 +303,15 @@ etgl_realize (GnomeCanvasItem *item)
 		e_table_item_get_type (),
 		"ETableHeader", E_TABLE_GROUP (etgl)->header,
 		"ETableModel", etgl->ets,
-		"alternating_row_colors", etgl->alternating_row_colors,
-		"horizontal_draw_grid", etgl->horizontal_draw_grid,
-		"vertical_draw_grid", etgl->vertical_draw_grid,
+		"alternating-row-colors", etgl->alternating_row_colors,
+		"horizontal-draw-grid", etgl->horizontal_draw_grid,
+		"vertical-draw-grid", etgl->vertical_draw_grid,
 		"drawfocus", etgl->draw_focus,
-		"cursor_mode", etgl->cursor_mode,
-		"minimum_width", etgl->minimum_width,
-		"length_threshold", etgl->length_threshold,
-		"selection_model", etgl->selection_model,
-		"uniform_row_height", etgl->uniform_row_height,
+		"cursor-mode", etgl->cursor_mode,
+		"minimum-width", etgl->minimum_width,
+		"length-threshold", etgl->length_threshold,
+		"selection-model", etgl->selection_model,
+		"uniform-row-height", etgl->uniform_row_height,
 		NULL));
 
 	etgl->etgl_cursor_change_id = g_signal_connect (
@@ -526,7 +526,7 @@ etgl_set_property (GObject *object,
 		if (etgl->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etgl->item),
-				"minimum_width", etgl->minimum_width,
+				"minimum-width", etgl->minimum_width,
 				NULL);
 		}
 		break;
@@ -535,7 +535,7 @@ etgl_set_property (GObject *object,
 		if (etgl->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etgl->item),
-				"length_threshold", etgl->length_threshold,
+				"length-threshold", etgl->length_threshold,
 				NULL);
 		}
 		break;
@@ -549,7 +549,7 @@ etgl_set_property (GObject *object,
 		if (etgl->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etgl->item),
-				"selection_model", etgl->selection_model,
+				"selection-model", etgl->selection_model,
 				NULL);
 		}
 		break;
@@ -559,7 +559,7 @@ etgl_set_property (GObject *object,
 		if (etgl->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etgl->item),
-				"uniform_row_height", etgl->uniform_row_height,
+				"uniform-row-height", etgl->uniform_row_height,
 				NULL);
 		}
 		break;
@@ -569,7 +569,7 @@ etgl_set_property (GObject *object,
 		if (etgl->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etgl->item),
-				"alternating_row_colors", etgl->alternating_row_colors,
+				"alternating-row-colors", etgl->alternating_row_colors,
 				NULL);
 		}
 		break;
@@ -579,7 +579,7 @@ etgl_set_property (GObject *object,
 		if (etgl->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etgl->item),
-				"horizontal_draw_grid", etgl->horizontal_draw_grid,
+				"horizontal-draw-grid", etgl->horizontal_draw_grid,
 				NULL);
 		}
 		break;
@@ -589,7 +589,7 @@ etgl_set_property (GObject *object,
 		if (etgl->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etgl->item),
-				"vertical_draw_grid", etgl->vertical_draw_grid,
+				"vertical-draw-grid", etgl->vertical_draw_grid,
 				NULL);
 		}
 		break;
@@ -609,7 +609,7 @@ etgl_set_property (GObject *object,
 		if (etgl->item) {
 			gnome_canvas_item_set (
 				GNOME_CANVAS_ITEM (etgl->item),
-				"cursor_mode", etgl->cursor_mode,
+				"cursor-mode", etgl->cursor_mode,
 				NULL);
 		}
 		break;
@@ -683,7 +683,7 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 		object_class,
 		PROP_TABLE_ALTERNATING_ROW_COLORS,
 		g_param_spec_boolean (
-			"alternating_row_colors",
+			"alternating-row-colors",
 			"Alternating Row Colors",
 			"Alternating Row Colors",
 			FALSE,
@@ -693,7 +693,7 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 		object_class,
 		PROP_TABLE_HORIZONTAL_DRAW_GRID,
 		g_param_spec_boolean (
-			"horizontal_draw_grid",
+			"horizontal-draw-grid",
 			"Horizontal Draw Grid",
 			"Horizontal Draw Grid",
 			FALSE,
@@ -703,7 +703,7 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 		object_class,
 		PROP_TABLE_VERTICAL_DRAW_GRID,
 		g_param_spec_boolean (
-			"vertical_draw_grid",
+			"vertical-draw-grid",
 			"Vertical Draw Grid",
 			"Vertical Draw Grid",
 			FALSE,
@@ -723,7 +723,7 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 		object_class,
 		PROP_CURSOR_MODE,
 		g_param_spec_int (
-			"cursor_mode",
+			"cursor-mode",
 			"Cursor mode",
 			"Cursor mode",
 			E_CURSOR_LINE,
@@ -735,7 +735,7 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 		object_class,
 		PROP_LENGTH_THRESHOLD,
 		g_param_spec_int (
-			"length_threshold",
+			"length-threshold",
 			"Length Threshold",
 			"Length Threshold",
 			-1, G_MAXINT, 0,
@@ -745,7 +745,7 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 		object_class,
 		PROP_SELECTION_MODEL,
 		g_param_spec_object (
-			"selection_model",
+			"selection-model",
 			"Selection model",
 			"Selection model",
 			E_TYPE_SELECTION_MODEL,
@@ -775,7 +775,7 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 		object_class,
 		PROP_MINIMUM_WIDTH,
 		g_param_spec_double (
-			"minimum_width",
+			"minimum-width",
 			"Minimum width",
 			"Minimum Width",
 			0.0, G_MAXDOUBLE, 0.0,
@@ -795,7 +795,7 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 		object_class,
 		PROP_UNIFORM_ROW_HEIGHT,
 		g_param_spec_boolean (
-			"uniform_row_height",
+			"uniform-row-height",
 			"Uniform row height",
 			"Uniform row height",
 			FALSE,

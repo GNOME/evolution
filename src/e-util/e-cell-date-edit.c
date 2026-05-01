@@ -116,7 +116,7 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 		object_class,
 		PROP_SHOW_TIME,
 		g_param_spec_boolean (
-			"show_time",
+			"show-time",
 			NULL,
 			NULL,
 			TRUE,
@@ -126,7 +126,7 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 		object_class,
 		PROP_SHOW_NOW_BUTTON,
 		g_param_spec_boolean (
-			"show_now_button",
+			"show-now-button",
 			NULL,
 			NULL,
 			TRUE,
@@ -136,7 +136,7 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 		object_class,
 		PROP_SHOW_TODAY_BUTTON,
 		g_param_spec_boolean (
-			"show_today_button",
+			"show-today-button",
 			NULL,
 			NULL,
 			TRUE,
@@ -146,7 +146,7 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 		object_class,
 		PROP_ALLOW_NO_DATE_SET,
 		g_param_spec_boolean (
-			"allow_no_date_set",
+			"allow-no-date-set",
 			NULL,
 			NULL,
 			TRUE,
@@ -156,7 +156,7 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 		object_class,
 		PROP_USE_24_HOUR_FORMAT,
 		g_param_spec_boolean (
-			"use_24_hour_format",
+			"use-24-hour-format",
 			NULL,
 			NULL,
 			TRUE,
@@ -166,7 +166,7 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 		object_class,
 		PROP_LOWER_HOUR,
 		g_param_spec_int (
-			"lower_hour",
+			"lower-hour",
 			NULL,
 			NULL,
 			G_MININT,
@@ -178,7 +178,7 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 		object_class,
 		PROP_UPPER_HOUR,
 		g_param_spec_int (
-			"upper_hour",
+			"upper-hour",
 			NULL,
 			NULL,
 			G_MININT,
@@ -242,7 +242,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	ecde->calendar = e_calendar_new ();
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (e_calendar_get_item (E_CALENDAR (ecde->calendar))),
-		"move_selection_when_moving", FALSE,
+		"move-selection-when-moving", FALSE,
 		NULL);
 	gtk_box_pack_start (GTK_BOX (hbox), ecde->calendar, TRUE, TRUE, 0);
 	gtk_widget_show (ecde->calendar);

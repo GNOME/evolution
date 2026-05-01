@@ -344,7 +344,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_FONT_DESC,
 		g_param_spec_boxed (
-			"font_desc",
+			"font-desc",
 			NULL,
 			NULL,
 			PANGO_TYPE_FONT_DESCRIPTION,
@@ -354,7 +354,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_WEEK_NUMBER_FONT_DESC,
 		g_param_spec_boxed (
-			"week_number_font_desc",
+			"week-number-font-desc",
 			NULL,
 			NULL,
 			PANGO_TYPE_FONT_DESCRIPTION,
@@ -364,7 +364,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_ROW_HEIGHT,
 		g_param_spec_int (
-			"row_height",
+			"row-height",
 			NULL,
 			NULL,
 			G_MININT,
@@ -376,7 +376,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_COLUMN_WIDTH,
 		g_param_spec_int (
-			"column_width",
+			"column-width",
 			NULL,
 			NULL,
 			G_MININT,
@@ -388,7 +388,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_MINIMUM_ROWS,
 		g_param_spec_int (
-			"minimum_rows",
+			"minimum-rows",
 			NULL,
 			NULL,
 			G_MININT,
@@ -400,7 +400,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_MINIMUM_COLUMNS,
 		g_param_spec_int (
-			"minimum_columns",
+			"minimum-columns",
 			NULL,
 			NULL,
 			G_MININT,
@@ -412,7 +412,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_MAXIMUM_ROWS,
 		g_param_spec_int (
-			"maximum_rows",
+			"maximum-rows",
 			NULL,
 			NULL,
 			G_MININT,
@@ -424,7 +424,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_MAXIMUM_COLUMNS,
 		g_param_spec_int (
-			"maximum_columns",
+			"maximum-columns",
 			NULL,
 			NULL,
 			G_MININT,
@@ -448,7 +448,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_SHOW_WEEK_NUMBERS,
 		g_param_spec_boolean (
-			"show_week_numbers",
+			"show-week-numbers",
 			NULL,
 			NULL,
 			TRUE,
@@ -458,7 +458,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK,
 		g_param_spec_boolean (
-			"keep_wdays_on_weeknum_click",
+			"keep-wdays-on-weeknum-click",
 			NULL,
 			NULL,
 			FALSE,
@@ -468,7 +468,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_MAXIMUM_DAYS_SELECTED,
 		g_param_spec_int (
-			"maximum_days_selected",
+			"maximum-days-selected",
 			NULL,
 			NULL,
 			G_MININT,
@@ -480,7 +480,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_DAYS_TO_START_WEEK_SELECTION,
 		g_param_spec_int (
-			"days_to_start_week_selection",
+			"days-to-start-week-selection",
 			NULL,
 			NULL,
 			G_MININT,
@@ -492,7 +492,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_MOVE_SELECTION_WHEN_MOVING,
 		g_param_spec_boolean (
-			"move_selection_when_moving",
+			"move-selection-when-moving",
 			NULL,
 			NULL,
 			TRUE,
@@ -502,7 +502,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_PRESERVE_DAY_WHEN_MOVING,
 		g_param_spec_boolean (
-			"preserve_day_when_moving",
+			"preserve-day-when-moving",
 			NULL,
 			NULL,
 			TRUE,
@@ -512,7 +512,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 		object_class,
 		PROP_DISPLAY_POPUP,
 		g_param_spec_boolean (
-			"display_popup",
+			"display-popup",
 			NULL,
 			NULL,
 			TRUE,

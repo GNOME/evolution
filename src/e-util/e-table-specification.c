@@ -243,7 +243,7 @@ table_specification_start_column (GMarkupParseContext *context,
 
 		G_MARKUP_COLLECT_STRING |
 		G_MARKUP_COLLECT_OPTIONAL,
-		"minimum_width",
+		"minimum-width",
 		&minimum_width_str,
 
 		G_MARKUP_COLLECT_BOOLEAN |

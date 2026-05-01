@@ -252,7 +252,7 @@ e_contact_editor_class_init (EContactEditorClass *class)
 		object_class,
 		PROP_SOURCE_CLIENT,
 		g_param_spec_object (
-			"source_client",
+			"source-client",
 			"Source EBookClient",
 			NULL,
 			E_TYPE_BOOK_CLIENT,
@@ -262,7 +262,7 @@ e_contact_editor_class_init (EContactEditorClass *class)
 		object_class,
 		PROP_TARGET_CLIENT,
 		g_param_spec_object (
-			"target_client",
+			"target-client",
 			"Target EBookClient",
 			NULL,
 			E_TYPE_BOOK_CLIENT,
@@ -282,7 +282,7 @@ e_contact_editor_class_init (EContactEditorClass *class)
 		object_class,
 		PROP_IS_NEW_CONTACT,
 		g_param_spec_boolean (
-			"is_new_contact",
+			"is-new-contact",
 			"Is New Contact",
 			NULL,
 			FALSE,
@@ -292,7 +292,7 @@ e_contact_editor_class_init (EContactEditorClass *class)
 		object_class,
 		PROP_WRITABLE_FIELDS,
 		g_param_spec_pointer (
-			"writable_fields",
+			"writable-fields",
 			"Writable Fields",
 			NULL,
 			G_PARAM_READWRITE));
@@ -301,7 +301,7 @@ e_contact_editor_class_init (EContactEditorClass *class)
 		object_class,
 		PROP_REQUIRED_FIELDS,
 		g_param_spec_pointer (
-			"required_fields",
+			"required-fields",
 			"Required Fields",
 			NULL,
 			G_PARAM_READWRITE));
@@ -4055,7 +4055,7 @@ contact_editor_get_client_cb (GObject *source_object,
 				g_clear_object (&editor->priv->cancellable);
 
 				/* FIXME Write a private contact_editor_set_target_client(). */
-				g_object_set (editor, "target_client", client, NULL);
+				g_object_set (editor, "target-client", client, NULL);
 			}
 		}
 
@@ -4093,7 +4093,7 @@ source_changed (EClientComboBox *combo_box,
 
 	if (e_source_equal (source_source, source)) {
 		g_object_set (
-			editor, "target_client",
+			editor, "target-client",
 			editor->priv->source_client, NULL);
 		goto exit;
 	}
@@ -5456,7 +5456,7 @@ supported_fields_cb (GObject *source_object,
 
 	fields = e_client_util_parse_comma_strings (prop_value);
 
-	g_object_set (ce, "writable_fields", fields, NULL);
+	g_object_set (ce, "writable-fields", fields, NULL);
 
 	g_slist_free_full (fields, (GDestroyNotify) g_free);
 	g_free (prop_value);
@@ -5511,7 +5511,7 @@ required_fields_cb (GObject *source_object,
 
 	fields = e_client_util_parse_comma_strings (prop_value);
 
-	g_object_set (ce, "required_fields", fields, NULL);
+	g_object_set (ce, "required-fields", fields, NULL);
 
 	g_slist_free_full (fields, (GDestroyNotify) g_free);
 	g_free (prop_value);
@@ -5536,9 +5536,9 @@ e_contact_editor_new (EShell *shell,
 
 	g_object_set (
 		editor,
-		"source_client", book_client,
+		"source-client", book_client,
 		"contact", contact,
-		"is_new_contact", is_new_contact,
+		"is-new-contact", is_new_contact,
 		"editable", editable,
 		NULL);
 
