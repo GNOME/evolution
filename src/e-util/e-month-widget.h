@@ -52,7 +52,7 @@ struct _EMonthWidgetClass {
 
 	void	(* changed)		(EMonthWidget *self);
 	void	(* day_clicked)		(EMonthWidget *self,
-					 GdkEventButton *event,
+					 guint button,
 					 guint year,
 					 gint /* GDateMonth */ month,
 					 guint day);

@@ -835,16 +835,13 @@ year_view_paste_text (ECalendarView *cal_view)
 
 static void
 year_view_month_widget_day_clicked_cb (EMonthWidget *month_widget,
-				       GdkEventButton *event,
+				       guint button,
 				       guint year,
 				       gint /* GDateMonth */ month,
 				       guint day,
 				       gpointer user_data)
 {
 	EYearView *self = user_data;
-	guint button = 0;
-
-	gdk_event_get_button ((GdkEvent *) event, &button);
 
 	if (button == GDK_BUTTON_PRIMARY)
 		year_view_set_year (self, year, month, day);
