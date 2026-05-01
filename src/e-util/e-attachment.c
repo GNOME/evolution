@@ -109,7 +109,7 @@ enum {
 	PROP_SIGNED,
 	PROP_MAY_RELOAD,
 	PROP_IS_POSSIBLE,
-	LAST_PROPERTY
+	LAST_PROPERTY,
 };
 
 enum {
@@ -988,133 +988,117 @@ e_attachment_class_init (EAttachmentClass *class)
 
 	properties[PROP_CAN_SHOW] = g_param_spec_boolean (
 		"can-show",
-		"Can Show",
-		NULL,
+		NULL, NULL,
 		FALSE,
 		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT | common_flags);
+		G_PARAM_CONSTRUCT | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_DISPOSITION] = g_param_spec_string (
 		"disposition",
-		"Disposition",
-		NULL,
+		NULL, NULL,
 		"attachment",
 		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT | common_flags);
+		G_PARAM_CONSTRUCT | common_flags | G_PARAM_STATIC_STRINGS);
 
 	/* FIXME Define a GEnumClass for this. */
 	properties[PROP_ENCRYPTED] = g_param_spec_int (
 		"encrypted",
-		"Encrypted",
-		NULL,
+		NULL, NULL,
 		CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE,
 		CAMEL_CIPHER_VALIDITY_ENCRYPT_STRONG,
 		CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE,
 		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT | common_flags);
+		G_PARAM_CONSTRUCT | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_FILE] = g_param_spec_object (
 		"file",
-		"File",
-		NULL,
+		NULL, NULL,
 		G_TYPE_FILE,
 		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT | common_flags);
+		G_PARAM_CONSTRUCT | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_FILE_INFO] = g_param_spec_object (
 		"file-info",
-		"File Info",
-		NULL,
+		NULL, NULL,
 		G_TYPE_FILE_INFO,
-		G_PARAM_READABLE | common_flags);
+		G_PARAM_READABLE | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_ICON] = g_param_spec_object (
 		"icon",
-		"Icon",
-		NULL,
+		NULL, NULL,
 		G_TYPE_ICON,
-		G_PARAM_READABLE | common_flags);
+		G_PARAM_READABLE | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_LOADING] = g_param_spec_boolean (
 		"loading",
-		"Loading",
-		NULL,
+		NULL, NULL,
 		FALSE,
-		G_PARAM_READABLE | common_flags);
+		G_PARAM_READABLE | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_MIME_PART] = g_param_spec_object (
 		"mime-part",
-		"MIME Part",
-		NULL,
+		NULL, NULL,
 		CAMEL_TYPE_MIME_PART,
-		G_PARAM_READWRITE | common_flags);
+		G_PARAM_READWRITE | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_PERCENT] = g_param_spec_int (
 		"percent",
-		"Percent",
-		NULL,
+		NULL, NULL,
 		0,
 		100,
 		0,
-		G_PARAM_READABLE | common_flags);
+		G_PARAM_READABLE | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_SAVE_SELF] = g_param_spec_boolean (
 		"save-self",
-		"Save self",
-		NULL,
+		NULL, NULL,
 		TRUE,
-		G_PARAM_READWRITE | common_flags);
+		G_PARAM_READWRITE | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_SAVE_EXTRACTED] = g_param_spec_boolean (
 		"save-extracted",
-		"Save extracted",
-		NULL,
+		NULL, NULL,
 		FALSE,
-		G_PARAM_READWRITE | common_flags);
+		G_PARAM_READWRITE | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_SAVING] = g_param_spec_boolean (
 		"saving",
-		"Saving",
-		NULL,
+		NULL, NULL,
 		FALSE,
-		G_PARAM_READABLE | common_flags);
+		G_PARAM_READABLE | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_INITIALLY_SHOWN] = g_param_spec_boolean (
 		"initially-shown",
-		"Initially Shown",
-		NULL,
+		NULL, NULL,
 		FALSE,
 		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT | common_flags);
+		G_PARAM_CONSTRUCT | common_flags | G_PARAM_STATIC_STRINGS);
 
 	/* FIXME Define a GEnumClass for this. */
 	properties[PROP_SIGNED] = g_param_spec_int (
 		"signed",
-		"Signed",
-		NULL,
+		NULL, NULL,
 		CAMEL_CIPHER_VALIDITY_SIGN_NONE,
 		CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY,
 		CAMEL_CIPHER_VALIDITY_SIGN_NONE,
 		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT | common_flags);
+		G_PARAM_CONSTRUCT | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_MAY_RELOAD] = g_param_spec_boolean (
 		"may-reload",
-		"May Reload",
-		NULL,
+		NULL, NULL,
 		FALSE,
 		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT | common_flags);
+		G_PARAM_CONSTRUCT | common_flags | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_IS_POSSIBLE] = g_param_spec_boolean (
 		"is-possible",
-		"Is Possible",
-		NULL,
+		NULL, NULL,
 		FALSE,
 		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT | common_flags);
+		G_PARAM_CONSTRUCT | common_flags | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, LAST_PROPERTY, properties);
 
 	signals[UPDATE_FILE_INFO] = g_signal_new (
 		"update-file-info",

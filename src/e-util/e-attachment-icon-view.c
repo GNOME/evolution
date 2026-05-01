@@ -35,10 +35,13 @@ struct _EAttachmentIconViewPrivate {
 
 enum {
 	PROP_0,
+	N_PROPS,
 	PROP_DRAGGING,
 	PROP_EDITABLE,
-	PROP_ALLOW_URI
+	PROP_ALLOW_URI,
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_attachment_icon_view_interface_init

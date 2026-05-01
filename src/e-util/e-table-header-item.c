@@ -81,8 +81,11 @@ enum {
 	PROP_TABLE_FONT_DESC,
 	PROP_SORT_INFO,
 	PROP_TABLE,
-	PROP_TREE
+	PROP_TREE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ET_SCROLL_UP = 1 << 0,
@@ -1498,9 +1501,9 @@ ethi_popup_field_chooser (GtkWidget *widget,
 
 	g_object_set (
 		info->ethi->etfcd.widget,
-		"full_header", info->ethi->full_header,
+		"full-header", info->ethi->full_header,
 		"header", info->ethi->eth,
-		"dnd_code", info->ethi->dnd_code,
+		"dnd-code", info->ethi->dnd_code,
 		NULL);
 
 	gtk_widget_show (etfcd);
@@ -2171,75 +2174,76 @@ ethi_class_init (ETableHeaderItemClass *class)
 	item_class->point = ethi_point;
 	item_class->event = ethi_event;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DND_CODE,
+	/**
+	 * ETableHeaderItem:dnd-code
+	 **/
+	properties[PROP_DND_CODE] =
 		g_param_spec_string (
-			"dnd_code",
-			"DnD code",
+			"dnd-code",
+			NULL, NULL,
 			NULL,
-			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_FONT_DESC,
+	/**
+	 * ETableHeaderItem:font-desc
+	 **/
+	properties[PROP_TABLE_FONT_DESC] =
 		g_param_spec_boxed (
 			"font-desc",
-			"Font Description",
-			NULL,
+			NULL, NULL,
 			PANGO_TYPE_FONT_DESCRIPTION,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FULL_HEADER,
+	/**
+	 * ETableHeaderItem:full-header
+	 **/
+	properties[PROP_FULL_HEADER] =
 		g_param_spec_object (
-			"full_header",
-			"Full Header",
-			NULL,
+			"full-header",
+			NULL, NULL,
 			E_TYPE_TABLE_HEADER,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_HEADER,
+	/**
+	 * ETableHeaderItem:ETableHeader
+	 **/
+	properties[PROP_TABLE_HEADER] =
 		g_param_spec_object (
 			"ETableHeader",
-			"Header",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TABLE_HEADER,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SORT_INFO,
+	/**
+	 * ETableHeaderItem:sort-info
+	 **/
+	properties[PROP_SORT_INFO] =
 		g_param_spec_object (
-			"sort_info",
-			"Sort Info",
-			NULL,
+			"sort-info",
+			NULL, NULL,
 			E_TYPE_TABLE_SORT_INFO,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE,
+	/**
+	 * ETableHeaderItem:table
+	 **/
+	properties[PROP_TABLE] =
 		g_param_spec_object (
 			"table",
-			"Table",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TABLE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TREE,
+	/**
+	 * ETableHeaderItem:tree
+	 **/
+	properties[PROP_TREE] =
 		g_param_spec_object (
 			"tree",
-			"Tree",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TREE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	ethi_signals[BUTTON_PRESSED] = g_signal_new (
 		"button_pressed",

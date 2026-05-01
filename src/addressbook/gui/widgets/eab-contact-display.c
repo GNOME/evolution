@@ -49,8 +49,11 @@ enum {
 	PROP_0,
 	PROP_CONTACT,
 	PROP_MODE,
-	PROP_SHOW_MAPS
+	PROP_SHOW_MAPS,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	SEND_MESSAGE,
@@ -455,38 +458,39 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 	web_view_class->link_clicked = contact_display_link_clicked;
 	web_view_class->update_actions = contact_display_update_actions;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CONTACT,
+	/**
+	 * EABContactDisplay:contact
+	 **/
+	properties[PROP_CONTACT] =
 		g_param_spec_object (
 			"contact",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_CONTACT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
 	/* XXX Make this a real enum property. */
-	g_object_class_install_property (
-		object_class,
-		PROP_MODE,
+	/**
+	 * EABContactDisplay:mode
+	 **/
+	properties[PROP_MODE] =
 		g_param_spec_int (
 			"mode",
-			NULL,
-			NULL,
+			NULL, NULL,
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			EAB_CONTACT_DISPLAY_RENDER_COMPACT,
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_MAPS,
+	/**
+	 * EABContactDisplay:show-maps
+	 **/
+	properties[PROP_SHOW_MAPS] =
 		g_param_spec_boolean (
 			"show-maps",
-			NULL,
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[SEND_MESSAGE] = g_signal_new (
 		"send-message",
@@ -538,7 +542,7 @@ eab_contact_display_set_contact (EABContactDisplay *display,
 
 	load_contact (display);
 
-	g_object_notify (G_OBJECT (display), "contact");
+	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_CONTACT]);
 }
 
 EABContactDisplayMode
@@ -562,7 +566,7 @@ eab_contact_display_set_mode (EABContactDisplay *display,
 
 	load_contact (display);
 
-	g_object_notify (G_OBJECT (display), "mode");
+	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_MODE]);
 }
 
 gboolean
@@ -586,5 +590,5 @@ eab_contact_display_set_show_maps (EABContactDisplay *display,
 
 	load_contact (display);
 
-	g_object_notify (G_OBJECT (display), "show-maps");
+	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_SHOW_MAPS]);
 }

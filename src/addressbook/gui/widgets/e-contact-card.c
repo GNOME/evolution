@@ -365,7 +365,7 @@ e_contact_card_class_init (EContactCardClass *klass)
 			GTK_TYPE_CSS_PROVIDER,
 			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (obj_props), obj_props);
+	g_object_class_install_properties (object_class, LAST_PROP, obj_props);
 }
 
 static void

@@ -34,8 +34,11 @@ struct _EMailConfigSidebarPrivate {
 enum {
 	PROP_0,
 	PROP_ACTIVE,
-	PROP_NOTEBOOK
+	PROP_NOTEBOOK,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailConfigSidebar, e_mail_config_sidebar, GTK_TYPE_BUTTON_BOX)
 
@@ -303,28 +306,33 @@ e_mail_config_sidebar_class_init (EMailConfigSidebarClass *class)
 	object_class->constructed = mail_config_sidebar_constructed;
 
 	/* Use the same constraints as GtkNotebook:page. */
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVE,
+	/**
+	 * EMailConfigSidebar:active
+	 *
+	 * Index of the currently active button
+	 **/
+	properties[PROP_ACTIVE] =
 		g_param_spec_int (
 			"active",
-			"Active",
-			"Index of the currently active button",
+			NULL, NULL,
 			-1, G_MAXINT, -1,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NOTEBOOK,
+	/**
+	 * EMailConfigSidebar:notebook
+	 *
+	 * Mail configuration notebook
+	 **/
+	properties[PROP_NOTEBOOK] =
 		g_param_spec_object (
 			"notebook",
-			"Notebook",
-			"Mail configuration notebook",
+			NULL, NULL,
 			E_TYPE_MAIL_CONFIG_NOTEBOOK,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -382,7 +390,7 @@ e_mail_config_sidebar_set_active (EMailConfigSidebar *sidebar,
 
 	sidebar->priv->active = (page != NULL) ? active : -1;
 
-	g_object_notify (G_OBJECT (sidebar), "active");
+	g_object_notify_by_pspec (G_OBJECT (sidebar), properties[PROP_ACTIVE]);
 
 	if (page != NULL) {
 		GHashTable *hash_table;

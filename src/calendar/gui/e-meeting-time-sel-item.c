@@ -87,8 +87,11 @@ static gboolean e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeS
 
 enum {
 	PROP_0,
-	PROP_MEETING_TIME_SELECTOR
+	PROP_MEETING_TIME_SELECTOR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE (EMeetingTimeSelectorItem, e_meeting_time_selector_item, GNOME_TYPE_CANVAS_ITEM)
 
@@ -108,14 +111,16 @@ e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *class)
 	item_class->point = e_meeting_time_selector_item_point;
 	item_class->event = e_meeting_time_selector_item_event;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MEETING_TIME_SELECTOR,
+	/**
+	 * EMeetingTimeSelectorItem:meeting-time-selector
+	 **/
+	properties[PROP_MEETING_TIME_SELECTOR] =
 		g_param_spec_pointer (
-			"meeting_time_selector",
+			"meeting-time-selector",
 			NULL,
 			NULL,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

@@ -49,8 +49,11 @@ enum {
 	PROP_0,
 	PROP_BUSY,
 	PROP_DEFAULT_SERVICE,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	SERVICE_ADDED,
@@ -342,7 +345,7 @@ mail_account_store_remove_source_cb (ESource *source,
 
 	g_return_if_fail (store->priv->busy_count > 0);
 	store->priv->busy_count--;
-	g_object_notify (G_OBJECT (store), "busy");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_BUSY]);
 
 	g_object_unref (store);
 }
@@ -362,7 +365,7 @@ mail_account_store_write_source_cb (ESource *source,
 
 	g_return_if_fail (store->priv->busy_count > 0);
 	store->priv->busy_count--;
-	g_object_notify (G_OBJECT (store), "busy");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_BUSY]);
 
 	g_object_unref (store);
 }
@@ -624,7 +627,7 @@ mail_account_store_service_removed (EMailAccountStore *store,
 
 	if (source != NULL && e_source_get_removable (source)) {
 		store->priv->busy_count++;
-		g_object_notify (G_OBJECT (store), "busy");
+		g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_BUSY]);
 
 		/* XXX Should this be cancellable? */
 		e_source_remove (
@@ -675,7 +678,7 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 			e_source_set_enabled (identity, TRUE);
 
 			store->priv->busy_count++;
-			g_object_notify (G_OBJECT (store), "busy");
+			g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_BUSY]);
 
 			/* XXX Should this be cancellable? */
 			e_source_write (
@@ -705,7 +708,7 @@ mail_account_store_service_enabled (EMailAccountStore *store,
 		e_source_set_enabled (source, TRUE);
 
 		store->priv->busy_count++;
-		g_object_notify (G_OBJECT (store), "busy");
+		g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_BUSY]);
 
 		/* XXX Should this be cancellable? */
 		e_source_write (
@@ -760,7 +763,7 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 			e_source_set_enabled (identity, FALSE);
 
 			store->priv->busy_count++;
-			g_object_notify (G_OBJECT (store), "busy");
+			g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_BUSY]);
 
 			/* XXX Should this be cancellable? */
 			e_source_write (
@@ -792,7 +795,7 @@ mail_account_store_service_disabled (EMailAccountStore *store,
 		e_source_set_enabled (source, FALSE);
 
 		store->priv->busy_count++;
-		g_object_notify (G_OBJECT (store), "busy");
+		g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_BUSY]);
 
 		/* XXX Should this be cancellable? */
 		e_source_write (
@@ -930,39 +933,46 @@ e_mail_account_store_class_init (EMailAccountStoreClass *class)
 	class->enable_requested = mail_account_store_enable_requested;
 	class->disable_requested = mail_account_store_disable_requested;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BUSY,
+	/**
+	 * EMailAccountStore:busy
+	 *
+	 * Whether async operations are in progress
+	 **/
+	properties[PROP_BUSY] =
 		g_param_spec_boolean (
 			"busy",
-			"Busy",
-			"Whether async operations are in progress",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DEFAULT_SERVICE,
+	/**
+	 * EMailAccountStore:default-service
+	 *
+	 * Default mail store
+	 **/
+	properties[PROP_DEFAULT_SERVICE] =
 		g_param_spec_object (
 			"default-service",
-			"Default Service",
-			"Default mail store",
+			NULL, NULL,
 			CAMEL_TYPE_SERVICE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMailAccountStore:session
+	 *
+	 * Mail session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			"Session",
-			"Mail session",
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[SERVICE_ADDED] = g_signal_new (
 		"service-added",
@@ -1175,7 +1185,7 @@ e_mail_account_store_set_default_service (EMailAccountStore *store,
 		iter_set = gtk_tree_model_iter_next (model, &iter);
 	}
 
-	g_object_notify (G_OBJECT (store), "default-service");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_DEFAULT_SERVICE]);
 }
 
 void

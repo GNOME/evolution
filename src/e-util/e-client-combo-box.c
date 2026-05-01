@@ -36,8 +36,11 @@ struct _EClientComboBoxPrivate {
 
 enum {
 	PROP_0,
-	PROP_CLIENT_CACHE
+	PROP_CLIENT_CACHE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EClientComboBox, e_client_combo_box, E_TYPE_SOURCE_COMBO_BOX)
 
@@ -106,17 +109,20 @@ e_client_combo_box_class_init (EClientComboBoxClass *class)
 	 *     for this class to be instantiated by a GtkBuilder with no
 	 *     special construct parameters, and then subsequently give
 	 *     it an EClientCache. */
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT_CACHE,
+	/**
+	 * EClientComboBox:client-cache
+	 *
+	 * Cache of shared EClient instances
+	 **/
+	properties[PROP_CLIENT_CACHE] =
 		g_param_spec_object (
 			"client-cache",
-			"Client Cache",
-			"Cache of shared EClient instances",
+			NULL, NULL,
 			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -218,7 +224,7 @@ e_client_combo_box_set_client_cache (EClientComboBox *combo_box,
 
 	g_clear_object (&registry);
 
-	g_object_notify (G_OBJECT (combo_box), "client-cache");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_CLIENT_CACHE]);
 }
 
 /**

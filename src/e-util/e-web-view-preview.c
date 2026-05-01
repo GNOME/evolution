@@ -35,8 +35,11 @@ enum {
 	PROP_0,
 	PROP_TREE_VIEW,
 	PROP_PREVIEW_WIDGET,
-	PROP_ESCAPE_VALUES
+	PROP_ESCAPE_VALUES,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EWebViewPreview, e_web_view_preview, GTK_TYPE_PANED)
 
@@ -110,35 +113,36 @@ e_web_view_preview_class_init (EWebViewPreviewClass *class)
 	object_class->get_property = web_view_preview_get_property;
 	object_class->dispose = web_view_preview_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TREE_VIEW,
+	/**
+	 * EWebViewPreview:tree-view
+	 **/
+	properties[PROP_TREE_VIEW] =
 		g_param_spec_object (
 			"tree-view",
-			"Tree View",
-			NULL,
+			NULL, NULL,
 			GTK_TYPE_TREE_VIEW,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_WIDGET,
+	/**
+	 * EWebViewPreview:preview-widget
+	 **/
+	properties[PROP_PREVIEW_WIDGET] =
 		g_param_spec_object (
 			"preview-widget",
-			"Preview Widget",
-			NULL,
+			NULL, NULL,
 			GTK_TYPE_WIDGET,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ESCAPE_VALUES,
+	/**
+	 * EWebViewPreview:escape-values
+	 **/
+	properties[PROP_ESCAPE_VALUES] =
 		g_param_spec_boolean (
 			"escape-values",
-			"Whether escaping values automatically, when inserting",
-			NULL,
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static GtkWidget *

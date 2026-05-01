@@ -96,7 +96,6 @@ enum {
 	PROP_0,
 	PROP_SWITCHER_ACTION,
 	PROP_PAGE_NUM,
-	PROP_SEARCHBAR,
 	PROP_SEARCH_RULE,
 	PROP_SHELL_BACKEND,
 	PROP_SHELL_CONTENT,
@@ -112,8 +111,11 @@ enum {
 	PROP_SWITCHER_VISIBLE,
 	PROP_TASKBAR_VISIBLE,
 	PROP_TOOLBAR_VISIBLE,
-	PROP_SIDEBAR_WIDTH
+	PROP_SIDEBAR_WIDTH,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CLEAR_SEARCH,
@@ -1924,12 +1926,6 @@ shell_view_get_property (GObject *object,
 				E_SHELL_VIEW (object)));
 			return;
 
-		case PROP_SEARCHBAR:
-			g_value_set_object (
-				value, e_shell_view_get_searchbar (
-				E_SHELL_VIEW (object)));
-			return;
-
 		case PROP_SEARCH_RULE:
 			g_value_set_object (
 				value, e_shell_view_get_search_rule (
@@ -2410,67 +2406,75 @@ e_shell_view_class_init (EShellViewClass *class)
 	 *
 	 * Since: 3.56
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SWITCHER_ACTION,
+	/**
+	 * EShellView:switcher-action
+	 *
+	 * The switcher action for this shell view
+	 **/
+	properties[PROP_SWITCHER_ACTION] =
 		g_param_spec_object (
 			"switcher-action",
-			"Switcher Action",
-			"The switcher action for this shell view",
+			NULL, NULL,
 			E_TYPE_UI_ACTION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:page-num
 	 *
 	 * The #GtkNotebook page number of the shell view.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_PAGE_NUM,
+	/**
+	 * EShellView:page-num
+	 *
+	 * The notebook page number of the shell view
+	 **/
+	properties[PROP_PAGE_NUM] =
 		g_param_spec_int (
 			"page-num",
-			"Page Number",
-			"The notebook page number of the shell view",
+			NULL, NULL,
 			-1,
 			G_MAXINT,
 			-1,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:search-rule
 	 *
 	 * Criteria for the current search results.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SEARCH_RULE,
+	/**
+	 * EShellView:search-rule
+	 *
+	 * Criteria for the current search results
+	 **/
+	properties[PROP_SEARCH_RULE] =
 		g_param_spec_object (
 			"search-rule",
-			"Search Rule",
-			"Criteria for the current search results",
+			NULL, NULL,
 			E_TYPE_FILTER_RULE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:shell-backend
 	 *
 	 * The #EShellBackend for this shell view.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_BACKEND,
+	/**
+	 * EShellView:shell-backend
+	 *
+	 * The EShellBackend for this shell view
+	 **/
+	properties[PROP_SHELL_BACKEND] =
 		g_param_spec_object (
 			"shell-backend",
-			"Shell Backend",
-			"The EShellBackend for this shell view",
+			NULL, NULL,
 			E_TYPE_SHELL_BACKEND,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:shell-content
@@ -2478,17 +2482,18 @@ e_shell_view_class_init (EShellViewClass *class)
 	 * The content widget appears in an #EShellWindow<!-- -->'s
 	 * right pane.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_CONTENT,
+	/**
+	 * EShellView:shell-content
+	 *
+	 * The content widget appears in " "a shell window's right pane
+	 **/
+	properties[PROP_SHELL_CONTENT] =
 		g_param_spec_object (
 			"shell-content",
-			"Shell Content Widget",
-			"The content widget appears in "
-			"a shell window's right pane",
+			NULL, NULL,
 			E_TYPE_SHELL_CONTENT,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:shell-sidebar
@@ -2496,66 +2501,73 @@ e_shell_view_class_init (EShellViewClass *class)
 	 * The sidebar widget appears in an #EShellWindow<!-- -->'s
 	 * left pane.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_SIDEBAR,
+	/**
+	 * EShellView:shell-sidebar
+	 *
+	 * The sidebar widget appears in " "a shell window's left pane
+	 **/
+	properties[PROP_SHELL_SIDEBAR] =
 		g_param_spec_object (
 			"shell-sidebar",
-			"Shell Sidebar Widget",
-			"The sidebar widget appears in "
-			"a shell window's left pane",
+			NULL, NULL,
 			E_TYPE_SHELL_SIDEBAR,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:shell-taskbar
 	 *
 	 * The taskbar widget appears at the bottom of an #EShellWindow.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_TASKBAR,
+	/**
+	 * EShellView:shell-taskbar
+	 *
+	 * The taskbar widget appears at " "the bottom of a shell window
+	 **/
+	properties[PROP_SHELL_TASKBAR] =
 		g_param_spec_object (
 			"shell-taskbar",
-			"Shell Taskbar Widget",
-			"The taskbar widget appears at "
-			"the bottom of a shell window",
+			NULL, NULL,
 			E_TYPE_SHELL_TASKBAR,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:shell-window
 	 *
 	 * The #EShellWindow to which the shell view belongs.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_WINDOW,
+	/**
+	 * EShellView:shell-window
+	 *
+	 * The window to which the shell view belongs
+	 **/
+	properties[PROP_SHELL_WINDOW] =
 		g_param_spec_object (
 			"shell-window",
-			"Shell Window",
-			"The window to which the shell view belongs",
+			NULL, NULL,
 			E_TYPE_SHELL_WINDOW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:state-key-file
 	 *
 	 * The #GKeyFile holding widget state data.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_STATE_KEY_FILE,
+	/**
+	 * EShellView:state-key-file
+	 *
+	 * The key file holding widget state data
+	 **/
+	properties[PROP_STATE_KEY_FILE] =
 		g_param_spec_pointer (
 			"state-key-file",
 			"State Key File",
 			"The key file holding widget state data",
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:title
@@ -2563,47 +2575,53 @@ e_shell_view_class_init (EShellViewClass *class)
 	 * The title of the shell view.  Also serves as the #EShellWindow
 	 * title when the shell view is active.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_TITLE,
+	/**
+	 * EShellView:title
+	 *
+	 * The title of the shell view
+	 **/
+	properties[PROP_TITLE] =
 		g_param_spec_string (
 			"title",
-			"Title",
-			"The title of the shell view",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:view-id
 	 *
 	 * The current #GalView ID.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_VIEW_ID,
+	/**
+	 * EShellView:view-id
+	 *
+	 * The current GAL view ID
+	 **/
+	properties[PROP_VIEW_ID] =
 		g_param_spec_string (
 			"view-id",
-			"Current View ID",
-			"The current GAL view ID",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:view-instance:
 	 *
 	 * The current #GalViewInstance.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_VIEW_INSTANCE,
+	/**
+	 * EShellView:view-instance
+	 *
+	 * The current view instance
+	 **/
+	properties[PROP_VIEW_INSTANCE] =
 		g_param_spec_object (
 			"view-instance",
-			"View Instance",
-			"The current view instance",
+			NULL, NULL,
 			GAL_TYPE_VIEW_INSTANCE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:menubar-visible
@@ -2612,16 +2630,18 @@ e_shell_view_class_init (EShellViewClass *class)
 	 *
 	 * Since: 3.56
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_MENUBAR_VISIBLE,
+	/**
+	 * EShellView:menubar-visible
+	 *
+	 * Whether the shell view's menu bar is visible
+	 **/
+	properties[PROP_MENUBAR_VISIBLE] =
 		g_param_spec_boolean (
 			"menubar-visible",
-			"Menubar Visible",
-			"Whether the shell view's menu bar is visible",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:sidebar-visible
@@ -2630,16 +2650,18 @@ e_shell_view_class_init (EShellViewClass *class)
 	 *
 	 * Since: 3.56
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SIDEBAR_VISIBLE,
+	/**
+	 * EShellView:sidebar-visible
+	 *
+	 * Whether the shell view's sidebar is visible
+	 **/
+	properties[PROP_SIDEBAR_VISIBLE] =
 		g_param_spec_boolean (
 			"sidebar-visible",
-			"Sidebar Visible",
-			"Whether the shell view's sidebar is visible",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:switcher-visible
@@ -2648,16 +2670,18 @@ e_shell_view_class_init (EShellViewClass *class)
 	 *
 	 * Since: 3.56
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SWITCHER_VISIBLE,
+	/**
+	 * EShellView:switcher-visible
+	 *
+	 * Whether the shell view's switcher buttons are visible
+	 **/
+	properties[PROP_SWITCHER_VISIBLE] =
 		g_param_spec_boolean (
 			"switcher-visible",
-			"Switcher Visible",
-			"Whether the shell view's switcher buttons are visible",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:taskbar-visible
@@ -2666,16 +2690,18 @@ e_shell_view_class_init (EShellViewClass *class)
 	 *
 	 * Since: 3.56
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_TASKBAR_VISIBLE,
+	/**
+	 * EShellView:taskbar-visible
+	 *
+	 * Whether the shell view's task bar is visible
+	 **/
+	properties[PROP_TASKBAR_VISIBLE] =
 		g_param_spec_boolean (
 			"taskbar-visible",
-			"Taskbar Visible",
-			"Whether the shell view's task bar is visible",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:toolbar-visible
@@ -2684,16 +2710,18 @@ e_shell_view_class_init (EShellViewClass *class)
 	 *
 	 * Since: 3.56
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_TOOLBAR_VISIBLE,
+	/**
+	 * EShellView:toolbar-visible
+	 *
+	 * Whether the shell view's tool bar is visible
+	 **/
+	properties[PROP_TOOLBAR_VISIBLE] =
 		g_param_spec_boolean (
 			"toolbar-visible",
-			"Toolbar Visible",
-			"Whether the shell view's tool bar is visible",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellView:sidebar-width
@@ -2702,17 +2730,20 @@ e_shell_view_class_init (EShellViewClass *class)
 	 *
 	 * Since: 3.56
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SIDEBAR_WIDTH,
+	/**
+	 * EShellView:sidebar-width
+	 *
+	 * Width of the sidebar, in pixels
+	 **/
+	properties[PROP_SIDEBAR_WIDTH] =
 		g_param_spec_int (
 			"sidebar-width",
-			"Sidebar Width",
-			"Width of the sidebar, in pixels",
+			NULL, NULL,
 			0, G_MAXINT, 128,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * EShellView::clear-search
@@ -3034,7 +3065,7 @@ e_shell_view_set_title (EShellView *shell_view,
 	g_free (shell_view->priv->title);
 	shell_view->priv->title = g_strdup (title);
 
-	g_object_notify (G_OBJECT (shell_view), "title");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_TITLE]);
 }
 
 static void
@@ -3118,7 +3149,7 @@ e_shell_view_set_menubar_visible (EShellView *shell_view,
 	}
 	g_object_unref (settings);
 
-	g_object_notify (G_OBJECT (shell_view), "menubar-visible");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_MENUBAR_VISIBLE]);
 }
 
 /**
@@ -3159,7 +3190,7 @@ e_shell_view_set_sidebar_visible (EShellView *shell_view,
 
 	shell_view->priv->sidebar_visible = sidebar_visible;
 
-	g_object_notify (G_OBJECT (shell_view), "sidebar-visible");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_SIDEBAR_VISIBLE]);
 }
 
 /**
@@ -3200,7 +3231,7 @@ e_shell_view_set_switcher_visible (EShellView *shell_view,
 
 	shell_view->priv->switcher_visible = switcher_visible;
 
-	g_object_notify (G_OBJECT (shell_view), "switcher-visible");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_SWITCHER_VISIBLE]);
 }
 
 /**
@@ -3241,7 +3272,7 @@ e_shell_view_set_taskbar_visible (EShellView *shell_view,
 
 	shell_view->priv->taskbar_visible = taskbar_visible;
 
-	g_object_notify (G_OBJECT (shell_view), "taskbar-visible");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_TASKBAR_VISIBLE]);
 }
 
 /**
@@ -3282,7 +3313,7 @@ e_shell_view_set_toolbar_visible (EShellView *shell_view,
 
 	shell_view->priv->toolbar_visible = toolbar_visible;
 
-	g_object_notify (G_OBJECT (shell_view), "toolbar-visible");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_TOOLBAR_VISIBLE]);
 }
 
 /**
@@ -3323,7 +3354,7 @@ e_shell_view_set_sidebar_width (EShellView *shell_view,
 
 	shell_view->priv->sidebar_width = width;
 
-	g_object_notify (G_OBJECT (shell_view), "sidebar-width");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_SIDEBAR_WIDTH]);
 }
 
 /**
@@ -3371,7 +3402,7 @@ e_shell_view_set_view_id (EShellView *shell_view,
 	g_free (shell_view->priv->view_id);
 	shell_view->priv->view_id = g_strdup (view_id);
 
-	g_object_notify (G_OBJECT (shell_view), "view-id");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_VIEW_ID]);
 }
 
 /**
@@ -3475,7 +3506,7 @@ e_shell_view_set_view_instance (EShellView *shell_view,
 		shell_view->priv->view_instance_loaded_handler_id = handler_id;
 	}
 
-	g_object_notify (G_OBJECT (shell_view), "view-instance");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_VIEW_INSTANCE]);
 }
 
 /**
@@ -3576,7 +3607,7 @@ e_shell_view_set_page_num (EShellView *shell_view,
 
 	shell_view->priv->page_num = page_num;
 
-	g_object_notify (G_OBJECT (shell_view), "page-num");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_PAGE_NUM]);
 }
 
 /**
@@ -3663,7 +3694,7 @@ e_shell_view_set_search_rule (EShellView *shell_view,
 
 	shell_view->priv->search_rule = search_rule;
 
-	g_object_notify (G_OBJECT (shell_view), "search-rule");
+	g_object_notify_by_pspec (G_OBJECT (shell_view), properties[PROP_SEARCH_RULE]);
 }
 
 /**
@@ -4253,3 +4284,4 @@ e_shell_view_util_state_to_layout_cb (const GValue *value,
 		g_variant_ref_sink (var);
 	return var;
 }
+

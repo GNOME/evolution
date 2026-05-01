@@ -35,7 +35,10 @@ struct _EHTMLEditorDialogPrivate {
 enum {
 	PROP_0,
 	PROP_EDITOR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EHTMLEditorDialog, e_html_editor_dialog, GTK_TYPE_WINDOW)
 
@@ -45,7 +48,7 @@ html_editor_dialog_set_editor (EHTMLEditorDialog *dialog,
 {
 	dialog->priv->editor = g_object_ref (editor);
 
-	g_object_notify (G_OBJECT (dialog), "editor");
+	g_object_notify_by_pspec (G_OBJECT (dialog), properties[PROP_EDITOR]);
 }
 
 static void
@@ -134,15 +137,16 @@ e_html_editor_dialog_class_init (EHTMLEditorDialogClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->show = html_editor_dialog_show;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITOR,
+	/**
+	 * EHTMLEditorDialog:editor
+	 **/
+	properties[PROP_EDITOR] =
 		g_param_spec_object (
 			"editor",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_HTML_EDITOR,
-			G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static gboolean

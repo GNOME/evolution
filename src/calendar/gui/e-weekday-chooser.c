@@ -42,8 +42,11 @@ struct _EWeekdayChooser {
 enum {
 	PROP_0,
 	PROP_WEEK_START_DAY,
-	N_PROPERTIES
+	N_PROPERTIES,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,

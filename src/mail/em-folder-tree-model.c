@@ -107,8 +107,11 @@ struct _StoreInfo {
 enum {
 	PROP_0,
 	PROP_SELECTION,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	LOADING_ROW,
@@ -872,7 +875,7 @@ folder_tree_model_selection_finalized_cb (EMFolderTreeModel *model)
 {
 	model->priv->selection = NULL;
 
-	g_object_notify (G_OBJECT (model), "selection");
+	g_object_notify_by_pspec (G_OBJECT (model), properties[PROP_SELECTION]);
 }
 
 static void
@@ -1029,25 +1032,26 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 	object_class->finalize = folder_tree_model_finalize;
 	object_class->constructed = folder_tree_model_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMFolderTreeModel:session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTION,
+	/**
+	 * EMFolderTreeModel:selection
+	 **/
+	properties[PROP_SELECTION] =
 		g_param_spec_object (
 			"selection",
-			"Selection",
-			NULL,
+			NULL, NULL,
 			GTK_TYPE_TREE_SELECTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[LOADING_ROW] = g_signal_new (
 		"loading-row",
@@ -1315,7 +1319,7 @@ em_folder_tree_model_set_selection (EMFolderTreeModel *model,
 			G_OBJECT (model->priv->selection), (GWeakNotify)
 			folder_tree_model_selection_finalized_cb, model);
 
-	g_object_notify (G_OBJECT (model), "selection");
+	g_object_notify_by_pspec (G_OBJECT (model), properties[PROP_SELECTION]);
 }
 
 EMailSession *
@@ -1401,7 +1405,7 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 			model);
 	}
 
-	g_object_notify (G_OBJECT (model), "session");
+	g_object_notify_by_pspec (G_OBJECT (model), properties[PROP_SESSION]);
 }
 
 gboolean

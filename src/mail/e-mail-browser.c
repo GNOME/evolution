@@ -68,15 +68,18 @@ enum {
 	PROP_CLOSE_ON_REPLY_POLICY,
 	PROP_DISPLAY_MODE,
 	PROP_FOCUS_TRACKER,
+	PROP_SHOW_DELETED,
+	PROP_SHOW_JUNK,
+	PROP_CLOSE_ON_DELETE_OR_JUNK,
+	N_PROPS,
 	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
 	PROP_REPLY_STYLE,
 	PROP_MARK_SEEN_ALWAYS,
-	PROP_SHOW_DELETED,
-	PROP_SHOW_JUNK,
 	PROP_DELETE_SELECTS_PREVIOUS,
-	PROP_CLOSE_ON_DELETE_OR_JUNK
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 
 static void	e_mail_browser_reader_init
@@ -994,56 +997,58 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 	object_class->dispose = mail_browser_dispose;
 	object_class->constructed = mail_browser_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKEND,
+	/**
+	 * EMailBrowser:backend
+	 *
+	 * The mail backend
+	 **/
+	properties[PROP_BACKEND] =
 		g_param_spec_object (
 			"backend",
-			"Mail Backend",
-			"The mail backend",
+			NULL, NULL,
 			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CLOSE_ON_REPLY_POLICY,
+	/**
+	 * EMailBrowser:close-on-reply-policy
+	 *
+	 * Policy for automatically closing the message " "browser window when forwarding or replying to " "the displayed message
+	 **/
+	properties[PROP_CLOSE_ON_REPLY_POLICY] =
 		g_param_spec_enum (
 			"close-on-reply-policy",
-			"Close on Reply Policy",
-			"Policy for automatically closing the message "
-			"browser window when forwarding or replying to "
-			"the displayed message",
+			NULL, NULL,
 			E_TYPE_AUTOMATIC_ACTION_POLICY,
 			E_AUTOMATIC_ACTION_POLICY_ASK,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DISPLAY_MODE,
+	/**
+	 * EMailBrowser:display-mode
+	 **/
+	properties[PROP_DISPLAY_MODE] =
 		g_param_spec_enum (
 			"display-mode",
-			"Display Mode",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_FORMATTER_MODE,
 			E_MAIL_FORMATTER_MODE_NORMAL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOCUS_TRACKER,
+	/**
+	 * EMailBrowser:focus-tracker
+	 **/
+	properties[PROP_FOCUS_TRACKER] =
 		g_param_spec_object (
 			"focus-tracker",
-			"Focus Tracker",
-			NULL,
+			NULL, NULL,
 			E_TYPE_FOCUS_TRACKER,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/* Inherited from EMailReader */
 	g_object_class_override_property (
@@ -1075,39 +1080,46 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 		PROP_DELETE_SELECTS_PREVIOUS,
 		"delete-selects-previous");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_DELETED,
+	/**
+	 * EMailBrowser:show-deleted
+	 *
+	 * Show deleted messages
+	 **/
+	properties[PROP_SHOW_DELETED] =
 		g_param_spec_boolean (
 			"show-deleted",
-			"Show Deleted",
-			"Show deleted messages",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_JUNK,
+	/**
+	 * EMailBrowser:show-junk
+	 *
+	 * Show junk messages
+	 **/
+	properties[PROP_SHOW_JUNK] =
 		g_param_spec_boolean (
 			"show-junk",
-			"Show Junk",
-			"Show junk messages",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CLOSE_ON_DELETE_OR_JUNK,
+	/**
+	 * EMailBrowser:close-on-delete-or-junk
+	 *
+	 * Close on message delete or when marked as Junk
+	 **/
+	properties[PROP_CLOSE_ON_DELETE_OR_JUNK] =
 		g_param_spec_boolean (
 			"close-on-delete-or-junk",
-			"Close On Delete Or Junk",
-			"Close on message delete or when marked as Junk",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_CONSTRUCT |
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1212,7 +1224,7 @@ e_mail_browser_set_close_on_reply_policy (EMailBrowser *browser,
 
 	browser->priv->close_on_reply_policy = policy;
 
-	g_object_notify (G_OBJECT (browser), "close-on-reply-policy");
+	g_object_notify_by_pspec (G_OBJECT (browser), properties[PROP_CLOSE_ON_REPLY_POLICY]);
 }
 
 EMailFormatterMode
@@ -1252,7 +1264,7 @@ e_mail_browser_set_show_deleted (EMailBrowser *browser,
 
 	browser->priv->show_deleted = show_deleted;
 
-	g_object_notify (G_OBJECT (browser), "show-deleted");
+	g_object_notify_by_pspec (G_OBJECT (browser), properties[PROP_SHOW_DELETED]);
 }
 
 gboolean
@@ -1274,7 +1286,7 @@ e_mail_browser_set_show_junk (EMailBrowser *browser,
 
 	browser->priv->show_junk = show_junk;
 
-	g_object_notify (G_OBJECT (browser), "show-junk");
+	g_object_notify_by_pspec (G_OBJECT (browser), properties[PROP_SHOW_JUNK]);
 }
 
 gboolean
@@ -1296,5 +1308,5 @@ e_mail_browser_set_close_on_delete_or_junk (EMailBrowser *browser,
 
 	browser->priv->close_on_delete_or_junk = close_on_delete_or_junk;
 
-	g_object_notify (G_OBJECT (browser), "close-on-delete-or-junk");
+	g_object_notify_by_pspec (G_OBJECT (browser), properties[PROP_CLOSE_ON_DELETE_OR_JUNK]);
 }

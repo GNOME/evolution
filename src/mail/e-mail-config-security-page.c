@@ -36,8 +36,11 @@ struct _EMailConfigSecurityPagePrivate {
 
 enum {
 	PROP_0,
-	PROP_IDENTITY_SOURCE
+	PROP_IDENTITY_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_mail_config_security_page_interface_init
@@ -914,17 +917,20 @@ e_mail_config_security_page_class_init (EMailConfigSecurityPageClass *class)
 	object_class->dispose = mail_config_security_page_dispose;
 	object_class->constructed = mail_config_security_page_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IDENTITY_SOURCE,
+	/**
+	 * EMailConfigSecurityPage:identity-source
+	 *
+	 * Mail identity source being edited
+	 **/
+	properties[PROP_IDENTITY_SOURCE] =
 		g_param_spec_object (
 			"identity-source",
-			"Identity Source",
-			"Mail identity source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

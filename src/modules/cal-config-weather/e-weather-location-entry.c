@@ -38,8 +38,10 @@ enum {
     PROP_TOP,
     PROP_SHOW_NAMED_TIMEZONES,
     PROP_LOCATION,
-    LAST_PROP
+    N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void set_property (GObject *object, guint prop_id,
 			  const GValue *value, GParamSpec *pspec);
@@ -211,29 +213,39 @@ e_weather_location_entry_class_init (EWeatherLocationEntryClass *location_entry_
 	object_class->get_property = get_property;
 	object_class->dispose = dispose;
 
-	g_object_class_install_property (
-		object_class, PROP_TOP,
+	/**
+	 * EWeatherLocationEntry:top
+	 *
+	 * The GWeatherLocation whose children will be used to fill in the entry
+	 **/
+	properties[PROP_TOP] =
 		g_param_spec_object ("top",
-				     "Top Location",
-				     "The GWeatherLocation whose children will be used to fill in the entry",
+				     NULL, NULL,
 				     GWEATHER_TYPE_LOCATION,
-				     G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+				     G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class, PROP_SHOW_NAMED_TIMEZONES,
+	/**
+	 * EWeatherLocationEntry:show-named-timezones
+	 *
+	 * Whether UTC and other named timezones are shown in the list of locations
+	 **/
+	properties[PROP_SHOW_NAMED_TIMEZONES] =
 		g_param_spec_boolean ("show-named-timezones",
-				      "Show named timezones",
-				      "Whether UTC and other named timezones are shown in the list of locations",
+				      NULL, NULL,
 				      FALSE,
-				      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+				      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class, PROP_LOCATION,
+	/**
+	 * EWeatherLocationEntry:location
+	 *
+	 * The selected GWeatherLocation
+	 **/
+	properties[PROP_LOCATION] =
 		g_param_spec_object ("location",
-				     "Location",
-				     "The selected GWeatherLocation",
+				     NULL, NULL,
 				     GWEATHER_TYPE_LOCATION,
-				     G_PARAM_READWRITE));
+				     G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -343,7 +355,7 @@ set_location_internal (EWeatherLocationEntry *entry,
 	}
 
 	gtk_editable_set_position (GTK_EDITABLE (entry), -1);
-	g_object_notify (G_OBJECT (entry), "location");
+	g_object_notify_by_pspec (G_OBJECT (entry), properties[PROP_LOCATION]);
 }
 
 /*

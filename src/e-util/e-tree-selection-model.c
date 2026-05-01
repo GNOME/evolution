@@ -33,8 +33,11 @@ enum {
 	PROP_CURSOR_ROW,
 	PROP_CURSOR_COL,
 	PROP_MODEL,
-	PROP_ETTA
+	PROP_ETTA,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 struct _ETreeSelectionModelPrivate {
 	ETreeTableAdapter *etta;
@@ -678,45 +681,46 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 	esm_class->move_selection_end = tree_selection_model_move_selection_end;
 	esm_class->set_selection_end = tree_selection_model_set_selection_end;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_ROW,
+	/**
+	 * ETreeSelectionModel:cursor-row
+	 **/
+	properties[PROP_CURSOR_ROW] =
 		g_param_spec_int (
-			"cursor_row",
-			"Cursor Row",
-			NULL,
+			"cursor-row",
+			NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_COL,
+	/**
+	 * ETreeSelectionModel:cursor-col
+	 **/
+	properties[PROP_CURSOR_COL] =
 		g_param_spec_int (
-			"cursor_col",
-			"Cursor Column",
-			NULL,
+			"cursor-col",
+			NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
+	/**
+	 * ETreeSelectionModel:model
+	 **/
+	properties[PROP_MODEL] =
 		g_param_spec_object (
 			"model",
-			"Model",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TREE_MODEL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ETTA,
+	/**
+	 * ETreeSelectionModel:etta
+	 **/
+	properties[PROP_ETTA] =
 		g_param_spec_object (
 			"etta",
-			"ETTA",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TREE_TABLE_ADAPTER,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

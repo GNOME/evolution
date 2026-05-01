@@ -306,11 +306,11 @@ e_cal_component_widget_class_init (ECalComponentWidgetClass *klass)
 	 * Since: 3.58
 	 **/
 	properties[PROP_CLIENT] = g_param_spec_object ("client", NULL, NULL,
-		E_TYPE_CAL_CLIENT,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+						       E_TYPE_CAL_CLIENT,
+						       G_PARAM_READWRITE |
+						       G_PARAM_CONSTRUCT_ONLY |
+						       G_PARAM_STATIC_STRINGS |
+						       G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * ECalComponentWidget:component:
@@ -319,12 +319,13 @@ e_cal_component_widget_class_init (ECalComponentWidgetClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_COMPONENT] = g_param_spec_object ("component", NULL, NULL,
-		E_TYPE_CAL_COMPONENT,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_COMPONENT] = g_param_spec_object ("component", NULL,
+							  NULL,
+							  E_TYPE_CAL_COMPONENT,
+							  G_PARAM_READWRITE |
+							  G_PARAM_CONSTRUCT_ONLY |
+							  G_PARAM_STATIC_STRINGS |
+							  G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * ECalComponentWidget:registry:
@@ -333,12 +334,13 @@ e_cal_component_widget_class_init (ECalComponentWidgetClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_REGISTRY] = g_param_spec_object ("registry", NULL, NULL,
-		E_TYPE_SOURCE_REGISTRY,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_REGISTRY] = g_param_spec_object ("registry", NULL,
+							 NULL,
+							 E_TYPE_SOURCE_REGISTRY,
+							 G_PARAM_READWRITE |
+							 G_PARAM_CONSTRUCT_ONLY |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * ECalComponentWidget:time-visible:
@@ -347,10 +349,12 @@ e_cal_component_widget_class_init (ECalComponentWidgetClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_TIME_VISIBLE] = g_param_spec_boolean ("time-visible", NULL, NULL, TRUE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_TIME_VISIBLE] = g_param_spec_boolean ("time-visible",
+							      NULL, NULL,
+							      TRUE,
+							      G_PARAM_READWRITE |
+							      G_PARAM_STATIC_STRINGS |
+							      G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * ECalComponentWidget:with-transparency:
@@ -360,12 +364,14 @@ e_cal_component_widget_class_init (ECalComponentWidgetClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_WITH_TRANSPARENCY] = g_param_spec_boolean ("with-transparency", NULL, NULL, TRUE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_WITH_TRANSPARENCY] = g_param_spec_boolean ("with-transparency",
+								   NULL, NULL,
+								   TRUE,
+								   G_PARAM_READWRITE |
+								   G_PARAM_STATIC_STRINGS |
+								   G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (klass), "ECalComponentWidget");
 }

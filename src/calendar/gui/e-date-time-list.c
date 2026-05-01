@@ -53,8 +53,11 @@ struct _EDateTimeListPrivate {
 enum {
 	PROP_0,
 	PROP_USE_24_HOUR_FORMAT,
-	PROP_TIMEZONE
+	PROP_TIMEZONE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static GType column_types[E_DATE_TIME_LIST_NUM_COLUMNS];
 
@@ -445,24 +448,26 @@ e_date_time_list_class_init (EDateTimeListClass *class)
 	object_class->get_property = date_time_list_get_property;
 	object_class->finalize = date_time_list_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_24_HOUR_FORMAT,
+	/**
+	 * EDateTimeList:use-24-hour-format
+	 **/
+	properties[PROP_USE_24_HOUR_FORMAT] =
 		g_param_spec_boolean (
 			"use-24-hour-format",
-			"Use 24-hour Format",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TIMEZONE,
+	/**
+	 * EDateTimeList:timezone
+	 **/
+	properties[PROP_TIMEZONE] =
 		g_param_spec_pointer (
 			"timezone",
 			"Time Zone",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	column_types[E_DATE_TIME_LIST_COLUMN_DESCRIPTION] = G_TYPE_STRING;
 }
@@ -544,7 +549,7 @@ e_date_time_list_set_use_24_hour_format (EDateTimeList *date_time_list,
 
 	date_time_list->priv->use_24_hour_format = use_24_hour_format;
 
-	g_object_notify (G_OBJECT (date_time_list), "use-24-hour-format");
+	g_object_notify_by_pspec (G_OBJECT (date_time_list), properties[PROP_USE_24_HOUR_FORMAT]);
 }
 
 ICalTimezone *
@@ -568,7 +573,7 @@ e_date_time_list_set_timezone (EDateTimeList *date_time_list,
 	if (zone)
 		date_time_list->priv->zone = g_object_ref ((ICalTimezone *) zone);
 
-	g_object_notify (G_OBJECT (date_time_list), "timezone");
+	g_object_notify_by_pspec (G_OBJECT (date_time_list), properties[PROP_TIMEZONE]);
 }
 
 void

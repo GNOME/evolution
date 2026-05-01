@@ -1945,7 +1945,7 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 		object_class,
 		PROP_FOCUSED_ITEM,
 		g_param_spec_object (
-			"focused_item",
+			"focused-item",
 			NULL,
 			NULL,
 			GNOME_TYPE_CANVAS_ITEM,

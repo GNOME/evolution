@@ -36,8 +36,11 @@ G_DEFINE_TYPE (
 enum {
 	PROP_0,
 	PROP_CURSOR_ROW,
-	PROP_CURSOR_COL
+	PROP_CURSOR_COL,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 void
 e_selection_model_array_confirm_row_count (ESelectionModelArray *esma)
@@ -552,24 +555,25 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *class)
 
 	class->get_row_count = NULL;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_ROW,
+	/**
+	 * ESelectionModelArray:cursor-row
+	 **/
+	properties[PROP_CURSOR_ROW] =
 		g_param_spec_int (
-			"cursor_row",
-			"Cursor Row",
-			NULL,
+			"cursor-row",
+			NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_COL,
+	/**
+	 * ESelectionModelArray:cursor-col
+	 **/
+	properties[PROP_CURSOR_COL] =
 		g_param_spec_int (
-			"cursor_col",
-			"Cursor Column",
-			NULL,
+			"cursor-col",
+			NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 

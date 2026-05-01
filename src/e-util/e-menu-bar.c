@@ -22,8 +22,11 @@ G_DEFINE_TYPE_WITH_CODE (EMenuBar, e_menu_bar, G_TYPE_OBJECT,
 
 enum {
 	PROP_0,
-	PROP_VISIBLE
+	PROP_VISIBLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void
 menu_bar_visible_settings_changed_cb (GSettings *settings,
@@ -169,15 +172,18 @@ e_menu_bar_class_init (EMenuBarClass *klass)
 	object_class->get_property = menu_bar_get_property;
 	object_class->dispose = menu_bar_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VISIBLE,
+	/**
+	 * EMenuBar:visible
+	 *
+	 * Inner menubar visible
+	 **/
+	properties[PROP_VISIBLE] =
 		g_param_spec_boolean (
 			"visible",
-			"Visible",
-			"Inner menubar visible",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

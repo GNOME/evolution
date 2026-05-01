@@ -878,11 +878,12 @@ e_cal_day_column_class_init (ECalDayColumnClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_SHOW_TIME] = g_param_spec_boolean ("show-time", NULL, NULL,
-		FALSE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_SHOW_TIME] = g_param_spec_boolean ("show-time", NULL,
+							   NULL,
+							   FALSE,
+							   G_PARAM_READWRITE |
+							   G_PARAM_STATIC_STRINGS |
+							   G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * ECalDayColumn:time-division-minutes:
@@ -891,11 +892,13 @@ e_cal_day_column_class_init (ECalDayColumnClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_TIME_DIVISION_MINUTES] = g_param_spec_uint ("time-division-minutes", NULL, NULL,
-		5, 60, 30,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_TIME_DIVISION_MINUTES] = g_param_spec_uint ("time-division-minutes",
+								    NULL,
+								    NULL,
+								    5, 60, 30,
+								    G_PARAM_READWRITE |
+								    G_PARAM_STATIC_STRINGS |
+								    G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * ECalDayColumn:timezone:
@@ -904,11 +907,12 @@ e_cal_day_column_class_init (ECalDayColumnClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_TIMEZONE] = g_param_spec_object ("timezone", NULL, NULL,
-		I_CAL_TYPE_TIMEZONE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_TIMEZONE] = g_param_spec_object ("timezone", NULL,
+							 NULL,
+							 I_CAL_TYPE_TIMEZONE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * ECalDayColumn:use-24hour-format:
@@ -917,13 +921,14 @@ e_cal_day_column_class_init (ECalDayColumnClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_USE_24HOUR_FORMAT] = g_param_spec_boolean ("use-24hour-format", NULL, NULL,
-		FALSE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_USE_24HOUR_FORMAT] = g_param_spec_boolean ("use-24hour-format",
+								   NULL, NULL,
+								   FALSE,
+								   G_PARAM_READWRITE |
+								   G_PARAM_STATIC_STRINGS |
+								   G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	gtk_widget_class_set_css_name (widget_class, "ECalDayColumn");
 }

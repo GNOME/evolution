@@ -35,8 +35,11 @@ struct _EPreviewPanePrivate {
 enum {
 	PROP_0,
 	PROP_SEARCH_BAR,
-	PROP_WEB_VIEW
+	PROP_WEB_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	SHOW_SEARCH_BAR,
@@ -228,26 +231,27 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 
 	class->show_search_bar = preview_pane_show_search_bar;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SEARCH_BAR,
+	/**
+	 * EPreviewPane:search-bar
+	 **/
+	properties[PROP_SEARCH_BAR] =
 		g_param_spec_object (
 			"search-bar",
-			"Search Bar",
-			NULL,
+			NULL, NULL,
 			E_TYPE_SEARCH_BAR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEB_VIEW,
+	/**
+	 * EPreviewPane:web-view
+	 **/
+	properties[PROP_WEB_VIEW] =
 		g_param_spec_object (
 			"web-view",
-			"Web View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_WEB_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[SHOW_SEARCH_BAR] = g_signal_new (
 		"show-search-bar",

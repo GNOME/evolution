@@ -498,7 +498,7 @@ et_get_caret_offset (AtkText *text)
 	g_return_val_if_fail (E_IS_TEXT (obj), -1);
 	etext = E_TEXT (obj);
 
-	g_object_get (etext, "cursor_pos", &offset, NULL);
+	g_object_get (etext, "cursor-pos", &offset, NULL);
 	return offset;
 }
 
@@ -925,7 +925,7 @@ et_paste_text (AtkEditableText *text,
 	g_return_if_fail (E_IS_TEXT (obj));
 	etext = E_TEXT (obj);
 
-	g_object_set (etext, "cursor_pos", position, NULL);
+	g_object_set (etext, "cursor-pos", position, NULL);
 	e_text_paste_clipboard (etext);
 }
 

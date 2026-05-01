@@ -274,7 +274,7 @@ e_calendar_init (ECalendar *cal)
 		gnome_canvas_item_new (
 			canvas_group,
 			e_calendar_item_get_type (),
-			"week_number_font_desc", small_font_desc,
+			"week-number-font-desc", small_font_desc,
 			NULL));
 
 	pango_font_description_free (small_font_desc);
@@ -474,7 +474,7 @@ e_calendar_get_preferred_width (GtkWidget *widget,
 
 	cal = E_CALENDAR (widget);
 
-	g_object_get ((cal->priv->calitem), "column_width", &col_width, NULL);
+	g_object_get ((cal->priv->calitem), "column-width", &col_width, NULL);
 	style_context = gtk_widget_get_style_context (widget);
 	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 
@@ -493,7 +493,7 @@ e_calendar_get_preferred_height (GtkWidget *widget,
 
 	cal = E_CALENDAR (widget);
 
-	g_object_get ((cal->priv->calitem), "row_height", &row_height, NULL);
+	g_object_get ((cal->priv->calitem), "row-height", &row_height, NULL);
 	style_context = gtk_widget_get_style_context (widget);
 	gtk_style_context_get_padding (style_context, gtk_style_context_get_state (style_context), &padding);
 
@@ -650,8 +650,8 @@ e_calendar_set_minimum_size (ECalendar *cal,
 
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (cal->priv->calitem),
-		"minimum_rows", rows,
-		"minimum_columns", cols,
+		"minimum-rows", rows,
+		"minimum-columns", cols,
 		NULL);
 
 	gtk_widget_queue_resize (GTK_WIDGET (cal));

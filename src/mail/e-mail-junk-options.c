@@ -34,8 +34,11 @@ struct _EMailJunkOptionsPrivate {
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COLUMN_FILTER_NAME,
@@ -336,16 +339,17 @@ e_mail_junk_options_class_init (EMailJunkOptionsClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = mail_junk_options_map;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMailJunkOptions:session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -392,7 +396,7 @@ e_mail_junk_options_set_session (EMailJunkOptions *options,
 
 	options->priv->session = session;
 
-	g_object_notify (G_OBJECT (options), "session");
+	g_object_notify_by_pspec (G_OBJECT (options), properties[PROP_SESSION]);
 
 	mail_junk_options_rebuild (options);
 }

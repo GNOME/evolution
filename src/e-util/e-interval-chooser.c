@@ -34,15 +34,18 @@ struct _EIntervalChooserPrivate {
 
 enum {
 	PROP_0,
-	PROP_INTERVAL_MINUTES
+	PROP_INTERVAL_MINUTES,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EIntervalChooser, e_interval_chooser, GTK_TYPE_BOX)
 
 static void
 interval_chooser_notify_interval (GObject *object)
 {
-	g_object_notify (object, "interval-minutes");
+	g_object_notify_by_pspec (object, properties[PROP_INTERVAL_MINUTES]);
 }
 
 static void
@@ -89,17 +92,20 @@ e_interval_chooser_class_init (EIntervalChooserClass *class)
 	object_class->set_property = interval_chooser_set_property;
 	object_class->get_property = interval_chooser_get_property;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_INTERVAL_MINUTES,
+	/**
+	 * EIntervalChooser:interval-minutes
+	 *
+	 * Refresh interval in minutes
+	 **/
+	properties[PROP_INTERVAL_MINUTES] =
 		g_param_spec_uint (
 			"interval-minutes",
-			"Interval in Minutes",
-			"Refresh interval in minutes",
+			NULL, NULL,
 			0, G_MAXUINT, 60,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

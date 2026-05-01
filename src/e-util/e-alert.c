@@ -107,8 +107,11 @@ enum {
 	PROP_TAG,
 	PROP_MESSAGE_TYPE,
 	PROP_PRIMARY_TEXT,
-	PROP_SECONDARY_TEXT
+	PROP_SECONDARY_TEXT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	RESPONSE,
@@ -645,63 +648,68 @@ e_alert_class_init (EAlertClass *class)
 	object_class->finalize = alert_finalize;
 	object_class->constructed = alert_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ARGS,
+	/**
+	 * EAlert:args
+	 *
+	 * Arguments for formatting the alert
+	 **/
+	properties[PROP_ARGS] =
 		g_param_spec_boxed (
 			"args",
-			"Arguments",
-			"Arguments for formatting the alert",
+			NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TAG,
+	/**
+	 * EAlert:tag
+	 *
+	 * A tag describing the alert
+	 **/
+	properties[PROP_TAG] =
 		g_param_spec_string (
 			"tag",
-			"alert tag",
-			"A tag describing the alert",
+			NULL, NULL,
 			"",
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MESSAGE_TYPE,
+	/**
+	 * EAlert:message-type
+	 **/
+	properties[PROP_MESSAGE_TYPE] =
 		g_param_spec_enum (
 			"message-type",
-			NULL,
-			NULL,
+			NULL, NULL,
 			GTK_TYPE_MESSAGE_TYPE,
 			GTK_MESSAGE_ERROR,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PRIMARY_TEXT,
+	/**
+	 * EAlert:primary-text
+	 **/
+	properties[PROP_PRIMARY_TEXT] =
 		g_param_spec_string (
 			"primary-text",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SECONDARY_TEXT,
+	/**
+	 * EAlert:secondary-text
+	 **/
+	properties[PROP_SECONDARY_TEXT] =
 		g_param_spec_string (
 			"secondary-text",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[RESPONSE] = g_signal_new (
 		"response",
@@ -824,7 +832,7 @@ e_alert_set_message_type (EAlert *alert,
 
 	alert->priv->message_type = message_type;
 
-	g_object_notify (G_OBJECT (alert), "message-type");
+	g_object_notify_by_pspec (G_OBJECT (alert), properties[PROP_MESSAGE_TYPE]);
 }
 
 const gchar *
@@ -864,7 +872,7 @@ e_alert_set_primary_text (EAlert *alert,
 	g_free (alert->priv->primary_text);
 	alert->priv->primary_text = g_strdup (primary_text);
 
-	g_object_notify (G_OBJECT (alert), "primary-text");
+	g_object_notify_by_pspec (G_OBJECT (alert), properties[PROP_PRIMARY_TEXT]);
 }
 
 const gchar *
@@ -904,7 +912,7 @@ e_alert_set_secondary_text (EAlert *alert,
 	g_free (alert->priv->secondary_text);
 	alert->priv->secondary_text = g_strdup (secondary_text);
 
-	g_object_notify (G_OBJECT (alert), "secondary-text");
+	g_object_notify_by_pspec (G_OBJECT (alert), properties[PROP_SECONDARY_TEXT]);
 }
 
 const gchar *

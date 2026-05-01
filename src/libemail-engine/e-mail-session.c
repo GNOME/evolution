@@ -106,8 +106,11 @@ enum {
 	PROP_FOLDER_CACHE,
 	PROP_LOCAL_STORE,
 	PROP_REGISTRY,
-	PROP_VFOLDER_STORE
+	PROP_VFOLDER_STORE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static const gchar *local_folder_names[E_MAIL_NUM_LOCAL_FOLDERS] = {
 	N_("Inbox"),		/* E_MAIL_LOCAL_FOLDER_INBOX */
@@ -2153,50 +2156,57 @@ e_mail_session_class_init (EMailSessionClass *class)
 
 	class->create_vfolder_context = mail_session_create_vfolder_context;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOLDER_CACHE,
+	/**
+	 * EMailSession:folder-cache
+	 **/
+	properties[PROP_FOLDER_CACHE] =
 		g_param_spec_object (
 			"folder-cache",
-			NULL,
-			NULL,
+			NULL, NULL,
 			MAIL_TYPE_FOLDER_CACHE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LOCAL_STORE,
+	/**
+	 * EMailSession:local-store
+	 *
+	 * Built-in local store
+	 **/
+	properties[PROP_LOCAL_STORE] =
 		g_param_spec_object (
 			"local-store",
-			"Local Store",
-			"Built-in local store",
+			NULL, NULL,
 			CAMEL_TYPE_STORE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EMailSession:registry
+	 *
+	 * Data source registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Data source registry",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VFOLDER_STORE,
+	/**
+	 * EMailSession:vfolder-store
+	 *
+	 * Built-in search folder store
+	 **/
+	properties[PROP_VFOLDER_STORE] =
 		g_param_spec_object (
 			"vfolder-store",
-			"Search Folder Store",
-			"Built-in search folder store",
+			NULL, NULL,
 			CAMEL_TYPE_STORE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * EMailSession::flush-outbox

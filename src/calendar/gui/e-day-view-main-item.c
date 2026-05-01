@@ -39,8 +39,11 @@ struct _EDayViewMainItemPrivate {
 
 enum {
 	PROP_0,
-	PROP_DAY_VIEW
+	PROP_DAY_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EDayViewMainItem, e_day_view_main_item, GNOME_TYPE_CANVAS_ITEM)
 
@@ -262,7 +265,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	is_editing = day_view->editing_event_day == day && day_view->editing_event_num == event_num;
 
 	if (event->canvas_item)
-		g_object_get (event->canvas_item, "x_offset", &text_x_offset, NULL);
+		g_object_get (event->canvas_item, "x-offset", &text_x_offset, NULL);
 
 	/* Draw shadow around the event when selected */
 	if (!draw_flat_events && is_editing && (gtk_widget_has_focus (day_view->main_canvas))) {
@@ -1341,15 +1344,16 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 	item_class->draw = day_view_main_item_draw;
 	item_class->point = day_view_main_item_point;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DAY_VIEW,
+	/**
+	 * EDayViewMainItem:day-view
+	 **/
+	properties[PROP_DAY_VIEW] =
 		g_param_spec_object (
 			"day-view",
-			"Day View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_DAY_VIEW,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* init the accessibility support for e_day_view */
 	e_day_view_main_item_a11y_init ();
@@ -1384,5 +1388,5 @@ e_day_view_main_item_set_day_view (EDayViewMainItem *main_item,
 
 	main_item->priv->day_view = g_object_ref (day_view);
 
-	g_object_notify (G_OBJECT (main_item), "day-view");
+	g_object_notify_by_pspec (G_OBJECT (main_item), properties[PROP_DAY_VIEW]);
 }

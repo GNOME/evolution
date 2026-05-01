@@ -85,8 +85,11 @@ enum {
 	PROP_CLIENT,
 	PROP_CONTACT,
 	PROP_IS_NEW_LIST,
-	PROP_EDITABLE
+	PROP_EDITABLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 typedef struct {
 	EContactListEditor *editor;
@@ -1633,45 +1636,46 @@ e_contact_list_editor_class_init (EContactListEditorClass *class)
 	editor_class->get_window = contact_list_editor_get_window;
 	editor_class->editor_closed = contact_list_editor_closed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT,
+	/**
+	 * EContactListEditor:client
+	 **/
+	properties[PROP_CLIENT] =
 		g_param_spec_object (
 			"client",
-			"EBookClient",
-			NULL,
+			NULL, NULL,
 			E_TYPE_BOOK_CLIENT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CONTACT,
+	/**
+	 * EContactListEditor:contact
+	 **/
+	properties[PROP_CONTACT] =
 		g_param_spec_object (
 			"contact",
-			"Contact",
-			NULL,
+			NULL, NULL,
 			E_TYPE_CONTACT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_NEW_LIST,
+	/**
+	 * EContactListEditor:is-new-list
+	 **/
+	properties[PROP_IS_NEW_LIST] =
 		g_param_spec_boolean (
-			"is_new_list",
-			"Is New List",
-			NULL,
+			"is-new-list",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITABLE,
+	/**
+	 * EContactListEditor:editable
+	 **/
+	properties[PROP_EDITABLE] =
 		g_param_spec_boolean (
 			"editable",
-			"Editable",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1701,7 +1705,7 @@ e_contact_list_editor_new (EShell *shell,
 		editor,
 		"client", book_client,
 		"contact", list_contact,
-		"is_new_list", is_new_list,
+		"is-new-list", is_new_list,
 		"editable", editable,
 		NULL);
 
@@ -1735,7 +1739,7 @@ e_contact_list_editor_set_client (EContactListEditor *editor,
 
 	contact_list_editor_update (editor);
 
-	g_object_notify (G_OBJECT (editor), "client");
+	g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_CLIENT]);
 }
 
 static void
@@ -1927,7 +1931,7 @@ e_contact_list_editor_set_contact (EContactListEditor *editor,
 	priv->changed = FALSE;
 	contact_list_editor_update (editor);
 
-	g_object_notify (G_OBJECT (editor), "contact");
+	g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_CONTACT]);
 
 }
 
@@ -1952,7 +1956,7 @@ e_contact_list_editor_set_is_new_list (EContactListEditor *editor,
 	editor->priv->is_new_list = is_new_list;
 	contact_list_editor_update (editor);
 
-	g_object_notify (G_OBJECT (editor), "is_new_list");
+	g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_IS_NEW_LIST]);
 }
 
 gboolean
@@ -1975,6 +1979,6 @@ e_contact_list_editor_set_editable (EContactListEditor *editor,
 	editor->priv->editable = editable;
 	contact_list_editor_update (editor);
 
-	g_object_notify (G_OBJECT (editor), "editable");
+	g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_EDITABLE]);
 }
 

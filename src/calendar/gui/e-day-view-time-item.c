@@ -109,8 +109,11 @@ static void	edvti_second_zone_changed_cb	(GSettings *settings,
 
 enum {
 	PROP_0,
-	PROP_DAY_VIEW
+	PROP_DAY_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EDayViewTimeItem, e_day_view_time_item, GNOME_TYPE_CANVAS_ITEM)
 
@@ -192,15 +195,16 @@ e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
 	item_class->point = e_day_view_time_item_point;
 	item_class->event = e_day_view_time_item_event;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DAY_VIEW,
+	/**
+	 * EDayViewTimeItem:day-view
+	 **/
+	properties[PROP_DAY_VIEW] =
 		g_param_spec_object (
 			"day-view",
-			"Day View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_DAY_VIEW,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1064,7 +1068,7 @@ e_day_view_time_item_set_day_view (EDayViewTimeItem *time_item,
 
 	time_item->priv->day_view = g_object_ref (day_view);
 
-	g_object_notify (G_OBJECT (time_item), "day-view");
+	g_object_notify_by_pspec (G_OBJECT (time_item), properties[PROP_DAY_VIEW]);
 }
 
 /* Returns the minimum width needed for the column, by adding up all the

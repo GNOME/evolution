@@ -45,7 +45,7 @@ G_DEFINE_TYPE (
 static void
 gal_view_calendar_day_class_init (GalViewClass *class)
 {
-	class->type_code = "day_view";
+	class->type_code = "day-view";
 }
 
 static void

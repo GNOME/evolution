@@ -31,8 +31,11 @@ struct _EMailConfigWelcomePagePrivate {
 
 enum {
 	PROP_0,
-	PROP_TEXT
+	PROP_TEXT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_mail_config_welcome_page_interface_init
@@ -137,18 +140,21 @@ e_mail_config_welcome_page_class_init (EMailConfigWelcomePageClass *class)
 	object_class->finalize = mail_config_welcome_page_finalize;
 	object_class->constructed = mail_config_welcome_page_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TEXT,
+	/**
+	 * EMailConfigWelcomePage:text
+	 *
+	 * Welcome message
+	 **/
+	properties[PROP_TEXT] =
 		g_param_spec_string (
 			"text",
-			"Text",
-			"Welcome message",
+			NULL, NULL,
 			_("Welcome to the Evolution Mail Configuration "
 			"Assistant.\n\nClick “Next” to begin."),
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -191,7 +197,7 @@ e_mail_config_welcome_page_set_text (EMailConfigWelcomePage *page,
 	g_free (page->priv->text);
 	page->priv->text = g_strdup ((text != NULL) ? text : "");
 
-	g_object_notify (G_OBJECT (page), "text");
+	g_object_notify_by_pspec (G_OBJECT (page), properties[PROP_TEXT]);
 }
 
 GtkBox *

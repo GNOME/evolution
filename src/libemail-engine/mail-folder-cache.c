@@ -75,7 +75,10 @@ struct _MailFolderCachePrivate {
 enum {
 	PROP_0,
 	PROP_MAIN_CONTEXT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	FOLDER_AVAILABLE,
@@ -1691,17 +1694,19 @@ mail_folder_cache_class_init (MailFolderCacheClass *class)
 	class->folder_unavailable = mail_folder_cache_folder_unavailable;
 	class->folder_deleted = mail_folder_cache_folder_deleted;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIN_CONTEXT,
+	/**
+	 * MailFolderCache:main-context
+	 *
+	 * The main loop context on " "which to attach event sources
+	 **/
+	properties[PROP_MAIN_CONTEXT] =
 		g_param_spec_boxed (
 			"main-context",
-			"Main Context",
-			"The main loop context on "
-			"which to attach event sources",
+			NULL, NULL,
 			G_TYPE_MAIN_CONTEXT,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * MailFolderCache::folder-available

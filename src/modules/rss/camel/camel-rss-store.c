@@ -28,8 +28,11 @@ struct _CamelRssStorePrivate {
 
 enum {
 	PROP_0,
-	PROP_SUMMARY
+	PROP_SUMMARY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static GInitableIface *parent_initable_interface;
 
@@ -300,14 +303,16 @@ camel_rss_store_class_init (CamelRssStoreClass *klass)
 	store_class->delete_folder_sync = rss_store_delete_folder_sync;
 	store_class->rename_folder_sync = rss_store_rename_folder_sync;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SUMMARY,
+	/**
+	 * CamelRssStore:summary
+	 **/
+	properties[PROP_SUMMARY] =
 		g_param_spec_object (
 			"summary", NULL, NULL,
 			CAMEL_TYPE_RSS_STORE_SUMMARY,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static gboolean

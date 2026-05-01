@@ -25,8 +25,11 @@
 
 enum {
 	PROP_0,
-	PROP_OVERRIDE_VISIBLE
+	PROP_OVERRIDE_VISIBLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE (
 	EComposerFromHeader,
@@ -158,16 +161,17 @@ e_composer_from_header_class_init (EComposerFromHeaderClass *class)
 	object_class->constructed = composer_from_header_constructed;
 	object_class->dispose = composer_from_header_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_OVERRIDE_VISIBLE,
+	/**
+	 * EComposerFromHeader:override-visible
+	 **/
+	properties[PROP_OVERRIDE_VISIBLE] =
 		g_param_spec_boolean (
 			"override-visible",
-			NULL,
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -370,5 +374,5 @@ e_composer_from_header_set_override_visible (EComposerFromHeader *header,
 			gtk_widget_hide (header->override_widget);
 	}
 
-	g_object_notify (G_OBJECT (header), "override-visible");
+	g_object_notify_by_pspec (G_OBJECT (header), properties[PROP_OVERRIDE_VISIBLE]);
 }

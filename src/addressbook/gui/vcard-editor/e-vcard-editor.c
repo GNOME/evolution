@@ -4997,47 +4997,58 @@ e_vcard_editor_class_init (EVCardEditorClass *klass)
 	object_class->dispose = e_vcard_editor_dispose;
 	object_class->finalize = e_vcard_editor_finalize;
 
-	properties[PROP_CHANGED] = g_param_spec_boolean ("changed", NULL, NULL, FALSE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_CHANGED] = g_param_spec_boolean ("changed", NULL,
+							 NULL, FALSE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
-	properties[PROP_CLIENT_CACHE] = g_param_spec_object ("client-cache", NULL, NULL, E_TYPE_CLIENT_CACHE,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_CLIENT_CACHE] = g_param_spec_object ("client-cache",
+							     NULL, NULL,
+							     E_TYPE_CLIENT_CACHE,
+							     G_PARAM_READWRITE |
+							     G_PARAM_CONSTRUCT_ONLY |
+							     G_PARAM_STATIC_STRINGS |
+							     G_PARAM_EXPLICIT_NOTIFY);
 
-	properties[PROP_CONTACT] = g_param_spec_object ("contact", NULL, NULL, E_TYPE_CONTACT,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_CONTACT] = g_param_spec_object ("contact", NULL, NULL,
+							E_TYPE_CONTACT,
+							G_PARAM_READWRITE |
+							G_PARAM_CONSTRUCT |
+							G_PARAM_STATIC_STRINGS |
+							G_PARAM_EXPLICIT_NOTIFY);
 
-	properties[PROP_FLAGS] = g_param_spec_uint ("flags", NULL, NULL, 0, G_MAXUINT, 0,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_FLAGS] = g_param_spec_uint ("flags", NULL, NULL, 0,
+						    G_MAXUINT, 0,
+						    G_PARAM_READWRITE |
+						    G_PARAM_CONSTRUCT |
+						    G_PARAM_STATIC_STRINGS |
+						    G_PARAM_EXPLICIT_NOTIFY);
 
-	properties[PROP_REGISTRY] = g_param_spec_object ("registry", NULL, NULL, E_TYPE_SOURCE_REGISTRY,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_REGISTRY] = g_param_spec_object ("registry", NULL,
+							 NULL,
+							 E_TYPE_SOURCE_REGISTRY,
+							 G_PARAM_READWRITE |
+							 G_PARAM_CONSTRUCT_ONLY |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
-	properties[PROP_SOURCE_CLIENT] = g_param_spec_object ("source-client", NULL, NULL, E_TYPE_BOOK_CLIENT,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_SOURCE_CLIENT] = g_param_spec_object ("source-client",
+							      NULL, NULL,
+							      E_TYPE_BOOK_CLIENT,
+							      G_PARAM_READWRITE |
+							      G_PARAM_CONSTRUCT_ONLY |
+							      G_PARAM_STATIC_STRINGS |
+							      G_PARAM_EXPLICIT_NOTIFY);
 
-	properties[PROP_TARGET_CLIENT] = g_param_spec_object ("target-client", NULL, NULL, E_TYPE_BOOK_CLIENT,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_TARGET_CLIENT] = g_param_spec_object ("target-client",
+							      NULL, NULL,
+							      E_TYPE_BOOK_CLIENT,
+							      G_PARAM_READWRITE |
+							      G_PARAM_STATIC_STRINGS |
+							      G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* mainly for testing purposes, replaces internal saving routine;
 	   gboolean custom_save (EVCardEditor *editor, EBookClient *target_client, EContact *contact, gchar **out_error_message); */

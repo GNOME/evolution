@@ -37,8 +37,11 @@ struct _EProxyLinkSelectorPrivate {
 
 enum {
 	PROP_0,
-	PROP_TARGET_SOURCE
+	PROP_TARGET_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EProxyLinkSelector, e_proxy_link_selector, E_TYPE_SOURCE_SELECTOR)
 
@@ -234,17 +237,19 @@ e_proxy_link_selector_class_init (EProxyLinkSelectorClass *class)
 	source_selector_class->set_source_selected =
 				proxy_link_selector_set_source_selected;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TARGET_SOURCE,
+	/**
+	 * EProxyLinkSelector:target-source
+	 *
+	 * The data source to link to " "when the checkbox is active
+	 **/
+	properties[PROP_TARGET_SOURCE] =
 		g_param_spec_object (
 			"target-source",
-			"Target Source",
-			"The data source to link to "
-			"when the checkbox is active",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -321,7 +326,7 @@ e_proxy_link_selector_set_target_source (EProxyLinkSelector *selector,
 	g_clear_object (&selector->priv->target_source);
 	selector->priv->target_source = g_object_ref (target_source);
 
-	g_object_notify (G_OBJECT (selector), "target-source");
+	g_object_notify_by_pspec (G_OBJECT (selector), properties[PROP_TARGET_SOURCE]);
 
 	e_source_selector_update_all_rows (E_SOURCE_SELECTOR (selector));
 }

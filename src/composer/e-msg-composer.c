@@ -100,8 +100,11 @@ enum {
 	PROP_EDITOR,
 	PROP_FOCUS_TRACKER,
 	PROP_SHELL,
-	PROP_IS_REPLY_OR_FORWARD
+	PROP_IS_REPLY_OR_FORWARD,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	PRESEND,
@@ -205,7 +208,7 @@ e_msg_composer_inc_soft_busy (EMsgComposer *composer)
 	composer->priv->soft_busy_count++;
 
 	if (composer->priv->soft_busy_count == 1)
-		g_object_notify (G_OBJECT (composer), "soft-busy");
+		g_object_notify_by_pspec (G_OBJECT (composer), properties[PROP_SOFT_BUSY]);
 }
 
 static void
@@ -217,7 +220,7 @@ e_msg_composer_dec_soft_busy (EMsgComposer *composer)
 	composer->priv->soft_busy_count--;
 
 	if (composer->priv->soft_busy_count == 0)
-		g_object_notify (G_OBJECT (composer), "soft-busy");
+		g_object_notify_by_pspec (G_OBJECT (composer), properties[PROP_SOFT_BUSY]);
 }
 
 static gchar *
@@ -2758,8 +2761,8 @@ composer_notify_activity_cb (EActivityBar *activity_bar,
 		e_msg_composer_restore_focus_on_composer (composer);
 	}
 
-	g_object_notify (G_OBJECT (composer), "busy");
-	g_object_notify (G_OBJECT (composer), "soft-busy");
+	g_object_notify_by_pspec (G_OBJECT (composer), properties[PROP_BUSY]);
+	g_object_notify_by_pspec (G_OBJECT (composer), properties[PROP_SOFT_BUSY]);
 }
 
 static void
@@ -3183,70 +3186,79 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 
 	class->presend = msg_composer_presend;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BUSY,
+	/**
+	 * EMsgComposer:busy
+	 *
+	 * Whether an activity is in progress
+	 **/
+	properties[PROP_BUSY] =
 		g_param_spec_boolean (
 			"busy",
-			"Busy",
-			"Whether an activity is in progress",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOFT_BUSY,
+	/**
+	 * EMsgComposer:soft-busy
+	 *
+	 * Whether asynchronous actions are disabled
+	 **/
+	properties[PROP_SOFT_BUSY] =
 		g_param_spec_boolean (
 			"soft-busy",
-			"Soft Busy",
-			"Whether asynchronous actions are disabled",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITOR,
+	/**
+	 * EMsgComposer:editor
+	 **/
+	properties[PROP_EDITOR] =
 		g_param_spec_object (
 			"editor",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_HTML_EDITOR,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOCUS_TRACKER,
+	/**
+	 * EMsgComposer:focus-tracker
+	 **/
+	properties[PROP_FOCUS_TRACKER] =
 		g_param_spec_object (
 			"focus-tracker",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_FOCUS_TRACKER,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_REPLY_OR_FORWARD,
+	/**
+	 * EMsgComposer:is-reply-or-forward
+	 *
+	 * Whether the composed message is a reply or a forward message
+	 **/
+	properties[PROP_IS_REPLY_OR_FORWARD] =
 		g_param_spec_boolean (
 			"is-reply-or-forward",
-			"Is Reply Or Forward",
-			"Whether the composed message is a reply or a forward message",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL,
+	/**
+	 * EMsgComposer:shell
+	 *
+	 * The EShell singleton
+	 **/
+	properties[PROP_SHELL] =
 		g_param_spec_object (
 			"shell",
-			"Shell",
-			"The EShell singleton",
+			NULL, NULL,
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[PRESEND] = g_signal_new (
 		"presend",
@@ -6918,7 +6930,7 @@ e_msg_composer_set_is_reply_or_forward (EMsgComposer *composer,
 
 	composer->priv->is_reply_or_forward = is_reply_or_forward;
 
-	g_object_notify (G_OBJECT (composer), "is-reply-or-forward");
+	g_object_notify_by_pspec (G_OBJECT (composer), properties[PROP_IS_REPLY_OR_FORWARD]);
 
 	msg_composer_mail_identity_changed_cb (composer);
 }

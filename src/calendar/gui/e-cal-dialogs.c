@@ -980,7 +980,7 @@ goto_dialog_create_widgets (GoToDialog *dlg,
 
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (calitem),
-		"move_selection_when_moving", FALSE,
+		"move-selection-when-moving", FALSE,
 		NULL);
 	e_calendar_item_set_display_popup (calitem, FALSE);
 	g_object_set (G_OBJECT (dlg->ecal),

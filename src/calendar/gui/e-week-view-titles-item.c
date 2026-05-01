@@ -32,8 +32,11 @@ struct _EWeekViewTitlesItemPrivate {
 
 enum {
 	PROP_0,
-	PROP_WEEK_VIEW
+	PROP_WEEK_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EWeekViewTitlesItem, e_week_view_titles_item, GNOME_TYPE_CANVAS_ITEM)
 
@@ -259,15 +262,16 @@ e_week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
 	item_class->draw = week_view_titles_item_draw;
 	item_class->point = week_view_titles_item_point;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_VIEW,
+	/**
+	 * EWeekViewTitlesItem:week-view
+	 **/
+	properties[PROP_WEEK_VIEW] =
 		g_param_spec_object (
 			"week-view",
-			"Week View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_WEEK_VIEW,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -299,5 +303,5 @@ e_week_view_titles_item_set_week_view (EWeekViewTitlesItem *titles_item,
 
 	titles_item->priv->week_view = g_object_ref (week_view);
 
-	g_object_notify (G_OBJECT (titles_item), "week-view");
+	g_object_notify_by_pspec (G_OBJECT (titles_item), properties[PROP_WEEK_VIEW]);
 }

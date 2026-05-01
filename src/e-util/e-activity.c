@@ -60,8 +60,11 @@ enum {
 	PROP_ICON_NAME,
 	PROP_PERCENT,
 	PROP_STATE,
-	PROP_TEXT
+	PROP_TEXT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EActivity, e_activity, G_TYPE_OBJECT)
 
@@ -275,74 +278,75 @@ e_activity_class_init (EActivityClass *class)
 
 	class->describe = activity_describe;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALERT_SINK,
+	/**
+	 * EActivity:alert-sink
+	 **/
+	properties[PROP_ALERT_SINK] =
 		g_param_spec_object (
 			"alert-sink",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_ALERT_SINK,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CANCELLABLE,
+	/**
+	 * EActivity:cancellable
+	 **/
+	properties[PROP_CANCELLABLE] =
 		g_param_spec_object (
 			"cancellable",
-			NULL,
-			NULL,
+			NULL, NULL,
 			G_TYPE_CANCELLABLE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ICON_NAME,
+	/**
+	 * EActivity:icon-name
+	 **/
+	properties[PROP_ICON_NAME] =
 		g_param_spec_string (
 			"icon-name",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PERCENT,
+	/**
+	 * EActivity:percent
+	 **/
+	properties[PROP_PERCENT] =
 		g_param_spec_double (
 			"percent",
-			NULL,
-			NULL,
+			NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			-1.0,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STATE,
+	/**
+	 * EActivity:state
+	 **/
+	properties[PROP_STATE] =
 		g_param_spec_enum (
 			"state",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_ACTIVITY_STATE,
 			E_ACTIVITY_RUNNING,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TEXT,
+	/**
+	 * EActivity:text
+	 **/
+	properties[PROP_TEXT] =
 		g_param_spec_string (
 			"text",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -470,7 +474,7 @@ e_activity_set_alert_sink (EActivity *activity,
 
 	activity->priv->alert_sink = alert_sink;
 
-	g_object_notify (G_OBJECT (activity), "alert-sink");
+	g_object_notify_by_pspec (G_OBJECT (activity), properties[PROP_ALERT_SINK]);
 }
 
 /**
@@ -534,7 +538,7 @@ e_activity_set_cancellable (EActivity *activity,
 			cancellable, "status",
 			G_CALLBACK (activity_camel_status_cb), activity);
 
-	g_object_notify (G_OBJECT (activity), "cancellable");
+	g_object_notify_by_pspec (G_OBJECT (activity), properties[PROP_CANCELLABLE]);
 }
 
 /**
@@ -582,7 +586,7 @@ e_activity_set_icon_name (EActivity *activity,
 	g_free (activity->priv->icon_name);
 	activity->priv->icon_name = g_strdup (icon_name);
 
-	g_object_notify (G_OBJECT (activity), "icon-name");
+	g_object_notify_by_pspec (G_OBJECT (activity), properties[PROP_ICON_NAME]);
 }
 
 /**
@@ -627,7 +631,7 @@ e_activity_set_percent (EActivity *activity,
 
 	activity->priv->percent = percent;
 
-	g_object_notify (G_OBJECT (activity), "percent");
+	g_object_notify_by_pspec (G_OBJECT (activity), properties[PROP_PERCENT]);
 }
 
 /**
@@ -674,7 +678,7 @@ e_activity_set_state (EActivity *activity,
 
 	activity->priv->state = state;
 
-	g_object_notify (G_OBJECT (activity), "state");
+	g_object_notify_by_pspec (G_OBJECT (activity), properties[PROP_STATE]);
 }
 
 /**
@@ -727,7 +731,7 @@ e_activity_set_text (EActivity *activity,
 		activity->priv->last_known_text = last_known_text;
 	}
 
-	g_object_notify (G_OBJECT (activity), "text");
+	g_object_notify_by_pspec (G_OBJECT (activity), properties[PROP_TEXT]);
 }
 
 /**

@@ -34,11 +34,6 @@ struct _EMVFolderContextPrivate {
 	gint placeholder;
 };
 
-enum {
-	PROP_0,
-	PROP_SESSION
-};
-
 G_DEFINE_TYPE_WITH_PRIVATE (EMVFolderContext, em_vfolder_context, E_TYPE_RULE_CONTEXT)
 
 static EFilterElement *

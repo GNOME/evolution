@@ -44,8 +44,11 @@ struct _EActivityBarPrivate {
 
 enum {
 	PROP_0,
-	PROP_ACTIVITY
+	PROP_ACTIVITY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EActivityBar, e_activity_bar, GTK_TYPE_INFO_BAR)
 
@@ -303,16 +306,17 @@ e_activity_bar_class_init (EActivityBarClass *class)
 	object_class->constructed = activity_bar_constructed;
 	object_class->dispose = activity_bar_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVITY,
+	/**
+	 * EActivityBar:activity
+	 **/
+	properties[PROP_ACTIVITY] =
 		g_param_spec_object (
 			"activity",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_ACTIVITY,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -419,5 +423,5 @@ e_activity_bar_set_activity (EActivityBar *bar,
 
 	activity_bar_update (bar);
 
-	g_object_notify (G_OBJECT (bar), "activity");
+	g_object_notify_by_pspec (G_OBJECT (bar), properties[PROP_ACTIVITY]);
 }

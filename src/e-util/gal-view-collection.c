@@ -47,8 +47,11 @@ struct _GalViewCollectionPrivate {
 enum {
 	PROP_0,
 	PROP_SYSTEM_DIRECTORY,
-	PROP_USER_DIRECTORY
+	PROP_USER_DIRECTORY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,
@@ -457,29 +460,34 @@ gal_view_collection_class_init (GalViewCollectionClass *class)
 	object_class->finalize = gal_view_collection_finalize;
 	object_class->constructed = gal_view_collection_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SYSTEM_DIRECTORY,
+	/**
+	 * GalViewCollection:system-directory
+	 *
+	 * Directory from which to load built-in views
+	 **/
+	properties[PROP_SYSTEM_DIRECTORY] =
 		g_param_spec_string (
 			"system-directory",
-			"System Directory",
-			"Directory from which to load built-in views",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USER_DIRECTORY,
+	/**
+	 * GalViewCollection:user-directory
+	 *
+	 * Directory from which to load user-created views
+	 **/
+	properties[PROP_USER_DIRECTORY] =
 		g_param_spec_string (
 			"user-directory",
-			"User Directory",
-			"Directory from which to load user-created views",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",

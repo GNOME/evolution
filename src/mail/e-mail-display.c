@@ -111,8 +111,11 @@ enum {
 	PROP_MODE,
 	PROP_PART_LIST,
 	PROP_REMOTE_CONTENT,
-	PROP_MAIL_READER
+	PROP_MAIL_READER,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	REMOTE_CONTENT_CLICKED,
@@ -2920,105 +2923,107 @@ e_mail_display_class_init (EMailDisplayClass *class)
 	web_view_class->set_fonts = mail_display_set_fonts;
 	web_view_class->before_popup_event = mail_display_before_popup_event;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ATTACHMENT_STORE,
+	/**
+	 * EMailDisplay:attachment-store
+	 **/
+	properties[PROP_ATTACHMENT_STORE] =
 		g_param_spec_object (
 			"attachment-store",
-			"Attachment Store",
-			NULL,
+			NULL, NULL,
 			E_TYPE_ATTACHMENT_STORE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ATTACHMENT_VIEW,
+	/**
+	 * EMailDisplay:attachment-view
+	 **/
+	properties[PROP_ATTACHMENT_VIEW] =
 		g_param_spec_object (
 			"attachment-view",
-			"Attachment View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_ATTACHMENT_VIEW,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FORMATTER,
+	/**
+	 * EMailDisplay:formatter
+	 **/
+	properties[PROP_FORMATTER] =
 		g_param_spec_object (
 			"formatter",
-			"Mail Formatter",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_FORMATTER,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEADERS_COLLAPSABLE,
+	/**
+	 * EMailDisplay:headers-collapsable
+	 **/
+	properties[PROP_HEADERS_COLLAPSABLE] =
 		g_param_spec_boolean (
 			"headers-collapsable",
-			"Headers Collapsable",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEADERS_COLLAPSED,
+	/**
+	 * EMailDisplay:headers-collapsed
+	 **/
+	properties[PROP_HEADERS_COLLAPSED] =
 		g_param_spec_boolean (
 			"headers-collapsed",
-			"Headers Collapsed",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODE,
+	/**
+	 * EMailDisplay:mode
+	 **/
+	properties[PROP_MODE] =
 		g_param_spec_enum (
 			"mode",
-			"Mode",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_FORMATTER_MODE,
 			E_MAIL_FORMATTER_MODE_NORMAL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PART_LIST,
+	/**
+	 * EMailDisplay:part-list
+	 **/
+	properties[PROP_PART_LIST] =
 		g_param_spec_pointer (
 			"part-list",
 			"Part List",
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REMOTE_CONTENT,
+	/**
+	 * EMailDisplay:remote-content
+	 **/
+	properties[PROP_REMOTE_CONTENT] =
 		g_param_spec_object (
 			"remote-content",
-			"Mail Remote Content",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_REMOTE_CONTENT,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIL_READER,
+	/**
+	 * EMailDisplay:mail-reader
+	 **/
+	properties[PROP_MAIL_READER] =
 		g_param_spec_object (
 			"mail-reader",
-			"a mail reader this instance is part of",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_READER,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[REMOTE_CONTENT_CLICKED] = g_signal_new (
 		"remote-content-clicked",
@@ -3335,7 +3340,7 @@ e_mail_display_set_mode (EMailDisplay *display,
 
 	e_mail_display_reload (display);
 
-	g_object_notify (G_OBJECT (display), "mode");
+	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_MODE]);
 }
 
 EMailFormatter *
@@ -3423,7 +3428,7 @@ e_mail_display_set_part_list (EMailDisplay *display,
 	display->priv->skip_insecure_parts = !g_settings_get_boolean (settings, "show-insecure-parts");
 	g_object_unref (settings);
 
-	g_object_notify (G_OBJECT (display), "part-list");
+	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_PART_LIST]);
 }
 
 gboolean
@@ -3446,7 +3451,7 @@ e_mail_display_set_headers_collapsable (EMailDisplay *display,
 	display->priv->headers_collapsable = collapsable;
 	e_mail_display_reload (display);
 
-	g_object_notify (G_OBJECT (display), "headers-collapsable");
+	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_HEADERS_COLLAPSABLE]);
 }
 
 gboolean
@@ -3471,7 +3476,7 @@ e_mail_display_set_headers_collapsed (EMailDisplay *display,
 
 	display->priv->headers_collapsed = collapsed;
 
-	g_object_notify (G_OBJECT (display), "headers-collapsed");
+	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_HEADERS_COLLAPSED]);
 }
 
 void

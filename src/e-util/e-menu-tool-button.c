@@ -35,8 +35,11 @@ enum {
 	PROP_0,
 	PROP_PREFER_ITEM,
 	PROP_UI_MANAGER,
-	PROP_FALLBACK_ACTION
+	PROP_FALLBACK_ACTION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMenuToolButton, e_menu_tool_button, GTK_TYPE_MENU_TOOL_BUTTON)
 
@@ -148,35 +151,38 @@ e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 	object_class->get_property = menu_tool_button_get_property;
 	object_class->finalize = menu_tool_button_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREFER_ITEM,
+	/**
+	 * EMenuToolButton:prefer-item
+	 *
+	 * Name of an item to show instead of the first
+	 **/
+	properties[PROP_PREFER_ITEM] =
 		g_param_spec_string (
 			"prefer-item",
-			"Prefer Item",
-			"Name of an item to show instead of the first",
+			NULL, NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UI_MANAGER,
+	/**
+	 * EMenuToolButton:ui-manager
+	 **/
+	properties[PROP_UI_MANAGER] =
 		g_param_spec_object (
 			"ui-manager",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_UI_MANAGER,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FALLBACK_ACTION,
+	/**
+	 * EMenuToolButton:fallback-action
+	 **/
+	properties[PROP_FALLBACK_ACTION] =
 		g_param_spec_object (
 			"fallback-action",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -223,7 +229,7 @@ e_menu_tool_button_set_prefer_item (EMenuToolButton *button,
 
 	menu_tool_button_update_button (button);
 
-	g_object_notify (G_OBJECT (button), "prefer-item");
+	g_object_notify_by_pspec (G_OBJECT (button), properties[PROP_PREFER_ITEM]);
 }
 
 EUIAction *
@@ -248,5 +254,5 @@ e_menu_tool_button_set_fallback_action (EMenuToolButton *button,
 
 	menu_tool_button_update_button (button);
 
-	g_object_notify (G_OBJECT (button), "fallback-action");
+	g_object_notify_by_pspec (G_OBJECT (button), properties[PROP_FALLBACK_ACTION]);
 }

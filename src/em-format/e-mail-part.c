@@ -57,8 +57,11 @@ enum {
 	PROP_IS_PRINTABLE,
 	PROP_MIME_PART,
 	PROP_MIME_TYPE,
-	PROP_PART_LIST
+	PROP_PART_LIST,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_CODE (EMailPart, e_mail_part, G_TYPE_OBJECT,
 	G_ADD_PRIVATE (EMailPart)
@@ -273,97 +276,114 @@ e_mail_part_class_init (EMailPartClass *class)
 	object_class->finalize = mail_part_finalize;
 	object_class->constructed = mail_part_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CID,
+	/**
+	 * EMailPart:cid
+	 *
+	 * The MIME Content-ID
+	 **/
+	properties[PROP_CID] =
 		g_param_spec_string (
 			"cid",
-			"Content ID",
-			"The MIME Content-ID",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CONVERTED_TO_UTF8,
+	/**
+	 * EMailPart:converted-to-utf8
+	 *
+	 * Whether the part content was already converted to UTF-8
+	 **/
+	properties[PROP_CONVERTED_TO_UTF8] =
 		g_param_spec_boolean (
 			"converted-to-utf8",
-			"Converted To UTF8",
-			"Whether the part content was already converted to UTF-8",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ID,
+	/**
+	 * EMailPart:id
+	 *
+	 * The part ID
+	 **/
+	properties[PROP_ID] =
 		g_param_spec_string (
 			"id",
-			"Part ID",
-			"The part ID",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_ATTACHMENT,
+	/**
+	 * EMailPart:is-attachment
+	 *
+	 * Format the part as an attachment
+	 **/
+	properties[PROP_IS_ATTACHMENT] =
 		g_param_spec_boolean (
 			"is-attachment",
-			"Is Attachment",
-			"Format the part as an attachment",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_PRINTABLE,
+	/**
+	 * EMailPart:is-printable
+	 *
+	 * Whether this part can be printed
+	 **/
+	properties[PROP_IS_PRINTABLE] =
 		g_param_spec_boolean (
 			"is-printable",
-			"Is Printable",
-			"Whether this part can be printed",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MIME_PART,
+	/**
+	 * EMailPart:mime-part
+	 *
+	 * The MIME part
+	 **/
+	properties[PROP_MIME_PART] =
 		g_param_spec_object (
 			"mime-part",
-			"MIME Part",
-			"The MIME part",
+			NULL, NULL,
 			CAMEL_TYPE_MIME_PART,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MIME_TYPE,
+	/**
+	 * EMailPart:mime-type
+	 *
+	 * The MIME type
+	 **/
+	properties[PROP_MIME_TYPE] =
 		g_param_spec_string (
 			"mime-type",
-			"MIME Type",
-			"The MIME type",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PART_LIST,
+	/**
+	 * EMailPart:part-list
+	 *
+	 * The part list that owns the part
+	 **/
+	properties[PROP_PART_LIST] =
 		g_param_spec_object (
 			"part-list",
-			"Part List",
-			"The part list that owns the part",
+			NULL, NULL,
 			E_TYPE_MAIL_PART_LIST,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -417,7 +437,7 @@ e_mail_part_set_cid (EMailPart *part,
 	g_free (part->priv->cid);
 	part->priv->cid = g_strdup (cid);
 
-	g_object_notify (G_OBJECT (part), "cid");
+	g_object_notify_by_pspec (G_OBJECT (part), properties[PROP_CID]);
 }
 
 gboolean
@@ -483,7 +503,7 @@ e_mail_part_set_mime_type (EMailPart *part,
 	g_free (part->priv->mime_type);
 	part->priv->mime_type = g_strdup (mime_type);
 
-	g_object_notify (G_OBJECT (part), "mime-type");
+	g_object_notify_by_pspec (G_OBJECT (part), properties[PROP_MIME_TYPE]);
 }
 
 gboolean
@@ -505,7 +525,7 @@ e_mail_part_set_converted_to_utf8 (EMailPart *part,
 
 	part->priv->converted_to_utf8 = converted_to_utf8;
 
-	g_object_notify (G_OBJECT (part), "converted-to-utf8");
+	g_object_notify_by_pspec (G_OBJECT (part), properties[PROP_CONVERTED_TO_UTF8]);
 }
 
 gboolean
@@ -573,7 +593,7 @@ e_mail_part_set_part_list (EMailPart *part,
 
 	g_weak_ref_set (&part->priv->part_list, part_list);
 
-	g_object_notify (G_OBJECT (part), "part-list");
+	g_object_notify_by_pspec (G_OBJECT (part), properties[PROP_PART_LIST]);
 }
 
 gboolean
@@ -595,7 +615,7 @@ e_mail_part_set_is_attachment (EMailPart *part,
 
 	part->priv->is_attachment = is_attachment;
 
-	g_object_notify (G_OBJECT (part), "is-attachment");
+	g_object_notify_by_pspec (G_OBJECT (part), properties[PROP_IS_ATTACHMENT]);
 }
 
 gboolean
@@ -617,7 +637,7 @@ e_mail_part_set_is_printable (EMailPart *part,
 
 	part->priv->is_printable = is_printable;
 
-	g_object_notify (G_OBJECT (part), "is-printable");
+	g_object_notify_by_pspec (G_OBJECT (part), properties[PROP_IS_PRINTABLE]);
 }
 
 void

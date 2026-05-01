@@ -32,8 +32,11 @@ struct _EUrlEntryPrivate {
 
 enum {
 	PROP_0,
-	PROP_ICON_VISIBLE
+	PROP_ICON_VISIBLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	OPEN_URL,
@@ -143,16 +146,17 @@ e_url_entry_class_init (EUrlEntryClass *class)
 	object_class->set_property = e_url_entry_set_property;
 	object_class->get_property = e_url_entry_get_property;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ICON_VISIBLE,
+	/**
+	 * EUrlEntry:icon-visible
+	 **/
+	properties[PROP_ICON_VISIBLE] =
 		g_param_spec_boolean (
 			"icon-visible",
-			NULL,
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[OPEN_URL] = g_signal_new (
 		"open-url",

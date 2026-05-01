@@ -48,8 +48,11 @@ struct _EMailSignatureManagerPrivate {
 enum {
 	PROP_0,
 	PROP_PREFER_MODE,
-	PROP_REGISTRY
+	PROP_REGISTRY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ADD_SIGNATURE,
@@ -578,30 +581,31 @@ e_mail_signature_manager_class_init (EMailSignatureManagerClass *class)
 	class->edit_signature = mail_signature_manager_edit_signature;
 	class->remove_signature = mail_signature_manager_remove_signature;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREFER_MODE,
+	/**
+	 * EMailSignatureManager:prefer-mode
+	 **/
+	properties[PROP_PREFER_MODE] =
 		g_param_spec_enum (
 			"prefer-mode",
-			"Prefer editor mode",
-			NULL,
+			NULL, NULL,
 			E_TYPE_CONTENT_EDITOR_MODE,
 			E_CONTENT_EDITOR_MODE_HTML,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EMailSignatureManager:registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			NULL,
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[ADD_SIGNATURE] = g_signal_new (
 		"add-signature",
@@ -721,7 +725,7 @@ e_mail_signature_manager_set_prefer_mode (EMailSignatureManager *manager,
 
 	manager->priv->prefer_mode = prefer_mode;
 
-	g_object_notify (G_OBJECT (manager), "prefer-mode");
+	g_object_notify_by_pspec (G_OBJECT (manager), properties[PROP_PREFER_MODE]);
 }
 
 ESourceRegistry *

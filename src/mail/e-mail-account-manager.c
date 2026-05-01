@@ -49,8 +49,11 @@ struct _EMailAccountManagerPrivate {
 
 enum {
 	PROP_0,
-	PROP_STORE
+	PROP_STORE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ADD_ACCOUNT,
@@ -758,17 +761,18 @@ e_mail_account_manager_class_init (EMailAccountManagerClass *class)
 	object_class->finalize = mail_account_manager_finalize;
 	object_class->constructed = mail_account_manager_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STORE,
+	/**
+	 * EMailAccountManager:store
+	 **/
+	properties[PROP_STORE] =
 		g_param_spec_object (
 			"store",
-			"Store",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_ACCOUNT_STORE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[ADD_ACCOUNT] = g_signal_new (
 		"add-account",

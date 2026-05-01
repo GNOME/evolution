@@ -63,13 +63,16 @@ struct _EMailPanedViewPrivate {
 
 enum {
 	PROP_0,
+	PROP_PREVIEW_TOOLBAR_VISIBLE,
+	N_PROPS,
 	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
 	PROP_REPLY_STYLE,
 	PROP_MARK_SEEN_ALWAYS,
 	PROP_DELETE_SELECTS_PREVIOUS,
-	PROP_PREVIEW_TOOLBAR_VISIBLE
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 #define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
 #define STATE_KEY_SELECTED_MESSAGE	"SelectedMessage"
@@ -1245,17 +1248,18 @@ e_mail_paned_view_class_init (EMailPanedViewClass *class)
 		PROP_DELETE_SELECTS_PREVIOUS,
 		"delete-selects-previous");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_TOOLBAR_VISIBLE,
+	/**
+	 * EMailPanedView:preview-toolbar-visible
+	 **/
+	properties[PROP_PREVIEW_TOOLBAR_VISIBLE] =
 		g_param_spec_boolean (
 			"preview-toolbar-visible",
-			NULL,
-			NULL,
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_EXPLICIT_NOTIFY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1335,7 +1339,7 @@ e_mail_paned_view_set_preview_toolbar_visible (EMailPanedView *view,
 
 	gtk_widget_set_visible (view->priv->preview_toolbar_box, value);
 
-	g_object_notify (G_OBJECT (view), "preview-toolbar-visible");
+	g_object_notify_by_pspec (G_OBJECT (view), properties[PROP_PREVIEW_TOOLBAR_VISIBLE]);
 }
 
 void

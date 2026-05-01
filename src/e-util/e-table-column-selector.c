@@ -37,8 +37,11 @@ struct _ETableColumnSelectorPrivate {
 
 enum {
 	PROP_0,
-	PROP_STATE
+	PROP_STATE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COLUMN_ACTIVE,
@@ -313,17 +316,20 @@ e_table_column_selector_class_init (ETableColumnSelectorClass *class)
 	object_class->dispose = table_column_selector_dispose;
 	object_class->constructed = table_column_selector_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STATE,
+	/**
+	 * ETableColumnSelector:state
+	 *
+	 * Column state of the source table
+	 **/
+	properties[PROP_STATE] =
 		g_param_spec_object (
 			"state",
-			"Table State",
-			"Column state of the source table",
+			NULL, NULL,
 			E_TYPE_TABLE_STATE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

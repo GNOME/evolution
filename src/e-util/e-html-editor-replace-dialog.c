@@ -43,11 +43,6 @@ struct _EHTMLEditorReplaceDialogPrivate {
 	gulong replace_all_done_handler_id;
 };
 
-enum {
-	PROP_0,
-	PROP_EDITOR
-};
-
 G_DEFINE_TYPE_WITH_PRIVATE (EHTMLEditorReplaceDialog, e_html_editor_replace_dialog, E_TYPE_HTML_EDITOR_DIALOG)
 
 static void

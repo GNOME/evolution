@@ -1161,7 +1161,7 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
-	widget = e_builder_get_widget (prefs->priv->builder, "show_week_numbers");
+	widget = e_builder_get_widget (prefs->priv->builder, "show-week-numbers");
 	g_settings_bind (
 		settings, "show-week-numbers",
 		widget, "active",

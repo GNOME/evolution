@@ -26,8 +26,11 @@
 
 enum {
 	PROP_0,
-	PROP_VFOLDER_ALLOW_EXPUNGE
+	PROP_VFOLDER_ALLOW_EXPUNGE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailShellView, e_mail_shell_view, E_TYPE_SHELL_VIEW, 0,
 	G_ADD_PRIVATE_DYNAMIC (EMailShellView))
@@ -461,7 +464,7 @@ mail_shell_view_set_vfolder_allow_expunge (EMailShellView *mail_shell_view,
 
 	mail_shell_view->priv->vfolder_allow_expunge = value;
 
-	g_object_notify (G_OBJECT (mail_shell_view), "vfolder-allow-expunge");
+	g_object_notify_by_pspec (G_OBJECT (mail_shell_view), properties[PROP_VFOLDER_ALLOW_EXPUNGE]);
 }
 
 static gboolean
@@ -1977,16 +1980,19 @@ e_mail_shell_view_class_init (EMailShellViewClass *class)
 	/* Ensure the GalView types we need are registered. */
 	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VFOLDER_ALLOW_EXPUNGE,
+	/**
+	 * EMailShellView:vfolder-allow-expunge
+	 *
+	 * Allow expunge in virtual folders
+	 **/
+	properties[PROP_VFOLDER_ALLOW_EXPUNGE] =
 		g_param_spec_boolean (
 			"vfolder-allow-expunge",
-			"vFolder Allow Expunge",
-			"Allow expunge in virtual folders",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

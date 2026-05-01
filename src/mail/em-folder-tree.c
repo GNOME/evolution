@@ -117,13 +117,16 @@ struct _AsyncContext {
 enum {
 	PROP_0,
 	PROP_ALERT_SINK,
-	PROP_COPY_TARGET_LIST,
 	PROP_MODEL,
-	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION,
 	PROP_SHOW_UNREAD_COUNT,
-	PROP_NEW_MESSAGE_TEXT_COLOR
+	PROP_NEW_MESSAGE_TEXT_COLOR,
+	N_PROPS,
+	PROP_COPY_TARGET_LIST,
+	PROP_PASTE_TARGET_LIST,
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	FOLDER_ACTIVATED,  /* aka double-clicked or user hit enter */
@@ -1771,17 +1774,17 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 	tree_view_class->test_collapse_row = folder_tree_test_collapse_row;
 	tree_view_class->row_expanded = folder_tree_row_expanded;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALERT_SINK,
+	/**
+	 * EMFolderTree:alert-sink
+	 **/
+	properties[PROP_ALERT_SINK] =
 		g_param_spec_object (
 			"alert-sink",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_ALERT_SINK,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
@@ -1792,16 +1795,18 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 	/* XXX We override the GtkTreeView:model property to add
 	 *     G_PARAM_CONSTRUCT_ONLY so the model is set by the
 	 *     time we get to folder_tree_constructed(). */
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
+	/**
+	 * EMFolderTree:model
+	 *
+	 * The model for the tree view
+	 **/
+	properties[PROP_MODEL] =
 		g_param_spec_object (
 			"model",
-			"TreeView Model",
-			"The model for the tree view",
+			NULL, NULL,
 			GTK_TYPE_TREE_MODEL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
@@ -1809,39 +1814,40 @@ em_folder_tree_class_init (EMFolderTreeClass *class)
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMFolderTree:session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_UNREAD_COUNT,
+	/**
+	 * EMFolderTree:show-unread-count
+	 **/
+	properties[PROP_SHOW_UNREAD_COUNT] =
 		g_param_spec_boolean (
 			"show-unread-count",
-			NULL,
-			NULL,
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NEW_MESSAGE_TEXT_COLOR,
+	/**
+	 * EMFolderTree:new-message-text-color
+	 **/
+	properties[PROP_NEW_MESSAGE_TEXT_COLOR] =
 		g_param_spec_string (
 			"new-message-text-color",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[FOLDER_SELECTED] = g_signal_new (
 		"folder-selected",
@@ -4041,7 +4047,7 @@ em_folder_tree_set_show_unread_count (EMFolderTree *folder_tree,
 
 	folder_tree->priv->show_unread_count = show_unread_count;
 
-	g_object_notify (G_OBJECT (folder_tree), "show-unread-count");
+	g_object_notify_by_pspec (G_OBJECT (folder_tree), properties[PROP_SHOW_UNREAD_COUNT]);
 
 	if (gtk_widget_get_realized (GTK_WIDGET (folder_tree)))
 		gtk_widget_queue_draw (GTK_WIDGET (folder_tree));
@@ -4074,7 +4080,7 @@ em_folder_tree_set_new_message_text_color (EMFolderTree *self,
 			self->priv->new_message_text_color = g_strdup (color_text);
 	}
 
-	g_object_notify (G_OBJECT (self), "new-message-text-color");
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_NEW_MESSAGE_TEXT_COLOR]);
 
 	if (gtk_widget_get_realized (GTK_WIDGET (self)))
 		gtk_widget_queue_draw (GTK_WIDGET (self));

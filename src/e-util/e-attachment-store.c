@@ -45,8 +45,11 @@ enum {
 	PROP_0,
 	PROP_NUM_ATTACHMENTS,
 	PROP_NUM_LOADING,
-	PROP_TOTAL_SIZE
+	PROP_TOTAL_SIZE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ATTACHMENT_ADDED,
@@ -149,9 +152,9 @@ attachment_store_attachment_notify_cb (GObject *attachment,
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
 
 	if (g_str_equal (param->name, "loading")) {
-		g_object_notify (G_OBJECT (store), "num-loading");
+		g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_NUM_LOADING]);
 	} else if (g_str_equal (param->name, "file-info")) {
-		g_object_notify (G_OBJECT (store), "total-size");
+		g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_TOTAL_SIZE]);
 	}
 }
 
@@ -260,41 +263,42 @@ e_attachment_store_class_init (EAttachmentStoreClass *class)
 	class->attachment_added = attachment_store_attachment_added;
 	class->attachment_removed = attachment_store_attachment_removed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NUM_ATTACHMENTS,
+	/**
+	 * EAttachmentStore:num-attachments
+	 **/
+	properties[PROP_NUM_ATTACHMENTS] =
 		g_param_spec_uint (
 			"num-attachments",
-			"Num Attachments",
-			NULL,
+			NULL, NULL,
 			0,
 			G_MAXUINT,
 			0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NUM_LOADING,
+	/**
+	 * EAttachmentStore:num-loading
+	 **/
+	properties[PROP_NUM_LOADING] =
 		g_param_spec_uint (
 			"num-loading",
-			"Num Loading",
-			NULL,
+			NULL, NULL,
 			0,
 			G_MAXUINT,
 			0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TOTAL_SIZE,
+	/**
+	 * EAttachmentStore:total-size
+	 **/
+	properties[PROP_TOTAL_SIZE] =
 		g_param_spec_uint64 (
 			"total-size",
-			"Total Size",
-			NULL,
+			NULL, NULL,
 			0,
 			G_MAXUINT64,
 			0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[ATTACHMENT_ADDED] = g_signal_new (
 		"attachment-added",
@@ -378,8 +382,8 @@ e_attachment_store_add_attachment (EAttachmentStore *store,
 		g_object_ref (attachment), reference);
 
 	g_object_freeze_notify (G_OBJECT (store));
-	g_object_notify (G_OBJECT (store), "num-attachments");
-	g_object_notify (G_OBJECT (store), "total-size");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_NUM_ATTACHMENTS]);
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_TOTAL_SIZE]);
 	g_object_thaw_notify (G_OBJECT (store));
 
 	g_signal_emit (store, signals[ATTACHMENT_ADDED], 0, attachment);
@@ -422,8 +426,8 @@ e_attachment_store_remove_attachment (EAttachmentStore *store,
 	removed = g_hash_table_remove (hash_table, attachment);
 
 	g_object_freeze_notify (G_OBJECT (store));
-	g_object_notify (G_OBJECT (store), "num-attachments");
-	g_object_notify (G_OBJECT (store), "total-size");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_NUM_ATTACHMENTS]);
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_TOTAL_SIZE]);
 	g_object_thaw_notify (G_OBJECT (store));
 
 	if (removed)
@@ -468,8 +472,8 @@ e_attachment_store_remove_all (EAttachmentStore *store)
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
 
-	g_object_notify (G_OBJECT (store), "num-attachments");
-	g_object_notify (G_OBJECT (store), "total-size");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_NUM_ATTACHMENTS]);
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_TOTAL_SIZE]);
 	g_object_thaw_notify (G_OBJECT (store));
 }
 

@@ -35,8 +35,11 @@ struct _ECalBaseShellContentPrivate {
 enum {
 	PROP_0,
 	PROP_DATA_MODEL,
-	PROP_MODEL
+	PROP_MODEL,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (ECalBaseShellContent, e_cal_base_shell_content, E_TYPE_SHELL_CONTENT)
 
@@ -381,25 +384,26 @@ e_cal_base_shell_content_class_init (ECalBaseShellContentClass *class)
 	object_class->finalize = cal_base_shell_content_finalize;
 	object_class->constructed = cal_base_shell_content_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DATA_MODEL,
+	/**
+	 * ECalBaseShellContent:data-model
+	 **/
+	properties[PROP_DATA_MODEL] =
 		g_param_spec_object (
 			"data-model",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_CAL_DATA_MODEL,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
+	/**
+	 * ECalBaseShellContent:model
+	 **/
+	properties[PROP_MODEL] =
 		g_param_spec_object (
 			"model",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_CAL_MODEL,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

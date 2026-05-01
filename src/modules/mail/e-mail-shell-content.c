@@ -45,8 +45,11 @@ struct _EMailShellContentPrivate {
 enum {
 	PROP_0,
 	PROP_MAIL_VIEW,
-	PROP_TO_DO_PANE
+	PROP_TO_DO_PANE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailShellContent, e_mail_shell_content, E_TYPE_SHELL_CONTENT, 0,
 	G_ADD_PRIVATE_DYNAMIC (EMailShellContent))
@@ -300,25 +303,26 @@ e_mail_shell_content_class_init (EMailShellContentClass *class)
 	shell_content_class->check_state = mail_shell_content_check_state;
 	shell_content_class->focus_search_results = mail_shell_content_focus_search_results;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIL_VIEW,
+	/**
+	 * EMailShellContent:mail-view
+	 **/
+	properties[PROP_MAIL_VIEW] =
 		g_param_spec_object (
 			"mail-view",
-			"Mail View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_VIEW,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TO_DO_PANE,
+	/**
+	 * EMailShellContent:to-do-pane
+	 **/
+	properties[PROP_TO_DO_PANE] =
 		g_param_spec_object (
 			"to-do-pane",
-			"To Do Pane",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TO_DO_PANE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

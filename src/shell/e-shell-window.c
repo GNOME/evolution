@@ -35,8 +35,11 @@ enum {
 	PROP_FOCUS_TRACKER,
 	PROP_GEOMETRY,
 	PROP_SAFE_MODE,
-	PROP_SHELL
+	PROP_SHELL,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CLOSE_ALERT,
@@ -614,99 +617,112 @@ e_shell_window_class_init (EShellWindowClass *class)
 	 *
 	 * Name of the active #EShellView.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVE_VIEW,
+	/**
+	 * EShellWindow:active-view
+	 *
+	 * Name of the active shell view
+	 **/
+	properties[PROP_ACTIVE_VIEW] =
 		g_param_spec_string (
 			"active-view",
-			"Active Shell View",
-			"Name of the active shell view",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellWindow:alert-bar
 	 *
 	 * Displays informational and error messages.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_ALERT_BAR,
+	/**
+	 * EShellWindow:alert-bar
+	 *
+	 * Displays informational and error messages
+	 **/
+	properties[PROP_ALERT_BAR] =
 		g_param_spec_object (
 			"alert-bar",
-			"Alert Bar",
-			"Displays informational and error messages",
+			NULL, NULL,
 			E_TYPE_ALERT_BAR,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellWindow:focus-tracker
 	 *
 	 * The shell window's #EFocusTracker.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_FOCUS_TRACKER,
+	/**
+	 * EShellWindow:focus-tracker
+	 *
+	 * The shell window's EFocusTracker
+	 **/
+	properties[PROP_FOCUS_TRACKER] =
 		g_param_spec_object (
 			"focus-tracker",
-			"Focus Tracker",
-			"The shell window's EFocusTracker",
+			NULL, NULL,
 			E_TYPE_FOCUS_TRACKER,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellWindow:geometry
 	 *
 	 * User-specified initial window geometry string.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_GEOMETRY,
+	/**
+	 * EShellWindow:geometry
+	 *
+	 * Initial window geometry string
+	 **/
+	properties[PROP_GEOMETRY] =
 		g_param_spec_string (
 			"geometry",
-			"Geometry",
-			"Initial window geometry string",
+			NULL, NULL,
 			NULL,
 			G_PARAM_WRITABLE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellWindow:safe-mode
 	 *
 	 * Whether the shell window is in safe mode.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SAFE_MODE,
+	/**
+	 * EShellWindow:safe-mode
+	 *
+	 * Whether the shell window is in safe mode
+	 **/
+	properties[PROP_SAFE_MODE] =
 		g_param_spec_boolean (
 			"safe-mode",
-			"Safe Mode",
-			"Whether the shell window is in safe mode",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellWindow:shell
 	 *
 	 * The #EShell singleton.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL,
+	/**
+	 * EShellWindow:shell
+	 *
+	 * The EShell singleton
+	 **/
+	properties[PROP_SHELL] =
 		g_param_spec_object (
 			"shell",
-			"Shell",
-			"The EShell singleton",
+			NULL, NULL,
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * EShellWindow::close-alert
@@ -1150,7 +1166,7 @@ e_shell_window_set_safe_mode (EShellWindow *shell_window,
 
 	shell_window->priv->safe_mode = safe_mode;
 
-	g_object_notify (G_OBJECT (shell_window), "safe-mode");
+	g_object_notify_by_pspec (G_OBJECT (shell_window), properties[PROP_SAFE_MODE]);
 }
 
 typedef struct {

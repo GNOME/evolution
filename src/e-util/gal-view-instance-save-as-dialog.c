@@ -32,8 +32,11 @@ G_DEFINE_TYPE (GalViewInstanceSaveAsDialog, gal_view_instance_save_as_dialog, GT
 
 enum {
 	PROP_0,
-	PROP_INSTANCE
+	PROP_INSTANCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COL_GALVIEW_NAME,
@@ -227,15 +230,16 @@ gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *c
 	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
 	object_class->dispose = gal_view_instance_save_as_dialog_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_INSTANCE,
+	/**
+	 * GalViewInstanceSaveAsDialog:instance
+	 **/
+	properties[PROP_INSTANCE] =
 		g_param_spec_object (
 			"instance",
-			"Instance",
-			NULL,
+			NULL, NULL,
 			GAL_TYPE_VIEW_INSTANCE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

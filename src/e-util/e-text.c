@@ -77,7 +77,6 @@ enum {
 	PROP_BOLD,
 	PROP_STRIKEOUT,
 	PROP_ITALIC,
-	PROP_ANCHOR,
 	PROP_JUSTIFICATION,
 	PROP_CLIP_WIDTH,
 	PROP_CLIP_HEIGHT,
@@ -99,8 +98,11 @@ enum {
 	PROP_ALLOW_NEWLINES,
 	PROP_CURSOR_POS,
 	PROP_IM_CONTEXT,
-	PROP_HANDLE_POPUP
+	PROP_HANDLE_POPUP,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void	e_text_command			(ETextEventProcessor *tep,
 						 ETextEventProcessorCommand *command,
@@ -546,9 +548,9 @@ calc_height (EText *text)
 	text->width = width;
 
 	if (old_width != text->width)
-		g_object_notify (G_OBJECT (text), "text-width");
+		g_object_notify_by_pspec (G_OBJECT (text), properties[PROP_TEXT_WIDTH]);
 	if (old_height != text->height)
-		g_object_notify (G_OBJECT (text), "text-height");
+		g_object_notify_by_pspec (G_OBJECT (text), properties[PROP_TEXT_HEIGHT]);
 
 	if (old_height != text->height || old_width != text->width)
 		e_canvas_item_request_parent_reflow (item);
@@ -642,7 +644,7 @@ e_text_set_property (GObject *object,
 		if (!text->allow_newlines)
 			g_object_set (
 				text->tep,
-				"allow_newlines", FALSE,
+				"allow-newlines", FALSE,
 				NULL);
 		break;
 
@@ -819,7 +821,7 @@ e_text_set_property (GObject *object,
 		_get_tep (text);
 		g_object_set (
 			text->tep,
-			"allow_newlines", g_value_get_boolean (value),
+			"allow-newlines", g_value_get_boolean (value),
 			NULL);
 		break;
 
@@ -2939,285 +2941,343 @@ e_text_class_init (ETextClass *class)
 		G_TYPE_INT,
 		GTK_TYPE_MENU);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_MODEL,
+	/**
+	 * EText:model
+	 *
+	 * Model
+	 **/
+	properties[PROP_MODEL] =
 		g_param_spec_object (
 			"model",
-			"Model",
-			"Model",
+			NULL, NULL,
 			E_TYPE_TEXT_MODEL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_EVENT_PROCESSOR,
+	/**
+	 * EText:event-processor
+	 *
+	 * Event Processor
+	 **/
+	properties[PROP_EVENT_PROCESSOR] =
 		g_param_spec_object (
-			"event_processor",
-			"Event Processor",
-			"Event Processor",
+			"event-processor",
+			NULL, NULL,
 			E_TYPE_TEXT_EVENT_PROCESSOR,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_TEXT,
+	/**
+	 * EText:text
+	 *
+	 * Text
+	 **/
+	properties[PROP_TEXT] =
 		g_param_spec_string (
 			"text",
-			"Text",
-			"Text",
+			NULL, NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_BOLD,
+	/**
+	 * EText:bold
+	 *
+	 * Bold
+	 **/
+	properties[PROP_BOLD] =
 		g_param_spec_boolean (
 			"bold",
-			"Bold",
-			"Bold",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_STRIKEOUT,
+	/**
+	 * EText:strikeout
+	 *
+	 * Strikeout
+	 **/
+	properties[PROP_STRIKEOUT] =
 		g_param_spec_boolean (
 			"strikeout",
-			"Strikeout",
-			"Strikeout",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_ITALIC,
+	/**
+	 * EText:italic
+	 *
+	 * Italic
+	 **/
+	properties[PROP_ITALIC] =
 		g_param_spec_boolean (
 			"italic",
-			"Italic",
-			"Italic",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_JUSTIFICATION,
+	/**
+	 * EText:justification
+	 *
+	 * Justification
+	 **/
+	properties[PROP_JUSTIFICATION] =
 		g_param_spec_enum (
 			"justification",
-			"Justification",
-			"Justification",
+			NULL, NULL,
 			GTK_TYPE_JUSTIFICATION,
 			GTK_JUSTIFY_LEFT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_CLIP_WIDTH,
+	/**
+	 * EText:clip-width
+	 *
+	 * Clip Width
+	 **/
+	properties[PROP_CLIP_WIDTH] =
 		g_param_spec_double (
-			"clip_width",
-			"Clip Width",
-			"Clip Width",
+			"clip-width",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_CLIP_HEIGHT,
+	/**
+	 * EText:clip_height
+	 *
+	 * Clip Height
+	 **/
+	properties[PROP_CLIP_HEIGHT] =
 		g_param_spec_double (
-			"clip_height",
-			"Clip Height",
-			"Clip Height",
+			"clip-height",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_CLIP,
+	/**
+	 * EText:clip
+	 *
+	 * Clip
+	 **/
+	properties[PROP_CLIP] =
 		g_param_spec_boolean (
 			"clip",
-			"Clip",
-			"Clip",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_FILL_CLIP_RECTANGLE,
+	/**
+	 * EText:fill-clip-rectangle
+	 *
+	 * Fill clip rectangle
+	 **/
+	properties[PROP_FILL_CLIP_RECTANGLE] =
 		g_param_spec_boolean (
-			"fill_clip_rectangle",
-			"Fill clip rectangle",
-			"Fill clip rectangle",
+			"fill-clip-rectangle",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_X_OFFSET,
+	/**
+	 * EText:x-offset
+	 *
+	 * X Offset
+	 **/
+	properties[PROP_X_OFFSET] =
 		g_param_spec_double (
-			"x_offset",
-			"X Offset",
-			"X Offset",
+			"x-offset",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_Y_OFFSET,
+	/**
+	 * EText:y-offset
+	 *
+	 * Y Offset
+	 **/
+	properties[PROP_Y_OFFSET] =
 		g_param_spec_double (
-			"y_offset",
-			"Y Offset",
-			"Y Offset",
+			"y-offset",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_FILL_COLOR,
+	/**
+	 * EText:fill-color
+	 *
+	 * Fill color
+	 **/
+	properties[PROP_FILL_COLOR] =
 		g_param_spec_boxed (
 			"fill-color",
-			"Fill color",
-			"Fill color",
+			NULL, NULL,
 			GDK_TYPE_RGBA,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_TEXT_WIDTH,
+	/**
+	 * EText:text-width
+	 *
+	 * Text width
+	 **/
+	properties[PROP_TEXT_WIDTH] =
 		g_param_spec_double (
-			"text_width",
-			"Text width",
-			"Text width",
+			"text-width",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_TEXT_HEIGHT,
+	/**
+	 * EText:text-height
+	 *
+	 * Text height
+	 **/
+	properties[PROP_TEXT_HEIGHT] =
 		g_param_spec_double (
-			"text_height",
-			"Text height",
-			"Text height",
+			"text-height",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_EDITABLE,
+	/**
+	 * EText:editable
+	 *
+	 * Editable
+	 **/
+	properties[PROP_EDITABLE] =
 		g_param_spec_boolean (
 			"editable",
-			"Editable",
-			"Editable",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_USE_ELLIPSIS,
+	/**
+	 * EText:use-ellipsis
+	 *
+	 * Use ellipsis
+	 **/
+	properties[PROP_USE_ELLIPSIS] =
 		g_param_spec_boolean (
-			"use_ellipsis",
-			"Use ellipsis",
-			"Use ellipsis",
+			"use-ellipsis",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_ELLIPSIS,
+	/**
+	 * EText:ellipsis
+	 *
+	 * Ellipsis
+	 **/
+	properties[PROP_ELLIPSIS] =
 		g_param_spec_string (
 			"ellipsis",
-			"Ellipsis",
-			"Ellipsis",
+			NULL, NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_LINE_WRAP,
+	/**
+	 * EText:line-wrap
+	 *
+	 * Line wrap
+	 **/
+	properties[PROP_LINE_WRAP] =
 		g_param_spec_boolean (
-			"line_wrap",
-			"Line wrap",
-			"Line wrap",
+			"line-wrap",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_BREAK_CHARACTERS,
+	/**
+	 * EText:break-characters
+	 *
+	 * Break characters
+	 **/
+	properties[PROP_BREAK_CHARACTERS] =
 		g_param_spec_string (
-			"break_characters",
-			"Break characters",
-			"Break characters",
+			"break-characters",
+			NULL, NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class, PROP_MAX_LINES,
+	/**
+	 * EText:max-lines
+	 *
+	 * Max lines
+	 **/
+	properties[PROP_MAX_LINES] =
 		g_param_spec_int (
-			"max_lines",
-			"Max lines",
-			"Max lines",
+			"max-lines",
+			NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_WIDTH,
+	/**
+	 * EText:width
+	 *
+	 * Width
+	 **/
+	properties[PROP_WIDTH] =
 		g_param_spec_double (
 			"width",
-			"Width",
-			"Width",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_HEIGHT,
+	/**
+	 * EText:height
+	 *
+	 * Height
+	 **/
+	properties[PROP_HEIGHT] =
 		g_param_spec_double (
 			"height",
-			"Height",
-			"Height",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_ALLOW_NEWLINES,
+	/**
+	 * EText:allow-newlines
+	 *
+	 * Allow newlines
+	 **/
+	properties[PROP_ALLOW_NEWLINES] =
 		g_param_spec_boolean (
-			"allow_newlines",
-			"Allow newlines",
-			"Allow newlines",
+			"allow-newlines",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_CURSOR_POS,
+	/**
+	 * EText:cursor-pos
+	 *
+	 * Cursor position
+	 **/
+	properties[PROP_CURSOR_POS] =
 		g_param_spec_int (
-			"cursor_pos",
-			"Cursor position",
-			"Cursor position",
+			"cursor-pos",
+			NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_IM_CONTEXT,
+	/**
+	 * EText:im-context
+	 *
+	 * IM Context
+	 **/
+	properties[PROP_IM_CONTEXT] =
 		g_param_spec_object (
-			"im_context",
-			"IM Context",
-			"IM Context",
+			"im-context",
+			NULL, NULL,
 			GTK_TYPE_IM_CONTEXT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		gobject_class,
-		PROP_HANDLE_POPUP,
+	/**
+	 * EText:handle-popup
+	 *
+	 * Handle Popup
+	 **/
+	properties[PROP_HANDLE_POPUP] =
 		g_param_spec_boolean (
-			"handle_popup",
-			"Handle Popup",
-			"Handle Popup",
+			"handle-popup",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (gobject_class, N_PROPS, properties);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);

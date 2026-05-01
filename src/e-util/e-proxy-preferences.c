@@ -63,8 +63,11 @@ struct _EProxyPreferencesPrivate {
 enum {
 	PROP_0,
 	PROP_REGISTRY,
-	PROP_SHOW_ADVANCED
+	PROP_SHOW_ADVANCED,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	proxy_preferences_commit_changes
@@ -580,28 +583,33 @@ e_proxy_preferences_class_init (EProxyPreferencesClass *class)
 	object_class->finalize = proxy_preferences_finalize;
 	object_class->constructed = proxy_preferences_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EProxyPreferences:registry
+	 *
+	 * Data source registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Data source registry",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_ADVANCED,
+	/**
+	 * EProxyPreferences:show-advanced
+	 *
+	 * Show advanced proxy preferences
+	 **/
+	properties[PROP_SHOW_ADVANCED] =
 		g_param_spec_boolean (
 			"show-advanced",
-			"Show Advanced",
-			"Show advanced proxy preferences",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -726,6 +734,6 @@ e_proxy_preferences_set_show_advanced (EProxyPreferences *preferences,
 
 	preferences->priv->show_advanced = show_advanced;
 
-	g_object_notify (G_OBJECT (preferences), "show-advanced");
+	g_object_notify_by_pspec (G_OBJECT (preferences), properties[PROP_SHOW_ADVANCED]);
 }
 

@@ -51,8 +51,11 @@ enum {
 	PROP_SHOW_EMAIL_ADDRESS,
 	PROP_SHOW_INSTRUCTIONS,
 	PROP_SHOW_SIGNATURES,
-	PROP_SHOW_AUTODISCOVER_CHECK
+	PROP_SHOW_AUTODISCOVER_CHECK,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_mail_config_identity_page_interface_init
@@ -1132,89 +1135,104 @@ e_mail_config_identity_page_class_init (EMailConfigIdentityPageClass *class)
 	object_class->dispose = mail_config_identity_page_dispose;
 	object_class->constructed = mail_config_identity_page_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EMailConfigIdentityPage:registry
+	 *
+	 * Registry of data sources
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Registry of data sources",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IDENTITY_SOURCE,
+	/**
+	 * EMailConfigIdentityPage:identity-source
+	 *
+	 * Mail identity source being edited
+	 **/
+	properties[PROP_IDENTITY_SOURCE] =
 		g_param_spec_object (
 			"identity-source",
-			"Identity Source",
-			"Mail identity source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_ACCOUNT_INFO,
+	/**
+	 * EMailConfigIdentityPage:show-account-info
+	 *
+	 * Show the \"Account Information\" section
+	 **/
+	properties[PROP_SHOW_ACCOUNT_INFO] =
 		g_param_spec_boolean (
 			"show-account-info",
-			"Show Account Info",
-			"Show the \"Account Information\" section",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_EMAIL_ADDRESS,
+	/**
+	 * EMailConfigIdentityPage:show-email-address
+	 *
+	 * Show the \"Email Address\" field
+	 **/
+	properties[PROP_SHOW_EMAIL_ADDRESS] =
 		g_param_spec_boolean (
 			"show-email-address",
-			"Show Email Address",
-			"Show the \"Email Address\" field",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_INSTRUCTIONS,
+	/**
+	 * EMailConfigIdentityPage:show-instructions
+	 *
+	 * Show helpful instructions
+	 **/
+	properties[PROP_SHOW_INSTRUCTIONS] =
 		g_param_spec_boolean (
 			"show-instructions",
-			"Show Instructions",
-			"Show helpful instructions",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_SIGNATURES,
+	/**
+	 * EMailConfigIdentityPage:show-signatures
+	 *
+	 * Show mail signature options
+	 **/
+	properties[PROP_SHOW_SIGNATURES] =
 		g_param_spec_boolean (
 			"show-signatures",
-			"Show Signatures",
-			"Show mail signature options",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_AUTODISCOVER_CHECK,
+	/**
+	 * EMailConfigIdentityPage:show-autodiscover-check
+	 *
+	 * Show check button to allow autodiscover based on Email Address
+	 **/
+	properties[PROP_SHOW_AUTODISCOVER_CHECK] =
 		g_param_spec_boolean (
 			"show-autodiscover-check",
-			"Show Autodiscover Check",
-			"Show check button to allow autodiscover based on Email Address",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1281,7 +1299,7 @@ e_mail_config_identity_page_set_show_account_info (EMailConfigIdentityPage *page
 
 	page->priv->show_account_info = show_account_info;
 
-	g_object_notify (G_OBJECT (page), "show-account-info");
+	g_object_notify_by_pspec (G_OBJECT (page), properties[PROP_SHOW_ACCOUNT_INFO]);
 }
 
 gboolean
@@ -1303,7 +1321,7 @@ e_mail_config_identity_page_set_show_email_address (EMailConfigIdentityPage *pag
 
 	page->priv->show_email_address = show_email_address;
 
-	g_object_notify (G_OBJECT (page), "show-email-address");
+	g_object_notify_by_pspec (G_OBJECT (page), properties[PROP_SHOW_EMAIL_ADDRESS]);
 }
 
 gboolean
@@ -1325,7 +1343,7 @@ e_mail_config_identity_page_set_show_instructions (EMailConfigIdentityPage *page
 
 	page->priv->show_instructions = show_instructions;
 
-	g_object_notify (G_OBJECT (page), "show-instructions");
+	g_object_notify_by_pspec (G_OBJECT (page), properties[PROP_SHOW_INSTRUCTIONS]);
 }
 
 gboolean
@@ -1347,7 +1365,7 @@ e_mail_config_identity_page_set_show_signatures (EMailConfigIdentityPage *page,
 
 	page->priv->show_signatures = show_signatures;
 
-	g_object_notify (G_OBJECT (page), "show-signatures");
+	g_object_notify_by_pspec (G_OBJECT (page), properties[PROP_SHOW_SIGNATURES]);
 }
 
 void
@@ -1361,7 +1379,7 @@ e_mail_config_identity_page_set_show_autodiscover_check (EMailConfigIdentityPage
 
 	page->priv->show_autodiscover_check = show_autodiscover;
 
-	g_object_notify (G_OBJECT (page), "show-autodiscover-check");
+	g_object_notify_by_pspec (G_OBJECT (page), properties[PROP_SHOW_AUTODISCOVER_CHECK]);
 }
 
 gboolean

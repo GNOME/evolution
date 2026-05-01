@@ -47,8 +47,11 @@ enum {
 	PROP_0,
 	PROP_SORTER,
 	PROP_SELECTION_MODE,
-	PROP_CURSOR_MODE
+	PROP_CURSOR_MODE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 inline static void
 add_sorter (ESelectionModel *model,
@@ -187,39 +190,40 @@ e_selection_model_class_init (ESelectionModelClass *class)
 		G_TYPE_NONE, 1,
 		G_TYPE_INT);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SORTER,
+	/**
+	 * ESelectionModel:sorter
+	 **/
+	properties[PROP_SORTER] =
 		g_param_spec_object (
 			"sorter",
-			"Sorter",
-			NULL,
+			NULL, NULL,
 			E_TYPE_SORTER,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTION_MODE,
+	/**
+	 * ESelectionModel:selection-mode
+	 **/
+	properties[PROP_SELECTION_MODE] =
 		g_param_spec_int (
-			"selection_mode",
-			"Selection Mode",
-			NULL,
+			"selection-mode",
+			NULL, NULL,
 			GTK_SELECTION_NONE,
 			GTK_SELECTION_MULTIPLE,
 			GTK_SELECTION_SINGLE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_MODE,
+	/**
+	 * ESelectionModel:cursor-mode
+	 **/
+	properties[PROP_CURSOR_MODE] =
 		g_param_spec_int (
-			"cursor_mode",
-			"Cursor Mode",
-			NULL,
+			"cursor-mode",
+			NULL, NULL,
 			E_CURSOR_LINE,
 			E_CURSOR_SPREADSHEET,
 			E_CURSOR_LINE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

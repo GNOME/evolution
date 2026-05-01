@@ -247,11 +247,11 @@ e_ui_menu_class_init (EUIMenuClass *klass)
 	 * Since: 3.56
 	 **/
 	properties[PROP_MANAGER] = g_param_spec_object ("manager", NULL, NULL,
-		E_TYPE_UI_MANAGER,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+							E_TYPE_UI_MANAGER,
+							G_PARAM_READWRITE |
+							G_PARAM_CONSTRUCT_ONLY |
+							G_PARAM_STATIC_STRINGS |
+							G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIMenu:id:
@@ -261,12 +261,12 @@ e_ui_menu_class_init (EUIMenuClass *klass)
 	 * Since: 3.56
 	 **/
 	properties[PROP_ID] = g_param_spec_string ("id", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+						   G_PARAM_READWRITE |
+						   G_PARAM_CONSTRUCT_ONLY |
+						   G_PARAM_STATIC_STRINGS |
+						   G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

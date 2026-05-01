@@ -58,8 +58,11 @@ enum {
 	PROP_MESSAGE,
 	PROP_WIDTH,
 	PROP_HEIGHT,
-	PROP_IS_EDITING
+	PROP_IS_EDITING,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void
 etcta_cursor_change (GObject *object,
@@ -229,7 +232,7 @@ etcta_set_property (GObject *object,
 		if (etcta->row)
 			gnome_canvas_item_set (
 				etcta->row,
-				"minimum_width", etcta->width,
+				"minimum-width", etcta->width,
 				NULL);
 		if (etcta->text)
 			gnome_canvas_item_set (
@@ -378,7 +381,7 @@ table_click_to_add_row_is_editing_changed_cb (ETableItem *item,
 {
 	g_return_if_fail (E_IS_TABLE_CLICK_TO_ADD (etcta));
 
-	g_object_notify (G_OBJECT (etcta), "is-editing");
+	g_object_notify_by_pspec (G_OBJECT (etcta), properties[PROP_IS_EDITING]);
 }
 
 static void
@@ -413,11 +416,11 @@ finish_editing (ETableClickToAdd *etcta)
 			e_table_item_get_type (),
 			"ETableHeader", etcta->eth,
 			"ETableModel", etcta->one,
-			"minimum_width", etcta->width,
-			"horizontal_draw_grid", TRUE,
-			"vertical_draw_grid", TRUE,
-			"selection_model", etcta->selection,
-			"cursor_mode", E_CURSOR_SPREADSHEET,
+			"minimum-width", etcta->width,
+			"horizontal-draw-grid", TRUE,
+			"vertical-draw-grid", TRUE,
+			"selection-model", etcta->selection,
+			"cursor-mode", E_CURSOR_SPREADSHEET,
 			NULL);
 
 		g_signal_connect (
@@ -430,7 +433,7 @@ finish_editing (ETableClickToAdd *etcta)
 
 		set_initial_selection (etcta);
 
-		g_object_notify (G_OBJECT (etcta), "is-editing");
+		g_object_notify_by_pspec (G_OBJECT (etcta), properties[PROP_IS_EDITING]);
 	}
 }
 
@@ -472,11 +475,11 @@ etcta_event (GnomeCanvasItem *item,
 				e_table_item_get_type (),
 				"ETableHeader", etcta->eth,
 				"ETableModel", etcta->one,
-				"minimum_width", etcta->width,
-				"horizontal_draw_grid", TRUE,
-				"vertical_draw_grid", TRUE,
-				"selection_model", etcta->selection,
-				"cursor_mode", E_CURSOR_SPREADSHEET,
+				"minimum-width", etcta->width,
+				"horizontal-draw-grid", TRUE,
+				"vertical-draw-grid", TRUE,
+				"selection-model", etcta->selection,
+				"cursor-mode", E_CURSOR_SPREADSHEET,
 				NULL);
 
 			g_signal_connect (
@@ -491,7 +494,7 @@ etcta_event (GnomeCanvasItem *item,
 
 			set_initial_selection (etcta);
 
-			g_object_notify (G_OBJECT (etcta), "is-editing");
+			g_object_notify_by_pspec (G_OBJECT (etcta), properties[PROP_IS_EDITING]);
 		}
 		break;
 
@@ -578,67 +581,70 @@ e_table_click_to_add_class_init (ETableClickToAddClass *class)
 	item_class->unrealize = etcta_unrealize;
 	item_class->event = etcta_event;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEADER,
+	/**
+	 * ETableClickToAdd:header
+	 **/
+	properties[PROP_HEADER] =
 		g_param_spec_object (
 			"header",
-			"Header",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TABLE_HEADER,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
+	/**
+	 * ETableClickToAdd:model
+	 **/
+	properties[PROP_MODEL] =
 		g_param_spec_object (
 			"model",
-			"Model",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TABLE_MODEL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MESSAGE,
+	/**
+	 * ETableClickToAdd:message
+	 **/
+	properties[PROP_MESSAGE] =
 		g_param_spec_string (
 			"message",
-			"Message",
+			NULL, NULL,
 			NULL,
-			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WIDTH,
+	/**
+	 * ETableClickToAdd:width
+	 **/
+	properties[PROP_WIDTH] =
 		g_param_spec_double (
 			"width",
-			"Width",
-			NULL,
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
 			G_PARAM_READWRITE |
-			G_PARAM_LAX_VALIDATION));
+			G_PARAM_LAX_VALIDATION | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEIGHT,
+	/**
+	 * ETableClickToAdd:height
+	 **/
+	properties[PROP_HEIGHT] =
 		g_param_spec_double (
 			"height",
-			"Height",
-			NULL,
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
 			G_PARAM_READABLE |
-			G_PARAM_LAX_VALIDATION));
+			G_PARAM_LAX_VALIDATION | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_EDITING,
+	/**
+	 * ETableClickToAdd:is-editing
+	 *
+	 * Whether is in an editing mode
+	 **/
+	properties[PROP_IS_EDITING] =
 		g_param_spec_boolean (
 			"is-editing",
-			"Whether is in an editing mode",
-			"Whether is in an editing mode",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	etcta_signals[CURSOR_CHANGE] = g_signal_new (
 		"cursor_change",

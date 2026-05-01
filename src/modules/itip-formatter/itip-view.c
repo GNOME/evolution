@@ -219,8 +219,11 @@ struct _ItipViewPrivate {
 enum {
 	PROP_0,
 	PROP_CLIENT_CACHE,
-	PROP_EXTENSION_NAME
+	PROP_EXTENSION_NAME,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	SOURCE_SELECTED,
@@ -1935,25 +1938,30 @@ itip_view_class_init (ItipViewClass *class)
 	object_class->finalize = itip_view_finalize;
 	object_class->constructed = itip_view_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT_CACHE,
+	/**
+	 * ItipView:client-cache
+	 *
+	 * Cache of shared EClient instances
+	 **/
+	properties[PROP_CLIENT_CACHE] =
 		g_param_spec_object (
 			"client-cache",
-			"Client Cache",
-			"Cache of shared EClient instances",
+			NULL, NULL,
 			E_TYPE_CLIENT_CACHE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EXTENSION_NAME,
+	/**
+	 * ItipView:extension-name
+	 *
+	 * Show only data sources with this extension
+	 **/
+	properties[PROP_EXTENSION_NAME] =
 		g_param_spec_string (
 			"extension-name",
-			"Extension Name",
-			"Show only data sources with this extension",
+			NULL, NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[SOURCE_SELECTED] = g_signal_new (
 		"source_selected",
@@ -2007,7 +2015,7 @@ itip_view_set_extension_name (ItipView *view,
 	g_free (view->priv->extension_name);
 	view->priv->extension_name = g_strdup (extension_name);
 
-	g_object_notify (G_OBJECT (view), "extension-name");
+	g_object_notify_by_pspec (G_OBJECT (view), properties[PROP_EXTENSION_NAME]);
 
 	itip_view_rebuild_source_list (view);
 }

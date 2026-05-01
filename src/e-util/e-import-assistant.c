@@ -114,8 +114,11 @@ enum {
 
 enum {
 	PROP_0,
-	PROP_IS_SIMPLE
+	PROP_IS_SIMPLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	FINISHED,
@@ -1316,16 +1319,17 @@ e_import_assistant_class_init (EImportAssistantClass *class)
 	assistant_class = GTK_ASSISTANT_CLASS (class);
 	assistant_class->prepare = import_assistant_prepare;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_SIMPLE,
+	/**
+	 * EImportAssistant:is-simple
+	 **/
+	properties[PROP_IS_SIMPLE] =
 		g_param_spec_boolean (
 			"is-simple",
-			NULL,
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[FINISHED] = g_signal_new (
 		"finished",

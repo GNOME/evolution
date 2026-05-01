@@ -33,8 +33,11 @@ enum {
 enum {
 	PROP_0,
 	PROP_ACTION,
-	PROP_CURRENT_VALUE
+	PROP_CURRENT_VALUE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 struct _EActionComboBoxPrivate {
 	EUIAction *action;
@@ -393,7 +396,7 @@ action_combo_box_changed (GtkComboBox *combo_box)
 	gtk_tree_model_get (model, &iter, COLUMN_ACTION, &action, -1);
 	if (action != NULL) {
 		e_ui_action_set_active (action, TRUE);
-		g_object_notify (G_OBJECT (combo_box), "current-value");
+		g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_CURRENT_VALUE]);
 	}
 	g_object_unref (action);
 }
@@ -418,23 +421,27 @@ e_action_combo_box_class_init (EActionComboBoxClass *class)
 	combo_box_class = GTK_COMBO_BOX_CLASS (class);
 	combo_box_class->changed = action_combo_box_changed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTION,
+	/**
+	 * EActionComboBox:action
+	 *
+	 * An EUIAction
+	 **/
+	properties[PROP_ACTION] =
 		g_param_spec_object (
 			"action",
-			"Action",
-			"An EUIAction",
+			NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURRENT_VALUE,
+	/**
+	 * EActionComboBox:current-value
+	 **/
+	properties[PROP_CURRENT_VALUE] =
 		g_param_spec_int (
 			"current-value", NULL, NULL,
 			G_MININT32, G_MAXINT32, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -543,7 +550,7 @@ e_action_combo_box_set_action (EActionComboBox *combo_box,
 	if (action && last_state_set && g_hash_table_contains (combo_box->priv->index, GINT_TO_POINTER (last_state)))
 		e_action_combo_box_set_current_value (combo_box, last_state);
 
-	g_object_notify (G_OBJECT (combo_box), "action");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_ACTION]);
 }
 
 gint
@@ -581,7 +588,7 @@ e_action_combo_box_set_current_value (EActionComboBox *combo_box,
 
 	e_ui_action_set_state (combo_box->priv->action, g_variant_new_int32 (current_value));
 
-	g_object_notify (G_OBJECT (combo_box), "current-value");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_CURRENT_VALUE]);
 }
 
 void

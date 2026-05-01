@@ -37,8 +37,11 @@ enum {
 	PROP_0,
 	PROP_CLIENT_CACHE,
 	PROP_NAME,
-	PROP_EMAIL
+	PROP_EMAIL,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CELL_EDITED,
@@ -268,39 +271,46 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 	 *
 	 * Cache of shared #EClient instances.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT_CACHE,
+	/**
+	 * ESelectNamesRenderer:client-cache
+	 *
+	 * Cache of shared EClient instances
+	 **/
+	properties[PROP_CLIENT_CACHE] =
 		g_param_spec_object (
 			"client-cache",
-			"Client Cache",
-			"Cache of shared EClient instances",
+			NULL, NULL,
 			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NAME,
+	/**
+	 * ESelectNamesRenderer:name
+	 *
+	 * Email name.
+	 **/
+	properties[PROP_NAME] =
 		g_param_spec_string (
 			"name",
-			"Name",
-			"Email name.",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EMAIL,
+	/**
+	 * ESelectNamesRenderer:email
+	 *
+	 * Email address.
+	 **/
+	properties[PROP_EMAIL] =
 		g_param_spec_string (
 			"email",
-			"Email",
-			"Email address.",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CELL_EDITED] = g_signal_new (
 		"cell_edited",
@@ -367,7 +377,7 @@ e_select_names_renderer_set_name (ESelectNamesRenderer *renderer,
 	g_free (renderer->priv->name);
 	renderer->priv->name = g_strdup (name);
 
-	g_object_notify (G_OBJECT (renderer), "name");
+	g_object_notify_by_pspec (G_OBJECT (renderer), properties[PROP_NAME]);
 }
 
 const gchar *
@@ -387,6 +397,6 @@ e_select_names_renderer_set_email (ESelectNamesRenderer *renderer,
 	g_free (renderer->priv->email);
 	renderer->priv->email = g_strdup (email);
 
-	g_object_notify (G_OBJECT (renderer), "email");
+	g_object_notify_by_pspec (G_OBJECT (renderer), properties[PROP_EMAIL]);
 }
 

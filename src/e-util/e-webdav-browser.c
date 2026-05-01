@@ -90,8 +90,11 @@ struct _EWebDAVBrowserPrivate {
 enum {
 	PROP_0,
 	PROP_CREDENTIALS_PROMPTER,
-	PROP_SOURCE
+	PROP_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void webdav_browser_alert_sink_init (EAlertSinkInterface *iface);
 static void webdav_browser_change_busy_state (EWebDAVBrowser *webdav_browser, gboolean is_busy);
@@ -2944,17 +2947,19 @@ e_webdav_browser_class_init (EWebDAVBrowserClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_CREDENTIALS_PROMPTER,
+	/**
+	 * EWebDAVBrowser:credentials-prompter
+	 *
+	 * an ECredentialsPrompter
+	 **/
+	properties[PROP_CREDENTIALS_PROMPTER] =
 		g_param_spec_object (
 			"credentials-prompter",
-			"Credentials Prompter",
-			"an ECredentialsPrompter",
+			NULL, NULL,
 			E_TYPE_CREDENTIALS_PROMPTER,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EWebDAVBrowser:source:
@@ -2963,16 +2968,19 @@ e_webdav_browser_class_init (EWebDAVBrowserClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE,
+	/**
+	 * EWebDAVBrowser:source
+	 *
+	 * an ESource
+	 **/
+	properties[PROP_SOURCE] =
 		g_param_spec_object (
 			"source",
-			"Source",
-			"an ESource",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -3070,7 +3078,7 @@ e_webdav_browser_set_source (EWebDAVBrowser *webdav_browser,
 
 	webdav_browser_refresh (webdav_browser);
 
-	g_object_notify (G_OBJECT (webdav_browser), "source");
+	g_object_notify_by_pspec (G_OBJECT (webdav_browser), properties[PROP_SOURCE]);
 }
 
 /**

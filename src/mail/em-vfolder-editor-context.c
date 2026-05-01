@@ -39,8 +39,11 @@ struct _EMVFolderEditorContextPrivate {
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMVFolderEditorContext, em_vfolder_editor_context, EM_TYPE_VFOLDER_CONTEXT)
 
@@ -148,16 +151,17 @@ em_vfolder_editor_context_class_init (EMVFolderEditorContextClass *class)
 	rule_context_class = E_RULE_CONTEXT_CLASS (class);
 	rule_context_class->new_element = vfolder_editor_context_new_element;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMVFolderEditorContext:session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

@@ -50,8 +50,11 @@ struct _EShellContentPrivate {
 enum {
 	PROP_0,
 	PROP_ALERT_BAR,
-	PROP_SHELL_VIEW
+	PROP_SHELL_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_shell_content_alert_sink_init
@@ -400,33 +403,36 @@ e_shell_content_class_init (EShellContentClass *class)
 	 *
 	 * Displays informational and error messages.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_ALERT_BAR,
+	/**
+	 * EShellContent:alert-bar
+	 *
+	 * Displays informational and error messages
+	 **/
+	properties[PROP_ALERT_BAR] =
 		g_param_spec_object (
 			"alert-bar",
-			"Alert Bar",
-			"Displays informational and error messages",
+			NULL, NULL,
 			E_TYPE_ALERT_BAR,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellContent:shell-view
 	 *
 	 * The #EShellView to which the content widget belongs.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_VIEW,
+	/**
+	 * EShellContent:shell-view
+	 **/
+	properties[PROP_SHELL_VIEW] =
 		g_param_spec_object (
 			"shell-view",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

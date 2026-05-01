@@ -38,8 +38,11 @@ struct _EMailConfigRestorePagePrivate {
 
 enum {
 	PROP_0,
-	PROP_FILENAME
+	PROP_FILENAME,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_mail_config_restore_page_alert_sink_init
@@ -91,7 +94,7 @@ mail_config_restore_page_update_filename (EMailConfigRestorePage *page)
 	g_free (page->priv->filename);
 	page->priv->filename = filename;
 
-	g_object_notify (G_OBJECT (page), "filename");
+	g_object_notify_by_pspec (G_OBJECT (page), properties[PROP_FILENAME]);
 
 	e_mail_config_page_changed (E_MAIL_CONFIG_PAGE (page));
 }
@@ -281,15 +284,18 @@ e_mail_config_restore_page_class_init (EMailConfigRestorePageClass *class)
 	object_class->finalize = mail_config_restore_page_finalize;
 	object_class->constructed = mail_config_restore_page_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILENAME,
+	/**
+	 * EMailConfigRestorePage:filename
+	 *
+	 * Selected filename to restore from
+	 **/
+	properties[PROP_FILENAME] =
 		g_param_spec_string (
 			"filename",
-			"Filename",
-			"Selected filename to restore from",
+			NULL, NULL,
 			NULL,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

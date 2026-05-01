@@ -47,8 +47,11 @@ enum {
 	PROP_HPOSITION,
 	PROP_VPOSITION,
 	PROP_PROPORTION,
-	PROP_FIXED_RESIZE
+	PROP_FIXED_RESIZE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EPaned, e_paned, GTK_TYPE_PANED)
 
@@ -118,7 +121,7 @@ paned_recalc_positions (EPaned *paned,
 
 		if (paned->priv->hposition != position) {
 			paned->priv->hposition = position;
-			g_object_notify (G_OBJECT (paned), "hposition");
+			g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_HPOSITION]);
 		}
 	} else {
 		position = MAX (0, allocation.height - position);
@@ -126,13 +129,13 @@ paned_recalc_positions (EPaned *paned,
 
 		if (paned->priv->vposition != position) {
 			paned->priv->vposition = position;
-			g_object_notify (G_OBJECT (paned), "vposition");
+			g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_VPOSITION]);
 		}
 	}
 
 	if (with_proportion && paned->priv->proportion != proportion) {
 		paned->priv->proportion = proportion;
-		g_object_notify (G_OBJECT (paned), "proportion");
+		g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_PROPORTION]);
 	}
 
 	g_object_thaw_notify (G_OBJECT (paned));
@@ -286,7 +289,7 @@ paned_size_allocate (GtkWidget *widget,
 
 	if (!paned->priv->toplevel_ready) {
 		if (notify_proportion_change)
-			g_object_notify (G_OBJECT (paned), "proportion");
+			g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_PROPORTION]);
 
 		return;
 	}
@@ -295,7 +298,7 @@ paned_size_allocate (GtkWidget *widget,
 		paned_recalc_positions (paned, FALSE);
 
 		if (notify_proportion_change)
-			g_object_notify (G_OBJECT (paned), "proportion");
+			g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_PROPORTION]);
 
 		return;
 	}
@@ -349,16 +352,16 @@ paned_size_allocate (GtkWidget *widget,
 		if (position > 0) {
 			if (orientation == GTK_ORIENTATION_HORIZONTAL) {
 				paned->priv->hposition = position;
-				g_object_notify (G_OBJECT (paned), "hposition");
+				g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_HPOSITION]);
 			} else {
 				paned->priv->vposition = position;
-				g_object_notify (G_OBJECT (paned), "vposition");
+				g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_VPOSITION]);
 			}
 		}
 	}
 
 	if (notify_proportion_change)
-		g_object_notify (G_OBJECT (paned), "proportion");
+		g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_PROPORTION]);
 
 	paned->priv->sync_request = SYNC_REQUEST_NONE;
 
@@ -386,51 +389,60 @@ e_paned_class_init (EPanedClass *class)
 	widget_class->realize = paned_realize;
 	widget_class->size_allocate = paned_size_allocate;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HPOSITION,
+	/**
+	 * EPaned:hposition
+	 *
+	 * Pane position when oriented horizontally
+	 **/
+	properties[PROP_HPOSITION] =
 		g_param_spec_int (
 			"hposition",
-			"Horizontal Position",
-			"Pane position when oriented horizontally",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VPOSITION,
+	/**
+	 * EPaned:vposition
+	 *
+	 * Pane position when oriented vertically
+	 **/
+	properties[PROP_VPOSITION] =
 		g_param_spec_int (
 			"vposition",
-			"Vertical Position",
-			"Pane position when oriented vertically",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PROPORTION,
+	/**
+	 * EPaned:proportion
+	 *
+	 * Proportion of the 2nd pane size
+	 **/
+	properties[PROP_PROPORTION] =
 		g_param_spec_double (
 			"proportion",
-			"Proportion",
-			"Proportion of the 2nd pane size",
+			NULL, NULL,
 			0.0,
 			1.0,
 			0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FIXED_RESIZE,
+	/**
+	 * EPaned:fixed-resize
+	 *
+	 * Keep the 2nd pane fixed during resize
+	 **/
+	properties[PROP_FIXED_RESIZE] =
 		g_param_spec_boolean (
 			"fixed-resize",
-			"Fixed Resize",
-			"Keep the 2nd pane fixed during resize",
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -478,7 +490,7 @@ e_paned_set_hposition (EPaned *paned,
 
 	paned->priv->hposition = hposition;
 
-	g_object_notify (G_OBJECT (paned), "hposition");
+	g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_HPOSITION]);
 
 	orientable = GTK_ORIENTABLE (paned);
 	orientation = gtk_orientable_get_orientation (orientable);
@@ -511,7 +523,7 @@ e_paned_set_vposition (EPaned *paned,
 
 	paned->priv->vposition = vposition;
 
-	g_object_notify (G_OBJECT (paned), "vposition");
+	g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_VPOSITION]);
 
 	orientable = GTK_ORIENTABLE (paned);
 	orientation = gtk_orientable_get_orientation (orientable);
@@ -545,7 +557,7 @@ e_paned_set_proportion (EPaned *paned,
 	paned->priv->sync_request = SYNC_REQUEST_PROPORTION;
 	gtk_widget_queue_resize (GTK_WIDGET (paned));
 
-	g_object_notify (G_OBJECT (paned), "proportion");
+	g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_PROPORTION]);
 }
 
 gboolean
@@ -567,5 +579,5 @@ e_paned_set_fixed_resize (EPaned *paned,
 
 	paned->priv->fixed_resize = fixed_resize;
 
-	g_object_notify (G_OBJECT (paned), "fixed-resize");
+	g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_FIXED_RESIZE]);
 }

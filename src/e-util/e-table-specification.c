@@ -31,8 +31,11 @@ struct _ETableSpecificationPrivate {
 
 enum {
 	PROP_0,
-	PROP_FILENAME
+	PROP_FILENAME,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_table_specification_initable_init
@@ -256,7 +259,7 @@ table_specification_start_column (GMarkupParseContext *context,
 
 		G_MARKUP_COLLECT_STRING |
 		G_MARKUP_COLLECT_OPTIONAL,
-		"minimum_width",
+		"minimum-width",
 		&minimum_width_str,
 
 		G_MARKUP_COLLECT_BOOLEAN |
@@ -535,17 +538,20 @@ e_table_specification_class_init (ETableSpecificationClass *class)
 	object_class->dispose = table_specification_dispose;
 	object_class->finalize = table_specification_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILENAME,
+	/**
+	 * ETableSpecification:filename
+	 *
+	 * Name of the table specification file
+	 **/
+	properties[PROP_FILENAME] =
 		g_param_spec_string (
 			"filename",
-			"Filename",
-			"Name of the table specification file",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

@@ -26,8 +26,11 @@
 
 enum {
 	PROP_0,
-	PROP_CLICKED_SOURCE
+	PROP_CLICKED_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EBookShellView, e_book_shell_view, E_TYPE_SHELL_VIEW, 0,
 	G_ADD_PRIVATE_DYNAMIC (EBookShellView))
@@ -467,15 +470,18 @@ e_book_shell_view_class_init (EBookShellViewClass *class)
 	shell_view_class->update_actions = book_shell_view_update_actions;
 	shell_view_class->init_ui_data = book_shell_view_init_ui_data;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CLICKED_SOURCE,
+	/**
+	 * EBookShellView:clicked-source
+	 *
+	 * An ESource which had been clicked in the source selector before showing context menu
+	 **/
+	properties[PROP_CLICKED_SOURCE] =
 		g_param_spec_object (
 			"clicked-source",
-			"Clicked Source",
-			"An ESource which had been clicked in the source selector before showing context menu",
+			NULL, NULL,
 			E_TYPE_SOURCE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* Ensure the GalView types we need are registered. */
 	g_type_ensure (GAL_TYPE_VIEW_ETABLE);

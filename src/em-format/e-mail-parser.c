@@ -44,8 +44,11 @@ struct _EMailParserPrivate {
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* internal parser extensions */
 GType e_mail_parser_application_mbox_get_type (void);
@@ -432,16 +435,17 @@ e_mail_parser_class_init (EMailParserClass *class)
 	object_class->set_property = e_mail_parser_set_property;
 	object_class->get_property = e_mail_parser_get_property;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMailParser:session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			"Camel Session",
-			NULL,
+			NULL, NULL,
 			CAMEL_TYPE_SESSION,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

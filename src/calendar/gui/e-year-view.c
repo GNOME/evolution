@@ -88,8 +88,8 @@ enum {
 	PROP_PREVIEW_VISIBLE,
 	PROP_USE_24HOUR_FORMAT,
 	PROP_HIGHLIGHT_TODAY,
-	LAST_PROP,
-	PROP_IS_EDITING /* override property as the last */
+	LAST_PROP, /* override property as the last */
+	PROP_IS_EDITING
 };
 
 static void year_view_cal_data_model_subscriber_init (ECalDataModelSubscriberInterface *iface);

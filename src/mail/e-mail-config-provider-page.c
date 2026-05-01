@@ -34,8 +34,11 @@ struct _EMailConfigProviderPagePrivate {
 
 enum {
 	PROP_0,
-	PROP_BACKEND
+	PROP_BACKEND,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_mail_config_provider_page_interface_init
@@ -788,17 +791,20 @@ e_mail_config_provider_page_class_init (EMailConfigProviderPageClass *class)
 	object_class->dispose = mail_config_provider_page_dispose;
 	object_class->constructed = mail_config_provider_page_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKEND,
+	/**
+	 * EMailConfigProviderPage:backend
+	 *
+	 * Service backend to generate options from
+	 **/
+	properties[PROP_BACKEND] =
 		g_param_spec_object (
 			"backend",
-			"Backend",
-			"Service backend to generate options from",
+			NULL, NULL,
 			E_TYPE_MAIL_CONFIG_SERVICE_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

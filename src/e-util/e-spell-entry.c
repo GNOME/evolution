@@ -48,8 +48,11 @@ struct _ESpellEntryPrivate {
 enum {
 	PROP_0,
 	PROP_CHECKING_ENABLED,
-	PROP_SPELL_CHECKER
+	PROP_SPELL_CHECKER,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_CODE (ESpellEntry, e_spell_entry, GTK_TYPE_ENTRY,
 	G_ADD_PRIVATE (ESpellEntry)
@@ -938,27 +941,32 @@ e_spell_entry_class_init (ESpellEntryClass *class)
 	widget_class->draw = spell_entry_draw;
 	widget_class->button_press_event = spell_entry_button_press;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CHECKING_ENABLED,
+	/**
+	 * ESpellEntry:checking-enabled
+	 *
+	 * Spell Checking is Enabled
+	 **/
+	properties[PROP_CHECKING_ENABLED] =
 		g_param_spec_boolean (
 			"checking-enabled",
-			"checking enabled",
-			"Spell Checking is Enabled",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SPELL_CHECKER,
+	/**
+	 * ESpellEntry:spell-checker
+	 *
+	 * The spell checker object
+	 **/
+	properties[PROP_SPELL_CHECKER] =
 		g_param_spec_object (
 			"spell-checker",
-			"Spell Checker",
-			"The spell checker object",
+			NULL, NULL,
 			E_TYPE_SPELL_CHECKER,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1009,7 +1017,7 @@ e_spell_entry_set_checking_enabled (ESpellEntry *spell_entry,
 	spell_entry->priv->checking_enabled = enable_checking;
 	spell_entry_recheck_all (spell_entry);
 
-	g_object_notify (G_OBJECT (spell_entry), "checking-enabled");
+	g_object_notify_by_pspec (G_OBJECT (spell_entry), properties[PROP_CHECKING_ENABLED]);
 }
 
 /**
@@ -1068,7 +1076,7 @@ e_spell_entry_set_spell_checker (ESpellEntry *spell_entry,
 
 	spell_entry->priv->active_languages_handler_id = handler_id;
 
-	g_object_notify (G_OBJECT (spell_entry), "spell-checker");
+	g_object_notify_by_pspec (G_OBJECT (spell_entry), properties[PROP_SPELL_CHECKER]);
 
 	if (gtk_widget_get_realized (GTK_WIDGET (spell_entry)))
 		spell_entry_recheck_all (spell_entry);

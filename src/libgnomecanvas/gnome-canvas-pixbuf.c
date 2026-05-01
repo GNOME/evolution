@@ -34,8 +34,11 @@ struct _GnomeCanvasPixbufPrivate {
 /* Object argument IDs */
 enum {
 	PROP_0,
-	PROP_PIXBUF
+	PROP_PIXBUF,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void gnome_canvas_pixbuf_dispose (GnomeCanvasItem *object);
 static void gnome_canvas_pixbuf_set_property (GObject *object,
@@ -75,12 +78,14 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 	gobject_class->set_property = gnome_canvas_pixbuf_set_property;
 	gobject_class->get_property = gnome_canvas_pixbuf_get_property;
 
-	g_object_class_install_property
-		(gobject_class,
-		 PROP_PIXBUF,
+	/**
+	 * GnomeCanvasPixbuf:pixbuf
+		 **/
+		properties[PROP_PIXBUF] =
 		 g_param_spec_object ("pixbuf", NULL, NULL,
 				      GDK_TYPE_PIXBUF,
-				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      (G_PARAM_READABLE | G_PARAM_WRITABLE) | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (gobject_class, N_PROPS, properties);
 
 	item_class->dispose = gnome_canvas_pixbuf_dispose;
 	item_class->update = gnome_canvas_pixbuf_update;

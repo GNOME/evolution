@@ -699,7 +699,7 @@ e_month_widget_class_init (EMonthWidgetClass *klass)
 			FALSE,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (obj_props), obj_props);
+	g_object_class_install_properties (object_class, LAST_PROP, obj_props);
 
 	/**
 	 * EMonthWidget::changed:

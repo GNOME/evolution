@@ -36,8 +36,11 @@ static void e_text_event_processor_get_property (GObject *object,
 
 enum {
 	PROP_0,
-	PROP_ALLOW_NEWLINES
+	PROP_ALLOW_NEWLINES,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	E_TEP_EVENT,
@@ -71,15 +74,18 @@ e_text_event_processor_class_init (ETextEventProcessorClass *class)
 		G_TYPE_NONE, 1,
 		G_TYPE_POINTER);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALLOW_NEWLINES,
+	/**
+	 * ETextEventProcessor:allow-newlines
+	 *
+	 * Allow newlines
+	 **/
+	properties[PROP_ALLOW_NEWLINES] =
 		g_param_spec_boolean (
-			"allow_newlines",
-			"Allow newlines",
-			"Allow newlines",
+			"allow-newlines",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	class->event = NULL;
 	class->command = NULL;

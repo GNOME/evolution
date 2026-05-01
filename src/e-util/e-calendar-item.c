@@ -222,7 +222,6 @@ enum {
 	PROP_X2,
 	PROP_Y2,
 	PROP_FONT_DESC,
-	PROP_WEEK_NUMBER_FONT,
 	PROP_WEEK_NUMBER_FONT_DESC,
 	PROP_ROW_HEIGHT,
 	PROP_COLUMN_WIDTH,
@@ -237,8 +236,11 @@ enum {
 	PROP_DAYS_TO_START_WEEK_SELECTION,
 	PROP_MOVE_SELECTION_WHEN_MOVING,
 	PROP_PRESERVE_DAY_WHEN_MOVING,
-	PROP_DISPLAY_POPUP
+	PROP_DISPLAY_POPUP,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	DATE_RANGE_CHANGED,
@@ -284,255 +286,256 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	class->selection_changed = NULL;
 	class->selection_preview_changed = NULL;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_YEAR,
+	/**
+	 * ECalendarItem:year
+	 **/
+	properties[PROP_YEAR] =
 		g_param_spec_int (
 			"year",
-			NULL,
-			NULL,
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MONTH,
+	/**
+	 * ECalendarItem:month
+	 **/
+	properties[PROP_MONTH] =
 		g_param_spec_int (
 			"month",
-			NULL,
-			NULL,
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_X1,
+	/**
+	 * ECalendarItem:x1
+	 **/
+	properties[PROP_X1] =
 		g_param_spec_double (
 			"x1",
-			NULL,
-			NULL,
+			NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_Y1,
+	/**
+	 * ECalendarItem:y1
+	 **/
+	properties[PROP_Y1] =
 		g_param_spec_double (
 			"y1",
-			NULL,
-			NULL,
+			NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_X2,
+	/**
+	 * ECalendarItem:x2
+	 **/
+	properties[PROP_X2] =
 		g_param_spec_double (
 			"x2",
-			NULL,
-			NULL,
+			NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_Y2,
+	/**
+	 * ECalendarItem:y2
+	 **/
+	properties[PROP_Y2] =
 		g_param_spec_double (
 			"y2",
-			NULL,
-			NULL,
+			NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FONT_DESC,
+	/**
+	 * ECalendarItem:font-desc
+	 **/
+	properties[PROP_FONT_DESC] =
 		g_param_spec_boxed (
-			"font_desc",
-			NULL,
-			NULL,
+			"font-desc",
+			NULL, NULL,
 			PANGO_TYPE_FONT_DESCRIPTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_NUMBER_FONT_DESC,
+	/**
+	 * ECalendarItem:week-number-font-desc
+	 **/
+	properties[PROP_WEEK_NUMBER_FONT_DESC] =
 		g_param_spec_boxed (
-			"week_number_font_desc",
-			NULL,
-			NULL,
+			"week-number-font-desc",
+			NULL, NULL,
 			PANGO_TYPE_FONT_DESCRIPTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ROW_HEIGHT,
+	/**
+	 * ECalendarItem:row-height
+	 **/
+	properties[PROP_ROW_HEIGHT] =
 		g_param_spec_int (
-			"row_height",
-			NULL,
-			NULL,
+			"row-height",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COLUMN_WIDTH,
+	/**
+	 * ECalendarItem:column-width
+	 **/
+	properties[PROP_COLUMN_WIDTH] =
 		g_param_spec_int (
-			"column_width",
-			NULL,
-			NULL,
+			"column-width",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MINIMUM_ROWS,
+	/**
+	 * ECalendarItem:minimum-rows
+	 **/
+	properties[PROP_MINIMUM_ROWS] =
 		g_param_spec_int (
-			"minimum_rows",
-			NULL,
-			NULL,
+			"minimum-rows",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MINIMUM_COLUMNS,
+	/**
+	 * ECalendarItem:minimum-columns
+	 **/
+	properties[PROP_MINIMUM_COLUMNS] =
 		g_param_spec_int (
-			"minimum_columns",
-			NULL,
-			NULL,
+			"minimum-columns",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAXIMUM_ROWS,
+	/**
+	 * ECalendarItem:maximum-rows
+	 **/
+	properties[PROP_MAXIMUM_ROWS] =
 		g_param_spec_int (
-			"maximum_rows",
-			NULL,
-			NULL,
+			"maximum-rows",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAXIMUM_COLUMNS,
+	/**
+	 * ECalendarItem:maximum-columns
+	 **/
+	properties[PROP_MAXIMUM_COLUMNS] =
 		g_param_spec_int (
-			"maximum_columns",
-			NULL,
-			NULL,
+			"maximum-columns",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_START_DAY,
+	/**
+	 * ECalendarItem:week-start-day
+	 **/
+	properties[PROP_WEEK_START_DAY] =
 		g_param_spec_enum (
 			"week-start-day",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_DATE_WEEKDAY,
 			G_DATE_MONDAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_WEEK_NUMBERS,
+	/**
+	 * ECalendarItem:show-week-numbers
+	 **/
+	properties[PROP_SHOW_WEEK_NUMBERS] =
 		g_param_spec_boolean (
-			"show_week_numbers",
-			NULL,
-			NULL,
+			"show-week-numbers",
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK,
+	/**
+	 * ECalendarItem:keep-wdays-on-weeknum-click
+	 **/
+	properties[PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK] =
 		g_param_spec_boolean (
-			"keep_wdays_on_weeknum_click",
-			NULL,
-			NULL,
+			"keep-wdays-on-weeknum-click",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAXIMUM_DAYS_SELECTED,
+	/**
+	 * ECalendarItem:maximum-days-selected
+	 **/
+	properties[PROP_MAXIMUM_DAYS_SELECTED] =
 		g_param_spec_int (
-			"maximum_days_selected",
-			NULL,
-			NULL,
+			"maximum-days-selected",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DAYS_TO_START_WEEK_SELECTION,
+	/**
+	 * ECalendarItem:days-to-start-week-selection
+	 **/
+	properties[PROP_DAYS_TO_START_WEEK_SELECTION] =
 		g_param_spec_int (
-			"days_to_start_week_selection",
-			NULL,
-			NULL,
+			"days-to-start-week-selection",
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MOVE_SELECTION_WHEN_MOVING,
+	/**
+	 * ECalendarItem:move-selection-when-moving
+	 **/
+	properties[PROP_MOVE_SELECTION_WHEN_MOVING] =
 		g_param_spec_boolean (
-			"move_selection_when_moving",
-			NULL,
-			NULL,
+			"move-selection-when-moving",
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PRESERVE_DAY_WHEN_MOVING,
+	/**
+	 * ECalendarItem:preserve-day-when-moving
+	 **/
+	properties[PROP_PRESERVE_DAY_WHEN_MOVING] =
 		g_param_spec_boolean (
-			"preserve_day_when_moving",
-			NULL,
-			NULL,
+			"preserve-day-when-moving",
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DISPLAY_POPUP,
+	/**
+	 * ECalendarItem:display-popup
+	 **/
+	properties[PROP_DISPLAY_POPUP] =
 		g_param_spec_boolean (
-			"display_popup",
-			NULL,
-			NULL,
+			"display-popup",
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	e_calendar_item_signals[DATE_RANGE_CHANGED] = g_signal_new (
 		"date_range_changed",

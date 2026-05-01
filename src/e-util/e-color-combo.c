@@ -50,8 +50,11 @@ enum {
 	PROP_DEFAULT_LABEL,
 	PROP_DEFAULT_TRANSPARENT,
 	PROP_PALETTE,
-	PROP_POPUP_SHOWN
+	PROP_POPUP_SHOWN,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ACTIVATED,
@@ -145,14 +148,14 @@ static void
 color_combo_child_show_cb (EColorCombo *combo)
 {
 	combo->priv->popup_shown = TRUE;
-	g_object_notify (G_OBJECT (combo), "popup-shown");
+	g_object_notify_by_pspec (G_OBJECT (combo), properties[PROP_POPUP_SHOWN]);
 }
 
 static void
 color_combo_child_hide_cb (EColorCombo *combo)
 {
 	combo->priv->popup_shown = FALSE;
-	g_object_notify (G_OBJECT (combo), "popup-shown");
+	g_object_notify_by_pspec (G_OBJECT (combo), properties[PROP_POPUP_SHOWN]);
 }
 
 static void
@@ -423,67 +426,81 @@ e_color_combo_class_init (EColorComboClass *class)
 	class->popup = color_combo_popup;
 	class->popdown = color_combo_popdown;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURRENT_COLOR,
+	/**
+	 * EColorCombo:current-color
+	 *
+	 * The currently selected color
+	 **/
+	properties[PROP_CURRENT_COLOR] =
 		g_param_spec_boxed (
 			"current-color",
-			"Current color",
-			"The currently selected color",
+			NULL, NULL,
 			GDK_TYPE_RGBA,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DEFAULT_COLOR,
+	/**
+	 * EColorCombo:default-color
+	 *
+	 * The color associated with the default button
+	 **/
+	properties[PROP_DEFAULT_COLOR] =
 		g_param_spec_boxed (
 			"default-color",
-			"Default color",
-			"The color associated with the default button",
+			NULL, NULL,
 			GDK_TYPE_RGBA,
 			G_PARAM_CONSTRUCT |
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DEFAULT_LABEL,
+	/**
+	 * EColorCombo:default-label
+	 *
+	 * The label for the default button
+	 **/
+	properties[PROP_DEFAULT_LABEL] =
 		g_param_spec_string (
 			"default-label",
-			"Default label",
-			"The label for the default button",
+			NULL, NULL,
 			_("Default"),
 			G_PARAM_CONSTRUCT |
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DEFAULT_TRANSPARENT,
+	/**
+	 * EColorCombo:default-transparent
+	 *
+	 * Whether the default color is transparent
+	 **/
+	properties[PROP_DEFAULT_TRANSPARENT] =
 		g_param_spec_boolean (
 			"default-transparent",
-			"Default is transparent",
-			"Whether the default color is transparent",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_CONSTRUCT |
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PALETTE,
+	/**
+	 * EColorCombo:palette
+	 *
+	 * Custom color palette
+	 **/
+	properties[PROP_PALETTE] =
 		g_param_spec_pointer (
 			"palette",
 			"Color palette",
 			"Custom color palette",
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_POPUP_SHOWN,
+	/**
+	 * EColorCombo:popup-shown
+	 *
+	 * Whether the combo's dropdown is shown
+	 **/
+	properties[PROP_POPUP_SHOWN] =
 		g_param_spec_boolean (
 			"popup-shown",
-			"Popup shown",
-			"Whether the combo's dropdown is shown",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[ACTIVATED] = g_signal_new (
 		"activated",
@@ -686,7 +703,7 @@ e_color_combo_set_current_color (EColorCombo *combo,
 		GTK_COLOR_CHOOSER (combo->priv->chooser_widget), color);
 	gtk_widget_queue_draw (combo->priv->color_frame);
 
-	g_object_notify (G_OBJECT (combo), "current-color");
+	g_object_notify_by_pspec (G_OBJECT (combo), properties[PROP_CURRENT_COLOR]);
 }
 
 void
@@ -722,7 +739,7 @@ e_color_combo_set_default_color (EColorCombo *combo,
 	gtk_color_chooser_set_rgba (
 		GTK_COLOR_CHOOSER (combo->priv->chooser_widget), color);
 
-	g_object_notify (G_OBJECT (combo), "default-color");
+	g_object_notify_by_pspec (G_OBJECT (combo), properties[PROP_DEFAULT_COLOR]);
 }
 
 const gchar *
@@ -741,7 +758,7 @@ e_color_combo_set_default_label (EColorCombo *combo,
 
 	gtk_button_set_label (GTK_BUTTON (combo->priv->default_button), text);
 
-	g_object_notify (G_OBJECT (combo), "default-label");
+	g_object_notify_by_pspec (G_OBJECT (combo), properties[PROP_DEFAULT_LABEL]);
 }
 
 gboolean
@@ -762,7 +779,7 @@ e_color_combo_set_default_transparent (EColorCombo *combo,
 	if (transparent)
 		combo->priv->default_color->alpha = 0;
 
-	g_object_notify (G_OBJECT (combo), "default-transparent");
+	g_object_notify_by_pspec (G_OBJECT (combo), properties[PROP_DEFAULT_TRANSPARENT]);
 }
 
 GList *

@@ -35,8 +35,11 @@
 
 enum {
 	PROP_0,
-	PROP_SPELL_CHECKER
+	PROP_SPELL_CHECKER,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 struct _ESpellDictionaryPrivate {
 	GWeakRef spell_checker;
@@ -158,16 +161,19 @@ e_spell_dictionary_class_init (ESpellDictionaryClass *class)
 	object_class->dispose = spell_dictionary_dispose;
 	object_class->finalize = spell_dictionary_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SPELL_CHECKER,
+	/**
+	 * ESpellDictionary:spell-checker
+	 *
+	 * Parent spell checker
+	 **/
+	properties[PROP_SPELL_CHECKER] =
 		g_param_spec_object (
 			"spell-checker",
-			NULL,
-			"Parent spell checker",
+			NULL, NULL,
 			E_TYPE_SPELL_CHECKER,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

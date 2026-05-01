@@ -57,12 +57,15 @@ struct _EAttachmentPanedPrivate {
 enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
+	PROP_EXPANDED,
+	PROP_RESIZE_TOPLEVEL,
+	N_PROPS,
 	PROP_DRAGGING,
 	PROP_EDITABLE,
 	PROP_ALLOW_URI,
-	PROP_EXPANDED,
-	PROP_RESIZE_TOPLEVEL
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_attachment_paned_interface_init
@@ -485,19 +488,19 @@ e_attachment_paned_class_init (EAttachmentPanedClass *class)
 	object_class->dispose = attachment_paned_dispose;
 	object_class->constructed = attachment_paned_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVE_VIEW,
+	/**
+	 * EAttachmentPaned:active-view
+	 **/
+	properties[PROP_ACTIVE_VIEW] =
 		g_param_spec_int (
 			"active-view",
-			"Active View",
-			NULL,
+			NULL, NULL,
 			0,
 			NUM_VIEWS,
 			0,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	g_object_class_override_property (
 		object_class, PROP_DRAGGING, "dragging");
@@ -508,29 +511,30 @@ e_attachment_paned_class_init (EAttachmentPanedClass *class)
 	g_object_class_override_property (
 		object_class, PROP_ALLOW_URI, "allow-uri");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EXPANDED,
+	/**
+	 * EAttachmentPaned:expanded
+	 **/
+	properties[PROP_EXPANDED] =
 		g_param_spec_boolean (
 			"expanded",
-			"Expanded",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_RESIZE_TOPLEVEL,
+	/**
+	 * EAttachmentPaned:resize-toplevel
+	 **/
+	properties[PROP_RESIZE_TOPLEVEL] =
 		g_param_spec_boolean (
 			"resize-toplevel",
-			"Resize-Toplevel",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -792,7 +796,7 @@ e_attachment_paned_set_active_view (EAttachmentPaned *paned,
 
 	e_attachment_view_sync_selection (source, target);
 
-	g_object_notify (G_OBJECT (paned), "active-view");
+	g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_ACTIVE_VIEW]);
 }
 
 gboolean
@@ -814,7 +818,7 @@ e_attachment_paned_set_expanded (EAttachmentPaned *paned,
 
 	paned->priv->expanded = expanded;
 
-	g_object_notify (G_OBJECT (paned), "expanded");
+	g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_EXPANDED]);
 }
 
 gboolean
@@ -836,7 +840,7 @@ e_attachment_paned_set_resize_toplevel (EAttachmentPaned *paned,
 
 	paned->priv->resize_toplevel = resize_toplevel;
 
-	g_object_notify (G_OBJECT (paned), "resize-toplevel");
+	g_object_notify_by_pspec (G_OBJECT (paned), properties[PROP_RESIZE_TOPLEVEL]);
 }
 
 void

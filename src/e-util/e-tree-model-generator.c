@@ -113,8 +113,11 @@ Node;
 
 enum {
 	PROP_0,
-	PROP_CHILD_MODEL
+	PROP_CHILD_MODEL,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* ------------------ *
  * Class/object setup *
@@ -208,16 +211,19 @@ e_tree_model_generator_class_init (ETreeModelGeneratorClass *class)
 	object_class->set_property = tree_model_generator_set_property;
 	object_class->finalize = tree_model_generator_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CHILD_MODEL,
+	/**
+	 * ETreeModelGenerator:child-model
+	 *
+	 * The child model to extend
+	 **/
+	properties[PROP_CHILD_MODEL] =
 		g_param_spec_object (
 			"child-model",
-			"Child Model",
-			"The child model to extend",
+			NULL, NULL,
 			G_TYPE_OBJECT,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

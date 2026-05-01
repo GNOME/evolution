@@ -25,8 +25,11 @@ struct _EAuthComboBoxPrivate {
 
 enum {
 	PROP_0,
-	PROP_PROVIDER
+	PROP_PROVIDER,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COLUMN_MECHANISM,
@@ -160,15 +163,19 @@ e_auth_combo_box_class_init (EAuthComboBoxClass *class)
 	object_class->get_property = auth_combo_box_get_property;
 	object_class->constructed = auth_combo_box_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PROVIDER,
+	/**
+	 * EAuthComboBox:provider
+	 *
+	 * The provider to query for auth mechanisms
+	 **/
+	properties[PROP_PROVIDER] =
 		g_param_spec_pointer (
 			"provider",
 			"Provider",
 			"The provider to query for auth mechanisms",
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -202,7 +209,7 @@ e_auth_combo_box_set_provider (EAuthComboBox *combo_box,
 
 	combo_box->priv->provider = provider;
 
-	g_object_notify (G_OBJECT (combo_box), "provider");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_PROVIDER]);
 
 	auth_combo_box_rebuild_model (combo_box);
 }

@@ -41,8 +41,11 @@ struct _EProxyComboBoxPrivate {
 
 enum {
 	PROP_0,
-	PROP_REGISTRY
+	PROP_REGISTRY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COLUMN_DISPLAY_NAME,
@@ -239,17 +242,20 @@ e_proxy_combo_box_class_init (EProxyComboBoxClass *class)
 	object_class->dispose = proxy_combo_box_dispose;
 	object_class->constructed = proxy_combo_box_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EProxyComboBox:registry
+	 *
+	 * Data source registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Data source registry",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

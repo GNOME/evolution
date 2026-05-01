@@ -53,8 +53,11 @@ enum {
 	PROP_IDENTITY_SOURCE,
 	PROP_ORIGINAL_SOURCE,
 	PROP_SESSION,
-	PROP_TRANSPORT_SOURCE
+	PROP_TRANSPORT_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_CODE (EMailConfigNotebook, e_mail_config_notebook, GTK_TYPE_NOTEBOOK,
 	G_ADD_PRIVATE (EMailConfigNotebook)
@@ -96,7 +99,7 @@ static void
 mail_config_notebook_page_changed (EMailConfigPage *page,
                                    EMailConfigNotebook *notebook)
 {
-	g_object_notify (G_OBJECT (notebook), "complete");
+	g_object_notify_by_pspec (G_OBJECT (notebook), properties[PROP_COMPLETE]);
 }
 
 static void
@@ -517,88 +520,103 @@ e_mail_config_notebook_class_init (EMailConfigNotebookClass *class)
 	notebook_class->page_removed = mail_config_notebook_page_removed;
 	notebook_class->page_added = mail_config_notebook_page_added;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT_SOURCE,
+	/**
+	 * EMailConfigNotebook:account-source
+	 *
+	 * Mail account source being edited
+	 **/
+	properties[PROP_ACCOUNT_SOURCE] =
 		g_param_spec_object (
 			"account-source",
-			"Account Source",
-			"Mail account source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COLLECTION_SOURCE,
+	/**
+	 * EMailConfigNotebook:collection-source
+	 *
+	 * Optional collection source being edited
+	 **/
+	properties[PROP_COLLECTION_SOURCE] =
 		g_param_spec_object (
 			"collection-source",
-			"Collection Source",
-			"Optional collection source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPLETE,
+	/**
+	 * EMailConfigNotebook:complete
+	 *
+	 * Whether all required fields are complete
+	 **/
+	properties[PROP_COMPLETE] =
 		g_param_spec_boolean (
 			"complete",
-			"Complete",
-			"Whether all required fields are complete",
+			NULL, NULL,
 			FALSE,  /* default is not used */
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IDENTITY_SOURCE,
+	/**
+	 * EMailConfigNotebook:identity-source
+	 *
+	 * Mail identity source being edited
+	 **/
+	properties[PROP_IDENTITY_SOURCE] =
 		g_param_spec_object (
 			"identity-source",
-			"Identity Source",
-			"Mail identity source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ORIGINAL_SOURCE,
+	/**
+	 * EMailConfigNotebook:original-source
+	 *
+	 * Mail account original source being edited
+	 **/
+	properties[PROP_ORIGINAL_SOURCE] =
 		g_param_spec_object (
 			"original-source",
-			"Original Source",
-			"Mail account original source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMailConfigNotebook:session
+	 *
+	 * Mail session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			"Session",
-			"Mail session",
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TRANSPORT_SOURCE,
+	/**
+	 * EMailConfigNotebook:transport-source
+	 *
+	 * Mail transport source being edited
+	 **/
+	properties[PROP_TRANSPORT_SOURCE] =
 		g_param_spec_object (
 			"transport-source",
-			"Transport Source",
-			"Mail transport source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

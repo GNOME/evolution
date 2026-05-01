@@ -61,12 +61,15 @@ enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
 	PROP_ATTACHMENTS_VISIBLE,
+	PROP_EXPANDED,
+	PROP_STORE,
+	N_PROPS,
 	PROP_DRAGGING,
 	PROP_EDITABLE,
 	PROP_ALLOW_URI,
-	PROP_EXPANDED,
-	PROP_STORE
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_attachment_bar_interface_init
@@ -633,51 +636,52 @@ e_attachment_bar_class_init (EAttachmentBarClass *class)
 	/* Do not set the CSS class name, it breaks styling of the resize handle */
 	/* gtk_widget_class_set_css_name (widget_class, G_OBJECT_CLASS_NAME (class)); */
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVE_VIEW,
+	/**
+	 * EAttachmentBar:active-view
+	 **/
+	properties[PROP_ACTIVE_VIEW] =
 		g_param_spec_int (
 			"active-view",
-			"Active View",
-			NULL,
+			NULL, NULL,
 			0,
 			NUM_VIEWS,
 			0,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ATTACHMENTS_VISIBLE,
+	/**
+	 * EAttachmentBar:attachments-visible
+	 **/
+	properties[PROP_ATTACHMENTS_VISIBLE] =
 		g_param_spec_boolean (
 			"attachments-visible",
-			"Attachments Visible",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EXPANDED,
+	/**
+	 * EAttachmentBar:expanded
+	 **/
+	properties[PROP_EXPANDED] =
 		g_param_spec_boolean (
 			"expanded",
-			"Expanded",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STORE,
+	/**
+	 * EAttachmentBar:store
+	 **/
+	properties[PROP_STORE] =
 		g_param_spec_object (
 			"store",
-			"Attachment Store",
-			NULL,
+			NULL, NULL,
 			E_TYPE_ATTACHMENT_STORE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	g_object_class_override_property (
 		object_class, PROP_DRAGGING, "dragging");
@@ -987,7 +991,7 @@ e_attachment_bar_set_active_view (EAttachmentBar *bar,
 
 	e_attachment_view_sync_selection (source, target);
 
-	g_object_notify (G_OBJECT (bar), "active-view");
+	g_object_notify_by_pspec (G_OBJECT (bar), properties[PROP_ACTIVE_VIEW]);
 }
 
 gboolean
@@ -1009,7 +1013,7 @@ e_attachment_bar_set_expanded (EAttachmentBar *bar,
 
 	bar->priv->expanded = expanded;
 
-	g_object_notify (G_OBJECT (bar), "expanded");
+	g_object_notify_by_pspec (G_OBJECT (bar), properties[PROP_EXPANDED]);
 }
 
 EAttachmentStore *
@@ -1039,7 +1043,7 @@ e_attachment_bar_set_attachments_visible (EAttachmentBar *bar,
 
 	gtk_widget_set_visible (bar->priv->info_vbox, value);
 
-	g_object_notify (G_OBJECT (bar), "attachments-visible");
+	g_object_notify_by_pspec (G_OBJECT (bar), properties[PROP_ATTACHMENTS_VISIBLE]);
 }
 
 gboolean

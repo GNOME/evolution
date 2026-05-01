@@ -42,8 +42,11 @@ struct _EMailFolderSortOrderDialogPrivate {
 enum {
 	PROP_0,
 	PROP_FOLDER_URI,
-	PROP_STORE
+	PROP_STORE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void
 e_mail_folder_sort_order_dialog_alert_sink_init (EAlertSinkInterface *interface);
@@ -582,7 +585,7 @@ e_mail_folder_sort_order_dialog_set_folder_uri (EMailFolderSortOrderDialog *dial
 		g_free (dialog->priv->folder_uri);
 		dialog->priv->folder_uri = g_strdup (folder_uri);
 
-		g_object_notify (G_OBJECT (dialog), "folder-uri");
+		g_object_notify_by_pspec (G_OBJECT (dialog), properties[PROP_FOLDER_URI]);
 	}
 }
 
@@ -605,7 +608,7 @@ e_mail_folder_sort_order_dialog_set_store (EMailFolderSortOrderDialog *dialog,
 		g_clear_object (&dialog->priv->store);
 		dialog->priv->store = g_object_ref (store);
 
-		g_object_notify (G_OBJECT (dialog), "store");
+		g_object_notify_by_pspec (G_OBJECT (dialog), properties[PROP_STORE]);
 	}
 }
 
@@ -813,29 +816,30 @@ e_mail_folder_sort_order_dialog_class_init (EMailFolderSortOrderDialogClass *kla
 	object_class->dispose = e_mail_folder_sort_order_dialog_dispose;
 	object_class->finalize = e_mail_folder_sort_order_dialog_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STORE,
+	/**
+	 * EMailFolderSortOrderDialog:store
+	 **/
+	properties[PROP_STORE] =
 		g_param_spec_object (
 			"store",
-			NULL,
-			NULL,
+			NULL, NULL,
 			CAMEL_TYPE_STORE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOLDER_URI,
+	/**
+	 * EMailFolderSortOrderDialog:folder-uri
+	 **/
+	properties[PROP_FOLDER_URI] =
 		g_param_spec_string (
 			"folder-uri",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

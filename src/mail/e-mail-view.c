@@ -42,8 +42,11 @@ enum {
 	PROP_PREVIOUS_VIEW,
 	PROP_SHELL_VIEW,
 	PROP_SHOW_DELETED,
-	PROP_SHOW_JUNK
+	PROP_SHOW_JUNK,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	PANE_CLOSE,
@@ -187,7 +190,7 @@ mail_view_set_orientation (EMailView *view,
 
 	view->priv->orientation = orientation;
 
-	g_object_notify (G_OBJECT (view), "orientation");
+	g_object_notify_by_pspec (G_OBJECT (view), properties[PROP_ORIENTATION]);
 
 	e_mail_view_update_view_instance (view);
 }
@@ -207,7 +210,7 @@ mail_view_set_preview_visible (EMailView *view,
 
 	view->priv->preview_visible = preview_visible;
 
-	g_object_notify (G_OBJECT (view), "preview-visible");
+	g_object_notify_by_pspec (G_OBJECT (view), properties[PROP_PREVIEW_VISIBLE]);
 }
 
 static gboolean
@@ -225,7 +228,7 @@ mail_view_set_show_deleted (EMailView *view,
 
 	view->priv->show_deleted = show_deleted;
 
-	g_object_notify (G_OBJECT (view), "show-deleted");
+	g_object_notify_by_pspec (G_OBJECT (view), properties[PROP_SHOW_DELETED]);
 }
 
 static gboolean
@@ -243,7 +246,7 @@ mail_view_set_show_junk (EMailView *view,
 
 	view->priv->show_junk = show_junk;
 
-	g_object_notify (G_OBJECT (view), "show-junk");
+	g_object_notify_by_pspec (G_OBJECT (view), properties[PROP_SHOW_JUNK]);
 }
 
 static void
@@ -292,67 +295,68 @@ e_mail_view_class_init (EMailViewClass *class)
 		g_cclosure_marshal_VOID__STRING,
 		G_TYPE_NONE, 1, G_TYPE_STRING);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ORIENTATION,
+	/**
+	 * EMailView:orientation
+	 **/
+	properties[PROP_ORIENTATION] =
 		g_param_spec_enum (
 			"orientation",
-			"Orientation",
-			NULL,
+			NULL, NULL,
 			GTK_TYPE_ORIENTATION,
 			GTK_ORIENTATION_HORIZONTAL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_VISIBLE,
+	/**
+	 * EMailView:preview-visible
+	 **/
+	properties[PROP_PREVIEW_VISIBLE] =
 		g_param_spec_boolean (
 			"preview-visible",
-			"Preview Visible",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIOUS_VIEW,
+	/**
+	 * EMailView:previous-view
+	 **/
+	properties[PROP_PREVIOUS_VIEW] =
 		g_param_spec_object (
 			"previous-view",
-			"Previous View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_VIEW,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_VIEW,
+	/**
+	 * EMailView:shell-view
+	 **/
+	properties[PROP_SHELL_VIEW] =
 		g_param_spec_object (
 			"shell-view",
-			"Shell View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_DELETED,
+	/**
+	 * EMailView:show-deleted
+	 **/
+	properties[PROP_SHOW_DELETED] =
 		g_param_spec_boolean (
 			"show-deleted",
-			"Show Deleted",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_JUNK,
+	/**
+	 * EMailView:show-junk
+	 **/
+	properties[PROP_SHOW_JUNK] =
 		g_param_spec_boolean (
 			"show-junk",
-			"Show Junk",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -498,7 +502,7 @@ e_mail_view_set_previous_view (EMailView *view,
 
 	view->priv->previous_view = previous_view;
 
-	g_object_notify (G_OBJECT (view), "previous-view");
+	g_object_notify_by_pspec (G_OBJECT (view), properties[PROP_PREVIOUS_VIEW]);
 }
 
 gboolean

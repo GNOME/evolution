@@ -23,8 +23,11 @@ enum {
 	PROP_COMPLETE_ARTICLES,
 	PROP_FEED_ENCLOSURES,
 	PROP_LIMIT_FEED_ENCLOSURE_SIZE,
-	PROP_MAX_FEED_ENCLOSURE_SIZE
+	PROP_MAX_FEED_ENCLOSURE_SIZE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_CODE (CamelRssSettings, camel_rss_settings, CAMEL_TYPE_OFFLINE_SETTINGS,
 	G_ADD_PRIVATE (CamelRssSettings))
@@ -117,70 +120,81 @@ camel_rss_settings_class_init (CamelRssSettingsClass *class)
 	object_class->set_property = rss_settings_set_property;
 	object_class->get_property = rss_settings_get_property;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILTER_ALL,
+	/**
+	 * CamelRssSettings:filter-all
+	 *
+	 * Whether to apply filters in all folders
+	 **/
+	properties[PROP_FILTER_ALL] =
 		g_param_spec_boolean (
 			"filter-all",
-			"Filter All",
-			"Whether to apply filters in all folders",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_EXPLICIT_NOTIFY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPLETE_ARTICLES,
+	/**
+	 * CamelRssSettings:complete-articles
+	 *
+	 * Whether to download complete articles
+	 **/
+	properties[PROP_COMPLETE_ARTICLES] =
 		g_param_spec_boolean (
 			"complete-articles",
-			"Complete Articles",
-			"Whether to download complete articles",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_EXPLICIT_NOTIFY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FEED_ENCLOSURES,
+	/**
+	 * CamelRssSettings:feed-enclosures
+	 *
+	 * Whether to download feed enclosures
+	 **/
+	properties[PROP_FEED_ENCLOSURES] =
 		g_param_spec_boolean (
 			"feed-enclosures",
-			"Feed Enclosures",
-			"Whether to download feed enclosures",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_EXPLICIT_NOTIFY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LIMIT_FEED_ENCLOSURE_SIZE,
+	/**
+	 * CamelRssSettings:limit-feed-enclosure-size
+	 *
+	 * Whether to limit feed enclosure size
+	 **/
+	properties[PROP_LIMIT_FEED_ENCLOSURE_SIZE] =
 		g_param_spec_boolean (
 			"limit-feed-enclosure-size",
-			"Limit Feed Enclosure Size",
-			"Whether to limit feed enclosure size",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_EXPLICIT_NOTIFY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAX_FEED_ENCLOSURE_SIZE,
+	/**
+	 * CamelRssSettings:max-feed-enclosure-size
+	 *
+	 * Max size, in kB, of feed enclosure to download
+	 **/
+	properties[PROP_MAX_FEED_ENCLOSURE_SIZE] =
 		g_param_spec_uint (
 			"max-feed-enclosure-size",
-			"Max Feed Enclosure Size",
-			"Max size, in kB, of feed enclosure to download",
+			NULL, NULL,
 			0, G_MAXUINT32, 0,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_EXPLICIT_NOTIFY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -208,7 +222,7 @@ camel_rss_settings_set_filter_all (CamelRssSettings *settings,
 
 	settings->priv->filter_all = filter_all;
 
-	g_object_notify (G_OBJECT (settings), "filter-all");
+	g_object_notify_by_pspec (G_OBJECT (settings), properties[PROP_FILTER_ALL]);
 }
 
 gboolean
@@ -230,7 +244,7 @@ camel_rss_settings_set_complete_articles (CamelRssSettings *settings,
 
 	settings->priv->complete_articles = value;
 
-	g_object_notify (G_OBJECT (settings), "complete-articles");
+	g_object_notify_by_pspec (G_OBJECT (settings), properties[PROP_COMPLETE_ARTICLES]);
 }
 
 gboolean
@@ -252,7 +266,7 @@ camel_rss_settings_set_feed_enclosures (CamelRssSettings *settings,
 
 	settings->priv->feed_enclosures = value;
 
-	g_object_notify (G_OBJECT (settings), "feed-enclosures");
+	g_object_notify_by_pspec (G_OBJECT (settings), properties[PROP_FEED_ENCLOSURES]);
 }
 
 gboolean
@@ -274,7 +288,7 @@ camel_rss_settings_set_limit_feed_enclosure_size (CamelRssSettings *settings,
 
 	settings->priv->limit_feed_enclosure_size = value;
 
-	g_object_notify (G_OBJECT (settings), "limit-feed-enclosure-size");
+	g_object_notify_by_pspec (G_OBJECT (settings), properties[PROP_LIMIT_FEED_ENCLOSURE_SIZE]);
 }
 
 guint32
@@ -296,5 +310,5 @@ camel_rss_settings_set_max_feed_enclosure_size (CamelRssSettings *settings,
 
 	settings->priv->max_feed_enclosure_size = value;
 
-	g_object_notify (G_OBJECT (settings), "max-feed-enclosure-size");
+	g_object_notify_by_pspec (G_OBJECT (settings), properties[PROP_MAX_FEED_ENCLOSURE_SIZE]);
 }

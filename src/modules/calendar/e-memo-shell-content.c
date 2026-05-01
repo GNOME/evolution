@@ -42,9 +42,12 @@ struct _EMemoShellContentPrivate {
 
 enum {
 	PROP_0,
+	PROP_PREVIEW_VISIBLE,
+	N_PROPS,
 	PROP_ORIENTATION,
-	PROP_PREVIEW_VISIBLE
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMemoShellContent, e_memo_shell_content, E_TYPE_CAL_BASE_SHELL_CONTENT, 0,
 	G_ADD_PRIVATE_DYNAMIC (EMemoShellContent)
@@ -597,16 +600,19 @@ e_memo_shell_content_class_init (EMemoShellContentClass *class)
 	cal_base_shell_content_class->new_cal_model = e_cal_model_memos_new;
 	cal_base_shell_content_class->view_created = memo_shell_content_view_created;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_VISIBLE,
+	/**
+	 * EMemoShellContent:preview-visible
+	 *
+	 * Whether the preview pane is visible
+	 **/
+	properties[PROP_PREVIEW_VISIBLE] =
 		g_param_spec_boolean (
 			"preview-visible",
-			"Preview is Visible",
-			"Whether the preview pane is visible",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	g_object_class_override_property (
 		object_class, PROP_ORIENTATION, "orientation");
@@ -687,7 +693,7 @@ e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
 		e_web_view_update_actions (e_preview_pane_get_web_view (E_PREVIEW_PANE (memo_shell_content->priv->preview_pane)));
 	}
 
-	g_object_notify (G_OBJECT (memo_shell_content), "preview-visible");
+	g_object_notify_by_pspec (G_OBJECT (memo_shell_content), properties[PROP_PREVIEW_VISIBLE]);
 }
 
 EShellSearchbar *

@@ -48,8 +48,11 @@ struct _ETagCalendarPrivate
 enum {
 	PROP_0,
 	PROP_CALENDAR,
-	PROP_RECUR_EVENTS_ITALIC
+	PROP_RECUR_EVENTS_ITALIC,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void e_tag_calendar_cal_data_model_subscriber_init (ECalDataModelSubscriberInterface *iface);
 
@@ -749,26 +752,27 @@ e_tag_calendar_class_init (ETagCalendarClass *class)
 	object_class->dispose = e_tag_calendar_dispose;
 	object_class->finalize = e_tag_calendar_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CALENDAR,
+	/**
+	 * ETagCalendar:calendar
+	 **/
+	properties[PROP_CALENDAR] =
 		g_param_spec_object (
 			"calendar",
-			"Calendar",
-			NULL,
+			NULL, NULL,
 			E_TYPE_CALENDAR,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_RECUR_EVENTS_ITALIC,
+	/**
+	 * ETagCalendar:recur-events-italic
+	 **/
+	properties[PROP_RECUR_EVENTS_ITALIC] =
 		g_param_spec_boolean (
 			"recur-events-italic",
-			"Recur Events Italic",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -832,7 +836,7 @@ e_tag_calendar_set_recur_events_italic (ETagCalendar *tag_calendar,
 
 	tag_calendar->priv->recur_events_italic = recur_events_italic;
 
-	g_object_notify (G_OBJECT (tag_calendar), "recur-events-italic");
+	g_object_notify_by_pspec (G_OBJECT (tag_calendar), properties[PROP_RECUR_EVENTS_ITALIC]);
 
 	e_tag_calendar_remark_days (tag_calendar);
 }

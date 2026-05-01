@@ -99,8 +99,11 @@ enum {
 	PROP_MARK_CITATIONS,
 	PROP_SHOW_REAL_DATE,
 	PROP_SHOW_SENDER_PHOTO,
-	PROP_TEXT_COLOR
+	PROP_TEXT_COLOR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	NEED_REDRAW,
@@ -615,151 +618,152 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 	class->run = mail_formatter_run;
 	class->update_style = mail_formatter_update_style;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ANIMATE_IMAGES,
+	/**
+	 * EMailFormatter:animate-images
+	 **/
+	properties[PROP_ANIMATE_IMAGES] =
 		g_param_spec_boolean (
 			"animate-images",
-			"Animate images",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BODY_COLOR,
+	/**
+	 * EMailFormatter:body-color
+	 **/
+	properties[PROP_BODY_COLOR] =
 		g_param_spec_boxed (
 			"body-color",
-			"Body Color",
-			NULL,
+			NULL, NULL,
 			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CHARSET,
+	/**
+	 * EMailFormatter:charset
+	 **/
+	properties[PROP_CHARSET] =
 		g_param_spec_string (
 			"charset",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CITATION_COLOR,
+	/**
+	 * EMailFormatter:citation-color
+	 **/
+	properties[PROP_CITATION_COLOR] =
 		g_param_spec_boxed (
 			"citation-color",
-			"Citation Color",
-			NULL,
+			NULL, NULL,
 			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CONTENT_COLOR,
+	/**
+	 * EMailFormatter:content-color
+	 **/
+	properties[PROP_CONTENT_COLOR] =
 		g_param_spec_boxed (
 			"content-color",
-			"Content Color",
-			NULL,
+			NULL, NULL,
 			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DEFAULT_CHARSET,
+	/**
+	 * EMailFormatter:default-charset
+	 **/
+	properties[PROP_DEFAULT_CHARSET] =
 		g_param_spec_string (
 			"default-charset",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FRAME_COLOR,
+	/**
+	 * EMailFormatter:frame-color
+	 **/
+	properties[PROP_FRAME_COLOR] =
 		g_param_spec_boxed (
 			"frame-color",
-			"Frame Color",
-			NULL,
+			NULL, NULL,
 			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEADER_COLOR,
+	/**
+	 * EMailFormatter:header-color
+	 **/
+	properties[PROP_HEADER_COLOR] =
 		g_param_spec_boxed (
 			"header-color",
-			"Header Color",
-			NULL,
+			NULL, NULL,
 			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IMAGE_LOADING_POLICY,
+	/**
+	 * EMailFormatter:image-loading-policy
+	 **/
+	properties[PROP_IMAGE_LOADING_POLICY] =
 		g_param_spec_enum (
 			"image-loading-policy",
-			"Image Loading Policy",
-			NULL,
+			NULL, NULL,
 			E_TYPE_IMAGE_LOADING_POLICY,
 			E_IMAGE_LOADING_POLICY_NEVER,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MARK_CITATIONS,
+	/**
+	 * EMailFormatter:mark-citations
+	 **/
+	properties[PROP_MARK_CITATIONS] =
 		g_param_spec_boolean (
 			"mark-citations",
-			"Mark Citations",
-			NULL,
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_REAL_DATE,
+	/**
+	 * EMailFormatter:show-real-date
+	 **/
+	properties[PROP_SHOW_REAL_DATE] =
 		g_param_spec_boolean (
 			"show-real-date",
-			"Show real Date header value",
-			NULL,
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_SENDER_PHOTO,
+	/**
+	 * EMailFormatter:show-sender-photo
+	 **/
+	properties[PROP_SHOW_SENDER_PHOTO] =
 		g_param_spec_boolean (
 			"show-sender-photo",
-			"Show Sender Photo",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TEXT_COLOR,
+	/**
+	 * EMailFormatter:text-color
+	 **/
+	properties[PROP_TEXT_COLOR] =
 		g_param_spec_boxed (
 			"text-color",
-			"Text Color",
-			NULL,
+			NULL, NULL,
 			GDK_TYPE_RGBA,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CLAIM_ATTACHMENT] = g_signal_new (
 		"claim-attachment",
@@ -1318,7 +1322,7 @@ e_mail_formatter_set_image_loading_policy (EMailFormatter *formatter,
 
 	formatter->priv->image_loading_policy = policy;
 
-	g_object_notify (G_OBJECT (formatter), "image-loading-policy");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_IMAGE_LOADING_POLICY]);
 }
 
 gboolean
@@ -1353,7 +1357,7 @@ e_mail_formatter_set_mark_citations (EMailFormatter *formatter,
 	else
 		klass->text_html_flags &= ~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
 
-	g_object_notify (G_OBJECT (formatter), "mark-citations");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_MARK_CITATIONS]);
 }
 
 gboolean
@@ -1375,7 +1379,7 @@ e_mail_formatter_set_show_sender_photo (EMailFormatter *formatter,
 
 	formatter->priv->show_sender_photo = show_sender_photo;
 
-	g_object_notify (G_OBJECT (formatter), "show-sender-photo");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_SHOW_SENDER_PHOTO]);
 }
 
 gboolean
@@ -1397,7 +1401,7 @@ e_mail_formatter_set_show_real_date (EMailFormatter *formatter,
 
 	formatter->priv->show_real_date = show_real_date;
 
-	g_object_notify (G_OBJECT (formatter), "show-real-date");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_SHOW_REAL_DATE]);
 }
 
 gboolean
@@ -1419,7 +1423,7 @@ e_mail_formatter_set_animate_images (EMailFormatter *formatter,
 
 	formatter->priv->animate_images = animate_images;
 
-	g_object_notify (G_OBJECT (formatter), "animate-images");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_ANIMATE_IMAGES]);
 }
 
 const gchar *
@@ -1466,7 +1470,7 @@ e_mail_formatter_set_charset (EMailFormatter *formatter,
 
 	g_mutex_unlock (&formatter->priv->property_lock);
 
-	g_object_notify (G_OBJECT (formatter), "charset");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_CHARSET]);
 }
 
 const gchar *
@@ -1514,6 +1518,6 @@ e_mail_formatter_set_default_charset (EMailFormatter *formatter,
 
 	g_mutex_unlock (&formatter->priv->property_lock);
 
-	g_object_notify (G_OBJECT (formatter), "default-charset");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_DEFAULT_CHARSET]);
 }
 

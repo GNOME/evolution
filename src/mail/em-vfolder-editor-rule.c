@@ -45,8 +45,11 @@ struct _EMVFolderEditorRulePrivate {
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static GtkWidget *get_widget (EFilterRule *fr, ERuleContext *f);
 static void em_vfolder_editor_rule_persist_customatizations (EMVFolderEditorRule *rule);
@@ -145,16 +148,17 @@ em_vfolder_editor_rule_class_init (EMVFolderEditorRuleClass *class)
 	filter_rule_class = E_FILTER_RULE_CLASS (class);
 	filter_rule_class->get_widget = get_widget;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMVFolderEditorRule:session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

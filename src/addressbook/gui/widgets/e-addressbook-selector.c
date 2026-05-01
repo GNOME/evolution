@@ -46,8 +46,11 @@ struct _MergeContext {
 
 enum {
 	PROP_0,
-	PROP_CURRENT_VIEW
+	PROP_CURRENT_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static GtkTargetEntry drag_types[] = {
 	{ (gchar *) "text/x-source-vcard", 0, 1 }
@@ -566,15 +569,16 @@ e_addressbook_selector_class_init (EAddressbookSelectorClass *class)
 	selector_class = E_SOURCE_SELECTOR_CLASS (class);
 	selector_class->data_dropped = addressbook_selector_data_dropped;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURRENT_VIEW,
+	/**
+	 * EAddressbookSelector:current-view
+	 **/
+	properties[PROP_CURRENT_VIEW] =
 		g_param_spec_object (
 			"current-view",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_ADDRESSBOOK_VIEW,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -650,7 +654,7 @@ e_addressbook_selector_set_current_view (EAddressbookSelector *selector,
 
 	selector->priv->current_view = current_view;
 
-	g_object_notify (G_OBJECT (selector), "current-view");
+	g_object_notify_by_pspec (G_OBJECT (selector), properties[PROP_CURRENT_VIEW]);
 }
 
 gchar *

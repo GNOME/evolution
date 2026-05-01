@@ -55,8 +55,11 @@ struct _EConfigLookupPrivate {
 enum {
 	PROP_0,
 	PROP_REGISTRY,
-	PROP_BUSY
+	PROP_BUSY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	GET_SOURCE,
@@ -117,7 +120,7 @@ config_lookup_emit_idle_cb (gpointer user_data)
 		g_signal_emit (ed->config_lookup, signals[WORKER_FINISHED], 0, ed->worker, ed->params, ed->error);
 
 	if ((ed->flags & EMIT_BUSY) != 0)
-		g_object_notify (G_OBJECT (ed->config_lookup), "busy");
+		g_object_notify_by_pspec (G_OBJECT (ed->config_lookup), properties[PROP_BUSY]);
 
 	return FALSE;
 }
@@ -295,7 +298,7 @@ config_lookup_dispose (GObject *object)
 	g_mutex_unlock (&config_lookup->priv->property_lock);
 
 	if (had_running_workers)
-		g_object_notify (object, "busy");
+		g_object_notify_by_pspec (object, properties[PROP_BUSY]);
 
 	g_clear_object (&config_lookup->priv->registry);
 
@@ -334,17 +337,19 @@ e_config_lookup_class_init (EConfigLookupClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EConfigLookup:registry
+	 *
+	 * Data source registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Data source registry",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EConfigLookup:busy:
@@ -353,16 +358,17 @@ e_config_lookup_class_init (EConfigLookupClass *klass)
 	 *
 	 * Since: 3.28
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_BUSY,
+	/**
+	 * EConfigLookup:busy
+	 **/
+	properties[PROP_BUSY] =
 		g_param_spec_boolean (
 			"busy",
-			"Busy",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * EConfigLookup::get-source:

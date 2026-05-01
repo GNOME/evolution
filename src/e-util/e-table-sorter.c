@@ -29,8 +29,11 @@
 
 enum {
 	PROP_0,
-	PROP_SORT_INFO
+	PROP_SORT_INFO,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_table_sorter_interface_init	(ESorterInterface *iface);
@@ -482,15 +485,16 @@ e_table_sorter_class_init (ETableSorterClass *class)
 	object_class->get_property = table_sorter_get_property;
 	object_class->dispose = table_sorter_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SORT_INFO,
+	/**
+	 * ETableSorter:sort-info
+	 **/
+	properties[PROP_SORT_INFO] =
 		g_param_spec_object (
-			"sort_info",
-			"Sort Info",
-			NULL,
+			"sort-info",
+			NULL, NULL,
 			E_TYPE_TABLE_SORT_INFO,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

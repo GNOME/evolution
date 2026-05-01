@@ -28,8 +28,11 @@
 
 enum {
 	PROP_0,
-	PROP_CURRENT_FACE
+	N_PROPS,
+	PROP_CURRENT_FACE,
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_emoticon_chooser_menu_interface_init

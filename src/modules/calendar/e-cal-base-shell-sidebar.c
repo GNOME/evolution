@@ -40,8 +40,11 @@ struct _ECalBaseShellSidebarPrivate {
 enum {
 	PROP_0,
 	PROP_DATE_NAVIGATOR,
-	PROP_SELECTOR
+	PROP_SELECTOR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CLIENT_OPENED,
@@ -876,25 +879,30 @@ e_cal_base_shell_sidebar_class_init (ECalBaseShellSidebarClass *class)
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = cal_base_shell_sidebar_check_state;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTOR,
+	/**
+	 * ECalBaseShellSidebar:selector
+	 *
+	 * This widget displays groups of calendars
+	 **/
+	properties[PROP_SELECTOR] =
 		g_param_spec_object (
 			"selector",
-			"Source Selector Widget",
-			"This widget displays groups of calendars",
+			NULL, NULL,
 			E_TYPE_SOURCE_SELECTOR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DATE_NAVIGATOR,
+	/**
+	 * ECalBaseShellSidebar:date-navigator
+	 *
+	 * This widget displays a miniature calendar
+	 **/
+	properties[PROP_DATE_NAVIGATOR] =
 		g_param_spec_object (
 			"date-navigator",
-			"Date Navigator Widget",
-			"This widget displays a miniature calendar",
+			NULL, NULL,
 			E_TYPE_CALENDAR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CLIENT_OPENED] = g_signal_new (
 		"client-opened",

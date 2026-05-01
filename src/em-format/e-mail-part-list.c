@@ -35,8 +35,11 @@ enum {
 	PROP_0,
 	PROP_FOLDER,
 	PROP_MESSAGE,
-	PROP_MESSAGE_UID
+	PROP_MESSAGE_UID,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailPartList, e_mail_part_list, G_TYPE_OBJECT)
 
@@ -212,41 +215,42 @@ e_mail_part_list_class_init (EMailPartListClass *class)
 	object_class->dispose = mail_part_list_dispose;
 	object_class->finalize = mail_part_list_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOLDER,
+	/**
+	 * EMailPartList:folder
+	 **/
+	properties[PROP_FOLDER] =
 		g_param_spec_object (
 			"folder",
-			"Folder",
-			NULL,
+			NULL, NULL,
 			CAMEL_TYPE_FOLDER,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MESSAGE,
+	/**
+	 * EMailPartList:message
+	 **/
+	properties[PROP_MESSAGE] =
 		g_param_spec_object (
 			"message",
-			"Message",
-			NULL,
+			NULL, NULL,
 			CAMEL_TYPE_MIME_MESSAGE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MESSAGE_UID,
+	/**
+	 * EMailPartList:message-uid
+	 **/
+	properties[PROP_MESSAGE_UID] =
 		g_param_spec_string (
 			"message-uid",
-			"Message UID",
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

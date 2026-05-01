@@ -57,8 +57,11 @@ enum {
 	PROP_SESSION,
 	PROP_SEND_ACCOUNT_OVERRIDE,
 	PROP_REMOTE_CONTENT,
-	PROP_MAIL_PROPERTIES
+	PROP_MAIL_PROPERTIES,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EMailBackend, e_mail_backend, E_TYPE_SHELL_BACKEND)
 
@@ -1556,45 +1559,46 @@ e_mail_backend_class_init (EMailBackendClass *class)
 	shell_backend_class->get_data_dir = mail_shell_backend_get_data_dir;
 	shell_backend_class->get_config_dir = mail_shell_backend_get_config_dir;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMailBackend:session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SEND_ACCOUNT_OVERRIDE,
+	/**
+	 * EMailBackend:send-account-override
+	 **/
+	properties[PROP_SEND_ACCOUNT_OVERRIDE] =
 		g_param_spec_object (
 			"send-account-override",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_SEND_ACCOUNT_OVERRIDE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REMOTE_CONTENT,
+	/**
+	 * EMailBackend:remote-content
+	 **/
+	properties[PROP_REMOTE_CONTENT] =
 		g_param_spec_object (
 			"remote-content",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_REMOTE_CONTENT,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIL_PROPERTIES,
+	/**
+	 * EMailBackend:mail-properties
+	 **/
+	properties[PROP_MAIL_PROPERTIES] =
 		g_param_spec_object (
 			"mail-properties",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_PROPERTIES,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

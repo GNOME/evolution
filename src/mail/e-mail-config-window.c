@@ -43,8 +43,11 @@ struct _EMailConfigWindowPrivate {
 enum {
 	PROP_0,
 	PROP_ORIGINAL_SOURCE,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGES_COMMITTED,
@@ -424,29 +427,34 @@ e_mail_config_window_class_init (EMailConfigWindowClass *class)
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = mail_config_window_response;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ORIGINAL_SOURCE,
+	/**
+	 * EMailConfigWindow:original-source
+	 *
+	 * Original mail account source
+	 **/
+	properties[PROP_ORIGINAL_SOURCE] =
 		g_param_spec_object (
 			"original-source",
-			"Original Source",
-			"Original mail account source",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMailConfigWindow:session
+	 *
+	 * Mail session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			"Session",
-			"Mail session",
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGES_COMMITTED] = g_signal_new (
 		"changes-committed",

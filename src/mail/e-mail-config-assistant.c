@@ -77,8 +77,11 @@ enum {
 	PROP_IDENTITY_SOURCE,
 	PROP_SESSION,
 	PROP_TRANSPORT_BACKEND,
-	PROP_TRANSPORT_SOURCE
+	PROP_TRANSPORT_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	NEW_SOURCE,
@@ -256,8 +259,8 @@ mail_config_assistant_notify_account_backend (EMailConfigServicePage *page,
 notify:
 	g_object_freeze_notify (G_OBJECT (assistant));
 
-	g_object_notify (G_OBJECT (assistant), "account-backend");
-	g_object_notify (G_OBJECT (assistant), "account-source");
+	g_object_notify_by_pspec (G_OBJECT (assistant), properties[PROP_ACCOUNT_BACKEND]);
+	g_object_notify_by_pspec (G_OBJECT (assistant), properties[PROP_ACCOUNT_SOURCE]);
 
 	g_object_thaw_notify (G_OBJECT (assistant));
 }
@@ -269,8 +272,8 @@ mail_config_assistant_notify_transport_backend (EMailConfigServicePage *page,
 {
 	g_object_freeze_notify (G_OBJECT (assistant));
 
-	g_object_notify (G_OBJECT (assistant), "transport-backend");
-	g_object_notify (G_OBJECT (assistant), "transport-source");
+	g_object_notify_by_pspec (G_OBJECT (assistant), properties[PROP_TRANSPORT_BACKEND]);
+	g_object_notify_by_pspec (G_OBJECT (assistant), properties[PROP_TRANSPORT_SOURCE]);
 
 	g_object_thaw_notify (G_OBJECT (assistant));
 }
@@ -1149,72 +1152,85 @@ e_mail_config_assistant_class_init (EMailConfigAssistantClass *class)
 	assistant_class->close = mail_config_assistant_close;
 	assistant_class->cancel = mail_config_assistant_cancel;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT_BACKEND,
+	/**
+	 * EMailConfigAssistant:account-backend
+	 *
+	 * Active mail account service backend
+	 **/
+	properties[PROP_ACCOUNT_BACKEND] =
 		g_param_spec_object (
 			"account-backend",
-			"Account Backend",
-			"Active mail account service backend",
+			NULL, NULL,
 			E_TYPE_MAIL_CONFIG_SERVICE_BACKEND,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT_SOURCE,
+	/**
+	 * EMailConfigAssistant:account-source
+	 *
+	 * Mail account source being edited
+	 **/
+	properties[PROP_ACCOUNT_SOURCE] =
 		g_param_spec_object (
 			"account-source",
-			"Account Source",
-			"Mail account source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IDENTITY_SOURCE,
+	/**
+	 * EMailConfigAssistant:identity-source
+	 *
+	 * Mail identity source being edited
+	 **/
+	properties[PROP_IDENTITY_SOURCE] =
 		g_param_spec_object (
 			"identity-source",
-			"Identity Source",
-			"Mail identity source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMailConfigAssistant:session
+	 *
+	 * Mail session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			"Session",
-			"Mail session",
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TRANSPORT_BACKEND,
+	/**
+	 * EMailConfigAssistant:transport-backend
+	 *
+	 * Active mail transport service backend
+	 **/
+	properties[PROP_TRANSPORT_BACKEND] =
 		g_param_spec_object (
 			"transport-backend",
-			"Transport Backend",
-			"Active mail transport service backend",
+			NULL, NULL,
 			E_TYPE_MAIL_CONFIG_SERVICE_BACKEND,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TRANSPORT_SOURCE,
+	/**
+	 * EMailConfigAssistant:transport-source
+	 *
+	 * Mail transport source being edited
+	 **/
+	properties[PROP_TRANSPORT_SOURCE] =
 		g_param_spec_object (
 			"transport-source",
-			"Transport Source",
-			"Mail transport source being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * EMailConfigAssistant::new-source:

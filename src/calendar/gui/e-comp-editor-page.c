@@ -31,8 +31,11 @@ struct _ECompEditorPagePrivate {
 
 enum {
 	PROP_0,
-	PROP_EDITOR
+	PROP_EDITOR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,
@@ -216,17 +219,20 @@ e_comp_editor_page_class_init (ECompEditorPageClass *klass)
 	object_class->constructed = e_comp_editor_page_constructed;
 	object_class->finalize = e_comp_editor_page_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITOR,
+	/**
+	 * ECompEditorPage:editor
+	 *
+	 * ECompEditor the page belongs to
+	 **/
+	properties[PROP_EDITOR] =
 		g_param_spec_object (
 			"editor",
-			"Editor",
-			"ECompEditor the page belongs to",
+			NULL, NULL,
 			E_TYPE_COMP_EDITOR,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",

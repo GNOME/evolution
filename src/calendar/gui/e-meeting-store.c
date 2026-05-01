@@ -89,8 +89,11 @@ enum {
 	PROP_DEFAULT_REMINDER_UNITS,
 	PROP_FREE_BUSY_TEMPLATE,
 	PROP_SHOW_ADDRESS,
-	PROP_TIMEZONE
+	PROP_TIMEZONE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void ems_tree_model_init (GtkTreeModelIface *iface);
@@ -774,69 +777,70 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 	object_class->constructed = meeting_store_constructed;
 	object_class->finalize = meeting_store_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT,
+	/**
+	 * EMeetingStore:client
+	 **/
+	properties[PROP_CLIENT] =
 		g_param_spec_object (
 			"client",
-			"ECalClient",
-			NULL,
+			NULL, NULL,
 			E_TYPE_CAL_CLIENT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DEFAULT_REMINDER_INTERVAL,
+	/**
+	 * EMeetingStore:default-reminder-interval
+	 **/
+	properties[PROP_DEFAULT_REMINDER_INTERVAL] =
 		g_param_spec_int (
 			"default-reminder-interval",
-			"Default Reminder Interval",
-			NULL,
+			NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DEFAULT_REMINDER_UNITS,
+	/**
+	 * EMeetingStore:default-reminder-units
+	 **/
+	properties[PROP_DEFAULT_REMINDER_UNITS] =
 		g_param_spec_enum (
 			"default-reminder-units",
-			"Default Reminder Units",
-			NULL,
+			NULL, NULL,
 			E_TYPE_DURATION_TYPE,
 			E_DURATION_MINUTES,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FREE_BUSY_TEMPLATE,
+	/**
+	 * EMeetingStore:free-busy-template
+	 **/
+	properties[PROP_FREE_BUSY_TEMPLATE] =
 		g_param_spec_string (
 			"free-busy-template",
-			"Free/Busy Template",
+			NULL, NULL,
 			NULL,
-			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_ADDRESS,
+	/**
+	 * EMeetingStore:show-address
+	 **/
+	properties[PROP_SHOW_ADDRESS] =
 		g_param_spec_boolean (
 			"show-address",
-			"Show email addresses",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TIMEZONE,
+	/**
+	 * EMeetingStore:timezone
+	 **/
+	properties[PROP_TIMEZONE] =
 		g_param_spec_object (
 			"timezone",
-			"Timezone",
-			NULL,
+			NULL, NULL,
 			I_CAL_TYPE_TIMEZONE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -887,7 +891,7 @@ e_meeting_store_set_client (EMeetingStore *store,
 
 	store->priv->client = client;
 
-	g_object_notify (G_OBJECT (store), "client");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_CLIENT]);
 }
 
 gint
@@ -909,7 +913,7 @@ e_meeting_store_set_default_reminder_interval (EMeetingStore *store,
 
 	store->priv->default_reminder_interval = default_reminder_interval;
 
-	g_object_notify (G_OBJECT (store), "default-reminder-interval");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_DEFAULT_REMINDER_INTERVAL]);
 }
 
 EDurationType
@@ -931,7 +935,7 @@ e_meeting_store_set_default_reminder_units (EMeetingStore *store,
 
 	store->priv->default_reminder_units = default_reminder_units;
 
-	g_object_notify (G_OBJECT (store), "default-reminder-units");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_DEFAULT_REMINDER_UNITS]);
 }
 
 const gchar *
@@ -954,7 +958,7 @@ e_meeting_store_set_free_busy_template (EMeetingStore *store,
 	g_free (store->priv->fb_uri);
 	store->priv->fb_uri = g_strdup (free_busy_template);
 
-	g_object_notify (G_OBJECT (store), "free-busy-template");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_FREE_BUSY_TEMPLATE]);
 }
 
 ICalTimezone *
@@ -977,7 +981,7 @@ e_meeting_store_set_timezone (EMeetingStore *store,
 	g_clear_object (&store->priv->zone);
 	store->priv->zone = timezone ? e_cal_util_copy_timezone (timezone) : NULL;
 
-	g_object_notify (G_OBJECT (store), "timezone");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_TIMEZONE]);
 }
 
 gboolean
@@ -999,7 +1003,7 @@ e_meeting_store_set_show_address (EMeetingStore *store,
 
 	store->priv->show_address = show_address;
 
-	g_object_notify (G_OBJECT (store), "show-address");
+	g_object_notify_by_pspec (G_OBJECT (store), properties[PROP_SHOW_ADDRESS]);
 }
 
 static void

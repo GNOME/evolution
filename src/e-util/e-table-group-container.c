@@ -58,8 +58,11 @@ enum {
 	PROP_SELECTION_MODEL,
 	PROP_LENGTH_THRESHOLD,
 	PROP_UNIFORM_ROW_HEIGHT,
-	PROP_IS_EDITING
+	N_PROPS,
+	PROP_IS_EDITING,
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static EPrintable *
 etgc_get_printable (ETableGroup *etg);
@@ -478,15 +481,15 @@ create_child_node (ETableGroupContainer *etgc,
 		etg->header, etg->model, etgc->sort_info, etgc->n + 1);
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (child),
-		"alternating_row_colors", etgc->alternating_row_colors,
-		"horizontal_draw_grid", etgc->horizontal_draw_grid,
-		"vertical_draw_grid", etgc->vertical_draw_grid,
+		"alternating-row-colors", etgc->alternating_row_colors,
+		"horizontal-draw-grid", etgc->horizontal_draw_grid,
+		"vertical-draw-grid", etgc->vertical_draw_grid,
 		"drawfocus", etgc->draw_focus,
-		"cursor_mode", etgc->cursor_mode,
-		"selection_model", etgc->selection_model,
-		"length_threshold", etgc->length_threshold,
-		"uniform_row_height", etgc->uniform_row_height,
-		"minimum_width", etgc->minimum_width - GROUP_INDENT,
+		"cursor-mode", etgc->cursor_mode,
+		"selection-model", etgc->selection_model,
+		"length-threshold", etgc->length_threshold,
+		"uniform-row-height", etgc->uniform_row_height,
+		"minimum-width", etgc->minimum_width - GROUP_INDENT,
 		NULL);
 
 	g_signal_connect (
@@ -887,7 +890,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"minimum_width", etgc->minimum_width - GROUP_INDENT,
+				"minimum-width", etgc->minimum_width - GROUP_INDENT,
 				NULL);
 		}
 		break;
@@ -897,7 +900,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"length_threshold", etgc->length_threshold,
+				"length-threshold", etgc->length_threshold,
 				NULL);
 		}
 		break;
@@ -907,7 +910,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"uniform_row_height", etgc->uniform_row_height,
+				"uniform-row-height", etgc->uniform_row_height,
 				NULL);
 		}
 		break;
@@ -922,7 +925,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"selection_model", etgc->selection_model,
+				"selection-model", etgc->selection_model,
 				NULL);
 		}
 		break;
@@ -933,7 +936,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"alternating_row_colors", etgc->alternating_row_colors,
+				"alternating-row-colors", etgc->alternating_row_colors,
 				NULL);
 		}
 		break;
@@ -944,7 +947,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"horizontal_draw_grid", etgc->horizontal_draw_grid,
+				"horizontal-draw-grid", etgc->horizontal_draw_grid,
 				NULL);
 		}
 		break;
@@ -955,7 +958,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"vertical_draw_grid", etgc->vertical_draw_grid,
+				"vertical-draw-grid", etgc->vertical_draw_grid,
 				NULL);
 		}
 		break;
@@ -977,7 +980,7 @@ etgc_set_property (GObject *object,
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *) list->data;
 			g_object_set (
 				child_node->child,
-				"cursor_mode", etgc->cursor_mode,
+				"cursor-mode", etgc->cursor_mode,
 				NULL);
 		}
 		break;
@@ -1049,127 +1052,152 @@ e_table_group_container_class_init (ETableGroupContainerClass *class)
 	e_group_class->get_mouse_over = etgc_get_mouse_over;
 	e_group_class->get_cell_geometry = etgc_get_cell_geometry;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_ALTERNATING_ROW_COLORS,
+	/**
+	 * ETableGroupContainer:alternating-row-colors
+	 *
+	 * Alternating Row Colors
+	 **/
+	properties[PROP_TABLE_ALTERNATING_ROW_COLORS] =
 		g_param_spec_boolean (
-			"alternating_row_colors",
-			"Alternating Row Colors",
-			"Alternating Row Colors",
+			"alternating-row-colors",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_HORIZONTAL_DRAW_GRID,
+	/**
+	 * ETableGroupContainer:horizontal-draw-grid
+	 *
+	 * Horizontal Draw Grid
+	 **/
+	properties[PROP_TABLE_HORIZONTAL_DRAW_GRID] =
 		g_param_spec_boolean (
-			"horizontal_draw_grid",
-			"Horizontal Draw Grid",
-			"Horizontal Draw Grid",
+			"horizontal-draw-grid",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_VERTICAL_DRAW_GRID,
+	/**
+	 * ETableGroupContainer:vertical-draw-grid
+	 *
+	 * Vertical Draw Grid
+	 **/
+	properties[PROP_TABLE_VERTICAL_DRAW_GRID] =
 		g_param_spec_boolean (
-			"vertical_draw_grid",
-			"Vertical Draw Grid",
-			"Vertical Draw Grid",
+			"vertical-draw-grid",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_DRAW_FOCUS,
+	/**
+	 * ETableGroupContainer:drawfocus
+	 *
+	 * Draw focus
+	 **/
+	properties[PROP_TABLE_DRAW_FOCUS] =
 		g_param_spec_boolean (
 			"drawfocus",
-			"Draw focus",
-			"Draw focus",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_MODE,
+	/**
+	 * ETableGroupContainer:cursor-mode
+	 *
+	 * Cursor mode
+	 **/
+	properties[PROP_CURSOR_MODE] =
 		g_param_spec_int (
-			"cursor_mode",
-			"Cursor mode",
-			"Cursor mode",
+			"cursor-mode",
+			NULL, NULL,
 			E_CURSOR_LINE,
 			E_CURSOR_SPREADSHEET,
 			E_CURSOR_LINE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTION_MODEL,
+	/**
+	 * ETableGroupContainer:selection-model
+	 *
+	 * Selection model
+	 **/
+	properties[PROP_SELECTION_MODEL] =
 		g_param_spec_object (
-			"selection_model",
-			"Selection model",
-			"Selection model",
+			"selection-model",
+			NULL, NULL,
 			E_TYPE_SELECTION_MODEL,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LENGTH_THRESHOLD,
+	/**
+	 * ETableGroupContainer:length-threshold
+	 *
+	 * Length Threshold
+	 **/
+	properties[PROP_LENGTH_THRESHOLD] =
 		g_param_spec_int (
-			"length_threshold",
-			"Length Threshold",
-			"Length Threshold",
+			"length-threshold",
+			NULL, NULL,
 			-1, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UNIFORM_ROW_HEIGHT,
+	/**
+	 * ETableGroupContainer:uniform-row-height
+	 *
+	 * Uniform row height
+	 **/
+	properties[PROP_UNIFORM_ROW_HEIGHT] =
 		g_param_spec_boolean (
-			"uniform_row_height",
-			"Uniform row height",
-			"Uniform row height",
+			"uniform-row-height",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FROZEN,
+	/**
+	 * ETableGroupContainer:frozen
+	 *
+	 * Frozen
+	 **/
+	properties[PROP_FROZEN] =
 		g_param_spec_boolean (
 			"frozen",
-			"Frozen",
-			"Frozen",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEIGHT,
+	/**
+	 * ETableGroupContainer:height
+	 *
+	 * Height
+	 **/
+	properties[PROP_HEIGHT] =
 		g_param_spec_double (
 			"height",
-			"Height",
-			"Height",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WIDTH,
+	/**
+	 * ETableGroupContainer:width
+	 *
+	 * Width
+	 **/
+	properties[PROP_WIDTH] =
 		g_param_spec_double (
 			"width",
-			"Width",
-			"Width",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MINIMUM_WIDTH,
+	/**
+	 * ETableGroupContainer:minimum-width
+	 *
+	 * Minimum Width
+	 **/
+	properties[PROP_MINIMUM_WIDTH] =
 		g_param_spec_double (
-			"minimum_width",
-			"Minimum width",
-			"Minimum Width",
+			"minimum-width",
+			NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	g_object_class_override_property (
 		object_class,

@@ -49,8 +49,11 @@ struct _AsyncContext {
 
 enum {
 	PROP_0,
-	PROP_CLIENT_CACHE
+	PROP_CLIENT_CACHE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EClientSelector, e_client_selector, E_TYPE_SOURCE_SELECTOR)
 
@@ -580,17 +583,20 @@ e_client_selector_class_init (EClientSelectorClass *class)
 	 *
 	 * Cache of shared #EClient instances.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT_CACHE,
+	/**
+	 * EClientSelector:client-cache
+	 *
+	 * Cache of shared EClient instances
+	 **/
+	properties[PROP_CLIENT_CACHE] =
 		g_param_spec_object (
 			"client-cache",
-			"Client Cache",
-			"Cache of shared EClient instances",
+			NULL, NULL,
 			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

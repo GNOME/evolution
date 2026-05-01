@@ -257,7 +257,7 @@ draw_expander (ECellTreeView *ectv,
 
 	gtk_style_context_set_state (style_context, flags);
 
-	gtk_widget_style_get (tree, "expander_size", &exp_size, NULL);
+	gtk_widget_style_get (tree, "expander-size", &exp_size, NULL);
 
 	cairo_save (cr);
 
@@ -748,7 +748,7 @@ ect_print (ECellView *ecell_view,
 			GdkRectangle r;
 			gint exp_size = 0;
 
-			gtk_widget_style_get (GTK_WIDGET (gtk_widget_get_parent (GTK_WIDGET (tree_view->canvas))), "expander_size", &exp_size, NULL);
+			gtk_widget_style_get (GTK_WIDGET (gtk_widget_get_parent (GTK_WIDGET (tree_view->canvas))), "expander-size", &exp_size, NULL);
 
 			node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 			expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);

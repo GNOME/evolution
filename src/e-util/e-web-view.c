@@ -109,7 +109,6 @@ struct _AsyncContext {
 enum {
 	PROP_0,
 	PROP_CARET_MODE,
-	PROP_COPY_TARGET_LIST,
 	PROP_CURSOR_IMAGE_SRC,
 	PROP_DISABLE_PRINTING,
 	PROP_DISABLE_SAVE_TO_DISK,
@@ -117,11 +116,15 @@ enum {
 	PROP_NEED_INPUT,
 	PROP_MINIMUM_FONT_SIZE,
 	PROP_OPEN_PROXY,
-	PROP_PASTE_TARGET_LIST,
 	PROP_PRINT_PROXY,
 	PROP_SAVE_AS_PROXY,
-	PROP_SELECTED_URI
+	PROP_SELECTED_URI,
+	N_PROPS,
+	PROP_COPY_TARGET_LIST,
+	PROP_PASTE_TARGET_LIST,
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	NEW_ACTIVITY,
@@ -843,7 +846,7 @@ e_web_view_set_has_selection (EWebView *web_view,
 
 	web_view->priv->has_selection = has_selection;
 
-	g_object_notify (G_OBJECT (web_view), "has-selection");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_HAS_SELECTION]);
 }
 
 static void
@@ -874,13 +877,13 @@ web_view_load_changed_cb (WebKitWebView *webkit_web_view,
 
 static GObjectConstructParam*
 find_property (guint n_properties,
-               GObjectConstructParam* properties,
+               GObjectConstructParam* props,
                GParamSpec* param_spec)
 {
 	while (n_properties--) {
-		if (properties->pspec == param_spec)
-			return properties;
-		properties++;
+		if (props->pspec == param_spec)
+			return props;
+		props++;
 	}
 
 	return NULL;
@@ -1529,7 +1532,7 @@ e_web_view_set_need_input (EWebView *web_view,
 
 	web_view->priv->need_input = need_input;
 
-	g_object_notify (G_OBJECT (web_view), "need-input");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_NEED_INPUT]);
 }
 
 static void
@@ -2451,15 +2454,15 @@ e_web_view_class_init (EWebViewClass *class)
 	class->stop_loading = web_view_stop_loading;
 	class->update_actions = web_view_update_actions;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CARET_MODE,
+	/**
+	 * EWebView:caret-mode
+	 **/
+	properties[PROP_CARET_MODE] =
 		g_param_spec_boolean (
 			"caret-mode",
-			"Caret Mode",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
 	/* Inherited from ESelectableInterface; just a fake property here */
 	g_object_class_override_property (
@@ -2473,107 +2476,108 @@ e_web_view_class_init (EWebViewClass *class)
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_IMAGE_SRC,
+	/**
+	 * EWebView:cursor-image-src
+	 **/
+	properties[PROP_CURSOR_IMAGE_SRC] =
 		g_param_spec_string (
 			"cursor-image-src",
-			"Image source uri at the mouse cursor",
+			NULL, NULL,
 			NULL,
-			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DISABLE_PRINTING,
+	/**
+	 * EWebView:disable-printing
+	 **/
+	properties[PROP_DISABLE_PRINTING] =
 		g_param_spec_boolean (
 			"disable-printing",
-			"Disable Printing",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DISABLE_SAVE_TO_DISK,
+	/**
+	 * EWebView:disable-save-to-disk
+	 **/
+	properties[PROP_DISABLE_SAVE_TO_DISK] =
 		g_param_spec_boolean (
 			"disable-save-to-disk",
-			"Disable Save-to-Disk",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HAS_SELECTION,
+	/**
+	 * EWebView:has-selection
+	 **/
+	properties[PROP_HAS_SELECTION] =
 		g_param_spec_boolean (
 			"has-selection",
-			"Has Selection",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MINIMUM_FONT_SIZE,
+	/**
+	 * EWebView:minimum-font-size
+	 **/
+	properties[PROP_MINIMUM_FONT_SIZE] =
 		g_param_spec_int (
 			"minimum-font-size",
-			"Minimum Font Size",
-			NULL,
+			NULL, NULL,
 			G_MININT, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NEED_INPUT,
+	/**
+	 * EWebView:need-input
+	 **/
+	properties[PROP_NEED_INPUT] =
 		g_param_spec_boolean (
 			"need-input",
-			"Need Input",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_OPEN_PROXY,
+	/**
+	 * EWebView:open-proxy
+	 **/
+	properties[PROP_OPEN_PROXY] =
 		g_param_spec_object (
 			"open-proxy",
-			"Open Proxy",
-			NULL,
+			NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PRINT_PROXY,
+	/**
+	 * EWebView:print-proxy
+	 **/
+	properties[PROP_PRINT_PROXY] =
 		g_param_spec_object (
 			"print-proxy",
-			"Print Proxy",
-			NULL,
+			NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SAVE_AS_PROXY,
+	/**
+	 * EWebView:save-as-proxy
+	 **/
+	properties[PROP_SAVE_AS_PROXY] =
 		g_param_spec_object (
 			"save-as-proxy",
-			"Save As Proxy",
-			NULL,
+			NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTED_URI,
+	/**
+	 * EWebView:selected-uri
+	 **/
+	properties[PROP_SELECTED_URI] =
 		g_param_spec_string (
 			"selected-uri",
-			"Selected URI",
+			NULL, NULL,
 			NULL,
-			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[SET_FONTS] = g_signal_new (
 		"set-fonts",
@@ -2857,7 +2861,7 @@ e_web_view_set_caret_mode (EWebView *web_view,
 
 	web_view->priv->caret_mode = caret_mode;
 
-	g_object_notify (G_OBJECT (web_view), "caret-mode");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_CARET_MODE]);
 }
 
 GtkTargetList *
@@ -2890,7 +2894,7 @@ e_web_view_set_disable_printing (EWebView *web_view,
 
 	web_view->priv->disable_printing = disable_printing;
 
-	g_object_notify (G_OBJECT (web_view), "disable-printing");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_DISABLE_PRINTING]);
 }
 
 gboolean
@@ -2912,7 +2916,7 @@ e_web_view_set_disable_save_to_disk (EWebView *web_view,
 
 	web_view->priv->disable_save_to_disk = disable_save_to_disk;
 
-	g_object_notify (G_OBJECT (web_view), "disable-save-to-disk");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_DISABLE_SAVE_TO_DISK]);
 }
 
 gboolean
@@ -2960,7 +2964,7 @@ e_web_view_set_selected_uri (EWebView *web_view,
 	g_free (web_view->priv->selected_uri);
 	web_view->priv->selected_uri = g_strdup (selected_uri);
 
-	g_object_notify (G_OBJECT (web_view), "selected-uri");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_SELECTED_URI]);
 }
 
 const gchar *
@@ -2983,7 +2987,7 @@ e_web_view_set_cursor_image_src (EWebView *web_view,
 	g_free (web_view->priv->cursor_image_src);
 	web_view->priv->cursor_image_src = g_strdup (src_uri);
 
-	g_object_notify (G_OBJECT (web_view), "cursor-image-src");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_CURSOR_IMAGE_SRC]);
 }
 
 EUIAction *
@@ -3013,7 +3017,7 @@ e_web_view_set_open_proxy (EWebView *web_view,
 
 	web_view->priv->open_proxy = open_proxy;
 
-	g_object_notify (G_OBJECT (web_view), "open-proxy");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_OPEN_PROXY]);
 }
 
 GtkTargetList *
@@ -3054,7 +3058,7 @@ e_web_view_set_print_proxy (EWebView *web_view,
 
 	web_view->priv->print_proxy = print_proxy;
 
-	g_object_notify (G_OBJECT (web_view), "print-proxy");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_PRINT_PROXY]);
 }
 
 EUIAction *
@@ -3084,7 +3088,7 @@ e_web_view_set_save_as_proxy (EWebView *web_view,
 
 	web_view->priv->save_as_proxy = save_as_proxy;
 
-	g_object_notify (G_OBJECT (web_view), "save-as-proxy");
+	g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_SAVE_AS_PROXY]);
 }
 
 void
@@ -3758,7 +3762,7 @@ e_web_view_set_minimum_font_size (EWebView *web_view,
 		wk_settings = webkit_web_view_get_settings (WEBKIT_WEB_VIEW (web_view));
 		e_web_view_utils_apply_minimum_font_size (wk_settings);
 
-		g_object_notify (G_OBJECT (web_view), "minimum-font-size");
+		g_object_notify_by_pspec (G_OBJECT (web_view), properties[PROP_MINIMUM_FONT_SIZE]);
 	}
 }
 

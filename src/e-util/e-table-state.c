@@ -38,8 +38,11 @@ struct _ETableStatePrivate {
 
 enum {
 	PROP_0,
-	PROP_SPECIFICATION
+	PROP_SPECIFICATION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 struct _ParseData {
 	ETableState *state;
@@ -282,17 +285,20 @@ e_table_state_class_init (ETableStateClass *class)
 	object_class->finalize = table_state_finalize;
 	object_class->constructed = table_state_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SPECIFICATION,
+	/**
+	 * ETableState:specification
+	 *
+	 * Specification for the table state
+	 **/
+	properties[PROP_SPECIFICATION] =
 		g_param_spec_object (
 			"specification",
-			"Table Specification",
-			"Specification for the table state",
+			NULL, NULL,
 			E_TYPE_TABLE_SPECIFICATION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

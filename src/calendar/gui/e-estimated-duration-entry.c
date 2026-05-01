@@ -32,8 +32,11 @@ struct _EEstimatedDurationEntryPrivate {
 
 enum {
 	PROP_0,
-	PROP_VALUE
+	PROP_VALUE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,
@@ -434,15 +437,16 @@ e_estimated_duration_entry_class_init (EEstimatedDurationEntryClass *klass)
 	widget_class->mnemonic_activate = estimated_duration_entry_mnemonic_activate;
 	widget_class->focus = estimated_duration_entry_focus;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VALUE,
+	/**
+	 * EEstimatedDurationEntry:value
+	 **/
+	properties[PROP_VALUE] =
 		g_param_spec_object (
 			"value",
-			"Value",
-			NULL,
+			NULL, NULL,
 			I_CAL_TYPE_DURATION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -522,5 +526,5 @@ e_estimated_duration_entry_set_value (EEstimatedDurationEntry *self,
 	estimated_duration_entry_update_entry (self);
 	estimated_duration_entry_add_relation (self);
 
-	g_object_notify (G_OBJECT (self), "value");
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_VALUE]);
 }

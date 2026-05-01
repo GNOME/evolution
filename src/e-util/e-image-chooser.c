@@ -401,21 +401,26 @@ e_image_chooser_class_init (EImageChooserClass *class)
 	object_class->dispose = image_chooser_dispose;
 	object_class->finalize = image_chooser_finalize;
 
-	properties[PROP_ICON_NAME] = g_param_spec_string ("icon-name", NULL, NULL, "avatar-default",
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS);
+	properties[PROP_ICON_NAME] = g_param_spec_string ("icon-name", NULL,
+							  NULL,
+							  "avatar-default",
+							  G_PARAM_READWRITE |
+							  G_PARAM_CONSTRUCT_ONLY |
+							  G_PARAM_STATIC_STRINGS);
 
-	properties[PROP_HAS_IMAGE] = g_param_spec_boolean ("has-image", NULL, NULL, FALSE,
-			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS |
-			G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_HAS_IMAGE] = g_param_spec_boolean ("has-image", NULL,
+							   NULL, FALSE,
+							   G_PARAM_READABLE |
+							   G_PARAM_STATIC_STRINGS |
+							   G_PARAM_EXPLICIT_NOTIFY);
 
-	properties[PROP_PIXEL_SIZE] = g_param_spec_uint ("pixel-size", NULL, NULL, 0, G_MAXUINT, 48,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY);
+	properties[PROP_PIXEL_SIZE] = g_param_spec_uint ("pixel-size", NULL,
+							 NULL, 0, G_MAXUINT,
+							 48,
+							 G_PARAM_READWRITE |
+							 G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",

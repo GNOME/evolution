@@ -33,8 +33,11 @@ struct _EAlertDialogPrivate {
 
 enum {
 	PROP_0,
-	PROP_ALERT
+	PROP_ALERT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EAlertDialog, e_alert_dialog, GTK_TYPE_DIALOG)
 
@@ -263,17 +266,20 @@ e_alert_dialog_class_init (EAlertDialogClass *class)
 	object_class->dispose = alert_dialog_dispose;
 	object_class->constructed = alert_dialog_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALERT,
+	/**
+	 * EAlertDialog:alert
+	 *
+	 * Alert to be displayed
+	 **/
+	properties[PROP_ALERT] =
 		g_param_spec_object (
 			"alert",
-			"Alert",
-			"Alert to be displayed",
+			NULL, NULL,
 			E_TYPE_ALERT,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

@@ -62,8 +62,11 @@ enum {
 	PROP_EDITOR,
 	PROP_FOCUS_TRACKER,
 	PROP_REGISTRY,
-	PROP_SOURCE
+	PROP_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailSignatureEditor, e_mail_signature_editor, GTK_TYPE_WINDOW)
 
@@ -680,52 +683,55 @@ e_mail_signature_editor_class_init (EMailSignatureEditorClass *class)
 	object_class->finalize = mail_signature_editor_finalize;
 	object_class->constructed = mail_signature_editor_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITOR,
+	/**
+	 * EMailSignatureEditor:editor
+	 **/
+	properties[PROP_EDITOR] =
 		g_param_spec_object (
 			"editor",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_HTML_EDITOR,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOCUS_TRACKER,
+	/**
+	 * EMailSignatureEditor:focus-tracker
+	 **/
+	properties[PROP_FOCUS_TRACKER] =
 		g_param_spec_object (
 			"focus-tracker",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_FOCUS_TRACKER,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EMailSignatureEditor:registry
+	 *
+	 * Data source registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Data source registry",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE,
+	/**
+	 * EMailSignatureEditor:source
+	 **/
+	properties[PROP_SOURCE] =
 		g_param_spec_object (
 			"source",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

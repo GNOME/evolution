@@ -37,8 +37,11 @@ struct _EMailLabelManagerPrivate {
 
 enum {
 	PROP_0,
-	PROP_LIST_STORE
+	PROP_LIST_STORE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ADD_LABEL,
@@ -268,15 +271,16 @@ e_mail_label_manager_class_init (EMailLabelManagerClass *class)
 	class->edit_label = mail_label_manager_edit_label;
 	class->remove_label = mail_label_manager_remove_label;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LIST_STORE,
+	/**
+	 * EMailLabelManager:list-store
+	 **/
+	properties[PROP_LIST_STORE] =
 		g_param_spec_object (
 			"list-store",
-			"List Store",
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_LABEL_LIST_STORE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[ADD_LABEL] = g_signal_new (
 		"add-label",
@@ -448,5 +452,5 @@ e_mail_label_manager_set_list_store (EMailLabelManager *manager,
 	tree_view = GTK_TREE_VIEW (manager->priv->tree_view);
 	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
 
-	g_object_notify (G_OBJECT (manager), "list-store");
+	g_object_notify_by_pspec (G_OBJECT (manager), properties[PROP_LIST_STORE]);
 }

@@ -27,8 +27,11 @@ enum {
 	PROP_0,
 	PROP_APPLY_FILTERS,
 	PROP_COMPLETE_ARTICLES,
-	PROP_FEED_ENCLOSURES
+	PROP_FEED_ENCLOSURES,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (CamelRssFolder, camel_rss_folder, CAMEL_TYPE_FOLDER)
 
@@ -513,7 +516,7 @@ rss_folder_set_apply_filters (CamelRssFolder *folder,
 
 	folder->priv->apply_filters = apply_filters;
 
-	g_object_notify (G_OBJECT (folder), "apply-filters");
+	g_object_notify_by_pspec (G_OBJECT (folder), properties[PROP_APPLY_FILTERS]);
 }
 
 static CamelThreeState
@@ -535,7 +538,7 @@ rss_folder_set_complete_articles (CamelRssFolder *folder,
 
 	folder->priv->complete_articles = value;
 
-	g_object_notify (G_OBJECT (folder), "complete-articles");
+	g_object_notify_by_pspec (G_OBJECT (folder), properties[PROP_COMPLETE_ARTICLES]);
 }
 
 static CamelThreeState
@@ -557,7 +560,7 @@ rss_folder_set_feed_enclosures (CamelRssFolder *folder,
 
 	folder->priv->feed_enclosures = value;
 
-	g_object_notify (G_OBJECT (folder), "feed-enclosures");
+	g_object_notify_by_pspec (G_OBJECT (folder), properties[PROP_FEED_ENCLOSURES]);
 }
 
 static void
@@ -648,44 +651,51 @@ camel_rss_folder_class_init (CamelRssFolderClass *class)
 	camel_folder_class_map_legacy_property (folder_class, "complete-articles", 0x2502);
 	camel_folder_class_map_legacy_property (folder_class, "feed-enclosures", 0x2503);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_APPLY_FILTERS,
+	/**
+	 * CamelRssFolder:apply-filters
+	 *
+	 * _ ( "Apply message _filters to this folder" )
+	 **/
+	properties[PROP_APPLY_FILTERS] =
 		g_param_spec_boolean (
 			"apply-filters",
-			"Apply Filters",
-			_("Apply message _filters to this folder"),
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_EXPLICIT_NOTIFY |
 			G_PARAM_STATIC_STRINGS |
-			CAMEL_FOLDER_PARAM_PERSISTENT));
+			CAMEL_FOLDER_PARAM_PERSISTENT);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPLETE_ARTICLES,
+	/**
+	 * CamelRssFolder:complete-articles
+	 *
+	 * _ ( "_Download complete articles" )
+	 **/
+	properties[PROP_COMPLETE_ARTICLES] =
 		g_param_spec_enum (
 			"complete-articles",
-			"Complete Articles",
-			_("_Download complete articles"),
+			NULL, NULL,
 			CAMEL_TYPE_THREE_STATE,
 			CAMEL_THREE_STATE_INCONSISTENT,
 			G_PARAM_READWRITE |
 			G_PARAM_EXPLICIT_NOTIFY |
-			CAMEL_FOLDER_PARAM_PERSISTENT));
+			CAMEL_FOLDER_PARAM_PERSISTENT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FEED_ENCLOSURES,
+	/**
+	 * CamelRssFolder:feed-enclosures
+	 *
+	 * _ ( "Download feed _enclosures" )
+	 **/
+	properties[PROP_FEED_ENCLOSURES] =
 		g_param_spec_enum (
 			"feed-enclosures",
-			"Feed Enclosures",
-			_("Download feed _enclosures"),
+			NULL, NULL,
 			CAMEL_TYPE_THREE_STATE,
 			CAMEL_THREE_STATE_INCONSISTENT,
 			G_PARAM_READWRITE |
 			G_PARAM_EXPLICIT_NOTIFY |
-			CAMEL_FOLDER_PARAM_PERSISTENT));
+			CAMEL_FOLDER_PARAM_PERSISTENT | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

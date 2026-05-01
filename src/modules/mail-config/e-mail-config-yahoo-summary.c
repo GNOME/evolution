@@ -35,8 +35,11 @@ struct _EMailConfigYahooSummaryPrivate {
 
 enum {
 	PROP_0,
-	PROP_APPLICABLE
+	PROP_APPLICABLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailConfigYahooSummary, e_mail_config_yahoo_summary, E_TYPE_EXTENSION, 0,
 	G_ADD_PRIVATE_DYNAMIC (EMailConfigYahooSummary))
@@ -98,7 +101,7 @@ mail_config_yahoo_summary_refresh_cb (EMailConfigSummaryPage *page,
 	extension->priv->applicable =
 		mail_config_yahoo_summary_is_applicable (page);
 
-	g_object_notify (G_OBJECT (extension), "applicable");
+	g_object_notify_by_pspec (G_OBJECT (extension), properties[PROP_APPLICABLE]);
 }
 
 static void
@@ -314,16 +317,18 @@ e_mail_config_yahoo_summary_class_init (EMailConfigYahooSummaryClass *class)
 	extension_class = E_EXTENSION_CLASS (class);
 	extension_class->extensible_type = E_TYPE_MAIL_CONFIG_SUMMARY_PAGE;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_APPLICABLE,
+	/**
+	 * EMailConfigYahooSummary:applicable
+	 *
+	 * Whether this extension is applicable " "to the current mail account settings
+	 **/
+	properties[PROP_APPLICABLE] =
 		g_param_spec_boolean (
 			"applicable",
-			"Applicable",
-			"Whether this extension is applicable "
-			"to the current mail account settings",
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

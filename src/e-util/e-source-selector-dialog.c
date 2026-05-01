@@ -40,8 +40,11 @@ enum {
 	PROP_EXTENSION_NAME,
 	PROP_REGISTRY,
 	PROP_SELECTOR,
-	PROP_EXCEPT_SOURCE
+	PROP_EXCEPT_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (ESourceSelectorDialog, e_source_selector_dialog, GTK_TYPE_DIALOG)
 
@@ -260,47 +263,48 @@ e_source_selector_dialog_class_init (ESourceSelectorDialogClass *class)
 	object_class->finalize = source_selector_dialog_finalize;
 	object_class->constructed = source_selector_dialog_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EXTENSION_NAME,
+	/**
+	 * ESourceSelectorDialog:extension-name
+	 **/
+	properties[PROP_EXTENSION_NAME] =
 		g_param_spec_string (
 			"extension-name",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_WRITABLE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * ESourceSelectorDialog:registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_WRITABLE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTOR,
+	/**
+	 * ESourceSelectorDialog:selector
+	 **/
+	properties[PROP_SELECTOR] =
 		g_param_spec_object (
 			"selector",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_SOURCE_SELECTOR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EXCEPT_SOURCE,
+	/**
+	 * ESourceSelectorDialog:except-source
+	 **/
+	properties[PROP_EXCEPT_SOURCE] =
 		g_param_spec_object (
 			"except-source",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_SOURCE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -473,5 +477,5 @@ e_source_selector_dialog_set_except_source (ESourceSelectorDialog *dialog,
 
 	primary_selection_changed_cb (E_SOURCE_SELECTOR (dialog->priv->selector), dialog);
 
-	g_object_notify (G_OBJECT (dialog), "except-source");
+	g_object_notify_by_pspec (G_OBJECT (dialog), properties[PROP_EXCEPT_SOURCE]);
 }

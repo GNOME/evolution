@@ -43,11 +43,14 @@ struct _EBookShellContentPrivate {
 enum {
 	PROP_0,
 	PROP_CURRENT_VIEW,
-	PROP_ORIENTATION,
 	PROP_PREVIEW_CONTACT,
 	PROP_PREVIEW_VISIBLE,
-	PROP_PREVIEW_SHOW_MAPS
+	PROP_PREVIEW_SHOW_MAPS,
+	N_PROPS,
+	PROP_ORIENTATION,
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EBookShellContent, e_book_shell_content, E_TYPE_SHELL_CONTENT, 0,
 	G_ADD_PRIVATE_DYNAMIC (EBookShellContent)
@@ -429,49 +432,56 @@ e_book_shell_content_class_init (EBookShellContentClass *class)
 	shell_content_class->focus_search_results =
 		book_shell_content_focus_search_results;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURRENT_VIEW,
+	/**
+	 * EBookShellContent:current-view
+	 *
+	 * The currently selected address book view
+	 **/
+	properties[PROP_CURRENT_VIEW] =
 		g_param_spec_object (
 			"current-view",
-			"Current View",
-			"The currently selected address book view",
+			NULL, NULL,
 			E_TYPE_ADDRESSBOOK_VIEW,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_CONTACT,
+	/**
+	 * EBookShellContent:preview-contact
+	 *
+	 * The contact being shown in the preview pane
+	 **/
+	properties[PROP_PREVIEW_CONTACT] =
 		g_param_spec_object (
 			"preview-contact",
-			"Previewed Contact",
-			"The contact being shown in the preview pane",
+			NULL, NULL,
 			E_TYPE_CONTACT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_VISIBLE,
+	/**
+	 * EBookShellContent:preview-visible
+	 *
+	 * Whether the preview pane is visible
+	 **/
+	properties[PROP_PREVIEW_VISIBLE] =
 		g_param_spec_boolean (
 			"preview-visible",
-			"Preview is Visible",
-			"Whether the preview pane is visible",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
 	g_object_class_override_property (
 		object_class, PROP_ORIENTATION, "orientation");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREVIEW_SHOW_MAPS,
+	/**
+	 * EBookShellContent:preview-show-maps
+	 **/
+	properties[PROP_PREVIEW_SHOW_MAPS] =
 		g_param_spec_boolean (
 			"preview-show-maps",
-			NULL,
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -631,7 +641,7 @@ e_book_shell_content_set_current_view (EBookShellContent *book_shell_content,
 		}
 	}
 
-	g_object_notify (G_OBJECT (book_shell_content), "current-view");
+	g_object_notify_by_pspec (G_OBJECT (book_shell_content), properties[PROP_CURRENT_VIEW]);
 }
 
 EContact *
@@ -666,7 +676,7 @@ e_book_shell_content_set_preview_contact (EBookShellContent *book_shell_content,
 	display = EAB_CONTACT_DISPLAY (web_view);
 
 	eab_contact_display_set_contact (display, preview_contact);
-	g_object_notify (G_OBJECT (book_shell_content), "preview-contact");
+	g_object_notify_by_pspec (G_OBJECT (book_shell_content), properties[PROP_PREVIEW_CONTACT]);
 }
 
 EPreviewPane *
@@ -701,7 +711,7 @@ e_book_shell_content_set_preview_visible (EBookShellContent *book_shell_content,
 	if (preview_visible && book_shell_content->priv->preview_pane)
 		e_web_view_update_actions (e_preview_pane_get_web_view (E_PREVIEW_PANE (book_shell_content->priv->preview_pane)));
 
-	g_object_notify (G_OBJECT (book_shell_content), "preview-visible");
+	g_object_notify_by_pspec (G_OBJECT (book_shell_content), properties[PROP_PREVIEW_VISIBLE]);
 }
 
 gboolean
@@ -724,7 +734,7 @@ e_book_shell_content_set_preview_show_maps (EBookShellContent *book_shell_conten
 
 	book_shell_content->priv->preview_show_maps = show_maps;
 
-	g_object_notify (G_OBJECT (book_shell_content), "preview-show-maps");
+	g_object_notify_by_pspec (G_OBJECT (book_shell_content), properties[PROP_PREVIEW_SHOW_MAPS]);
 }
 
 EShellSearchbar *

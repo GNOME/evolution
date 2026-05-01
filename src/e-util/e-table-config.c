@@ -42,8 +42,11 @@ enum {
 
 enum {
 	PROP_0,
-	PROP_STATE
+	PROP_STATE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static guint e_table_config_signals[LAST_SIGNAL] = { 0, };
 
@@ -125,15 +128,16 @@ e_table_config_class_init (ETableConfigClass *class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STATE,
+	/**
+	 * ETableConfig:state
+	 **/
+	properties[PROP_STATE] =
 		g_param_spec_object (
 			"state",
-			"State",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TABLE_STATE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static ETableColumnSpecification *

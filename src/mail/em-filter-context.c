@@ -37,8 +37,11 @@ struct _EMFilterContextPrivate {
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMFilterContext, em_filter_context, E_TYPE_RULE_CONTEXT)
 
@@ -244,16 +247,17 @@ em_filter_context_class_init (EMFilterContextClass *class)
 	rule_context_class->delete_uri = filter_context_delete_uri;
 	rule_context_class->new_element = filter_context_new_element;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMFilterContext:session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

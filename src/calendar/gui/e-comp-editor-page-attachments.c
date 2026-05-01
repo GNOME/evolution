@@ -50,8 +50,11 @@ struct _ECompEditorPageAttachmentsPrivate {
 
 enum {
 	PROP_0,
-	PROP_ACTIVE_VIEW
+	PROP_ACTIVE_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPageAttachments, e_comp_editor_page_attachments, E_TYPE_COMP_EDITOR_PAGE)
 
@@ -1058,19 +1061,20 @@ e_comp_editor_page_attachments_class_init (ECompEditorPageAttachmentsClass *klas
 	object_class->dispose = ecep_attachments_dispose;
 	object_class->constructed = ecep_attachments_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVE_VIEW,
+	/**
+	 * ECompEditorPageAttachments:active-view
+	 **/
+	properties[PROP_ACTIVE_VIEW] =
 		g_param_spec_int (
 			"active-view",
-			"Active View",
-			NULL,
+			NULL, NULL,
 			0,
 			NUM_VIEWS,
 			0,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 ECompEditorPage *
@@ -1120,7 +1124,7 @@ e_comp_editor_page_attachments_set_active_view (ECompEditorPageAttachments *page
 
 	e_attachment_view_sync_selection (source, target);
 
-	g_object_notify (G_OBJECT (page_attachments), "active-view");
+	g_object_notify_by_pspec (G_OBJECT (page_attachments), properties[PROP_ACTIVE_VIEW]);
 }
 
 EAttachmentStore *

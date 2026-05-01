@@ -37,8 +37,11 @@ struct _EMailSignaturePreviewPrivate {
 enum {
 	PROP_0,
 	PROP_REGISTRY,
-	PROP_SOURCE_UID
+	PROP_SOURCE_UID,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	REFRESH,
@@ -264,28 +267,29 @@ e_mail_signature_preview_class_init (EMailSignaturePreviewClass *class)
 
 	class->refresh = mail_signature_preview_refresh;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EMailSignaturePreview:registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			NULL,
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_UID,
+	/**
+	 * EMailSignaturePreview:source-uid
+	 **/
+	properties[PROP_SOURCE_UID] =
 		g_param_spec_string (
 			"source-uid",
-			"Source UID",
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[REFRESH] = g_signal_new (
 		"refresh",
@@ -355,7 +359,7 @@ e_mail_signature_preview_set_source_uid (EMailSignaturePreview *preview,
 	g_free (preview->priv->source_uid);
 	preview->priv->source_uid = g_strdup (source_uid);
 
-	g_object_notify (G_OBJECT (preview), "source-uid");
+	g_object_notify_by_pspec (G_OBJECT (preview), properties[PROP_SOURCE_UID]);
 
 	e_mail_signature_preview_refresh (preview);
 }

@@ -37,8 +37,11 @@ struct _EBookShellSidebarPrivate {
 
 enum {
 	PROP_0,
-	PROP_SELECTOR
+	PROP_SELECTOR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EBookShellSidebar, e_book_shell_sidebar, E_TYPE_SHELL_SIDEBAR, 0,
 	G_ADD_PRIVATE_DYNAMIC (EBookShellSidebar))
@@ -256,15 +259,18 @@ e_book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = book_shell_sidebar_check_state;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTOR,
+	/**
+	 * EBookShellSidebar:selector
+	 *
+	 * This widget displays groups of address books
+	 **/
+	properties[PROP_SELECTOR] =
 		g_param_spec_object (
 			"selector",
-			"Source Selector Widget",
-			"This widget displays groups of address books",
+			NULL, NULL,
 			E_TYPE_SOURCE_SELECTOR,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

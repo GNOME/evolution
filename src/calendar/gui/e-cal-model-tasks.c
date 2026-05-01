@@ -48,8 +48,11 @@ enum {
 	PROP_HIGHLIGHT_DUE_TODAY,
 	PROP_COLOR_DUE_TODAY,
 	PROP_HIGHLIGHT_OVERDUE,
-	PROP_COLOR_OVERDUE
+	PROP_COLOR_OVERDUE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_cal_model_tasks_table_model_init
@@ -1187,45 +1190,46 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 	cal_model_class->store_values_from_model = cal_model_tasks_store_values_from_model;
 	cal_model_class->fill_component_from_values = cal_model_tasks_fill_component_from_values;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HIGHLIGHT_DUE_TODAY,
+	/**
+	 * ECalModelTasks:highlight-due-today
+	 **/
+	properties[PROP_HIGHLIGHT_DUE_TODAY] =
 		g_param_spec_boolean (
 			"highlight-due-today",
-			"Highlight Due Today",
-			NULL,
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COLOR_DUE_TODAY,
+	/**
+	 * ECalModelTasks:color-due-today
+	 **/
+	properties[PROP_COLOR_DUE_TODAY] =
 		g_param_spec_string (
 			"color-due-today",
-			"Color Due Today",
-			NULL,
+			NULL, NULL,
 			"#1e90ff",
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HIGHLIGHT_OVERDUE,
+	/**
+	 * ECalModelTasks:highlight-overdue
+	 **/
+	properties[PROP_HIGHLIGHT_OVERDUE] =
 		g_param_spec_boolean (
 			"highlight-overdue",
-			"Highlight Overdue",
-			NULL,
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COLOR_OVERDUE,
+	/**
+	 * ECalModelTasks:color-overdue
+	 **/
+	properties[PROP_COLOR_OVERDUE] =
 		g_param_spec_string (
 			"color-overdue",
-			"Color Overdue",
-			NULL,
+			NULL, NULL,
 			"#ff0000",
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1295,7 +1299,7 @@ e_cal_model_tasks_set_highlight_due_today (ECalModelTasks *model,
 
 	model->priv->highlight_due_today = highlight;
 
-	g_object_notify (G_OBJECT (model), "highlight-due-today");
+	g_object_notify_by_pspec (G_OBJECT (model), properties[PROP_HIGHLIGHT_DUE_TODAY]);
 }
 
 const gchar *
@@ -1319,7 +1323,7 @@ e_cal_model_tasks_set_color_due_today (ECalModelTasks *model,
 	g_free (model->priv->color_due_today);
 	model->priv->color_due_today = g_strdup (color_due_today);
 
-	g_object_notify (G_OBJECT (model), "color-due-today");
+	g_object_notify_by_pspec (G_OBJECT (model), properties[PROP_COLOR_DUE_TODAY]);
 }
 
 gboolean
@@ -1341,7 +1345,7 @@ e_cal_model_tasks_set_highlight_overdue (ECalModelTasks *model,
 
 	model->priv->highlight_overdue = highlight;
 
-	g_object_notify (G_OBJECT (model), "highlight-overdue");
+	g_object_notify_by_pspec (G_OBJECT (model), properties[PROP_HIGHLIGHT_OVERDUE]);
 }
 
 const gchar *
@@ -1365,7 +1369,7 @@ e_cal_model_tasks_set_color_overdue (ECalModelTasks *model,
 	g_free (model->priv->color_overdue);
 	model->priv->color_overdue = g_strdup (color_overdue);
 
-	g_object_notify (G_OBJECT (model), "color-overdue");
+	g_object_notify_by_pspec (G_OBJECT (model), properties[PROP_COLOR_OVERDUE]);
 }
 
 /**

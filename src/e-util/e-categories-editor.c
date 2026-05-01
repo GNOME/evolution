@@ -52,8 +52,11 @@ enum {
 
 enum {
 	PROP_0,
-	PROP_ENTRY_VISIBLE
+	PROP_ENTRY_VISIBLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ENTRY_CHANGED,
@@ -215,15 +218,16 @@ e_categories_editor_class_init (ECategoriesEditorClass *class)
 	object_class->set_property = categories_editor_set_property;
 	object_class->get_property = categories_editor_get_property;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ENTRY_VISIBLE,
+	/**
+	 * ECategoriesEditor:entry-visible
+	 **/
+	properties[PROP_ENTRY_VISIBLE] =
 		g_param_spec_boolean (
 			"entry-visible",
-			NULL,
-			NULL,
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[ENTRY_CHANGED] = g_signal_new (
 		"entry-changed",
@@ -500,5 +504,5 @@ e_categories_editor_set_entry_visible (ECategoriesEditor *editor,
 	e_categories_selector_set_items_checkable (
 		editor->priv->categories_list, entry_visible);
 
-	g_object_notify (G_OBJECT (editor), "entry-visible");
+	g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_ENTRY_VISIBLE]);
 }

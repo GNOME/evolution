@@ -339,13 +339,16 @@ e_ui_manager_class_init (EUIManagerClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_CUSTOMIZER_FILENAME] = g_param_spec_string ("customizer-filename", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_CUSTOMIZER_FILENAME] = g_param_spec_string ("customizer-filename",
+								    NULL,
+								    NULL,
+								    NULL,
+								    G_PARAM_READWRITE |
+								    G_PARAM_CONSTRUCT_ONLY |
+								    G_PARAM_STATIC_STRINGS |
+								    G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* void		changed		(EUIManager *manager); */
 	/**

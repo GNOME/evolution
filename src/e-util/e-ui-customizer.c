@@ -166,11 +166,12 @@ e_ui_customizer_class_init (EUICustomizerClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_FILENAME] = g_param_spec_string ("filename", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_FILENAME] = g_param_spec_string ("filename", NULL,
+							 NULL, NULL,
+							 G_PARAM_READWRITE |
+							 G_PARAM_CONSTRUCT_ONLY |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUICustomizer:manager:
@@ -179,13 +180,14 @@ e_ui_customizer_class_init (EUICustomizerClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_MANAGER] = g_param_spec_object ("manager", NULL, NULL, E_TYPE_UI_MANAGER,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_MANAGER] = g_param_spec_object ("manager", NULL, NULL,
+							E_TYPE_UI_MANAGER,
+							G_PARAM_READWRITE |
+							G_PARAM_CONSTRUCT_ONLY |
+							G_PARAM_STATIC_STRINGS |
+							G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* void		changed		(EUICustomizer *customizer); */
 	/**

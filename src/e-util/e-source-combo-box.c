@@ -42,8 +42,11 @@ enum {
 	PROP_EXTENSION_NAME,
 	PROP_REGISTRY,
 	PROP_SHOW_COLORS,
-	PROP_MAX_NATURAL_WIDTH
+	PROP_MAX_NATURAL_WIDTH,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COLUMN_COLOR,		/* GDK_TYPE_RGBA */
@@ -456,57 +459,64 @@ e_source_combo_box_class_init (ESourceComboBoxClass *class)
 	object_class->finalize = source_combo_box_finalize;
 	object_class->constructed = source_combo_box_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EXTENSION_NAME,
+	/**
+	 * ESourceComboBox:extension-name
+	 *
+	 * ESource extension name to filter
+	 **/
+	properties[PROP_EXTENSION_NAME] =
 		g_param_spec_string (
 			"extension-name",
-			"Extension Name",
-			"ESource extension name to filter",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
 	/* XXX Don't use G_PARAM_CONSTRUCT_ONLY here.  We need to allow
 	 *     for this class to be instantiated by a GtkBuilder with no
 	 *     special construct parameters, and then subsequently give
 	 *     it an ESourceRegistry. */
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * ESourceComboBox:registry
+	 *
+	 * Data source registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Data source registry",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_COLORS,
+	/**
+	 * ESourceComboBox:show-colors
+	 *
+	 * Whether to show colors next to names
+	 **/
+	properties[PROP_SHOW_COLORS] =
 		g_param_spec_boolean (
 			"show-colors",
-			"Show Colors",
-			"Whether to show colors next to names",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAX_NATURAL_WIDTH,
+	/**
+	 * ESourceComboBox:max-natural-width
+	 **/
+	properties[PROP_MAX_NATURAL_WIDTH] =
 		g_param_spec_int (
 			"max-natural-width",
-			"Max Natural Width",
-			NULL,
+			NULL, NULL,
 			G_MININT, G_MAXINT, -1,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS |
-			G_PARAM_EXPLICIT_NOTIFY));
+			G_PARAM_EXPLICIT_NOTIFY);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -639,7 +649,7 @@ e_source_combo_box_set_registry (ESourceComboBox *combo_box,
 
 	source_combo_box_build_model (combo_box);
 
-	g_object_notify (G_OBJECT (combo_box), "registry");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_REGISTRY]);
 }
 
 /**
@@ -685,7 +695,7 @@ e_source_combo_box_set_extension_name (ESourceComboBox *combo_box,
 
 	source_combo_box_build_model (combo_box);
 
-	g_object_notify (G_OBJECT (combo_box), "extension-name");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_EXTENSION_NAME]);
 }
 
 /**
@@ -728,7 +738,7 @@ e_source_combo_box_set_show_colors (ESourceComboBox *combo_box,
 
 	source_combo_box_build_model (combo_box);
 
-	g_object_notify (G_OBJECT (combo_box), "show-colors");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_SHOW_COLORS]);
 }
 
 /**
@@ -880,7 +890,7 @@ e_source_combo_box_set_max_natural_width (ESourceComboBox *combo_box,
 	if (gtk_widget_get_realized (widget))
 		gtk_widget_queue_resize (widget);
 
-	g_object_notify (G_OBJECT (combo_box), "max-natural-width");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_MAX_NATURAL_WIDTH]);
 }
 
 /**

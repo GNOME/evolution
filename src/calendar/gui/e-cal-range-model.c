@@ -444,12 +444,13 @@ e_cal_range_model_class_init (ECalRangeModelClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_CLIENT_CACHE] = g_param_spec_object ("client-cache", NULL, NULL,
-		E_TYPE_CLIENT_CACHE,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_CLIENT_CACHE] = g_param_spec_object ("client-cache",
+							     NULL, NULL,
+							     E_TYPE_CLIENT_CACHE,
+							     G_PARAM_READWRITE |
+							     G_PARAM_CONSTRUCT_ONLY |
+							     G_PARAM_STATIC_STRINGS |
+							     G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * ECalRangeModel:alert-sink:
@@ -458,14 +459,15 @@ e_cal_range_model_class_init (ECalRangeModelClass *klass)
 	 *
 	 * Since: 3.58
 	 **/
-	properties[PROP_ALERT_SINK] = g_param_spec_object ("alert-sink", NULL, NULL,
-		E_TYPE_ALERT_SINK,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_ALERT_SINK] = g_param_spec_object ("alert-sink", NULL,
+							   NULL,
+							   E_TYPE_ALERT_SINK,
+							   G_PARAM_READWRITE |
+							   G_PARAM_CONSTRUCT_ONLY |
+							   G_PARAM_STATIC_STRINGS |
+							   G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* void component_added		(ECalRangeModel *range_model,
 					 ECalClient *client,

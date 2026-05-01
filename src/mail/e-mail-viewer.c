@@ -45,8 +45,11 @@ struct _EMailViewerPrivate {
 
 enum {
 	PROP_0,
-	PROP_BACKEND
+	PROP_BACKEND,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void mail_viewer_alert_sink_init (EAlertSinkInterface *iface);
 
@@ -2208,15 +2211,17 @@ e_mail_viewer_class_init (EMailViewerClass *klass)
 	object_class->finalize = mail_viewer_finalize;
 	object_class->constructed = mail_viewer_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKEND,
+	/**
+	 * EMailViewer:backend
+	 **/
+	properties[PROP_BACKEND] =
 		g_param_spec_object (
 			"backend", NULL, NULL,
 			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

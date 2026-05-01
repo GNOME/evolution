@@ -220,14 +220,14 @@ e_message_popover_class_init (EMessagePopoverClass *klass)
 	object_class->dispose = e_message_popover_dispose;
 
 	properties[PROP_FLAGS] = g_param_spec_flags ("flags", NULL, NULL,
-		E_TYPE_MESSAGE_POPOVER_FLAGS,
-		E_MESSAGE_POPOVER_FLAG_NONE,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+						     E_TYPE_MESSAGE_POPOVER_FLAGS,
+						     E_MESSAGE_POPOVER_FLAG_NONE,
+						     G_PARAM_READWRITE |
+						     G_PARAM_CONSTRUCT_ONLY |
+						     G_PARAM_STATIC_STRINGS |
+						     G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, LAST_PROPERTY, properties);
 }
 
 static void

@@ -94,8 +94,11 @@ enum {
 	PROP_SHELL,
 	PROP_SOURCE_CLIENT,
 	PROP_TARGET_CLIENT,
-	PROP_TITLE_SUFFIX
+	PROP_TITLE_SUFFIX,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	TIMES_CHANGED,
@@ -2703,119 +2706,140 @@ e_comp_editor_class_init (ECompEditorClass *klass)
 	object_class->constructed = e_comp_editor_constructed;
 	object_class->dispose = e_comp_editor_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALARM_EMAIL_ADDRESS,
+	/**
+	 * ECompEditor:alarm-email-address
+	 *
+	 * Target client's alarm email address
+	 **/
+	properties[PROP_ALARM_EMAIL_ADDRESS] =
 		g_param_spec_string (
 			"alarm-email-address",
-			"Alarm Email Address",
-			"Target client's alarm email address",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CAL_EMAIL_ADDRESS,
+	/**
+	 * ECompEditor:cal-email-address
+	 *
+	 * Target client's calendar email address
+	 **/
+	properties[PROP_CAL_EMAIL_ADDRESS] =
 		g_param_spec_string (
 			"cal-email-address",
-			"Calendar Email Address",
-			"Target client's calendar email address",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CHANGED,
+	/**
+	 * ECompEditor:changed
+	 *
+	 * Whether the editor content changed
+	 **/
+	properties[PROP_CHANGED] =
 		g_param_spec_boolean (
 			"changed",
-			"Changed",
-			"Whether the editor content changed",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPONENT,
+	/**
+	 * ECompEditor:component
+	 *
+	 * ICalComponent currently edited
+	 **/
+	properties[PROP_COMPONENT] =
 		g_param_spec_object (
 			"component",
-			"Component",
-			"ICalComponent currently edited",
+			NULL, NULL,
 			I_CAL_TYPE_COMPONENT,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FLAGS,
+	/**
+	 * ECompEditor:flags
+	 *
+	 * Editor flags
+	 **/
+	properties[PROP_FLAGS] =
 		g_param_spec_uint (
 			"flags",
-			"Flags",
-			"Editor flags",
+			NULL, NULL,
 			0, G_MAXUINT, 0,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ORIGIN_SOURCE,
+	/**
+	 * ECompEditor:origin-source
+	 *
+	 * ESource of an ECalClient the component is stored in
+	 **/
+	properties[PROP_ORIGIN_SOURCE] =
 		g_param_spec_object (
 			"origin-source",
-			"Origin Source",
-			"ESource of an ECalClient the component is stored in",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL,
+	/**
+	 * ECompEditor:shell
+	 *
+	 * EShell
+	 **/
+	properties[PROP_SHELL] =
 		g_param_spec_object (
 			"shell",
-			"Shell",
-			"EShell",
+			NULL, NULL,
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_CLIENT,
+	/**
+	 * ECompEditor:source-client
+	 *
+	 * ECalClient, the source calendar for the component
+	 **/
+	properties[PROP_SOURCE_CLIENT] =
 		g_param_spec_object (
 			"source-client",
-			"Source Client",
-			"ECalClient, the source calendar for the component",
+			NULL, NULL,
 			E_TYPE_CAL_CLIENT,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TARGET_CLIENT,
+	/**
+	 * ECompEditor:target-client
+	 *
+	 * ECalClient currently set as the target calendar for the component
+	 **/
+	properties[PROP_TARGET_CLIENT] =
 		g_param_spec_object (
 			"target-client",
-			"Target Client",
-			"ECalClient currently set as the target calendar for the component",
+			NULL, NULL,
 			E_TYPE_CAL_CLIENT,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TITLE_SUFFIX,
+	/**
+	 * ECompEditor:title-suffix
+	 *
+	 * Window title suffix, usually summary of the component
+	 **/
+	properties[PROP_TITLE_SUFFIX] =
 		g_param_spec_string (
 			"title-suffix",
-			"Title Suffix",
-			"Window title suffix, usually summary of the component",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[TIMES_CHANGED] = g_signal_new (
 		"times-changed",
@@ -3108,7 +3132,7 @@ e_comp_editor_set_flags (ECompEditor *comp_editor,
 
 	ece_update_source_combo_box_by_flags (comp_editor);
 
-	g_object_notify (G_OBJECT (comp_editor), "flags");
+	g_object_notify_by_pspec (G_OBJECT (comp_editor), properties[PROP_FLAGS]);
 }
 
 EFocusTracker *
@@ -3183,7 +3207,7 @@ e_comp_editor_set_alarm_email_address (ECompEditor *comp_editor,
 	g_free (comp_editor->priv->alarm_email_address);
 	comp_editor->priv->alarm_email_address = e_comp_editor_extract_email_address (alarm_email_address);
 
-	g_object_notify (G_OBJECT (comp_editor), "alarm-email-address");
+	g_object_notify_by_pspec (G_OBJECT (comp_editor), properties[PROP_ALARM_EMAIL_ADDRESS]);
 }
 
 const gchar *
@@ -3206,7 +3230,7 @@ e_comp_editor_set_cal_email_address (ECompEditor *comp_editor,
 	g_free (comp_editor->priv->cal_email_address);
 	comp_editor->priv->cal_email_address = e_comp_editor_extract_email_address (cal_email_address);
 
-	g_object_notify (G_OBJECT (comp_editor), "cal-email-address");
+	g_object_notify_by_pspec (G_OBJECT (comp_editor), properties[PROP_CAL_EMAIL_ADDRESS]);
 }
 
 gboolean
@@ -3228,7 +3252,7 @@ e_comp_editor_set_changed (ECompEditor *comp_editor,
 
 	comp_editor->priv->changed = changed;
 
-	g_object_notify (G_OBJECT (comp_editor), "changed");
+	g_object_notify_by_pspec (G_OBJECT (comp_editor), properties[PROP_CHANGED]);
 }
 
 void
@@ -3284,7 +3308,7 @@ e_comp_editor_set_source_client (ECompEditor *comp_editor,
 	g_clear_object (&comp_editor->priv->source_client);
 	comp_editor->priv->source_client = client;
 
-	g_object_notify (G_OBJECT (comp_editor), "source-client");
+	g_object_notify_by_pspec (G_OBJECT (comp_editor), properties[PROP_SOURCE_CLIENT]);
 }
 
 ECalClient *
@@ -3340,7 +3364,7 @@ e_comp_editor_set_target_client (ECompEditor *comp_editor,
 	}
 	e_comp_editor_sensitize_widgets (comp_editor);
 
-	g_object_notify (G_OBJECT (comp_editor), "target-client");
+	g_object_notify_by_pspec (G_OBJECT (comp_editor), properties[PROP_TARGET_CLIENT]);
 }
 
 const gchar *
@@ -3363,7 +3387,7 @@ e_comp_editor_set_title_suffix (ECompEditor *comp_editor,
 	g_free (comp_editor->priv->title_suffix);
 	comp_editor->priv->title_suffix = g_strdup (title_suffix);
 
-	g_object_notify (G_OBJECT (comp_editor), "title-suffix");
+	g_object_notify_by_pspec (G_OBJECT (comp_editor), properties[PROP_TITLE_SUFFIX]);
 
 	e_comp_editor_update_window_title (comp_editor);
 }

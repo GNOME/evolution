@@ -34,8 +34,11 @@ static void extract_info (EContactEditorFullname *editor);
 enum {
 	PROP_0,
 	PROP_NAME,
-	PROP_EDITABLE
+	PROP_EDITABLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE (
 	EContactEditorFullname,
@@ -169,24 +172,26 @@ e_contact_editor_fullname_class_init (EContactEditorFullnameClass *class)
 	object_class->get_property = e_contact_editor_fullname_get_property;
 	object_class->dispose = e_contact_editor_fullname_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NAME,
+	/**
+	 * EContactEditorFullname:name
+	 **/
+	properties[PROP_NAME] =
 		g_param_spec_pointer (
 			"name",
 			"Name",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITABLE,
+	/**
+	 * EContactEditorFullname:editable
+	 **/
+	properties[PROP_EDITABLE] =
 		g_param_spec_boolean (
 			"editable",
-			"Editable",
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

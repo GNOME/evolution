@@ -39,8 +39,11 @@ enum {
 	PROP_PREFER_ITEM,
 	PROP_LABEL,
 	PROP_ACTION,
-	PROP_UI_MANAGER
+	PROP_UI_MANAGER,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_CODE (EHeaderBarButton, e_header_bar_button, GTK_TYPE_BOX,
 	G_ADD_PRIVATE (EHeaderBarButton))
@@ -334,45 +337,52 @@ e_header_bar_button_class_init (EHeaderBarButtonClass *class)
 	widget_class->show_all = header_bar_button_show_all;
 	widget_class->unmap = header_bar_button_unmap;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PREFER_ITEM,
+	/**
+	 * EHeaderBarButton:prefer-item
+	 *
+	 * Name of an item to show instead of the first
+	 **/
+	properties[PROP_PREFER_ITEM] =
 		g_param_spec_string (
 			"prefer-item",
-			"Prefer Item",
-			"Name of an item to show instead of the first",
+			NULL, NULL,
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LABEL,
+	/**
+	 * EHeaderBarButton:label
+	 *
+	 * Button label
+	 **/
+	properties[PROP_LABEL] =
 		g_param_spec_string (
 			"label",
-			"Label",
-			"Button label",
+			NULL, NULL,
 			NULL,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTION,
+	/**
+	 * EHeaderBarButton:action
+	 *
+	 * Button action
+	 **/
+	properties[PROP_ACTION] =
 		g_param_spec_object (
 			"action",
-			"Action",
-			"Button action",
+			NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UI_MANAGER,
+	/**
+	 * EHeaderBarButton:ui-manager
+	 **/
+	properties[PROP_UI_MANAGER] =
 		g_param_spec_object (
 			"ui-manager",
-			"EUIManager",
-			NULL,
+			NULL, NULL,
 			E_TYPE_UI_MANAGER,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

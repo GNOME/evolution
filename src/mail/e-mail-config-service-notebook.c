@@ -29,8 +29,11 @@ struct _EMailConfigServiceNotebookPrivate {
 
 enum {
 	PROP_0,
-	PROP_ACTIVE_BACKEND
+	PROP_ACTIVE_BACKEND,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	PROP_CHILD_0,
@@ -263,16 +266,19 @@ e_mail_config_service_notebook_class_init (EMailConfigServiceNotebookClass *clas
 	container_class->set_child_property = mail_config_service_notebook_set_child_property;
 	container_class->get_child_property = mail_config_service_notebook_get_child_property;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVE_BACKEND,
+	/**
+	 * EMailConfigServiceNotebook:active-backend
+	 *
+	 * The service backend for the current page
+	 **/
+	properties[PROP_ACTIVE_BACKEND] =
 		g_param_spec_object (
 			"active-backend",
-			"Active Backend",
-			"The service backend for the current page",
+			NULL, NULL,
 			E_TYPE_MAIL_CONFIG_SERVICE_BACKEND,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* Child property for notebook pages. */
 	gtk_container_class_install_child_property (
@@ -349,6 +355,6 @@ e_mail_config_service_notebook_set_active_backend (EMailConfigServiceNotebook *n
 
 	notebook->priv->active_backend = backend;
 
-	g_object_notify (G_OBJECT (notebook), "active-backend");
+	g_object_notify_by_pspec (G_OBJECT (notebook), properties[PROP_ACTIVE_BACKEND]);
 }
 

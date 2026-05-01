@@ -99,8 +99,11 @@ enum {
 	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE,
 	PROP_REGISTRY,
-	PROP_CREDENTIALS_PROMPTER
+	PROP_CREDENTIALS_PROMPTER,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	EVENT,
@@ -380,7 +383,7 @@ shell_ready_for_online_change (EShell *shell,
 	if (!is_cancelled)
 		shell->priv->online = shell->priv->preparing_for_online;
 
-	g_object_notify (G_OBJECT (shell), "online");
+	g_object_notify_by_pspec (G_OBJECT (shell), properties[PROP_ONLINE]);
 }
 
 static void
@@ -2352,16 +2355,18 @@ e_shell_class_init (EShellClass *class)
 	 *
 	 * Shared #EClient instances.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT_CACHE,
+	/**
+	 * EShell:client-cache
+	 *
+	 * Shared EClient instances
+	 **/
+	properties[PROP_CLIENT_CACHE] =
 		g_param_spec_object (
 			"client-cache",
-			"Client Cache",
-			"Shared EClient instances",
+			NULL, NULL,
 			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShell:express-mode
@@ -2369,83 +2374,93 @@ e_shell_class_init (EShellClass *class)
 	 * Express mode alters Evolution's user interface to be mode
 	 * usable on devices with small screens.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_EXPRESS_MODE,
+	/**
+	 * EShell:express-mode
+	 *
+	 * Whether express mode is enabled
+	 **/
+	properties[PROP_EXPRESS_MODE] =
 		g_param_spec_boolean (
 			"express-mode",
-			"Express Mode",
-			"Whether express mode is enabled",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShell:module-directory
 	 *
 	 * The directory from which to load #EModule<!-- -->s.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_MODULE_DIRECTORY,
+	/**
+	 * EShell:module-directory
+	 *
+	 * The directory from which to load EModules
+	 **/
+	properties[PROP_MODULE_DIRECTORY] =
 		g_param_spec_string (
 			"module-directory",
-			"Module Directory",
-			"The directory from which to load EModules",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShell:network-available
 	 *
 	 * Whether the network is available.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_NETWORK_AVAILABLE,
+	/**
+	 * EShell:network-available
+	 *
+	 * Whether the network is available
+	 **/
+	properties[PROP_NETWORK_AVAILABLE] =
 		g_param_spec_boolean (
 			"network-available",
-			"Network Available",
-			"Whether the network is available",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShell:online
 	 *
 	 * Whether the shell is online.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_ONLINE,
+	/**
+	 * EShell:online
+	 *
+	 * Whether the shell is online
+	 **/
+	properties[PROP_ONLINE] =
 		g_param_spec_boolean (
 			"online",
-			"Online",
-			"Whether the shell is online",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShell:registry
 	 *
 	 * The #ESourceRegistry manages #ESource instances.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EShell:registry
+	 *
+	 * Data source registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Data source registry",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShell:credentials-prompter
@@ -2454,16 +2469,19 @@ e_shell_class_init (EShellClass *class)
 	 *
 	 * Since: 3.16
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_CREDENTIALS_PROMPTER,
+	/**
+	 * EShell:credentials-prompter
+	 *
+	 * Credentials Prompter
+	 **/
+	properties[PROP_CREDENTIALS_PROMPTER] =
 		g_param_spec_object (
 			"credentials-prompter",
-			"Credentials Prompter",
-			"Credentials Prompter",
+			NULL, NULL,
 			E_TYPE_CREDENTIALS_PROMPTER,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * EShell::event
@@ -3223,7 +3241,7 @@ e_shell_set_network_available (EShell *shell,
 		return;
 
 	shell->priv->network_available = network_available;
-	g_object_notify (G_OBJECT (shell), "network-available");
+	g_object_notify_by_pspec (G_OBJECT (shell), properties[PROP_NETWORK_AVAILABLE]);
 
 	/* If we're being forced offline, perhaps due to a network outage,
 	 * reconnect automatically when the network becomes available. */

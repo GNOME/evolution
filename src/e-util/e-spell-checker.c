@@ -37,8 +37,11 @@ struct _ESpellCheckerPrivate {
 
 enum {
 	PROP_0,
-	PROP_ACTIVE_LANGUAGES
+	PROP_ACTIVE_LANGUAGES,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_CODE (ESpellChecker, e_spell_checker, G_TYPE_OBJECT,
 	G_ADD_PRIVATE (ESpellChecker)
@@ -136,16 +139,19 @@ e_spell_checker_class_init (ESpellCheckerClass *class)
 	object_class->finalize = spell_checker_finalize;
 	object_class->constructed = spell_checker_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVE_LANGUAGES,
+	/**
+	 * ESpellChecker:active-languages
+	 *
+	 * Active spell check language codes
+	 **/
+	properties[PROP_ACTIVE_LANGUAGES] =
 		g_param_spec_boxed (
 			"active-languages",
-			"Active Languages",
-			"Active spell check language codes",
+			NULL, NULL,
 			G_TYPE_STRV,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -449,10 +455,10 @@ e_spell_checker_set_language_active (ESpellChecker *checker,
 	if (active && !is_active) {
 		g_object_ref (dictionary);
 		g_hash_table_add (active_dictionaries, dictionary);
-		g_object_notify (G_OBJECT (checker), "active-languages");
+		g_object_notify_by_pspec (G_OBJECT (checker), properties[PROP_ACTIVE_LANGUAGES]);
 	} else if (!active && is_active) {
 		g_hash_table_remove (active_dictionaries, dictionary);
-		g_object_notify (G_OBJECT (checker), "active-languages");
+		g_object_notify_by_pspec (G_OBJECT (checker), properties[PROP_ACTIVE_LANGUAGES]);
 	}
 
 	g_object_unref (dictionary);
@@ -490,7 +496,7 @@ e_spell_checker_set_active_languages (ESpellChecker *checker,
 		e_spell_checker_set_language_active (checker, languages[ii], TRUE);
 	}
 
-	g_object_notify (G_OBJECT (checker), "active-languages");
+	g_object_notify_by_pspec (G_OBJECT (checker), properties[PROP_ACTIVE_LANGUAGES]);
 	g_object_thaw_notify (G_OBJECT (checker));
 }
 

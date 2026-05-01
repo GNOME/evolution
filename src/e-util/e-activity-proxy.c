@@ -51,8 +51,11 @@ struct _EActivityProxyPrivate {
 
 enum {
 	PROP_0,
-	PROP_ACTIVITY
+	PROP_ACTIVITY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EActivityProxy, e_activity_proxy, GTK_TYPE_FRAME)
 
@@ -324,16 +327,17 @@ e_activity_proxy_class_init (EActivityProxyClass *class)
 	object_class->get_property = activity_proxy_get_property;
 	object_class->dispose = activity_proxy_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACTIVITY,
+	/**
+	 * EActivityProxy:activity
+	 **/
+	properties[PROP_ACTIVITY] =
 		g_param_spec_object (
 			"activity",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_ACTIVITY,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -449,5 +453,5 @@ e_activity_proxy_set_activity (EActivityProxy *proxy,
 
 	activity_proxy_update (proxy);
 
-	g_object_notify (G_OBJECT (proxy), "activity");
+	g_object_notify_by_pspec (G_OBJECT (proxy), properties[PROP_ACTIVITY]);
 }

@@ -70,8 +70,11 @@ enum {
 	PROP_SOURCE_LABEL,
 	PROP_SOURCE_EXTENSION_NAME,
 	PROP_SELECTED_SOURCE,
-	PROP_SHOW_ATTENDEES
+	PROP_SHOW_ATTENDEES,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPageGeneral, e_comp_editor_page_general, E_TYPE_COMP_EDITOR_PAGE)
 
@@ -1610,64 +1613,75 @@ e_comp_editor_page_general_class_init (ECompEditorPageGeneralClass *klass)
 	object_class->constructed = ecep_general_constructed;
 	object_class->finalize = ecep_general_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DATA_COLUMN_WIDTH,
+	/**
+	 * ECompEditorPageGeneral:data-column-width
+	 *
+	 * How many columns should the data column occupy
+	 **/
+	properties[PROP_DATA_COLUMN_WIDTH] =
 		g_param_spec_int (
 			"data-column-width",
-			"Data Column Width",
-			"How many columns should the data column occupy",
+			NULL, NULL,
 			1, G_MAXINT, 1,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_LABEL,
+	/**
+	 * ECompEditorPageGeneral:source-label
+	 *
+	 * Label to use for the source selector
+	 **/
+	properties[PROP_SOURCE_LABEL] =
 		g_param_spec_string (
 			"source-label",
-			"Source Label",
-			"Label to use for the source selector",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_EXTENSION_NAME,
+	/**
+	 * ECompEditorPageGeneral:source-extension-name
+	 *
+	 * Extension name to use for the source selector
+	 **/
+	properties[PROP_SOURCE_EXTENSION_NAME] =
 		g_param_spec_string (
 			"source-extension-name",
-			"Source Extension Name",
-			"Extension name to use for the source selector",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTED_SOURCE,
+	/**
+	 * ECompEditorPageGeneral:selected-source
+	 *
+	 * Which source is currently selected in the source selector
+	 **/
+	properties[PROP_SELECTED_SOURCE] =
 		g_param_spec_object (
 			"selected-source",
-			"Selected Source",
-			"Which source is currently selected in the source selector",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_ATTENDEES,
+	/**
+	 * ECompEditorPageGeneral:show-attendees
+	 *
+	 * Whether to show also attendees
+	 **/
+	properties[PROP_SHOW_ATTENDEES] =
 		g_param_spec_boolean (
 			"show-attendees",
-			"Show Attendees",
-			"Whether to show also attendees",
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 ECompEditorPage *
@@ -1717,13 +1731,13 @@ e_comp_editor_page_general_set_source_label (ECompEditorPageGeneral *page_genera
 		if (g_strcmp0 (source_label, gtk_label_get_text (GTK_LABEL (page_general->priv->source_label))) != 0) {
 			gtk_label_set_text (GTK_LABEL (page_general->priv->source_label), source_label);
 
-			g_object_notify (G_OBJECT (page_general), "source-label");
+			g_object_notify_by_pspec (G_OBJECT (page_general), properties[PROP_SOURCE_LABEL]);
 		}
 	} else {
 		g_free (page_general->priv->source_label_text);
 		page_general->priv->source_label_text = g_strdup (source_label);
 
-		g_object_notify (G_OBJECT (page_general), "source-label");
+		g_object_notify_by_pspec (G_OBJECT (page_general), properties[PROP_SOURCE_LABEL]);
 	}
 }
 
@@ -1750,7 +1764,7 @@ e_comp_editor_page_general_set_source_extension_name (ECompEditorPageGeneral *pa
 	g_free (page_general->priv->source_extension_name);
 	page_general->priv->source_extension_name = g_strdup (source_extension_name);
 
-	g_object_notify (G_OBJECT (page_general), "source-extension-name");
+	g_object_notify_by_pspec (G_OBJECT (page_general), properties[PROP_SOURCE_EXTENSION_NAME]);
 
 	if (page_general->priv->source_combo_box) {
 		e_source_combo_box_set_extension_name (
@@ -1780,7 +1794,7 @@ e_comp_editor_page_general_set_selected_source (ECompEditorPageGeneral *page_gen
 		g_clear_object (&page_general->priv->select_source);
 		page_general->priv->select_source = g_object_ref (source);
 
-		g_object_notify (G_OBJECT (page_general), "selected-source");
+		g_object_notify_by_pspec (G_OBJECT (page_general), properties[PROP_SELECTED_SOURCE]);
 
 		return;
 	}
@@ -1788,7 +1802,7 @@ e_comp_editor_page_general_set_selected_source (ECompEditorPageGeneral *page_gen
 	if (source)
 		e_source_combo_box_set_active (E_SOURCE_COMBO_BOX (page_general->priv->source_combo_box), source);
 
-	g_object_notify (G_OBJECT (page_general), "selected-source");
+	g_object_notify_by_pspec (G_OBJECT (page_general), properties[PROP_SELECTED_SOURCE]);
 }
 
 gboolean
@@ -1812,7 +1826,7 @@ e_comp_editor_page_general_set_show_attendees (ECompEditorPageGeneral *page_gene
 
 	page_general->priv->show_attendees = show_attendees;
 
-	g_object_notify (G_OBJECT (page_general), "show-attendees");
+	g_object_notify_by_pspec (G_OBJECT (page_general), properties[PROP_SHOW_ATTENDEES]);
 
 	e_comp_editor_page_general_update_view (page_general);
 
@@ -1841,7 +1855,7 @@ e_comp_editor_page_general_set_data_column_width (ECompEditorPageGeneral *page_g
 
 	page_general->priv->data_column_width = data_column_width;
 
-	g_object_notify (G_OBJECT (page_general), "data-column-width");
+	g_object_notify_by_pspec (G_OBJECT (page_general), properties[PROP_DATA_COLUMN_WIDTH]);
 
 	e_comp_editor_page_general_update_view (page_general);
 }

@@ -60,8 +60,11 @@ enum {
 	PROP_0,
 	PROP_LOCAL_ONLY,
 	PROP_COMMAND,
-	PROP_LEARN_COMMAND
+	PROP_LEARN_COMMAND,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
@@ -342,7 +345,7 @@ spam_assassin_set_local_only (ESpamAssassin *extension,
 
 	extension->local_only = local_only;
 
-	g_object_notify (G_OBJECT (extension), "local-only");
+	g_object_notify_by_pspec (G_OBJECT (extension), properties[PROP_LOCAL_ONLY]);
 }
 
 static const gchar *
@@ -361,7 +364,7 @@ spam_assassin_set_command (ESpamAssassin *extension,
 	g_free (extension->command);
 	extension->command = g_strdup (command);
 
-	g_object_notify (G_OBJECT (extension), "command");
+	g_object_notify_by_pspec (G_OBJECT (extension), properties[PROP_COMMAND]);
 }
 
 static const gchar *
@@ -380,7 +383,7 @@ spam_assassin_set_learn_command (ESpamAssassin *extension,
 	g_free (extension->learn_command);
 	extension->learn_command = g_strdup (learn_command);
 
-	g_object_notify (G_OBJECT (extension), "learn-command");
+	g_object_notify_by_pspec (G_OBJECT (extension), properties[PROP_LEARN_COMMAND]);
 }
 
 static void
@@ -741,35 +744,42 @@ e_spam_assassin_class_init (ESpamAssassinClass *class)
 	junk_filter_class->available = spam_assassin_available;
 	junk_filter_class->new_config_widget = spam_assassin_new_config_widget;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LOCAL_ONLY,
+	/**
+	 * ESpamAssassin:local-only
+	 *
+	 * Do not use tests requiring DNS lookups
+	 **/
+	properties[PROP_LOCAL_ONLY] =
 		g_param_spec_boolean (
 			"local-only",
-			"Local Only",
-			"Do not use tests requiring DNS lookups",
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COMMAND,
+	/**
+	 * ESpamAssassin:command
+	 *
+	 * Full path command to use to run spamassassin
+	 **/
+	properties[PROP_COMMAND] =
 		g_param_spec_string (
 			"command",
-			"Full Path Command",
-			"Full path command to use to run spamassassin",
+			NULL, NULL,
 			"",
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LEARN_COMMAND,
+	/**
+	 * ESpamAssassin:learn-command
+	 *
+	 * Full path command to use to run sa-learn
+	 **/
+	properties[PROP_LEARN_COMMAND] =
 		g_param_spec_string (
 			"learn-command",
-			"Full Path Command",
-			"Full path command to use to run sa-learn",
+			NULL, NULL,
 			"",
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

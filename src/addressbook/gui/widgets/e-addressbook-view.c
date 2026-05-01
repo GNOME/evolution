@@ -85,11 +85,14 @@ struct _EAddressbookViewPrivate {
 
 enum {
 	PROP_0,
+	PROP_SHELL_VIEW,
+	PROP_SOURCE,
+	N_PROPS,
 	PROP_COPY_TARGET_LIST,
 	PROP_PASTE_TARGET_LIST,
-	PROP_SHELL_VIEW,
-	PROP_SOURCE
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	OPEN_CONTACT,
@@ -1174,27 +1177,28 @@ e_addressbook_view_class_init (EAddressbookViewClass *class)
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_VIEW,
+	/**
+	 * EAddressbookView:shell-view
+	 **/
+	properties[PROP_SHELL_VIEW] =
 		g_param_spec_object (
 			"shell-view",
-			"Shell View",
-			NULL,
+			NULL, NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE,
+	/**
+	 * EAddressbookView:source
+	 **/
+	properties[PROP_SOURCE] =
 		g_param_spec_object (
 			"source",
-			"Source",
-			NULL,
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[OPEN_CONTACT] = g_signal_new (
 		"open-contact",

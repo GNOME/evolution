@@ -46,7 +46,7 @@ e_table_state_to_header (GtkWidget *widget,
 	nh = e_table_header_new ();
 	g_value_init (val, G_TYPE_DOUBLE);
 	g_value_set_double (val, e_table_header_width_extras (widget));
-	g_object_set_property (G_OBJECT (nh), "width_extras", val);
+	g_object_set_property (G_OBJECT (nh), "width-extras", val);
 	g_free (val);
 
 	for (ii = 0; ii < state->col_count; ii++) {

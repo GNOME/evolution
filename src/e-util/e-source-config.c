@@ -61,8 +61,11 @@ enum {
 	PROP_COLLECTION_SOURCE,
 	PROP_COMPLETE,
 	PROP_ORIGINAL_SOURCE,
-	PROP_REGISTRY
+	PROP_REGISTRY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHECK_COMPLETE,
@@ -870,52 +873,60 @@ e_source_config_class_init (ESourceConfigClass *class)
 	class->commit_changes = source_config_commit_changes;
 	class->resize_window = source_config_resize_window;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COLLECTION_SOURCE,
+	/**
+	 * ESourceConfig:collection-source
+	 *
+	 * The collection ESource to which " "the ESource being edited belongs
+	 **/
+	properties[PROP_COLLECTION_SOURCE] =
 		g_param_spec_object (
 			"collection-source",
-			"Collection Source",
-			"The collection ESource to which "
-			"the ESource being edited belongs",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPLETE,
+	/**
+	 * ESourceConfig:complete
+	 *
+	 * Are the required fields complete?
+	 **/
+	properties[PROP_COMPLETE] =
 		g_param_spec_boolean (
 			"complete",
-			"Complete",
-			"Are the required fields complete?",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ORIGINAL_SOURCE,
+	/**
+	 * ESourceConfig:original-source
+	 *
+	 * The original ESource
+	 **/
+	properties[PROP_ORIGINAL_SOURCE] =
 		g_param_spec_object (
 			"original-source",
-			"Original Source",
-			"The original ESource",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * ESourceConfig:registry
+	 *
+	 * Registry of ESources
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
 			"registry",
-			"Registry",
-			"Registry of ESources",
+			NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHECK_COMPLETE] = g_signal_new (
 		"check-complete",
@@ -1203,7 +1214,7 @@ e_source_config_check_complete (ESourceConfig *config)
 
 	if (complete != config->priv->complete) {
 		config->priv->complete = complete;
-		g_object_notify (G_OBJECT (config), "complete");
+		g_object_notify_by_pspec (G_OBJECT (config), properties[PROP_COMPLETE]);
 	}
 
 	return complete;

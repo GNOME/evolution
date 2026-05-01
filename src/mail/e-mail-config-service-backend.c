@@ -31,8 +31,11 @@ enum {
 	PROP_0,
 	PROP_COLLECTION,
 	PROP_SELECTABLE,
-	PROP_SOURCE
+	PROP_SOURCE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_ABSTRACT_TYPE_WITH_PRIVATE (EMailConfigServiceBackend, e_mail_config_service_backend, E_TYPE_EXTENSION)
 
@@ -214,38 +217,45 @@ e_mail_config_service_backend_class_init (EMailConfigServiceBackendClass *class)
 	class->check_complete = mail_config_service_backend_check_complete;
 	class->commit_changes = mail_config_service_backend_commit_changes;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COLLECTION,
+	/**
+	 * EMailConfigServiceBackend:collection
+	 *
+	 * Optional collection ESource
+	 **/
+	properties[PROP_COLLECTION] =
 		g_param_spec_object (
 			"collection",
-			"Collection",
-			"Optional collection ESource",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTABLE,
+	/**
+	 * EMailConfigServiceBackend:selectable
+	 *
+	 * Whether the backend is user selectable
+	 **/
+	properties[PROP_SELECTABLE] =
 		g_param_spec_boolean (
 			"selectable",
-			"Selectable",
-			"Whether the backend is user selectable",
+			NULL, NULL,
 			TRUE,  /* not applied */
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE,
+	/**
+	 * EMailConfigServiceBackend:source
+	 *
+	 * The ESource being edited
+	 **/
+	properties[PROP_SOURCE] =
 		g_param_spec_object (
 			"source",
-			"Source",
-			"The ESource being edited",
+			NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -293,7 +303,7 @@ e_mail_config_service_backend_set_source (EMailConfigServiceBackend *backend,
 
 	backend->priv->source = source;
 
-	g_object_notify (G_OBJECT (backend), "source");
+	g_object_notify_by_pspec (G_OBJECT (backend), properties[PROP_SOURCE]);
 }
 
 ESource *
@@ -323,7 +333,7 @@ e_mail_config_service_backend_set_collection (EMailConfigServiceBackend *backend
 
 	backend->priv->collection = collection;
 
-	g_object_notify (G_OBJECT (backend), "collection");
+	g_object_notify_by_pspec (G_OBJECT (backend), properties[PROP_COLLECTION]);
 }
 
 CamelProvider *

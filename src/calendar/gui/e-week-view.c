@@ -207,8 +207,11 @@ enum {
 	PROP_SHOW_EVENT_END_TIMES,
 	PROP_SHOW_ICONS_MONTH_VIEW,
 	PROP_TODAY_BACKGROUND_COLOR,
-	PROP_IS_EDITING
+	N_PROPS,
+	PROP_IS_EDITING,
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
 static gint map_right[] = {3, 4, 5, 3, 4, 5, 6};
@@ -1831,71 +1834,72 @@ e_week_view_class_init (EWeekViewClass *class)
 
 	/* XXX This property really belongs in EMonthView,
 	 *     but too much drawing code is tied to it. */
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPRESS_WEEKEND,
+	/**
+	 * EWeekView:compress-weekend
+	 **/
+	properties[PROP_COMPRESS_WEEKEND] =
 		g_param_spec_boolean (
 			"compress-weekend",
-			"Compress Weekend",
-			NULL,
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DAYS_LEFT_TO_RIGHT,
+	/**
+	 * EWeekView:days-left-to-right
+	 **/
+	properties[PROP_DAYS_LEFT_TO_RIGHT] =
 		g_param_spec_boolean (
 			"days-left-to-right",
-			"Days Left To Right",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DRAW_FLAT_EVENTS,
+	/**
+	 * EWeekView:draw-flat-events
+	 **/
+	properties[PROP_DRAW_FLAT_EVENTS] =
 		g_param_spec_boolean (
 			"draw-flat-events",
-			"Draw Flat Events",
-			NULL,
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_EVENT_END_TIMES,
+	/**
+	 * EWeekView:show-event-end-times
+	 **/
+	properties[PROP_SHOW_EVENT_END_TIMES] =
 		g_param_spec_boolean (
 			"show-event-end-times",
-			"Show Event End Times",
-			NULL,
+			NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_ICONS_MONTH_VIEW,
+	/**
+	 * EWeekView:show-icons-month-view
+	 **/
+	properties[PROP_SHOW_ICONS_MONTH_VIEW] =
 		g_param_spec_boolean (
 			"show-icons-month-view",
-			"Show Icons Month View",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TODAY_BACKGROUND_COLOR,
+	/**
+	 * EWeekView:today-background-color
+	 **/
+	properties[PROP_TODAY_BACKGROUND_COLOR] =
 		g_param_spec_string (
 			"today-background-color",
-			"Today Background Color",
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	g_object_class_override_property (
 		object_class,
@@ -2725,7 +2729,7 @@ e_week_view_set_compress_weekend (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->titles_canvas);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	g_object_notify (G_OBJECT (week_view), "compress-weekend");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_COMPRESS_WEEKEND]);
 }
 
 gboolean
@@ -2750,7 +2754,7 @@ e_week_view_set_draw_flat_events (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->titles_canvas);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	g_object_notify (G_OBJECT (week_view), "draw-flat-events");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_DRAW_FLAT_EVENTS]);
 }
 
 gboolean
@@ -2778,7 +2782,7 @@ e_week_view_set_days_left_to_right (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 	e_week_view_queue_layout (week_view);
 
-	g_object_notify (G_OBJECT (week_view), "days-left-to-right");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_DAYS_LEFT_TO_RIGHT]);
 }
 
 /* Whether we display event end times. */
@@ -2807,7 +2811,7 @@ e_week_view_set_show_event_end_times (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->titles_canvas);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	g_object_notify (G_OBJECT (week_view), "show-event-end-times");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_SHOW_EVENT_END_TIMES]);
 }
 
 gboolean
@@ -2838,7 +2842,7 @@ e_week_view_set_show_icons_month_view (EWeekView *week_view,
 		gtk_widget_queue_draw (week_view->main_canvas);
 	}
 
-	g_object_notify (G_OBJECT (week_view), "show-icons-month-view");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_SHOW_ICONS_MONTH_VIEW]);
 }
 
 static gboolean
@@ -4026,12 +4030,12 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 				GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
 				e_text_get_type (),
 				"clip", TRUE,
-				"max_lines", 1,
+				"max-lines", 1,
 				"editable", TRUE,
 				"text", summary ? summary : "",
-				"use_ellipsis", TRUE,
+				"use-ellipsis", TRUE,
 				"fill-color", &color,
-				"im_context", E_CANVAS (week_view->main_canvas)->im_context,
+				"im-context", E_CANVAS (week_view->main_canvas)->im_context,
 				NULL);
 
 		g_free (summary);
@@ -4885,7 +4889,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	}
 
 	text = NULL;
-	g_object_set (span->text_item, "handle_popup", FALSE, NULL);
+	g_object_set (span->text_item, "handle-popup", FALSE, NULL);
 	g_object_get (span->text_item, "text", &text, NULL);
 
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (event->comp_data->icalcomp));
@@ -5562,5 +5566,5 @@ e_week_view_set_today_background_color (EWeekView *week_view,
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	g_object_notify (G_OBJECT (week_view), "today-background-color");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_TODAY_BACKGROUND_COLOR]);
 }

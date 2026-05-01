@@ -28,8 +28,11 @@ struct _EMailPartAttachmentPrivate {
 enum {
 	PROP_0,
 	PROP_ATTACHMENT,
-	PROP_EXPANDABLE
+	PROP_EXPANDABLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailPartAttachment, e_mail_part_attachment, E_TYPE_MAIL_PART)
 
@@ -147,27 +150,32 @@ e_mail_part_attachment_class_init (EMailPartAttachmentClass *class)
 	object_class->finalize = mail_part_attachment_finalize;
 	object_class->constructed = mail_part_attachment_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ATTACHMENT,
+	/**
+	 * EMailPartAttachment:attachment
+	 *
+	 * The attachment object
+	 **/
+	properties[PROP_ATTACHMENT] =
 		g_param_spec_object (
 			"attachment",
-			"Attachment",
-			"The attachment object",
+			NULL, NULL,
 			E_TYPE_ATTACHMENT,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EXPANDABLE,
+	/**
+	 * EMailPartAttachment:expandable
+	 *
+	 * Whether the attachment can be expanded
+	 **/
+	properties[PROP_EXPANDABLE] =
 		g_param_spec_boolean (
 			"expandable",
-			"Expandable",
-			"Whether the attachment can be expanded",
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -207,7 +215,7 @@ e_mail_part_attachment_set_expandable (EMailPartAttachment *part,
 
 	part->priv->expandable = expandable;
 
-	g_object_notify (G_OBJECT (part), "expandable");
+	g_object_notify_by_pspec (G_OBJECT (part), properties[PROP_EXPANDABLE]);
 }
 
 gboolean

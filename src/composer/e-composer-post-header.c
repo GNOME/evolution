@@ -27,8 +27,11 @@
 
 enum {
 	PROP_0,
-	PROP_MAIL_ACCOUNT
+	PROP_MAIL_ACCOUNT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 struct _EComposerPostHeaderPrivate {
 	ESource *mail_account;
@@ -199,15 +202,16 @@ e_composer_post_header_class_init (EComposerPostHeaderClass *class)
 	header_class->changed = composer_post_header_changed;
 	header_class->clicked = composer_post_header_clicked;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIL_ACCOUNT,
+	/**
+	 * EComposerPostHeader:mail-account
+	 **/
+	properties[PROP_MAIL_ACCOUNT] =
 		g_param_spec_object (
 			"mail-account",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_SOURCE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -349,5 +353,5 @@ e_composer_post_header_set_mail_account (EComposerPostHeader *header,
 		g_list_free (folders);
 	}
 
-	g_object_notify (G_OBJECT (header), "mail-account");
+	g_object_notify_by_pspec (G_OBJECT (header), properties[PROP_MAIL_ACCOUNT]);
 }

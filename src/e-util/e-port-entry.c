@@ -34,8 +34,11 @@ enum {
 	PROP_0,
 	PROP_IS_VALID,
 	PROP_PORT,
-	PROP_SECURITY_METHOD
+	PROP_SECURITY_METHOD,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EPortEntry, e_port_entry, GTK_TYPE_COMBO_BOX)
 
@@ -97,8 +100,8 @@ port_entry_text_changed (GtkEditable *editable,
 	else
 		gtk_widget_set_has_tooltip (GTK_WIDGET (port_entry), FALSE);
 
-	g_object_notify (object, "port");
-	g_object_notify (object, "is-valid");
+	g_object_notify_by_pspec (object, properties[PROP_PORT]);
+	g_object_notify_by_pspec (object, properties[PROP_IS_VALID]);
 
 	g_object_thaw_notify (object);
 }
@@ -286,41 +289,44 @@ e_port_entry_class_init (EPortEntryClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = port_entry_get_preferred_width;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_VALID,
+	/**
+	 * EPortEntry:is-valid
+	 **/
+	properties[PROP_IS_VALID] =
 		g_param_spec_boolean (
 			"is-valid",
-			NULL,
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PORT,
+	/**
+	 * EPortEntry:port
+	 **/
+	properties[PROP_PORT] =
 		g_param_spec_uint (
 			"port",
-			NULL,
-			NULL,
+			NULL, NULL,
 			0,		/* Min port, 0 = invalid port */
 			G_MAXUINT16,	/* Max port */
 			0,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SECURITY_METHOD,
+	/**
+	 * EPortEntry:security-method
+	 *
+	 * Method used to establish a network connection
+	 **/
+	properties[PROP_SECURITY_METHOD] =
 		g_param_spec_enum (
 			"security-method",
-			"Security Method",
-			"Method used to establish a network connection",
+			NULL, NULL,
 			CAMEL_TYPE_NETWORK_SECURITY_METHOD,
 			CAMEL_NETWORK_SECURITY_METHOD_NONE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -466,7 +472,7 @@ e_port_entry_set_security_method (EPortEntry *port_entry,
 
 	port_entry_method_changed (port_entry);
 
-	g_object_notify (G_OBJECT (port_entry), "security-method");
+	g_object_notify_by_pspec (G_OBJECT (port_entry), properties[PROP_SECURITY_METHOD]);
 }
 
 /**

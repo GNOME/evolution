@@ -34,8 +34,11 @@
 
 enum {
 	PROP_0,
-	PROP_NAME_SELECTOR
+	PROP_NAME_SELECTOR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 struct _EComposerNameHeaderPrivate {
 	ENameSelector *name_selector;
@@ -254,16 +257,17 @@ e_composer_name_header_class_init (EComposerNameHeaderClass *class)
 	header_class = E_COMPOSER_HEADER_CLASS (class);
 	header_class->clicked = composer_name_header_clicked;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NAME_SELECTOR,
+	/**
+	 * EComposerNameHeader:name-selector
+	 **/
+	properties[PROP_NAME_SELECTOR] =
 		g_param_spec_object (
 			"name-selector",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_NAME_SELECTOR,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

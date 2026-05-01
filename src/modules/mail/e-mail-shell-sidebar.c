@@ -34,8 +34,11 @@ struct _EMailShellSidebarPrivate {
 
 enum {
 	PROP_0,
-	PROP_FOLDER_TREE
+	PROP_FOLDER_TREE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailShellSidebar, e_mail_shell_sidebar, E_TYPE_SHELL_SIDEBAR, 0,
 	G_ADD_PRIVATE_DYNAMIC (EMailShellSidebar))
@@ -383,15 +386,16 @@ e_mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = mail_shell_sidebar_check_state;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOLDER_TREE,
+	/**
+	 * EMailShellSidebar:folder-tree
+	 **/
+	properties[PROP_FOLDER_TREE] =
 		g_param_spec_object (
 			"folder-tree",
-			NULL,
-			NULL,
+			NULL, NULL,
 			EM_TYPE_FOLDER_TREE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

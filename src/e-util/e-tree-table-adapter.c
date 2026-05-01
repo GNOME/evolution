@@ -87,8 +87,11 @@ enum {
 	PROP_HEADER,
 	PROP_SORT_INFO,
 	PROP_SOURCE_MODEL,
-	PROP_SORT_CHILDREN_ASCENDING
+	PROP_SORT_CHILDREN_ASCENDING,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	SORTING_CHANGED,
@@ -1040,53 +1043,54 @@ e_tree_table_adapter_class_init (ETreeTableAdapterClass *class)
 	object_class->finalize = tree_table_adapter_finalize;
 	object_class->constructed = tree_table_adapter_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEADER,
+	/**
+	 * ETreeTableAdapter:header
+	 **/
+	properties[PROP_HEADER] =
 		g_param_spec_object (
 			"header",
-			"Header",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TABLE_HEADER,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SORT_INFO,
+	/**
+	 * ETreeTableAdapter:sort-info
+	 **/
+	properties[PROP_SORT_INFO] =
 		g_param_spec_object (
 			"sort-info",
-			"Sort Info",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TABLE_SORT_INFO,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_MODEL,
+	/**
+	 * ETreeTableAdapter:source-model
+	 **/
+	properties[PROP_SOURCE_MODEL] =
 		g_param_spec_object (
 			"source-model",
-			"Source Model",
-			NULL,
+			NULL, NULL,
 			E_TYPE_TREE_MODEL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SORT_CHILDREN_ASCENDING,
+	/**
+	 * ETreeTableAdapter:sort-children-ascending
+	 **/
+	properties[PROP_SORT_CHILDREN_ASCENDING] =
 		g_param_spec_boolean (
 			"sort-children-ascending",
-			"Sort Children Ascending",
-			NULL,
+			NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[SORTING_CHANGED] = g_signal_new (
 		"sorting_changed",
@@ -1202,7 +1206,7 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta,
 
 	g_clear_object (&etta->priv->children_sort_info);
 
-	g_object_notify (G_OBJECT (etta), "sort-info");
+	g_object_notify_by_pspec (G_OBJECT (etta), properties[PROP_SORT_INFO]);
 
 	if (etta->priv->root == NULL)
 		return;
@@ -1233,7 +1237,7 @@ e_tree_table_adapter_set_sort_children_ascending (ETreeTableAdapter *etta,
 	etta->priv->sort_children_ascending = sort_children_ascending;
 	g_clear_object (&etta->priv->children_sort_info);
 
-	g_object_notify (G_OBJECT (etta), "sort-children-ascending");
+	g_object_notify_by_pspec (G_OBJECT (etta), properties[PROP_SORT_CHILDREN_ASCENDING]);
 
 	if (!etta->priv->root)
 		return;

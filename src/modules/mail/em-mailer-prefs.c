@@ -172,8 +172,11 @@ enum {
 	PROP_0,
 	PROP_PROMPT_ON_FOLDER_DROP_COPY,
 	PROP_PROMPT_ON_FOLDER_DROP_MOVE,
-	PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK
+	PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMMailerPrefs, em_mailer_prefs, GTK_TYPE_BOX)
 
@@ -241,7 +244,7 @@ em_mailer_prefs_toggle_prompt_on_folder_drop_copy_cb (GtkToggleButton *button,
 	EMMailerPrefs *self = user_data;
 
 	em_mailer_prefs_manage_toggle_prompt_on_folder_drop (self, button, &self->priv->prompt_on_folder_drop_copy_state);
-	g_object_notify (G_OBJECT (self), "prompt-on-folder-drop-copy");
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_PROMPT_ON_FOLDER_DROP_COPY]);
 }
 
 static void
@@ -251,7 +254,7 @@ em_mailer_prefs_toggle_prompt_on_folder_drop_move_cb (GtkToggleButton *button,
 	EMMailerPrefs *self = user_data;
 
 	em_mailer_prefs_manage_toggle_prompt_on_folder_drop (self, button, &self->priv->prompt_on_folder_drop_move_state);
-	g_object_notify (G_OBJECT (self), "prompt-on-folder-drop-move");
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_PROMPT_ON_FOLDER_DROP_MOVE]);
 }
 
 /* EAutomaticActionPolicy */
@@ -319,7 +322,7 @@ em_mailer_prefs_toggle_message_list_sort_on_header_click_cb (GtkToggleButton *bu
 	EMMailerPrefs *self = user_data;
 
 	em_mailer_prefs_manage_toggle_action_policy (self, button, &self->priv->message_list_sort_on_header_click);
-	g_object_notify (G_OBJECT (self), "message-list-sort-on-header-click");
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK]);
 }
 
 static void
@@ -336,7 +339,7 @@ em_mailer_prefs_set_property (GObject *object,
 		state = em_mailer_prefs_string_to_folder_drop_state (g_value_get_string (value));
 		if (state != self->priv->prompt_on_folder_drop_copy_state) {
 			self->priv->prompt_on_folder_drop_copy_state = state;
-			g_object_notify (object, "prompt-on-folder-drop-copy");
+			g_object_notify_by_pspec (object, properties[PROP_PROMPT_ON_FOLDER_DROP_COPY]);
 		}
 
 		em_mailer_prefs_update_toggle_prompt_on_folder_drop (self, GTK_TOGGLE_BUTTON (
@@ -347,7 +350,7 @@ em_mailer_prefs_set_property (GObject *object,
 		state = em_mailer_prefs_string_to_folder_drop_state (g_value_get_string (value));
 		if (state != self->priv->prompt_on_folder_drop_move_state) {
 			self->priv->prompt_on_folder_drop_move_state = state;
-			g_object_notify (object, "prompt-on-folder-drop-move");
+			g_object_notify_by_pspec (object, properties[PROP_PROMPT_ON_FOLDER_DROP_MOVE]);
 		}
 
 		em_mailer_prefs_update_toggle_prompt_on_folder_drop (self, GTK_TOGGLE_BUTTON (
@@ -358,7 +361,7 @@ em_mailer_prefs_set_property (GObject *object,
 		state = em_mailer_prefs_string_to_action_policy (g_value_get_string (value));
 		if (state != self->priv->message_list_sort_on_header_click) {
 			self->priv->message_list_sort_on_header_click = state;
-			g_object_notify (object, "message-list-sort-on-header-click");
+			g_object_notify_by_pspec (object, properties[PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK]);
 		}
 
 		em_mailer_prefs_update_toggle_action_policy (self, GTK_TOGGLE_BUTTON (
@@ -439,26 +442,30 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 	object_class->dispose = em_mailer_prefs_dispose;
 	object_class->finalize = em_mailer_prefs_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PROMPT_ON_FOLDER_DROP_COPY,
+	/**
+	 * EMMailerPrefs:prompt-on-folder-drop-copy
+	 **/
+	properties[PROP_PROMPT_ON_FOLDER_DROP_COPY] =
 		g_param_spec_string (
 			"prompt-on-folder-drop-copy", NULL, NULL,
-			"ask", G_PARAM_READWRITE));
+			"ask", G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PROMPT_ON_FOLDER_DROP_MOVE,
+	/**
+	 * EMMailerPrefs:prompt-on-folder-drop-move
+	 **/
+	properties[PROP_PROMPT_ON_FOLDER_DROP_MOVE] =
 		g_param_spec_string (
 			"prompt-on-folder-drop-move", NULL, NULL,
-			"ask", G_PARAM_READWRITE));
+			"ask", G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK,
+	/**
+	 * EMMailerPrefs:message-list-sort-on-header-click
+	 **/
+	properties[PROP_MESSAGE_LIST_SORT_ON_HEADER_CLICK] =
 		g_param_spec_string (
 			"message-list-sort-on-header-click", NULL, NULL,
-			"ask", G_PARAM_READWRITE));
+			"ask", G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

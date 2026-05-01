@@ -48,8 +48,11 @@ G_DEFINE_TYPE_WITH_PRIVATE (EMailTemplatesStore, e_mail_templates_store, G_TYPE_
 
 enum {
 	PROP_0,
-	PROP_ACCOUNT_STORE
+	PROP_ACCOUNT_STORE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,
@@ -1921,17 +1924,20 @@ e_mail_templates_store_class_init (EMailTemplatesStoreClass *class)
 	object_class->finalize = templates_store_finalize;
 	object_class->constructed = templates_store_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT_STORE,
+	/**
+	 * EMailTemplatesStore:account-store
+	 *
+	 * EMailAccountStore
+	 **/
+	properties[PROP_ACCOUNT_STORE] =
 		g_param_spec_object (
 			"account-store",
-			"Account Store",
-			"EMailAccountStore",
+			NULL, NULL,
 			E_TYPE_MAIL_ACCOUNT_STORE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",

@@ -45,8 +45,11 @@ struct _EMAccountPrefsPrivate {
 
 enum {
 	PROP_0,
-	PROP_BACKEND
+	PROP_BACKEND,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMAccountPrefs, em_account_prefs, E_TYPE_MAIL_ACCOUNT_MANAGER, 0,
 	G_ADD_PRIVATE_DYNAMIC (EMAccountPrefs))
@@ -184,16 +187,17 @@ em_account_prefs_class_init (EMAccountPrefsClass *class)
 	account_manager_class->add_account = account_prefs_add_account;
 	account_manager_class->edit_account = account_prefs_edit_account;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKEND,
+	/**
+	 * EMAccountPrefs:backend
+	 **/
+	properties[PROP_BACKEND] =
 		g_param_spec_object (
 			"backend",
-			NULL,
-			NULL,
+			NULL, NULL,
 			E_TYPE_MAIL_BACKEND,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

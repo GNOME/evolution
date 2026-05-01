@@ -64,8 +64,11 @@ enum {
 	PROP_SIGNATURE_UID,
 	PROP_SUBJECT,
 	PROP_MAIL_FOLLOWUP_TO,
-	PROP_MAIL_REPLY_TO
+	PROP_MAIL_REPLY_TO,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EComposerHeaderTable, e_composer_header_table, GTK_TYPE_GRID)
 
@@ -1066,138 +1069,141 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 	 *
 	 * Cache of shared #EClient instances.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT_CACHE,
+	/**
+	 * EComposerHeaderTable:client-cache
+	 *
+	 * Cache of shared EClient instances
+	 **/
+	properties[PROP_CLIENT_CACHE] =
 		g_param_spec_object (
 			"client-cache",
-			"Client Cache",
-			"Cache of shared EClient instances",
+			NULL, NULL,
 			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DESTINATIONS_BCC,
+	/**
+	 * EComposerHeaderTable:destinations-bcc
+	 **/
+	properties[PROP_DESTINATIONS_BCC] =
 		g_param_spec_boxed (
 			"destinations-bcc",
-			NULL,
-			NULL,
+			NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DESTINATIONS_CC,
+	/**
+	 * EComposerHeaderTable:destinations-cc
+	 **/
+	properties[PROP_DESTINATIONS_CC] =
 		g_param_spec_boxed (
 			"destinations-cc",
-			NULL,
-			NULL,
+			NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DESTINATIONS_TO,
+	/**
+	 * EComposerHeaderTable:destinations-to
+	 **/
+	properties[PROP_DESTINATIONS_TO] =
 		g_param_spec_boxed (
 			"destinations-to",
-			NULL,
-			NULL,
+			NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IDENTITY_UID,
+	/**
+	 * EComposerHeaderTable:identity-uid
+	 **/
+	properties[PROP_IDENTITY_UID] =
 		g_param_spec_string (
 			"identity-uid",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_POST_TO,
+	/**
+	 * EComposerHeaderTable:post-to
+	 **/
+	properties[PROP_POST_TO] =
 		g_param_spec_boxed (
 			"post-to",
-			NULL,
-			NULL,
+			NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REPLY_TO,
+	/**
+	 * EComposerHeaderTable:reply-to
+	 **/
+	properties[PROP_REPLY_TO] =
 		g_param_spec_string (
 			"reply-to",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIL_FOLLOWUP_TO,
+	/**
+	 * EComposerHeaderTable:mail-followup-to
+	 **/
+	properties[PROP_MAIL_FOLLOWUP_TO] =
 		g_param_spec_string (
 			"mail-followup-to",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIL_REPLY_TO,
+	/**
+	 * EComposerHeaderTable:mail-reply-to
+	 **/
+	properties[PROP_MAIL_REPLY_TO] =
 		g_param_spec_string (
 			"mail-reply-to",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SIGNATURE_COMBO_BOX,
+	/**
+	 * EComposerHeaderTable:signature-combo-box
+	 **/
+	properties[PROP_SIGNATURE_COMBO_BOX] =
 		g_param_spec_string (
 			"signature-combo-box",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SIGNATURE_UID,
+	/**
+	 * EComposerHeaderTable:signature-uid
+	 **/
+	properties[PROP_SIGNATURE_UID] =
 		g_param_spec_string (
 			"signature-uid",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SUBJECT,
+	/**
+	 * EComposerHeaderTable:subject
+	 **/
+	properties[PROP_SUBJECT] =
 		g_param_spec_string (
 			"subject",
-			NULL,
-			NULL,
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

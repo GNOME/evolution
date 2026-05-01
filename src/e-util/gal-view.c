@@ -25,8 +25,11 @@ struct _GalViewPrivate {
 
 enum {
 	PROP_0,
-	PROP_TITLE
+	PROP_TITLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,
@@ -120,16 +123,19 @@ gal_view_class_init (GalViewClass *class)
 	class->save = view_save;
 	class->clone = view_clone;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TITLE,
+	/**
+	 * GalView:title
+	 *
+	 * View Title
+	 **/
+	properties[PROP_TITLE] =
 		g_param_spec_string (
 			"title",
-			"Title",
-			"View Title",
+			NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -220,7 +226,7 @@ gal_view_set_title (GalView *view,
 	g_free (view->priv->title);
 	view->priv->title = g_strdup (title);
 
-	g_object_notify (G_OBJECT (view), "title");
+	g_object_notify_by_pspec (G_OBJECT (view), properties[PROP_TITLE]);
 }
 
 /**

@@ -34,8 +34,11 @@ struct _ECategoriesSelectorPrivate {
 enum {
 	PROP_0,
 	PROP_ITEMS_CHECKABLE,
-	PROP_USE_INCONSISTENT
+	PROP_USE_INCONSISTENT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CATEGORY_CHECKED,
@@ -282,25 +285,26 @@ e_categories_selector_class_init (ECategoriesSelectorClass *class)
 	object_class->dispose = categories_selector_dispose;
 	object_class->finalize = categories_selector_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ITEMS_CHECKABLE,
+	/**
+	 * ECategoriesSelector:items-checkable
+	 **/
+	properties[PROP_ITEMS_CHECKABLE] =
 		g_param_spec_boolean (
 			"items-checkable",
-			NULL,
-			NULL,
+			NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_INCONSISTENT,
+	/**
+	 * ECategoriesSelector:use-inconsistent
+	 **/
+	properties[PROP_USE_INCONSISTENT] =
 		g_param_spec_boolean (
 			"use-inconsistent",
-			NULL,
-			NULL,
+			NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CATEGORY_CHECKED] = g_signal_new (
 		"category-checked",
@@ -422,7 +426,7 @@ e_categories_selector_set_items_checkable (ECategoriesSelector *selector,
 		GTK_TREE_VIEW (selector), COLUMN_ACTIVE);
 	gtk_tree_view_column_set_visible (column, checkable);
 
-	g_object_notify (G_OBJECT (selector), "items-checkable");
+	g_object_notify_by_pspec (G_OBJECT (selector), properties[PROP_ITEMS_CHECKABLE]);
 }
 
 /**
@@ -641,7 +645,7 @@ e_categories_selector_set_use_inconsistent (ECategoriesSelector *selector,
 	if ((selector->priv->use_inconsistent ? 1 : 0) != (use_inconsistent ? 1 : 0)) {
 		selector->priv->use_inconsistent = use_inconsistent;
 
-		g_object_notify (G_OBJECT (selector), "use-inconsistent");
+		g_object_notify_by_pspec (G_OBJECT (selector), properties[PROP_USE_INCONSISTENT]);
 
 		categories_selector_build_model (selector);
 	}

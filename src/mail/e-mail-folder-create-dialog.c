@@ -38,8 +38,11 @@ struct _AsyncContext {
 
 enum {
 	PROP_0,
-	PROP_SESSION
+	PROP_SESSION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	FOLDER_CREATED,
@@ -422,18 +425,20 @@ e_mail_folder_create_dialog_class_init (EMailFolderCreateDialogClass *class)
 	selector_class = EM_FOLDER_SELECTOR_CLASS (class);
 	selector_class->folder_selected = mail_folder_create_dialog_folder_selected;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * EMailFolderCreateDialog:session
+	 *
+	 * An EMailUISession from which " "to list enabled mail stores
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
 			"session",
-			"Session",
-			"An EMailUISession from which "
-			"to list enabled mail stores",
+			NULL, NULL,
 			E_TYPE_MAIL_UI_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[FOLDER_CREATED] = g_signal_new (
 		"folder-created",
