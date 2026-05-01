@@ -63,8 +63,8 @@ et_get_extents (AtkComponent *component,
 
 	g_object_get (
 		item,
-		"text-width", &real_width,
-		"text-height", &real_height,
+		"text_width", &real_width,
+		"text_height", &real_height,
 		NULL);
 
 	if (width)

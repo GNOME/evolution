@@ -31,8 +31,11 @@ struct _ECellTogglePrivate {
 
 enum {
 	PROP_0,
-	PROP_BG_COLOR_COLUMN
+	PROP_BG_COLOR_COLUMN,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (ECellToggle, e_cell_toggle, E_TYPE_CELL)
 
@@ -497,15 +500,13 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 	cell_class->max_width = cell_toggle_max_width;
 	cell_class->get_bg_color = cell_toggle_get_bg_color;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BG_COLOR_COLUMN,
+	properties[PROP_BG_COLOR_COLUMN] =
 		g_param_spec_int (
-			"bg-color-column",
-			"BG Color Column",
-			NULL,
+			"bg-color-column", NULL, NULL,
 			-1, G_MAXINT, -1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	gal_a11y_e_cell_registry_add_cell_type (
 		NULL, E_TYPE_CELL_TOGGLE, gal_a11y_e_cell_toggle_new);

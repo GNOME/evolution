@@ -167,18 +167,21 @@ struct _RegenData {
 
 enum {
 	PROP_0,
-	PROP_COPY_TARGET_LIST,
 	PROP_FOLDER,
 	PROP_GROUP_BY_THREADS,
-	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION,
 	PROP_SHOW_DELETED,
 	PROP_SHOW_JUNK,
 	PROP_THREAD_LATEST,
 	PROP_THREAD_SUBJECT,
 	PROP_THREAD_COMPRESS,
-	PROP_THREAD_FLAT
+	PROP_THREAD_FLAT,
+	N_PROPS,
+	PROP_COPY_TARGET_LIST,
+	PROP_PASTE_TARGET_LIST
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	message_list_selectable_init
@@ -4072,28 +4075,30 @@ message_list_class_init (MessageListClass *class)
 		PROP_COPY_TARGET_LIST,
 		"copy-target-list");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOLDER,
+	/**
+	 * MessageList:folder
+	 *
+	 * The source folder
+	 **/
+	properties[PROP_FOLDER] =
 		g_param_spec_object (
-			"folder",
-			"Folder",
-			"The source folder",
+			"folder", NULL, NULL,
 			CAMEL_TYPE_FOLDER,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_GROUP_BY_THREADS,
+	/**
+	 * MessageList:group-by-threads
+	 *
+	 * Group messages into conversation threads
+	 **/
+	properties[PROP_GROUP_BY_THREADS] =
 		g_param_spec_boolean (
-			"group-by-threads",
-			"Group By Threads",
-			"Group messages into conversation threads",
+			"group-by-threads", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
@@ -4101,89 +4106,98 @@ message_list_class_init (MessageListClass *class)
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	/**
+	 * MessageList:session
+	 *
+	 * The mail session
+	 **/
+	properties[PROP_SESSION] =
 		g_param_spec_object (
-			"session",
-			"Mail Session",
-			"The mail session",
+			"session", NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_DELETED,
+	/**
+	 * MessageList:show-deleted
+	 *
+	 * Show messages marked for deletion
+	 **/
+	properties[PROP_SHOW_DELETED] =
 		g_param_spec_boolean (
-			"show-deleted",
-			"Show Deleted",
-			"Show messages marked for deletion",
+			"show-deleted", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_JUNK,
+	/**
+	 * MessageList:show-junk
+	 *
+	 * Show messages marked as junk
+	 **/
+	properties[PROP_SHOW_JUNK] =
 		g_param_spec_boolean (
-			"show-junk",
-			"Show Junk",
-			"Show messages marked as junk",
+			"show-junk", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_THREAD_LATEST,
+	/**
+	 * MessageList:thread-latest
+	 *
+	 * Sort threads by latest message
+	 **/
+	properties[PROP_THREAD_LATEST] =
 		g_param_spec_boolean (
-			"thread-latest",
-			"Thread Latest",
-			"Sort threads by latest message",
+			"thread-latest", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_THREAD_SUBJECT,
+	/**
+	 * MessageList:thread-subject
+	 *
+	 * Thread messages by Subject headers
+	 **/
+	properties[PROP_THREAD_SUBJECT] =
 		g_param_spec_boolean (
-			"thread-subject",
-			"Thread Subject",
-			"Thread messages by Subject headers",
+			"thread-subject", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_THREAD_COMPRESS,
+	/**
+	 * MessageList:thread-compress
+	 *
+	 * Compress flat threads
+	 **/
+	properties[PROP_THREAD_COMPRESS] =
 		g_param_spec_boolean (
-			"thread-compress",
-			"Thread Compress",
-			"Compress flat threads",
+			"thread-compress", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_THREAD_FLAT,
+	/**
+	 * MessageList:thread-flat
+	 *
+	 * Generate flat threads
+	 **/
+	properties[PROP_THREAD_FLAT] =
 		g_param_spec_boolean (
-			"thread-flat",
-			"Thread Flat",
-			"Generate flat threads",
+			"thread-flat", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	gtk_widget_class_install_style_property (
 		GTK_WIDGET_CLASS (class),
@@ -5440,7 +5454,7 @@ message_list_set_group_by_threads (MessageList *message_list,
 	message_list->priv->group_by_threads = group_by_threads;
 	e_tree_set_grouped_view (E_TREE (message_list), group_by_threads);
 
-	g_object_notify (G_OBJECT (message_list), "group-by-threads");
+	g_object_notify_by_pspec (G_OBJECT (message_list), properties[PROP_GROUP_BY_THREADS]);
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
@@ -5468,7 +5482,7 @@ message_list_set_show_deleted (MessageList *message_list,
 
 	message_list->priv->show_deleted = show_deleted;
 
-	g_object_notify (G_OBJECT (message_list), "show-deleted");
+	g_object_notify_by_pspec (G_OBJECT (message_list), properties[PROP_SHOW_DELETED]);
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
@@ -5496,7 +5510,7 @@ message_list_set_show_junk (MessageList *message_list,
 
 	message_list->priv->show_junk = show_junk;
 
-	g_object_notify (G_OBJECT (message_list), "show-junk");
+	g_object_notify_by_pspec (G_OBJECT (message_list), properties[PROP_SHOW_JUNK]);
 
 	/* Changing this property triggers a message list regen. */
 	if (message_list->frozen == 0)
@@ -5524,7 +5538,7 @@ message_list_set_thread_latest (MessageList *message_list,
 
 	message_list->priv->thread_latest = thread_latest;
 
-	g_object_notify (G_OBJECT (message_list), "thread-latest");
+	g_object_notify_by_pspec (G_OBJECT (message_list), properties[PROP_THREAD_LATEST]);
 }
 
 gboolean
@@ -5546,7 +5560,7 @@ message_list_set_thread_subject (MessageList *message_list,
 
 	message_list->priv->thread_subject = thread_subject;
 
-	g_object_notify (G_OBJECT (message_list), "thread-subject");
+	g_object_notify_by_pspec (G_OBJECT (message_list), properties[PROP_THREAD_SUBJECT]);
 }
 
 gboolean
@@ -5568,7 +5582,7 @@ message_list_set_thread_compress (MessageList *message_list,
 
 	message_list->priv->thread_compress = thread_compress;
 
-	g_object_notify (G_OBJECT (message_list), "thread-compress");
+	g_object_notify_by_pspec (G_OBJECT (message_list), properties[PROP_THREAD_COMPRESS]);
 
 	gtk_widget_queue_draw (GTK_WIDGET (message_list));
 }
@@ -5592,7 +5606,7 @@ message_list_set_thread_flat (MessageList *message_list,
 
 	message_list->priv->thread_flat = thread_flat;
 
-	g_object_notify (G_OBJECT (message_list), "thread-flat");
+	g_object_notify_by_pspec (G_OBJECT (message_list), properties[PROP_THREAD_FLAT]);
 
 	if (message_list->priv->group_by_threads) {
 		if (!message_list->frozen)

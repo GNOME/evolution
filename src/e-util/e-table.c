@@ -90,12 +90,17 @@ enum {
 	PROP_UNIFORM_ROW_HEIGHT,
 	PROP_ALWAYS_SEARCH,
 	PROP_USE_CLICK_TO_ADD,
+	PROP_IS_EDITING,
+	N_PROPS,
+
+	/* For scrollable interface */
 	PROP_HADJUSTMENT,
 	PROP_VADJUSTMENT,
 	PROP_HSCROLL_POLICY,
-	PROP_VSCROLL_POLICY,
-	PROP_IS_EDITING
+	PROP_VSCROLL_POLICY
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ET_SCROLL_UP = 1 << 0,
@@ -1055,7 +1060,7 @@ group_is_editing_changed_cb (ETableClickToAdd *etcta,
 {
 	g_return_if_fail (E_IS_TABLE (table));
 
-	g_object_notify (G_OBJECT (table), "is-editing");
+	g_object_notify_by_pspec (G_OBJECT (table), properties[PROP_IS_EDITING]);
 }
 
 static void
@@ -1413,7 +1418,7 @@ click_to_add_is_editing_changed_cb (ETableClickToAdd *etcta,
 {
 	g_return_if_fail (E_IS_TABLE (table));
 
-	g_object_notify (G_OBJECT (table), "is-editing");
+	g_object_notify_by_pspec (G_OBJECT (table), properties[PROP_IS_EDITING]);
 }
 
 static gboolean
@@ -3423,65 +3428,48 @@ e_table_class_init (ETableClass *class)
 		G_TYPE_UINT,
 		G_TYPE_UINT);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LENGTH_THRESHOLD,
+	properties[PROP_LENGTH_THRESHOLD] =
 		g_param_spec_int (
-			"length-threshold",
-			"Length Threshold",
-			NULL,
+			"length-threshold", NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UNIFORM_ROW_HEIGHT,
+	properties[PROP_UNIFORM_ROW_HEIGHT] =
 		g_param_spec_boolean (
-			"uniform-row-height",
-			"Uniform row height",
-			NULL,
+			"uniform-row-height", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALWAYS_SEARCH,
+	properties[PROP_ALWAYS_SEARCH] =
 		g_param_spec_boolean (
-			"always-search",
-			"Always search",
-			NULL,
+			"always-search", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_CLICK_TO_ADD,
+	properties[PROP_USE_CLICK_TO_ADD] =
 		g_param_spec_boolean (
-			"use-click-to-add",
-			"Use click to add",
-			NULL,
+			"use-click-to-add", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
+	properties[PROP_MODEL] =
 		g_param_spec_object (
-			"model",
-			"Model",
-			NULL,
+			"model", NULL, NULL,
 			E_TYPE_TABLE_MODEL,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_EDITING,
+	/**
+	 * ETable:is-editing
+	 *
+	 * Whether is in an editing mode
+	 **/
+	properties[PROP_IS_EDITING] =
 		g_param_spec_boolean (
-			"is-editing",
-			"Whether is in an editing mode",
-			"Whether is in an editing mode",
+			"is-editing", NULL, NULL,
 			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	gtk_widget_class_install_style_property (
 		widget_class,

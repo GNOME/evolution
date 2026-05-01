@@ -88,10 +88,10 @@ struct _EContactCardPrivate {
 enum {
 	PROP_0,
 	PROP_CSS_PROVIDER,
-	LAST_PROP
+	N_PROPS
 };
 
-static GParamSpec *obj_props[LAST_PROP] = { NULL, };
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EContactCard, e_contact_card, GTK_TYPE_EVENT_BOX)
 
@@ -360,12 +360,12 @@ e_contact_card_class_init (EContactCardClass *klass)
 	 *
 	 * Since: 3.50
 	 **/
-	obj_props[PROP_CSS_PROVIDER] =
+	properties[PROP_CSS_PROVIDER] =
 		g_param_spec_object ("css-provider", NULL, NULL,
 			GTK_TYPE_CSS_PROVIDER,
 			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (obj_props), obj_props);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

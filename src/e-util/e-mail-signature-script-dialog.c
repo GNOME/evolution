@@ -34,8 +34,11 @@ enum {
 	PROP_0,
 	PROP_REGISTRY,
 	PROP_SOURCE,
-	PROP_SYMLINK_TARGET
+	PROP_SYMLINK_TARGET,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailSignatureScriptDialog, e_mail_signature_script_dialog, GTK_TYPE_DIALOG)
 
@@ -108,7 +111,7 @@ mail_signature_script_dialog_file_set_cb (GtkFileChooserButton *button,
 	g_free (dialog->priv->symlink_target);
 	dialog->priv->symlink_target = filename;  /* takes ownership */
 
-	g_object_notify (G_OBJECT (dialog), "symlink-target");
+	g_object_notify_by_pspec (G_OBJECT (dialog), properties[PROP_SYMLINK_TARGET]);
 
 	mail_signature_script_dialog_update_status (dialog);
 }
@@ -533,40 +536,35 @@ e_mail_signature_script_dialog_class_init (EMailSignatureScriptDialogClass *clas
 	object_class->finalize = mail_signature_script_dialog_finalize;
 	object_class->constructed = mail_signature_script_dialog_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	/**
+	 * EMailSignatureScriptDialog:registry
+	 *
+	 * Data source registry
+	 **/
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
-			"registry",
-			"Registry",
-			"Data source registry",
+			"registry", NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE,
+	properties[PROP_SOURCE] =
 		g_param_spec_object (
-			"source",
-			"Source",
-			NULL,
+			"source", NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SYMLINK_TARGET,
+	properties[PROP_SYMLINK_TARGET] =
 		g_param_spec_string (
-			"symlink-target",
-			"Symlink Target",
-			NULL,
+			"symlink-target", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -635,7 +633,7 @@ e_mail_signature_script_dialog_set_symlink_target (EMailSignatureScriptDialog *d
 	file_chooser = GTK_FILE_CHOOSER (dialog->priv->file_chooser);
 	gtk_file_chooser_set_filename (file_chooser, symlink_target);
 
-	g_object_notify (G_OBJECT (dialog), "symlink-target");
+	g_object_notify_by_pspec (G_OBJECT (dialog), properties[PROP_SYMLINK_TARGET]);
 
 	mail_signature_script_dialog_update_status (dialog);
 }

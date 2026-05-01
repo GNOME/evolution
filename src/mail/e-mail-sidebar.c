@@ -21,8 +21,11 @@ struct _EMailSidebarPrivate {
 
 enum {
 	PROP_0,
-	PROP_KEY_FILE
+	PROP_KEY_FILE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	KEY_FILE_CHANGED,
@@ -556,14 +559,14 @@ e_mail_sidebar_class_init (EMailSidebarClass *class)
 
 	class->check_state = mail_sidebar_check_state;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_KEY_FILE,
+	properties[PROP_KEY_FILE] =
 		g_param_spec_pointer (
 			"key-file",
 			"Key File",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[KEY_FILE_CHANGED] = g_signal_new (
 		"key-file-changed",
@@ -627,7 +630,7 @@ e_mail_sidebar_set_key_file (EMailSidebar *sidebar,
 
 	mail_sidebar_restore_state (sidebar);
 
-	g_object_notify (G_OBJECT (sidebar), "key-file");
+	g_object_notify_by_pspec (G_OBJECT (sidebar), properties[PROP_KEY_FILE]);
 }
 
 guint32

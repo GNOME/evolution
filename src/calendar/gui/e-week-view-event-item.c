@@ -30,8 +30,11 @@ struct _EWeekViewEventItemPrivate {
 enum {
 	PROP_0,
 	PROP_EVENT_NUM,
-	PROP_SPAN_NUM
+	PROP_SPAN_NUM,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EWeekViewEventItem, e_week_view_event_item, GNOME_TYPE_CANVAS_ITEM)
 
@@ -1143,29 +1146,23 @@ e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
 	item_class->point = week_view_event_item_point;
 	item_class->event = week_view_event_item_event;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EVENT_NUM,
+	properties[PROP_EVENT_NUM] =
 		g_param_spec_int (
-			"event-num",
-			"Event Num",
-			NULL,
+			"event-num", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			-1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SPAN_NUM,
+	properties[PROP_SPAN_NUM] =
 		g_param_spec_int (
-			"span-num",
-			"Span Num",
-			NULL,
+			"span-num", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			-1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1197,7 +1194,7 @@ e_week_view_event_item_set_event_num (EWeekViewEventItem *event_item,
 	event_item->priv->event_num = event_num;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (event_item));
 
-	g_object_notify (G_OBJECT (event_item), "event-num");
+	g_object_notify_by_pspec (G_OBJECT (event_item), properties[PROP_EVENT_NUM]);
 }
 
 gint
@@ -1220,5 +1217,5 @@ e_week_view_event_item_set_span_num (EWeekViewEventItem *event_item,
 	event_item->priv->span_num = span_num;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (event_item));
 
-	g_object_notify (G_OBJECT (event_item), "span-num");
+	g_object_notify_by_pspec (G_OBJECT (event_item), properties[PROP_SPAN_NUM]);
 }

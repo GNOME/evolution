@@ -60,8 +60,11 @@ const gchar *EMeetingTimeSelectorHours12[24] = {
 
 enum {
 	PROP_0,
-	PROP_USE_24_HOUR_FORMAT
+	PROP_USE_24_HOUR_FORMAT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,
@@ -262,15 +265,13 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass *class)
 	widget_class->style_updated = e_meeting_time_selector_style_updated;
 	widget_class->draw = e_meeting_time_selector_draw;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_24_HOUR_FORMAT,
+	properties[PROP_USE_24_HOUR_FORMAT] =
 		g_param_spec_boolean (
-			"use-24-hour-format",
-			"Use 24-Hour Format",
-			NULL,
+			"use-24-hour-format", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -490,14 +491,14 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	mts->item_top = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (GNOME_CANVAS (mts->display_top)->root),
 		e_meeting_time_selector_item_get_type (),
-		"EMeetingTimeSelectorItem::meeting_time_selector", mts,
+		"EMeetingTimeSelectorItem::meeting-time-selector", mts,
 		NULL);
 
 	/* Create the item in the main canvas. */
 	mts->item_main = gnome_canvas_item_new (
 		GNOME_CANVAS_GROUP (GNOME_CANVAS (mts->display_main)->root),
 		e_meeting_time_selector_item_get_type (),
-		"EMeetingTimeSelectorItem::meeting_time_selector", mts,
+		"EMeetingTimeSelectorItem::meeting-time-selector", mts,
 		NULL);
 
 	/* Create the hbox containing the color key. */
@@ -958,7 +959,7 @@ e_meeting_time_selector_set_use_24_hour_format (EMeetingTimeSelector *mts,
 
 	mts->priv->use_24_hour_format = use_24_hour_format;
 
-	g_object_notify (G_OBJECT (mts), "use-24-hour-format");
+	g_object_notify_by_pspec (G_OBJECT (mts), properties[PROP_USE_24_HOUR_FORMAT]);
 }
 
 static cairo_pattern_t *

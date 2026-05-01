@@ -221,8 +221,11 @@ enum {
 	PROP_DAYS_TO_START_WEEK_SELECTION,
 	PROP_MOVE_SELECTION_WHEN_MOVING,
 	PROP_PRESERVE_DAY_WHEN_MOVING,
-	PROP_DISPLAY_POPUP
+	PROP_DISPLAY_POPUP,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	DATE_RANGE_CHANGED,
@@ -268,255 +271,169 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	class->selection_changed = NULL;
 	class->selection_preview_changed = NULL;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_YEAR,
+	properties[PROP_YEAR] =
 		g_param_spec_int (
-			"year",
-			NULL,
-			NULL,
+			"year", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MONTH,
+	properties[PROP_MONTH] =
 		g_param_spec_int (
-			"month",
-			NULL,
-			NULL,
+			"month", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_X1,
+	properties[PROP_X1] =
 		g_param_spec_double (
-			"x1",
-			NULL,
-			NULL,
+			"x1", NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_Y1,
+	properties[PROP_Y1] =
 		g_param_spec_double (
-			"y1",
-			NULL,
-			NULL,
+			"y1", NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_X2,
+	properties[PROP_X2] =
 		g_param_spec_double (
-			"x2",
-			NULL,
-			NULL,
+			"x2", NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_Y2,
+	properties[PROP_Y2] =
 		g_param_spec_double (
-			"y2",
-			NULL,
-			NULL,
+			"y2", NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FONT_DESC,
+	properties[PROP_FONT_DESC] =
 		g_param_spec_boxed (
-			"font-desc",
-			NULL,
-			NULL,
+			"font-desc", NULL, NULL,
 			PANGO_TYPE_FONT_DESCRIPTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_NUMBER_FONT_DESC,
+	properties[PROP_WEEK_NUMBER_FONT_DESC] =
 		g_param_spec_boxed (
-			"week-number-font-desc",
-			NULL,
-			NULL,
+			"week-number-font-desc", NULL, NULL,
 			PANGO_TYPE_FONT_DESCRIPTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ROW_HEIGHT,
+	properties[PROP_ROW_HEIGHT] =
 		g_param_spec_int (
-			"row-height",
-			NULL,
-			NULL,
+			"row-height", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COLUMN_WIDTH,
+	properties[PROP_COLUMN_WIDTH] =
 		g_param_spec_int (
-			"column-width",
-			NULL,
-			NULL,
+			"column-width", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MINIMUM_ROWS,
+	properties[PROP_MINIMUM_ROWS] =
 		g_param_spec_int (
-			"minimum-rows",
-			NULL,
-			NULL,
+			"minimum-rows", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MINIMUM_COLUMNS,
+	properties[PROP_MINIMUM_COLUMNS] =
 		g_param_spec_int (
-			"minimum-columns",
-			NULL,
-			NULL,
+			"minimum-columns", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAXIMUM_ROWS,
+	properties[PROP_MAXIMUM_ROWS] =
 		g_param_spec_int (
-			"maximum-rows",
-			NULL,
-			NULL,
+			"maximum-rows", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAXIMUM_COLUMNS,
+	properties[PROP_MAXIMUM_COLUMNS] =
 		g_param_spec_int (
-			"maximum-columns",
-			NULL,
-			NULL,
+			"maximum-columns", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_START_DAY,
+	properties[PROP_WEEK_START_DAY] =
 		g_param_spec_enum (
-			"week-start-day",
-			NULL,
-			NULL,
+			"week-start-day", NULL, NULL,
 			E_TYPE_DATE_WEEKDAY,
 			G_DATE_MONDAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_WEEK_NUMBERS,
+	properties[PROP_SHOW_WEEK_NUMBERS] =
 		g_param_spec_boolean (
-			"show-week-numbers",
-			NULL,
-			NULL,
+			"show-week-numbers", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK,
+	properties[PROP_KEEP_WDAYS_ON_WEEKNUM_CLICK] =
 		g_param_spec_boolean (
-			"keep-wdays-on-weeknum-click",
-			NULL,
-			NULL,
+			"keep-wdays-on-weeknum-click", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAXIMUM_DAYS_SELECTED,
+	properties[PROP_MAXIMUM_DAYS_SELECTED] =
 		g_param_spec_int (
-			"maximum-days-selected",
-			NULL,
-			NULL,
+			"maximum-days-selected", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DAYS_TO_START_WEEK_SELECTION,
+	properties[PROP_DAYS_TO_START_WEEK_SELECTION] =
 		g_param_spec_int (
-			"days-to-start-week-selection",
-			NULL,
-			NULL,
+			"days-to-start-week-selection", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MOVE_SELECTION_WHEN_MOVING,
+	properties[PROP_MOVE_SELECTION_WHEN_MOVING] =
 		g_param_spec_boolean (
-			"move-selection-when-moving",
-			NULL,
-			NULL,
+			"move-selection-when-moving", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PRESERVE_DAY_WHEN_MOVING,
+	properties[PROP_PRESERVE_DAY_WHEN_MOVING] =
 		g_param_spec_boolean (
-			"preserve-day-when-moving",
-			NULL,
-			NULL,
+			"preserve-day-when-moving", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DISPLAY_POPUP,
+	properties[PROP_DISPLAY_POPUP] =
 		g_param_spec_boolean (
-			"display-popup",
-			NULL,
-			NULL,
+			"display-popup", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	e_calendar_item_signals[DATE_RANGE_CHANGED] = g_signal_new (
 		"date_range_changed",

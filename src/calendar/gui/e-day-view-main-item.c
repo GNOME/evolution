@@ -24,8 +24,11 @@ struct _EDayViewMainItemPrivate {
 
 enum {
 	PROP_0,
-	PROP_DAY_VIEW
+	PROP_DAY_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EDayViewMainItem, e_day_view_main_item, GNOME_TYPE_CANVAS_ITEM)
 
@@ -1326,15 +1329,13 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 	item_class->draw = day_view_main_item_draw;
 	item_class->point = day_view_main_item_point;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DAY_VIEW,
+	properties[PROP_DAY_VIEW] =
 		g_param_spec_object (
-			"day-view",
-			"Day View",
-			NULL,
+			"day-view", NULL, NULL,
 			E_TYPE_DAY_VIEW,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* init the accessibility support for e_day_view */
 	e_day_view_main_item_a11y_init ();
@@ -1369,5 +1370,5 @@ e_day_view_main_item_set_day_view (EDayViewMainItem *main_item,
 
 	main_item->priv->day_view = g_object_ref (day_view);
 
-	g_object_notify (G_OBJECT (main_item), "day-view");
+	g_object_notify_by_pspec (G_OBJECT (main_item), properties[PROP_DAY_VIEW]);
 }

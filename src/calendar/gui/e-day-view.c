@@ -478,8 +478,12 @@ enum {
 	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
 	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
 	PROP_TODAY_BACKGROUND_COLOR,
+	N_PROPS,
+
 	PROP_IS_EDITING
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
 
@@ -2164,62 +2168,44 @@ e_day_view_class_init (EDayViewClass *class)
 	view_class->precalc_visible_time_range = e_day_view_precalc_visible_time_range;
 	view_class->paste_text = day_view_paste_text;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DRAW_FLAT_EVENTS,
+	properties[PROP_DRAW_FLAT_EVENTS] =
 		g_param_spec_boolean (
-			"draw-flat-events",
-			"Draw Flat Events",
-			NULL,
+			"draw-flat-events", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MARCUS_BAINS_SHOW_LINE,
+	properties[PROP_MARCUS_BAINS_SHOW_LINE] =
 		g_param_spec_boolean (
-			"marcus-bains-show-line",
-			"Marcus Bains Show Line",
-			NULL,
+			"marcus-bains-show-line", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
+	properties[PROP_MARCUS_BAINS_DAY_VIEW_COLOR] =
 		g_param_spec_string (
-			"marcus-bains-day-view-color",
-			"Marcus Bains Day View Color",
-			NULL,
+			"marcus-bains-day-view-color", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MARCUS_BAINS_TIME_BAR_COLOR,
+	properties[PROP_MARCUS_BAINS_TIME_BAR_COLOR] =
 		g_param_spec_string (
-			"marcus-bains-time-bar-color",
-			"Marcus Bains Time Bar Color",
-			NULL,
+			"marcus-bains-time-bar-color", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TODAY_BACKGROUND_COLOR,
+	properties[PROP_TODAY_BACKGROUND_COLOR] =
 		g_param_spec_string (
-			"today-background-color",
-			"Today Background Color",
-			NULL,
+			"today-background-color", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	g_object_class_override_property (
 		object_class,
@@ -2456,8 +2442,8 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			e_day_view_top_item_get_type (),
-			"EDayViewTopItem::day_view", day_view,
-			"EDayViewTopItem::show_dates", TRUE,
+			"EDayViewTopItem::day-view", day_view,
+			"EDayViewTopItem::show-dates", TRUE,
 			NULL);
 	gtk_widget_set_size_request (day_view->top_dates_canvas, -1, day_view->top_row_height);
 
@@ -2467,8 +2453,8 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			e_day_view_top_item_get_type (),
-			"EDayViewTopItem::day_view", day_view,
-			"EDayViewTopItem::show_dates", FALSE,
+			"EDayViewTopItem::day-view", day_view,
+			"EDayViewTopItem::show-dates", FALSE,
 			NULL);
 
 	day_view->drag_long_event_rect_item =
@@ -2574,7 +2560,7 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			e_day_view_main_item_get_type (),
-			"EDayViewMainItem::day_view", day_view,
+			"EDayViewMainItem::day-view", day_view,
 			NULL);
 
 	day_view->drag_rect_item =
@@ -2636,7 +2622,7 @@ e_day_view_init (EDayView *day_view)
 		gnome_canvas_item_new (
 			canvas_group,
 			e_day_view_time_item_get_type (),
-			"EDayViewTimeItem::day_view", day_view,
+			"EDayViewTimeItem::day-view", day_view,
 			NULL);
 
 	/*
@@ -4099,7 +4085,7 @@ e_day_view_marcus_bains_set_show_line (EDayView *day_view,
 	if (!day_view->priv->marcus_bains_update_id)
 		day_view_refresh_marcus_bains_line (day_view);
 
-	g_object_notify (G_OBJECT (day_view), "marcus-bains-show-line");
+	g_object_notify_by_pspec (G_OBJECT (day_view), properties[PROP_MARCUS_BAINS_SHOW_LINE]);
 }
 
 gboolean
@@ -4125,7 +4111,7 @@ e_day_view_set_draw_flat_events (EDayView *day_view,
 	gtk_widget_queue_draw (day_view->top_dates_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 
-	g_object_notify (G_OBJECT (day_view), "draw-flat-events");
+	g_object_notify_by_pspec (G_OBJECT (day_view), properties[PROP_DRAW_FLAT_EVENTS]);
 }
 
 const gchar *
@@ -4147,7 +4133,7 @@ e_day_view_marcus_bains_set_day_view_color (EDayView *day_view,
 
 	e_day_view_marcus_bains_update (day_view);
 
-	g_object_notify (G_OBJECT (day_view), "marcus-bains-day-view-color");
+	g_object_notify_by_pspec (G_OBJECT (day_view), properties[PROP_MARCUS_BAINS_DAY_VIEW_COLOR]);
 }
 
 const gchar *
@@ -4169,7 +4155,7 @@ e_day_view_marcus_bains_set_time_bar_color (EDayView *day_view,
 
 	e_day_view_marcus_bains_update (day_view);
 
-	g_object_notify (G_OBJECT (day_view), "marcus-bains-time-bar-color");
+	g_object_notify_by_pspec (G_OBJECT (day_view), properties[PROP_MARCUS_BAINS_TIME_BAR_COLOR]);
 }
 
 const gchar *
@@ -4207,7 +4193,7 @@ e_day_view_set_today_background_color (EDayView *day_view,
 
 	gtk_widget_queue_draw (day_view->main_canvas);
 
-	g_object_notify (G_OBJECT (day_view), "today-background-color");
+	g_object_notify_by_pspec (G_OBJECT (day_view), properties[PROP_TODAY_BACKGROUND_COLOR]);
 }
 
 /* Whether we display event end times in the main canvas. */
@@ -7484,7 +7470,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 	/* Try to move the cursor to the end of the text. */
 	g_object_get (
 		event->canvas_item,
-		"event-processor", &event_processor,
+		"event_processor", &event_processor,
 		NULL);
 	if (event_processor) {
 		command.action = E_TEP_MOVE;

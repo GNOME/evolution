@@ -86,8 +86,11 @@ enum {
 	PROP_ALLOW_NO_DATE_SET,
 	PROP_USE_24_HOUR_FORMAT,
 	PROP_LOWER_HOUR,
-	PROP_UPPER_HOUR
+	PROP_UPPER_HOUR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	BEFORE_POPUP,
@@ -112,79 +115,53 @@ e_cell_date_edit_class_init (ECellDateEditClass *class)
 	ecpc = E_CELL_POPUP_CLASS (class);
 	ecpc->popup = e_cell_date_edit_do_popup;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_TIME,
+	properties[PROP_SHOW_TIME] =
 		g_param_spec_boolean (
-			"show-time",
-			NULL,
-			NULL,
+			"show-time", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_NOW_BUTTON,
+	properties[PROP_SHOW_NOW_BUTTON] =
 		g_param_spec_boolean (
-			"show-now-button",
-			NULL,
-			NULL,
+			"show-now-button", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_TODAY_BUTTON,
+	properties[PROP_SHOW_TODAY_BUTTON] =
 		g_param_spec_boolean (
-			"show-today-button",
-			NULL,
-			NULL,
+			"show-today-button", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALLOW_NO_DATE_SET,
+	properties[PROP_ALLOW_NO_DATE_SET] =
 		g_param_spec_boolean (
-			"allow-no-date-set",
-			NULL,
-			NULL,
+			"allow-no-date-set", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_24_HOUR_FORMAT,
+	properties[PROP_USE_24_HOUR_FORMAT] =
 		g_param_spec_boolean (
-			"use-24-hour-format",
-			NULL,
-			NULL,
+			"use-24-hour-format", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LOWER_HOUR,
+	properties[PROP_LOWER_HOUR] =
 		g_param_spec_int (
-			"lower-hour",
-			NULL,
-			NULL,
+			"lower-hour", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UPPER_HOUR,
+	properties[PROP_UPPER_HOUR] =
 		g_param_spec_int (
-			"upper-hour",
-			NULL,
-			NULL,
+			"upper-hour", NULL, NULL,
 			G_MININT,
 			G_MAXINT,
 			24,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[BEFORE_POPUP] = g_signal_new (
 		"before-popup",

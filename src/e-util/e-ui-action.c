@@ -453,11 +453,12 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_MAP_NAME] = g_param_spec_string ("map-name", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_MAP_NAME] = g_param_spec_string ("map-name", NULL,
+							 NULL, NULL,
+							 G_PARAM_READWRITE |
+							 G_PARAM_CONSTRUCT_ONLY |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:name:
@@ -467,10 +468,10 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 * Since: 3.56
 	 **/
 	properties[PROP_NAME] = g_param_spec_string ("name", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+						     G_PARAM_READWRITE |
+						     G_PARAM_CONSTRUCT_ONLY |
+						     G_PARAM_STATIC_STRINGS |
+						     G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:icon-name:
@@ -481,10 +482,11 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_ICON_NAME] = g_param_spec_string ("icon-name", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_ICON_NAME] = g_param_spec_string ("icon-name", NULL,
+							  NULL, NULL,
+							  G_PARAM_READWRITE |
+							  G_PARAM_STATIC_STRINGS |
+							  G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:label:
@@ -493,10 +495,11 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_LABEL] = g_param_spec_string ("label", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_LABEL] = g_param_spec_string ("label", NULL, NULL,
+						      NULL,
+						      G_PARAM_READWRITE |
+						      G_PARAM_STATIC_STRINGS |
+						      G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:accel:
@@ -505,10 +508,11 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_ACCEL] = g_param_spec_string ("accel", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_ACCEL] = g_param_spec_string ("accel", NULL, NULL,
+						      NULL,
+						      G_PARAM_READWRITE |
+						      G_PARAM_STATIC_STRINGS |
+						      G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:tooltip:
@@ -517,10 +521,11 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_TOOLTIP] = g_param_spec_string ("tooltip", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_TOOLTIP] = g_param_spec_string ("tooltip", NULL, NULL,
+							NULL,
+							G_PARAM_READWRITE |
+							G_PARAM_STATIC_STRINGS |
+							G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:parameter-type:
@@ -529,11 +534,13 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_PARAMETER_TYPE] = g_param_spec_boxed ("parameter-type", NULL, NULL, G_TYPE_VARIANT_TYPE,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_PARAMETER_TYPE] = g_param_spec_boxed ("parameter-type",
+							      NULL, NULL,
+							      G_TYPE_VARIANT_TYPE,
+							      G_PARAM_READWRITE |
+							      G_PARAM_CONSTRUCT_ONLY |
+							      G_PARAM_STATIC_STRINGS |
+							      G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:enabled:
@@ -544,10 +551,11 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_ENABLED] = g_param_spec_boolean ("enabled", NULL, NULL, TRUE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_ENABLED] = g_param_spec_boolean ("enabled", NULL,
+							 NULL, TRUE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:state-type:
@@ -556,10 +564,12 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_STATE_TYPE] = g_param_spec_boxed ("state-type", NULL, NULL, G_TYPE_VARIANT_TYPE,
-		G_PARAM_READABLE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_STATE_TYPE] = g_param_spec_boxed ("state-type", NULL,
+							  NULL,
+							  G_TYPE_VARIANT_TYPE,
+							  G_PARAM_READABLE |
+							  G_PARAM_STATIC_STRINGS |
+							  G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:state:
@@ -568,10 +578,12 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_STATE] = g_param_spec_variant ("state", NULL, NULL, G_VARIANT_TYPE_ANY, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_STATE] = g_param_spec_variant ("state", NULL, NULL,
+						       G_VARIANT_TYPE_ANY,
+						       NULL,
+						       G_PARAM_READWRITE |
+						       G_PARAM_STATIC_STRINGS |
+						       G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:state-hint:
@@ -580,10 +592,12 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_STATE_HINT] = g_param_spec_boxed ("state-hint", NULL, NULL, G_TYPE_VARIANT_TYPE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_STATE_HINT] = g_param_spec_boxed ("state-hint", NULL,
+							  NULL,
+							  G_TYPE_VARIANT_TYPE,
+							  G_PARAM_READWRITE |
+							  G_PARAM_STATIC_STRINGS |
+							  G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:visible:
@@ -593,10 +607,11 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_VISIBLE] = g_param_spec_boolean ("visible", NULL, NULL, TRUE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_VISIBLE] = g_param_spec_boolean ("visible", NULL,
+							 NULL, TRUE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:is-visible:
@@ -606,10 +621,11 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_IS_VISIBLE] = g_param_spec_boolean ("is-visible", NULL, NULL, TRUE,
-		G_PARAM_READABLE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_IS_VISIBLE] = g_param_spec_boolean ("is-visible",
+							    NULL, NULL, TRUE,
+							    G_PARAM_READABLE |
+							    G_PARAM_STATIC_STRINGS |
+							    G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:sensitive:
@@ -619,10 +635,11 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_SENSITIVE] = g_param_spec_boolean ("sensitive", NULL, NULL, TRUE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_SENSITIVE] = g_param_spec_boolean ("sensitive", NULL,
+							   NULL, TRUE,
+							   G_PARAM_READWRITE |
+							   G_PARAM_STATIC_STRINGS |
+							   G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIAction:active:
@@ -633,12 +650,13 @@ e_ui_action_class_init (EUIActionClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_ACTIVE] = g_param_spec_boolean ("active", NULL, NULL, TRUE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_ACTIVE] = g_param_spec_boolean ("active", NULL, NULL,
+							TRUE,
+							G_PARAM_READWRITE |
+							G_PARAM_STATIC_STRINGS |
+							G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * EUIAction::activate:

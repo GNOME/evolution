@@ -81,12 +81,17 @@ enum {
 	PROP_UNIFORM_ROW_HEIGHT,
 	PROP_IS_EDITING,
 	PROP_ALWAYS_SEARCH,
+	PROP_SORT_CHILDREN_ASCENDING,
+	N_PROPS,
+
+	/* For scrollable interface */
 	PROP_HADJUSTMENT,
 	PROP_VADJUSTMENT,
 	PROP_HSCROLL_POLICY,
-	PROP_VSCROLL_POLICY,
-	PROP_SORT_CHILDREN_ASCENDING
+	PROP_VSCROLL_POLICY
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	ET_SCROLL_UP = 1 << 0,
@@ -257,7 +262,7 @@ tree_item_is_editing_changed_cb (ETableItem *item,
 {
 	g_return_if_fail (E_IS_TREE (tree));
 
-	g_object_notify (G_OBJECT (tree), "is-editing");
+	g_object_notify_by_pspec (G_OBJECT (tree), properties[PROP_IS_EDITING]);
 }
 
 static void
@@ -3102,95 +3107,106 @@ e_tree_class_init (ETreeClass *class)
 		G_TYPE_NONE, 1,
 		G_TYPE_POINTER);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LENGTH_THRESHOLD,
+	/**
+	 * ETree:length-threshold
+	 *
+	 * Length Threshold
+	 **/
+	properties[PROP_LENGTH_THRESHOLD] =
 		g_param_spec_int (
-			"length-threshold",
-			"Length Threshold",
-			"Length Threshold",
+			"length-threshold", NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HORIZONTAL_DRAW_GRID,
+	/**
+	 * ETree:horizontal-draw-grid
+	 *
+	 * Horizontal Draw Grid
+	 **/
+	properties[PROP_HORIZONTAL_DRAW_GRID] =
 		g_param_spec_boolean (
-			"horizontal-draw-grid",
-			"Horizontal Draw Grid",
-			"Horizontal Draw Grid",
+			"horizontal-draw-grid", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VERTICAL_DRAW_GRID,
+	/**
+	 * ETree:vertical-draw-grid
+	 *
+	 * Vertical Draw Grid
+	 **/
+	properties[PROP_VERTICAL_DRAW_GRID] =
 		g_param_spec_boolean (
-			"vertical-draw-grid",
-			"Vertical Draw Grid",
-			"Vertical Draw Grid",
+			"vertical-draw-grid", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DRAW_FOCUS,
+	/**
+	 * ETree:drawfocus
+	 *
+	 * Draw focus
+	 **/
+	properties[PROP_DRAW_FOCUS] =
 		g_param_spec_boolean (
-			"drawfocus",
-			"Draw focus",
-			"Draw focus",
+			"drawfocus", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ETTA,
+	/**
+	 * ETree:ETreeTableAdapter
+	 *
+	 * ETree table adapter
+	 **/
+	properties[PROP_ETTA] =
 		g_param_spec_object (
-			"ETreeTableAdapter",
-			"ETree table adapter",
-			"ETree table adapter",
+			"ETreeTableAdapter", NULL, NULL,
 			E_TYPE_TREE_TABLE_ADAPTER,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UNIFORM_ROW_HEIGHT,
+	/**
+	 * ETree:uniform-row-height
+	 *
+	 * Uniform row height
+	 **/
+	properties[PROP_UNIFORM_ROW_HEIGHT] =
 		g_param_spec_boolean (
-			"uniform-row-height",
-			"Uniform row height",
-			"Uniform row height",
+			"uniform-row-height", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_EDITING,
+	/**
+	 * ETree:is-editing
+	 *
+	 * Whether is in an editing mode
+	 **/
+	properties[PROP_IS_EDITING] =
 		g_param_spec_boolean (
-			"is-editing",
-			"Whether is in an editing mode",
-			"Whether is in an editing mode",
+			"is-editing", NULL, NULL,
 			FALSE,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALWAYS_SEARCH,
+	/**
+	 * ETree:always-search
+	 *
+	 * Always search
+	 **/
+	properties[PROP_ALWAYS_SEARCH] =
 		g_param_spec_boolean (
-			"always-search",
-			"Always search",
-			"Always search",
+			"always-search", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SORT_CHILDREN_ASCENDING,
+	/**
+	 * ETree:sort-children-ascending
+	 *
+	 * Always sort children tree nodes ascending
+	 **/
+	properties[PROP_SORT_CHILDREN_ASCENDING] =
 		g_param_spec_boolean (
-			"sort-children-ascending",
-			"Sort Children Ascending",
-			"Always sort children tree nodes ascending",
+			"sort-children-ascending", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT));
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	gtk_widget_class_install_style_property (
 		widget_class,
@@ -3411,7 +3427,7 @@ e_tree_set_sort_children_ascending (ETree *tree,
 
 	tree->priv->sort_children_ascending = sort_children_ascending;
 
-	g_object_notify (G_OBJECT (tree), "sort-children-ascending");
+	g_object_notify_by_pspec (G_OBJECT (tree), properties[PROP_SORT_CHILDREN_ASCENDING]);
 }
 
 void

@@ -20,8 +20,11 @@ struct _EGoogleChooserButtonPrivate {
 enum {
 	PROP_0,
 	PROP_SOURCE,
-	PROP_CONFIG
+	PROP_CONFIG,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EGoogleChooserButton, e_google_chooser_button, GTK_TYPE_BUTTON, 0,
 	G_ADD_PRIVATE_DYNAMIC (EGoogleChooserButton))
@@ -315,27 +318,21 @@ e_google_chooser_button_class_init (EGoogleChooserButtonClass *class)
 	button_class = GTK_BUTTON_CLASS (class);
 	button_class->clicked = google_chooser_button_clicked;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE,
+	properties[PROP_SOURCE] =
 		g_param_spec_object (
-			"source",
-			NULL,
-			NULL,
+			"source", NULL, NULL,
 			E_TYPE_SOURCE,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CONFIG,
+	properties[PROP_CONFIG] =
 		g_param_spec_object (
-			"config",
-			NULL,
-			NULL,
+			"config", NULL, NULL,
 			E_TYPE_SOURCE_CONFIG,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

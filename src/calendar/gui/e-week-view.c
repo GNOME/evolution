@@ -192,8 +192,11 @@ enum {
 	PROP_SHOW_EVENT_END_TIMES,
 	PROP_SHOW_ICONS_MONTH_VIEW,
 	PROP_TODAY_BACKGROUND_COLOR,
+	N_PROPS,
 	PROP_IS_EDITING
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static gint map_left[] = {0, 1, 2, 0, 1, 2, 2};
 static gint map_right[] = {3, 4, 5, 3, 4, 5, 6};
@@ -1816,71 +1819,49 @@ e_week_view_class_init (EWeekViewClass *class)
 
 	/* XXX This property really belongs in EMonthView,
 	 *     but too much drawing code is tied to it. */
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPRESS_WEEKEND,
+	properties[PROP_COMPRESS_WEEKEND] =
 		g_param_spec_boolean (
-			"compress-weekend",
-			"Compress Weekend",
-			NULL,
+			"compress-weekend", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DAYS_LEFT_TO_RIGHT,
+	properties[PROP_DAYS_LEFT_TO_RIGHT] =
 		g_param_spec_boolean (
-			"days-left-to-right",
-			"Days Left To Right",
-			NULL,
+			"days-left-to-right", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DRAW_FLAT_EVENTS,
+	properties[PROP_DRAW_FLAT_EVENTS] =
 		g_param_spec_boolean (
-			"draw-flat-events",
-			"Draw Flat Events",
-			NULL,
+			"draw-flat-events", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_EVENT_END_TIMES,
+	properties[PROP_SHOW_EVENT_END_TIMES] =
 		g_param_spec_boolean (
-			"show-event-end-times",
-			"Show Event End Times",
-			NULL,
+			"show-event-end-times", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_ICONS_MONTH_VIEW,
+	properties[PROP_SHOW_ICONS_MONTH_VIEW] =
 		g_param_spec_boolean (
-			"show-icons-month-view",
-			"Show Icons Month View",
-			NULL,
+			"show-icons-month-view", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TODAY_BACKGROUND_COLOR,
+	properties[PROP_TODAY_BACKGROUND_COLOR] =
 		g_param_spec_string (
-			"today-background-color",
-			"Today Background Color",
-			NULL,
+			"today-background-color", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	g_object_class_override_property (
 		object_class,
@@ -2710,7 +2691,7 @@ e_week_view_set_compress_weekend (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->titles_canvas);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	g_object_notify (G_OBJECT (week_view), "compress-weekend");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_COMPRESS_WEEKEND]);
 }
 
 gboolean
@@ -2735,7 +2716,7 @@ e_week_view_set_draw_flat_events (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->titles_canvas);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	g_object_notify (G_OBJECT (week_view), "draw-flat-events");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_DRAW_FLAT_EVENTS]);
 }
 
 gboolean
@@ -2763,7 +2744,7 @@ e_week_view_set_days_left_to_right (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->main_canvas);
 	e_week_view_queue_layout (week_view);
 
-	g_object_notify (G_OBJECT (week_view), "days-left-to-right");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_DAYS_LEFT_TO_RIGHT]);
 }
 
 /* Whether we display event end times. */
@@ -2792,7 +2773,7 @@ e_week_view_set_show_event_end_times (EWeekView *week_view,
 	gtk_widget_queue_draw (week_view->titles_canvas);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	g_object_notify (G_OBJECT (week_view), "show-event-end-times");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_SHOW_EVENT_END_TIMES]);
 }
 
 gboolean
@@ -2823,7 +2804,7 @@ e_week_view_set_show_icons_month_view (EWeekView *week_view,
 		gtk_widget_queue_draw (week_view->main_canvas);
 	}
 
-	g_object_notify (G_OBJECT (week_view), "show-icons-month-view");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_SHOW_ICONS_MONTH_VIEW]);
 }
 
 static gboolean
@@ -4290,7 +4271,7 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,  event->spans_index + span_num);
 
 	/* Try to move the cursor to the end of the text. */
-	g_object_get (span->text_item, "event-processor", &event_processor, NULL);
+	g_object_get (span->text_item, "event_processor", &event_processor, NULL);
 	if (event_processor) {
 		command.action = E_TEP_MOVE;
 		command.position = E_TEP_END_OF_BUFFER;
@@ -5547,5 +5528,5 @@ e_week_view_set_today_background_color (EWeekView *week_view,
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	g_object_notify (G_OBJECT (week_view), "today-background-color");
+	g_object_notify_by_pspec (G_OBJECT (week_view), properties[PROP_TODAY_BACKGROUND_COLOR]);
 }

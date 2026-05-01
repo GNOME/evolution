@@ -25,8 +25,11 @@ enum {
 	PROP_LABEL,
 	PROP_REGISTRY,
 	PROP_SENSITIVE,
-	PROP_VISIBLE
+	PROP_VISIBLE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,
@@ -219,63 +222,45 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 	object_class->finalize = composer_header_finalize;
 	object_class->constructed = composer_header_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BUTTON,
+	properties[PROP_BUTTON] =
 		g_param_spec_boolean (
-			"button",
-			NULL,
-			NULL,
+			"button", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LABEL,
+	properties[PROP_LABEL] =
 		g_param_spec_string (
-			"label",
-			NULL,
-			NULL,
+			"label", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
-			"registry",
-			NULL,
-			NULL,
+			"registry", NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SENSITIVE,
+	properties[PROP_SENSITIVE] =
 		g_param_spec_boolean (
-			"sensitive",
-			NULL,
-			NULL,
+			"sensitive", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VISIBLE,
+	properties[PROP_VISIBLE] =
 		g_param_spec_boolean (
-			"visible",
-			NULL,
-			NULL,
+			"visible", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signal_ids[CHANGED] = g_signal_new (
 		"changed",
@@ -337,7 +322,7 @@ e_composer_header_set_sensitive (EComposerHeader *header,
 
 	header->priv->sensitive = sensitive;
 
-	g_object_notify (G_OBJECT (header), "sensitive");
+	g_object_notify_by_pspec (G_OBJECT (header), properties[PROP_SENSITIVE]);
 }
 
 gboolean
@@ -359,7 +344,7 @@ e_composer_header_set_visible (EComposerHeader *header,
 
 	header->priv->visible = visible;
 
-	g_object_notify (G_OBJECT (header), "visible");
+	g_object_notify_by_pspec (G_OBJECT (header), properties[PROP_VISIBLE]);
 }
 
 void

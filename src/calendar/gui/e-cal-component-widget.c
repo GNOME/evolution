@@ -365,7 +365,7 @@ e_cal_component_widget_class_init (ECalComponentWidgetClass *klass)
 		G_PARAM_STATIC_STRINGS |
 		G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	gtk_widget_class_set_css_name (GTK_WIDGET_CLASS (klass), "ECalComponentWidget");
 }

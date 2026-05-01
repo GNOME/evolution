@@ -47,8 +47,11 @@ enum {
 	PROP_PROTOCOL,
 	PROP_DISPLAY_NAME,
 	PROP_DESCRIPTION,
-	PROP_PASSWORD
+	PROP_PASSWORD,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void e_config_lookup_result_simple_result_init (EConfigLookupResultInterface *iface);
 
@@ -396,18 +399,14 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_KIND,
+	properties[PROP_KIND] =
 		g_param_spec_enum (
-			"kind",
-			"Kind",
-			NULL,
+			"kind", NULL, NULL,
 			E_TYPE_CONFIG_LOOKUP_RESULT_KIND,
 			E_CONFIG_LOOKUP_RESULT_UNKNOWN,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EConfigLookupResultSimple:priority:
@@ -416,17 +415,13 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_PRIORITY,
+	properties[PROP_PRIORITY] =
 		g_param_spec_int (
-			"priority",
-			"Priority",
-			NULL,
+			"priority", NULL, NULL,
 			G_MININT, G_MAXINT, ~0,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EConfigLookupResultSimple:is-complete:
@@ -436,17 +431,13 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_COMPLETE,
+	properties[PROP_IS_COMPLETE] =
 		g_param_spec_boolean (
-			"is-complete",
-			"Is Complete",
-			NULL,
+			"is-complete", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EConfigLookupResultSimple:protocol:
@@ -455,17 +446,13 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_PROTOCOL,
+	properties[PROP_PROTOCOL] =
 		g_param_spec_string (
-			"protocol",
-			"Protocol",
-			NULL,
+			"protocol", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EConfigLookupResultSimple:display_name:
@@ -474,17 +461,13 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_DISPLAY_NAME,
+	properties[PROP_DISPLAY_NAME] =
 		g_param_spec_string (
-			"display-name",
-			"Display Name",
-			NULL,
+			"display-name", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EConfigLookupResultSimple:description:
@@ -493,17 +476,13 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 	 *
 	 * Since: 3.26
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_DESCRIPTION,
+	properties[PROP_DESCRIPTION] =
 		g_param_spec_string (
-			"description",
-			"Description",
-			NULL,
+			"description", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EConfigLookupResultSimple:password:
@@ -513,17 +492,15 @@ e_config_lookup_result_simple_class_init (EConfigLookupResultSimpleClass *klass)
 	 *
 	 * Since: 3.28
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_PASSWORD,
+	properties[PROP_PASSWORD] =
 		g_param_spec_string (
-			"password",
-			"Password",
-			NULL,
+			"password", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

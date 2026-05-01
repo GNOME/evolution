@@ -46,8 +46,11 @@ enum {
 	PROP_EXPAND_RECURRENCES,
 	PROP_TIMEZONE,
 	PROP_SKIP_CANCELLED,
-	PROP_REGISTRY
+	PROP_REGISTRY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	VIEW_STATE_CHANGED,
@@ -2074,45 +2077,31 @@ e_cal_data_model_class_init (ECalDataModelClass *class)
 	object_class->dispose = cal_data_model_dispose;
 	object_class->finalize = cal_data_model_finalize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EXPAND_RECURRENCES,
+	properties[PROP_EXPAND_RECURRENCES] =
 		g_param_spec_boolean (
-			"expand-recurrences",
-			"Expand Recurrences",
-			NULL,
+			"expand-recurrences", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TIMEZONE,
+	properties[PROP_TIMEZONE] =
 		g_param_spec_object (
-			"timezone",
-			"Time Zone",
-			NULL,
+			"timezone", NULL, NULL,
 			I_CAL_TYPE_TIMEZONE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SKIP_CANCELLED,
+	properties[PROP_SKIP_CANCELLED] =
 		g_param_spec_boolean (
-			"skip-cancelled",
-			"Skip Cancelled",
-			NULL,
+			"skip-cancelled", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
-			"registry",
-			"Registry",
-			NULL,
+			"registry", NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
-			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[VIEW_STATE_CHANGED] = g_signal_new (
 		"view-state-changed",

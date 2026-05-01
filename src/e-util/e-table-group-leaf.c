@@ -37,8 +37,11 @@ enum {
 	PROP_LENGTH_THRESHOLD,
 	PROP_SELECTION_MODEL,
 	PROP_UNIFORM_ROW_HEIGHT,
+	N_PROPS,
 	PROP_IS_EDITING
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void
 etgl_item_is_editing_changed_cb (ETableItem *item,
@@ -679,127 +682,141 @@ e_table_group_leaf_class_init (ETableGroupLeafClass *class)
 	e_group_class->get_mouse_over = etgl_get_mouse_over;
 	e_group_class->get_cell_geometry = etgl_get_cell_geometry;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_ALTERNATING_ROW_COLORS,
+	/**
+	 * ETableGroupLeaf:alternating-row-colors
+	 *
+	 * Alternating Row Colors
+	 **/
+	properties[PROP_TABLE_ALTERNATING_ROW_COLORS] =
 		g_param_spec_boolean (
-			"alternating-row-colors",
-			"Alternating Row Colors",
-			"Alternating Row Colors",
+			"alternating-row-colors", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_HORIZONTAL_DRAW_GRID,
+	/**
+	 * ETableGroupLeaf:horizontal-draw-grid
+	 *
+	 * Horizontal Draw Grid
+	 **/
+	properties[PROP_TABLE_HORIZONTAL_DRAW_GRID] =
 		g_param_spec_boolean (
-			"horizontal-draw-grid",
-			"Horizontal Draw Grid",
-			"Horizontal Draw Grid",
+			"horizontal-draw-grid", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_VERTICAL_DRAW_GRID,
+	/**
+	 * ETableGroupLeaf:vertical-draw-grid
+	 *
+	 * Vertical Draw Grid
+	 **/
+	properties[PROP_TABLE_VERTICAL_DRAW_GRID] =
 		g_param_spec_boolean (
-			"vertical-draw-grid",
-			"Vertical Draw Grid",
-			"Vertical Draw Grid",
+			"vertical-draw-grid", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TABLE_DRAW_FOCUS,
+	/**
+	 * ETableGroupLeaf:drawfocus
+	 *
+	 * Draw focus
+	 **/
+	properties[PROP_TABLE_DRAW_FOCUS] =
 		g_param_spec_boolean (
-			"drawfocus",
-			"Draw focus",
-			"Draw focus",
+			"drawfocus", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CURSOR_MODE,
+	/**
+	 * ETableGroupLeaf:cursor-mode
+	 *
+	 * Cursor mode
+	 **/
+	properties[PROP_CURSOR_MODE] =
 		g_param_spec_int (
-			"cursor-mode",
-			"Cursor mode",
-			"Cursor mode",
+			"cursor-mode", NULL, NULL,
 			E_CURSOR_LINE,
 			E_CURSOR_SPREADSHEET,
 			E_CURSOR_LINE,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LENGTH_THRESHOLD,
+	/**
+	 * ETableGroupLeaf:length-threshold
+	 *
+	 * Length Threshold
+	 **/
+	properties[PROP_LENGTH_THRESHOLD] =
 		g_param_spec_int (
-			"length-threshold",
-			"Length Threshold",
-			"Length Threshold",
+			"length-threshold", NULL, NULL,
 			-1, G_MAXINT, 0,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTION_MODEL,
+	/**
+	 * ETableGroupLeaf:selection-model
+	 *
+	 * Selection model
+	 **/
+	properties[PROP_SELECTION_MODEL] =
 		g_param_spec_object (
-			"selection-model",
-			"Selection model",
-			"Selection model",
+			"selection-model", NULL, NULL,
 			E_TYPE_SELECTION_MODEL,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEIGHT,
+	/**
+	 * ETableGroupLeaf:height
+	 *
+	 * Height
+	 **/
+	properties[PROP_HEIGHT] =
 		g_param_spec_double (
-			"height",
-			"Height",
-			"Height",
+			"height", NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WIDTH,
+	/**
+	 * ETableGroupLeaf:width
+	 *
+	 * Width
+	 **/
+	properties[PROP_WIDTH] =
 		g_param_spec_double (
-			"width",
-			"Width",
-			"Width",
+			"width", NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MINIMUM_WIDTH,
+	/**
+	 * ETableGroupLeaf:minimum-width
+	 *
+	 * Minimum Width
+	 **/
+	properties[PROP_MINIMUM_WIDTH] =
 		g_param_spec_double (
-			"minimum-width",
-			"Minimum width",
-			"Minimum Width",
+			"minimum-width", NULL, NULL,
 			0.0, G_MAXDOUBLE, 0.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FROZEN,
+	/**
+	 * ETableGroupLeaf:frozen
+	 *
+	 * Frozen
+	 **/
+	properties[PROP_FROZEN] =
 		g_param_spec_boolean (
-			"frozen",
-			"Frozen",
-			"Frozen",
+			"frozen", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UNIFORM_ROW_HEIGHT,
+	/**
+	 * ETableGroupLeaf:uniform-row-height
+	 *
+	 * Uniform row height
+	 **/
+	properties[PROP_UNIFORM_ROW_HEIGHT] =
 		g_param_spec_boolean (
-			"uniform-row-height",
-			"Uniform row height",
-			"Uniform row height",
+			"uniform-row-height", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	g_object_class_override_property (
 		object_class,

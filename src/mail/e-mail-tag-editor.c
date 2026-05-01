@@ -26,8 +26,11 @@ struct _EMailTagEditorPrivate {
 
 enum {
 	PROP_0,
-	PROP_COMPLETED
+	PROP_COMPLETED,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COLUMN_FROM,
@@ -102,15 +105,13 @@ e_mail_tag_editor_class_init (EMailTagEditorClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = mail_tag_editor_realize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COMPLETED,
+	properties[PROP_COMPLETED] =
 		g_param_spec_boolean (
-			"completed",
-			"Completed",
-			NULL,
+			"completed", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -228,7 +229,7 @@ e_mail_tag_editor_set_completed (EMailTagEditor *editor,
 	editor->priv->completed = completed;
 	editor->priv->completed_date = completed ? time (NULL) : 0;
 
-	g_object_notify (G_OBJECT (editor), "completed");
+	g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_COMPLETED]);
 }
 
 CamelNameValueArray *

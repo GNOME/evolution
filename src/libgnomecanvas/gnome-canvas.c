@@ -1930,9 +1930,7 @@ gnome_canvas_class_init (GnomeCanvasClass *class)
 		object_class,
 		PROP_FOCUSED_ITEM,
 		g_param_spec_object (
-			"focused-item",
-			NULL,
-			NULL,
+			"focused-item", NULL, NULL,
 			GNOME_TYPE_CANVAS_ITEM,
 			G_PARAM_READABLE |
 			G_PARAM_WRITABLE));
@@ -3474,9 +3472,7 @@ gnome_canvas_item_class_init (GnomeCanvasItemClass *class)
 		gobject_class,
 		ITEM_PROP_PARENT,
 		g_param_spec_object (
-			"parent",
-			NULL,
-			NULL,
+			"parent", NULL, NULL,
 			GNOME_TYPE_CANVAS_ITEM,
 			G_PARAM_READABLE |
 			G_PARAM_WRITABLE));

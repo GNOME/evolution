@@ -29,8 +29,11 @@ enum {
 
 	PROP_SELECTED_COLUMN,
 	PROP_FOCUSED_COLUMN,
-	PROP_UNSELECTED_COLUMN
+	PROP_UNSELECTED_COLUMN,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /*
  * ECellPixbuf functions
@@ -337,34 +340,24 @@ e_cell_pixbuf_class_init (ECellPixbufClass *class)
 	ecc->print_height = pixbuf_print_height;
 	ecc->max_width = pixbuf_max_width;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECTED_COLUMN,
+	properties[PROP_SELECTED_COLUMN] =
 		g_param_spec_int (
-			"selected-column",
-			"Selected Column",
-			NULL,
+			"selected-column", NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOCUSED_COLUMN,
+	properties[PROP_FOCUSED_COLUMN] =
 		g_param_spec_int (
-			"focused-column",
-			"Focused Column",
-			NULL,
+			"focused-column", NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UNSELECTED_COLUMN,
+	properties[PROP_UNSELECTED_COLUMN] =
 		g_param_spec_int (
-			"unselected-column",
-			"Unselected Column",
-			NULL,
+			"unselected-column", NULL, NULL,
 			0, G_MAXINT, 0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 

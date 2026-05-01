@@ -115,7 +115,7 @@ enum {
 	PROP_WEEK_START_DAY,
 	PROP_SHOW_WEEK_NUMBERS,
 	PROP_SHOW_DAY_NAMES,
-	LAST_PROP
+	N_PROPS
 };
 
 enum {
@@ -124,7 +124,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static GParamSpec *obj_props[LAST_PROP] = { NULL, };
+static GParamSpec *properties[N_PROPS] = { NULL, };
 static guint signals[LAST_SIGNAL];
 
 static const gchar *
@@ -673,7 +673,7 @@ e_month_widget_class_init (EMonthWidgetClass *klass)
 	 *
 	 * Since: 3.46
 	 **/
-	obj_props[PROP_WEEK_START_DAY] =
+	properties[PROP_WEEK_START_DAY] =
 		g_param_spec_int ("week-start-day", NULL, NULL,
 			0, 7, G_DATE_SUNDAY,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
@@ -685,7 +685,7 @@ e_month_widget_class_init (EMonthWidgetClass *klass)
 	 *
 	 * Since: 3.46
 	 **/
-	obj_props[PROP_SHOW_WEEK_NUMBERS] =
+	properties[PROP_SHOW_WEEK_NUMBERS] =
 		g_param_spec_boolean ("show-week-numbers", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
@@ -697,12 +697,12 @@ e_month_widget_class_init (EMonthWidgetClass *klass)
 	 *
 	 * Since: 3.46
 	 **/
-	obj_props[PROP_SHOW_DAY_NAMES] =
+	properties[PROP_SHOW_DAY_NAMES] =
 		g_param_spec_boolean ("show-day-names", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (obj_props), obj_props);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * EMonthWidget::changed:
@@ -848,7 +848,7 @@ e_month_widget_set_week_start_day (EMonthWidget *self,
 
 	e_month_widget_update (self);
 
-	g_object_notify_by_pspec (G_OBJECT (self), obj_props[PROP_WEEK_START_DAY]);
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_WEEK_START_DAY]);
 }
 
 /**
@@ -914,7 +914,7 @@ e_month_widget_set_show_week_numbers (EMonthWidget *self,
 		gtk_widget_set_visible (week_number, should_show);
 	}
 
-	g_object_notify_by_pspec (G_OBJECT (self), obj_props[PROP_SHOW_WEEK_NUMBERS]);
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_SHOW_WEEK_NUMBERS]);
 }
 
 /**
@@ -963,7 +963,7 @@ e_month_widget_set_show_day_names (EMonthWidget *self,
 		gtk_widget_set_visible (day_name, self->priv->show_day_names);
 	}
 
-	g_object_notify_by_pspec (G_OBJECT (self), obj_props[PROP_SHOW_DAY_NAMES]);
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_SHOW_DAY_NAMES]);
 }
 
 /**
