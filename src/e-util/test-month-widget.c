@@ -119,7 +119,7 @@ clear_marks_clicked_cb (GtkToggleButton *toggle_button,
 
 static void
 month_widget_day_clicked_cb (EMonthWidget *widget,
-			     GdkEventButton *event,
+			     guint button,
 			     guint year,
 			     gint month,
 			     guint day,
@@ -128,9 +128,9 @@ month_widget_day_clicked_cb (EMonthWidget *widget,
 	void (* func) (EMonthWidget *widget, guint day, const gchar *name);
 	gchar buff[128];
 
-	if (event->button == GDK_BUTTON_PRIMARY)
+	if (button == GDK_BUTTON_PRIMARY)
 		func = e_month_widget_add_day_css_class;
-	else if (event->button == GDK_BUTTON_SECONDARY)
+	else if (button == GDK_BUTTON_SECONDARY)
 		func = e_month_widget_remove_day_css_class;
 	else
 		return;

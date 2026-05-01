@@ -422,7 +422,10 @@ e_month_widget_button_release_event_cb (GtkWidget *widget,
 		e_month_widget_get_day_at_position (self, x, y) : 0;
 
 	if (day && self->priv->button_press_day == day) {
-		g_signal_emit (self, signals[DAY_CLICKED], 0, event, self->priv->year, self->priv->month, day, NULL);
+		guint button = 0;
+
+		gdk_event_get_button ((GdkEvent *) event, &button);
+		g_signal_emit (self, signals[DAY_CLICKED], 0, button, self->priv->year, self->priv->month, day, NULL);
 	}
 
 	self->priv->button_press_day = 0;
@@ -721,7 +724,7 @@ e_month_widget_class_init (EMonthWidgetClass *klass)
 	/**
 	 * EMonthWidget::day-clicked:
 	 * @self: an #EMonthWidget, which sent the signal
-	 * @event: a #GdkButtonEvent causing this signal; it's always a button release event
+	 * @button: the button number that triggered this event
 	 * @year: the year of the clicked day
 	 * @month: the month of the clicked day
 	 * @day: the day of the clicked day
@@ -738,7 +741,7 @@ e_month_widget_class_init (EMonthWidgetClass *klass)
 		G_STRUCT_OFFSET (EMonthWidgetClass, day_clicked),
 		NULL, NULL, NULL,
 		G_TYPE_NONE, 4,
-		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE,
+		G_TYPE_UINT,
 		G_TYPE_UINT,
 		G_TYPE_INT,
 		G_TYPE_UINT);
