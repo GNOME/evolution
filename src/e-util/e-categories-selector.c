@@ -269,6 +269,8 @@ categories_selector_finalize (GObject *object)
 {
 	e_categories_unregister_change_listener (
 		G_CALLBACK (categories_selector_listener_cb), object);
+
+	G_OBJECT_CLASS (e_categories_selector_parent_class)->finalize (object);
 }
 
 static void
