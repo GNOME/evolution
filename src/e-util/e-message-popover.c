@@ -177,6 +177,8 @@ e_message_popover_constructed (GObject *object)
 		"width-chars", 30,
 		"max-width-chars", 40,
 		"wrap", TRUE,
+		"selectable", TRUE,
+		"can-focus", FALSE,
 		NULL);
 
 	g_object_set (self,
