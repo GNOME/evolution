@@ -47,7 +47,7 @@
 #define X_EVOLUTION_CLIENT_UID "X-EVOLUTION-CLIENT-UID"
 
 #if !ICAL_CHECK_VERSION(3, 99, 99)
-#define i_cal_duration_as_seconds i_cal_duration_as_int
+#define i_cal_duration_as_utc_seconds i_cal_duration_as_int
 #define i_cal_duration_new_from_seconds i_cal_duration_new_from_int
 #endif
 
@@ -554,7 +554,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 	tt_end = i_cal_time_as_timet (old_dtend);
 	ic_dur = i_cal_duration_new_from_seconds (tt_end - tt_start);
 
-	if (i_cal_duration_as_seconds (ic_dur) > 60 * 60 * 24) {
+	if (i_cal_duration_as_utc_seconds (ic_dur) > 60 * 60 * 24) {
 		/* This is a long event */
 		start_offset = i_cal_time_get_hour (old_dtstart) * 60 + i_cal_time_get_minute (old_dtstart);
 		end_offset = i_cal_time_get_hour (old_dtstart) * 60 + i_cal_time_get_minute (old_dtend);
@@ -574,7 +574,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 		if (all_day_event) {
 			g_clear_object (&ic_dur);
 			ic_dur = g_object_ref (ic_oneday);
-		} else if (i_cal_duration_as_seconds (ic_dur) >= 60 * 60 * 24 && !all_day) {
+		} else if (i_cal_duration_as_utc_seconds (ic_dur) >= 60 * 60 * 24 && !all_day) {
 			g_clear_object (&ic_dur);
 			/* copy & paste from top canvas to main canvas */
 			ic_dur = i_cal_duration_new_from_seconds (time_division * 60);
@@ -586,7 +586,7 @@ e_calendar_view_add_event_sync (ECalModel *model,
 			new_dtstart = dtstart;
 	} else {
 		if (i_cal_time_is_date (old_dtstart) && i_cal_time_is_date (old_dtend) &&
-		    i_cal_duration_as_seconds (ic_dur) == i_cal_duration_as_seconds (ic_oneday)) {
+		    i_cal_duration_as_utc_seconds (ic_dur) == i_cal_duration_as_utc_seconds (ic_oneday)) {
 			all_day_event = TRUE;
 			new_dtstart = dtstart;
 		} else {

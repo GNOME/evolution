@@ -30,7 +30,7 @@
 #include "e-alarm-list.h"
 
 #if !ICAL_CHECK_VERSION(3, 99, 99)
-#define i_cal_duration_as_seconds i_cal_duration_as_int
+#define i_cal_duration_as_utc_seconds i_cal_duration_as_int
 #endif
 
 #define G_LIST(x)                    ((GList *) x)
@@ -363,7 +363,7 @@ get_alarm_duration_string (ICalDuration *duration)
 {
 	gint seconds = 0;
 
-	seconds = i_cal_duration_as_seconds (duration);
+	seconds = i_cal_duration_as_utc_seconds (duration);
 
 	if (!seconds)
 		return NULL;
