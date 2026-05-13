@@ -39,7 +39,7 @@
 #include "shell/e-shell-view.h"
 
 #if !ICAL_CHECK_VERSION(3, 99, 99)
-#define i_cal_duration_as_seconds i_cal_duration_as_int
+#define i_cal_duration_as_utc_seconds i_cal_duration_as_int
 #endif
 
 /**
@@ -2874,7 +2874,7 @@ cal_comp_util_write_to_html (GString *html_buffer,
 		if (duration) {
 			gint seconds;
 
-			seconds = i_cal_duration_as_seconds (duration);
+			seconds = i_cal_duration_as_utc_seconds (duration);
 			if (seconds > 0) {
 				str = e_cal_util_seconds_to_string (seconds);
 				cal_comp_util_write_to_html_add_table_line (html_buffer, _("Estimated duration:"), str);

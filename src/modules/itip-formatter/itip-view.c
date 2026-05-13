@@ -48,7 +48,7 @@
 #include "itip-view-elements-defines.h"
 
 #if !ICAL_CHECK_VERSION(3, 99, 99)
-#define i_cal_duration_as_seconds i_cal_duration_as_int
+#define i_cal_duration_as_utc_seconds i_cal_duration_as_int
 #endif
 
 #define d(x)
@@ -8078,7 +8078,7 @@ itip_view_init_view (ItipView *view)
 		if (duration) {
 			gint seconds;
 
-			seconds = i_cal_duration_as_seconds (duration);
+			seconds = i_cal_duration_as_utc_seconds (duration);
 			if (seconds > 0) {
 				view->priv->estimated_duration = e_cal_util_seconds_to_string (seconds);
 				set_area_text (view, TABLE_ROW_ESTIMATED_DURATION, view->priv->estimated_duration, FALSE);
