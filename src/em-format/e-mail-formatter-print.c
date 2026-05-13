@@ -121,7 +121,7 @@ mail_formatter_print_run (EMailFormatter *formatter,
 		"<title>Evolution Mail Display</title>\n"
 		"<link type=\"text/css\" rel=\"stylesheet\" media=\"print\" href=\"" STYLESHEET_URI "\"/>\n"
 		"</head>\n"
-		"<body style=\"background: #FFF; color: #000;\">";
+		"<body style=\"background: #F7F7F7; color: #000000;\">";
 
 	g_output_stream_write_all (
 		stream, string, strlen (string), NULL, cancellable, NULL);

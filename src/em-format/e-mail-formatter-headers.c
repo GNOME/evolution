@@ -601,7 +601,7 @@ emfe_headers_format (EMailFormatterExtension *extension,
 			"<tr>",
 			(context->mode != E_MAIL_FORMATTER_MODE_PRINTING) ?
 				"<div class=\"headers -e-mail-formatter-body-color\"" :
-				"<div class=\"headers\" style=\"background-color: #ffffff;\"",
+				"<div class=\"headers\" style=\"background-color: #f7f7f7;\"",
 			e_mail_part_get_id (part),
 			direction);
 	}

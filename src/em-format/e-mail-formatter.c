@@ -791,7 +791,7 @@ e_mail_formatter_init (EMailFormatter *formatter)
 	gdk_rgba_parse (rgba, "#eeeeee");
 
 	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_CONTENT];
-	gdk_rgba_parse (rgba, "#ffffff");
+	gdk_rgba_parse (rgba, "#f7f7f7");
 
 	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_FRAME];
 	gdk_rgba_parse (rgba, "#3f3f3f");
