@@ -428,6 +428,7 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 	CamelContentType *ct;
 	gboolean has_calendar = FALSE;
 	gboolean has_html = FALSE;
+	gboolean has_plain_text = FALSE;
 	gboolean prefer_html;
 	GQueue plain_text_parts = G_QUEUE_INIT;
 	GQueue work_queue = G_QUEUE_INIT;
@@ -460,6 +461,9 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 			g_string_truncate (part_id, partidlen);
 
 			g_queue_push_tail (out_mail_parts, mail_part);
+
+			if (emp_pp->show_suppressed)
+				make_part_attachment (parser, part, part_id, FALSE, cancellable, out_mail_parts);
 
 			return TRUE;
 		}
@@ -523,6 +527,16 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 			cancellable, out_mail_parts);
 
 	nparts = camel_multipart_get_number (mp);
+
+	for (i = 0; i < nparts; i++) {
+		CamelMimePart *sp = camel_multipart_get_part (mp, i);
+		ct = camel_mime_part_get_content_type (sp);
+		if (camel_content_type_is (ct, "text", "plain")) {
+			has_plain_text = TRUE;
+			break;
+		}
+	}
+
 	for (i = 0; i < nparts; i++) {
 		CamelMimePart *sp;
 
@@ -534,6 +548,51 @@ empe_prefer_plain_parse (EMailParserExtension *extension,
 
 		if (camel_content_type_is (ct, "text", "html")) {
 			if (prefer_html) {
+				e_mail_parser_parse_part (
+					parser, sp, part_id,
+					cancellable, &work_queue);
+			} else if (!has_plain_text && emp_pp->mode == PREFER_SOURCE &&
+				   !e_mail_part_is_attachment (sp)) {
+				EMailPart *mail_part;
+				gint sublen = part_id->len;
+
+				g_string_append (part_id, ".source");
+				mail_part = e_mail_part_new (sp, part_id->str);
+				e_mail_part_set_mime_type (mail_part, "application/vnd.evolution.plaintext");
+				g_string_truncate (part_id, sublen);
+
+				g_queue_push_tail (&work_queue, mail_part);
+
+				if (emp_pp->show_suppressed)
+					make_part_attachment (parser, sp, part_id, FALSE, cancellable, &work_queue);
+			} else if (!has_plain_text && emp_pp->mode == ONLY_PLAIN &&
+				   !e_mail_part_is_attachment (sp) && !e_util_is_main_thread (NULL)) {
+				gchar *content;
+				gint sublen = part_id->len;
+
+				content = mail_parser_prefer_plain_convert_content_sync (sp, cancellable);
+
+				if (content) {
+					EMailPart *mail_part;
+					CamelMimePart *text_part;
+
+					g_string_append (part_id, ".converted");
+					text_part = camel_mime_part_new ();
+					camel_mime_part_set_content (text_part, content, strlen (content), "application/vnd.evolution.plaintext");
+					mail_part = e_mail_part_new (text_part, part_id->str);
+					e_mail_part_set_mime_type (mail_part, "application/vnd.evolution.plaintext");
+					g_free (content);
+					g_object_unref (text_part);
+					g_string_truncate (part_id, sublen);
+
+					g_queue_push_tail (&work_queue, mail_part);
+				}
+
+				if (emp_pp->show_suppressed || e_mail_part_is_attachment (sp))
+					make_part_attachment (parser, sp, part_id, TRUE, cancellable, &work_queue);
+			} else if (!has_plain_text) {
+				/* PREFER_PLAIN, or ONLY_PLAIN on the main thread: no plain text
+				   alternative available, so fall back to showing HTML as-is. */
 				e_mail_parser_parse_part (
 					parser, sp, part_id,
 					cancellable, &work_queue);
