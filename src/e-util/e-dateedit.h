@@ -1,24 +1,8 @@
 /*
- * Author :
- *  Damon Chaplin <damon@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
- * Based on the GnomeDateEdit, part of the Gnome Library.
- * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * published by the Free Software Foundation; either the version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser  General Public
- * License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, see <http://www.gnu.org/licenses/>.
+ * SPDX-FileCopyrightText: (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * SPDX-FileCopyrightText: (C) 1997, 1998, 1999, 2000 Free Software Foundation
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ * SPDX-FileContributor: Damon Chaplin <damon@ximian.com>
  */
 
 /*

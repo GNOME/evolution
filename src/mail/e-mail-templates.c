@@ -1,23 +1,10 @@
 /*
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- * Copyright (C) 2008 - Diego Escalante Urrelo
- * Copyright (C) 2018 Red Hat, Inc. (www.redhat.com)
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *		Diego Escalante Urrelo <diegoe@gnome.org>
- *		Bharath Acharya <abharath@novell.com>
+ * SPDX-FileCopyrightText: (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * SPDX-FileCopyrightText: (C) 2008 - Diego Escalante Urrelo
+ * SPDX-FileCopyrightText: (C) 2018 Red Hat, Inc. (www.redhat.com)
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-FileContributor: Diego Escalante Urrelo <diegoe@gnome.org>
+ * SPDX-FileContributor: Bharath Acharya <abharath@novell.com>
  */
 
 #include "evolution-config.h"

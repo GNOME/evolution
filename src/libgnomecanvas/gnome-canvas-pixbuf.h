@@ -1,20 +1,7 @@
-/* GNOME libraries - GdkPixbuf item for the GNOME canvas
- *
- * Copyright (C) 1999 The Free Software Foundation
- *
- * Author: Federico Mena-Quintero <federico@gimp.org>
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, see <http://www.gnu.org/licenses/>.
+/*
+ * SPDX-FileCopyrightText: (C) 1999 The Free Software Foundation
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ * SPDX-FileContributor: Federico Mena-Quintero <federico@gimp.org>
  */
 
 #ifndef GNOME_CANVAS_PIXBUF_H

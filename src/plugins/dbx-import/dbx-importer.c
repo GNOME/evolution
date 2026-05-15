@@ -1,30 +1,12 @@
-/* dbx-importer.c
- *
- * Author: David Woodhouse <dwmw2@infradead.org>
- *
- * Copyright © 2010 Intel Corporation
- *
- * Evolution parts largely lifted from pst-import.c:
- *   Author: Chris Halls <chris.halls@credativ.co.uk>
- *	    Bharath Acharya <abharath@novell.com>
- *   Copyright © 2006 Chris Halls
- *
- * Some DBX bits from libdbx:
- *   Author: David Smith <Dave.S@Earthcorp.Com>
- *    Copyright © 2001 David Smith
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
+/*
+ * SPDX-FileCopyrightText: (C) © 2010 Intel Corporation
+ * SPDX-FileCopyrightText: (C) © 2006 Chris Halls
+ * SPDX-FileCopyrightText: (C) © 2001 David Smith
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ * SPDX-FileContributor: David Woodhouse <dwmw2@infradead.org>
+ * SPDX-FileContributor: Chris Halls <chris.halls@credativ.co.uk>
+ * SPDX-FileContributor: Bharath Acharya <abharath@novell.com>
+ * SPDX-FileContributor: David Smith <Dave.S@Earthcorp.Com>
  */
 
 #include "evolution-config.h"

@@ -1,38 +1,10 @@
 /*
- * e-text.h - Text item for evolution.
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * published by the Free Software Foundation; either the version 2 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser  General Public
- * License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Authors:
- *		Chris Lahey <clahey@ximian.com>
- *		Jon Trowbridge <trow@ximian.com>
- *
- * A majority of code taken from:
- *
- * Text item type for GnomeCanvas widget
- *
- * GnomeCanvas is basically a port of the Tk toolkit's most excellent
- * canvas widget.  Tk is copyrighted by the Regents of the University
- * of California, Sun Microsystems, and other parties.
- *
- * Copyright (C) 1998 The Free Software Foundation
- *
- * Author: Federico Mena <federico@nuclecu.unam.mx>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
+ * SPDX-FileCopyrightText: (C) 1998 The Free Software Foundation
+ * SPDX-FileCopyrightText: (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ * SPDX-FileContributor: Chris Lahey <clahey@ximian.com>
+ * SPDX-FileContributor: Jon Trowbridge <trow@ximian.com>
+ * SPDX-FileContributor: Federico Mena <federico@nuclecu.unam.mx>
  */
 
 #if !defined (__E_UTIL_H_INSIDE__) && !defined (LIBEUTIL_COMPILATION)

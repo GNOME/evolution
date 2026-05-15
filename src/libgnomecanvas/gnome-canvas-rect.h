@@ -1,14 +1,10 @@
-/* Generic bezier shape item for GnomeCanvas
- *
- * GnomeCanvas is basically a port of the Tk toolkit's most excellent canvas widget.  Tk is
- * copyrighted by the Regents of the University of California, Sun Microsystems, and other parties.
- *
- * Copyright (C) 1998,1999 The Free Software Foundation
- *
- * Authors: Federico Mena <federico@nuclecu.unam.mx>
- *          Raph Levien <raph@acm.org>
- *          Lauris Kaplinski <lauris@ximian.com>
- *          Rusty Conover <rconover@bangtail.net>
+/*
+ * SPDX-FileCopyrightText: (C) 1998,1999 The Free Software Foundation
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ * SPDX-FileContributor: Federico Mena <federico@nuclecu.unam.mx>
+ * SPDX-FileContributor: Raph Levien <raph@acm.org>
+ * SPDX-FileContributor: Lauris Kaplinski <lauris@ximian.com>
+ * SPDX-FileContributor: Rusty Conover <rconover@bangtail.net>
  */
 
 #ifndef GNOME_CANVAS_RECT_H

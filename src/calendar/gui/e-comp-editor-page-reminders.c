@@ -1,25 +1,12 @@
 /*
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- * Copyright (C) 2015 Red Hat, Inc. (www.redhat.com)
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *	Federico Mena-Quintero <federico@ximian.com>
- *	Miguel de Icaza <miguel@ximian.com>
- *	Seth Alves <alves@hungry.com>
- *	JP Rosevear <jpr@ximian.com>
- *	Hans Petter Jansson <hpj@ximian.com>
+ * SPDX-FileCopyrightText: (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * SPDX-FileCopyrightText: (C) 2015 Red Hat, Inc. (www.redhat.com)
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-FileContributor: Federico Mena-Quintero <federico@ximian.com>
+ * SPDX-FileContributor: Miguel de Icaza <miguel@ximian.com>
+ * SPDX-FileContributor: Seth Alves <alves@hungry.com>
+ * SPDX-FileContributor: JP Rosevear <jpr@ximian.com>
+ * SPDX-FileContributor: Hans Petter Jansson <hpj@ximian.com>
  */
 
 #include "evolution-config.h"

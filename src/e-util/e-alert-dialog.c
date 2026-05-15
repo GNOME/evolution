@@ -1,23 +1,9 @@
 /*
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * for more details.
- *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this program; if not, see <http://www.gnu.org/licenses/>.
- *
- *
- * Authors:
- *   Michael Zucchi <notzed@ximian.com>
- *   Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- * Copyright (C) 2009 Intel Corporation
+ * SPDX-FileCopyrightText: (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * SPDX-FileCopyrightText: (C) 2009 Intel Corporation
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ * SPDX-FileContributor: Michael Zucchi <notzed@ximian.com>
+ * SPDX-FileContributor: Jonathon Jongsma <jonathon.jongsma@collabora.co.uk>
  */
 
 #include "evolution-config.h"

@@ -1,22 +1,9 @@
 /*
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by
- * the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- *	JP Rosevear <jpr@ximian.com>
- *	Rodrigo Moya <rodrigo@ximian.com>
- *	Federico Mena-Quintero <federico@ximian.com>
+ * SPDX-FileCopyrightText: (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ * SPDX-FileContributor: JP Rosevear <jpr@ximian.com>
+ * SPDX-FileContributor: Rodrigo Moya <rodrigo@ximian.com>
+ * SPDX-FileContributor: Federico Mena-Quintero <federico@ximian.com>
  */
 
 #include "evolution-config.h"
