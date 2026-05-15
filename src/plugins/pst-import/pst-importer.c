@@ -74,8 +74,8 @@ static void pst_process_task (PstImporter *m, pst_item *item);
 static void pst_process_journal (PstImporter *m, pst_item *item);
 
 static void pst_import_file (PstImporter *m);
-gchar *foldername_to_utf8 (const gchar *pstname);
-gchar *string_to_utf8 (const gchar *string);
+gchar *foldername_to_utf8 (const gchar *pstname, pst_item *item);
+gchar *string_to_utf8 (const gchar *string, pst_item *item);
 void contact_set_date (EContact *contact, EContactField id, FILETIME *date);
 static void fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gchar *type);
 ICalTime *get_ical_date (FILETIME *date, gboolean is_date);
@@ -296,7 +296,7 @@ get_suggested_foldername (EImportTargetURI *target)
 
 	if (rootname != NULL) {
 		gchar *utf8name;
-		utf8name = foldername_to_utf8 (rootname);
+		utf8name = foldername_to_utf8 (rootname, NULL);
 		g_string_append (foldername, utf8name);
 		g_free (utf8name);
 		g_free (rootname);
@@ -884,7 +884,6 @@ pst_process_item (PstImporter *m,
 		return;
 
 	if (item->message_store != NULL) {
-		pst_error_msg ("A second message_store has been found - ignored");
 		pst_freeItem (item);
 		return;
 	}
@@ -928,39 +927,92 @@ pst_process_item (PstImporter *m,
 /**
  * string_to_utf8:
  * @string: String from PST file
+ * @item: PST item the string belongs to, for charset detection; may be %NULL
  *
- * Convert string to utf8. Currently we just use the locale, but maybe
- * there is encoding information hidden somewhere in the PST file?
+ * Convert string to utf8.
  *
  * Returns: utf8 representation (caller should free), or NULL for error.
  */
 gchar *
-string_to_utf8 (const gchar *string)
+string_to_utf8 (const gchar *string,
+                pst_item *item)
 {
+	/* Windows ANSI code pages, multi-byte (stricter) first to reduce false positives */
+	static const gchar *const fallback_charsets[] = {
+		"GB18030",	/* CP936  - Simplified Chinese */
+		"BIG5",		/* CP950  - Traditional Chinese */
+		"CP932",	/* Shift-JIS - Japanese */
+		"CP949",	/* EUC-KR - Korean */
+		"CP874",	/* Thai */
+		"CP1250",	/* Central European */
+		"CP1252",	/* Western European */
+		"CP1253",	/* Greek */
+		"CP1254",	/* Turkish */
+		"CP1255",	/* Hebrew */
+		"CP1256",	/* Arabic */
+		"CP1257",	/* Baltic */
+		"CP1258",	/* Vietnamese */
+		"CP1251",	/* Cyrillic - last, maps every byte */
+		NULL
+	};
 	gchar *utf8;
+	gint ii;
 
 	if (g_utf8_validate (string, -1, NULL))
 		return g_strdup (string);
 
-	utf8 = g_locale_to_utf8 (string, -1, NULL, NULL, NULL);
+	if (item) {
+		gchar charset_buf[30];
+		const gchar *charset;
+		gint32 cpid;
 
-	return utf8;
+		charset = pst_default_charset (item, sizeof (charset_buf), charset_buf);
+		if (charset && *charset && g_ascii_strcasecmp (charset, "utf-8") != 0) {
+			utf8 = g_convert (string, -1, "UTF-8", charset, NULL, NULL, NULL);
+			if (utf8)
+				return utf8;
+		}
+
+		/* internet_cpid may claim UTF-8 while bytes are still ANSI;
+		 * message_codepage holds the true system encoding. */
+		cpid = item->message_codepage;
+		if (cpid > 0 && cpid != 65001 && cpid != 1200) {
+			g_snprintf (charset_buf, sizeof (charset_buf), "CP%d", cpid);
+			utf8 = g_convert (string, -1, "UTF-8", charset_buf, NULL, NULL, NULL);
+			if (utf8)
+				return utf8;
+		}
+	}
+
+	utf8 = g_locale_to_utf8 (string, -1, NULL, NULL, NULL);
+	if (utf8)
+		return utf8;
+
+	for (ii = 0; fallback_charsets[ii]; ii++) {
+		utf8 = g_convert (string, -1, "UTF-8", fallback_charsets[ii], NULL, NULL, NULL);
+		if (utf8)
+			return utf8;
+	}
+
+	return NULL;
 }
 
 /**
  * foldername_to_utf8:
  * @foldername: from PST file
+ * @item: PST item the name belongs to, for charset detection; may be %NULL
  *
  * Convert foldername to utf8 and escape characters if needed
  *
  * Returns: converted folder name, or NULL for error. Caller should free
  */
 gchar *
-foldername_to_utf8 (const gchar *pstname)
+foldername_to_utf8 (const gchar *pstname,
+                    pst_item *item)
 {
 	gchar *utf8name, *folder_name;
 
-	utf8name = string_to_utf8 (pstname);
+	utf8name = string_to_utf8 (pstname, item);
 
 	if (utf8name == NULL) {
 		folder_name = camel_url_encode (pstname, NULL);
@@ -985,7 +1037,7 @@ pst_process_folder (PstImporter *m,
 	g_free (m->folder_name);
 
 	if (item->file_as.str != NULL) {
-		m->folder_name = foldername_to_utf8 (item->file_as.str);
+		m->folder_name = foldername_to_utf8 (item->file_as.str, item);
 	} else {
 		g_critical ("Folder: No name! item->file_as=%s", item->file_as.str);
 		m->folder_name = g_strdup ("unknown_name");
@@ -1045,8 +1097,11 @@ pst_create_folder (PstImporter *m)
 			*pos = '\0';
 
 			folder = e_mail_session_uri_to_folder_sync (
-				session, dest, CAMEL_STORE_FOLDER_CREATE,
-				m->cancellable, &m->base.error);
+				session, dest, 0, m->cancellable, NULL);
+			if (!folder)
+				folder = e_mail_session_uri_to_folder_sync (
+					session, dest, CAMEL_STORE_FOLDER_CREATE,
+					m->cancellable, &m->base.error);
 			if (folder)
 				g_object_unref (folder);
 			else
@@ -1057,10 +1112,14 @@ pst_create_folder (PstImporter *m)
 
 	g_free (dest);
 
-	if (!m->base.error)
+	if (!m->base.error) {
 		m->folder = e_mail_session_uri_to_folder_sync (
-			session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
-			m->cancellable, &m->base.error);
+			session, m->folder_uri, 0, m->cancellable, NULL);
+		if (!m->folder)
+			m->folder = e_mail_session_uri_to_folder_sync (
+				session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
+				m->cancellable, &m->base.error);
+	}
 }
 
 /**
@@ -1179,6 +1238,10 @@ pst_process_email (PstImporter *m,
 	gboolean has_attachments;
 	gchar *comp_str = NULL;
 	gboolean success;
+	gchar charset_buf[30];
+	const gchar *body_charset = NULL;
+	gchar *content_type = NULL;
+	gint32 cpid;
 
 	if (m->folder == NULL) {
 		pst_create_folder (m);
@@ -1237,7 +1300,7 @@ pst_process_email (PstImporter *m,
 	if (item->subject.str != NULL) {
 		gchar *subj;
 
-		subj = string_to_utf8 (item->subject.str);
+		subj = string_to_utf8 (item->subject.str, item);
 		if (subj == NULL) {
 			g_warning ("Could not convert email subject to utf8: %s", item->subject.str);
 			camel_mime_message_set_subject (msg, "(lost subject)");
@@ -1302,6 +1365,17 @@ pst_process_email (PstImporter *m,
 		}
 	}
 
+	body_charset = pst_default_charset (item, sizeof (charset_buf), charset_buf);
+	if (!body_charset || !*body_charset || g_ascii_strcasecmp (body_charset, "utf-8") == 0) {
+		cpid = item->message_codepage;
+		if (cpid > 0 && cpid != 65001 && cpid != 1200) {
+			g_snprintf (charset_buf, sizeof (charset_buf), "CP%d", cpid);
+			body_charset = charset_buf;
+		} else {
+			body_charset = "UTF-8";
+		}
+	}
+
 	mp = camel_multipart_new ();
 
 	if (has_attachments) {
@@ -1321,21 +1395,19 @@ pst_process_email (PstImporter *m,
 	camel_multipart_set_boundary (mp, NULL);
 
 	if (item->body.str != NULL) {
-		/* Read internet headers */
-
-		/*g_debug ("  Email body length=%zd", strlen (item->email->body));
-		g_message ("  Email body %100s...", item->email->body);*/
-
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part, item->body.str, strlen (item->body.str), "text/plain");
+		content_type = g_strconcat ("text/plain; charset=", body_charset, NULL);
+		camel_mime_part_set_content (part, item->body.str, strlen (item->body.str), content_type);
+		g_free (content_type);
 		camel_multipart_add_part (mp, part);
 		g_object_unref (part);
 	}
 
 	if (item->email->htmlbody.str != NULL) {
-		/*g_debug ("  HTML body length=%zd", strlen (item->email->htmlbody));*/
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part, item->email->htmlbody.str, strlen (item->email->htmlbody.str), "text/html");
+		content_type = g_strconcat ("text/html; charset=", body_charset, NULL);
+		camel_mime_part_set_content (part, item->email->htmlbody.str, strlen (item->email->htmlbody.str), content_type);
+		g_free (content_type);
 		camel_multipart_add_part (mp, part);
 		g_object_unref (part);
 	}
@@ -1360,7 +1432,9 @@ pst_process_email (PstImporter *m,
 	if (item->email->htmlbody.str || item->attach) {
 		camel_medium_set_content (CAMEL_MEDIUM (msg), CAMEL_DATA_WRAPPER (mp));
 	} else if (item->body.str) {
-		camel_mime_part_set_content (CAMEL_MIME_PART (msg), item->body.str, strlen (item->body.str), "text/plain");
+		content_type = g_strconcat ("text/plain; charset=", body_charset, NULL);
+		camel_mime_part_set_content (CAMEL_MIME_PART (msg), item->body.str, strlen (item->body.str), content_type);
+		g_free (content_type);
 	} else {
 		g_warning (
 			"Email without body. Subject:%s",
@@ -1689,81 +1763,112 @@ set_cal_attachments (ECalClient *cal,
 	store_dir = g_filename_from_uri (e_cal_client_get_local_attachment_store (cal), NULL, NULL);
 
 	while (attach != NULL) {
-		const gchar * orig_filename;
-		gchar *filename, *tmp, *path, *dirname, *uri;
-		CamelMimePart *part;
-		CamelDataWrapper *content;
-		CamelStream *stream;
-		struct stat st;
+		if (store_dir) {
+			const gchar *orig_filename;
+			gchar *filename, *tmp, *path, *dirname, *uri;
+			CamelMimePart *part;
+			CamelDataWrapper *content;
+			CamelStream *stream;
+			struct stat st;
 
-		part = attachment_to_part (m, attach);
+			part = attachment_to_part (m, attach);
 
-		orig_filename = camel_mime_part_get_filename (part);
+			orig_filename = camel_mime_part_get_filename (part);
 
-		if (orig_filename == NULL) {
-			g_warning ("Ignoring unnamed attachment");
-			attach = attach->next;
-			continue;  /* Ignore unnamed attachments */
-		}
-
-		tmp = camel_file_util_safe_filename (orig_filename);
-		filename = g_strdup_printf ("%s-%s", uid, tmp);
-		path = g_build_filename (store_dir, filename, NULL);
-
-		g_free (tmp);
-		g_free (filename);
-
-		dirname = g_path_get_dirname (path);
-		if (g_mkdir_with_parents (dirname, 0777) == -1) {
-			g_warning ("Could not create directory %s: %s", dirname, g_strerror (errno));
-			g_free (dirname);
-			attach = attach->next;
-			continue;
-		}
-		g_free (dirname);
-
-		if (g_access (path, F_OK) == 0) {
-			if (g_access (path, W_OK) != 0) {
-				g_warning ("Could not write file %s - file exists", path);
+			if (orig_filename == NULL) {
+				g_warning ("Ignoring unnamed attachment");
+				g_object_unref (part);
 				attach = attach->next;
 				continue;
 			}
-		}
 
-		if (g_stat (path, &st) != -1 && !S_ISREG (st.st_mode)) {
-			g_warning ("Could not write file %s - not a file", path);
-			attach = attach->next;
-			continue;
-		}
+			tmp = camel_file_util_safe_filename (orig_filename);
+			filename = g_strdup_printf ("%s-%s", uid, tmp);
+			path = g_build_filename (store_dir, filename, NULL);
 
-		if (!(stream = camel_stream_fs_new_with_name (path, O_WRONLY | O_CREAT | O_TRUNC, 0666, NULL))) {
-			g_warning ("Could not create stream for file %s - %s", path, g_strerror (errno));
-			attach = attach->next;
-			continue;
-		}
+			g_free (tmp);
+			g_free (filename);
 
-		content = camel_medium_get_content (CAMEL_MEDIUM (part));
+			dirname = g_path_get_dirname (path);
+			if (g_mkdir_with_parents (dirname, 0777) == -1) {
+				g_warning ("Could not create directory %s: %s", dirname, g_strerror (errno));
+				g_free (dirname);
+				g_object_unref (part);
+				g_free (path);
+				attach = attach->next;
+				continue;
+			}
+			g_free (dirname);
 
-		if (camel_data_wrapper_decode_to_stream_sync (content, stream, NULL, NULL) == -1
-			|| camel_stream_flush (stream, NULL, NULL) == -1)
-		{
-			g_warning ("Could not write attachment to %s: %s", path, g_strerror (errno));
+			if (g_access (path, F_OK) == 0 && g_access (path, W_OK) != 0) {
+				g_warning ("Could not write file %s - file exists", path);
+				g_object_unref (part);
+				g_free (path);
+				attach = attach->next;
+				continue;
+			}
+
+			if (g_stat (path, &st) != -1 && !S_ISREG (st.st_mode)) {
+				g_warning ("Could not write file %s - not a file", path);
+				g_object_unref (part);
+				g_free (path);
+				attach = attach->next;
+				continue;
+			}
+
+			if (!(stream = camel_stream_fs_new_with_name (path, O_WRONLY | O_CREAT | O_TRUNC, 0666, NULL))) {
+				g_warning ("Could not create stream for file %s - %s", path, g_strerror (errno));
+				g_object_unref (part);
+				g_free (path);
+				attach = attach->next;
+				continue;
+			}
+
+			content = camel_medium_get_content (CAMEL_MEDIUM (part));
+
+			if (camel_data_wrapper_decode_to_stream_sync (content, stream, NULL, NULL) == -1
+				|| camel_stream_flush (stream, NULL, NULL) == -1)
+			{
+				g_warning ("Could not write attachment to %s: %s", path, g_strerror (errno));
+				g_object_unref (stream);
+				g_object_unref (part);
+				g_free (path);
+				attach = attach->next;
+				continue;
+			}
+
 			g_object_unref (stream);
-			attach = attach->next;
-			continue;
+
+			uri = g_filename_to_uri (path, NULL, NULL);
+			list = g_slist_append (list, i_cal_attach_new_from_url (uri));
+			g_free (uri);
+
+			g_object_unref (part);
+			g_free (path);
+		} else {
+			pst_binary attach_rc = { 0 };
+			const gchar *data;
+			gsize size;
+			gchar *base64;
+
+			if (attach->data.data) {
+				data = attach->data.data;
+				size = attach->data.size;
+			} else {
+				attach_rc = pst_attach_to_mem (&m->pst, attach);
+				data = (const gchar *) attach_rc.data;
+				size = attach_rc.size;
+			}
+
+			if (data && size > 0) {
+				base64 = g_base64_encode ((const guchar *) data, size);
+				list = g_slist_append (list, i_cal_attach_new_from_data (base64, (GFunc) g_free, NULL));
+			}
+
+			free (attach_rc.data);
 		}
-
-		g_object_unref (stream);
-
-		uri = g_filename_to_uri (path, NULL, NULL);
-		list = g_slist_append (list, i_cal_attach_new_from_url (uri));
-		g_free (uri);
-
-		g_object_unref (part);
-		g_free (path);
 
 		attach = attach->next;
-
 	}
 
 	g_free (store_dir);
