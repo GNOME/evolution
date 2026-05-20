@@ -17,7 +17,10 @@
 
 #include "evolution-config.h"
 
+#include <errno.h>
 #include <string.h>
+
+#include <glib/gstdio.h>
 
 #include <libsoup/soup.h>
 #include <camel/camel.h>
@@ -402,7 +405,7 @@ e_http_request_process_sync (EContentRequest *request,
 			GError *local_error = NULL;
 
 			cache_stream = camel_data_cache_add (
-				cache, "http", uri_md5, &local_error);
+				cache, "tmp", uri_md5, &local_error);
 			if (local_error) {
 				g_warning (
 					"Failed to create cache file for '%s': %s",
@@ -422,6 +425,7 @@ e_http_request_process_sync (EContentRequest *request,
 					if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 						g_warning ("Failed to write data to cache stream: %s", local_error->message);
 					g_clear_error (&local_error);
+					camel_data_cache_remove (cache, "tmp", uri_md5, NULL);
 					g_clear_object (&input_stream);
 					g_object_unref (message);
 					g_object_unref (temp_session);
@@ -429,15 +433,21 @@ e_http_request_process_sync (EContentRequest *request,
 				}
 
 				if (bytes_copied >= 0) {
-					gchar *filename;
+					gchar *tmp_filename, *http_filename, *dirname;
 
-					filename = camel_data_cache_get_filename (cache, "http", uri_md5);
+					tmp_filename = camel_data_cache_get_filename (cache, "tmp", uri_md5);
+					http_filename = camel_data_cache_get_filename (cache, "http", uri_md5);
+					dirname = g_path_get_dirname (http_filename);
+					g_mkdir_with_parents (dirname, 0700);
+					g_free (dirname);
 
-					if (filename) {
+					if (g_rename (tmp_filename, http_filename) == 0) {
 						GFileInputStream *file_input_stream;
 						GFile *file;
 
-						file = g_file_new_for_path (filename);
+						camel_data_cache_remove (cache, "tmp", uri_md5, NULL);
+
+						file = g_file_new_for_path (http_filename);
 						file_input_stream = g_file_read (file, cancellable, &local_error);
 
 						g_object_unref (file);
@@ -449,14 +459,18 @@ e_http_request_process_sync (EContentRequest *request,
 
 							success = TRUE;
 						} else {
-							g_warning ("Failed to read cache file '%s': %s", filename, local_error ? local_error->message : "Unknown error");
+							g_warning ("Failed to read cache file '%s': %s", http_filename, local_error ? local_error->message : "Unknown error");
 							g_clear_error (&local_error);
 						}
-
-						g_free (filename);
 					} else {
-						g_warning ("Failed to get just written cache file name");
+						gint errsv = errno;
+						g_warning ("%s: Failed to rename '%s' to '%s': %s",
+							G_STRFUNC, tmp_filename, http_filename, g_strerror (errsv));
+						camel_data_cache_remove (cache, "tmp", uri_md5, NULL);
 					}
+
+					g_free (tmp_filename);
+					g_free (http_filename);
 				}
 			}
 		}
