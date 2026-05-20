@@ -42,6 +42,8 @@ static gboolean
 is_past_event (ECalComponent *comp)
 {
 	ECalComponentDateTime *end_date;
+	ICalTimezone *zone;
+	ICalTime *now;
 	gboolean res;
 
 	if (!comp)
@@ -52,11 +54,13 @@ is_past_event (ECalComponent *comp)
 	if (!end_date)
 		return FALSE;
 
-	res = i_cal_time_compare_date_only (
-		e_cal_component_datetime_get_value (end_date),
-		i_cal_time_new_current_with_zone (i_cal_time_get_timezone (e_cal_component_datetime_get_value (end_date)))) == -1;
+	zone = i_cal_time_get_timezone (e_cal_component_datetime_get_value (end_date));
+	now = i_cal_time_new_current_with_zone (zone);
+
+	res = i_cal_time_compare_date_only_tz (e_cal_component_datetime_get_value (end_date), now, zone) < 0;
 
 	e_cal_component_datetime_free (end_date);
+	g_clear_object (&now);
 
 	return res;
 }
