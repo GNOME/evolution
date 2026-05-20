@@ -81,7 +81,6 @@ enum {
 	PROP_0,
 	PROP_SWITCHER_ACTION,
 	PROP_PAGE_NUM,
-	PROP_SEARCHBAR,
 	PROP_SEARCH_RULE,
 	PROP_SHELL_BACKEND,
 	PROP_SHELL_CONTENT,
@@ -1906,12 +1905,6 @@ shell_view_get_property (GObject *object,
 		case PROP_PAGE_NUM:
 			g_value_set_int (
 				value, e_shell_view_get_page_num (
-				E_SHELL_VIEW (object)));
-			return;
-
-		case PROP_SEARCHBAR:
-			g_value_set_object (
-				value, e_shell_view_get_searchbar (
 				E_SHELL_VIEW (object)));
 			return;
 
