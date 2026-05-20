@@ -64,7 +64,6 @@ struct _EMailUISessionPrivate {
 
 enum {
 	PROP_0,
-	PROP_ACCOUNT_STORE,
 	PROP_CHECK_JUNK,
 	PROP_LABEL_STORE,
 	PROP_PHOTO_CACHE
@@ -377,13 +376,6 @@ mail_ui_session_get_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT_STORE:
-			g_value_set_object (
-				value,
-				e_mail_ui_session_get_account_store (
-				E_MAIL_UI_SESSION (object)));
-			return;
-
 		case PROP_CHECK_JUNK:
 			g_value_set_boolean (
 				value,
