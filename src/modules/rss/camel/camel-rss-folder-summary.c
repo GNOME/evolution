@@ -5,7 +5,10 @@
 
 #include "evolution-config.h"
 
+#include <errno.h>
+
 #include <glib/gi18n-lib.h>
+#include <glib/gstdio.h>
 
 #include <camel/camel.h>
 #include <libedataserver/libedataserver.h>
@@ -386,9 +389,14 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 	if (success) {
 		CamelRssFolder *rss_folder;
 		GIOStream *io_stream;
+		const gchar *folder_id;
+		gchar *uid_tmp;
 
 		rss_folder = CAMEL_RSS_FOLDER (camel_folder_summary_get_folder (CAMEL_FOLDER_SUMMARY (self)));
-		io_stream = camel_data_cache_add (rss_cache, camel_rss_folder_get_id (rss_folder), uid, error);
+		folder_id = camel_rss_folder_get_id (rss_folder);
+		uid_tmp = g_strconcat (uid, ".tmp", NULL);
+
+		io_stream = camel_data_cache_add (rss_cache, folder_id, uid_tmp, error);
 		success = io_stream != NULL;
 
 		if (io_stream) {
@@ -397,6 +405,29 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 		}
 
 		g_clear_object (&io_stream);
+
+		if (success) {
+			gchar *tmp_filename, *folder_filename, *fdir;
+
+			tmp_filename = camel_data_cache_get_filename (rss_cache, folder_id, uid_tmp);
+			folder_filename = camel_data_cache_get_filename (rss_cache, folder_id, uid);
+			fdir = g_path_get_dirname (folder_filename);
+			g_mkdir_with_parents (fdir, 0700);
+			g_free (fdir);
+			if (g_rename (tmp_filename, folder_filename) == -1) {
+				gint errsv = errno;
+				g_warning ("%s: Failed to rename '%s' to '%s': %s",
+					G_STRFUNC, tmp_filename, folder_filename, g_strerror (errsv));
+				success = FALSE;
+			}
+			camel_data_cache_remove (rss_cache, folder_id, uid_tmp, NULL);
+			g_free (tmp_filename);
+			g_free (folder_filename);
+		} else {
+			camel_data_cache_remove (rss_cache, folder_id, uid_tmp, NULL);
+		}
+
+		g_free (uid_tmp);
 	}
 
 	if (success) {
