@@ -1935,16 +1935,19 @@ mail_session_get_oauth2_access_token_sync (CamelSession *session,
 
 	success = e_source_get_oauth2_access_token_sync (cred_source ? cred_source : source, cancellable, out_access_token, out_expires_in, &local_error);
 
-	/* The Connection Refused error can be returned when the OAuth2 token is expired or
-	   when its refresh failed for some reason. In that case change the error domain/code,
-	   thus the other Camel/mail code understands it. */
-	if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_REFUSED) ||
-	    g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+	if (g_error_matches (local_error, E_OAUTH2_SERVICE_ERROR, E_OAUTH2_SERVICE_ERROR_TOKEN_EXPIRED) ||
+	    g_error_matches (local_error, E_OAUTH2_SERVICE_ERROR, E_OAUTH2_SERVICE_ERROR_REFRESH_FAILED)) {
 		local_error->domain = CAMEL_SERVICE_ERROR;
 		local_error->code = CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE;
 
 		e_source_invoke_credentials_required_sync (cred_source ? cred_source : source,
 			E_SOURCE_CREDENTIALS_REASON_REJECTED, NULL, 0, local_error, cancellable, NULL);
+	} else if (g_error_matches (local_error, E_OAUTH2_SERVICE_ERROR, E_OAUTH2_SERVICE_ERROR_SECRET_NOT_FOUND)) {
+		local_error->domain = CAMEL_SERVICE_ERROR;
+		local_error->code = CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE;
+
+		e_source_invoke_credentials_required_sync (cred_source ? cred_source : source,
+			E_SOURCE_CREDENTIALS_REASON_REQUIRED, NULL, 0, local_error, cancellable, NULL);
 	}
 
 	if (local_error)
