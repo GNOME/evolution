@@ -390,44 +390,26 @@ camel_rss_folder_summary_add_or_update_feed_sync (CamelRssFolderSummary *self,
 		CamelRssFolder *rss_folder;
 		GIOStream *io_stream;
 		const gchar *folder_id;
-		gchar *uid_tmp;
 
 		rss_folder = CAMEL_RSS_FOLDER (camel_folder_summary_get_folder (CAMEL_FOLDER_SUMMARY (self)));
 		folder_id = camel_rss_folder_get_id (rss_folder);
-		uid_tmp = g_strconcat (uid, ".tmp", NULL);
 
-		io_stream = camel_data_cache_add (rss_cache, folder_id, uid_tmp, error);
+		io_stream = camel_data_cache_add_atomic (rss_cache, folder_id, uid, error);
 		success = io_stream != NULL;
 
 		if (io_stream) {
 			success = camel_data_wrapper_write_to_output_stream_sync (CAMEL_DATA_WRAPPER (message),
 				g_io_stream_get_output_stream (io_stream), cancellable, error);
-		}
 
-		g_clear_object (&io_stream);
+			if (success) {
+				GIOStream *committed;
 
-		if (success) {
-			gchar *tmp_filename, *folder_filename, *fdir;
-
-			tmp_filename = camel_data_cache_get_filename (rss_cache, folder_id, uid_tmp);
-			folder_filename = camel_data_cache_get_filename (rss_cache, folder_id, uid);
-			fdir = g_path_get_dirname (folder_filename);
-			g_mkdir_with_parents (fdir, 0700);
-			g_free (fdir);
-			if (g_rename (tmp_filename, folder_filename) == -1) {
-				gint errsv = errno;
-				g_warning ("%s: Failed to rename '%s' to '%s': %s",
-					G_STRFUNC, tmp_filename, folder_filename, g_strerror (errsv));
-				success = FALSE;
+				committed = camel_data_cache_commit_atomic (rss_cache, g_steal_pointer (&io_stream), error);
+				g_clear_object (&committed);
+			} else {
+				camel_data_cache_discard_atomic (rss_cache, g_steal_pointer (&io_stream));
 			}
-			camel_data_cache_remove (rss_cache, folder_id, uid_tmp, NULL);
-			g_free (tmp_filename);
-			g_free (folder_filename);
-		} else {
-			camel_data_cache_remove (rss_cache, folder_id, uid_tmp, NULL);
 		}
-
-		g_free (uid_tmp);
 	}
 
 	if (success) {

@@ -391,8 +391,8 @@ e_http_request_process_sync (EContentRequest *request,
 		if (cache) {
 			GError *local_error = NULL;
 
-			cache_stream = camel_data_cache_add (
-				cache, "tmp", uri_md5, &local_error);
+			cache_stream = camel_data_cache_add_atomic (
+				cache, "http", uri_md5, &local_error);
 			if (local_error) {
 				g_warning (
 					"Failed to create cache file for '%s': %s",
@@ -405,14 +405,11 @@ e_http_request_process_sync (EContentRequest *request,
 				output_stream = g_io_stream_get_output_stream (cache_stream);
 				bytes_copied = g_output_stream_splice (output_stream, input_stream, G_OUTPUT_STREAM_SPLICE_NONE, cancellable, &local_error);
 
-				g_io_stream_close (cache_stream, NULL, NULL);
-				g_object_unref (cache_stream);
-
 				if (local_error != NULL) {
 					if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 						g_warning ("Failed to write data to cache stream: %s", local_error->message);
 					g_clear_error (&local_error);
-					camel_data_cache_remove (cache, "tmp", uri_md5, NULL);
+					camel_data_cache_discard_atomic (cache, g_steal_pointer (&cache_stream));
 					g_clear_object (&input_stream);
 					g_object_unref (message);
 					g_object_unref (temp_session);
@@ -420,44 +417,40 @@ e_http_request_process_sync (EContentRequest *request,
 				}
 
 				if (bytes_copied >= 0) {
-					gchar *tmp_filename, *http_filename, *dirname;
+					GIOStream *committed;
 
-					tmp_filename = camel_data_cache_get_filename (cache, "tmp", uri_md5);
-					http_filename = camel_data_cache_get_filename (cache, "http", uri_md5);
-					dirname = g_path_get_dirname (http_filename);
-					g_mkdir_with_parents (dirname, 0700);
-					g_free (dirname);
+					committed = camel_data_cache_commit_atomic (cache, g_steal_pointer (&cache_stream), &local_error);
 
-					if (g_rename (tmp_filename, http_filename) == 0) {
-						GFileInputStream *file_input_stream;
+					if (committed != NULL) {
 						GFile *file;
+						gchar *http_filename;
 
-						camel_data_cache_remove (cache, "tmp", uri_md5, NULL);
+						g_clear_object (&committed);
 
+						http_filename = camel_data_cache_get_filename (cache, "http", uri_md5);
 						file = g_file_new_for_path (http_filename);
-						file_input_stream = g_file_read (file, cancellable, &local_error);
+						g_free (http_filename);
 
-						g_object_unref (file);
+						*out_stream = G_INPUT_STREAM (g_file_read (file, cancellable, &local_error));
+						g_clear_object (&file);
 
-						if (file_input_stream) {
-							*out_stream = G_INPUT_STREAM (file_input_stream);
+						if (*out_stream) {
 							*out_stream_length = bytes_copied;
 							*out_mime_type = g_strdup (soup_message_headers_get_content_type (soup_message_get_response_headers (message), NULL));
 
 							success = TRUE;
 						} else {
-							g_warning ("Failed to read cache file '%s': %s", http_filename, local_error ? local_error->message : "Unknown error");
+							g_warning ("%s: Failed to open committed cache file for '%s': %s",
+							           G_STRFUNC, uri, local_error ? local_error->message : "Unknown error");
 							g_clear_error (&local_error);
 						}
 					} else {
-						gint errsv = errno;
-						g_warning ("%s: Failed to rename '%s' to '%s': %s",
-							G_STRFUNC, tmp_filename, http_filename, g_strerror (errsv));
-						camel_data_cache_remove (cache, "tmp", uri_md5, NULL);
+						g_warning ("%s: Failed to commit cache file for '%s': %s",
+						           G_STRFUNC, uri, local_error ? local_error->message : "Unknown error");
+						g_clear_error (&local_error);
 					}
-
-					g_free (tmp_filename);
-					g_free (http_filename);
+				} else {
+					camel_data_cache_discard_atomic (cache, g_steal_pointer (&cache_stream));
 				}
 			}
 		}
