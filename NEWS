@@ -1,3 +1,25 @@
+Evolution 3.60.2 2026-05-22
+---------------------------
+
+Bug Fixes:
+	I#3302 - Truncated file stored in the (mail) cache
+	I#3307 - prefer-plain: Empty body when prefer plain with HTML and no plain text
+	I#3311 - Fails to import Chinese Outook PST file (charset)
+	I#3315 - Marcus Bains line is displayed on the wrong day
+	I#3317 - Inconsistent timezone for completed tasks
+	M!218 - Mail: Call malloc_trim after folder sync and message list regen (Nirbheek Chauhan)
+
+Miscellaneous:
+	message-list: Remove redundant g_free call (Nirbheek Chauhan)
+	test-web-view-jsc: Correct JavaScript variable initialization
+	e-message-popover: Make the label text selectable
+	Calendar: Use icaldurationtype_as_utc_seconds() for libical 4.x
+	ECategoriesSelector: chain-up finalize to parent (Corentin Noël)
+	mail: Use E_OAUTH2_SERVICE_ERROR instead of abused G_IO_ERROR codes
+
+Translations:
+	Cheng-Chia Tseng (zh_TW)
+
 Evolution 3.60.1 2026-04-10
 ---------------------------
 
