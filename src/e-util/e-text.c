@@ -1214,6 +1214,15 @@ e_text_draw (GnomeCanvasItem *item,
 		cairo_clip (cr);
 	}
 
+	if (text->use_ellipsis && text->clip && !text->editing) {
+		gdouble available = text->clip_cwidth - text->xofs;
+
+		if (available > 0) {
+			pango_layout_set_width (text->layout, (gint) (available * PANGO_SCALE));
+			pango_layout_set_ellipsize (text->layout, PANGO_ELLIPSIZE_END);
+		}
+	}
+
 	if (text->editing) {
 		xpos -= text->xofs_edit;
 		ypos -= text->yofs_edit;
@@ -1221,6 +1230,11 @@ e_text_draw (GnomeCanvasItem *item,
 
 	cairo_move_to (cr, xpos, ypos);
 	pango_cairo_show_layout (cr, text->layout);
+
+	if (text->use_ellipsis && text->clip && !text->editing) {
+		pango_layout_set_ellipsize (text->layout, PANGO_ELLIPSIZE_NONE);
+		pango_layout_set_width (text->layout, -1);
+	}
 
 	if (text->editing) {
 		if (text->selection_start != text->selection_end) {
