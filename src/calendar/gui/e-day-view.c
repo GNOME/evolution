@@ -2779,8 +2779,14 @@ time_range_changed_cb (ECalModel *model,
 	}
 
 	/* See if we need to change the days shown. */
-	if (lower != day_view->lower)
+	if (lower != day_view->lower) {
 		e_day_view_recalc_day_starts (day_view, lower);
+		/* day_starts[] changed: long events need reshaping because their
+		 * visible start/end time (and thus x_offset and clip_width) depends
+		 * on day_starts[]. Events that stay in the model across navigation
+		 * are not re-added, so long_events_need_layout won't be set for them. */
+		day_view->long_events_need_reshape = TRUE;
+	}
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
 		e_day_view_free_events (day_view);
@@ -2799,6 +2805,11 @@ time_range_changed_cb (ECalModel *model,
 	eti = E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item);
 	if (eti && e_day_view_time_item_get_second_zone (eti))
 		gtk_widget_queue_draw (day_view->time_canvas);
+
+	if (day_view->long_events_need_reshape) {
+		e_day_view_check_layout (day_view);
+		gtk_widget_queue_draw (day_view->top_canvas);
+	}
 }
 
 static void
@@ -6294,6 +6305,11 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	icons_width = (E_DAY_VIEW_ICON_WIDTH + E_DAY_VIEW_ICON_X_PAD)
 		* num_icons + E_DAY_VIEW_LONG_EVENT_ICON_R_PAD;
 	time_width = e_day_view_get_time_string_width (day_view);
+
+	/* Reserve space on the right for the end time when it will be drawn,
+	 * so the title centering and clip width both use the same available area. */
+	if (!use_max_width && event->end < day_view->day_starts[end_day + 1])
+		item_w -= time_width + E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
 
 	if (use_max_width) {
 		text_x = item_x;
