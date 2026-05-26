@@ -664,7 +664,6 @@ set(plugins_values all base no)
 set_property(CACHE ENABLE_PLUGINS PROPERTY STRINGS ${plugins_values})
 
 set(plugins_base
-	publish-calendar
 )
 set(plugins_standard
 )

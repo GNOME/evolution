@@ -11,10 +11,9 @@
 #include <glib/gi18n.h>
 #include <gio/gio.h>
 
-#include <calendar/gui/e-cal-config.h>
-
 #include <shell/e-shell.h>
 #include <shell/e-shell-view.h>
+#include <shell/e-shell-window.h>
 
 #include "url-editor-dialog.h"
 #include "publish-format-fb.h"
@@ -35,8 +34,6 @@ static GMutex error_queue_lock;
 static guint error_queue_show_idle_id = 0;
 static void  error_queue_add (gchar *descriptions, GError *error);
 
-gint          e_plugin_lib_enable (EPlugin *ep, gint enable);
-GtkWidget   *publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data);
 static void  update_timestamp (EPublishUri *uri);
 static void publish (EPublishUri *uri, gboolean can_report_success);
 
@@ -812,9 +809,8 @@ online_state_changed (EShell *shell)
 			publish (queued_publishes->data, FALSE);
 }
 
-GtkWidget *
-publish_calendar_locations (EPlugin *epl,
-                            EConfigHookItemFactoryData *data)
+static GtkWidget *
+publish_calendar_locations (EPreferencesWindow *window)
 {
 	GtkBuilder *builder;
 	GtkCellRenderer *renderer;
@@ -890,8 +886,8 @@ publish_calendar_locations (EPlugin *epl,
 		gtk_tree_selection_select_iter (selection, &iter);
 
 	toplevel = e_builder_get_widget (builder, "toplevel");
+	g_object_ref (toplevel);
 	gtk_widget_show_all (toplevel);
-	gtk_box_pack_start (GTK_BOX (data->parent), toplevel, FALSE, TRUE, 0);
 
 	g_object_unref (builder);
 
@@ -940,48 +936,37 @@ publish_uris_set_timeout (gchar **uris)
 	return NULL;
 }
 
-gint
-e_plugin_lib_enable (EPlugin *ep,
-                     gint enable)
+static void
+publish_calendar_enable (void)
 {
 	EShell *shell = e_shell_get_default ();
+	GSettings *settings;
+	gchar **uris;
+	GThread *thread = NULL;
+	GError *error = NULL;
 
 	if (shell) {
-		static gulong notify_online_id = 0;
-
-		e_signal_disconnect_notify_handler (shell, &notify_online_id);
-		if (enable) {
-			online = e_shell_get_online (shell);
-			notify_online_id = e_signal_connect_notify (
-				shell, "notify::online",
-				G_CALLBACK (online_state_changed), NULL);
-		}
+		online = e_shell_get_online (shell);
+		e_signal_connect_notify (
+			shell, "notify::online",
+			G_CALLBACK (online_state_changed), NULL);
 	}
 
-	if (enable) {
-		GSettings *settings;
-		gchar **uris;
-		GThread *thread = NULL;
-		GError *error = NULL;
+	settings = e_util_ref_settings (PC_SETTINGS_ID);
+	uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
+	g_object_unref (settings);
 
-		settings = e_util_ref_settings (PC_SETTINGS_ID);
-		uris = g_settings_get_strv (settings, PC_SETTINGS_URIS);
-		g_object_unref (settings);
-
-		thread = g_thread_try_new (
-			NULL, (GThreadFunc)
-			publish_uris_set_timeout, uris, &error);
-		if (error != NULL) {
-			g_warning (
-				"Could create thread to set timeout "
-				"for publishing uris : %s", error->message);
-			g_error_free (error);
-		} else {
-			g_thread_unref (thread);
-		}
+	thread = g_thread_try_new (
+		NULL, (GThreadFunc)
+		publish_uris_set_timeout, uris, &error);
+	if (error != NULL) {
+		g_warning (
+			"Could create thread to set timeout "
+			"for publishing uris : %s", error->message);
+		g_error_free (error);
+	} else {
+		g_thread_unref (thread);
 	}
-
-	return 0;
 }
 
 struct eq_data {
@@ -1090,11 +1075,9 @@ action_calendar_publish_cb (EUIAction *action,
 	}
 }
 
-gboolean e_plugin_ui_init (EUIManager *ui_manager, EShellView *shell_view);
-
-gboolean
-e_plugin_ui_init (EUIManager *ui_manager,
-                  EShellView *shell_view)
+static void
+publish_calendar_init_ui (EUIManager *ui_manager,
+                           EShellView *shell_view)
 {
 	static const gchar *eui =
 		"<eui>"
@@ -1108,7 +1091,6 @@ e_plugin_ui_init (EUIManager *ui_manager,
 		"</eui>";
 
 	static const EUIActionEntry entries[] = {
-
 		{ "calendar-publish",
 		  NULL,
 		  N_("_Publish Calendar Information"),
@@ -1119,6 +1101,100 @@ e_plugin_ui_init (EUIManager *ui_manager,
 
 	e_ui_manager_add_actions_with_eui_data (ui_manager, "calendar", NULL,
 		entries, G_N_ELEMENTS (entries), shell_view, eui);
+}
 
-	return TRUE;
+/* -------------------------------------------------------------------  */
+/*                     EExtension types                                  */
+/* -------------------------------------------------------------------  */
+
+typedef struct _EPublishCalendarShellView EPublishCalendarShellView;
+typedef struct _EPublishCalendarShellViewClass EPublishCalendarShellViewClass;
+struct _EPublishCalendarShellView { EExtension parent; };
+struct _EPublishCalendarShellViewClass { EExtensionClass parent_class; };
+
+typedef struct _EPublishCalendarShellWindow EPublishCalendarShellWindow;
+typedef struct _EPublishCalendarShellWindowClass EPublishCalendarShellWindowClass;
+struct _EPublishCalendarShellWindow { EExtension parent; };
+struct _EPublishCalendarShellWindowClass { EExtensionClass parent_class; };
+
+GType e_publish_calendar_shell_view_get_type (void);
+G_DEFINE_DYNAMIC_TYPE (EPublishCalendarShellView, e_publish_calendar_shell_view, E_TYPE_EXTENSION)
+GType e_publish_calendar_shell_window_get_type (void);
+G_DEFINE_DYNAMIC_TYPE (EPublishCalendarShellWindow, e_publish_calendar_shell_window, E_TYPE_EXTENSION)
+
+static void
+e_publish_calendar_shell_view_constructed (GObject *object)
+{
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
+	EUIManager *ui_manager;
+
+	G_OBJECT_CLASS (e_publish_calendar_shell_view_parent_class)->constructed (object);
+
+	shell_view = E_SHELL_VIEW (e_extension_get_extensible (E_EXTENSION (object)));
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
+
+	if (g_strcmp0 (shell_view_class->ui_manager_id, "org.gnome.evolution.calendars") == 0)
+		publish_calendar_init_ui (ui_manager, shell_view);
+}
+
+static void
+e_publish_calendar_shell_view_class_init (EPublishCalendarShellViewClass *class)
+{
+	G_OBJECT_CLASS (class)->constructed = e_publish_calendar_shell_view_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_SHELL_VIEW;
+}
+
+static void e_publish_calendar_shell_view_class_finalize (EPublishCalendarShellViewClass *class) { }
+static void e_publish_calendar_shell_view_init (EPublishCalendarShellView *self) { }
+
+static void
+e_publish_calendar_shell_window_constructed (GObject *object)
+{
+	EShellWindow *shell_window;
+	EShell *shell;
+	GtkWidget *preferences_window;
+
+	G_OBJECT_CLASS (e_publish_calendar_shell_window_parent_class)->constructed (object);
+
+	shell_window = E_SHELL_WINDOW (e_extension_get_extensible (E_EXTENSION (object)));
+	shell = e_shell_window_get_shell (shell_window);
+	preferences_window = e_shell_get_preferences_window (shell);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"publish-calendar",
+		"x-office-calendar",
+		_("Calendar Publishing"),
+		NULL,
+		(EPreferencesWindowCreatePageFn) publish_calendar_locations,
+		650);
+}
+
+static void
+e_publish_calendar_shell_window_class_init (EPublishCalendarShellWindowClass *class)
+{
+	G_OBJECT_CLASS (class)->constructed = e_publish_calendar_shell_window_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_SHELL_WINDOW;
+}
+
+static void e_publish_calendar_shell_window_class_finalize (EPublishCalendarShellWindowClass *class) { }
+static void e_publish_calendar_shell_window_init (EPublishCalendarShellWindow *self) { }
+
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	e_publish_calendar_shell_view_register_type (type_module);
+	e_publish_calendar_shell_window_register_type (type_module);
+
+	publish_calendar_enable ();
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }
