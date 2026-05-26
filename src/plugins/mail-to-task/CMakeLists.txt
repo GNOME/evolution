@@ -1,5 +1,3 @@
-add_eplug_file(mail-to-task org-gnome-mail-to-task.eplug)
-
 set(DEPENDENCIES
 	email-engine
 	evolution-calendar
@@ -13,24 +11,28 @@ set(SOURCES
 	mail-to-task.c
 )
 
-add_library(org-gnome-mail-to-task MODULE
+add_library(module-mail-to-task MODULE
 	${SOURCES}
 )
 
-add_dependencies(org-gnome-mail-to-task
+set_target_properties(module-mail-to-task PROPERTIES
+	PREFIX ""
+)
+
+add_dependencies(module-mail-to-task
 	${DEPENDENCIES}
 )
 
-target_compile_definitions(org-gnome-mail-to-task PRIVATE
+target_compile_definitions(module-mail-to-task PRIVATE
 	-DG_LOG_DOMAIN=\"mail-to-task\"
 )
 
-target_compile_options(org-gnome-mail-to-task PUBLIC
+target_compile_options(module-mail-to-task PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 )
 
-target_include_directories(org-gnome-mail-to-task PUBLIC
+target_include_directories(module-mail-to-task PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
@@ -39,12 +41,12 @@ target_include_directories(org-gnome-mail-to-task PUBLIC
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 )
 
-target_link_libraries(org-gnome-mail-to-task
+target_link_libraries(module-mail-to-task
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )
 
-install(TARGETS org-gnome-mail-to-task
-	DESTINATION ${plugindir}
+install(TARGETS module-mail-to-task
+	DESTINATION ${moduledir}
 )

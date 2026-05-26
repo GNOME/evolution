@@ -16,9 +16,9 @@
 #include <libecal/libecal.h>
 
 #include "shell/e-shell-view.h"
-#include "shell/e-shell-window-actions.h"
 
 #include "mail/e-mail-browser.h"
+#include "mail/e-mail-paned-view.h"
 #include "mail/e-mail-view.h"
 #include "mail/em-utils.h"
 #include "mail/message-list.h"
@@ -29,21 +29,6 @@
 #include "calendar/gui/itip-utils.h"
 
 #include "libemail-engine/libemail-engine.h"
-
-#define E_SHELL_WINDOW_ACTION_CONVERT_TO_APPOINTMENT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-appointment")
-#define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEETING(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-meeting")
-#define E_SHELL_WINDOW_ACTION_CONVERT_TO_MEMO(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-memo")
-#define E_SHELL_WINDOW_ACTION_CONVERT_TO_TASK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-convert-to-task")
-
-gboolean	mail_to_task_mail_browser_init	(EUIManager *ui_manager,
-						 EMailBrowser *browser);
-gboolean	mail_to_task_mail_shell_view_init
-						(EUIManager *ui_manager,
-						 EShellView *shell_view);
 
 static ECompEditor *
 get_component_editor (EShell *shell,
@@ -1461,29 +1446,82 @@ setup_actions (EMailReader *reader,
 		G_CALLBACK (update_actions_cb), ui_manager, 0);
 }
 
-gboolean
-mail_to_task_mail_browser_init (EUIManager *ui_manager,
-				EMailBrowser *browser)
-{
-	setup_actions (E_MAIL_READER (browser), ui_manager);
+/* -------------------------------------------------------------------  */
+/*                     EExtension types                                 */
+/* -------------------------------------------------------------------  */
 
-	return TRUE;
+typedef struct _EMailToTaskPanedView EMailToTaskPanedView;
+typedef struct _EMailToTaskPanedViewClass EMailToTaskPanedViewClass;
+struct _EMailToTaskPanedView { EExtension parent; };
+struct _EMailToTaskPanedViewClass { EExtensionClass parent_class; };
+
+typedef struct _EMailToTaskBrowser EMailToTaskBrowser;
+typedef struct _EMailToTaskBrowserClass EMailToTaskBrowserClass;
+struct _EMailToTaskBrowser { EExtension parent; };
+struct _EMailToTaskBrowserClass { EExtensionClass parent_class; };
+
+GType e_mail_to_task_paned_view_get_type (void);
+G_DEFINE_DYNAMIC_TYPE (EMailToTaskPanedView, e_mail_to_task_paned_view, E_TYPE_EXTENSION)
+GType e_mail_to_task_browser_get_type (void);
+G_DEFINE_DYNAMIC_TYPE (EMailToTaskBrowser, e_mail_to_task_browser, E_TYPE_EXTENSION)
+
+static void
+e_mail_to_task_paned_view_constructed (GObject *object)
+{
+	EMailPanedView *mail_view;
+	EUIManager *ui_manager;
+
+	G_OBJECT_CLASS (e_mail_to_task_paned_view_parent_class)->constructed (object);
+
+	mail_view = E_MAIL_PANED_VIEW (e_extension_get_extensible (E_EXTENSION (object)));
+	ui_manager = e_mail_reader_get_ui_manager (E_MAIL_READER (mail_view));
+	setup_actions (E_MAIL_READER (mail_view), ui_manager);
 }
 
-gboolean
-mail_to_task_mail_shell_view_init (EUIManager *ui_manager,
-				   EShellView *shell_view)
+static void
+e_mail_to_task_paned_view_class_init (EMailToTaskPanedViewClass *class)
 {
-	EShellContent *shell_content;
-	EMailView *mail_view = NULL;
+	G_OBJECT_CLASS (class)->constructed = e_mail_to_task_paned_view_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_MAIL_PANED_VIEW;
+}
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	g_object_get (shell_content, "mail-view", &mail_view, NULL);
+static void e_mail_to_task_paned_view_class_finalize (EMailToTaskPanedViewClass *class) { }
+static void e_mail_to_task_paned_view_init (EMailToTaskPanedView *self) { }
 
-	if (mail_view) {
-		setup_actions (E_MAIL_READER (mail_view), ui_manager);
-		g_clear_object (&mail_view);
-	}
+static void
+e_mail_to_task_browser_constructed (GObject *object)
+{
+	EMailBrowser *browser;
+	EUIManager *ui_manager;
 
-	return TRUE;
+	G_OBJECT_CLASS (e_mail_to_task_browser_parent_class)->constructed (object);
+
+	browser = E_MAIL_BROWSER (e_extension_get_extensible (E_EXTENSION (object)));
+	ui_manager = e_mail_reader_get_ui_manager (E_MAIL_READER (browser));
+	setup_actions (E_MAIL_READER (browser), ui_manager);
+}
+
+static void
+e_mail_to_task_browser_class_init (EMailToTaskBrowserClass *class)
+{
+	G_OBJECT_CLASS (class)->constructed = e_mail_to_task_browser_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_MAIL_BROWSER;
+}
+
+static void e_mail_to_task_browser_class_finalize (EMailToTaskBrowserClass *class) { }
+static void e_mail_to_task_browser_init (EMailToTaskBrowser *self) { }
+
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	e_mail_to_task_paned_view_register_type (type_module);
+	e_mail_to_task_browser_register_type (type_module);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }
