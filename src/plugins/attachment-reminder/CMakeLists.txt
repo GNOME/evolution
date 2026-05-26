@@ -1,5 +1,4 @@
 add_error_files(attachment-reminder org-gnome-attachment-reminder.error)
-add_eplug_file(attachment-reminder org-gnome-evolution-attachment-reminder.eplug)
 
 set(DEPENDENCIES
 	econtacteditor
@@ -14,24 +13,28 @@ set(SOURCES
 	attachment-reminder.c
 )
 
-add_library(org-gnome-evolution-attachment-reminder MODULE
+add_library(module-attachment-reminder MODULE
 	${SOURCES}
 )
 
-add_dependencies(org-gnome-evolution-attachment-reminder
+set_target_properties(module-attachment-reminder PROPERTIES
+	PREFIX ""
+)
+
+add_dependencies(module-attachment-reminder
 	${DEPENDENCIES}
 )
 
-target_compile_definitions(org-gnome-evolution-attachment-reminder PRIVATE
+target_compile_definitions(module-attachment-reminder PRIVATE
 	-DG_LOG_DOMAIN=\"attachment-reminder\"
 )
 
-target_compile_options(org-gnome-evolution-attachment-reminder PUBLIC
+target_compile_options(module-attachment-reminder PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 )
 
-target_include_directories(org-gnome-evolution-attachment-reminder PUBLIC
+target_include_directories(module-attachment-reminder PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
@@ -40,12 +43,12 @@ target_include_directories(org-gnome-evolution-attachment-reminder PUBLIC
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 )
 
-target_link_libraries(org-gnome-evolution-attachment-reminder
+target_link_libraries(module-attachment-reminder
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )
 
-install(TARGETS org-gnome-evolution-attachment-reminder
-	DESTINATION ${plugindir}
+install(TARGETS module-attachment-reminder
+	DESTINATION ${moduledir}
 )

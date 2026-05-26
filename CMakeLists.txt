@@ -667,7 +667,6 @@ set(plugins_base
 	publish-calendar
 )
 set(plugins_standard
-	attachment-reminder
 	bbdb
 	dbx-import
 	email-custom-header
