@@ -1,5 +1,3 @@
-add_eplug_file(templates org-gnome-templates.eplug)
-
 set(DEPENDENCIES
 	email-engine
 	evolution-mail
@@ -12,24 +10,28 @@ set(SOURCES
 	templates.c
 )
 
-add_library(org-gnome-templates MODULE
+add_library(module-templates MODULE
 	${SOURCES}
 )
 
-add_dependencies(org-gnome-templates
+set_target_properties(module-templates PROPERTIES
+	PREFIX ""
+)
+
+add_dependencies(module-templates
 	${DEPENDENCIES}
 )
 
-target_compile_definitions(org-gnome-templates PRIVATE
+target_compile_definitions(module-templates PRIVATE
 	-DG_LOG_DOMAIN=\"templates\"
 )
 
-target_compile_options(org-gnome-templates PUBLIC
+target_compile_options(module-templates PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 )
 
-target_include_directories(org-gnome-templates PUBLIC
+target_include_directories(module-templates PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
@@ -38,12 +40,12 @@ target_include_directories(org-gnome-templates PUBLIC
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 )
 
-target_link_libraries(org-gnome-templates
+target_link_libraries(module-templates
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )
 
-install(TARGETS org-gnome-templates
-	DESTINATION ${plugindir}
+install(TARGETS module-templates
+	DESTINATION ${moduledir}
 )

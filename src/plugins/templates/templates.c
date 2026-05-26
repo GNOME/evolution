@@ -11,12 +11,13 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <string.h>
 
 #include "e-util/e-util.h"
 
 #include "shell/e-shell-view.h"
 
+#include "mail/e-mail-browser.h"
+#include "mail/e-mail-paned-view.h"
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"
 #include "mail/e-mail-ui-session.h"
@@ -28,8 +29,6 @@
 #include "mail/message-list.h"
 
 #include "composer/e-msg-composer.h"
-
-#define CONF_KEY_TEMPLATE_PLACEHOLDERS "template-placeholders"
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -48,32 +47,6 @@ struct _AsyncContext {
 	EMailPartValidityFlags validity_pgp_sum;
 	EMailPartValidityFlags validity_smime_sum;
 };
-
-typedef struct {
-	GSettings   *settings;
-	GtkWidget   *treeview;
-	GtkWidget   *clue_add;
-	GtkWidget   *clue_edit;
-	GtkWidget   *clue_remove;
-	GtkListStore *store;
-} UIData;
-
-enum {
-	CLUE_KEYWORD_COLUMN,
-	CLUE_VALUE_COLUMN,
-	CLUE_N_COLUMNS
-};
-
-GtkWidget *	e_plugin_lib_get_configure_widget
-						(EPlugin *plugin);
-gboolean	init_composer_actions		(EUIManager *ui_manager,
-						 EMsgComposer *composer);
-gboolean	init_mail_actions		(EUIManager *ui_manager,
-						 EShellView *shell_view);
-gboolean	init_mail_browser_actions	(EUIManager *ui_manager,
-						 EMailBrowser *mail_browser);
-gint		e_plugin_lib_enable		(EPlugin *plugin,
-						 gboolean enabled);
 
 #define TEMPLATES_DATA_KEY "templates::data"
 
@@ -110,20 +83,6 @@ templates_data_free (gpointer ptr)
 	}
 }
 
-/* Thanks to attachment reminder plugin for this*/
-static void commit_changes (UIData *ui);
-
-static void  key_cell_edited_callback (GtkCellRendererText *cell, gchar *path_string,
-				   gchar *new_text,UIData *ui);
-
-static void  value_cell_edited_callback (GtkCellRendererText *cell, gchar *path_string,
-				   gchar *new_text,UIData *ui);
-
-static gboolean clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath
-					*path, GtkTreeIter *iter, UIData *ui);
-
-static gboolean plugin_enabled;
-
 static void
 async_context_free (AsyncContext *context)
 {
@@ -140,425 +99,6 @@ async_context_free (AsyncContext *context)
 	g_free (context->template_message_uid);
 
 	g_slice_free (AsyncContext, context);
-}
-
-static void
-selection_changed (GtkTreeSelection *selection,
-                   UIData *ui)
-{
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_widget_set_sensitive (ui->clue_edit, TRUE);
-		gtk_widget_set_sensitive (ui->clue_remove, TRUE);
-	} else {
-		gtk_widget_set_sensitive (ui->clue_edit, FALSE);
-		gtk_widget_set_sensitive (ui->clue_remove, FALSE);
-	}
-}
-
-static void
-destroy_ui_data (gpointer data)
-{
-	UIData *ui = (UIData *) data;
-
-	if (!ui)
-		return;
-
-	g_object_unref (ui->settings);
-	g_free (ui);
-}
-
-static void
-commit_changes (UIData *ui)
-{
-	GtkTreeModel *model = NULL;
-	GVariantBuilder b;
-	GtkTreeIter iter;
-	gboolean valid;
-	GVariant *v;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-	valid = gtk_tree_model_get_iter_first (model, &iter);
-
-	g_variant_builder_init (&b, G_VARIANT_TYPE ("as"));
-	while (valid) {
-		gchar *keyword, *value;
-		gchar *key;
-
-		gtk_tree_model_get (
-			model, &iter,
-			CLUE_KEYWORD_COLUMN, &keyword,
-			CLUE_VALUE_COLUMN, &value,
-			-1);
-
-		/* Check if the keyword and value are not empty */
-		if ((keyword) && (value) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)
-			&& (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
-			key = g_strdup_printf ("%s=%s", keyword, value);
-			g_variant_builder_add (&b, "s", key);
-		}
-
-		g_free (keyword);
-		g_free (value);
-
-		valid = gtk_tree_model_iter_next (model, &iter);
-	}
-
-	/* A floating GVariant is returned, which is consumed by the g_settings_set_value() */
-	v = g_variant_builder_end (&b);
-	g_settings_set_value (ui->settings, CONF_KEY_TEMPLATE_PLACEHOLDERS, v);
-}
-
-static void
-clue_check_isempty (GtkTreeModel *model,
-                    GtkTreePath *path,
-                    GtkTreeIter *iter,
-                    UIData *ui)
-{
-	GtkTreeSelection *selection;
-	gchar *keyword = NULL;
-	gboolean valid;
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
-	/* move to the previous node */
-	valid = gtk_tree_path_prev (path);
-
-	gtk_tree_model_get (model, iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
-	if ((keyword) && !(g_utf8_strlen (g_strstrip (keyword), -1) > 0))
-		gtk_list_store_remove (ui->store, iter);
-
-	/* Check if we have a valid row to select. If not, then select
-	 * the previous row */
-	if (gtk_list_store_iter_is_valid (GTK_LIST_STORE (model), iter)) {
-		gtk_tree_selection_select_iter (selection, iter);
-	} else {
-		if (path && valid) {
-			gtk_tree_model_get_iter (model, iter, path);
-			gtk_tree_selection_select_iter (selection, iter);
-		}
-	}
-
-	gtk_widget_grab_focus (ui->treeview);
-	g_free (keyword);
-}
-
-static gboolean
-clue_foreach_check_isempty (GtkTreeModel *model,
-                            GtkTreePath *path,
-                            GtkTreeIter *iter,
-                            UIData *ui)
-{
-	gboolean valid;
-
-	valid = gtk_tree_model_get_iter_first (model, iter);
-	while (valid && gtk_list_store_iter_is_valid (ui->store, iter)) {
-		gchar *keyword = NULL;
-		gtk_tree_model_get (model, iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
-		/* Check if the keyword is not empty and then emit the row-changed
-		signal (if we delete the row, then the iter gets corrupted) */
-		if ((keyword) && !(g_utf8_strlen (g_strstrip (keyword), -1) > 0))
-			gtk_tree_model_row_changed (model, path, iter);
-
-		g_free (keyword);
-		valid = gtk_tree_model_iter_next (model, iter);
-	}
-
-	return FALSE;
-}
-
-static void
-key_cell_edited_callback (GtkCellRendererText *cell,
-                          gchar *path_string,
-                          gchar *new_text,
-                          UIData *ui)
-{
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *value;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-
-	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
-
-	gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		CLUE_KEYWORD_COLUMN, new_text, CLUE_VALUE_COLUMN, value, -1);
-	g_free (value);
-
-	commit_changes (ui);
-}
-
-static void
-value_cell_edited_callback (GtkCellRendererText *cell,
-                            gchar *path_string,
-                            gchar *new_text,
-                            UIData *ui)
-{
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *keyword;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-
-	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
-
-	gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
-
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		CLUE_KEYWORD_COLUMN, keyword, CLUE_VALUE_COLUMN, new_text, -1);
-	g_free (keyword);
-
-	commit_changes (ui);
-}
-
-static void
-clue_add_clicked (GtkButton *button,
-                  UIData *ui)
-{
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gchar *new_clue = NULL;
-	GtkTreeViewColumn *focus_col;
-	GtkTreePath *path;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) clue_foreach_check_isempty, ui);
-
-	/* Disconnect from signal so that we can create an empty row */
-	g_signal_handlers_disconnect_matched (
-		model, G_SIGNAL_MATCH_FUNC,
-		0, 0, NULL, clue_check_isempty, ui);
-
-	/* TODO : Trim and check for blank strings */
-	new_clue = g_strdup ("");
-	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		CLUE_KEYWORD_COLUMN, new_clue, CLUE_VALUE_COLUMN, new_clue, -1);
-
-	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);
-	path = gtk_tree_model_get_path (model, &iter);
-
-	if (path) {
-		gtk_tree_view_set_cursor (GTK_TREE_VIEW (ui->treeview), path, focus_col, TRUE);
-		gtk_tree_view_row_activated (GTK_TREE_VIEW (ui->treeview), path, focus_col);
-		gtk_tree_path_free (path);
-	}
-
-	/* We have done our job, connect back to the signal */
-	g_signal_connect (
-		model, "row-changed",
-		G_CALLBACK (clue_check_isempty), ui);
-}
-
-static void
-clue_remove_clicked (GtkButton *button,
-                     UIData *ui)
-{
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GtkTreePath *path;
-	gboolean valid;
-	gint len;
-
-	valid = FALSE;
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
-	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
-		return;
-
-	/* Get the path and move to the previous node :) */
-	path = gtk_tree_model_get_path (model, &iter);
-	if (path)
-		valid = gtk_tree_path_prev (path);
-
-	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-
-	len = gtk_tree_model_iter_n_children (model, NULL);
-	if (len > 0) {
-		if (gtk_list_store_iter_is_valid (GTK_LIST_STORE (model), &iter)) {
-			gtk_tree_selection_select_iter (selection, &iter);
-		} else {
-			if (path && valid) {
-				gtk_tree_model_get_iter (model, &iter, path);
-				gtk_tree_selection_select_iter (selection, &iter);
-			}
-		}
-	} else {
-		gtk_widget_set_sensitive (ui->clue_edit, FALSE);
-		gtk_widget_set_sensitive (ui->clue_remove, FALSE);
-	}
-
-	gtk_widget_grab_focus (ui->treeview);
-	gtk_tree_path_free (path);
-
-	commit_changes (ui);
-}
-
-static void
-clue_edit_clicked (GtkButton *button,
-                   UIData *ui)
-{
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	GtkTreeViewColumn *focus_col;
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
-	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
-		return;
-
-	focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (ui->treeview), CLUE_KEYWORD_COLUMN);
-	path = gtk_tree_model_get_path (model, &iter);
-
-	if (path) {
-		gtk_tree_view_set_cursor (GTK_TREE_VIEW (ui->treeview), path, focus_col, TRUE);
-		gtk_tree_path_free (path);
-	}
-}
-
-GtkWidget *
-e_plugin_lib_get_configure_widget (EPlugin *epl)
-{
-	GtkCellRenderer *renderer_key, *renderer_value;
-	GtkTreeSelection *selection;
-	GtkTreeIter iter;
-	GtkWidget *hbox;
-	gchar **clue_list;
-	gint i;
-	GtkTreeModel *model;
-	GtkWidget *templates_configuration_box;
-	GtkWidget *clue_container;
-	GtkWidget *scrolledwindow1;
-	GtkWidget *clue_treeview;
-	GtkWidget *vbuttonbox2;
-	GtkWidget *clue_add;
-	GtkWidget *clue_edit;
-	GtkWidget *clue_remove;
-
-	UIData *ui = g_new0 (UIData, 1);
-
-	templates_configuration_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-	gtk_widget_show (templates_configuration_box);
-	gtk_widget_set_size_request (templates_configuration_box, 385, 189);
-
-	clue_container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
-	gtk_widget_show (clue_container);
-	gtk_box_pack_start (GTK_BOX (templates_configuration_box), clue_container, TRUE, TRUE, 0);
-
-	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_show (scrolledwindow1);
-	gtk_box_pack_start (GTK_BOX (clue_container), scrolledwindow1, TRUE, TRUE, 0);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow1), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	clue_treeview = gtk_tree_view_new ();
-	gtk_widget_show (clue_treeview);
-	gtk_container_add (GTK_CONTAINER (scrolledwindow1), clue_treeview);
-	gtk_container_set_border_width (GTK_CONTAINER (clue_treeview), 1);
-
-	vbuttonbox2 = gtk_button_box_new (GTK_ORIENTATION_VERTICAL);
-	gtk_widget_show (vbuttonbox2);
-	gtk_box_pack_start (GTK_BOX (clue_container), vbuttonbox2, FALSE, TRUE, 0);
-	gtk_button_box_set_layout (GTK_BUTTON_BOX (vbuttonbox2), GTK_BUTTONBOX_START);
-	gtk_box_set_spacing (GTK_BOX (vbuttonbox2), 6);
-
-	clue_add = e_dialog_button_new_with_icon ("list-add", _("_Add"));
-	gtk_widget_show (clue_add);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_add);
-	gtk_widget_set_can_default (clue_add, TRUE);
-
-	clue_edit = gtk_button_new_with_mnemonic (_("_Edit"));
-	gtk_widget_show (clue_edit);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_edit);
-	gtk_widget_set_can_default (clue_edit, TRUE);
-
-	clue_remove = e_dialog_button_new_with_icon ("list-remove", _("_Remove"));
-	gtk_widget_show (clue_remove);
-	gtk_container_add (GTK_CONTAINER (vbuttonbox2), clue_remove);
-	gtk_widget_set_can_default (clue_remove, TRUE);
-
-	ui->settings = e_util_ref_settings ("org.gnome.evolution.plugin.templates");
-
-	ui->treeview = clue_treeview;
-
-	ui->store = gtk_list_store_new (CLUE_N_COLUMNS, G_TYPE_STRING, G_TYPE_STRING);
-
-	gtk_tree_view_set_model (GTK_TREE_VIEW (ui->treeview), GTK_TREE_MODEL (ui->store));
-
-	renderer_key = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (
-		GTK_TREE_VIEW (ui->treeview), -1, _("Keywords"),
-		renderer_key, "text", CLUE_KEYWORD_COLUMN, NULL);
-	g_object_set (renderer_key, "editable", TRUE, NULL);
-	g_signal_connect (
-		renderer_key, "edited",
-		(GCallback) key_cell_edited_callback, ui);
-
-	renderer_value = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (
-		GTK_TREE_VIEW (ui->treeview), -1, _("Values"),
-		renderer_value, "text", CLUE_VALUE_COLUMN, NULL);
-	g_object_set (renderer_value, "editable", TRUE, NULL);
-	g_signal_connect (
-		renderer_value, "edited",
-		(GCallback) value_cell_edited_callback, ui);
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ui->treeview));
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (
-		selection, "changed",
-		G_CALLBACK (selection_changed), ui);
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ui->treeview), TRUE);
-
-	ui->clue_add = clue_add;
-	g_signal_connect (
-		ui->clue_add, "clicked",
-		G_CALLBACK (clue_add_clicked), ui);
-
-	ui->clue_remove = clue_remove;
-	g_signal_connect (
-		ui->clue_remove, "clicked",
-		G_CALLBACK (clue_remove_clicked), ui);
-	gtk_widget_set_sensitive (ui->clue_remove, FALSE);
-
-	ui->clue_edit = clue_edit;
-	g_signal_connect (
-		ui->clue_edit, "clicked",
-		G_CALLBACK (clue_edit_clicked), ui);
-	gtk_widget_set_sensitive (ui->clue_edit, FALSE);
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
-	g_signal_connect (
-		model, "row-changed",
-		G_CALLBACK (clue_check_isempty), ui);
-
-	/* Populate tree view with values from GSettings */
-	clue_list = g_settings_get_strv (ui->settings, CONF_KEY_TEMPLATE_PLACEHOLDERS);
-
-	for (i = 0; clue_list[i] != NULL; i++) {
-		gchar **temp = g_strsplit (clue_list[i], "=", 2);
-		gtk_list_store_append (ui->store, &iter);
-		gtk_list_store_set (ui->store, &iter, CLUE_KEYWORD_COLUMN, temp[0], CLUE_VALUE_COLUMN, temp[1], -1);
-		g_strfreev (temp);
-	}
-
-	g_strfreev (clue_list);
-
-	/* Add the list here */
-
-	hbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-
-	gtk_box_pack_start (GTK_BOX (hbox), templates_configuration_box, TRUE, TRUE, 0);
-
-	/* to let free data properly on destroy of configuration widget */
-	g_object_set_data_full (G_OBJECT (hbox), "myui-data", ui, destroy_ui_data);
-
-	return hbox;
 }
 
 static void
@@ -1010,9 +550,6 @@ templates_mail_reader_update_actions_cb (EMailReader *reader,
 	TemplatesData *td;
 	gboolean sensitive;
 
-	if (!plugin_enabled)
-		return;
-
 	td = g_object_get_data (G_OBJECT (reader), TEMPLATES_DATA_KEY);
 	if (td && td->changed)
 		templates_update_menu (td);
@@ -1023,7 +560,7 @@ templates_mail_reader_update_actions_cb (EMailReader *reader,
 	e_ui_action_set_sensitive (e_mail_reader_get_action (reader, "template-use-this"), sensitive);
 }
 
-gboolean
+static void
 init_composer_actions (EUIManager *ui_manager,
                        EMsgComposer *composer)
 {
@@ -1062,8 +599,6 @@ init_composer_actions (EUIManager *ui_manager,
 
 	g_signal_connect (composer, "realize",
 		G_CALLBACK (templates_composer_realize_cb), NULL);
-
-	return TRUE;
 }
 
 static gboolean
@@ -1194,47 +729,135 @@ init_actions_for_mail_backend (EMailBackend *mail_backend,
 	templates_update_menu (td);
 }
 
-gboolean
-init_mail_actions (EUIManager *ui_manager,
-		   EShellView *shell_view)
-{
-	EShellBackend *shell_backend;
-	EShellContent *shell_content;
-	EMailView *mail_view = NULL;
-
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	g_object_get (shell_content, "mail-view", &mail_view, NULL);
-	if (mail_view) {
-		init_actions_for_mail_backend (E_MAIL_BACKEND (shell_backend), ui_manager, E_MAIL_READER (mail_view), FALSE);
-
-		g_signal_connect (
-			mail_view, "update-actions",
-			G_CALLBACK (templates_mail_reader_update_actions_cb), NULL);
-
-		g_clear_object (&mail_view);
-	}
-
-	return TRUE;
-}
-
-gboolean
+static void
 init_mail_browser_actions (EUIManager *ui_manager,
 			   EMailBrowser *mail_browser)
 {
 	EMailReader *reader = E_MAIL_READER (mail_browser);
 
 	init_actions_for_mail_backend (e_mail_reader_get_backend (reader), ui_manager, reader, TRUE);
-
-	return TRUE;
 }
 
-gint
-e_plugin_lib_enable (EPlugin *plugin,
-                     gboolean enabled)
-{
-	plugin_enabled = enabled;
+/* -------------------------------------------------------------------  */
+/*                     EExtension types                                  */
+/* -------------------------------------------------------------------  */
 
-	return 0;
+typedef struct _ETemplatesMailPanedView ETemplatesMailPanedView;
+typedef struct _ETemplatesMailPanedViewClass ETemplatesMailPanedViewClass;
+struct _ETemplatesMailPanedView { EExtension parent; };
+struct _ETemplatesMailPanedViewClass { EExtensionClass parent_class; };
+
+typedef struct _ETemplatesComposer ETemplatesComposer;
+typedef struct _ETemplatesComposerClass ETemplatesComposerClass;
+struct _ETemplatesComposer { EExtension parent; };
+struct _ETemplatesComposerClass { EExtensionClass parent_class; };
+
+typedef struct _ETemplatesBrowser ETemplatesBrowser;
+typedef struct _ETemplatesBrowserClass ETemplatesBrowserClass;
+struct _ETemplatesBrowser { EExtension parent; };
+struct _ETemplatesBrowserClass { EExtensionClass parent_class; };
+
+GType e_templates_mail_paned_view_get_type (void);
+G_DEFINE_DYNAMIC_TYPE (ETemplatesMailPanedView, e_templates_mail_paned_view, E_TYPE_EXTENSION)
+GType e_templates_composer_get_type (void);
+G_DEFINE_DYNAMIC_TYPE (ETemplatesComposer, e_templates_composer, E_TYPE_EXTENSION)
+GType e_templates_browser_get_type (void);
+G_DEFINE_DYNAMIC_TYPE (ETemplatesBrowser, e_templates_browser, E_TYPE_EXTENSION)
+
+static void
+e_templates_mail_paned_view_constructed (GObject *object)
+{
+	EMailView *mail_view;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EUIManager *ui_manager;
+
+	G_OBJECT_CLASS (e_templates_mail_paned_view_parent_class)->constructed (object);
+
+	mail_view = E_MAIL_VIEW (e_extension_get_extensible (E_EXTENSION (object)));
+	shell_view = e_mail_view_get_shell_view (mail_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	ui_manager = e_mail_reader_get_ui_manager (E_MAIL_READER (mail_view));
+
+	init_actions_for_mail_backend (E_MAIL_BACKEND (shell_backend), ui_manager, E_MAIL_READER (mail_view), FALSE);
+
+	g_signal_connect (
+		mail_view, "update-actions",
+		G_CALLBACK (templates_mail_reader_update_actions_cb), NULL);
+}
+
+static void
+e_templates_mail_paned_view_class_init (ETemplatesMailPanedViewClass *class)
+{
+	G_OBJECT_CLASS (class)->constructed = e_templates_mail_paned_view_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_MAIL_PANED_VIEW;
+}
+
+static void e_templates_mail_paned_view_class_finalize (ETemplatesMailPanedViewClass *class) { }
+static void e_templates_mail_paned_view_init (ETemplatesMailPanedView *self) { }
+
+static void
+e_templates_composer_constructed (GObject *object)
+{
+	EMsgComposer *composer;
+	EHTMLEditor *editor;
+	EUIManager *ui_manager;
+
+	G_OBJECT_CLASS (e_templates_composer_parent_class)->constructed (object);
+
+	composer = E_MSG_COMPOSER (e_extension_get_extensible (E_EXTENSION (object)));
+	editor = e_msg_composer_get_editor (composer);
+	ui_manager = e_html_editor_get_ui_manager (editor);
+
+	init_composer_actions (ui_manager, composer);
+}
+
+static void
+e_templates_composer_class_init (ETemplatesComposerClass *class)
+{
+	G_OBJECT_CLASS (class)->constructed = e_templates_composer_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_MSG_COMPOSER;
+}
+
+static void e_templates_composer_class_finalize (ETemplatesComposerClass *class) { }
+static void e_templates_composer_init (ETemplatesComposer *self) { }
+
+static void
+e_templates_browser_constructed (GObject *object)
+{
+	EMailBrowser *browser;
+	EUIManager *ui_manager;
+
+	G_OBJECT_CLASS (e_templates_browser_parent_class)->constructed (object);
+
+	browser = E_MAIL_BROWSER (e_extension_get_extensible (E_EXTENSION (object)));
+	ui_manager = e_mail_reader_get_ui_manager (E_MAIL_READER (browser));
+
+	init_mail_browser_actions (ui_manager, browser);
+}
+
+static void
+e_templates_browser_class_init (ETemplatesBrowserClass *class)
+{
+	G_OBJECT_CLASS (class)->constructed = e_templates_browser_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_MAIL_BROWSER;
+}
+
+static void e_templates_browser_class_finalize (ETemplatesBrowserClass *class) { }
+static void e_templates_browser_init (ETemplatesBrowser *self) { }
+
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	e_templates_mail_paned_view_register_type (type_module);
+	e_templates_composer_register_type (type_module);
+	e_templates_browser_register_type (type_module);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }

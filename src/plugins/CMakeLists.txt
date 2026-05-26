@@ -14,6 +14,7 @@ add_subdirectory(mail-to-task)
 add_subdirectory(mailing-list-actions)
 add_subdirectory(save-calendar)
 add_subdirectory(sender-validation)
+add_subdirectory(templates)
 
 if(ENABLE_PST_IMPORT)
 	add_subdirectory(pst-import)
