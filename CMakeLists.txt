@@ -669,7 +669,6 @@ set(plugins_base
 set(plugins_standard
 	bbdb
 	dbx-import
-	email-custom-header
 	mail-to-task
 	mailing-list-actions
 	mail-notification
