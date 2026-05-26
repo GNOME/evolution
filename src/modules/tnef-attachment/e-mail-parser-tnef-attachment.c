@@ -74,8 +74,8 @@ static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir);
 /* Other Prototypes */
 static void fprintProperty (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]);
 static void fprintUserProp (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD propid, const gchar text[]);
-static void quotedfprint (FILE *fptr, variableLength *vl);
-static void cstylefprint (FILE *fptr, variableLength *vl);
+static void quotedfprint (FILE *fptr, const gchar *s, gsize len);
+static void cstylefprint (FILE *fptr, const gchar *s, gsize len);
 static void printRtf (FILE *fptr, variableLength *vl);
 static void printRrule (FILE *fptr, const guchar *recur_data, gint size, TNEFStruct *tnef);
 static guchar getRruleCount (guchar a, guchar b);
@@ -297,36 +297,42 @@ e_mail_parser_tnef_attachment_type_register (GTypeModule *type_module)
 	e_mail_parser_tnef_attachment_register_type (type_module);
 }
 
-static variableLength *
+static gchar *
 e_tnef_get_string_prop (MAPIProps *props,
 			guint32 tagid)
 {
 	variableLength *res;
 
 	res = MAPIFindProperty (props, PROP_TAG (PT_UNICODE, tagid));
+	if (res != MAPI_UNDEFINED && res->data)
+		return g_strndup ((const gchar *) res->data,
+			strnlen ((const gchar *) res->data, res->size));
 
-	if (res == MAPI_UNDEFINED)
-		res = MAPIFindProperty (props, PROP_TAG (PT_STRING8, tagid));
-	else if (res->data)
-		res->size = strlen ((const gchar *) res->data);
+	res = MAPIFindProperty (props, PROP_TAG (PT_STRING8, tagid));
+	if (res != MAPI_UNDEFINED && res->data)
+		return g_strndup ((const gchar *) res->data,
+			strnlen ((const gchar *) res->data, res->size));
 
-	return res;
+	return NULL;
 }
 
-static variableLength *
+static gchar *
 e_tnef_get_string_user_prop (MAPIProps *props,
 			     guint32 tagid)
 {
 	variableLength *res;
 
 	res = MAPIFindUserProp (props, PROP_TAG (PT_UNICODE, tagid));
+	if (res != MAPI_UNDEFINED && res->data)
+		return g_strndup ((const gchar *) res->data,
+			strnlen ((const gchar *) res->data, res->size));
 
-	if (res == MAPI_UNDEFINED)
-		res = MAPIFindUserProp (props, PROP_TAG (PT_STRING8, tagid));
-	else if (res->data)
-		res->size = strlen ((const gchar *) res->data);
+	res = MAPIFindUserProp (props, PROP_TAG (PT_STRING8, tagid));
+	if (res != MAPI_UNDEFINED && res->data)
+		return g_strndup ((const gchar *) res->data,
+			strnlen ((const gchar *) res->data, res->size));
 
-	return res;
+	return NULL;
 }
 
 static void
@@ -334,7 +340,8 @@ extract_attachments (TNEFStruct *tnef,
 		     const gchar *tmpdir,
 		     GSList **out_attachments)
 {
-	variableLength *filename;
+	gchar *filename;
+	gchar *tmp;
 	variableLength *filedata;
 	Attachment *p;
 	gint RealAttachment;
@@ -366,7 +373,7 @@ extract_attachments (TNEFStruct *tnef,
 			 * that does not satisfy this would cause an out-of-bounds read; skip
 			 * the attachment rather than falling back, as the property being present
 			 * but malformed does not imply FileData holds valid content. */
-			if (object && (filedata->data == NULL || filedata->size < (gint) (16 + sizeof (DWORD)))) {
+			if (object && (!filedata->data || filedata->size < (gint) (16 + sizeof (DWORD)))) {
 				g_warning ("TNEF: skipping attachment %d: PR_ATTACH_DATA_OBJ too short (%d bytes)", count, filedata->size);
 				continue;
 			}
@@ -386,42 +393,45 @@ extract_attachments (TNEFStruct *tnef,
 				TNEFFree (&emb_tnef);
 			}
 			if ((RealAttachment == 1) || (saveintermediate == 1)) {
-				gchar tmpname[20];
 				/* Ok, it's not an embedded stream, so now we */
 				/* process it. */
-				if ((filename = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_LONG_FILENAME)) == MAPI_UNDEFINED) {
-					if ((filename = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_FILENAME)) == MAPI_UNDEFINED) {
-						if ((filename = e_tnef_get_string_prop (&(p->MAPI), PR_DISPLAY_NAME)) == MAPI_UNDEFINED) {
-							filename = &(p->Title);
-						}
-					}
-				}
-				if (filename->size == 1) {
-					filename->size = 20;
-					g_sprintf (tmpname, "file_%03i.dat", count);
-					filename->data = (guchar *) tmpname;
+				filename = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_LONG_FILENAME);
+				if (!filename)
+					filename = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_FILENAME);
+				if (!filename)
+					filename = e_tnef_get_string_prop (&(p->MAPI), PR_DISPLAY_NAME);
+				if (!filename && p->Title.data)
+					filename = g_strndup ((const gchar *) p->Title.data,
+						strnlen ((const gchar *) p->Title.data, p->Title.size));
+				if (!filename || !*filename) {
+					g_free (filename);
+					filename = g_strdup_printf ("file_%03i.dat", count);
 				}
 				if (out_attachments) {
 					CamelMimePart *apart;
-					variableLength *tmp;
 
 					apart = camel_mime_part_new ();
 					camel_mime_part_set_content (apart, (const gchar *) filedata->data + (object ? 16 : 0),
 						filedata->size - (object ? 16 : 0), "application/octet-stream");
-					camel_mime_part_set_filename (apart, (const gchar *) filename->data);
+					camel_mime_part_set_filename (apart, filename);
 					camel_mime_part_set_encoding (apart, CAMEL_TRANSFER_ENCODING_BASE64);
 
 					tmp = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_CONTENT_ID);
-					if (tmp != MAPI_UNDEFINED)
-						camel_mime_part_set_content_id (apart, (const gchar *) tmp->data);
+					if (tmp) {
+						camel_mime_part_set_content_id (apart, tmp);
+						g_free (tmp);
+					}
 
 					tmp = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_CONTENT_LOCATION);
-					if (tmp != MAPI_UNDEFINED)
-						camel_mime_part_set_content_location (apart, (const gchar *) tmp->data);
+					if (tmp) {
+						camel_mime_part_set_content_location (apart, tmp);
+						g_free (tmp);
+					}
 
 					tmp = e_tnef_get_string_prop (&(p->MAPI), PR_ATTACH_MIME_TAG);
-					if (tmp != MAPI_UNDEFINED) {
-						camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (apart), (const gchar *) tmp->data);
+					if (tmp) {
+						camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (apart), tmp);
+						g_free (tmp);
 					} else {
 						gchar *guessed_mime_type;
 
@@ -437,9 +447,11 @@ extract_attachments (TNEFStruct *tnef,
 					FILE *fptr;
 					gchar *absfilename, *ifilename;
 
-					absfilename = sanitize_filename ((const gchar *) filename->data);
-					if (!absfilename)
+					absfilename = sanitize_filename (filename);
+					if (!absfilename) {
+						g_free (filename);
 						return;
+					}
 					ifilename = g_build_filename (tmpdir, absfilename, NULL);
 					g_free (absfilename);
 
@@ -451,6 +463,7 @@ extract_attachments (TNEFStruct *tnef,
 					}
 					g_clear_pointer (&ifilename, g_free);
 				}
+				g_free (filename);
 			}
 		} /* if size>0 */
 	}
@@ -463,6 +476,7 @@ processTnef (TNEFStruct *tnef,
 	     GSList **out_attachments) /* CamelMimePart * */
 {
 	variableLength *filename;
+	gchar *str;
 	gchar *ifilename = NULL;
 	gchar *absfilename, *file;
 	gint foundCal = 0;
@@ -479,14 +493,16 @@ processTnef (TNEFStruct *tnef,
 		foundCal = 1;
 	}
 
-	if ((filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x24)) != MAPI_UNDEFINED) {
-		if (strcmp ((const gchar *) filename->data, "IPM.Appointment") == 0 ||
-		    g_str_has_prefix ((const gchar *) filename->data, "IPM.Microsoft Schedule.")) {
+	str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x24);
+	if (str) {
+		if (strcmp (str, "IPM.Appointment") == 0 ||
+		    g_str_has_prefix (str, "IPM.Microsoft Schedule.")) {
 			/* If it's "indicated" twice, we don't want to save 2 calendar entries. */
 			if (foundCal == 0) {
 				saveVCalendar (tnef, tmpdir);
 			}
 		}
+		g_free (str);
 	}
 
 	if (strcmp (tnef->messageClass, "IPM.Microsoft Mail.Note") == 0) {
@@ -497,7 +513,9 @@ processTnef (TNEFStruct *tnef,
 				if ((buf.data = DecompressRTF (filename, &buf.size)) != NULL) {
 					FILE *fptr;
 
-					file = sanitize_filename ((const gchar *) tnef->subject.data);
+					str = g_strndup ((const gchar *) tnef->subject.data, tnef->subject.size);
+					file = sanitize_filename (str);
+					g_free (str);
 					if (!file)
 						return;
 					absfilename = g_strconcat (file, ".rtf", NULL);
@@ -516,18 +534,30 @@ processTnef (TNEFStruct *tnef,
 				}
 			}
 		} else if (out_mainpart) {
-			variableLength *body_html;
+			gchar *body_html_str;
+			const gchar *html_data = NULL;
+			gsize html_size = 0;
 
-			body_html = e_tnef_get_string_user_prop (&(tnef->MapiProperties), PR_BODY_HTML);
-			if (body_html == MAPI_UNDEFINED)
+			body_html_str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), PR_BODY_HTML);
+			if (body_html_str) {
+				html_data = body_html_str;
+				html_size = strlen (body_html_str);
+			} else {
+				variableLength *body_html;
+
 				body_html = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_BINARY, PR_BODY_HTML));
-			if (body_html != MAPI_UNDEFINED) {
+				if (body_html != MAPI_UNDEFINED) {
+					html_data = (const gchar *) body_html->data;
+					html_size = body_html->size;
+				}
+			}
+			if (html_data) {
 				CamelMultipart *mp;
 				GSList *attachments = NULL, *link;
 
 				*out_mainpart = camel_mime_part_new ();
 				camel_mime_part_set_encoding (*out_mainpart, CAMEL_TRANSFER_ENCODING_BINARY);
-				camel_mime_part_set_content (*out_mainpart, (const gchar *) body_html->data, body_html->size, "text/html");
+				camel_mime_part_set_content (*out_mainpart, html_data, html_size, "text/html");
 
 				extract_attachments (tnef, tmpdir, &attachments);
 
@@ -572,8 +602,10 @@ processTnef (TNEFStruct *tnef,
 					}
 				}
 
+				g_free (body_html_str);
 				return;
 			}
+			g_free (body_html_str);
 		}
 	}
 
@@ -588,31 +620,30 @@ saveVCard (TNEFStruct *tnef,
     gchar *ifilename;
     gchar *absfilename, *file = NULL;
     FILE *fptr;
-    variableLength *vl;
-    variableLength *pobox, *street, *city, *state, *zip, *country;
+    gchar *vl;
+    gchar *pobox, *street, *city, *state, *zip, *country;
+    variableLength *vlp;
     dtr thedate;
-    gint boolean;
 
-    if ((vl = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_DISPLAY_NAME)) == MAPI_UNDEFINED) {
-	if ((vl = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_COMPANY_NAME)) == MAPI_UNDEFINED) {
-	    if (tnef->subject.size > 0) {
-	       file = sanitize_filename ((const gchar *) tnef->subject.data);
-		if (!file)
-		    return;
-		absfilename = g_strconcat (file, ".vcard", NULL);
-	    } else
-		absfilename = g_strdup ("unknown.vcard");
-     } else {
-	    file = sanitize_filename ((const gchar *) vl->data);
-	    if (!file)
-		return;
-	    absfilename = g_strconcat (file, ".vcard", NULL);
+    vl = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_DISPLAY_NAME);
+    if (!vl)
+	vl = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_COMPANY_NAME);
+    if (vl) {
+	file = sanitize_filename (vl);
+	if (!file) {
+	    g_free (vl);
+	    return;
 	}
-    } else {
-	file = sanitize_filename ((const gchar *) vl->data);
+	absfilename = g_strconcat (file, ".vcard", NULL);
+    } else if (tnef->subject.size > 0) {
+	vl = g_strndup ((const gchar *) tnef->subject.data, tnef->subject.size);
+	file = sanitize_filename (vl);
+	g_clear_pointer (&vl, g_free);
 	if (!file)
 	    return;
 	absfilename = g_strconcat (file, ".vcard", NULL);
+    } else {
+	absfilename = g_strdup ("unknown.vcard");
     }
 
     ifilename = g_build_filename (tmpdir, absfilename, NULL);
@@ -624,8 +655,8 @@ saveVCard (TNEFStruct *tnef,
     } else {
 	fprintf (fptr, "BEGIN:VCARD\n");
 	fprintf (fptr, "VERSION:2.1\n");
-	if (vl != MAPI_UNDEFINED) {
-	    fprintf (fptr, "FN:%s\n", vl->data);
+	if (vl) {
+	    fprintf (fptr, "FN:%s\n", vl);
 	}
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_NICKNAME, "NICKNAME:%s\n");
 	fprintUserProp (tnef, fptr, PT_UNICODE, 0x8554, "MAILER:Microsoft Outlook %s\n");
@@ -634,18 +665,20 @@ saveVCard (TNEFStruct *tnef,
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_ASSISTANT, "X-EVOLUTION-ASSISTANT:%s\n");
 
         /* Organizational */
-	if ((vl = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_COMPANY_NAME)) != MAPI_UNDEFINED) {
-	    if (vl->size > 0) {
-		if ((vl->size == 1) && (vl->data[0] == 0)) {
-		} else {
-		    fprintf (fptr,"ORG:%s", vl->data);
-		    if ((vl = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_DEPARTMENT_NAME)) != MAPI_UNDEFINED) {
-			fprintf (fptr,";%s", vl->data);
-		    }
-		    fprintf (fptr, "\n");
-		}
+	g_free (vl);
+	vl = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_COMPANY_NAME);
+	if (vl && *vl) {
+	    gchar *dept;
+
+	    fprintf (fptr, "ORG:%s", vl);
+	    dept = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_DEPARTMENT_NAME);
+	    if (dept) {
+		fprintf (fptr, ";%s", dept);
+		g_free (dept);
 	    }
+	    fprintf (fptr, "\n");
 	}
+	g_clear_pointer (&vl, g_free);
 
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_OFFICE_LOCATION, "X-EVOLUTION-OFFICE:%s\n");
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_TITLE, "TITLE:%s\n");
@@ -653,163 +686,110 @@ saveVCard (TNEFStruct *tnef,
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_BODY, "NOTE:%s\n");
 	if (tnef->body.size > 0) {
 	    fprintf (fptr, "NOTE;QUOTED-PRINTABLE:");
-	    quotedfprint (fptr, &(tnef->body));
+	    quotedfprint (fptr, (const gchar *) tnef->body.data, tnef->body.size);
 	    fprintf (fptr,"\n");
 	}
 
         /* Business Address */
-	boolean = 0;
-	if ((pobox = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_POST_OFFICE_BOX)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((street = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_STREET_ADDRESS)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((city = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_LOCALITY)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((state = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_STATE_OR_PROVINCE)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((zip = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_POSTAL_CODE)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((country = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_COUNTRY)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if (boolean == 1) {
+	pobox   = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_POST_OFFICE_BOX);
+	street  = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_STREET_ADDRESS);
+	city    = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_LOCALITY);
+	state   = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_STATE_OR_PROVINCE);
+	zip     = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_POSTAL_CODE);
+	country = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_COUNTRY);
+	if (pobox || street || city || state || zip || country) {
 	    fprintf (fptr, "ADR;QUOTED-PRINTABLE;WORK:");
-	    if (pobox != MAPI_UNDEFINED) {
-		quotedfprint (fptr, pobox);
-	    }
+	    quotedfprint (fptr, pobox, -1);
 	    fprintf (fptr, ";;");
-	    if (street != MAPI_UNDEFINED) {
-		quotedfprint (fptr, street);
-	    }
+	    quotedfprint (fptr, street, -1);
 	    fprintf (fptr, ";");
-	    if (city != MAPI_UNDEFINED) {
-		quotedfprint (fptr, city);
-	    }
+	    quotedfprint (fptr, city, -1);
 	    fprintf (fptr, ";");
-	    if (state != MAPI_UNDEFINED) {
-		quotedfprint (fptr, state);
-	    }
+	    quotedfprint (fptr, state, -1);
 	    fprintf (fptr, ";");
-	    if (zip != MAPI_UNDEFINED) {
-		quotedfprint (fptr, zip);
-	    }
+	    quotedfprint (fptr, zip, -1);
 	    fprintf (fptr, ";");
-	    if (country != MAPI_UNDEFINED) {
-		quotedfprint (fptr, country);
-	    }
+	    quotedfprint (fptr, country, -1);
 	    fprintf (fptr,"\n");
-	    if ((vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x801b)) != MAPI_UNDEFINED) {
+	    vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x801b);
+	    if (vl) {
 		fprintf (fptr, "LABEL;QUOTED-PRINTABLE;WORK:");
-		quotedfprint (fptr, vl);
+		quotedfprint (fptr, vl, -1);
 		fprintf (fptr,"\n");
+		g_clear_pointer (&vl, g_free);
 	    }
 	}
+	g_clear_pointer (&pobox, g_free);
+	g_clear_pointer (&street, g_free);
+	g_clear_pointer (&city, g_free);
+	g_clear_pointer (&state, g_free);
+	g_clear_pointer (&zip, g_free);
+	g_clear_pointer (&country, g_free);
 
         /* Home Address */
-	boolean = 0;
-	if ((pobox = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_POST_OFFICE_BOX)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((street = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_STREET)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((city = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_CITY)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((state = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_STATE_OR_PROVINCE)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((zip = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_POSTAL_CODE)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((country = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_COUNTRY)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if (boolean == 1) {
+	pobox   = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_POST_OFFICE_BOX);
+	street  = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_STREET);
+	city    = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_CITY);
+	state   = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_STATE_OR_PROVINCE);
+	zip     = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_POSTAL_CODE);
+	country = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_HOME_ADDRESS_COUNTRY);
+	if (pobox || street || city || state || zip || country) {
 	    fprintf (fptr, "ADR;QUOTED-PRINTABLE;HOME:");
-	    if (pobox != MAPI_UNDEFINED) {
-		quotedfprint (fptr, pobox);
-	    }
+	    quotedfprint (fptr, pobox, -1);
 	    fprintf (fptr, ";;");
-	    if (street != MAPI_UNDEFINED) {
-		quotedfprint (fptr, street);
-	    }
+	    quotedfprint (fptr, street, -1);
 	    fprintf (fptr, ";");
-	    if (city != MAPI_UNDEFINED) {
-		quotedfprint (fptr, city);
-	    }
+	    quotedfprint (fptr, city, -1);
 	    fprintf (fptr, ";");
-	    if (state != MAPI_UNDEFINED) {
-		quotedfprint (fptr, state);
-	    }
+	    quotedfprint (fptr, state, -1);
 	    fprintf (fptr, ";");
-	    if (zip != MAPI_UNDEFINED) {
-		quotedfprint (fptr, zip);
-	    }
+	    quotedfprint (fptr, zip, -1);
 	    fprintf (fptr, ";");
-	    if (country != MAPI_UNDEFINED) {
-		quotedfprint (fptr, country);
-	    }
+	    quotedfprint (fptr, country, -1);
 	    fprintf (fptr,"\n");
-	    if ((vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x801a)) != MAPI_UNDEFINED) {
-		fprintf (fptr, "LABEL;QUOTED-PRINTABLE;WORK:");
-		quotedfprint (fptr, vl);
+	    vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x801a);
+	    if (vl) {
+		fprintf (fptr, "LABEL;QUOTED-PRINTABLE;HOME:");
+		quotedfprint (fptr, vl, -1);
 		fprintf (fptr,"\n");
+		g_clear_pointer (&vl, g_free);
 	    }
 	}
+	g_clear_pointer (&pobox, g_free);
+	g_clear_pointer (&street, g_free);
+	g_clear_pointer (&city, g_free);
+	g_clear_pointer (&state, g_free);
+	g_clear_pointer (&zip, g_free);
+	g_clear_pointer (&country, g_free);
 
         /* Other Address */
-	boolean = 0;
-	if ((pobox = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_POST_OFFICE_BOX)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((street = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_STREET)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((city = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_CITY)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((state = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_STATE_OR_PROVINCE)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((zip = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_POSTAL_CODE)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if ((country = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_COUNTRY)) != MAPI_UNDEFINED) {
-	    boolean = 1;
-	}
-	if (boolean == 1) {
+	pobox   = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_POST_OFFICE_BOX);
+	street  = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_STREET);
+	city    = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_CITY);
+	state   = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_STATE_OR_PROVINCE);
+	zip     = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_POSTAL_CODE);
+	country = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_OTHER_ADDRESS_COUNTRY);
+	if (pobox || street || city || state || zip || country) {
 	    fprintf (fptr, "ADR;QUOTED-PRINTABLE;OTHER:");
-	    if (pobox != MAPI_UNDEFINED) {
-		quotedfprint (fptr, pobox);
-	    }
+	    quotedfprint (fptr, pobox, -1);
 	    fprintf (fptr, ";;");
-	    if (street != MAPI_UNDEFINED) {
-		quotedfprint (fptr, street);
-	    }
+	    quotedfprint (fptr, street, -1);
 	    fprintf (fptr, ";");
-	    if (city != MAPI_UNDEFINED) {
-		quotedfprint (fptr, city);
-	    }
+	    quotedfprint (fptr, city, -1);
 	    fprintf (fptr, ";");
-	    if (state != MAPI_UNDEFINED) {
-		quotedfprint (fptr, state);
-	    }
+	    quotedfprint (fptr, state, -1);
 	    fprintf (fptr, ";");
-	    if (zip != MAPI_UNDEFINED) {
-		quotedfprint (fptr, zip);
-	    }
+	    quotedfprint (fptr, zip, -1);
 	    fprintf (fptr, ";");
-	    if (country != MAPI_UNDEFINED) {
-		quotedfprint (fptr, country);
-	    }
+	    quotedfprint (fptr, country, -1);
 	    fprintf (fptr,"\n");
 	}
+	g_free (pobox);
+	g_free (street);
+	g_free (city);
+	g_free (state);
+	g_free (zip);
+	g_free (country);
 
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_CALLBACK_TELEPHONE_NUMBER, "TEL;X-EVOLUTION-CALLBACK:%s\n");
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_PRIMARY_TELEPHONE_NUMBER, "TEL;PREF:%s\n");
@@ -832,47 +812,51 @@ saveVCard (TNEFStruct *tnef,
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_HOME_FAX_NUMBER, "TEL;HOME;FAX:%s\n");
 
         /* Email addresses */
-	if ((vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8083)) == MAPI_UNDEFINED) {
+	vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8083);
+	if (!vl)
 	    vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8084);
+	if (vl) {
+	    if (*vl)
+		fprintf (fptr, "EMAIL:%s\n", vl);
+	    g_clear_pointer (&vl, g_free);
 	}
-	if (vl != MAPI_UNDEFINED) {
-	    if (vl->size > 0)
-		fprintf (fptr, "EMAIL:%s\n", vl->data);
-	}
-	if ((vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8093)) == MAPI_UNDEFINED) {
+	vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8093);
+	if (!vl)
 	    vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8094);
+	if (vl) {
+	    if (*vl)
+		fprintf (fptr, "EMAIL:%s\n", vl);
+	    g_clear_pointer (&vl, g_free);
 	}
-	if (vl != MAPI_UNDEFINED) {
-	    if (vl->size > 0)
-		fprintf (fptr, "EMAIL:%s\n", vl->data);
-	}
-	if ((vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x80a3)) == MAPI_UNDEFINED) {
+	vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x80a3);
+	if (!vl)
 	    vl = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x80a4);
-	}
-	if (vl != MAPI_UNDEFINED) {
-	    if (vl->size > 0)
-		fprintf (fptr, "EMAIL:%s\n", vl->data);
+	if (vl) {
+	    if (*vl)
+		fprintf (fptr, "EMAIL:%s\n", vl);
+	    g_clear_pointer (&vl, g_free);
 	}
 
 	fprintProperty (tnef, fptr, PT_UNICODE, PR_BUSINESS_HOME_PAGE, "URL:%s\n");
 	fprintUserProp (tnef, fptr, PT_UNICODE, 0x80d8, "FBURL:%s\n");
 
         /* Birthday */
-	if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_SYSTIME, PR_BIRTHDAY))) != MAPI_UNDEFINED) {
+	if ((vlp = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_SYSTIME, PR_BIRTHDAY))) != MAPI_UNDEFINED) {
 	    fprintf (fptr, "BDAY:");
-	    MAPISysTimetoDTR ((guchar *) vl->data, &thedate);
+	    MAPISysTimetoDTR ((guchar *) vlp->data, &thedate);
 	    fprintf (fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
 	}
 
         /* Anniversary */
-	if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_SYSTIME, PR_WEDDING_ANNIVERSARY))) != MAPI_UNDEFINED) {
+	if ((vlp = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_SYSTIME, PR_WEDDING_ANNIVERSARY))) != MAPI_UNDEFINED) {
 	    fprintf (fptr, "X-EVOLUTION-ANNIVERSARY:");
-	    MAPISysTimetoDTR ((guchar *) vl->data, &thedate);
+	    MAPISysTimetoDTR ((guchar *) vlp->data, &thedate);
 	    fprintf (fptr, "%i-%02i-%02i\n", thedate.wYear, thedate.wMonth, thedate.wDay);
 	}
 	fprintf (fptr, "END:VCARD\n");
 	fclose (fptr);
     }
+    g_free (vl);
     g_free (ifilename);
 }
 
@@ -1054,6 +1038,7 @@ static void printRrule (FILE *fptr, const guchar *recur_data, gint size, TNEFStr
 static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
     gchar *ifilename;
     variableLength *filename;
+    gchar *str;
     gchar *charptr, *charptr2;
     FILE *fptr;
     gint index;
@@ -1067,7 +1052,7 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
             printf ("Error writing file to disk!");
     } else {
         fprintf (fptr, "BEGIN:VCALENDAR\n");
-        if (tnef->messageClass[0] != 0) {
+        if (*tnef->messageClass) {
             charptr2 = tnef->messageClass;
             charptr = charptr2;
             while (*charptr != 0) {
@@ -1131,11 +1116,12 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
         }
 
         /* Required Attendees */
-        if ((filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x823b)) != MAPI_UNDEFINED) {
+        str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x823b);
+        if (str) {
 	    /* We have a list of required participants, so
 	       write them out. */
-            if (filename->size > 1) {
-                charptr = (gchar *) filename->data - 1;
+            if (*str) {
+                charptr = str - 1;
                 while (charptr != NULL) {
                     charptr++;
                     charptr2 = strstr (charptr, ";");
@@ -1151,11 +1137,13 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
                     charptr = charptr2;
                 }
             }
+            g_free (str);
             /* Optional attendees */
-            if ((filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x823c)) != MAPI_UNDEFINED) {
+            str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x823c);
+            if (str) {
                     /* The list of optional participants */
-                if (filename->size > 1) {
-                    charptr = (gchar *) filename->data - 1;
+                if (*str) {
+                    charptr = str - 1;
                     while (charptr != NULL) {
                         charptr++;
                         charptr2 = strstr (charptr, ";");
@@ -1171,34 +1159,38 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
                         charptr = charptr2;
                     }
                 }
+                g_free (str);
             }
-        } else if ((filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8238)) != MAPI_UNDEFINED) {
-            if (filename->size > 1) {
-                charptr = (gchar *) filename->data - 1;
-                while (charptr != NULL) {
-                    charptr++;
-                    charptr2 = strstr (charptr, ";");
-                    if (charptr2 != NULL) {
-                        *charptr2 = 0;
-                    }
-                    while (*charptr == ' ')
+        } else {
+            str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8238);
+            if (str) {
+                if (*str) {
+                    charptr = str - 1;
+                    while (charptr != NULL) {
                         charptr++;
-                    fprintf (fptr, "ATTENDEE;PARTSTAT=NEEDS-ACTION;");
-                    fprintf (fptr, "ROLE=REQ-PARTICIPANT;RSVP=TRUE;");
-                    fprintf (fptr, "CN=\"%s\":mailto:%s\n",
-                                charptr, charptr);
-                    charptr = charptr2;
+                        charptr2 = strstr (charptr, ";");
+                        if (charptr2 != NULL) {
+                            *charptr2 = 0;
+                        }
+                        while (*charptr == ' ')
+                            charptr++;
+                        fprintf (fptr, "ATTENDEE;PARTSTAT=NEEDS-ACTION;");
+                        fprintf (fptr, "ROLE=REQ-PARTICIPANT;RSVP=TRUE;");
+                        fprintf (fptr, "CN=\"%s\":mailto:%s\n",
+                                    charptr, charptr);
+                        charptr = charptr2;
+                    }
                 }
+                g_free (str);
             }
-
         }
         /* Summary */
-        filename = NULL;
-        if ((filename = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_CONVERSATION_TOPIC)) != MAPI_UNDEFINED) {
-            filename->size = strlen ((const gchar *) filename->data);
+        str = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_CONVERSATION_TOPIC);
+        if (str) {
             fprintf (fptr, "SUMMARY:");
-            cstylefprint (fptr, filename);
+            cstylefprint (fptr, str, -1);
             fprintf (fptr, "\n");
+            g_free (str);
         }
 
         /* Description */
@@ -1228,14 +1220,12 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
         }
 
         /* Location */
-        filename = NULL;
-        if ((filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x0002)) == MAPI_UNDEFINED) {
-            if ((filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8208)) == MAPI_UNDEFINED) {
-                filename = NULL;
-            }
-        }
-        if (filename != NULL) {
-            fprintf (fptr,"LOCATION: %s\n", filename->data);
+        str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x0002);
+        if (!str)
+            str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8208);
+        if (str) {
+            fprintf (fptr, "LOCATION: %s\n", str);
+            g_free (str);
         }
         /* Date Start */
         filename = NULL;
@@ -1307,9 +1297,10 @@ static void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
 }
 
 static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
-    variableLength *vl;
     variableLength *filename;
-    gint index;
+    gchar *topic;
+    gchar *str;
+    gsize topiclen;
     gchar *ifilename;
     gchar *absfilename, *file;
     gchar *charptr, *charptr2;
@@ -1317,19 +1308,20 @@ static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
     FILE *fptr;
     DWORD *dword_ptr;
 
-    vl = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_CONVERSATION_TOPIC);
+    topic = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_CONVERSATION_TOPIC);
 
-    if (vl == MAPI_UNDEFINED) {
+    if (!topic)
         return;
-    }
 
-    index = strlen ((const gchar *) vl->data);
-    while (vl->data[index] == ' ')
-            vl->data[index--] = 0;
+    topiclen = strlen (topic);
+    while (topiclen > 0 && topic[topiclen - 1] == ' ')
+        topic[--topiclen] = '\0';
 
-    file = sanitize_filename ((const gchar *) vl->data);
-    if (!file)
+    file = sanitize_filename (topic);
+    if (!file) {
+	g_free (topic);
 	return;
+    }
     absfilename = g_strconcat (file, ".vcf", NULL);
     ifilename = g_build_filename (tmpdir, absfilename, NULL);
     g_free (file);
@@ -1343,22 +1335,22 @@ static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
         fprintf (fptr, "BEGIN:VCALENDAR\n");
         fprintf (fptr, "VERSION:2.0\n");
         fprintf (fptr, "METHOD:PUBLISH\n");
-        filename = NULL;
 
         fprintf (fptr, "BEGIN:VTODO\n");
-        if (tnef->messageID[0] != 0) {
+        if (*tnef->messageID) {
             fprintf (fptr,"UID:%s\n", tnef->messageID);
         }
-        filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8122);
-        if (filename != MAPI_UNDEFINED) {
-            fprintf (fptr, "ORGANIZER:%s\n", filename->data);
+        str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x8122);
+        if (str) {
+            fprintf (fptr, "ORGANIZER:%s\n", str);
+            g_free (str);
         }
 
-        if ((filename = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_DISPLAY_TO)) == MAPI_UNDEFINED) {
-            filename = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x811f);
-        }
-        if ((filename != MAPI_UNDEFINED) && (filename->size > 1)) {
-            charptr = (gchar *) filename->data - 1;
+        str = e_tnef_get_string_prop (&(tnef->MapiProperties), PR_DISPLAY_TO);
+        if (!str)
+            str = e_tnef_get_string_user_prop (&(tnef->MapiProperties), 0x811f);
+        if (str && *str) {
+            charptr = str - 1;
             while (charptr != NULL) {
                 charptr++;
                 charptr2 = strstr (charptr, ";");
@@ -1371,16 +1363,17 @@ static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
                 charptr = charptr2;
             }
         }
+        g_free (str);
 
         if (tnef->subject.size > 0) {
             fprintf (fptr,"SUMMARY:");
-            cstylefprint (fptr,&(tnef->subject));
+            cstylefprint (fptr, (const gchar *) tnef->subject.data, tnef->subject.size);
             fprintf (fptr,"\n");
         }
 
         if (tnef->body.size > 0) {
             fprintf (fptr,"DESCRIPTION:");
-            cstylefprint (fptr,&(tnef->body));
+            cstylefprint (fptr, (const gchar *) tnef->body.data, tnef->body.size);
             fprintf (fptr,"\n");
         }
 
@@ -1428,6 +1421,7 @@ static void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
         fprintf (fptr, "END:VCALENDAR\n");
         fclose (fptr);
     }
+    g_free (topic);
     g_free (ifilename);
 }
 
@@ -1461,35 +1455,43 @@ static void fprintUserProp (TNEFStruct *tnef, FILE *fptr, DWORD proptype, DWORD 
     }
 }
 
-static void quotedfprint (FILE *fptr, variableLength *vl) {
-    gint index;
+static void quotedfprint (FILE *fptr, const gchar *s, gsize len) {
+    gsize index;
 
-    for (index = 0; index < vl->size - 1; index++) {
-        if (vl->data[index] == '\n') {
+    if (!s)
+        return;
+    if (len == (gsize) -1)
+        len = strlen (s);
+    for (index = 0; index < len; index++) {
+        if (s[index] == '\n') {
             fprintf (fptr, "=0A");
-        } else if (vl->data[index] == '\r') {
+        } else if (s[index] == '\r') {
         } else {
-            fprintf (fptr, "%c", vl->data[index]);
+            fprintf (fptr, "%c", s[index]);
         }
     }
 }
 
-static void cstylefprint (FILE *fptr, variableLength *vl) {
-    gint index;
+static void cstylefprint (FILE *fptr, const gchar *s, gsize len) {
+    gsize index;
 
-    for (index = 0; index < vl->size - 1; index++) {
-        if (vl->data[index] == '\n') {
+    if (!s)
+        return;
+    if (len == (gsize) -1)
+        len = strlen (s);
+    for (index = 0; index < len; index++) {
+        if (s[index] == '\n') {
             fprintf (fptr, "\\n");
-        } else if (vl->data[index] == '\r') {
+        } else if (s[index] == '\r') {
             /* Print nothing. */
-        } else if (vl->data[index] == ';') {
+        } else if (s[index] == ';') {
             fprintf (fptr, "\\;");
-        } else if (vl->data[index] == ',') {
+        } else if (s[index] == ',') {
             fprintf (fptr, "\\,");
-        } else if (vl->data[index] == '\\') {
+        } else if (s[index] == '\\') {
             fprintf (fptr, "\\");
         } else {
-            fprintf (fptr, "%c", vl->data[index]);
+            fprintf (fptr, "%c", s[index]);
         }
     }
 }
