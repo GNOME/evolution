@@ -13,3 +13,7 @@ add_subdirectory(mail-notification)
 add_subdirectory(mail-to-task)
 add_subdirectory(mailing-list-actions)
 add_subdirectory(sender-validation)
+
+if(ENABLE_PST_IMPORT)
+	add_subdirectory(pst-import)
+endif(ENABLE_PST_IMPORT)

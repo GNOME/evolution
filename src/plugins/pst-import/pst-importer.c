@@ -67,11 +67,10 @@ static void fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec
 ICalTime *get_ical_date (FILETIME *date, gboolean is_date);
 gchar *rfc2445_datetime_format (FILETIME *ft);
 
-gboolean org_credativ_evolution_readpst_supported (EPlugin *epl, EImportTarget *target);
-GtkWidget *org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im);
-void org_credativ_evolution_readpst_import (EImport *ei, EImportTarget *target, EImportImporter *im);
-void org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImportImporter *im);
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+static gboolean pst_import_supported (EImport *ei, EImportTarget *target, EImportImporter *im);
+static GtkWidget *pst_import_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im);
+static void pst_import_run (EImport *ei, EImportTarget *target, EImportImporter *im);
+static void pst_import_cancel (EImport *ei, EImportTarget *target, EImportImporter *im);
 
 /* em-folder-selection-button.h is private, even though other internal evo plugins use it!
  * so declare the functions here
@@ -111,9 +110,10 @@ struct _PstImporter {
 	gint total;
 };
 
-gboolean
-org_credativ_evolution_readpst_supported (EPlugin *epl,
-                                          EImportTarget *target)
+static gboolean
+pst_import_supported (EImport *ei,
+                      EImportTarget *target,
+                      EImportImporter *im)
 {
 	gchar signature[sizeof (pst_signature)];
 	gboolean ret = FALSE;
@@ -489,10 +489,10 @@ pst_import_check_items (EImportTarget *target)
 	g_datalist_set_data (&target->data, "pst-do-journal", GINT_TO_POINTER (has_journal));
 }
 
-GtkWidget *
-org_credativ_evolution_readpst_getwidget (EImport *ei,
-                                          EImportTarget *target,
-                                          EImportImporter *im)
+static GtkWidget *
+pst_import_getwidget (EImport *ei,
+                      EImportTarget *target,
+                      EImportImporter *im)
 {
 	EShell *shell;
 	EClientCache *client_cache;
@@ -2269,10 +2269,10 @@ pst_import (EImport *ei,
 }
 
 /* Start the main import operation */
-void
-org_credativ_evolution_readpst_import (EImport *ei,
-                                       EImportTarget *target,
-                                       EImportImporter *im)
+static void
+pst_import_run (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	if (GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-mail"))
 	    || GPOINTER_TO_INT (g_datalist_get_data (&target->data, "pst-do-addr"))
@@ -2285,10 +2285,10 @@ org_credativ_evolution_readpst_import (EImport *ei,
 	}
 }
 
-void
-org_credativ_evolution_readpst_cancel (EImport *ei,
-                                       EImportTarget *target,
-                                       EImportImporter *im)
+static void
+pst_import_cancel (EImport *ei,
+                   EImportTarget *target,
+                   EImportImporter *im)
 {
 	PstImporter *m = g_datalist_get_data (&target->data, "pst-msg");
 
@@ -2297,11 +2297,28 @@ org_credativ_evolution_readpst_cancel (EImport *ei,
 	}
 }
 
-gint
-e_plugin_lib_enable (EPlugin *ep,
-                     gint enable)
+static EImportImporter pst_importer = {
+	E_IMPORT_TARGET_URI, 0,
+	pst_import_supported, pst_import_getwidget, pst_import_run, pst_import_cancel, NULL,
+};
+
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
 {
-	return 0;
+	EImportClass *import_class;
+
+	import_class = g_type_class_ref (e_import_get_type ());
+	pst_importer.name = _("Outlook personal folders (.pst)");
+	e_import_class_add_importer (import_class, &pst_importer, NULL, NULL);
+	g_type_class_unref (import_class);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }
 
 /**

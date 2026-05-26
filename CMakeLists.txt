@@ -738,7 +738,6 @@ add_printable_option(ENABLE_PST_IMPORT "Enable pst-import plugin" ON)
 
 if(ENABLE_PST_IMPORT)
 	pkg_check_modules_for_option(ENABLE_PST_IMPORT "pst-import plugin" LIBPST libpst>=${libpst_minimum_version})
-	list(APPEND plugins_standard pst-import)
 endif(ENABLE_PST_IMPORT)
 
 # Finish plugins build setup
