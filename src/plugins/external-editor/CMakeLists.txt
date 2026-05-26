@@ -1,5 +1,4 @@
 add_error_files(external-editor org-gnome-external-editor.error)
-add_eplug_file(external-editor org-gnome-external-editor.eplug)
 
 set(DEPENDENCIES
 	econtacteditor
@@ -14,24 +13,28 @@ set(SOURCES
 	external-editor.c
 )
 
-add_library(org-gnome-external-editor MODULE
+add_library(module-external-editor MODULE
 	${SOURCES}
 )
 
-add_dependencies(org-gnome-external-editor
+set_target_properties(module-external-editor PROPERTIES
+	PREFIX ""
+)
+
+add_dependencies(module-external-editor
 	${DEPENDENCIES}
 )
 
-target_compile_definitions(org-gnome-external-editor PRIVATE
+target_compile_definitions(module-external-editor PRIVATE
 	-DG_LOG_DOMAIN=\"external-editor\"
 )
 
-target_compile_options(org-gnome-external-editor PUBLIC
+target_compile_options(module-external-editor PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 )
 
-target_include_directories(org-gnome-external-editor PUBLIC
+target_include_directories(module-external-editor PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
@@ -40,12 +43,12 @@ target_include_directories(org-gnome-external-editor PUBLIC
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 )
 
-target_link_libraries(org-gnome-external-editor
+target_link_libraries(module-external-editor
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )
 
-install(TARGETS org-gnome-external-editor
-	DESTINATION ${plugindir}
+install(TARGETS module-external-editor
+	DESTINATION ${moduledir}
 )

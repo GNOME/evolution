@@ -670,7 +670,6 @@ set(plugins_standard
 	bbdb
 	dbx-import
 	email-custom-header
-	external-editor
 	face
 	mail-to-task
 	mailing-list-actions

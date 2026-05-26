@@ -9,13 +9,14 @@
 
 #include <errno.h>
 
-#include <mail/em-config.h>
 #include <mail/em-composer-utils.h>
 #include <e-msg-composer.h>
 
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
+#include <gmodule.h>
+#include <libebackend/libebackend.h>
 
 #include <sys/stat.h>
 #ifdef HAVE_SYS_WAIT_H
@@ -27,102 +28,37 @@
 
 #define d(x)
 
-gboolean	e_plugin_ui_init		(EUIManager *manager,
-						 EMsgComposer *composer);
-GtkWidget *	e_plugin_lib_get_configure_widget
-						(EPlugin *epl);
-static void	ee_editor_command_changed
-						(GtkWidget *textbox);
-static void	ee_editor_immediate_launch_changed
-						(GtkWidget *checkbox);
-static gboolean	editor_running			(void);
-static gboolean	key_press_cb			(GtkWidget *widget,
-						 GdkEventKey *event,
-						 EMsgComposer *composer);
+/* Module Entry Points */
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
 
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+/* Standard GObject macros */
+#define E_TYPE_EXTERNAL_EDITOR \
+	(e_external_editor_get_type ())
+#define E_EXTERNAL_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_EXTERNAL_EDITOR, EExternalEditor))
+#define E_EXTERNAL_EDITOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_EXTERNAL_EDITOR, EExternalEditorClass))
+#define E_IS_EXTERNAL_EDITOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_EXTERNAL_EDITOR))
 
-gint
-e_plugin_lib_enable (EPlugin *ep,
-                     gint enable)
-{
-	return 0;
-}
+typedef struct _EExternalEditor EExternalEditor;
+typedef struct _EExternalEditorClass EExternalEditorClass;
 
-void
-ee_editor_command_changed (GtkWidget *textbox)
-{
-	const gchar *editor;
-	GSettings *settings;
+struct _EExternalEditor {
+	EExtension parent;
+};
 
-	editor = gtk_entry_get_text (GTK_ENTRY (textbox));
-	d (printf ("\n\aeditor is : [%s] \n\a", editor));
+struct _EExternalEditorClass {
+	EExtensionClass parent_class;
+};
 
-	/* GSettings access for every key-press. Sucky ? */
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
-	g_settings_set_string (settings, "command", editor);
-	g_object_unref (settings);
-}
+GType e_external_editor_get_type (void) G_GNUC_CONST;
 
-void
-ee_editor_immediate_launch_changed (GtkWidget *checkbox)
-{
-	gboolean immediately;
-	GSettings *settings;
-
-	immediately = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
-	d (printf ("\n\aimmediate launch is : [%d] \n\a", immediately));
-
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
-	g_settings_set_boolean (settings, "launch-on-key-press", immediately);
-	g_object_unref (settings);
-}
-
-GtkWidget *
-e_plugin_lib_get_configure_widget (EPlugin *epl)
-{
-	GtkWidget *vbox, *textbox, *label, *help;
-	GtkWidget *checkbox;
-	GSettings *settings;
-	gchar *editor;
-	gboolean checked;
-
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 10);
-	textbox = gtk_entry_new ();
-	label = gtk_label_new (_("Command to be executed to launch the editor: "));
-	help = gtk_label_new (_("For XEmacs use “xemacs”\nFor Vim use “gvim -f”"));
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.external-editor");
-
-	editor = g_settings_get_string (settings, "command");
-	if (editor) {
-		gtk_entry_set_text (GTK_ENTRY (textbox), editor);
-		g_free (editor);
-	}
-
-	checkbox = gtk_check_button_new_with_mnemonic (
-		_("_Automatically launch when a new mail is edited"));
-	checked = g_settings_get_boolean (settings, "launch-on-key-press");
-	if (checked)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), TRUE);
-	g_object_unref (settings);
-
-	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), textbox, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), help, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), checkbox, FALSE, FALSE, 0);
-
-	g_signal_connect (
-		textbox, "changed",
-		G_CALLBACK (ee_editor_command_changed), textbox);
-
-	g_signal_connect (
-		checkbox, "toggled",
-		G_CALLBACK (ee_editor_immediate_launch_changed), checkbox);
-
-	gtk_widget_show_all (vbox);
-
-	return vbox;
-}
+G_DEFINE_DYNAMIC_TYPE (EExternalEditor, e_external_editor, E_TYPE_EXTENSION)
 
 static void
 enable_disable_composer (EMsgComposer *composer,
@@ -447,7 +383,7 @@ launch_editor_cb (EUIAction *action,
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	if (editor_running ()) {
+	if (external_editor_running) {
 		d (printf ("not opening editor, because it's still running\n"));
 		return;
 	}
@@ -502,7 +438,8 @@ key_press_cb (GtkWidget *widget,
 }
 
 static gboolean
-editor_running (void)
+delete_cb (GtkWidget *widget,
+           EMsgComposer *composer)
 {
 	gboolean running;
 
@@ -510,14 +447,7 @@ editor_running (void)
 	running = external_editor_running;
 	g_mutex_unlock (&external_editor_running_lock);
 
-	return running;
-}
-
-static gboolean
-delete_cb (GtkWidget *widget,
-           EMsgComposer *composer)
-{
-	if (editor_running ()) {
+	if (running) {
 		e_alert_run_dialog_for_args (
 			NULL, "org.gnome.evolution.plugins."
 			"external-editor:editor-still-running", NULL);
@@ -527,9 +457,8 @@ delete_cb (GtkWidget *widget,
 	return FALSE;
 }
 
-gboolean
-e_plugin_ui_init (EUIManager *manager,
-                  EMsgComposer *composer)
+static void
+external_editor_setup (EMsgComposer *composer)
 {
 	static const gchar *eui =
 		"<eui>"
@@ -571,6 +500,51 @@ e_plugin_ui_init (EUIManager *manager,
 	g_signal_connect (
 		cnt_editor, "delete-event",
 		G_CALLBACK (delete_cb), composer);
+}
 
-	return TRUE;
+static void
+external_editor_constructed (GObject *object)
+{
+	EExtensible *extensible;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_external_editor_parent_class)->constructed (object);
+
+	extensible = e_extension_get_extensible (E_EXTENSION (object));
+
+	external_editor_setup (E_MSG_COMPOSER (extensible));
+}
+
+static void
+e_external_editor_class_init (EExternalEditorClass *class)
+{
+	GObjectClass *object_class;
+	EExtensionClass *extension_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = external_editor_constructed;
+
+	extension_class = E_EXTENSION_CLASS (class);
+	extension_class->extensible_type = E_TYPE_MSG_COMPOSER;
+}
+
+static void
+e_external_editor_class_finalize (EExternalEditorClass *class)
+{
+}
+
+static void
+e_external_editor_init (EExternalEditor *extension)
+{
+}
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	e_external_editor_register_type (type_module);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }
