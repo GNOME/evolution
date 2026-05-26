@@ -22,8 +22,11 @@ struct _ECompEditorPageSchedulePrivate {
 enum {
 	PROP_0,
 	PROP_STORE,
-	PROP_NAME_SELECTOR
+	PROP_NAME_SELECTOR,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (ECompEditorPageSchedule, e_comp_editor_page_schedule, E_TYPE_COMP_EDITOR_PAGE)
 
@@ -623,29 +626,28 @@ e_comp_editor_page_schedule_class_init (ECompEditorPageScheduleClass *klass)
 	object_class->constructed = e_comp_editor_page_schedule_constructed;
 	object_class->dispose = e_comp_editor_page_schedule_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STORE,
+	/**
+	 * ECompEditorPageSchedule:store
+	 *
+	 * an EMeetingStore
+	 **/
+	properties[PROP_STORE] =
 		g_param_spec_object (
-			"store",
-			"store",
-			"an EMeetingStore",
+			"store", NULL, NULL,
 			E_TYPE_MEETING_STORE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_NAME_SELECTOR,
+	properties[PROP_NAME_SELECTOR] =
 		g_param_spec_object (
-			"name-selector",
-			"Name Selector",
-			NULL,
+			"name-selector", NULL, NULL,
 			E_TYPE_NAME_SELECTOR,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 ECompEditorPage *

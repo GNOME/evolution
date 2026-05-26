@@ -117,8 +117,11 @@ enum {
 	PROP_TWODIGIT_YEAR_CAN_FUTURE,
 	PROP_SET_NONE,
 	PROP_SHORTEN_TIME_END,
-	PROP_SHORTEN_TIME
+	PROP_SHORTEN_TIME,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	CHANGED,
@@ -390,111 +393,73 @@ e_date_edit_class_init (EDateEditClass *class)
 	widget_class->mnemonic_activate = e_date_edit_mnemonic_activate;
 	widget_class->grab_focus = e_date_edit_grab_focus;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALLOW_NO_DATE_SET,
+	properties[PROP_ALLOW_NO_DATE_SET] =
 		g_param_spec_boolean (
-			"allow-no-date-set",
-			"Allow No Date Set",
-			NULL,
+			"allow-no-date-set", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_DATE,
+	properties[PROP_SHOW_DATE] =
 		g_param_spec_boolean (
-			"show-date",
-			"Show Date",
-			NULL,
+			"show-date", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_TIME,
+	properties[PROP_SHOW_TIME] =
 		g_param_spec_boolean (
-			"show-time",
-			"Show Time",
-			NULL,
+			"show-time", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHOW_WEEK_NUMBERS,
+	properties[PROP_SHOW_WEEK_NUMBERS] =
 		g_param_spec_boolean (
-			"show-week-numbers",
-			"Show Week Numbers",
-			NULL,
+			"show-week-numbers", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_24_HOUR_FORMAT,
+	properties[PROP_USE_24_HOUR_FORMAT] =
 		g_param_spec_boolean (
-			"use-24-hour-format",
-			"Use 24-Hour Format",
-			NULL,
+			"use-24-hour-format", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WEEK_START_DAY,
+	properties[PROP_WEEK_START_DAY] =
 		g_param_spec_enum (
-			"week-start-day",
-			"Week Start Day",
-			NULL,
+			"week-start-day", NULL, NULL,
 			E_TYPE_DATE_WEEKDAY,
 			G_DATE_MONDAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TWODIGIT_YEAR_CAN_FUTURE,
+	properties[PROP_TWODIGIT_YEAR_CAN_FUTURE] =
 		g_param_spec_boolean (
-			"twodigit-year-can-future",
-			"Two-digit year can be treated as future",
-			NULL,
+			"twodigit-year-can-future", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SET_NONE,
+	properties[PROP_SET_NONE] =
 		g_param_spec_boolean (
-			"set-none",
-			"Sets None as selected date",
-			NULL,
+			"set-none", NULL, NULL,
 			FALSE,
-			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_WRITABLE | G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHORTEN_TIME_END,
+	properties[PROP_SHORTEN_TIME_END] =
 		g_param_spec_boolean (
-			"shorten-time-end",
-			"Shorten Time End",
-			NULL,
+			"shorten-time-end", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS |
-			G_PARAM_EXPLICIT_NOTIFY));
+			G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHORTEN_TIME,
+	properties[PROP_SHORTEN_TIME] =
 		g_param_spec_int (
-			"shorten-time",
-			"Shorten Time",
-			NULL,
+			"shorten-time", NULL, NULL,
 			0, 29, 0,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS |
-			G_PARAM_EXPLICIT_NOTIFY));
+			G_PARAM_EXPLICIT_NOTIFY);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -759,8 +724,8 @@ create_children (EDateEdit *dedit)
 	calendar = E_CALENDAR (priv->calendar);
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (e_calendar_get_item (calendar)),
-		"maximum_days_selected", 1,
-		"move_selection_when_moving", FALSE,
+		"maximum-days-selected", 1,
+		"move-selection-when-moving", FALSE,
 		NULL);
 
 	g_signal_connect (
@@ -1190,7 +1155,7 @@ e_date_edit_set_show_date (EDateEdit *dedit,
 	else
 		gtk_widget_hide (priv->space);
 
-	g_object_notify (G_OBJECT (dedit), "show-date");
+	g_object_notify_by_pspec (G_OBJECT (dedit), properties[PROP_SHOW_DATE]);
 }
 
 /**
@@ -1233,7 +1198,7 @@ e_date_edit_set_show_time (EDateEdit *dedit,
 
 	e_date_edit_update_time_combo_state (dedit);
 
-	g_object_notify (G_OBJECT (dedit), "show-time");
+	g_object_notify_by_pspec (G_OBJECT (dedit), properties[PROP_SHOW_TIME]);
 }
 
 /**
@@ -1324,7 +1289,7 @@ e_date_edit_set_week_start_day (EDateEdit *dedit,
 		GNOME_CANVAS_ITEM (e_calendar_get_item (E_CALENDAR (dedit->priv->calendar))),
 		"week-start-day", week_start_day, NULL);
 
-	g_object_notify (G_OBJECT (dedit), "week-start-day");
+	g_object_notify_by_pspec (G_OBJECT (dedit), properties[PROP_WEEK_START_DAY]);
 }
 
 /* Whether we show week numbers in the date popup. */
@@ -1337,7 +1302,7 @@ e_date_edit_get_show_week_numbers (EDateEdit *dedit)
 
 	g_object_get (
 		e_calendar_get_item (E_CALENDAR (dedit->priv->calendar)),
-		"show_week_numbers", &show_week_numbers, NULL);
+		"show-week-numbers", &show_week_numbers, NULL);
 
 	return show_week_numbers;
 }
@@ -1350,9 +1315,9 @@ e_date_edit_set_show_week_numbers (EDateEdit *dedit,
 
 	gnome_canvas_item_set (
 		GNOME_CANVAS_ITEM (e_calendar_get_item (E_CALENDAR (dedit->priv->calendar))),
-		"show_week_numbers", show_week_numbers, NULL);
+		"show-week-numbers", show_week_numbers, NULL);
 
-	g_object_notify (G_OBJECT (dedit), "show-week-numbers");
+	g_object_notify_by_pspec (G_OBJECT (dedit), properties[PROP_SHOW_WEEK_NUMBERS]);
 }
 
 /* Whether we use 24 hour format in the time field & popup. */
@@ -1379,7 +1344,7 @@ e_date_edit_set_use_24_hour_format (EDateEdit *dedit,
 
 	e_date_edit_update_time_entry (dedit);
 
-	g_object_notify (G_OBJECT (dedit), "use-24-hour-format");
+	g_object_notify_by_pspec (G_OBJECT (dedit), properties[PROP_USE_24_HOUR_FORMAT]);
 }
 
 /* Whether we allow the date to be set to 'None'. e_date_edit_get_time() will
@@ -1416,7 +1381,7 @@ e_date_edit_set_allow_no_date_set (EDateEdit *dedit,
 		}
 	}
 
-	g_object_notify (G_OBJECT (dedit), "allow-no-date-set");
+	g_object_notify_by_pspec (G_OBJECT (dedit), properties[PROP_ALLOW_NO_DATE_SET]);
 }
 
 /* The range of time to show in the time combo popup. */
@@ -2759,7 +2724,7 @@ e_date_edit_set_shorten_time (EDateEdit *self,
 		self->priv->shorten_time_minutes = minutes;
 		maybe_rebuild_time_popup (self);
 
-		g_object_notify (G_OBJECT (self), "shorten-time");
+		g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_SHORTEN_TIME]);
 	}
 }
 
@@ -2783,7 +2748,7 @@ e_date_edit_set_shorten_time_end (EDateEdit *self,
 		if (self->priv->shorten_time_minutes > 0)
 			maybe_rebuild_time_popup (self);
 
-		g_object_notify (G_OBJECT (self), "shorten-time-end");
+		g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_SHORTEN_TIME_END]);
 	}
 }
 

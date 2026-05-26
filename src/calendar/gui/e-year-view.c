@@ -88,7 +88,7 @@ enum {
 	PROP_PREVIEW_VISIBLE,
 	PROP_USE_24HOUR_FORMAT,
 	PROP_HIGHLIGHT_TODAY,
-	LAST_PROP,
+	N_PROPS,
 	PROP_IS_EDITING /* override property as the last */
 };
 
@@ -98,7 +98,7 @@ G_DEFINE_TYPE_WITH_CODE (EYearView, e_year_view, E_TYPE_CALENDAR_VIEW,
 	G_ADD_PRIVATE (EYearView)
 	G_IMPLEMENT_INTERFACE (E_TYPE_CAL_DATA_MODEL_SUBSCRIBER, year_view_cal_data_model_subscriber_init))
 
-static GParamSpec *obj_props[LAST_PROP] = { NULL, };
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COLUMN_BGCOLOR = 0,
@@ -2204,22 +2204,22 @@ e_year_view_class_init (EYearViewClass *klass)
 		PROP_IS_EDITING,
 		"is-editing");
 
-	obj_props[PROP_PREVIEW_VISIBLE] =
+	properties[PROP_PREVIEW_VISIBLE] =
 		g_param_spec_boolean ("preview-visible", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-	obj_props[PROP_USE_24HOUR_FORMAT] =
+	properties[PROP_USE_24HOUR_FORMAT] =
 		g_param_spec_boolean ("use-24hour-format", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-	obj_props[PROP_HIGHLIGHT_TODAY] =
+	properties[PROP_HIGHLIGHT_TODAY] =
 		g_param_spec_boolean ("highlight-today", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS | G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, LAST_PROP, obj_props);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -2277,7 +2277,7 @@ e_year_view_set_preview_visible (EYearView *self,
 
 	e_year_view_update_actions (self);
 
-	g_object_notify_by_pspec (G_OBJECT (self), obj_props[PROP_PREVIEW_VISIBLE]);
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_PREVIEW_VISIBLE]);
 }
 
 gboolean
@@ -2370,7 +2370,7 @@ e_year_view_set_use_24hour_format (EYearView *self,
 		} while (gtk_tree_model_iter_next (model, &iter));
 	}
 
-	g_object_notify_by_pspec (G_OBJECT (self), obj_props[PROP_USE_24HOUR_FORMAT]);
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_USE_24HOUR_FORMAT]);
 }
 
 gboolean
@@ -2394,7 +2394,7 @@ e_year_view_set_highlight_today (EYearView *self,
 
 	year_view_update_today (self);
 
-	g_object_notify_by_pspec (G_OBJECT (self), obj_props[PROP_HIGHLIGHT_TODAY]);
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_HIGHLIGHT_TODAY]);
 }
 
 gboolean

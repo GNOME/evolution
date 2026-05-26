@@ -63,8 +63,11 @@ enum {
 	PROP_BG_COLOR_COLUMN,
 	PROP_USE_TABULAR_NUMBERS,
 	PROP_IS_MARKUP,
-	PROP_ELLIPSIZE_MODE
+	PROP_ELLIPSIZE_MODE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	E_SELECTION_PRIMARY,
@@ -1801,114 +1804,74 @@ e_cell_text_class_init (ECellTextClass *class)
 		G_TYPE_INT,
 		G_TYPE_INT);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STRIKEOUT_COLUMN,
+	properties[PROP_STRIKEOUT_COLUMN] =
 		g_param_spec_int (
-			"strikeout_column",
-			"Strikeout Column",
-			NULL,
+			"strikeout-column", NULL, NULL,
 			-1, G_MAXINT, -1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UNDERLINE_COLUMN,
+	properties[PROP_UNDERLINE_COLUMN] =
 		g_param_spec_int (
-			"underline_column",
-			"Underline Column",
-			NULL,
+			"underline-column", NULL, NULL,
 			-1, G_MAXINT, -1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BOLD_COLUMN,
+	properties[PROP_BOLD_COLUMN] =
 		g_param_spec_int (
-			"bold_column",
-			"Bold Column",
-			NULL,
+			"bold-column", NULL, NULL,
 			-1, G_MAXINT, -1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ITALIC_COLUMN,
+	properties[PROP_ITALIC_COLUMN] =
 		g_param_spec_int (
-			"italic-column",
-			"Italic Column",
-			NULL,
+			"italic-column", NULL, NULL,
 			-1, G_MAXINT, -1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STRIKEOUT_COLOR_COLUMN,
+	properties[PROP_STRIKEOUT_COLOR_COLUMN] =
 		g_param_spec_int (
-			"strikeout-color-column",
-			"Strikeout Color Column",
-			NULL,
+			"strikeout-color-column", NULL, NULL,
 			-1, G_MAXINT, -1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COLOR_COLUMN,
+	properties[PROP_COLOR_COLUMN] =
 		g_param_spec_int (
-			"color_column",
-			"Color Column",
-			NULL,
+			"color-column", NULL, NULL,
 			-1, G_MAXINT, -1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITABLE,
+	properties[PROP_EDITABLE] =
 		g_param_spec_boolean (
-			"editable",
-			"Editable",
-			NULL,
+			"editable", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_BG_COLOR_COLUMN,
+	properties[PROP_BG_COLOR_COLUMN] =
 		g_param_spec_int (
-			"bg_color_column",
-			"BG Color Column",
-			NULL,
+			"bg-color-column", NULL, NULL,
 			-1, G_MAXINT, -1,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_TABULAR_NUMBERS,
+	properties[PROP_USE_TABULAR_NUMBERS] =
 		g_param_spec_boolean (
-			"use-tabular-numbers",
-			"Use tabular numbers",
-			NULL,
+			"use-tabular-numbers", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_MARKUP,
+	properties[PROP_IS_MARKUP] =
 		g_param_spec_boolean (
-			"is-markup",
-			"The text is markup",
-			NULL,
+			"is-markup", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ELLIPSIZE_MODE,
+	properties[PROP_ELLIPSIZE_MODE] =
 		g_param_spec_enum (
 			"ellipsize-mode", NULL, NULL,
 			PANGO_TYPE_ELLIPSIZE_MODE,
 			PANGO_ELLIPSIZE_END,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -2104,13 +2067,13 @@ e_cell_text_init (ECellText *ect)
  * a finer control of the way the string is displayed.  The arguments supported
  * allow the control of strikeout, underline, bold, and color.
  *
- * The arguments "strikeout_column", "underline_column", "bold_column"
- * and "color_column" set and return an integer that points to a
+ * The arguments "strikeout-column", "underline-column", "bold-column"
+ * and "color-column" set and return an integer that points to a
  * column in the model that controls these settings.  So controlling
  * the way things are rendered is achieved by having special columns
  * in the model that will be used to flag whether the text should be
  * rendered with strikeout, or bolded.  In the case of the
- * "color_column" argument, the column in the model is expected to
+ * "color-column" argument, the column in the model is expected to
  * have a string that can be parsed by gdk_rgba_parse().
  *
  * Returns: an ECell object that can be used to render strings.

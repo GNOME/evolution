@@ -147,10 +147,10 @@ e_ui_action_group_class_init (EUIActionGroupClass *klass)
 	 * Since: 3.56
 	 **/
 	properties[PROP_NAME] = g_param_spec_string ("name", NULL, NULL, NULL,
-		G_PARAM_READWRITE |
-		G_PARAM_CONSTRUCT_ONLY |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+						     G_PARAM_READWRITE |
+						     G_PARAM_CONSTRUCT_ONLY |
+						     G_PARAM_STATIC_STRINGS |
+						     G_PARAM_EXPLICIT_NOTIFY);
 
 	/**
 	 * EUIActionGroup:sensitive:
@@ -160,10 +160,11 @@ e_ui_action_group_class_init (EUIActionGroupClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_SENSITIVE] = g_param_spec_boolean ("sensitive", NULL, NULL, TRUE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_SENSITIVE] = g_param_spec_boolean ("sensitive", NULL,
+							   NULL, TRUE,
+							   G_PARAM_READWRITE |
+							   G_PARAM_STATIC_STRINGS |
+							   G_PARAM_EXPLICIT_NOTIFY);
 
 
 	/**
@@ -174,12 +175,13 @@ e_ui_action_group_class_init (EUIActionGroupClass *klass)
 	 *
 	 * Since: 3.56
 	 **/
-	properties[PROP_VISIBLE] = g_param_spec_boolean ("visible", NULL, NULL, TRUE,
-		G_PARAM_READWRITE |
-		G_PARAM_STATIC_STRINGS |
-		G_PARAM_EXPLICIT_NOTIFY);
+	properties[PROP_VISIBLE] = g_param_spec_boolean ("visible", NULL,
+							 NULL, TRUE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_STRINGS |
+							 G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* void		added		(EUIActionGroup *action_group,
 					 EUIAction *action); */

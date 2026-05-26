@@ -75,8 +75,11 @@ struct _StoreData {
 enum {
 	PROP_0,
 	PROP_SESSION,
-	PROP_STORE
+	PROP_STORE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	COL_CASEFOLDED,		/* G_TYPE_STRING  */
@@ -1174,7 +1177,7 @@ subscription_editor_combo_box_changed_cb (GtkComboBox *combo_box,
 	subscription_editor_stop (editor);
 	subscription_editor_update_view (editor);
 
-	g_object_notify (G_OBJECT (editor), "store");
+	g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_STORE]);
 
 	if (data->needs_refresh) {
 		subscription_editor_refresh (editor);
@@ -1668,29 +1671,23 @@ em_subscription_editor_class_init (EMSubscriptionEditorClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = subscription_editor_realize;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SESSION,
+	properties[PROP_SESSION] =
 		g_param_spec_object (
-			"session",
-			NULL,
-			NULL,
+			"session", NULL, NULL,
 			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_STORE,
+	properties[PROP_STORE] =
 		g_param_spec_object (
-			"store",
-			NULL,
-			NULL,
+			"store", NULL, NULL,
 			CAMEL_TYPE_STORE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

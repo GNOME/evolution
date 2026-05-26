@@ -27,8 +27,11 @@ struct _ECellDateEditTextPrivate {
 enum {
 	PROP_0,
 	PROP_TIMEZONE,
-	PROP_USE_24_HOUR_FORMAT
+	PROP_USE_24_HOUR_FORMAT,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (ECellDateEditText, e_cell_date_edit_text, E_TYPE_CELL_TEXT)
 
@@ -236,25 +239,19 @@ e_cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 	cell_text_class->free_text = cell_date_edit_text_free_text;
 	cell_text_class->set_value = cell_date_edit_text_set_value;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TIMEZONE,
+	properties[PROP_TIMEZONE] =
 		g_param_spec_object (
-			"timezone",
-			"Time Zone",
-			NULL,
+			"timezone", NULL, NULL,
 			I_CAL_TYPE_TIMEZONE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_USE_24_HOUR_FORMAT,
+	properties[PROP_USE_24_HOUR_FORMAT] =
 		g_param_spec_boolean (
-			"use-24-hour-format",
-			"Use 24-Hour Format",
-			NULL,
+			"use-24-hour-format", NULL, NULL,
 			TRUE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -308,7 +305,7 @@ e_cell_date_edit_text_set_timezone (ECellDateEditText *ecd,
 	g_clear_object (&ecd->priv->timezone);
 	ecd->priv->timezone = timezone ? e_cal_util_copy_timezone (timezone) : NULL;
 
-	g_object_notify (G_OBJECT (ecd), "timezone");
+	g_object_notify_by_pspec (G_OBJECT (ecd), properties[PROP_TIMEZONE]);
 }
 
 gboolean
@@ -330,7 +327,7 @@ e_cell_date_edit_text_set_use_24_hour_format (ECellDateEditText *ecd,
 
 	ecd->priv->use_24_hour_format = use_24_hour;
 
-	g_object_notify (G_OBJECT (ecd), "use-24-hour-format");
+	g_object_notify_by_pspec (G_OBJECT (ecd), properties[PROP_USE_24_HOUR_FORMAT]);
 }
 
 gint

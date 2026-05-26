@@ -63,8 +63,11 @@ enum {
 	PROP_DELETE_SELECTION_ACTION,
 	PROP_SELECT_ALL_ACTION,
 	PROP_UNDO_ACTION,
-	PROP_REDO_ACTION
+	PROP_REDO_ACTION,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EFocusTracker, e_focus_tracker, G_TYPE_OBJECT)
 
@@ -446,7 +449,7 @@ focus_tracker_set_focus_cb (GtkWindow *window,
 		return;
 
 	focus_tracker->priv->focus = focus;
-	g_object_notify (G_OBJECT (focus_tracker), "focus");
+	g_object_notify_by_pspec (G_OBJECT (focus_tracker), properties[PROP_FOCUS]);
 
 	e_focus_tracker_update_actions (focus_tracker);
 }
@@ -665,96 +668,62 @@ e_focus_tracker_class_init (EFocusTrackerClass *class)
 	object_class->dispose = focus_tracker_dispose;
 	object_class->constructed = focus_tracker_constructed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FOCUS,
+	properties[PROP_FOCUS] =
 		g_param_spec_object (
-			"focus",
-			"Focus",
-			NULL,
+			"focus", NULL, NULL,
 			GTK_TYPE_WIDGET,
-			G_PARAM_READABLE));
+			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WINDOW,
+	properties[PROP_WINDOW] =
 		g_param_spec_object (
-			"window",
-			"Window",
-			NULL,
+			"window", NULL, NULL,
 			GTK_TYPE_WINDOW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CUT_CLIPBOARD_ACTION,
+	properties[PROP_CUT_CLIPBOARD_ACTION] =
 		g_param_spec_object (
-			"cut-clipboard-action",
-			"Cut Clipboard Action",
-			NULL,
+			"cut-clipboard-action", NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_COPY_CLIPBOARD_ACTION,
+	properties[PROP_COPY_CLIPBOARD_ACTION] =
 		g_param_spec_object (
-			"copy-clipboard-action",
-			"Copy Clipboard Action",
-			NULL,
+			"copy-clipboard-action", NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PASTE_CLIPBOARD_ACTION,
+	properties[PROP_PASTE_CLIPBOARD_ACTION] =
 		g_param_spec_object (
-			"paste-clipboard-action",
-			"Paste Clipboard Action",
-			NULL,
+			"paste-clipboard-action", NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DELETE_SELECTION_ACTION,
+	properties[PROP_DELETE_SELECTION_ACTION] =
 		g_param_spec_object (
-			"delete-selection-action",
-			"Delete Selection Action",
-			NULL,
+			"delete-selection-action", NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SELECT_ALL_ACTION,
+	properties[PROP_SELECT_ALL_ACTION] =
 		g_param_spec_object (
-			"select-all-action",
-			"Select All Action",
-			NULL,
+			"select-all-action", NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_UNDO_ACTION,
+	properties[PROP_UNDO_ACTION] =
 		g_param_spec_object (
-			"undo-action",
-			"Undo Action",
-			NULL,
+			"undo-action", NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REDO_ACTION,
+	properties[PROP_REDO_ACTION] =
 		g_param_spec_object (
-			"redo-action",
-			"Redo Action",
-			NULL,
+			"redo-action", NULL, NULL,
 			E_TYPE_UI_ACTION,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

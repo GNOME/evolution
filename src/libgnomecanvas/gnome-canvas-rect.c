@@ -62,8 +62,10 @@ enum {
 	PROP_JOIN_STYLE,
 	PROP_WIND,
 	PROP_MITERLIMIT,
-	PROP_DASH
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static void   gnome_canvas_rect_bounds      (GnomeCanvasItem *item,
 					      gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
@@ -190,11 +192,6 @@ gnome_canvas_rect_set_property (GObject *object,
 		gnome_canvas_item_request_update (item);
 		break;
 
-	case PROP_DASH:
-		/* XXX */
-		g_warn_if_reached ();
-		break;
-
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 		break;
@@ -246,11 +243,6 @@ gnome_canvas_rect_get_property (GObject *object,
 
 	case PROP_MITERLIMIT:
 		g_value_set_double (value, priv->miterlimit);
-		break;
-
-	case PROP_DASH:
-		/* XXX */
-		g_warn_if_reached ();
 		break;
 
 	default:
@@ -406,142 +398,88 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 	item_class->point = gnome_canvas_rect_point;
 	item_class->bounds = gnome_canvas_rect_bounds;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_X1,
+	properties[PROP_X1] =
 		g_param_spec_double (
-			"x1",
-			NULL,
-			NULL,
+			"x1", NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_Y1,
+	properties[PROP_Y1] =
 		g_param_spec_double (
-			"y1",
-			NULL,
-			NULL,
+			"y1", NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_X2,
+	properties[PROP_X2] =
 		g_param_spec_double (
-			"x2",
-			NULL,
-			NULL,
+			"x2", NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_Y2,
+	properties[PROP_Y2] =
 		g_param_spec_double (
-			"y2",
-			NULL,
-			NULL,
+			"y2", NULL, NULL,
 			-G_MAXDOUBLE,
 			G_MAXDOUBLE,
 			0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILL_COLOR,
+	properties[PROP_FILL_COLOR] =
 		g_param_spec_boxed (
-			"fill-color",
-			NULL,
-			NULL,
+			"fill-color", NULL, NULL,
 			GDK_TYPE_RGBA,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_OUTLINE_COLOR,
+	properties[PROP_OUTLINE_COLOR] =
 		g_param_spec_boxed (
-			"outline-color",
-			NULL,
-			NULL,
+			"outline-color", NULL, NULL,
 			GDK_TYPE_RGBA,
-			G_PARAM_WRITABLE));
+			G_PARAM_WRITABLE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_LINE_WIDTH,
+	properties[PROP_LINE_WIDTH] =
 		g_param_spec_double (
-			"line_width",
-			NULL,
-			NULL,
+			"line-width", NULL, NULL,
 			0.0,
 			G_MAXDOUBLE,
 			1.0,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CAP_STYLE,
+	properties[PROP_CAP_STYLE] =
 		g_param_spec_enum (
-			"cap_style",
-			NULL,
-			NULL,
+			"cap-style", NULL, NULL,
 			CAIRO_GOBJECT_TYPE_LINE_CAP,
 			CAIRO_LINE_CAP_BUTT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_JOIN_STYLE,
+	properties[PROP_JOIN_STYLE] =
 		g_param_spec_enum (
-			"join_style",
-			NULL,
-			NULL,
+			"join-style", NULL, NULL,
 			CAIRO_GOBJECT_TYPE_LINE_JOIN,
 			CAIRO_LINE_JOIN_MITER,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WIND,
+	properties[PROP_WIND] =
 		g_param_spec_enum (
-			"wind",
-			NULL,
-			NULL,
+			"wind", NULL, NULL,
 			CAIRO_GOBJECT_TYPE_FILL_RULE,
 			CAIRO_FILL_RULE_EVEN_ODD,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MITERLIMIT,
+	properties[PROP_MITERLIMIT] =
 		g_param_spec_double (
-			"miterlimit",
-			NULL,
-			NULL,
+			"miterlimit", NULL, NULL,
 			0.0,
 			G_MAXDOUBLE,
 			10.43,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-#if 0
-	/* XXX: Find a good way to pass dash properties in a property */
-	g_object_class_install_property (
-		object_class,
-		PROP_DASH,
-		g_param_spec_pointer (
-			"dash",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE));
-#endif
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

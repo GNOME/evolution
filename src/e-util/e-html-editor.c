@@ -58,8 +58,11 @@ enum {
 	PROP_0,
 	PROP_MODE,
 	PROP_FILENAME,
-	PROP_PASTE_PLAIN_PREFER_PRE
+	PROP_PASTE_PLAIN_PREFER_PRE,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	UPDATE_ACTIONS,
@@ -745,7 +748,7 @@ html_editor_set_paste_plain_prefer_pre (EHTMLEditor *editor,
 	if ((editor->priv->paste_plain_prefer_pre ? 1 : 0) != (value ? 1 : 0)) {
 		editor->priv->paste_plain_prefer_pre = value;
 
-		g_object_notify (G_OBJECT (editor), "paste-plain-prefer-pre");
+		g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_PASTE_PLAIN_PREFER_PRE]);
 	}
 }
 
@@ -1526,40 +1529,30 @@ e_html_editor_class_init (EHTMLEditorClass *class)
 	class->update_actions = html_editor_update_actions;
 	class->spell_languages_changed = html_editor_spell_languages_changed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODE,
+	properties[PROP_MODE] =
 		g_param_spec_enum (
-			"mode",
-			NULL,
-			NULL,
+			"mode", NULL, NULL,
 			E_TYPE_CONTENT_EDITOR_MODE,
 			E_CONTENT_EDITOR_MODE_HTML,
 			G_PARAM_READWRITE |
 			G_PARAM_EXPLICIT_NOTIFY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILENAME,
+	properties[PROP_FILENAME] =
 		g_param_spec_string (
-			"filename",
-			NULL,
-			NULL,
+			"filename", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_PASTE_PLAIN_PREFER_PRE,
+	properties[PROP_PASTE_PLAIN_PREFER_PRE] =
 		g_param_spec_boolean (
-			"paste-plain-prefer-pre",
-			NULL,
-			NULL,
+			"paste-plain-prefer-pre", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[UPDATE_ACTIONS] = g_signal_new (
 		"update-actions",
@@ -2309,7 +2302,7 @@ e_html_editor_set_mode (EHTMLEditor *editor,
 			e_html_editor_actions_bind (editor);
 
 		g_object_set (G_OBJECT (cnt_editor), "mode", mode, NULL);
-		g_object_notify (G_OBJECT (editor), "mode");
+		g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_MODE]);
 
 		e_ui_manager_thaw (editor->priv->ui_manager);
 	}
@@ -2443,7 +2436,7 @@ e_html_editor_set_filename (EHTMLEditor *editor,
 	g_free (editor->priv->filename);
 	editor->priv->filename = g_strdup (filename);
 
-	g_object_notify (G_OBJECT (editor), "filename");
+	g_object_notify_by_pspec (G_OBJECT (editor), properties[PROP_FILENAME]);
 }
 
 EActivityBar *

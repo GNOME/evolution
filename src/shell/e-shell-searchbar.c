@@ -61,8 +61,11 @@ enum {
 	PROP_SCOPE_COMBO_BOX,
 	PROP_SCOPE_VISIBLE,
 	PROP_SHELL_VIEW,
-	PROP_STATE_GROUP
+	PROP_STATE_GROUP,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_CODE (EShellSearchbar, e_shell_searchbar, GTK_TYPE_BOX,
 	G_ADD_PRIVATE (EShellSearchbar)
@@ -738,118 +741,84 @@ e_shell_searchbar_class_init (EShellSearchbarClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = shell_searchbar_map;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILTER_COMBO_BOX,
+	properties[PROP_FILTER_COMBO_BOX] =
 		g_param_spec_object (
-			"filter-combo-box",
-			NULL,
-			NULL,
+			"filter-combo-box", NULL, NULL,
 			E_TYPE_ACTION_COMBO_BOX,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FILTER_VISIBLE,
+	properties[PROP_FILTER_VISIBLE] =
 		g_param_spec_boolean (
-			"filter-visible",
-			NULL,
-			NULL,
+			"filter-visible", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SEARCH_HINT,
+	properties[PROP_SEARCH_HINT] =
 		g_param_spec_string (
-			"search-hint",
-			NULL,
-			NULL,
+			"search-hint", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SEARCH_OPTION,
+	properties[PROP_SEARCH_OPTION] =
 		g_param_spec_object (
-			"search-option",
-			NULL,
-			NULL,
+			"search-option", NULL, NULL,
 			E_TYPE_UI_ACTION,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SEARCH_TEXT,
+	properties[PROP_SEARCH_TEXT] =
 		g_param_spec_string (
-			"search-text",
-			NULL,
-			NULL,
+			"search-text", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SCOPE_COMBO_BOX,
+	properties[PROP_SCOPE_COMBO_BOX] =
 		g_param_spec_object (
-			"scope-combo-box",
-			NULL,
-			NULL,
+			"scope-combo-box", NULL, NULL,
 			E_TYPE_ACTION_COMBO_BOX,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SCOPE_VISIBLE,
+	properties[PROP_SCOPE_VISIBLE] =
 		g_param_spec_boolean (
-			"scope-visible",
-			NULL,
-			NULL,
+			"scope-visible", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellSearchbar:shell-view
 	 *
 	 * The #EShellView to which the searchbar widget belongs.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_VIEW,
+	properties[PROP_SHELL_VIEW] =
 		g_param_spec_object (
-			"shell-view",
-			NULL,
-			NULL,
+			"shell-view", NULL, NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellSearchbar:state-group
 	 *
 	 * Key file group name to read and write search bar state.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_STATE_GROUP,
+	properties[PROP_STATE_GROUP] =
 		g_param_spec_string (
-			"state-group",
-			NULL,
-			NULL,
+			"state-group", NULL, NULL,
 			STATE_GROUP_DEFAULT,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1109,7 +1078,7 @@ e_shell_searchbar_set_filter_visible (EShellSearchbar *searchbar,
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
 	}
 
-	g_object_notify (G_OBJECT (searchbar), "filter-visible");
+	g_object_notify_by_pspec (G_OBJECT (searchbar), properties[PROP_FILTER_VISIBLE]);
 }
 
 const gchar *
@@ -1139,7 +1108,7 @@ e_shell_searchbar_set_search_hint (EShellSearchbar *searchbar,
 
 	gtk_entry_set_placeholder_text (entry, search_hint);
 
-	g_object_notify (G_OBJECT (searchbar), "search-hint");
+	g_object_notify_by_pspec (G_OBJECT (searchbar), properties[PROP_SEARCH_HINT]);
 }
 
 EUIAction *
@@ -1183,7 +1152,7 @@ e_shell_searchbar_set_search_option (EShellSearchbar *searchbar,
 		shell_searchbar_option_notify_state_cb (search_option, NULL, searchbar);
 	}
 
-	g_object_notify (G_OBJECT (searchbar), "search-option");
+	g_object_notify_by_pspec (G_OBJECT (searchbar), properties[PROP_SEARCH_OPTION]);
 }
 
 const gchar *
@@ -1220,7 +1189,7 @@ e_shell_searchbar_set_search_text (EShellSearchbar *searchbar,
 
 	shell_searchbar_update_search_widgets (searchbar);
 
-	g_object_notify (G_OBJECT (searchbar), "search-text");
+	g_object_notify_by_pspec (G_OBJECT (searchbar), properties[PROP_SEARCH_TEXT]);
 }
 
 GtkWidget *
@@ -1274,7 +1243,7 @@ e_shell_searchbar_set_scope_visible (EShellSearchbar *searchbar,
 			G_CALLBACK (shell_searchbar_save_search_scope), searchbar);
 	}
 
-	g_object_notify (G_OBJECT (searchbar), "scope-visible");
+	g_object_notify_by_pspec (G_OBJECT (searchbar), properties[PROP_SCOPE_VISIBLE]);
 }
 
 void
@@ -1308,7 +1277,7 @@ e_shell_searchbar_set_state_group (EShellSearchbar *searchbar,
 	g_free (searchbar->priv->state_group);
 	searchbar->priv->state_group = g_strdup (state_group);
 
-	g_object_notify (G_OBJECT (searchbar), "state-group");
+	g_object_notify_by_pspec (G_OBJECT (searchbar), properties[PROP_STATE_GROUP]);
 }
 
 static gboolean

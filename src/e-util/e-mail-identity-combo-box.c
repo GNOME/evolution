@@ -44,8 +44,11 @@ enum {
 	PROP_0,
 	PROP_ALLOW_ALIASES,
 	PROP_ALLOW_NONE,
-	PROP_REGISTRY
+	PROP_REGISTRY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EMailIdentityComboBox, e_mail_identity_combo_box, GTK_TYPE_COMBO_BOX)
 
@@ -309,39 +312,29 @@ e_mail_identity_combo_box_class_init (EMailIdentityComboBoxClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->get_preferred_width = mail_identity_combo_box_get_preferred_width;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALLOW_ALIASES,
+	properties[PROP_ALLOW_ALIASES] =
 		g_param_spec_boolean (
-			"allow-aliases",
-			"Allow separate items with identity aliases",
-			NULL,
+			"allow-aliases", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ALLOW_NONE,
+	properties[PROP_ALLOW_NONE] =
 		g_param_spec_boolean (
-			"allow-none",
-			"Allow None Item",
-			NULL,
+			"allow-none", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REGISTRY,
+	properties[PROP_REGISTRY] =
 		g_param_spec_object (
-			"registry",
-			"Registry",
-			NULL,
+			"registry", NULL, NULL,
 			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -777,7 +770,7 @@ e_mail_identity_combo_box_set_allow_none (EMailIdentityComboBox *combo_box,
 
 	combo_box->priv->allow_none = allow_none;
 
-	g_object_notify (G_OBJECT (combo_box), "allow-none");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_ALLOW_NONE]);
 
 	e_mail_identity_combo_box_refresh (combo_box);
 }
@@ -863,7 +856,7 @@ e_mail_identity_combo_box_set_allow_aliases (EMailIdentityComboBox *combo_box,
 
 	combo_box->priv->allow_aliases = allow_aliases;
 
-	g_object_notify (G_OBJECT (combo_box), "allow-aliases");
+	g_object_notify_by_pspec (G_OBJECT (combo_box), properties[PROP_ALLOW_ALIASES]);
 
 	e_mail_identity_combo_box_refresh (combo_box);
 }

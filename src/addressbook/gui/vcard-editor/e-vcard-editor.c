@@ -5037,7 +5037,7 @@ e_vcard_editor_class_init (EVCardEditorClass *klass)
 		G_PARAM_STATIC_STRINGS |
 		G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* mainly for testing purposes, replaces internal saving routine;
 	   gboolean custom_save (EVCardEditor *editor, EBookClient *target_client, EContact *contact, gchar **out_error_message); */

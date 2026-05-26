@@ -18,8 +18,11 @@ struct _EGravatarPhotoSourcePrivate {
 
 enum {
 	PROP_0,
-	PROP_ENABLED
+	PROP_ENABLED,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -223,16 +226,19 @@ e_gravatar_photo_source_class_init (EGravatarPhotoSourceClass *class)
 	object_class->set_property = gravatar_photo_source_set_property;
 	object_class->get_property = gravatar_photo_source_get_property;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_ENABLED,
+	/**
+	 * EGravatarPhotoSource:enabled
+	 *
+	 * Whether can search for contact photos
+	 **/
+	properties[PROP_ENABLED] =
 		g_param_spec_boolean (
-			"enabled",
-			"Enabled",
-			"Whether can search for contact photos",
+			"enabled", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -313,5 +319,5 @@ e_gravatar_photo_source_set_enabled (EGravatarPhotoSource *photo_source,
 
 	photo_source->priv->enabled = enabled;
 
-	g_object_notify (G_OBJECT (photo_source), "enabled");
+	g_object_notify_by_pspec (G_OBJECT (photo_source), properties[PROP_ENABLED]);
 }

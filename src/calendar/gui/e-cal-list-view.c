@@ -205,8 +205,8 @@ setup_e_table (ECalListView *cal_list_view)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
@@ -217,8 +217,8 @@ setup_e_table (ECalListView *cal_list_view)
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	e_binding_bind_property (
@@ -258,8 +258,8 @@ setup_e_table (ECalListView *cal_list_view)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		"editable", FALSE,
 		NULL);
 
@@ -283,8 +283,8 @@ setup_e_table (ECalListView *cal_list_view)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	popup_cell = e_cell_combo_new ();

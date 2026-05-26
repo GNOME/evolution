@@ -34,8 +34,11 @@ enum {
 	PROP_ICON_NAME,
 	PROP_PRIMARY_TEXT,
 	PROP_SECONDARY_TEXT,
-	PROP_SHELL_VIEW
+	PROP_SHELL_VIEW,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 /* Forward Declarations */
 static void	e_shell_sidebar_alert_sink_init
@@ -316,32 +319,24 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 	 *
 	 * The named icon is displayed at the top of the sidebar.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_ICON_NAME,
+	properties[PROP_ICON_NAME] =
 		g_param_spec_string (
-			"icon-name",
-			"Icon Name",
-			NULL,
+			"icon-name", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellSidebar:primary-text
 	 *
 	 * The primary text is displayed in bold at the top of the sidebar.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_PRIMARY_TEXT,
+	properties[PROP_PRIMARY_TEXT] =
 		g_param_spec_string (
-			"primary-text",
-			"Primary Text",
-			NULL,
+			"primary-text", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellSidebar:secondary-text
@@ -349,33 +344,27 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 	 * The secondary text is displayed in a smaller font at the top of
 	 * the sidebar.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SECONDARY_TEXT,
+	properties[PROP_SECONDARY_TEXT] =
 		g_param_spec_string (
-			"secondary-text",
-			"Secondary Text",
-			NULL,
+			"secondary-text", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/**
 	 * EShellSidebar:shell-view
 	 *
 	 * The #EShellView to which the sidebar widget belongs.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_VIEW,
+	properties[PROP_SHELL_VIEW] =
 		g_param_spec_object (
-			"shell-view",
-			"Shell View",
-			NULL,
+			"shell-view", NULL, NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -574,7 +563,7 @@ e_shell_sidebar_set_icon_name (EShellSidebar *shell_sidebar,
 	g_free (shell_sidebar->priv->icon_name);
 	shell_sidebar->priv->icon_name = g_strdup (icon_name);
 
-	g_object_notify (G_OBJECT (shell_sidebar), "icon-name");
+	g_object_notify_by_pspec (G_OBJECT (shell_sidebar), properties[PROP_ICON_NAME]);
 }
 
 /**
@@ -621,7 +610,7 @@ e_shell_sidebar_set_primary_text (EShellSidebar *shell_sidebar,
 	shell_sidebar->priv->primary_text = e_utf8_ensure_valid (primary_text);
 
 	gtk_widget_queue_resize (GTK_WIDGET (shell_sidebar));
-	g_object_notify (G_OBJECT (shell_sidebar), "primary-text");
+	g_object_notify_by_pspec (G_OBJECT (shell_sidebar), properties[PROP_PRIMARY_TEXT]);
 }
 
 /**
@@ -670,5 +659,5 @@ e_shell_sidebar_set_secondary_text (EShellSidebar *shell_sidebar,
 	shell_sidebar->priv->secondary_text = e_utf8_ensure_valid (secondary_text);
 
 	gtk_widget_queue_resize (GTK_WIDGET (shell_sidebar));
-	g_object_notify (G_OBJECT (shell_sidebar), "secondary-text");
+	g_object_notify_by_pspec (G_OBJECT (shell_sidebar), properties[PROP_SECONDARY_TEXT]);
 }

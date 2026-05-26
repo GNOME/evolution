@@ -465,7 +465,7 @@ e_cal_range_model_class_init (ECalRangeModelClass *klass)
 		G_PARAM_STATIC_STRINGS |
 		G_PARAM_EXPLICIT_NOTIFY);
 
-	g_object_class_install_properties (object_class, G_N_ELEMENTS (properties), properties);
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* void component_added		(ECalRangeModel *range_model,
 					 ECalClient *client,

@@ -53,8 +53,11 @@ enum {
 	PROP_SIGNATURE_UID,
 	PROP_SUBJECT,
 	PROP_MAIL_FOLLOWUP_TO,
-	PROP_MAIL_REPLY_TO
+	PROP_MAIL_REPLY_TO,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE_WITH_PRIVATE (EComposerHeaderTable, e_composer_header_table, GTK_TYPE_GRID)
 
@@ -1055,138 +1058,97 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 	 *
 	 * Cache of shared #EClient instances.
 	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_CLIENT_CACHE,
+	/**
+	 * EComposerHeaderTable:client-cache
+	 *
+	 * Cache of shared EClient instances
+	 **/
+	properties[PROP_CLIENT_CACHE] =
 		g_param_spec_object (
-			"client-cache",
-			"Client Cache",
-			"Cache of shared EClient instances",
+			"client-cache", NULL, NULL,
 			E_TYPE_CLIENT_CACHE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DESTINATIONS_BCC,
+	properties[PROP_DESTINATIONS_BCC] =
 		g_param_spec_boxed (
-			"destinations-bcc",
-			NULL,
-			NULL,
+			"destinations-bcc", NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DESTINATIONS_CC,
+	properties[PROP_DESTINATIONS_CC] =
 		g_param_spec_boxed (
-			"destinations-cc",
-			NULL,
-			NULL,
+			"destinations-cc", NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DESTINATIONS_TO,
+	properties[PROP_DESTINATIONS_TO] =
 		g_param_spec_boxed (
-			"destinations-to",
-			NULL,
-			NULL,
+			"destinations-to", NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IDENTITY_UID,
+	properties[PROP_IDENTITY_UID] =
 		g_param_spec_string (
-			"identity-uid",
-			NULL,
-			NULL,
+			"identity-uid", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_POST_TO,
+	properties[PROP_POST_TO] =
 		g_param_spec_boxed (
-			"post-to",
-			NULL,
-			NULL,
+			"post-to", NULL, NULL,
 			G_TYPE_PTR_ARRAY,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REPLY_TO,
+	properties[PROP_REPLY_TO] =
 		g_param_spec_string (
-			"reply-to",
-			NULL,
-			NULL,
+			"reply-to", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIL_FOLLOWUP_TO,
+	properties[PROP_MAIL_FOLLOWUP_TO] =
 		g_param_spec_string (
-			"mail-followup-to",
-			NULL,
-			NULL,
+			"mail-followup-to", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MAIL_REPLY_TO,
+	properties[PROP_MAIL_REPLY_TO] =
 		g_param_spec_string (
-			"mail-reply-to",
-			NULL,
-			NULL,
+			"mail-reply-to", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SIGNATURE_COMBO_BOX,
+	properties[PROP_SIGNATURE_COMBO_BOX] =
 		g_param_spec_string (
-			"signature-combo-box",
-			NULL,
-			NULL,
+			"signature-combo-box", NULL, NULL,
 			NULL,
 			G_PARAM_READABLE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SIGNATURE_UID,
+	properties[PROP_SIGNATURE_UID] =
 		g_param_spec_string (
-			"signature-uid",
-			NULL,
-			NULL,
+			"signature-uid", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SUBJECT,
+	properties[PROP_SUBJECT] =
 		g_param_spec_string (
-			"subject",
-			NULL,
-			NULL,
+			"subject", NULL, NULL,
 			NULL,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void

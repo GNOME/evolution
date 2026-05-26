@@ -57,8 +57,11 @@ struct _EABContactFormatterPrivate {
 enum {
 	PROP_0,
 	PROP_DISPLAY_MODE,
-	PROP_RENDER_MAPS
+	PROP_RENDER_MAPS,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 static struct {
 	const gchar *name;
@@ -1581,31 +1584,25 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 	object_class->set_property = eab_contact_formatter_set_property;
 	object_class->get_property = eab_contact_formatter_get_property;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DISPLAY_MODE,
+	properties[PROP_DISPLAY_MODE] =
 		g_param_spec_int (
-			"display-mode",
-			"Display Mode",
-			NULL,
+			"display-mode", NULL, NULL,
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			EAB_CONTACT_DISPLAY_RENDER_COMPACT,
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_RENDER_MAPS,
+	properties[PROP_RENDER_MAPS] =
 		g_param_spec_boolean (
-			"render-maps",
-			"Render Maps",
-			NULL,
+			"render-maps", NULL, NULL,
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -1644,7 +1641,7 @@ eab_contact_formatter_set_render_maps (EABContactFormatter *formatter,
 
 	formatter->priv->render_maps = render_maps;
 
-	g_object_notify (G_OBJECT (formatter), "render-maps");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_RENDER_MAPS]);
 }
 
 EABContactDisplayMode
@@ -1668,7 +1665,7 @@ eab_contact_formatter_set_display_mode (EABContactFormatter *formatter,
 
 	formatter->priv->mode = mode;
 
-	g_object_notify (G_OBJECT (formatter), "display-mode");
+	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_DISPLAY_MODE]);
 }
 
 void

@@ -116,8 +116,11 @@ enum {
 	PROP_EDITABLE,
 	PROP_CHANGED,
 	PROP_WRITABLE_FIELDS,
-	PROP_REQUIRED_FIELDS
+	PROP_REQUIRED_FIELDS,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	DYNAMIC_LIST_EMAIL,
@@ -248,83 +251,57 @@ e_contact_editor_class_init (EContactEditorClass *class)
 	editor_class->get_window = e_contact_editor_get_window;
 	editor_class->editor_closed = e_contact_editor_closed;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_CLIENT,
+	properties[PROP_SOURCE_CLIENT] =
 		g_param_spec_object (
-			"source_client",
-			"Source EBookClient",
-			NULL,
+			"source-client", NULL, NULL,
 			E_TYPE_BOOK_CLIENT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TARGET_CLIENT,
+	properties[PROP_TARGET_CLIENT] =
 		g_param_spec_object (
-			"target_client",
-			"Target EBookClient",
-			NULL,
+			"target-client", NULL, NULL,
 			E_TYPE_BOOK_CLIENT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CONTACT,
+	properties[PROP_CONTACT] =
 		g_param_spec_object (
-			"contact",
-			"Contact",
-			NULL,
+			"contact", NULL, NULL,
 			E_TYPE_CONTACT,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_IS_NEW_CONTACT,
+	properties[PROP_IS_NEW_CONTACT] =
 		g_param_spec_boolean (
-			"is_new_contact",
-			"Is New Contact",
-			NULL,
+			"is-new-contact", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_WRITABLE_FIELDS,
+	properties[PROP_WRITABLE_FIELDS] =
 		g_param_spec_pointer (
-			"writable_fields",
+			"writable-fields",
 			"Writable Fields",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_REQUIRED_FIELDS,
+	properties[PROP_REQUIRED_FIELDS] =
 		g_param_spec_pointer (
-			"required_fields",
+			"required-fields",
 			"Required Fields",
 			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_EDITABLE,
+	properties[PROP_EDITABLE] =
 		g_param_spec_boolean (
-			"editable",
-			"Editable",
-			NULL,
+			"editable", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_CHANGED,
+	properties[PROP_CHANGED] =
 		g_param_spec_boolean (
-			"changed",
-			"Changed",
-			NULL,
+			"changed", NULL, NULL,
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -4055,7 +4032,7 @@ contact_editor_get_client_cb (GObject *source_object,
 				g_clear_object (&editor->priv->cancellable);
 
 				/* FIXME Write a private contact_editor_set_target_client(). */
-				g_object_set (editor, "target_client", client, NULL);
+				g_object_set (editor, "target-client", client, NULL);
 			}
 		}
 
@@ -4093,7 +4070,7 @@ source_changed (EClientComboBox *combo_box,
 
 	if (e_source_equal (source_source, source)) {
 		g_object_set (
-			editor, "target_client",
+			editor, "target-client",
 			editor->priv->source_client, NULL);
 		goto exit;
 	}
@@ -5456,7 +5433,7 @@ supported_fields_cb (GObject *source_object,
 
 	fields = e_client_util_parse_comma_strings (prop_value);
 
-	g_object_set (ce, "writable_fields", fields, NULL);
+	g_object_set (ce, "writable-fields", fields, NULL);
 
 	g_slist_free_full (fields, (GDestroyNotify) g_free);
 	g_free (prop_value);
@@ -5511,7 +5488,7 @@ required_fields_cb (GObject *source_object,
 
 	fields = e_client_util_parse_comma_strings (prop_value);
 
-	g_object_set (ce, "required_fields", fields, NULL);
+	g_object_set (ce, "required-fields", fields, NULL);
 
 	g_slist_free_full (fields, (GDestroyNotify) g_free);
 	g_free (prop_value);
@@ -5536,9 +5513,9 @@ e_contact_editor_new (EShell *shell,
 
 	g_object_set (
 		editor,
-		"source_client", book_client,
+		"source-client", book_client,
 		"contact", contact,
-		"is_new_contact", is_new_contact,
+		"is-new-contact", is_new_contact,
 		"editable", editable,
 		NULL);
 

@@ -102,8 +102,11 @@ enum {
 	PROP_HSCROLLBAR_POLICY,
 	PROP_TREE_VIEW,
 	PROP_TOOLBAR_VISIBLE,
-	PROP_VSCROLLBAR_POLICY
+	PROP_VSCROLLBAR_POLICY,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	TOOLBAR_ACTION_ACTIVATE,
@@ -709,57 +712,63 @@ e_tree_view_frame_class_init (ETreeViewFrameClass *class)
 	class->toolbar_action_activate = tree_view_frame_toolbar_action_activate;
 	class->update_toolbar_actions = tree_view_frame_update_toolbar_actions;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HSCROLLBAR_POLICY,
+	/**
+	 * ETreeViewFrame:hscrollbar-policy
+	 *
+	 * When the horizontal scrollbar is displayed
+	 **/
+	properties[PROP_HSCROLLBAR_POLICY] =
 		g_param_spec_enum (
-			"hscrollbar-policy",
-			"Horizontal Scrollbar Policy",
-			"When the horizontal scrollbar is displayed",
+			"hscrollbar-policy", NULL, NULL,
 			GTK_TYPE_POLICY_TYPE,
 			GTK_POLICY_AUTOMATIC,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
 	/* Don't use G_PARAM_CONSTRUCT here.  Our constructed() method
 	 * will install a default GtkTreeView once the scrolled window
 	 * is set up. */
-	g_object_class_install_property (
-		object_class,
-		PROP_TREE_VIEW,
+	/**
+	 * ETreeViewFrame:tree-view
+	 *
+	 * The tree view widget
+	 **/
+	properties[PROP_TREE_VIEW] =
 		g_param_spec_object (
-			"tree-view",
-			"Tree View",
-			"The tree view widget",
+			"tree-view", NULL, NULL,
 			GTK_TYPE_TREE_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_TOOLBAR_VISIBLE,
+	/**
+	 * ETreeViewFrame:toolbar-visible
+	 *
+	 * Whether to show the inline toolbar
+	 **/
+	properties[PROP_TOOLBAR_VISIBLE] =
 		g_param_spec_boolean (
-			"toolbar-visible",
-			"Toolbar Visible",
-			"Whether to show the inline toolbar",
+			"toolbar-visible", NULL, NULL,
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VSCROLLBAR_POLICY,
+	/**
+	 * ETreeViewFrame:vscrollbar-policy
+	 *
+	 * When the vertical scrollbar is displayed
+	 **/
+	properties[PROP_VSCROLLBAR_POLICY] =
 		g_param_spec_enum (
-			"vscrollbar-policy",
-			"Vertical Scrollbar Policy",
-			"When the vertical scrollbar is displayed",
+			"vscrollbar-policy", NULL, NULL,
 			GTK_TYPE_POLICY_TYPE,
 			GTK_POLICY_AUTOMATIC,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS));
+			G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/**
 	 * ETreeViewFrame::toolbar-action-activate:
@@ -906,7 +915,7 @@ e_tree_view_frame_set_tree_view (ETreeViewFrame *tree_view_frame,
 
 	gtk_widget_show (GTK_WIDGET (tree_view));
 
-	g_object_notify (G_OBJECT (tree_view_frame), "tree-view");
+	g_object_notify_by_pspec (G_OBJECT (tree_view_frame), properties[PROP_TREE_VIEW]);
 
 	e_tree_view_frame_update_toolbar_actions (tree_view_frame);
 }
@@ -945,7 +954,7 @@ e_tree_view_frame_set_toolbar_visible (ETreeViewFrame *tree_view_frame,
 
 	tree_view_frame->priv->toolbar_visible = toolbar_visible;
 
-	g_object_notify (G_OBJECT (tree_view_frame), "toolbar-visible");
+	g_object_notify_by_pspec (G_OBJECT (tree_view_frame), properties[PROP_TOOLBAR_VISIBLE]);
 }
 
 /**
@@ -982,7 +991,7 @@ e_tree_view_frame_set_hscrollbar_policy (ETreeViewFrame *tree_view_frame,
 
 	tree_view_frame->priv->hscrollbar_policy = hscrollbar_policy;
 
-	g_object_notify (G_OBJECT (tree_view_frame), "hscrollbar-policy");
+	g_object_notify_by_pspec (G_OBJECT (tree_view_frame), properties[PROP_HSCROLLBAR_POLICY]);
 }
 
 /**
@@ -1019,7 +1028,7 @@ e_tree_view_frame_set_vscrollbar_policy (ETreeViewFrame *tree_view_frame,
 
 	tree_view_frame->priv->vscrollbar_policy = vscrollbar_policy;
 
-	g_object_notify (G_OBJECT (tree_view_frame), "vscrollbar-policy");
+	g_object_notify_by_pspec (G_OBJECT (tree_view_frame), properties[PROP_VSCROLLBAR_POLICY]);
 }
 
 static void

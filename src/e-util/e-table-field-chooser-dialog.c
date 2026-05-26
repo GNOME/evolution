@@ -16,8 +16,11 @@ enum {
 	PROP_0,
 	PROP_DND_CODE,
 	PROP_FULL_HEADER,
-	PROP_HEADER
+	PROP_HEADER,
+	N_PROPS
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 G_DEFINE_TYPE (
 	ETableFieldChooserDialog,
@@ -38,7 +41,7 @@ e_table_field_chooser_dialog_set_property (GObject *object,
 		if (etfcd->etfc)
 			g_object_set (
 				etfcd->etfc,
-				"dnd_code", etfcd->dnd_code,
+				"dnd-code", etfcd->dnd_code,
 				NULL);
 		break;
 	case PROP_FULL_HEADER:
@@ -53,7 +56,7 @@ e_table_field_chooser_dialog_set_property (GObject *object,
 		if (etfcd->etfc)
 			g_object_set (
 				etfcd->etfc,
-				"full_header", etfcd->full_header,
+				"full-header", etfcd->full_header,
 				NULL);
 		break;
 	case PROP_HEADER:
@@ -133,35 +136,25 @@ e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *class)
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = e_table_field_chooser_dialog_response;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_DND_CODE,
+	properties[PROP_DND_CODE] =
 		g_param_spec_string (
-			"dnd_code",
-			"DnD code",
+			"dnd-code", NULL, NULL,
 			NULL,
-			NULL,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_FULL_HEADER,
+	properties[PROP_FULL_HEADER] =
 		g_param_spec_object (
-			"full_header",
-			"Full Header",
-			NULL,
+			"full-header", NULL, NULL,
 			E_TYPE_TABLE_HEADER,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	g_object_class_install_property (
-		object_class,
-		PROP_HEADER,
+	properties[PROP_HEADER] =
 		g_param_spec_object (
-			"header",
-			"Header",
-			NULL,
+			"header", NULL, NULL,
 			E_TYPE_TABLE_HEADER,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
 static void
@@ -187,8 +180,8 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 
 	g_object_set (
 		widget,
-		"dnd_code", e_table_field_chooser_dialog->dnd_code,
-		"full_header", e_table_field_chooser_dialog->full_header,
+		"dnd-code", e_table_field_chooser_dialog->dnd_code,
+		"full-header", e_table_field_chooser_dialog->full_header,
 		"header", e_table_field_chooser_dialog->header,
 		NULL);
 

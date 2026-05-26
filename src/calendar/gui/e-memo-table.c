@@ -41,11 +41,14 @@ struct _EMemoTablePrivate {
 
 enum {
 	PROP_0,
-	PROP_COPY_TARGET_LIST,
 	PROP_MODEL,
-	PROP_PASTE_TARGET_LIST,
-	PROP_SHELL_VIEW
+	PROP_SHELL_VIEW,
+	N_PROPS,
+	PROP_COPY_TARGET_LIST,
+	PROP_PASTE_TARGET_LIST
 };
+
+static GParamSpec *properties[N_PROPS] = { NULL, };
 
 enum {
 	OPEN_COMPONENT,
@@ -300,8 +303,8 @@ memo_table_constructed (GObject *object)
 	 */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 	e_table_extras_add_cell (extras, "calstring", cell);
 	g_object_unref (cell);
@@ -311,8 +314,8 @@ memo_table_constructed (GObject *object)
 	 */
 	cell = e_cell_date_edit_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	e_binding_bind_property (
@@ -351,8 +354,8 @@ memo_table_constructed (GObject *object)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (
 		cell,
-		"bg_color_column", E_CAL_MODEL_FIELD_COLOR,
-		"strikeout_column", E_CAL_MODEL_FIELD_CANCELLED,
+		"bg-color-column", E_CAL_MODEL_FIELD_COLOR,
+		"strikeout-column", E_CAL_MODEL_FIELD_CANCELLED,
 		NULL);
 
 	popup_cell = e_cell_combo_new ();
@@ -902,16 +905,12 @@ e_memo_table_class_init (EMemoTableClass *class)
 		PROP_COPY_TARGET_LIST,
 		"copy-target-list");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_MODEL,
+	properties[PROP_MODEL] =
 		g_param_spec_object (
-			"model",
-			"Model",
-			NULL,
+			"model", NULL, NULL,
 			E_TYPE_CAL_MODEL,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
 
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
@@ -919,16 +918,14 @@ e_memo_table_class_init (EMemoTableClass *class)
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
 
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_VIEW,
+	properties[PROP_SHELL_VIEW] =
 		g_param_spec_object (
-			"shell-view",
-			"Shell View",
-			NULL,
+			"shell-view", NULL, NULL,
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT_ONLY | G_PARAM_STATIC_STRINGS);
+
+	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[OPEN_COMPONENT] = g_signal_new (
 		"open-component",
