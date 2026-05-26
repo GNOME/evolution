@@ -1,5 +1,4 @@
 add_error_files(sender-validation org-gnome-sender-validation.error)
-add_eplug_file(sender-validation org-gnome-evolution-sender-validation.eplug)
 
 set(DEPENDENCIES
 	evolution-calendar
@@ -13,24 +12,28 @@ set(SOURCES
 	sender-validation.c
 )
 
-add_library(org-gnome-evolution-sender-validation MODULE
+add_library(module-sender-validation MODULE
 	${SOURCES}
 )
 
-add_dependencies(org-gnome-evolution-sender-validation
+set_target_properties(module-sender-validation PROPERTIES
+	PREFIX ""
+)
+
+add_dependencies(module-sender-validation
 	${DEPENDENCIES}
 )
 
-target_compile_definitions(org-gnome-evolution-sender-validation PRIVATE
+target_compile_definitions(module-sender-validation PRIVATE
 	-DG_LOG_DOMAIN=\"sender-validation\"
 )
 
-target_compile_options(org-gnome-evolution-sender-validation PUBLIC
+target_compile_options(module-sender-validation PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 )
 
-target_include_directories(org-gnome-evolution-sender-validation PUBLIC
+target_include_directories(module-sender-validation PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
@@ -39,12 +42,12 @@ target_include_directories(org-gnome-evolution-sender-validation PUBLIC
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 )
 
-target_link_libraries(org-gnome-evolution-sender-validation
+target_link_libraries(module-sender-validation
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )
 
-install(TARGETS org-gnome-evolution-sender-validation
-	DESTINATION ${plugindir}
+install(TARGETS module-sender-validation
+	DESTINATION ${moduledir}
 )
