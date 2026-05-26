@@ -341,9 +341,8 @@ extract_attachments (TNEFStruct *tnef,
 	gint object;
 	gint count;
 
-	p = tnef->starting_attach.next;
 	count = 0;
-	while (p != NULL) {
+	for (p = tnef->starting_attach.next; p != NULL; p = p->next) {
 		count++;
 		/* Make sure it has a size. */
 		if (p->FileData.size > 0) {
@@ -360,6 +359,16 @@ extract_attachments (TNEFStruct *tnef,
 					filedata = &(p->FileData);
 					object = 0;
 				}
+			}
+
+			/* When treating as an embedded object we skip a 16-byte OLE prefix and
+			 * then read a 4-byte TNEF signature. A short PR_ATTACH_DATA_OBJ buffer
+			 * that does not satisfy this would cause an out-of-bounds read; skip
+			 * the attachment rather than falling back, as the property being present
+			 * but malformed does not imply FileData holds valid content. */
+			if (object && (filedata->data == NULL || filedata->size < (gint) (16 + sizeof (DWORD)))) {
+				g_warning ("TNEF: skipping attachment %d: PR_ATTACH_DATA_OBJ too short (%d bytes)", count, filedata->size);
+				continue;
 			}
 
 			/* See if this is an embedded TNEF stream. */
@@ -444,8 +453,7 @@ extract_attachments (TNEFStruct *tnef,
 				}
 			}
 		} /* if size>0 */
-		p = p->next;
-	} /* while p!= null */
+	}
 }
 
 static void
