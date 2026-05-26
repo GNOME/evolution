@@ -667,7 +667,6 @@ set(plugins_base
 	publish-calendar
 )
 set(plugins_standard
-	bbdb
 	dbx-import
 	mail-to-task
 	mailing-list-actions
