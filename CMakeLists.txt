@@ -668,7 +668,6 @@ set(plugins_base
 )
 set(plugins_standard
 	mail-to-task
-	mailing-list-actions
 	mail-notification
 	save-calendar
 	templates

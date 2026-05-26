@@ -1,5 +1,4 @@
 add_error_files(mailing-list-actions org-gnome-mailing-list-actions.error)
-add_eplug_file(mailing-list-actions org-gnome-mailing-list-actions.eplug)
 
 set(DEPENDENCIES
 	econtacteditor
@@ -15,24 +14,28 @@ set(SOURCES
 	mailing-list-actions.c
 )
 
-add_library(org-gnome-mailing-list-actions MODULE
+add_library(module-mailing-list-actions MODULE
 	${SOURCES}
 )
 
-add_dependencies(org-gnome-mailing-list-actions
+set_target_properties(module-mailing-list-actions PROPERTIES
+	PREFIX ""
+)
+
+add_dependencies(module-mailing-list-actions
 	${DEPENDENCIES}
 )
 
-target_compile_definitions(org-gnome-mailing-list-actions PRIVATE
+target_compile_definitions(module-mailing-list-actions PRIVATE
 	-DG_LOG_DOMAIN=\"mailing-list-actions\"
 )
 
-target_compile_options(org-gnome-mailing-list-actions PUBLIC
+target_compile_options(module-mailing-list-actions PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 )
 
-target_include_directories(org-gnome-mailing-list-actions PUBLIC
+target_include_directories(module-mailing-list-actions PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
@@ -41,12 +44,12 @@ target_include_directories(org-gnome-mailing-list-actions PUBLIC
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 )
 
-target_link_libraries(org-gnome-mailing-list-actions
+target_link_libraries(module-mailing-list-actions
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )
 
-install(TARGETS org-gnome-mailing-list-actions
-	DESTINATION ${plugindir}
+install(TARGETS module-mailing-list-actions
+	DESTINATION ${moduledir}
 )

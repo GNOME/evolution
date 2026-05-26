@@ -20,6 +20,7 @@
 #include "composer/e-msg-composer.h"
 
 #include "mail/e-mail-browser.h"
+#include "mail/e-mail-paned-view.h"
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-view.h"
 #include "mail/em-composer-utils.h"
@@ -67,21 +68,39 @@ const EmlaActionHeader emla_action_headers[] = {
 	{ EMLA_ACTION_ARCHIVED_AT, FALSE, "Archived-At" }
 };
 
-gboolean	mailing_list_actions_mail_browser_init
-						(EUIManager *ui_manager,
-						 EMailBrowser *browser);
-gboolean	mailing_list_actions_mail_shell_view_init
-						(EUIManager *ui_manager,
-						 EShellView *shell_view);
-gint		e_plugin_lib_enable		(EPlugin *ep,
-						 gint enable);
+/* EMailingListActionsPanedView extension */
 
-gint
-e_plugin_lib_enable (EPlugin *ep,
-                     gint enable)
-{
-	return 0;
-}
+typedef struct _EMailingListActionsPanedView EMailingListActionsPanedView;
+typedef struct _EMailingListActionsPanedViewClass EMailingListActionsPanedViewClass;
+
+struct _EMailingListActionsPanedView {
+	EExtension parent;
+};
+
+struct _EMailingListActionsPanedViewClass {
+	EExtensionClass parent_class;
+};
+
+GType e_mailing_list_actions_paned_view_get_type (void);
+
+G_DEFINE_DYNAMIC_TYPE (EMailingListActionsPanedView, e_mailing_list_actions_paned_view, E_TYPE_EXTENSION)
+
+/* EMailingListActionsBrowser extension */
+
+typedef struct _EMailingListActionsBrowser EMailingListActionsBrowser;
+typedef struct _EMailingListActionsBrowserClass EMailingListActionsBrowserClass;
+
+struct _EMailingListActionsBrowser {
+	EExtension parent;
+};
+
+struct _EMailingListActionsBrowserClass {
+	EExtensionClass parent_class;
+};
+
+GType e_mailing_list_actions_browser_get_type (void);
+
+G_DEFINE_DYNAMIC_TYPE (EMailingListActionsBrowser, e_mailing_list_actions_browser, E_TYPE_EXTENSION)
 
 typedef struct _AsyncContext AsyncContext;
 
@@ -543,29 +562,79 @@ setup_actions (EMailReader *reader,
 		G_CALLBACK (update_actions_cb), ui_manager, 0);
 }
 
-gboolean
-mailing_list_actions_mail_browser_init (EUIManager *ui_manager,
-					EMailBrowser *browser)
+static void
+e_mailing_list_actions_paned_view_constructed (GObject *object)
 {
-	setup_actions (E_MAIL_READER (browser), ui_manager);
+	EExtension *extension = E_EXTENSION (object);
+	EMailPanedView *mail_view;
+	EUIManager *ui_manager;
 
-	return TRUE;
+	G_OBJECT_CLASS (e_mailing_list_actions_paned_view_parent_class)->constructed (object);
+
+	mail_view = E_MAIL_PANED_VIEW (e_extension_get_extensible (extension));
+	ui_manager = e_mail_reader_get_ui_manager (E_MAIL_READER (mail_view));
+	setup_actions (E_MAIL_READER (mail_view), ui_manager);
 }
 
-gboolean
-mailing_list_actions_mail_shell_view_init (EUIManager *ui_manager,
-					   EShellView *shell_view)
+static void
+e_mailing_list_actions_paned_view_class_init (EMailingListActionsPanedViewClass *class)
 {
-	EShellContent *shell_content;
-	EMailView *mail_view = NULL;
+	G_OBJECT_CLASS (class)->constructed = e_mailing_list_actions_paned_view_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_MAIL_PANED_VIEW;
+}
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	g_object_get (shell_content, "mail-view", &mail_view, NULL);
+static void
+e_mailing_list_actions_paned_view_class_finalize (EMailingListActionsPanedViewClass *class)
+{
+}
 
-	if (mail_view) {
-		setup_actions (E_MAIL_READER (mail_view), ui_manager);
-		g_clear_object (&mail_view);
-	}
+static void
+e_mailing_list_actions_paned_view_init (EMailingListActionsPanedView *extension)
+{
+}
 
-	return TRUE;
+static void
+e_mailing_list_actions_browser_constructed (GObject *object)
+{
+	EExtension *extension = E_EXTENSION (object);
+	EMailBrowser *browser;
+	EUIManager *ui_manager;
+
+	G_OBJECT_CLASS (e_mailing_list_actions_browser_parent_class)->constructed (object);
+
+	browser = E_MAIL_BROWSER (e_extension_get_extensible (extension));
+	ui_manager = e_mail_reader_get_ui_manager (E_MAIL_READER (browser));
+	setup_actions (E_MAIL_READER (browser), ui_manager);
+}
+
+static void
+e_mailing_list_actions_browser_class_init (EMailingListActionsBrowserClass *class)
+{
+	G_OBJECT_CLASS (class)->constructed = e_mailing_list_actions_browser_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_MAIL_BROWSER;
+}
+
+static void
+e_mailing_list_actions_browser_class_finalize (EMailingListActionsBrowserClass *class)
+{
+}
+
+static void
+e_mailing_list_actions_browser_init (EMailingListActionsBrowser *extension)
+{
+}
+
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	e_mailing_list_actions_paned_view_register_type (type_module);
+	e_mailing_list_actions_browser_register_type (type_module);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }
