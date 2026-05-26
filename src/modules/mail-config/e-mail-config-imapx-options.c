@@ -5,11 +5,15 @@
 
 #include "evolution-config.h"
 
+#include <glib/gi18n-lib.h>
 #include <libebackend/libebackend.h>
 #include <libedataserver/libedataserver.h>
 
 #include "e-util/e-util.h"
+#include "shell/e-shell.h"
+#include "mail/e-mail-backend.h"
 #include "mail/e-mail-config-provider-page.h"
+#include "mail/em-subscription-editor.h"
 
 #include "e-mail-config-imapx-options.h"
 
@@ -49,6 +53,28 @@ GType		e_mail_config_imapx_options_get_type
 G_DEFINE_DYNAMIC_TYPE (EMailConfigIMAPxOptions, e_mail_config_imapx_options, E_TYPE_EXTENSION)
 
 static void
+manage_subscriptions_clicked_cb (GtkButton *button,
+                                 gpointer user_data)
+{
+	CamelStore *store = CAMEL_STORE (user_data);
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
+	GtkWidget *dialog;
+	GtkWidget *toplevel;
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
+
+	dialog = em_subscription_editor_new (GTK_WINDOW (toplevel), session, store);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+}
+
+static void
 mail_config_imapx_options_constructed (GObject *object)
 {
 	EMailConfigProviderPage *provider_page;
@@ -57,6 +83,7 @@ mail_config_imapx_options_constructed (GObject *object)
 	CamelSettings *settings;
 	GtkBox *placeholder;
 	GtkWidget *hbox;
+	GtkWidget *button;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_config_imapx_options_parent_class)->constructed (object);
@@ -71,6 +98,38 @@ mail_config_imapx_options_constructed (GObject *object)
 		return;
 
 	g_return_if_fail (CAMEL_IS_OFFLINE_SETTINGS (settings));
+
+	placeholder = e_mail_config_provider_page_get_placeholder (provider_page, "imapx-subscriptions-placeholder");
+	if (placeholder != NULL) {
+		ESource *source = e_mail_config_service_backend_get_source (backend);
+		EShell *shell;
+		EShellBackend *shell_backend;
+		EMailSession *session;
+		CamelService *service;
+
+		shell = e_shell_get_default ();
+		shell_backend = e_shell_get_backend_by_name (shell, "mail");
+		session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+		service = camel_session_ref_service (CAMEL_SESSION (session), e_source_get_uid (source));
+
+		button = gtk_button_new_with_mnemonic (_("Manage _Subscriptions…"));
+		g_object_set (G_OBJECT (button),
+			"margin-start", 20,
+			"sensitive", service != NULL && CAMEL_IS_STORE (service),
+			"visible", TRUE,
+			NULL);
+		gtk_box_pack_start (placeholder, button, FALSE, FALSE, 0);
+
+		if (service != NULL && CAMEL_IS_STORE (service)) {
+			g_signal_connect_data (button, "clicked",
+				G_CALLBACK (manage_subscriptions_clicked_cb),
+				g_steal_pointer (&service),
+				(GClosureNotify) g_object_unref, 0);
+		}
+
+		g_clear_object (&service);
+	}
 
 	placeholder = e_mail_config_provider_page_get_placeholder (provider_page, "imapx-limit-by-age-placeholder");
 	g_return_if_fail (placeholder != NULL);
