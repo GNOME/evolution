@@ -9,7 +9,8 @@
 #include "composer/e-msg-composer.h"
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
-#include <mail/em-event.h>
+#include <gmodule.h>
+#include <libebackend/libebackend.h>
 
 #define d(x)
 
@@ -17,6 +18,38 @@
 
 /* see http://quimby.gnus.org/circus/face/ */
 #define MAX_PNG_DATA_LENGTH 723
+
+/* Module Entry Points */
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+/* Standard GObject macros */
+#define E_TYPE_FACE_PLUGIN \
+	(e_face_plugin_get_type ())
+#define E_FACE_PLUGIN(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_FACE_PLUGIN, EFacePlugin))
+#define E_FACE_PLUGIN_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_FACE_PLUGIN, EFacePluginClass))
+#define E_IS_FACE_PLUGIN(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_FACE_PLUGIN))
+
+typedef struct _EFacePlugin EFacePlugin;
+typedef struct _EFacePluginClass EFacePluginClass;
+
+struct _EFacePlugin {
+	EExtension parent;
+};
+
+struct _EFacePluginClass {
+	EExtensionClass parent_class;
+};
+
+GType e_face_plugin_get_type (void) G_GNUC_CONST;
+
+G_DEFINE_DYNAMIC_TYPE (EFacePlugin, e_face_plugin, E_TYPE_EXTENSION)
 
 static gboolean
 get_include_face_by_default (void)
@@ -361,57 +394,28 @@ click_load_face_cb (GtkButton *butt,
 	}
 }
 
-static GtkWidget *
-get_cfg_widget (void)
-{
-	GtkWidget *vbox, *check, *img, *butt, *alert_bar;
-	GdkPixbuf *face;
-	gsize image_data_length = 0;
-
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-
-	check = gtk_check_button_new_with_mnemonic (_("_Insert Face picture by default"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), get_include_face_by_default ());
-	g_signal_connect (
-		check, "toggled",
-		G_CALLBACK (toggled_check_include_by_default_cb), NULL);
-
-	gtk_box_pack_start (GTK_BOX (vbox), check, FALSE, FALSE, 0);
-
-	face = get_active_face (&image_data_length);
-	img = gtk_image_new_from_pixbuf (face);
-	if (face)
-		g_object_unref (face);
-
-	butt = gtk_button_new_with_mnemonic (_("Load new _Face picture"));
-	g_signal_connect (
-		butt, "clicked",
-		G_CALLBACK (click_load_face_cb), img);
-
-	alert_bar = e_alert_bar_new ();
-	g_object_set_data (G_OBJECT (butt), "alert-bar", alert_bar);
-
-	gtk_box_pack_start (GTK_BOX (vbox), butt, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), img, FALSE, FALSE, 0);
-	gtk_box_pack_end (GTK_BOX (vbox), alert_bar, FALSE, FALSE, 0);
-
-	gtk_widget_show_all (vbox);
-	gtk_widget_hide (alert_bar);
-
-	if (image_data_length > MAX_PNG_DATA_LENGTH) {
-		EAlert *alert;
-
-		alert = face_create_byte_size_alert (image_data_length);
-		e_alert_bar_add_alert (E_ALERT_BAR (alert_bar), alert);
-		g_clear_object (&alert);
-	}
-
-	return vbox;
-}
+static void
+face_manage_composer_alert (EMsgComposer *composer,
+			    gsize image_data_length);
 
 static void
 face_change_image_in_composer_cb (GtkButton *button,
-				  EMsgComposer *composer);
+				  EMsgComposer *composer)
+{
+	GdkPixbuf *pixbuf;
+	gsize image_data_length = 0;
+
+	/* Hide any previous alerts first */
+	face_manage_composer_alert (composer, 0);
+
+	pixbuf = choose_new_face (GTK_WIDGET (composer), &image_data_length);
+
+	if (pixbuf) {
+		g_object_unref (pixbuf);
+
+		face_manage_composer_alert (composer, image_data_length);
+	}
+}
 
 static void
 face_manage_composer_alert (EMsgComposer *composer,
@@ -440,25 +444,6 @@ face_manage_composer_alert (EMsgComposer *composer,
 			e_alert_response (alert, GTK_RESPONSE_CLOSE);
 			g_object_set_data (G_OBJECT (editor), "face-image-alert", NULL);
 		}
-	}
-}
-
-static void
-face_change_image_in_composer_cb (GtkButton *button,
-				  EMsgComposer *composer)
-{
-	GdkPixbuf *pixbuf;
-	gsize image_data_length = 0;
-
-	/* Hide any previous alerts first */
-	face_manage_composer_alert (composer, 0);
-
-	pixbuf = choose_new_face (GTK_WIDGET (composer), &image_data_length);
-
-	if (pixbuf) {
-		g_object_unref (pixbuf);
-
-		face_manage_composer_alert (composer, image_data_length);
 	}
 }
 
@@ -497,25 +482,8 @@ action_toggle_face_cb (EUIAction *action,
 	}
 }
 
-/* ----------------------------------------------------------------- */
-
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
-gboolean e_plugin_ui_init (EUIManager *manager, EMsgComposer *composer);
-GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
-void face_handle_send (EPlugin *ep, EMEventTargetComposer *target);
-
-/* ----------------------------------------------------------------- */
-
-gint
-e_plugin_lib_enable (EPlugin *ep,
-                     gint enable)
-{
-	return 0;
-}
-
-gboolean
-e_plugin_ui_init (EUIManager *manager,
-                  EMsgComposer *composer)
+static void
+face_setup_composer (EMsgComposer *composer)
 {
 	static const gchar *eui =
 		"<eui>"
@@ -561,34 +529,79 @@ e_plugin_ui_init (EUIManager *manager,
 
 		face_manage_composer_alert (composer, image_data_length);
 	}
-
-	return TRUE;
 }
 
-GtkWidget *
-e_plugin_lib_get_configure_widget (EPlugin *epl)
-{
-	return get_cfg_widget ();
-}
-
-void
-face_handle_send (EPlugin *ep,
-                  EMEventTargetComposer *target)
+static gboolean
+face_presend_cb (EMsgComposer *composer,
+                 gpointer user_data)
 {
 	EHTMLEditor *editor;
 	EUIAction *action;
 
-	editor = e_msg_composer_get_editor (target->composer);
+	editor = e_msg_composer_get_editor (composer);
 	action = e_html_editor_get_action (editor, "face-plugin");
 
-	g_return_if_fail (action != NULL);
+	g_return_val_if_fail (action != NULL, TRUE);
 
 	if (e_ui_action_get_active (action)) {
 		gchar *face = get_face_base64 ();
 
 		if (face)
-			e_msg_composer_set_header (target->composer, "Face", face);
+			e_msg_composer_set_header (composer, "Face", face);
 
 		g_free (face);
 	}
+
+	return TRUE;
+}
+
+static void
+face_plugin_constructed (GObject *object)
+{
+	EExtensible *extensible;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_face_plugin_parent_class)->constructed (object);
+
+	extensible = e_extension_get_extensible (E_EXTENSION (object));
+
+	face_setup_composer (E_MSG_COMPOSER (extensible));
+
+	g_signal_connect (
+		extensible, "presend",
+		G_CALLBACK (face_presend_cb), NULL);
+}
+
+static void
+e_face_plugin_class_init (EFacePluginClass *class)
+{
+	GObjectClass *object_class;
+	EExtensionClass *extension_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = face_plugin_constructed;
+
+	extension_class = E_EXTENSION_CLASS (class);
+	extension_class->extensible_type = E_TYPE_MSG_COMPOSER;
+}
+
+static void
+e_face_plugin_class_finalize (EFacePluginClass *class)
+{
+}
+
+static void
+e_face_plugin_init (EFacePlugin *extension)
+{
+}
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	e_face_plugin_register_type (type_module);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }
