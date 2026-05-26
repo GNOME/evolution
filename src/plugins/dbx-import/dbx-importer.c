@@ -32,7 +32,7 @@
 
 #include <mail/e-mail-backend.h>
 #include <mail/em-folder-selection-button.h>
-#include <mail/em-utils.h>
+#include <mail/em-folder-tree.h>
 
 #define d(x)
 
@@ -42,24 +42,6 @@
 #endif
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
 #endif
-
-gboolean	org_gnome_evolution_readdbx_supported
-						(EPlugin *epl,
-						 EImportTarget *target);
-GtkWidget *	org_gnome_evolution_readdbx_getwidget
-						(EImport *ei,
-						 EImportTarget *target,
-						 EImportImporter *im);
-void		org_gnome_evolution_readdbx_import
-						(EImport *ei,
-						 EImportTarget *target,
-						 EImportImporter *im);
-void		org_gnome_evolution_readdbx_cancel
-						(EImport *ei,
-						 EImportTarget *target,
-						 EImportImporter *im);
-gint		e_plugin_lib_enable		(EPlugin *ep,
-						 gint enable);
 
 /* em-folder-selection-button.h is private, even though other internal
  * evo plugins use it!
@@ -106,9 +88,10 @@ static guchar oe4_mbox_sig[8] = {
 	0x4a, 0x4d, 0x46, 0x36, 0x03, 0x00, 0x01, 0x00
 };
 
-gboolean
-org_gnome_evolution_readdbx_supported (EPlugin *epl,
-                                       EImportTarget *target)
+static gboolean
+dbx_supported (EImport *ei,
+               EImportTarget *target,
+               EImportImporter *im)
 {
 	gchar signature[16];
 	gboolean ret = FALSE;
@@ -159,10 +142,10 @@ folder_selected (EMFolderSelectionButton *button,
 	target->uri_dest = g_strdup (em_folder_selection_button_get_folder_uri (button));
 }
 
-GtkWidget *
-org_gnome_evolution_readdbx_getwidget (EImport *ei,
-                                       EImportTarget *target,
-                                       EImportImporter *im)
+static GtkWidget *
+dbx_getwidget (EImport *ei,
+               EImportTarget *target,
+               EImportImporter *im)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -640,7 +623,7 @@ dbx_import_file (DbxImporter *m)
 	shell_backend = e_shell_get_backend_by_name (shell, "mail");
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
-	camel_operation_push_message (NULL, _("Importing “%s”"), filename);
+	camel_operation_push_message (NULL, _("Importing \"%s\""), filename);
 	folder = e_mail_session_uri_to_folder_sync (
 		session, m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
 		cancellable, &m->base.error);
@@ -820,11 +803,10 @@ dbx_status (CamelOperation *op,
 	g_mutex_unlock (&importer->status_lock);
 }
 
-/* Start the main import operation */
-void
-org_gnome_evolution_readdbx_import (EImport *ei,
-                                    EImportTarget *target,
-                                    EImportImporter *im)
+static void
+dbx_run_import (EImport *ei,
+                EImportTarget *target,
+                EImportImporter *im)
 {
 	DbxImporter *m;
 
@@ -850,10 +832,10 @@ org_gnome_evolution_readdbx_import (EImport *ei,
 	mail_msg_unordered_push (m);
 }
 
-void
-org_gnome_evolution_readdbx_cancel (EImport *ei,
-                                    EImportTarget *target,
-                                    EImportImporter *im)
+static void
+dbx_cancel (EImport *ei,
+            EImportTarget *target,
+            EImportImporter *im)
 {
 	DbxImporter *m = g_datalist_get_data (&target->data, "dbx-msg");
 
@@ -862,9 +844,31 @@ org_gnome_evolution_readdbx_cancel (EImport *ei,
 	}
 }
 
-gint
-e_plugin_lib_enable (EPlugin *ep,
-                     gint enable)
+static EImportImporter dbx_importer = {
+	E_IMPORT_TARGET_URI,
+	0,
+	dbx_supported,
+	dbx_getwidget,
+	dbx_run_import,
+	dbx_cancel,
+	NULL,
+};
+
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
 {
-	return 0;
+	EImportClass *import_class;
+
+	import_class = g_type_class_ref (e_import_get_type ());
+	dbx_importer.name = _("Outlook Express 5/6 personal folders (.dbx)");
+	e_import_class_add_importer (import_class, &dbx_importer, NULL, NULL);
+	g_type_class_unref (import_class);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }

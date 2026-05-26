@@ -667,7 +667,6 @@ set(plugins_base
 	publish-calendar
 )
 set(plugins_standard
-	dbx-import
 	mail-to-task
 	mailing-list-actions
 	mail-notification
