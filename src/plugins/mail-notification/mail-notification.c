@@ -21,11 +21,9 @@
 
 #include <time.h>
 
-#include "mail/e-mail-account-store.h"
 #include "mail/e-mail-backend.h"
-#include "mail/e-mail-ui-session.h"
+#include "mail/e-mail-reader.h"
 #include "mail/e-mail-view.h"
-#include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-tree.h"
 #include "mail/message-list.h"
@@ -44,12 +42,10 @@
 #define CONF_KEY_STATUS_NOTIFICATION	"notify-status-notification"
 #define CONF_KEY_ENABLED_SOUND		"notify-sound-enabled"
 
-#define GNOME_NOTIFICATIONS_PANEL_DESKTOP "gnome-notifications-panel.desktop"
-
-static gboolean enabled = FALSE;
 static GMutex mlock;
 static gulong not_accounts_handler_id = 0;
 static GHashTable *not_accounts = NULL; /* gchar * ~> NULL; UIDs of accounts which have disabled notifications */
+static gpointer em_event_handle = NULL;
 
 /**
  * each part should "implement" its own "public" functions:
@@ -61,9 +57,6 @@ static GHashTable *not_accounts = NULL; /* gchar * ~> NULL; UIDs of accounts whi
  *
  * c) void enable_... (gint enable)
  *    when plugin itself or the part is enabled/disabled
- *
- * d) GtkWidget *get_config_widget_...(void)
- *    to obtain config widget for the particular part
  *
  * It also should have its own GSettings key for enabled state. In each particular
  * function it should do its work as expected. enable_... will be called always
@@ -227,7 +220,7 @@ send_dbus_message (const gchar *name,
 static gboolean
 reinit_gdbus (gpointer user_data)
 {
-	if (!enabled || init_gdbus ())
+	if (init_gdbus ())
 		return FALSE;
 
 	/* keep trying to re-establish dbus connection */
@@ -787,48 +780,6 @@ do_play_sound (gboolean beep,
 		gdk_display_beep (gdk_display_get_default ());
 }
 
-struct _SoundConfigureWidgets {
-	GtkToggleButton *enable;
-	GtkToggleButton *beep;
-	GtkToggleButton *use_theme;
-	GtkFileChooser *filechooser;
-};
-
-static void
-sound_file_set_cb (GtkFileChooser *file_chooser,
-                   gpointer data)
-{
-	gchar *file;
-	GSettings *settings;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
-	file = gtk_file_chooser_get_filename (file_chooser);
-
-	g_settings_set_string (settings, CONF_KEY_SOUND_FILE, (file != NULL) ? file : "");
-
-	g_object_unref (settings);
-	g_free (file);
-}
-
-static void
-sound_play_cb (GtkWidget *widget,
-               struct _SoundConfigureWidgets *scw)
-{
-	gchar *file;
-
-	if (!gtk_toggle_button_get_active (scw->enable))
-		return;
-
-	file = gtk_file_chooser_get_filename (scw->filechooser);
-
-	do_play_sound (
-		gtk_toggle_button_get_active (scw->beep),
-		gtk_toggle_button_get_active (scw->use_theme),
-		file);
-
-	g_free (file);
-}
-
 struct _SoundNotifyData {
 	time_t last_notify;
 	guint notify_idle_id;
@@ -904,475 +855,20 @@ enable_sound (gint enable)
 #endif
 }
 
-static GtkWidget *
-get_config_widget_sound (void)
-{
-	GtkWidget *vbox;
-	GtkWidget *container;
-	GtkWidget *master;
-	GtkWidget *widget;
-	gchar *file;
-	GSettings *settings;
-	GSList *group = NULL;
-	struct _SoundConfigureWidgets *scw;
-	const gchar *text;
-
-	scw = g_malloc0 (sizeof (struct _SoundConfigureWidgets));
-
-	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-	gtk_widget_show (vbox);
-
-	container = vbox;
-
-	text = _("_Play sound when a new message arrives");
-	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
-
-	g_settings_bind (
-		settings, CONF_KEY_ENABLED_SOUND,
-		widget, "active", G_SETTINGS_BIND_DEFAULT);
-
-	master = widget;
-	scw->enable = GTK_TOGGLE_BUTTON (widget);
-
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-	gtk_widget_set_margin_start (widget, 12);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	e_binding_bind_property (
-		master, "active",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	container = widget;
-
-	text = _("_Beep");
-	widget = gtk_radio_button_new_with_mnemonic (group, text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	g_settings_bind (
-		settings, CONF_KEY_SOUND_BEEP,
-		widget, "active", G_SETTINGS_BIND_DEFAULT);
-
-	scw->beep = GTK_TOGGLE_BUTTON (widget);
-
-	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
-
-	text = _("Use sound _theme");
-	widget = gtk_radio_button_new_with_mnemonic (group, text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	g_settings_bind (
-		settings, CONF_KEY_SOUND_USE_THEME,
-		widget, "active", G_SETTINGS_BIND_DEFAULT);
-
-	scw->use_theme = GTK_TOGGLE_BUTTON (widget);
-
-	group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (widget));
-
-	widget = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	text = _("Play _file:");
-	widget = gtk_radio_button_new_with_mnemonic (group, text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	g_settings_bind (
-		settings, CONF_KEY_SOUND_PLAY_FILE,
-		widget, "active", G_SETTINGS_BIND_DEFAULT);
-
-	text = _("Select sound file");
-	widget = gtk_file_chooser_button_new (
-		text, GTK_FILE_CHOOSER_ACTION_OPEN);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	scw->filechooser = GTK_FILE_CHOOSER (widget);
-
-	widget = gtk_button_new ();
-	gtk_button_set_image (
-		GTK_BUTTON (widget), gtk_image_new_from_icon_name (
-		"media-playback-start", GTK_ICON_SIZE_BUTTON));
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (sound_play_cb), scw);
-
-	file = g_settings_get_string (settings, CONF_KEY_SOUND_FILE);
-
-	if (file && *file)
-		gtk_file_chooser_set_filename (scw->filechooser, file);
-
-	g_object_unref (settings);
-	g_free (file);
-
-	g_signal_connect (
-		scw->filechooser, "file-set",
-		G_CALLBACK (sound_file_set_cb), scw);
-
-	/* to let structure free properly */
-	g_object_set_data_full (G_OBJECT (vbox), "scw-data", scw, g_free);
-
-	return vbox;
-}
-
 /* -------------------------------------------------------------------  */
-/*                     Plugin itself part                               */
+/*                     Module event handlers                            */
 /* -------------------------------------------------------------------  */
 
 static void
-e_mail_notif_open_gnome_notification_settings_cb (GtkWidget *button,
-						  gpointer user_data)
+mail_notify_new_notify (EEvent *ee,
+                        EEventItem *item,
+                        gpointer data)
 {
-#ifndef G_OS_WIN32
-	GDesktopAppInfo *app_info;
-	GError *error = NULL;
+	EMEventTargetFolder *t = (EMEventTargetFolder *) ee->target;
 
-	app_info = g_desktop_app_info_new (GNOME_NOTIFICATIONS_PANEL_DESKTOP);
-
-	g_return_if_fail (app_info != NULL);
-
-	if (!g_app_info_launch (G_APP_INFO (app_info), NULL, NULL, &error)) {
-		g_message ("%s: Failed with error: %s", G_STRFUNC, error ? error->message : "Unknown error");
-	}
-
-	g_clear_object (&app_info);
-	g_clear_error (&error);
-#endif
-}
-
-enum {
-	E_MAIL_NOTIFY_ACCOUNTS_UID = 0,
-	E_MAIL_NOTIFY_ACCOUNTS_DISPLAY_NAME,
-	E_MAIL_NOTIFY_ACCOUNTS_ENABLED,
-	E_MAIL_NOTIFY_ACCOUNTS_N_COLUMNS
-};
-
-static void
-e_mail_notify_account_tree_view_enabled_toggled_cb (GtkCellRendererToggle *cell_renderer,
-						    const gchar *path_string,
-						    gpointer user_data)
-{
-	GtkTreeView *tree_view = user_data;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	GPtrArray *array;
-	GSettings *settings;
-	gboolean account_enabled = FALSE;
-
-	g_return_if_fail (GTK_IS_TREE_VIEW (tree_view));
-
-	model = gtk_tree_view_get_model (tree_view);
-	path = gtk_tree_path_new_from_string (path_string);
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return;
-	}
-
-	gtk_tree_model_get (model, &iter, E_MAIL_NOTIFY_ACCOUNTS_ENABLED, &account_enabled, -1);
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter, E_MAIL_NOTIFY_ACCOUNTS_ENABLED, !account_enabled, -1);
-
-	gtk_tree_path_free (path);
-
-	array = g_ptr_array_new_with_free_func (g_free);
-
-	if (gtk_tree_model_get_iter_first (model, &iter)) {
-		do {
-			gchar *uid = NULL;
-
-			account_enabled = FALSE;
-
-			gtk_tree_model_get (model, &iter,
-				E_MAIL_NOTIFY_ACCOUNTS_ENABLED, &account_enabled,
-				E_MAIL_NOTIFY_ACCOUNTS_UID, &uid,
-				-1);
-
-			if (!account_enabled && uid) {
-				g_ptr_array_add (array, uid);
-			} else {
-				g_free (uid);
-			}
-		} while (gtk_tree_model_iter_next (model, &iter));
-	}
-
-	g_ptr_array_add (array, NULL);
-
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
-	g_settings_set_strv (settings, "notify-not-accounts", (const gchar * const *) array->pdata);
-	g_object_unref (settings);
-
-	g_ptr_array_free (array, TRUE);
-}
-
-static GtkWidget *
-get_config_widget_accounts (void)
-{
-	EShell *shell;
-	GtkListStore *list_store;
-	GtkTreeViewColumn *column;
-	GtkCellRenderer *cell_renderer;
-	GtkWidget *container;
-	GtkWidget *tree_view;
-	GtkWidget *widget;
-	GtkWidget *label;
-
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
-	g_object_set (G_OBJECT (widget),
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", TRUE,
-		"valign", GTK_ALIGN_FILL,
-		"vexpand", TRUE,
-		"border-width", 12,
-		NULL);
-
-	container = widget;
-
-	widget = gtk_label_new_with_mnemonic (_("Select _accounts for which enable notifications:"));
-	g_object_set (G_OBJECT (widget),
-		"halign", GTK_ALIGN_START,
-		"hexpand", FALSE,
-		"valign", GTK_ALIGN_CENTER,
-		"vexpand", FALSE,
-		NULL);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	label = widget;
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	g_object_set (G_OBJECT (widget),
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", TRUE,
-		"valign", GTK_ALIGN_FILL,
-		"vexpand", TRUE,
-		"hscrollbar-policy", GTK_POLICY_AUTOMATIC,
-		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
-		"shadow-type", GTK_SHADOW_IN,
-		NULL);
-
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-
-	list_store = gtk_list_store_new (E_MAIL_NOTIFY_ACCOUNTS_N_COLUMNS,
-		G_TYPE_STRING,
-		G_TYPE_STRING,
-		G_TYPE_BOOLEAN);
-
-	shell = e_shell_get_default ();
-	g_warn_if_fail (shell != NULL);
-
-	if (shell) {
-		EMailAccountStore *account_store = NULL;
-		EShellBackend *shell_backend;
-
-		shell_backend = e_shell_get_backend_by_name (shell, "mail");
-		if (shell_backend) {
-			EMailSession *mail_session;
-
-			mail_session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
-			account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (mail_session));
-		}
-
-		if (account_store) {
-			GSettings *settings;
-			GtkTreeModel *amodel = GTK_TREE_MODEL (account_store);
-			GtkTreeIter aiter;
-			gchar **strv;
-			GHashTable *local_not_accounts;
-			gint ii;
-
-			settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
-			strv = g_settings_get_strv (settings, "notify-not-accounts");
-			g_object_unref (settings);
-
-			/* Borrows values from 'strv', thus free 'strv' only after free of 'local_not_accounts' */
-			local_not_accounts = g_hash_table_new (g_str_hash, g_str_equal);
-
-			for (ii = 0; strv && strv[ii]; ii++) {
-				g_hash_table_insert (local_not_accounts, strv[ii], NULL);
-			}
-
-			if (gtk_tree_model_get_iter_first (amodel, &aiter)) {
-				do {
-					CamelService *service = NULL;
-
-					gtk_tree_model_get (amodel, &aiter,
-						E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service,
-						-1);
-
-					if (service) {
-						GtkTreeIter iter;
-						const gchar *uid;
-
-						uid = camel_service_get_uid (service);
-
-						if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) != 0) {
-							gtk_list_store_append (list_store, &iter);
-							gtk_list_store_set (list_store, &iter,
-								E_MAIL_NOTIFY_ACCOUNTS_UID, uid,
-								E_MAIL_NOTIFY_ACCOUNTS_DISPLAY_NAME, camel_service_get_display_name (service),
-								E_MAIL_NOTIFY_ACCOUNTS_ENABLED, !g_hash_table_contains (local_not_accounts, uid),
-								-1);
-						}
-					}
-
-					g_clear_object (&service);
-				} while (gtk_tree_model_iter_next (amodel, &aiter));
-			}
-
-			g_hash_table_destroy (local_not_accounts);
-			g_strfreev (strv);
-		}
-	}
-
-	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (list_store));
-	g_object_set (G_OBJECT (tree_view),
-		"halign", GTK_ALIGN_FILL,
-		"hexpand", TRUE,
-		"valign", GTK_ALIGN_FILL,
-		"vexpand", TRUE,
-		NULL);
-
-	g_object_unref (list_store);
-
-	gtk_container_add (GTK_CONTAINER (widget), tree_view);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), tree_view);
-
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_expand (column, FALSE);
-	gtk_tree_view_column_set_title (column, _("Enabled"));
-
-	cell_renderer = gtk_cell_renderer_toggle_new ();
-	gtk_tree_view_column_pack_start (column, cell_renderer, TRUE);
-
-	g_signal_connect (
-		cell_renderer, "toggled",
-		G_CALLBACK (e_mail_notify_account_tree_view_enabled_toggled_cb),
-		tree_view);
-
-	gtk_tree_view_column_add_attribute (column, cell_renderer, "active", E_MAIL_NOTIFY_ACCOUNTS_ENABLED);
-
-	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-	column = gtk_tree_view_column_new ();
-	gtk_tree_view_column_set_expand (column, TRUE);
-	gtk_tree_view_column_set_title (column, _("Account Name"));
-
-	cell_renderer = gtk_cell_renderer_text_new ();
-	g_object_set (cell_renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
-	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
-
-	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_MAIL_NOTIFY_ACCOUNTS_DISPLAY_NAME);
-
-	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-	gtk_widget_show_all (container);
-
-	return container;
-}
-
-static GtkWidget *
-get_cfg_widget (void)
-{
-	GtkWidget *container;
-	GtkWidget *notebook;
-	GtkWidget *widget;
-	GSettings *settings;
-	const gchar *text;
-	gchar *tmp;
-
-	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
-
-	notebook = gtk_notebook_new ();
-	gtk_widget_show (notebook);
-
-	widget = gtk_box_new (GTK_ORIENTATION_VERTICAL, 12);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	tmp = g_strconcat ("<b>", _("Mail Notification"), "</b>", NULL);
-	widget = gtk_label_new ("");
-	g_object_set (G_OBJECT (widget),
-		"halign", GTK_ALIGN_START,
-		"hexpand", FALSE,
-		"valign", GTK_ALIGN_CENTER,
-		"vexpand", FALSE,
-		"use-markup", TRUE,
-		"label", tmp,
-		NULL);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-	g_free (tmp);
-
-	text = _("Notify new messages for _Inbox only");
-	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	g_settings_bind (
-		settings, CONF_KEY_NOTIFY_ONLY_INBOX,
-		widget, "active", G_SETTINGS_BIND_DEFAULT);
-
-	if (e_util_is_running_gnome ()) {
-		widget = gtk_button_new_with_mnemonic ("Open _GNOME Notification settings");
-		g_signal_connect (widget, "clicked", G_CALLBACK (e_mail_notif_open_gnome_notification_settings_cb), NULL);
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-		gtk_widget_show (widget);
-	} else {
-#ifdef HAVE_LIBNOTIFY
-		text = _("Show _notification when a new message arrives");
-		widget = gtk_check_button_new_with_mnemonic (text);
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-		gtk_widget_show (widget);
-
-		g_settings_bind (
-			settings, CONF_KEY_ENABLED_STATUS,
-			widget, "active", G_SETTINGS_BIND_DEFAULT);
-#endif
-
-		widget = get_config_widget_sound ();
-		gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	}
-
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), container, gtk_label_new (_("Configuration")));
-
-	widget = get_config_widget_accounts ();
-
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), widget, gtk_label_new (_("Accounts")));
-
-	g_object_unref (settings);
-
-	return notebook;
-}
-
-void org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t);
-void org_gnome_mail_unread_notify (EPlugin *ep, EMEventTargetFolderUnread *t);
-void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
-
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
-GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
-
-void
-org_gnome_mail_new_notify (EPlugin *ep,
-                           EMEventTargetFolder *t)
-{
 	g_return_if_fail (t != NULL);
 
-	if (!enabled || !t->new ||
-	    (!t->is_inbox && is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)) ||
+	if ((!t->is_inbox && is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)) ||
 	    !can_notify_account (t->store))
 		return;
 
@@ -1391,15 +887,17 @@ org_gnome_mail_new_notify (EPlugin *ep,
 	g_mutex_unlock (&mlock);
 }
 
-void
-org_gnome_mail_unread_notify (EPlugin *ep,
-                              EMEventTargetFolderUnread *t)
+static void
+mail_notify_unread_notify (EEvent *ee,
+                           EEventItem *item,
+                           gpointer data)
 {
 #ifdef HAVE_LIBNOTIFY
+	EMEventTargetFolderUnread *t = (EMEventTargetFolderUnread *) ee->target;
+
 	g_return_if_fail (t != NULL);
 
-	if (!enabled ||
-	    (!t->is_inbox && is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)) ||
+	if ((!t->is_inbox && is_part_enabled (CONF_KEY_NOTIFY_ONLY_INBOX)) ||
 	    !can_notify_account (t->store))
 		return;
 
@@ -1412,13 +910,16 @@ org_gnome_mail_unread_notify (EPlugin *ep,
 #endif
 }
 
-void
-org_gnome_mail_read_notify (EPlugin *ep,
-                            EMEventTargetMessage *t)
+static void
+mail_notify_read_notify (EEvent *ee,
+                         EEventItem *item,
+                         gpointer data)
 {
+	EMEventTargetMessage *t = (EMEventTargetMessage *) ee->target;
+
 	g_return_if_fail (t != NULL);
 
-	if (!enabled || !can_notify_account (camel_folder_get_parent_store (t->folder)))
+	if (!can_notify_account (camel_folder_get_parent_store (t->folder)))
 		return;
 
 	g_mutex_lock (&mlock);
@@ -1436,59 +937,82 @@ org_gnome_mail_read_notify (EPlugin *ep,
 	g_mutex_unlock (&mlock);
 }
 
-gint
-e_plugin_lib_enable (EPlugin *ep,
-                     gint enable)
+static EEventItem mail_notify_event_items[] = {
+	{ E_EVENT_PASS, 0, "folder.changed", EM_EVENT_TARGET_FOLDER,
+	  mail_notify_new_notify, NULL, EM_EVENT_FOLDER_NEWMAIL },
+	{ E_EVENT_PASS, 0, "folder.unread-updated", EM_EVENT_TARGET_FOLDER_UNREAD,
+	  mail_notify_unread_notify, NULL, 0 },
+	{ E_EVENT_PASS, 0, "message.reading", EM_EVENT_TARGET_MESSAGE,
+	  mail_notify_read_notify, NULL, 0 },
+};
+
+static void
+mail_notify_free_event_items (EEvent *event,
+                              GSList *items,
+                              gpointer data)
 {
-	if (enable) {
-		enable_dbus (enable);
-
-		if (is_part_enabled (CONF_KEY_ENABLED_SOUND))
-			enable_sound (enable);
-
-		g_mutex_lock (&mlock);
-
-		if (!not_accounts_handler_id) {
-			GSettings *settings;
-
-			settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
-			mail_notify_not_accounts_changed_locked (settings);
-			not_accounts_handler_id = g_signal_connect (settings, "changed::notify-not-accounts",
-				G_CALLBACK (mail_notify_not_accounts_changed_cb), NULL);
-			g_object_unref (settings);
-		}
-
-		g_mutex_unlock (&mlock);
-
-		enabled = TRUE;
-	} else {
-		enable_dbus (enable);
-		enable_sound (enable);
-
-		g_mutex_lock (&mlock);
-
-		if (not_accounts_handler_id) {
-			GSettings *settings;
-
-			settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
-			g_signal_handler_disconnect (settings, not_accounts_handler_id);
-			g_object_unref (settings);
-
-			not_accounts_handler_id = 0;
-
-			g_clear_pointer (&not_accounts, g_hash_table_destroy);
-		}
-
-		g_mutex_unlock (&mlock);
-
-		enabled = FALSE;
-	}
-
-	return 0;
+	g_slist_free (items);
 }
 
-GtkWidget *
-e_plugin_lib_get_configure_widget (EPlugin *epl)
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
 {
-	return get_cfg_widget ();
+	GSettings *settings;
+	EMEvent *event;
+	GSList *items = NULL;
+	gint ii;
+
+	enable_dbus (1);
+
+	if (is_part_enabled (CONF_KEY_ENABLED_SOUND))
+		enable_sound (1);
+
+	g_mutex_lock (&mlock);
+
+	settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
+	mail_notify_not_accounts_changed_locked (settings);
+	not_accounts_handler_id = g_signal_connect (
+		settings, "changed::notify-not-accounts",
+		G_CALLBACK (mail_notify_not_accounts_changed_cb), NULL);
+	g_object_unref (settings);
+
+	g_mutex_unlock (&mlock);
+
+	event = em_event_peek ();
+	for (ii = G_N_ELEMENTS (mail_notify_event_items) - 1; ii >= 0; ii--)
+		items = g_slist_prepend (items, &mail_notify_event_items[ii]);
+	em_event_handle = e_event_add_items (
+		(EEvent *) event, items,
+		mail_notify_free_event_items, NULL);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
+	if (em_event_handle) {
+		EMEvent *event = em_event_peek ();
+		e_event_remove_items ((EEvent *) event, em_event_handle);
+		em_event_handle = NULL;
+	}
+
+	enable_dbus (0);
+	enable_sound (0);
+
+	g_mutex_lock (&mlock);
+
+	if (not_accounts_handler_id) {
+		GSettings *settings;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.plugin.mail-notification");
+		g_signal_handler_disconnect (settings, not_accounts_handler_id);
+		g_object_unref (settings);
+
+		not_accounts_handler_id = 0;
+		g_clear_pointer (&not_accounts, g_hash_table_destroy);
+	}
+
+	g_mutex_unlock (&mlock);
 }

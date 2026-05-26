@@ -1,5 +1,3 @@
-add_eplug_file(mail-notification org-gnome-mail-notification.eplug)
-
 set(DEPENDENCIES
 	email-engine
 	evolution-mail
@@ -11,19 +9,23 @@ set(SOURCES
 	mail-notification.c
 )
 
-add_library(org-gnome-mail-notification MODULE
+add_library(module-mail-notification MODULE
 	${SOURCES}
 )
 
-add_dependencies(org-gnome-mail-notification
+set_target_properties(module-mail-notification PROPERTIES
+	PREFIX ""
+)
+
+add_dependencies(module-mail-notification
 	${DEPENDENCIES}
 )
 
-target_compile_definitions(org-gnome-mail-notification PRIVATE
+target_compile_definitions(module-mail-notification PRIVATE
 	-DG_LOG_DOMAIN=\"mail-notification\"
 )
 
-target_compile_options(org-gnome-mail-notification PUBLIC
+target_compile_options(module-mail-notification PUBLIC
 	${CANBERRA_CFLAGS}
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
@@ -31,7 +33,7 @@ target_compile_options(org-gnome-mail-notification PUBLIC
 	${LIBUNITY_CFLAGS}
 )
 
-target_include_directories(org-gnome-mail-notification PUBLIC
+target_include_directories(module-mail-notification PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
@@ -43,7 +45,7 @@ target_include_directories(org-gnome-mail-notification PUBLIC
 	${LIBUNITY_INCLUDE_DIRS}
 )
 
-target_link_libraries(org-gnome-mail-notification
+target_link_libraries(module-mail-notification
 	${DEPENDENCIES}
 	${CANBERRA_LDFLAGS}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
@@ -52,6 +54,6 @@ target_link_libraries(org-gnome-mail-notification
 	${LIBUNITY_LDFLAGS}
 )
 
-install(TARGETS org-gnome-mail-notification
-	DESTINATION ${plugindir}
+install(TARGETS module-mail-notification
+	DESTINATION ${moduledir}
 )
