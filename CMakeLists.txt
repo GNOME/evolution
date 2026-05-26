@@ -659,15 +659,6 @@ CHECK_C_SOURCE_COMPILES("#include <gnu/libc-version.h>
 # Plugins
 # ******************************
 
-add_printable_variable(ENABLE_PLUGINS "Enable plugins (no/base/all)" "all")
-set(plugins_values all base no)
-set_property(CACHE ENABLE_PLUGINS PROPERTY STRINGS ${plugins_values})
-
-set(plugins_base
-)
-set(plugins_standard
-)
-
 # ******************************************************************
 # The following plugins have additional library dependencies.
 # They must be explicitly disabled if the libraries are not present.
@@ -736,17 +727,6 @@ add_printable_option(ENABLE_PST_IMPORT "Enable pst-import plugin" ON)
 if(ENABLE_PST_IMPORT)
 	pkg_check_modules_for_option(ENABLE_PST_IMPORT "pst-import plugin" LIBPST libpst>=${libpst_minimum_version})
 endif(ENABLE_PST_IMPORT)
-
-# Finish plugins build setup
-set(build_plugins)
-
-if(ENABLE_PLUGINS STREQUAL "" OR ENABLE_PLUGINS STREQUAL "all")
-	set(build_plugins ${plugins_base} ${plugins_standard})
-elseif(ENABLE_PLUGINS STREQUAL "base")
-	set(build_plugins ${plugins_base})
-elseif(NOT ENABLE_PLUGINS STREQUAL "no")
-	message(FATAL_ERROR "Incorrect value for ENABLE_PLUGINS (${ENABLE_PLUGINS}), use either \"no\", or \"base\" or \"all\" value")
-endif()
 
 # ******************************
 # Glade catalog
