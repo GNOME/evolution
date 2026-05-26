@@ -18,22 +18,9 @@
 
 #include "format-handler.h"
 
-/* Plugin entry points */
-gboolean	save_calendar_calendar_save_as_init	(EUIManager *ui_manager,
-							 EShellView *shell_view);
-gboolean	save_calendar_memo_list_save_as_init	(EUIManager *ui_manager,
-							 EShellView *shell_view);
-gboolean	save_calendar_task_list_save_as_init	(EUIManager *ui_manager,
-							 EShellView *shell_view);
-
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
-
-gint
-e_plugin_lib_enable (EPlugin *ep,
-                     gint enable)
-{
-	return 0;
-}
+static void save_calendar_calendar_save_as_init (EUIManager *ui_manager, EShellView *shell_view);
+static void save_calendar_memo_list_save_as_init (EUIManager *ui_manager, EShellView *shell_view);
+static void save_calendar_task_list_save_as_init (EUIManager *ui_manager, EShellView *shell_view);
 
 enum {  /* GtkComboBox enum */
 	DEST_NAME_COLUMN,
@@ -347,7 +334,7 @@ save_calendar_init_ui (EUIManager *ui_manager,
 		G_BINDING_SYNC_CREATE);
 }
 
-gboolean
+static void
 save_calendar_calendar_save_as_init (EUIManager *ui_manager,
 				     EShellView *shell_view)
 {
@@ -370,11 +357,9 @@ save_calendar_calendar_save_as_init (EUIManager *ui_manager,
 	};
 
 	save_calendar_init_ui (ui_manager, shell_view, "calendar-select-one", &entry, eui);
-
-	return TRUE;
 }
 
-gboolean
+static void
 save_calendar_memo_list_save_as_init (EUIManager *ui_manager,
 				      EShellView *shell_view)
 {
@@ -397,11 +382,9 @@ save_calendar_memo_list_save_as_init (EUIManager *ui_manager,
 	};
 
 	save_calendar_init_ui (ui_manager, shell_view, "memo-list-select-one", &entry, eui);
-
-	return TRUE;
 }
 
-gboolean
+static void
 save_calendar_task_list_save_as_init (EUIManager *ui_manager,
 				      EShellView *shell_view)
 {
@@ -424,6 +407,61 @@ save_calendar_task_list_save_as_init (EUIManager *ui_manager,
 	};
 
 	save_calendar_init_ui (ui_manager, shell_view, "task-list-select-one", &entry, eui);
+}
 
-	return TRUE;
+/* -------------------------------------------------------------------  */
+/*                     EExtension type                                  */
+/* -------------------------------------------------------------------  */
+
+typedef struct _ESaveCalendar ESaveCalendar;
+typedef struct _ESaveCalendarClass ESaveCalendarClass;
+struct _ESaveCalendar { EExtension parent; };
+struct _ESaveCalendarClass { EExtensionClass parent_class; };
+
+GType e_save_calendar_get_type (void);
+G_DEFINE_DYNAMIC_TYPE (ESaveCalendar, e_save_calendar, E_TYPE_EXTENSION)
+
+static void
+e_save_calendar_constructed (GObject *object)
+{
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
+	EUIManager *ui_manager;
+
+	G_OBJECT_CLASS (e_save_calendar_parent_class)->constructed (object);
+
+	shell_view = E_SHELL_VIEW (e_extension_get_extensible (E_EXTENSION (object)));
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	ui_manager = e_shell_view_get_ui_manager (shell_view);
+
+	if (g_strcmp0 (shell_view_class->ui_manager_id, "org.gnome.evolution.calendars") == 0)
+		save_calendar_calendar_save_as_init (ui_manager, shell_view);
+	else if (g_strcmp0 (shell_view_class->ui_manager_id, "org.gnome.evolution.memos") == 0)
+		save_calendar_memo_list_save_as_init (ui_manager, shell_view);
+	else if (g_strcmp0 (shell_view_class->ui_manager_id, "org.gnome.evolution.tasks") == 0)
+		save_calendar_task_list_save_as_init (ui_manager, shell_view);
+}
+
+static void
+e_save_calendar_class_init (ESaveCalendarClass *class)
+{
+	G_OBJECT_CLASS (class)->constructed = e_save_calendar_constructed;
+	E_EXTENSION_CLASS (class)->extensible_type = E_TYPE_SHELL_VIEW;
+}
+
+static void e_save_calendar_class_finalize (ESaveCalendarClass *class) { }
+static void e_save_calendar_init (ESaveCalendar *self) { }
+
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	e_save_calendar_register_type (type_module);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }

@@ -12,6 +12,7 @@ add_subdirectory(face)
 add_subdirectory(mail-notification)
 add_subdirectory(mail-to-task)
 add_subdirectory(mailing-list-actions)
+add_subdirectory(save-calendar)
 add_subdirectory(sender-validation)
 
 if(ENABLE_PST_IMPORT)

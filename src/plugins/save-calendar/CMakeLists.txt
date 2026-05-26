@@ -1,5 +1,3 @@
-add_eplug_file(save-calendar org-gnome-save-calendar.eplug)
-
 set(DEPENDENCIES
 	evolution-calendar
 	evolution-shell
@@ -14,24 +12,28 @@ set(SOURCES
 	format-handler.h
 )
 
-add_library(org-gnome-save-calendar MODULE
+add_library(module-save-calendar MODULE
 	${SOURCES}
 )
 
-add_dependencies(org-gnome-save-calendar
+set_target_properties(module-save-calendar PROPERTIES
+	PREFIX ""
+)
+
+add_dependencies(module-save-calendar
 	${DEPENDENCIES}
 )
 
-target_compile_definitions(org-gnome-save-calendar PRIVATE
+target_compile_definitions(module-save-calendar PRIVATE
 	-DG_LOG_DOMAIN=\"save-calendar\"
 )
 
-target_compile_options(org-gnome-save-calendar PUBLIC
+target_compile_options(module-save-calendar PUBLIC
 	${EVOLUTION_DATA_SERVER_CFLAGS}
 	${GNOME_PLATFORM_CFLAGS}
 )
 
-target_include_directories(org-gnome-save-calendar PUBLIC
+target_include_directories(module-save-calendar PUBLIC
 	${CMAKE_BINARY_DIR}
 	${CMAKE_BINARY_DIR}/src
 	${CMAKE_SOURCE_DIR}/src
@@ -40,12 +42,12 @@ target_include_directories(org-gnome-save-calendar PUBLIC
 	${GNOME_PLATFORM_INCLUDE_DIRS}
 )
 
-target_link_libraries(org-gnome-save-calendar
+target_link_libraries(module-save-calendar
 	${DEPENDENCIES}
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )
 
-install(TARGETS org-gnome-save-calendar
-	DESTINATION ${plugindir}
+install(TARGETS module-save-calendar
+	DESTINATION ${moduledir}
 )
