@@ -21,7 +21,7 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _EMailSignatureEditorPrivate {
 	EHTMLEditor *editor;
-	EUIActionGroup *action_group;
+	EUIManager *ui_manager;
 	EFocusTracker *focus_tracker;
 	GCancellable *cancellable;
 	ESourceRegistry *registry;
@@ -163,7 +163,7 @@ mail_signature_editor_delete_event_cb (EMailSignatureEditor *editor,
 {
 	EUIAction *action;
 
-	action = e_ui_action_group_get_action (editor->priv->action_group, "close");
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "close");
 	g_action_activate (G_ACTION (action), NULL);
 
 	return TRUE;
@@ -201,7 +201,7 @@ action_close_cb (EUIAction *action,
 		if (response == GTK_RESPONSE_YES) {
 			EUIAction *action2;
 
-			action2 = e_ui_action_group_get_action (window->priv->action_group, "save-and-close");
+			action2 = e_ui_manager_get_action (window->priv->ui_manager, "save-and-close");
 			g_action_activate (G_ACTION (action2), NULL);
 			return;
 		} else if (response == GTK_RESPONSE_CANCEL)
@@ -455,7 +455,7 @@ mail_signature_editor_dispose (GObject *object)
 	EMailSignatureEditor *self = E_MAIL_SIGNATURE_EDITOR (object);
 
 	g_clear_object (&self->priv->editor);
-	g_clear_object (&self->priv->action_group);
+	g_clear_object (&self->priv->ui_manager);
 	g_clear_object (&self->priv->focus_tracker);
 	g_clear_object (&self->priv->menu_bar);
 
@@ -560,7 +560,7 @@ mail_signature_editor_constructed (GObject *object)
 
 	e_ui_action_set_usable_for_kinds (e_ui_manager_get_action (ui_manager, "EMailSignatureEditor::menu-button"), E_UI_ELEMENT_KIND_HEADERBAR);
 
-	window->priv->action_group = g_object_ref (e_ui_manager_get_action_group (ui_manager, "signature"));
+	window->priv->ui_manager = g_object_ref (ui_manager);
 
 	/* Hide page properties because it is not inherited in the mail. */
 	action = e_html_editor_get_action (editor, "properties-page");
