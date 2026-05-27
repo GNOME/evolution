@@ -2900,8 +2900,7 @@ eab_parse_qp_email (const gchar *string,
 }
 
 static void
-popup_activate_inline_expand (ENameSelectorEntry *name_selector_entry,
-                              GtkWidget *menu_item)
+popup_activate_inline_expand (ENameSelectorEntry *name_selector_entry)
 {
 	const gchar *text;
 	GString *sanitized_text = g_string_new ("");
@@ -2957,8 +2956,7 @@ popup_activate_inline_expand (ENameSelectorEntry *name_selector_entry,
 }
 
 static void
-popup_activate_contact (ENameSelectorEntry *name_selector_entry,
-                        GtkWidget *menu_item)
+popup_activate_contact (ENameSelectorEntry *name_selector_entry)
 {
 	EBookClient  *book_client;
 	GSList       *clients;
@@ -3010,37 +3008,7 @@ popup_activate_contact (ENameSelectorEntry *name_selector_entry,
 }
 
 static void
-popup_activate_email (ENameSelectorEntry *name_selector_entry,
-                      GtkWidget *menu_item)
-{
-	EDestination *destination;
-	EContact     *contact;
-	gint          email_num;
-
-	destination = name_selector_entry->priv->popup_destination;
-	if (!destination)
-		return;
-
-	contact = e_destination_get_contact (destination);
-	if (!contact)
-		return;
-
-	email_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "order"));
-	e_destination_set_contact (destination, contact, email_num);
-}
-
-static void
-popup_activate_list (EDestination *destination,
-                     GtkWidget *item)
-{
-	gboolean status = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item));
-
-	e_destination_set_ignored (destination, !status);
-}
-
-static void
-popup_activate_cut (ENameSelectorEntry *name_selector_entry,
-                    GtkWidget *menu_item)
+popup_activate_cut (ENameSelectorEntry *name_selector_entry)
 {
 	EDestination *destination;
 	const gchar *contact_email;
@@ -3069,8 +3037,7 @@ popup_activate_cut (ENameSelectorEntry *name_selector_entry,
 }
 
 static void
-popup_activate_copy (ENameSelectorEntry *name_selector_entry,
-                     GtkWidget *menu_item)
+popup_activate_copy (ENameSelectorEntry *name_selector_entry)
 {
 	EDestination *destination;
 	const gchar *contact_email;
@@ -3095,34 +3062,64 @@ popup_activate_copy (ENameSelectorEntry *name_selector_entry,
 }
 
 static void
-destination_set_list (GtkWidget *item,
-                      EDestination *destination)
+destination_set_list_cb (GSimpleAction *action,
+                         GVariant *value,
+                         gpointer user_data)
 {
-	EContact *contact;
-	gboolean status = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item));
+	EDestination *destination = user_data;
+	gboolean status = g_variant_get_boolean (value);
 
-	contact = e_destination_get_contact (destination);
-	if (!contact)
+	g_simple_action_set_state (action, value);
+	if (!e_destination_get_contact (destination))
 		return;
-
 	e_destination_set_ignored (destination, !status);
 }
 
 static void
-destination_set_email (GtkWidget *item,
-                       EDestination *destination)
+destination_set_email_cb (GSimpleAction *action,
+                           GVariant *value,
+                           gpointer user_data)
 {
-	gint email_num;
+	EDestination *destination = user_data;
 	EContact *contact;
 
-	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
-		return;
+	g_simple_action_set_state (action, value);
 	contact = e_destination_get_contact (destination);
 	if (!contact)
 		return;
+	e_destination_set_contact (destination, contact, g_variant_get_int32 (value));
+}
 
-	email_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "order"));
-	e_destination_set_contact (destination, contact, email_num);
+static void
+popup_activate_inline_expand_cb (GSimpleAction *action,
+                                  GVariant *parameter,
+                                  gpointer user_data)
+{
+	popup_activate_inline_expand (user_data);
+}
+
+static void
+popup_activate_contact_cb (GSimpleAction *action,
+                            GVariant *parameter,
+                            gpointer user_data)
+{
+	popup_activate_contact (user_data);
+}
+
+static void
+popup_activate_cut_cb (GSimpleAction *action,
+                        GVariant *parameter,
+                        gpointer user_data)
+{
+	popup_activate_cut (user_data);
+}
+
+static void
+popup_activate_copy_cb (GSimpleAction *action,
+                         GVariant *parameter,
+                         gpointer user_data)
+{
+	popup_activate_copy (user_data);
 }
 
 static void
@@ -3131,10 +3128,14 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 {
 	EDestination *destination;
 	EContact     *contact;
+	GSimpleActionGroup *action_group;
+	GSimpleAction *action;
+	GActionMap *action_map;
 	GtkWidget    *menu_item;
 	GList        *email_list = NULL;
 	GList        *l;
-	gint          i;
+	gchar        *action_name;
+	gint          i, jj;
 	gchar	     *edit_label;
 	gchar	     *cut_label;
 	gchar         *copy_label;
@@ -3150,6 +3151,27 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 	contact = e_destination_get_contact (destination);
 	if (!contact)
 		return;
+
+	action_group = g_simple_action_group_new ();
+
+	action = g_simple_action_new ("edit-contact", NULL);
+	g_signal_connect (action, "activate", G_CALLBACK (popup_activate_contact_cb), name_selector_entry);
+	g_action_map_add_action (G_ACTION_MAP (action_group), G_ACTION (action));
+	g_object_unref (action);
+
+	action = g_simple_action_new ("copy-contact", NULL);
+	g_signal_connect (action, "activate", G_CALLBACK (popup_activate_copy_cb), name_selector_entry);
+	g_action_map_add_action (G_ACTION_MAP (action_group), G_ACTION (action));
+	g_object_unref (action);
+
+	action = g_simple_action_new ("cut-contact", NULL);
+	g_signal_connect (action, "activate", G_CALLBACK (popup_activate_cut_cb), name_selector_entry);
+	g_action_map_add_action (G_ACTION_MAP (action_group), G_ACTION (action));
+	g_object_unref (action);
+
+	gtk_widget_insert_action_group (GTK_WIDGET (menu), "ense", G_ACTION_GROUP (action_group));
+	g_object_unref (action_group);
+	action_map = action_map;
 
 	/* Prepend the menu items, backwards */
 
@@ -3167,6 +3189,12 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 		GList *iter;
 		gint length = g_list_length ((GList *) dests);
 
+		action = g_simple_action_new ("expand-inline", NULL);
+		g_signal_connect (action, "activate", G_CALLBACK (popup_activate_inline_expand_cb), name_selector_entry);
+		g_action_map_add_action (action_map, G_ACTION (action));
+		g_object_unref (action);
+
+		jj = 0;
 		for (iter = (GList *) dests; iter; iter = iter->next) {
 			EDestination *dest = (EDestination *) iter->data;
 			const gchar *email = e_destination_get_email (dest);
@@ -3176,9 +3204,13 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 
 			if (length > 1) {
 				menu_item = gtk_check_menu_item_new_with_label (email);
-				g_signal_connect (
-					menu_item, "toggled",
-					G_CALLBACK (destination_set_list), dest);
+
+				action_name = g_strdup_printf ("toggle-dest-%d", jj);
+				action = g_simple_action_new_stateful (action_name, NULL, g_variant_new_boolean (!e_destination_is_ignored (dest)));
+				g_free (action_name);
+				g_signal_connect (action, "change-state", G_CALLBACK (destination_set_list_cb), dest);
+				g_action_map_add_action (action_map, G_ACTION (action));
+				g_object_unref (action);
 			} else {
 				menu_item = gtk_menu_item_new_with_label (email);
 			}
@@ -3191,15 +3223,24 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 				gtk_check_menu_item_set_active (
 					GTK_CHECK_MENU_ITEM (menu_item),
 					!e_destination_is_ignored (dest));
-				g_signal_connect_swapped (
-					menu_item, "activate",
-					G_CALLBACK (popup_activate_list), dest);
+
+				action_name = g_strdup_printf ("ense.toggle-dest-%d", jj);
+				gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_item), action_name);
+				g_free (action_name);
+				jj++;
 			}
 		}
 
 	} else {
 		email_list = e_contact_get (contact, E_CONTACT_EMAIL);
 		len = g_list_length (email_list);
+
+		if (len > 1) {
+			action = g_simple_action_new_stateful ("select-email", G_VARIANT_TYPE_INT32, g_variant_new_int32 (email_num));
+			g_signal_connect (action, "change-state", G_CALLBACK (destination_set_email_cb), destination);
+			g_action_map_add_action (action_map, G_ACTION (action));
+			g_object_unref (action);
+		}
 
 		for (l = email_list, i = 0; l; l = g_list_next (l), i++) {
 			gchar *email = l->data;
@@ -3210,7 +3251,6 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 			if (len > 1) {
 				menu_item = gtk_radio_menu_item_new_with_label (group, email);
 				group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menu_item));
-				g_signal_connect (menu_item, "toggled", G_CALLBACK (destination_set_email), destination);
 			} else {
 				menu_item = gtk_menu_item_new_with_label (email);
 			}
@@ -3218,14 +3258,12 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 			gtk_widget_show (menu_item);
 			gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
 			show_menu = TRUE;
-			g_object_set_data (G_OBJECT (menu_item), "order", GINT_TO_POINTER (i));
 
-			if (i == email_num && len > 1) {
-				gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-				g_signal_connect_swapped (
-					menu_item, "activate",
-					G_CALLBACK (popup_activate_email),
-					name_selector_entry);
+			if (len > 1) {
+				if (i == email_num)
+					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
+				gtk_actionable_set_action_target_value (GTK_ACTIONABLE (menu_item), g_variant_new_int32 (i));
+				gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_item), "ense.select-email");
 			}
 		}
 	}
@@ -3246,9 +3284,7 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 		g_free (edit_label);
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
-		g_signal_connect_swapped (
-			menu_item, "activate", G_CALLBACK (popup_activate_inline_expand),
-			name_selector_entry);
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_item), "ense.expand-inline");
 
 		/* Separator */
 		menu_item = gtk_separator_menu_item_new ();
@@ -3262,10 +3298,7 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 	g_free (copy_label);
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
-
-	g_signal_connect_swapped (
-		menu_item, "activate", G_CALLBACK (popup_activate_copy),
-		name_selector_entry);
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_item), "ense.copy-contact");
 
 	/* Cut Contact Item */
 	cut_label = g_strdup_printf (_("C_ut %s"), (gchar *) e_contact_get_const (contact, E_CONTACT_FILE_AS));
@@ -3273,10 +3306,7 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 	g_free (cut_label);
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
-
-	g_signal_connect_swapped (
-		menu_item, "activate", G_CALLBACK (popup_activate_cut),
-		name_selector_entry);
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_item), "ense.cut-contact");
 
 	if (show_menu) {
 		menu_item = gtk_separator_menu_item_new ();
@@ -3291,10 +3321,7 @@ populate_popup (ENameSelectorEntry *name_selector_entry,
 	g_free (edit_label);
 	gtk_widget_show (menu_item);
 	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
-
-	g_signal_connect_swapped (
-		menu_item, "activate", G_CALLBACK (popup_activate_contact),
-		name_selector_entry);
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (menu_item), "ense.edit-contact");
 
 	deep_free_list (email_list);
 }
