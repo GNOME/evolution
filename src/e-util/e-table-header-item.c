@@ -19,7 +19,7 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "e-canvas.h"
-#include "e-popup-menu.h"
+#include "e-misc-utils.h"
 #include "e-table-col-dnd.h"
 #include "e-table-config.h"
 #include "e-table-defines.h"
@@ -112,6 +112,7 @@ ethi_dispose (GObject *object)
 			G_OBJECT (ethi->etfcd.widget), &ethi->etfcd.pointer);
 
 	g_clear_object (&ethi->config);
+	g_clear_object (&ethi->ui_manager);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (ethi_parent_class)->dispose (object);
@@ -1301,23 +1302,19 @@ ethi_start_drag (ETableHeaderItem *ethi,
 	g_hash_table_destroy (arrows);
 }
 
-typedef struct {
-	ETableHeaderItem *ethi;
-	gint col;
-} EthiHeaderInfo;
-
 static void
-ethi_popup_sort_ascending (GtkWidget *widget,
-                           EthiHeaderInfo *info)
+ethi_popup_sort_ascending_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
+	ETableHeaderItem *ethi = user_data;
 	ETableColumnSpecification *col_spec = NULL;
 	ETableCol *col;
 	gint length;
 	gint i;
 	gint found = FALSE;
-	ETableHeaderItem *ethi = info->ethi;
 
-	col = e_table_header_get_column (ethi->eth, info->col);
+	col = e_table_header_get_column (ethi->eth, ethi->popup_col);
 	if (col->spec->sortable)
 		col_spec = col->spec;
 
@@ -1366,17 +1363,18 @@ ethi_popup_sort_ascending (GtkWidget *widget,
 }
 
 static void
-ethi_popup_sort_descending (GtkWidget *widget,
-                            EthiHeaderInfo *info)
+ethi_popup_sort_descending_cb (EUIAction *action,
+			       GVariant *parameter,
+			       gpointer user_data)
 {
+	ETableHeaderItem *ethi = user_data;
 	ETableColumnSpecification *col_spec = NULL;
 	ETableCol *col;
 	gint length;
 	gint i;
 	gint found = FALSE;
-	ETableHeaderItem *ethi = info->ethi;
 
-	col = e_table_header_get_column (ethi->eth, info->col);
+	col = e_table_header_get_column (ethi->eth, ethi->popup_col);
 	if (col->spec->sortable)
 		col_spec = col->spec;
 
@@ -1426,47 +1424,49 @@ ethi_popup_sort_descending (GtkWidget *widget,
 }
 
 static void
-ethi_popup_unsort (GtkWidget *widget,
-                   EthiHeaderInfo *info)
+ethi_popup_unsort_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
 {
-	ETableHeaderItem *ethi = info->ethi;
+	ETableHeaderItem *ethi = user_data;
 
 	e_table_sort_info_grouping_truncate (ethi->sort_info, 0);
 	e_table_sort_info_sorting_truncate (ethi->sort_info, 0);
 }
 
 static void
-ethi_popup_group_field (GtkWidget *widget,
-                        EthiHeaderInfo *info)
+ethi_popup_group_field_cb (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	ETableHeaderItem *ethi = user_data;
 	ETableCol *col;
 
-	col = e_table_header_get_column (info->ethi->eth, info->col);
+	col = e_table_header_get_column (ethi->eth, ethi->popup_col);
 
 	e_table_sort_info_grouping_set_nth (
-		info->ethi->sort_info, 0,
+		ethi->sort_info, 0,
 		col->spec, GTK_SORT_ASCENDING);
-	e_table_sort_info_grouping_truncate (info->ethi->sort_info, 1);
+	e_table_sort_info_grouping_truncate (ethi->sort_info, 1);
 }
 
 static void
-ethi_popup_group_box (GtkWidget *widget,
-                      EthiHeaderInfo *info)
+ethi_popup_remove_column_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
+	ETableHeaderItem *ethi = user_data;
+
+	e_table_header_remove (ethi->eth, ethi->popup_col);
 }
 
 static void
-ethi_popup_remove_column (GtkWidget *widget,
-                          EthiHeaderInfo *info)
+ethi_popup_field_chooser_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
 {
-	e_table_header_remove (info->ethi->eth, info->col);
-}
-
-static void
-ethi_popup_field_chooser (GtkWidget *widget,
-                          EthiHeaderInfo *info)
-{
-	GtkWidget *etfcd = info->ethi->etfcd.widget;
+	ETableHeaderItem *ethi = user_data;
+	GtkWidget *etfcd = ethi->etfcd.widget;
 	GtkWidget *toplevel;
 
 	if (etfcd) {
@@ -1475,53 +1475,41 @@ ethi_popup_field_chooser (GtkWidget *widget,
 		return;
 	}
 
-	info->ethi->etfcd.widget = e_table_field_chooser_dialog_new ();
-	etfcd = info->ethi->etfcd.widget;
+	ethi->etfcd.widget = e_table_field_chooser_dialog_new ();
+	etfcd = ethi->etfcd.widget;
 
-	toplevel = gtk_widget_get_toplevel (widget);
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (ethi->parent.canvas));
 	if (GTK_IS_WINDOW (toplevel))
 		gtk_window_set_transient_for (GTK_WINDOW (etfcd), GTK_WINDOW (toplevel));
 
-	g_object_add_weak_pointer (G_OBJECT (etfcd), &info->ethi->etfcd.pointer);
+	g_object_add_weak_pointer (G_OBJECT (etfcd), &ethi->etfcd.pointer);
 
 	g_object_set (
-		info->ethi->etfcd.widget,
-		"full-header", info->ethi->full_header,
-		"header", info->ethi->eth,
-		"dnd-code", info->ethi->dnd_code,
+		ethi->etfcd.widget,
+		"full-header", ethi->full_header,
+		"header", ethi->eth,
+		"dnd-code", ethi->dnd_code,
 		NULL);
 
 	gtk_widget_show (etfcd);
 }
 
 static void
-ethi_popup_alignment (GtkWidget *widget,
-                      EthiHeaderInfo *info)
+ethi_popup_best_fit_cb (EUIAction *action,
+			GVariant *parameter,
+			gpointer user_data)
 {
-}
-
-static void
-ethi_popup_best_fit (GtkWidget *widget,
-                     EthiHeaderInfo *info)
-{
-	ETableHeaderItem *ethi = info->ethi;
+	ETableHeaderItem *ethi = user_data;
 	gint width;
 
 	g_signal_emit_by_name (
 		ethi->eth,
 		"request_width",
-		info->col, &width);
+		ethi->popup_col, &width);
 	/* Add 10 to stop it from "..."ing */
-	e_table_header_set_size (ethi->eth, info->col, width + 10);
+	e_table_header_set_size (ethi->eth, ethi->popup_col, width + 10);
 
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ethi));
-
-}
-
-static void
-ethi_popup_format_columns (GtkWidget *widget,
-                           EthiHeaderInfo *info)
-{
 }
 
 static void
@@ -1590,75 +1578,149 @@ e_table_header_item_customize_view (ETableHeaderItem *ethi)
 	}
 }
 
-static void
-ethi_popup_customize_view (GtkWidget *widget,
-                           EthiHeaderInfo *info)
+static GtkMenu *
+ethi_create_context_menu (ETableHeaderItem *ethi,
+			  gboolean is_sortable)
 {
-	ETableHeaderItem *ethi = info->ethi;
+	EUIAction *action;
+	GMenu *menu_model, *section, *sort_by_menu, *custom_section, *columns_section;
+	GMenuItem *item;
+	GtkWidget *popup;
+	gint ncol, sort_count, sort_col;
+	gboolean ascending = TRUE;
 
-	e_table_header_item_customize_view (ethi);
+	action = e_ui_manager_get_action (ethi->ui_manager,"sort-ascending");
+	e_ui_action_set_sensitive (action, is_sortable);
+
+	action = e_ui_manager_get_action (ethi->ui_manager,"sort-descending");
+	e_ui_action_set_sensitive (action, is_sortable);
+
+	action = e_ui_manager_get_action (ethi->ui_manager,"remove-column");
+	e_ui_action_set_sensitive (action, e_table_header_count (ethi->eth) > 1);
+
+	action = e_ui_manager_get_action (ethi->ui_manager,"best-fit");
+	e_ui_action_set_sensitive (action, is_sortable);
+
+	action = e_ui_manager_get_action (ethi->ui_manager,"customize-view");
+	e_ui_action_set_sensitive (action, ethi->table != NULL || ethi->tree != NULL);
+
+	sort_count = e_table_sort_info_sorting_get_count (ethi->sort_info);
+
+	if (sort_count > 1 || sort_count < 1) {
+		sort_col = -1;
+	} else {
+		ETableColumnSpecification *spec;
+		GtkSortType sort_type;
+
+		spec = e_table_sort_info_sorting_get_nth (ethi->sort_info, 0, &sort_type);
+		sort_col = spec->model_col;
+		ascending = (sort_type == GTK_SORT_ASCENDING);
+	}
+
+	action = e_ui_manager_get_action (ethi->ui_manager,"sort-by-col");
+	e_ui_action_set_state (action, g_variant_new_int32 (sort_col));
+
+	/* Sort By submenu */
+	custom_section = g_menu_new ();
+	item = g_menu_item_new (_("_Custom"), NULL);
+	g_menu_item_set_action_and_target (item, "ethi.sort-by-col", "i", -1);
+	g_menu_append_item (custom_section, item);
+	g_object_unref (item);
+
+	columns_section = g_menu_new ();
+	for (ncol = ethi->full_header->col_count - 1; ncol >= 0; ncol--) {
+		gchar *text = NULL;
+
+		if (!ethi->full_header->columns[ncol]->spec->sortable ||
+		    ethi->full_header->columns[ncol]->spec->disabled)
+			continue;
+
+		if (ncol == sort_col) {
+			text = g_strdup_printf (
+				"%s (%s)",
+				ethi->full_header->columns[ncol]->text,
+				ascending ? _("Ascending") : _("Descending"));
+			item = g_menu_item_new (text, NULL);
+			g_free (text);
+		} else {
+			item = g_menu_item_new (ethi->full_header->columns[ncol]->text, NULL);
+		}
+		g_menu_item_set_action_and_target (item, "ethi.sort-by-col", "i", ncol);
+		g_menu_append_item (columns_section, item);
+		g_object_unref (item);
+	}
+
+	sort_by_menu = g_menu_new ();
+	g_menu_append_section (sort_by_menu, NULL, G_MENU_MODEL (custom_section));
+	g_menu_append_section (sort_by_menu, NULL, G_MENU_MODEL (columns_section));
+	g_object_unref (custom_section);
+	g_object_unref (columns_section);
+
+	menu_model = g_menu_new ();
+
+	/* Sort section */
+	section = g_menu_new ();
+	g_menu_append_submenu (section, _("_Sort By"), G_MENU_MODEL (sort_by_menu));
+	g_object_unref (sort_by_menu);
+	g_menu_append (section, _("Sort _Ascending"), "ethi.sort-ascending");
+	g_menu_append (section, _("Sort _Descending"), "ethi.sort-descending");
+	g_menu_append (section, _("_Reset sort"), "ethi.reset-sort");
+	g_menu_append_section (menu_model, NULL, G_MENU_MODEL (section));
+	g_object_unref (section);
+
+	/* Group section (optional) */
+	if (e_table_sort_info_get_can_group (ethi->sort_info)) {
+		section = g_menu_new ();
+		g_menu_append (section, _("Group By This _Field"), "ethi.group-by-field");
+		g_menu_append_section (menu_model, NULL, G_MENU_MODEL (section));
+		g_object_unref (section);
+	}
+
+	/* Column operations */
+	section = g_menu_new ();
+	g_menu_append (section, _("Remove This _Column"), "ethi.remove-column");
+	g_menu_append (section, _("Add a C_olumn…"), "ethi.add-column");
+	g_menu_append_section (menu_model, NULL, G_MENU_MODEL (section));
+	g_object_unref (section);
+
+	/* Best fit */
+	section = g_menu_new ();
+	g_menu_append (section, _("B_est Fit"), "ethi.best-fit");
+	g_menu_append_section (menu_model, NULL, G_MENU_MODEL (section));
+	g_object_unref (section);
+
+	/* Customize */
+	section = g_menu_new ();
+	g_menu_append (section, _("Custo_mize Current View…"), "ethi.customize-view");
+	g_menu_append_section (menu_model, NULL, G_MENU_MODEL (section));
+	g_object_unref (section);
+
+	popup = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+	g_object_unref (menu_model);
+	e_ui_manager_add_action_groups_to_widget (ethi->ui_manager, popup);
+
+	return GTK_MENU (popup);
 }
 
 static void
-free_popup_info (GtkWidget *w,
-                 EthiHeaderInfo *info)
+sort_by_id_cb (EUIAction *action,
+	       GVariant *value,
+	       gpointer user_data)
 {
-	g_free (info);
-}
-
-/* Bit 1 is always disabled. */
-/* Bit 2 is disabled if not "sortable". */
-/* Bit 4 is disabled if we don't have a pointer to our table object. */
-static EPopupMenu ethi_context_menu[] = {
-	E_POPUP_ITEM (
-		N_("Sort _Ascending"),
-		G_CALLBACK (ethi_popup_sort_ascending), 2),
-	E_POPUP_ITEM (
-		N_("Sort _Descending"),
-		G_CALLBACK (ethi_popup_sort_descending), 2),
-	E_POPUP_ITEM (
-		N_("_Reset sort"), G_CALLBACK (ethi_popup_unsort), 0),
-	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (
-		N_("Group By This _Field"),
-		G_CALLBACK (ethi_popup_group_field), 16),
-	E_POPUP_ITEM (
-		N_("Group By _Box"),
-		G_CALLBACK (ethi_popup_group_box), 128),
-	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (
-		N_("Remove This _Column"),
-		G_CALLBACK (ethi_popup_remove_column), 8),
-	E_POPUP_ITEM (
-		N_("Add a C_olumn…"),
-		G_CALLBACK (ethi_popup_field_chooser), 0),
-	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (
-		N_("A_lignment"),
-		G_CALLBACK (ethi_popup_alignment), 128),
-	E_POPUP_ITEM (
-		N_("B_est Fit"),
-		G_CALLBACK (ethi_popup_best_fit), 2),
-	E_POPUP_ITEM (
-		N_("Format Column_s…"),
-		G_CALLBACK (ethi_popup_format_columns), 128),
-	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (
-		N_("Custo_mize Current View…"),
-		G_CALLBACK (ethi_popup_customize_view), 4),
-	E_POPUP_TERMINATOR
-};
-
-static void
-sort_by_id (GtkWidget *menu_item,
-            ETableHeaderItem *ethi)
-{
+	ETableHeaderItem *ethi = user_data;
 	ETableCol *ecol;
 	gboolean clearfirst;
 	gint col;
 
-	col = GPOINTER_TO_INT (g_object_get_data (
-		G_OBJECT (menu_item), "col-number"));
+	col = g_variant_get_int32 (value);
+
+	if (col == -1) {
+		e_table_header_item_customize_view (ethi);
+		return;
+	}
+
+	e_ui_action_set_state (action, value);
+
 	ecol = e_table_header_get_column (ethi->full_header, col);
 	clearfirst = e_table_sort_info_sorting_get_count (ethi->sort_info) > 1;
 
@@ -1678,21 +1740,20 @@ sort_by_id (GtkWidget *menu_item,
 }
 
 static void
-popup_custom (GtkWidget *menu_item,
-              EthiHeaderInfo *info)
+popup_custom_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
 {
-	ethi_popup_customize_view (menu_item, info);
+	ETableHeaderItem *ethi = user_data;
+
+	e_table_header_item_customize_view (ethi);
 }
 
 static void
 ethi_header_context_menu (ETableHeaderItem *ethi,
                           GdkEvent *button_event)
 {
-	EthiHeaderInfo *info = g_new (EthiHeaderInfo, 1);
 	GtkMenu *popup;
-	gint ncol, sort_count, sort_col;
-	GtkWidget *menu_item, *sub_menu;
-	gboolean ascending = TRUE;
 	gdouble event_x_win = 0;
 	gdouble event_y_win = 0;
 
@@ -1700,98 +1761,14 @@ ethi_header_context_menu (ETableHeaderItem *ethi,
 
 	gdk_event_get_coords (button_event, &event_x_win, &event_y_win);
 
-	info->ethi = ethi;
-	info->col = ethi_find_col_by_x (ethi, event_x_win);
+	ethi->popup_col = ethi_find_col_by_x (ethi, event_x_win);
 
-	popup = e_popup_menu_create_with_domain (
-		ethi_context_menu,
-		1 +
-		((ethi->table || ethi->tree) ? 0 : 4) +
-		((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
-		((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
-		128, info, GETTEXT_PACKAGE);
-
-	menu_item = gtk_menu_item_new_with_mnemonic (_("_Sort By"));
-	gtk_widget_show (menu_item);
-	sub_menu = gtk_menu_new ();
-	gtk_widget_show (sub_menu);
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_item), sub_menu);
-	gtk_menu_shell_prepend (GTK_MENU_SHELL (popup), menu_item);
-
-	sort_count = e_table_sort_info_sorting_get_count (ethi->sort_info);
-
-	if (sort_count > 1 || sort_count < 1)
-		sort_col = -1; /* Custom sorting */
-	else {
-		ETableColumnSpecification *spec;
-		GtkSortType sort_type;
-
-		spec = e_table_sort_info_sorting_get_nth (
-			ethi->sort_info, 0, &sort_type);
-
-		sort_col = spec->model_col;
-		ascending = (sort_type == GTK_SORT_ASCENDING);
-	}
-
-	/* Custom */
-	menu_item = gtk_check_menu_item_new_with_mnemonic (_("_Custom"));
-	gtk_widget_show (menu_item);
-	gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
-	if (sort_col == -1)
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-	gtk_check_menu_item_set_draw_as_radio (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-	g_signal_connect (
-		menu_item, "activate",
-		G_CALLBACK (popup_custom), info);
-
-	/* Show a seperator */
-	menu_item = gtk_separator_menu_item_new ();
-	gtk_widget_show (menu_item);
-	gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
-	/* Headers */
-	for (ncol = 0; ncol < ethi->full_header->col_count; ncol++)
-	{
-		gchar *text = NULL;
-
-		if (!ethi->full_header->columns[ncol]->spec->sortable ||
-		    ethi->full_header->columns[ncol]->spec->disabled)
-			continue;
-
-		if (ncol == sort_col) {
-			text = g_strdup_printf (
-				"%s (%s)",
-				ethi->full_header->columns[ncol]->text,
-				ascending ? _("Ascending"):_("Descending"));
-			menu_item = gtk_check_menu_item_new_with_label (text);
-			g_free (text);
-		} else
-			menu_item = gtk_check_menu_item_new_with_label (
-				ethi->full_header->columns[ncol]->text);
-
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_prepend (GTK_MENU_SHELL (sub_menu), menu_item);
-
-		if (ncol == sort_col)
-			gtk_check_menu_item_set_active (
-				GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-		gtk_check_menu_item_set_draw_as_radio (
-			GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-		g_object_set_data (
-			G_OBJECT (menu_item), "col-number",
-			GINT_TO_POINTER (ncol));
-		g_signal_connect (
-			menu_item, "activate",
-			G_CALLBACK (sort_by_id), ethi);
-	}
-
-	g_signal_connect (
-		popup, "selection-done",
-		G_CALLBACK (free_popup_info), info);
+	popup = ethi_create_context_menu (ethi, TRUE);
 
 	gtk_menu_attach_to_widget (GTK_MENU (popup),
 				   GTK_WIDGET (ethi->parent.canvas),
 				   NULL);
-	g_signal_connect (popup, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
+	e_util_connect_menu_detach_after_deactivate (popup);
 	gtk_menu_popup_at_pointer (popup, button_event);
 }
 
@@ -2080,31 +2057,18 @@ ethi_event (GnomeCanvasItem *item,
 	}
 	case GDK_KEY_PRESS:
 		if ((event_keyval == GDK_KEY_F10) && (event_state & GDK_SHIFT_MASK)) {
-			EthiHeaderInfo *info = g_new (EthiHeaderInfo, 1);
 			ETableCol *ecol;
 			GtkMenu *popup;
 
-			info->ethi = ethi;
-			info->col = ethi->selected_col;
-			ecol = e_table_header_get_column (ethi->eth, info->col);
+			ethi->popup_col = ethi->selected_col;
+			ecol = e_table_header_get_column (ethi->eth, ethi->popup_col);
 
-			popup = e_popup_menu_create_with_domain (
-				ethi_context_menu,
-				1 +
-				(ecol->spec->sortable ? 0 : 2) +
-				((ethi->table || ethi->tree) ? 0 : 4) +
-				((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
-				((e_table_sort_info_get_can_group (
-					ethi->sort_info)) ? 0 : 16) +
-				128, info, GETTEXT_PACKAGE);
+			popup = ethi_create_context_menu (ethi, ecol->spec->sortable);
 			g_object_ref_sink (popup);
-			g_signal_connect (
-				popup, "selection-done",
-				G_CALLBACK (free_popup_info), info);
 			gtk_menu_attach_to_widget (GTK_MENU (popup),
 						   GTK_WIDGET (canvas),
 						   NULL);
-			g_signal_connect (popup, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
+			e_util_connect_menu_detach_after_deactivate (popup);
 			gtk_menu_popup_at_pointer (popup, event);
 		} else if (event_keyval == GDK_KEY_space) {
 			ETableCol *ecol;
@@ -2224,6 +2188,18 @@ ethi_class_init (ETableHeaderItemClass *class)
 		G_TYPE_POINTER);
 }
 
+static const EUIActionEntry ethi_entries[] = {
+	{ "sort-ascending",  NULL, N_("Sort _Ascending"),          NULL, NULL, ethi_popup_sort_ascending_cb,  NULL, NULL, NULL },
+	{ "sort-descending", NULL, N_("Sort _Descending"),         NULL, NULL, ethi_popup_sort_descending_cb, NULL, NULL, NULL },
+	{ "reset-sort",      NULL, N_("_Reset sort"),              NULL, NULL, ethi_popup_unsort_cb,          NULL, NULL, NULL },
+	{ "group-by-field",  NULL, N_("Group By This _Field"),     NULL, NULL, ethi_popup_group_field_cb,     NULL, NULL, NULL },
+	{ "remove-column",   NULL, N_("Remove This _Column"),      NULL, NULL, ethi_popup_remove_column_cb,   NULL, NULL, NULL },
+	{ "add-column",      NULL, N_("Add a C_olumn…"),           NULL, NULL, ethi_popup_field_chooser_cb,   NULL, NULL, NULL },
+	{ "best-fit",        NULL, N_("B_est Fit"),                NULL, NULL, ethi_popup_best_fit_cb,        NULL, NULL, NULL },
+	{ "customize-view",  NULL, N_("Custo_mize Current View…"), NULL, NULL, popup_custom_cb,               NULL, NULL, NULL },
+	{ "sort-by-col",     NULL, N_("Sort by Column"),           NULL, NULL, NULL, "i", "int32 -1", sort_by_id_cb },
+};
+
 static void
 ethi_init (ETableHeaderItem *ethi)
 {
@@ -2251,5 +2227,10 @@ ethi_init (ETableHeaderItem *ethi)
 	ethi->tree = NULL;
 
 	ethi->selected_col = 0;
+	ethi->popup_col = -1;
+
+	ethi->ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions (ethi->ui_manager, "ethi", GETTEXT_PACKAGE,
+		ethi_entries, G_N_ELEMENTS (ethi_entries), ethi);
 }
 

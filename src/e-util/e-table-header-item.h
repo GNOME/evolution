@@ -19,6 +19,7 @@
 #include <e-util/e-table-sort-info.h>
 #include <e-util/e-table.h>
 #include <e-util/e-tree.h>
+#include <e-util/e-ui-manager.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TABLE_HEADER_ITEM \
@@ -119,6 +120,10 @@ struct _ETableHeaderItem {
 
 	/* For keyboard navigation*/
 	gint selected_col;
+
+	/* For popup menu */
+	gint popup_col;
+	EUIManager *ui_manager;
 };
 
 struct _ETableHeaderItemClass {
