@@ -26,6 +26,7 @@
 struct _ECalendarPreferencesPrivate {
 	GtkBuilder *builder;
 	ESourceRegistry *registry;
+	EUIManager *ui_manager;
 
 	/* General tab */
 	GtkWidget *day_second_zone;
@@ -269,6 +270,7 @@ calendar_preferences_dispose (GObject *object)
 
 	g_clear_object (&prefs->priv->builder);
 	g_clear_object (&prefs->priv->registry);
+	g_clear_object (&prefs->priv->ui_manager);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_calendar_preferences_parent_class)->dispose (object);
@@ -334,84 +336,85 @@ update_day_second_zone_caption (ECalendarPreferences *prefs)
 }
 
 static void
-on_set_day_second_zone (GtkWidget *item,
-                        ECalendarPreferences *prefs)
+on_set_day_second_zone (EUIAction *action,
+			GVariant *value,
+			gpointer user_data)
 {
-	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
-		return;
+	ECalendarPreferences *prefs = user_data;
+	const gchar *location = g_variant_get_string (value, NULL);
 
-	calendar_config_set_day_second_zone (g_object_get_data (G_OBJECT (item), "timezone"));
+	e_ui_action_set_state (action, value);
+	calendar_config_set_day_second_zone (*location ? location : NULL);
 	update_day_second_zone_caption (prefs);
 }
 
 static void
-on_select_day_second_zone (GtkWidget *item,
-                           ECalendarPreferences *prefs)
+on_select_day_second_zone (EUIAction *action,
+			   GVariant *parameter,
+			   gpointer user_data)
 {
+	ECalendarPreferences *prefs = user_data;
+
 	g_return_if_fail (prefs != NULL);
 
-	calendar_config_select_day_second_zone (gtk_widget_get_toplevel (item));
+	calendar_config_select_day_second_zone (GTK_WIDGET (prefs));
 	update_day_second_zone_caption (prefs);
 }
+
+static const EUIActionEntry calprefs_entries[] = {
+	{ "set-zone",    NULL, N_("Set Second Time Zone"), NULL, NULL, NULL,                      "s", "''", on_set_day_second_zone },
+	{ "select-zone", NULL, N_("Select…"),              NULL, NULL, on_select_day_second_zone, NULL, NULL, NULL },
+};
 
 static void
 day_second_zone_clicked (GtkWidget *widget,
                          ECalendarPreferences *prefs)
 {
-	GtkWidget *menu, *item;
-	GSList *group = NULL, *recent_zones, *s;
+	EUIAction *action;
+	GMenu *menu_model, *zone_section, *select_section;
+	GMenuItem *menu_item;
+	GtkWidget *menu;
+	GSList *recent_zones, *s;
 	gchar *location;
-	ICalTimezone *zone, *second_zone = NULL;
 
-	menu = gtk_menu_new ();
-
+	action = e_ui_manager_get_action (prefs->priv->ui_manager, "set-zone");
 	location = calendar_config_get_day_second_zone ();
-	if (location && *location)
-		second_zone = i_cal_timezone_get_builtin_timezone (location);
+	e_ui_action_set_state (action, g_variant_new_string (location ? location : ""));
 	g_free (location);
 
-	group = NULL;
-	item = gtk_radio_menu_item_new_with_label (group, C_("cal-second-zone", "None"));
-	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
-	if (!second_zone)
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	g_signal_connect (
-		item, "toggled",
-		G_CALLBACK (on_set_day_second_zone), prefs);
+	zone_section = g_menu_new ();
+	menu_item = g_menu_item_new (C_("cal-second-zone", "None"), NULL);
+	g_menu_item_set_action_and_target (menu_item, "calprefs.set-zone", "s", "");
+	g_menu_append_item (zone_section, menu_item);
+	g_object_unref (menu_item);
 
 	recent_zones = calendar_config_get_day_second_zones ();
 	for (s = recent_zones; s != NULL; s = s->next) {
-		zone = i_cal_timezone_get_builtin_timezone (s->data);
+		ICalTimezone *zone = i_cal_timezone_get_builtin_timezone (s->data);
 		if (!zone)
 			continue;
 
-		item = gtk_radio_menu_item_new_with_label (group, i_cal_timezone_get_display_name (zone));
-		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
-		/* both comes from builtin, thus no problem to compare pointers */
-		if (zone == second_zone)
-			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		g_object_set_data_full (G_OBJECT (item), "timezone", g_strdup (s->data), g_free);
-		g_signal_connect (
-			item, "toggled",
-			G_CALLBACK (on_set_day_second_zone), prefs);
+		menu_item = g_menu_item_new (i_cal_timezone_get_display_name (zone), NULL);
+		g_menu_item_set_action_and_target (menu_item, "calprefs.set-zone", "s", (const gchar *) s->data);
+		g_menu_append_item (zone_section, menu_item);
+		g_object_unref (menu_item);
 	}
 	calendar_config_free_day_second_zones (recent_zones);
 
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	select_section = g_menu_new ();
+	g_menu_append (select_section, _("Select…"), "calprefs.select-zone");
 
-	item = gtk_menu_item_new_with_label (_("Select…"));
-	g_signal_connect (
-		item, "activate",
-		G_CALLBACK (on_select_day_second_zone), prefs);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	menu_model = g_menu_new ();
+	g_menu_append_section (menu_model, NULL, G_MENU_MODEL (zone_section));
+	g_object_unref (zone_section);
+	g_menu_append_section (menu_model, NULL, G_MENU_MODEL (select_section));
+	g_object_unref (select_section);
 
-	gtk_widget_show_all (menu);
+	menu = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+	g_object_unref (menu_model);
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), widget, NULL);
-	g_signal_connect (menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
+	e_util_connect_menu_detach_after_deactivate (GTK_MENU (menu));
 	gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
 }
 
@@ -1352,6 +1355,11 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 	show_config (prefs);
 	/* FIXME: weakref? */
 	setup_changes (prefs);
+
+	prefs->priv->ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions (prefs->priv->ui_manager, "calprefs", GETTEXT_PACKAGE,
+		calprefs_entries, G_N_ELEMENTS (calprefs_entries), prefs);
+	e_ui_manager_set_action_groups_widget (prefs->priv->ui_manager, GTK_WIDGET (prefs));
 
 	g_object_unref (eds_calendar_settings);
 	g_object_unref (mail_settings);
