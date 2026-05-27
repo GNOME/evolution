@@ -42,6 +42,7 @@ struct _EVCardEditor {
 	gboolean changed;
 	gboolean updating;
 	gboolean add_menu_needs_update;
+	EUIManager *ui_manager;
 	EContact *contact;
 	ESourceRegistry *registry;
 	EClientCache *client_cache;
@@ -3815,38 +3816,42 @@ eve_update (EVCardEditor *self)
 		gtk_widget_set_sensitive (self->button_save, self->changed);
 }
 
-#define ADD_MENU_ITEM_INDEX "eve-add-menu-item-index"
-
 static void
-eve_add_menu_item_activated_cb (GtkMenuItem *menu_item,
+eve_add_menu_item_activated_cb (EUIAction *action,
+				GVariant *parameter,
 				gpointer user_data)
 {
 	EVCardEditor *self = user_data;
 	EVCardEditorSection *section;
 	EVCardEditorItem *item;
-	guint item_index = GPOINTER_TO_UINT (g_object_get_data (G_OBJECT (menu_item), ADD_MENU_ITEM_INDEX));
+	guint item_index = g_variant_get_uint32 (parameter);
 
-	g_return_if_fail (item_index >= 1 && item_index <= G_N_ELEMENTS (add_items));
+	g_return_if_fail (item_index < G_N_ELEMENTS (add_items));
 
 	if (!self->sections)
 		return;
 
-	section = g_hash_table_lookup (self->sections, GINT_TO_POINTER (add_items[item_index - 1].kind));
+	section = g_hash_table_lookup (self->sections, GINT_TO_POINTER (add_items[item_index].kind));
 	g_return_if_fail (section != NULL);
 
-	item = add_items[item_index - 1].add_item_func (section, add_items[item_index - 1].field_id, _(add_items[item_index - 1].label));
+	item = add_items[item_index].add_item_func (section, add_items[item_index].field_id, _(add_items[item_index].label));
 	eve_focus_added_item (item);
 }
+
+static const EUIActionEntry eveadd_entries[] = {
+	{ "add-item", NULL, N_("Add Item"), NULL, NULL, eve_add_menu_item_activated_cb, "u", NULL, NULL },
+};
 
 static void
 eve_update_add_menu (EVCardEditor *self)
 {
-	GtkWidget *menu;
-	GtkMenuShell *menu_shell;
-	GtkMenuShell *submenu_shell = NULL;
+	GMenu *menu_model;
+	GMenu *current_submenu;
+	GMenu *current_section;
+	const gchar *pending_submenu_label;
 	GHashTable *unused_onces;
-	const gchar *need_submenu = NULL;
 	gboolean has_supported_fields;
+	GtkWidget *menu;
 	guint ii;
 
 	self->add_menu_needs_update = FALSE;
@@ -3855,9 +3860,6 @@ eve_update_add_menu (EVCardEditor *self)
 		return;
 
 	has_supported_fields = self->supported_fields && g_hash_table_size (self->supported_fields) > 0;
-
-	menu = gtk_menu_new ();
-	menu_shell = GTK_MENU_SHELL (menu);
 
 	unused_onces = g_hash_table_new (g_direct_hash, g_direct_equal);
 
@@ -3884,53 +3886,59 @@ eve_update_add_menu (EVCardEditor *self)
 		}
 	}
 
+	menu_model = g_menu_new ();
+	current_submenu = NULL;
+	current_section = NULL;
+	pending_submenu_label = NULL;
+
 	for (ii = 0; ii < G_N_ELEMENTS (add_items); ii++) {
-		GtkWidget *menu_item;
+		GMenuItem *menu_item;
 
 		if (add_items[ii].cardinality == 1 && add_items[ii].field_id != E_CONTACT_FIELD_LAST &&
 		    !g_hash_table_contains (unused_onces, GINT_TO_POINTER (add_items[ii].field_id)))
 			continue;
 
 		if (add_items[ii].kind == SECTION_KIND_SEPARATOR) {
-			if (need_submenu)
+			if (!current_section || g_menu_model_get_n_items (G_MENU_MODEL (current_section)) == 0)
 				continue;
 
-			menu_item = gtk_separator_menu_item_new ();
-		} else if (add_items[ii].kind == SECTION_KIND_SUBMENU_START) {
-			g_warn_if_fail (submenu_shell == NULL && need_submenu == NULL);
-			need_submenu = _(add_items[ii].label);
+			g_menu_append_section (current_submenu, NULL, G_MENU_MODEL (current_section));
+			g_object_unref (current_section);
+			current_section = g_menu_new ();
 			continue;
-		} else if (add_items[ii].kind == SECTION_KIND_SUBMENU_END) {
-			g_warn_if_fail (submenu_shell != NULL || need_submenu != NULL);
-			submenu_shell = NULL;
-			need_submenu = NULL;
-			continue;
-		} else {
-			menu_item = gtk_menu_item_new_with_mnemonic (_(add_items[ii].label));
-			g_object_set_data (G_OBJECT (menu_item), ADD_MENU_ITEM_INDEX, GUINT_TO_POINTER (ii + 1));
-			g_signal_connect (menu_item, "activate",
-				G_CALLBACK (eve_add_menu_item_activated_cb), self);
-
-			if (add_items[ii].field_id != E_CONTACT_FIELD_LAST && has_supported_fields)
-				gtk_widget_set_sensitive (menu_item, eve_is_supported_field (self, add_items[ii].field_id));
 		}
 
-		if (need_submenu) {
-			GtkWidget *submenu, *subitem;
-
-			g_warn_if_fail (submenu_shell == NULL);
-
-			submenu = gtk_menu_new ();
-			subitem = gtk_menu_item_new_with_mnemonic (need_submenu);
-			gtk_menu_item_set_submenu (GTK_MENU_ITEM (subitem), submenu);
-			submenu_shell = GTK_MENU_SHELL (submenu);
-			gtk_menu_shell_append (menu_shell, subitem);
-
-			need_submenu = NULL;
+		if (add_items[ii].kind == SECTION_KIND_SUBMENU_START) {
+			current_submenu = g_menu_new ();
+			current_section = g_menu_new ();
+			pending_submenu_label = _(add_items[ii].label);
+			continue;
 		}
 
-		gtk_menu_shell_append (submenu_shell ? submenu_shell : menu_shell, menu_item);
+		if (add_items[ii].kind == SECTION_KIND_SUBMENU_END) {
+			if (current_section && g_menu_model_get_n_items (G_MENU_MODEL (current_section)) > 0)
+				g_menu_append_section (current_submenu, NULL, G_MENU_MODEL (current_section));
+			g_clear_object (&current_section);
+
+			if (current_submenu && g_menu_model_get_n_items (G_MENU_MODEL (current_submenu)) > 0)
+				g_menu_append_submenu (menu_model, pending_submenu_label, G_MENU_MODEL (current_submenu));
+			g_clear_object (&current_submenu);
+			pending_submenu_label = NULL;
+			continue;
+		}
+
+		if (add_items[ii].field_id != E_CONTACT_FIELD_LAST && has_supported_fields &&
+		    !eve_is_supported_field (self, add_items[ii].field_id))
+			continue;
+
+		menu_item = g_menu_item_new (_(add_items[ii].label), NULL);
+		g_menu_item_set_action_and_target (menu_item, "eveadd.add-item", "u", (guint32) ii);
+		g_menu_append_item (current_section ? current_section : menu_model, menu_item);
+		g_object_unref (menu_item);
 	}
+
+	menu = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+	g_object_unref (menu_model);
 
 	gtk_widget_show_all (menu);
 
@@ -4863,30 +4871,30 @@ e_vcard_editor_constructed (GObject *object)
 			g_signal_connect (button, "clicked", G_CALLBACK (eve_section_add_item_cb), sections[ii].add_item_func);
 		} else if (sections[ii].kind == SECTION_KIND_WEB) {
 			GtkButton *button;
+			GMenu *menu_model;
 			GtkWidget *menu;
-			GtkMenuShell *menu_shell;
 			guint jj;
 
 			button = e_vcard_editor_section_get_add_button (E_VCARD_EDITOR_SECTION (widget));
 
 			gtk_widget_set_visible (GTK_WIDGET (button), TRUE);
 
-			menu = gtk_menu_new ();
-			menu_shell = GTK_MENU_SHELL (menu);
+			menu_model = g_menu_new ();
 
 			for (jj = 0; jj < G_N_ELEMENTS (add_items); jj++) {
-				GtkWidget *menu_item;
+				GMenuItem *menu_item;
 
 				if (add_items[jj].kind != sections[ii].kind || !add_items[jj].add_item_func)
 					continue;
 
-				menu_item = gtk_menu_item_new_with_mnemonic (_(add_items[jj].label));
-				g_object_set_data (G_OBJECT (menu_item), ADD_MENU_ITEM_INDEX, GUINT_TO_POINTER (jj + 1));
-				g_signal_connect (menu_item, "activate",
-					G_CALLBACK (eve_add_menu_item_activated_cb), self);
-
-				gtk_menu_shell_append (menu_shell, menu_item);
+				menu_item = g_menu_item_new (_(add_items[jj].label), NULL);
+				g_menu_item_set_action_and_target (menu_item, "eveadd.add-item", "u", (guint32) jj);
+				g_menu_append_item (menu_model, menu_item);
+				g_object_unref (menu_item);
 			}
+
+			menu = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+			g_object_unref (menu_model);
 
 			gtk_widget_show_all (menu);
 
@@ -4931,6 +4939,11 @@ e_vcard_editor_constructed (GObject *object)
 	application = g_application_get_default ();
 	if (application && GTK_IS_APPLICATION (application))
 		gtk_application_add_window (GTK_APPLICATION (application), GTK_WINDOW (self));
+
+	self->ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions (self->ui_manager, "eveadd", GETTEXT_PACKAGE,
+		eveadd_entries, G_N_ELEMENTS (eveadd_entries), self);
+	e_ui_manager_set_action_groups_widget (self->ui_manager, GTK_WIDGET (self));
 }
 
 static void
@@ -4964,6 +4977,7 @@ e_vcard_editor_dispose (GObject *object)
 	self->top_separator = NULL;
 	self->info_bar = NULL;
 
+	g_clear_object (&self->ui_manager);
 	g_clear_pointer (&self->items, g_ptr_array_unref);
 	g_clear_pointer (&self->sections, g_hash_table_unref);
 	g_clear_pointer (&self->supported_fields, g_hash_table_unref);
