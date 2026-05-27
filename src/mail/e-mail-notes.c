@@ -38,7 +38,7 @@ struct _EMailNotesEditor {
 	EHTMLEditor *editor; /* not referenced */
 	EAttachmentPaned *attachment_paned; /* not referenced */
 	EFocusTracker *focus_tracker;
-	EUIActionGroup *action_group;
+	EUIManager *ui_manager;
 	GBinding *attachment_paned_binding;
 	EMenuBar *menu_bar;
 	GtkWidget *menu_button; /* owned by menu_bar */
@@ -607,7 +607,7 @@ e_mail_notes_retrieve_message_done (gpointer ptr)
 	} else {
 		EUIAction *action;
 
-		action = e_ui_action_group_get_action (notes_editor->action_group, "save-and-close");
+		action = e_ui_manager_get_action (notes_editor->ui_manager,"save-and-close");
 		e_ui_action_set_sensitive (action, FALSE);
 	}
 
@@ -620,7 +620,7 @@ mail_notes_editor_delete_event_cb (EMailNotesEditor *notes_editor,
 {
 	EUIAction *action;
 
-	action = e_ui_action_group_get_action (notes_editor->action_group, "close");
+	action = e_ui_manager_get_action (notes_editor->ui_manager,"close");
 	g_action_activate (G_ACTION (action), NULL);
 
 	return TRUE;
@@ -644,7 +644,7 @@ notes_editor_update_editable_on_notify_cb (GObject *object,
 
 	g_object_set (cnt_editor, "editable", can_edit, NULL);
 
-	action = e_ui_action_group_get_action (notes_editor->action_group, "save-and-close");
+	action = e_ui_manager_get_action (notes_editor->ui_manager,"save-and-close");
 	e_ui_action_set_sensitive (action, can_edit);
 }
 
@@ -805,7 +805,7 @@ action_close_cb (EUIAction *action,
 			GTK_WINDOW (notes_editor),
 			"mail:ask-mail-note-changed", NULL);
 		if (response == GTK_RESPONSE_YES) {
-			action = e_ui_action_group_get_action (notes_editor->action_group, "save-and-close");
+			action = e_ui_manager_get_action (notes_editor->ui_manager,"save-and-close");
 			g_action_activate (G_ACTION (action), NULL);
 			return;
 		} else if (response == GTK_RESPONSE_CANCEL)
@@ -1012,7 +1012,7 @@ e_mail_notes_editor_dispose (GObject *object)
 	}
 
 	g_clear_object (&notes_editor->focus_tracker);
-	g_clear_object (&notes_editor->action_group);
+	g_clear_object (&notes_editor->ui_manager);
 	g_clear_object (&notes_editor->attachment_paned_binding);
 	g_clear_object (&notes_editor->menu_bar);
 
@@ -1185,7 +1185,7 @@ e_mail_notes_editor_new_with_editor (EHTMLEditor *html_editor,
 
 	e_ui_manager_add_actions_with_eui_data (ui_manager, "notes", GETTEXT_PACKAGE,
 		entries, G_N_ELEMENTS (entries), notes_editor, eui);
-	notes_editor->action_group = g_object_ref (e_ui_manager_get_action_group (ui_manager, "notes"));
+	notes_editor->ui_manager = g_object_ref (ui_manager);
 
 	e_ui_action_set_usable_for_kinds (e_ui_manager_get_action (ui_manager, "EMailNotes::menu-button"), E_UI_ELEMENT_KIND_HEADERBAR);
 	e_ui_action_set_usable_for_kinds (e_ui_manager_get_action (ui_manager, "file-menu"), E_UI_ELEMENT_KIND_MENU);
