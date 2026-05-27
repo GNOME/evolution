@@ -32,6 +32,8 @@ struct _EToDoPanePrivate {
 	gboolean use_24hour_format;
 	gboolean time_in_smaller_font;
 
+	EUIManager *ui_manager;
+
 	EClientCache *client_cache;
 	ESourceRegistryWatcher *watcher;
 	GtkTreeStore *tree_store;
@@ -2063,7 +2065,8 @@ etdp_new_common (EToDoPane *to_do_pane,
 }
 
 static void
-etdp_new_appointment_cb (GtkMenuItem *item,
+etdp_new_appointment_cb (EUIAction *action,
+			 GVariant *parameter,
 			 gpointer user_data)
 {
 	EToDoPane *to_do_pane = user_data;
@@ -2074,7 +2077,8 @@ etdp_new_appointment_cb (GtkMenuItem *item,
 }
 
 static void
-etdp_new_meeting_cb (GtkMenuItem *item,
+etdp_new_meeting_cb (EUIAction *action,
+		     GVariant *parameter,
 		     gpointer user_data)
 {
 	EToDoPane *to_do_pane = user_data;
@@ -2085,7 +2089,8 @@ etdp_new_meeting_cb (GtkMenuItem *item,
 }
 
 static void
-etdp_new_task_cb (GtkMenuItem *item,
+etdp_new_task_cb (EUIAction *action,
+		  GVariant *parameter,
 		  gpointer user_data)
 {
 	EToDoPane *to_do_pane = user_data;
@@ -2096,7 +2101,8 @@ etdp_new_task_cb (GtkMenuItem *item,
 }
 
 static void
-etdp_new_assigned_task_cb (GtkMenuItem *item,
+etdp_new_assigned_task_cb (EUIAction *action,
+			   GVariant *parameter,
 			   gpointer user_data)
 {
 	EToDoPane *to_do_pane = user_data;
@@ -2107,7 +2113,8 @@ etdp_new_assigned_task_cb (GtkMenuItem *item,
 }
 
 static void
-etdp_open_selected_cb (GtkMenuItem *item,
+etdp_open_selected_cb (EUIAction *action,
+		       GVariant *parameter,
 		       gpointer user_data)
 {
 	EToDoPane *to_do_pane = user_data;
@@ -2126,13 +2133,11 @@ etdp_open_selected_cb (GtkMenuItem *item,
 }
 
 static void
-etdp_delete_common (EToDoPane *to_do_pane,
-		    ECalObjModType mod)
+etdp_do_delete (EToDoPane *to_do_pane,
+		ECalObjModType mod)
 {
 	ECalClient *client = NULL;
 	ECalComponent *comp = NULL;
-
-	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 
 	if (etdp_get_tree_view_selected_one (to_do_pane, &client, &comp) && client && comp) {
 		GtkWindow *parent_window;
@@ -2155,36 +2160,43 @@ etdp_delete_common (EToDoPane *to_do_pane,
 }
 
 static void
-etdp_delete_selected_cb (GtkMenuItem *item,
-			 gpointer user_data)
+etdp_delete_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
 {
-	EToDoPane *to_do_pane = user_data;
+	g_return_if_fail (E_IS_TO_DO_PANE (user_data));
 
-	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
-
-	etdp_delete_common (to_do_pane, E_CAL_OBJ_MOD_THIS);
+	etdp_do_delete (user_data, E_CAL_OBJ_MOD_ALL);
 }
 
 static void
-etdp_delete_this_and_future_cb (GtkMenuItem *item,
+etdp_delete_this_instance_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
+{
+	g_return_if_fail (E_IS_TO_DO_PANE (user_data));
+
+	etdp_do_delete (user_data, E_CAL_OBJ_MOD_THIS);
+}
+
+static void
+etdp_delete_this_and_future_cb (EUIAction *action,
+				GVariant *parameter,
 				gpointer user_data)
 {
-	EToDoPane *to_do_pane = user_data;
+	g_return_if_fail (E_IS_TO_DO_PANE (user_data));
 
-	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
-
-	etdp_delete_common (to_do_pane, E_CAL_OBJ_MOD_THIS_AND_FUTURE);
+	etdp_do_delete (user_data, E_CAL_OBJ_MOD_THIS_AND_FUTURE);
 }
 
 static void
-etdp_delete_series_cb (GtkMenuItem *item,
-		       gpointer user_data)
+etdp_delete_all_instances_cb (EUIAction *action,
+			      GVariant *parameter,
+			      gpointer user_data)
 {
-	EToDoPane *to_do_pane = user_data;
+	g_return_if_fail (E_IS_TO_DO_PANE (user_data));
 
-	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
-
-	etdp_delete_common (to_do_pane, E_CAL_OBJ_MOD_ALL);
+	etdp_do_delete (user_data, E_CAL_OBJ_MOD_ALL);
 }
 
 typedef struct _MarkCompleteData {
@@ -2222,7 +2234,8 @@ etdp_mark_task_complete_thread (EAlertSinkThreadJobData *job_data,
 }
 
 static void
-etdp_mark_task_as_complete_cb (GtkMenuItem *item,
+etdp_mark_task_as_complete_cb (EUIAction *action,
+			       GVariant *parameter,
 			       gpointer user_data)
 {
 	EToDoPane *to_do_pane = user_data;
@@ -2258,158 +2271,73 @@ etdp_mark_task_as_complete_cb (GtkMenuItem *item,
 }
 
 static void
-etdp_show_tasks_without_due_date_cb (GtkCheckMenuItem *check_menu_item,
+etdp_show_tasks_without_due_date_cb (EUIAction *action,
+				     GVariant *value,
 				     gpointer user_data)
 {
 	EToDoPane *to_do_pane = user_data;
 
 	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 
-	e_to_do_pane_set_show_no_duedate_tasks (to_do_pane, !e_to_do_pane_get_show_no_duedate_tasks (to_do_pane));
-}
-
-static void
-etdp_fill_popup_menu (EToDoPane *to_do_pane,
-		      GtkMenu *menu)
-{
-	GtkWidget *item;
-	GtkMenuShell *menu_shell;
-	ECalClient *client = NULL;
-	ECalComponent *comp = NULL;
-
-	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
-	g_return_if_fail (GTK_IS_MENU (menu));
-
-	etdp_get_tree_view_selected_one (to_do_pane, &client, &comp);
-
-	menu_shell = GTK_MENU_SHELL (menu);
-
-	item = gtk_image_menu_item_new_with_mnemonic (_("New _Appointment…"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-		gtk_image_new_from_icon_name ("appointment-new", GTK_ICON_SIZE_MENU));
-	g_signal_connect (item, "activate",
-		G_CALLBACK (etdp_new_appointment_cb), to_do_pane);
-	gtk_widget_show (item);
-	gtk_menu_shell_append (menu_shell, item);
-
-	item = gtk_image_menu_item_new_with_mnemonic (_("New _Meeting…"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-		gtk_image_new_from_icon_name ("stock_people", GTK_ICON_SIZE_MENU));
-	g_signal_connect (item, "activate",
-		G_CALLBACK (etdp_new_meeting_cb), to_do_pane);
-	gtk_widget_show (item);
-	gtk_menu_shell_append (menu_shell, item);
-
-	item = gtk_image_menu_item_new_with_mnemonic (_("New _Task…"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-		gtk_image_new_from_icon_name ("stock_task", GTK_ICON_SIZE_MENU));
-	g_signal_connect (item, "activate",
-		G_CALLBACK (etdp_new_task_cb), to_do_pane);
-	gtk_widget_show (item);
-	gtk_menu_shell_append (menu_shell, item);
-
-	item = gtk_image_menu_item_new_with_mnemonic (_("_New Assigned Task…"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-		gtk_image_new_from_icon_name ("stock_task-assigned-to", GTK_ICON_SIZE_MENU));
-	g_signal_connect (item, "activate",
-		G_CALLBACK (etdp_new_assigned_task_cb), to_do_pane);
-	gtk_widget_show (item);
-	gtk_menu_shell_append (menu_shell, item);
-
-	if (client && comp) {
-		item = gtk_separator_menu_item_new ();
-		gtk_widget_show (item);
-		gtk_menu_shell_append (menu_shell, item);
-
-		item = gtk_image_menu_item_new_with_mnemonic (_("_Open…"));
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-			gtk_image_new_from_icon_name ("document-open", GTK_ICON_SIZE_MENU));
-		g_signal_connect (item, "activate",
-			G_CALLBACK (etdp_open_selected_cb), to_do_pane);
-		gtk_widget_show (item);
-		gtk_menu_shell_append (menu_shell, item);
-
-		if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO &&
-		    !e_cal_util_component_has_property (e_cal_component_get_icalcomponent (comp), I_CAL_COMPLETED_PROPERTY)) {
-			item = gtk_menu_item_new_with_mnemonic (_("Mark Task as _Complete"));
-			g_signal_connect (item, "activate",
-				G_CALLBACK (etdp_mark_task_as_complete_cb), to_do_pane);
-			gtk_widget_show (item);
-			gtk_menu_shell_append (menu_shell, item);
-		}
-
-		item = gtk_separator_menu_item_new ();
-		gtk_widget_show (item);
-		gtk_menu_shell_append (menu_shell, item);
-
-		if (!e_client_is_readonly (E_CLIENT (client))) {
-			if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT &&
-			    e_cal_component_is_instance (comp)) {
-				item = gtk_image_menu_item_new_with_mnemonic (_("_Delete This Instance…"));
-				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-					gtk_image_new_from_icon_name ("edit-delete", GTK_ICON_SIZE_MENU));
-				g_signal_connect (item, "activate",
-					G_CALLBACK (etdp_delete_selected_cb), to_do_pane);
-				gtk_widget_show (item);
-				gtk_menu_shell_append (menu_shell, item);
-
-				if (!e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
-					item = gtk_image_menu_item_new_with_mnemonic (_("Delete This and F_uture Occurrences…"));
-					gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-						gtk_image_new_from_icon_name ("edit-delete", GTK_ICON_SIZE_MENU));
-					g_signal_connect (item, "activate",
-						G_CALLBACK (etdp_delete_this_and_future_cb), to_do_pane);
-					gtk_widget_show (item);
-					gtk_menu_shell_append (menu_shell, item);
-				}
-
-				item = gtk_image_menu_item_new_with_mnemonic (_("D_elete All Instances…"));
-				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-					gtk_image_new_from_icon_name ("edit-delete", GTK_ICON_SIZE_MENU));
-				g_signal_connect (item, "activate",
-					G_CALLBACK (etdp_delete_series_cb), to_do_pane);
-				gtk_widget_show (item);
-				gtk_menu_shell_append (menu_shell, item);
-			} else {
-				item = gtk_image_menu_item_new_with_mnemonic (_("_Delete…"));
-				gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-					gtk_image_new_from_icon_name ("edit-delete", GTK_ICON_SIZE_MENU));
-				g_signal_connect (item, "activate",
-					G_CALLBACK (etdp_delete_series_cb), to_do_pane);
-				gtk_widget_show (item);
-				gtk_menu_shell_append (menu_shell, item);
-			}
-		}
-	}
-
-	g_clear_object (&client);
-	g_clear_object (&comp);
-
-	item = gtk_separator_menu_item_new ();
-	gtk_widget_show (item);
-	gtk_menu_shell_append (menu_shell, item);
-
-	item = gtk_check_menu_item_new_with_mnemonic (_("_Show Tasks without Due date"));
-	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), to_do_pane->priv->show_no_duedate_tasks);
-	g_signal_connect (item, "toggled",
-		G_CALLBACK (etdp_show_tasks_without_due_date_cb), to_do_pane);
-	gtk_widget_show (item);
-	gtk_menu_shell_append (menu_shell, item);
+	e_ui_action_set_state (action, value);
+	e_to_do_pane_set_show_no_duedate_tasks (to_do_pane, g_variant_get_boolean (value));
 }
 
 static void
 etdp_popup_menu (EToDoPane *to_do_pane,
 		 GdkEvent *event)
 {
-	GtkMenu *menu;
+	ECalClient *client = NULL;
+	ECalComponent *comp = NULL;
+	gboolean has_selection, is_event_instance, is_todo_incomplete, can_delete, has_this_and_future;
+	EUIAction *action;
+	GObject *ui_item;
+	GtkWidget *menu;
 
-	menu = GTK_MENU (gtk_menu_new ());
+	g_return_if_fail (E_IS_TO_DO_PANE (to_do_pane));
 
-	etdp_fill_popup_menu (to_do_pane, menu);
+	etdp_get_tree_view_selected_one (to_do_pane, &client, &comp);
 
-	gtk_menu_attach_to_widget (menu, GTK_WIDGET (to_do_pane->priv->tree_view), NULL);
-	g_signal_connect (menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
-	gtk_menu_popup_at_pointer (menu, event);
+	has_selection = client != NULL && comp != NULL;
+	is_event_instance = has_selection &&
+		e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT &&
+		e_cal_component_is_instance (comp);
+	is_todo_incomplete = has_selection &&
+		e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_TODO &&
+		!e_cal_util_component_has_property (e_cal_component_get_icalcomponent (comp), I_CAL_COMPLETED_PROPERTY);
+	can_delete = has_selection && !e_client_is_readonly (E_CLIENT (client));
+	has_this_and_future = is_event_instance &&
+		!e_client_check_capability (E_CLIENT (client), E_CAL_STATIC_CAPABILITY_NO_THISANDFUTURE);
+
+	g_clear_object (&client);
+	g_clear_object (&comp);
+
+	action = e_ui_manager_get_action (to_do_pane->priv->ui_manager, "open-selected");
+	e_ui_action_set_visible (action, has_selection);
+
+	action = e_ui_manager_get_action (to_do_pane->priv->ui_manager, "mark-task-as-complete");
+	e_ui_action_set_visible (action, is_todo_incomplete);
+
+	action = e_ui_manager_get_action (to_do_pane->priv->ui_manager, "delete");
+	e_ui_action_set_visible (action, can_delete && !is_event_instance);
+
+	action = e_ui_manager_get_action (to_do_pane->priv->ui_manager, "delete-this-instance");
+	e_ui_action_set_visible (action, is_event_instance && can_delete);
+
+	action = e_ui_manager_get_action (to_do_pane->priv->ui_manager, "delete-this-and-future");
+	e_ui_action_set_visible (action, has_this_and_future && can_delete);
+
+	action = e_ui_manager_get_action (to_do_pane->priv->ui_manager, "delete-all-instances");
+	e_ui_action_set_visible (action, is_event_instance && can_delete);
+
+	ui_item = e_ui_manager_create_item (to_do_pane->priv->ui_manager, "todo-popup");
+	menu = gtk_menu_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
+	e_ui_manager_add_action_groups_to_widget (to_do_pane->priv->ui_manager, menu);
+
+	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (to_do_pane->priv->tree_view), NULL);
+	e_util_connect_menu_detach_after_deactivate (GTK_MENU (menu));
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), event);
 }
 
 static gboolean
@@ -2915,6 +2843,7 @@ e_to_do_pane_dispose (GObject *object)
 	g_clear_object (&to_do_pane->priv->tree_store);
 	g_clear_object (&to_do_pane->priv->events_data_model);
 	g_clear_object (&to_do_pane->priv->tasks_data_model);
+	g_clear_object (&to_do_pane->priv->ui_manager);
 
 	g_weak_ref_set (&to_do_pane->priv->shell_view_weakref, NULL);
 
@@ -2940,9 +2869,111 @@ e_to_do_pane_finalize (GObject *object)
 	G_OBJECT_CLASS (e_to_do_pane_parent_class)->finalize (object);
 }
 
+static const gchar *etdp_popup_eui =
+	"<eui>"
+	"  <menu id='todo-popup' is-popup='true'>"
+	"    <item action='new-appointment'/>"
+	"    <item action='new-meeting'/>"
+	"    <item action='new-task'/>"
+	"    <item action='new-assigned-task'/>"
+	"    <separator/>"
+	"    <item action='open-selected'/>"
+	"    <item action='mark-task-as-complete'/>"
+	"    <separator/>"
+	"    <item action='delete'/>"
+	"    <item action='delete-this-instance'/>"
+	"    <item action='delete-this-and-future'/>"
+	"    <item action='delete-all-instances'/>"
+	"    <separator/>"
+	"    <item action='show-tasks-without-due-date'/>"
+	"  </menu>"
+	"</eui>";
+
+static const EUIActionEntry todo_entries[] = {
+	{ "new-appointment",
+	  "appointment-new",
+	  N_("New _Appointment…"),
+	  NULL,
+	  NULL,
+	  etdp_new_appointment_cb },
+
+	{ "new-meeting",
+	  "stock_people",
+	  N_("New _Meeting…"),
+	  NULL,
+	  NULL,
+	  etdp_new_meeting_cb },
+
+	{ "new-task",
+	  "stock_task",
+	  N_("New _Task…"),
+	  NULL,
+	  NULL,
+	  etdp_new_task_cb },
+
+	{ "new-assigned-task",
+	  "stock_task-assigned-to",
+	  N_("_New Assigned Task…"),
+	  NULL,
+	  NULL,
+	  etdp_new_assigned_task_cb },
+
+	{ "open-selected",
+	  "document-open",
+	  N_("_Open…"),
+	  NULL,
+	  NULL,
+	  etdp_open_selected_cb },
+
+	{ "mark-task-as-complete",
+	  NULL,
+	  N_("Mark Task as _Complete"),
+	  NULL,
+	  NULL,
+	  etdp_mark_task_as_complete_cb },
+
+	{ "delete",
+	  "edit-delete",
+	  N_("_Delete…"),
+	  NULL,
+	  NULL,
+	  etdp_delete_cb },
+
+	{ "delete-this-instance",
+	  "edit-delete",
+	  N_("_Delete This Instance…"),
+	  NULL,
+	  NULL,
+	  etdp_delete_this_instance_cb },
+
+	{ "delete-this-and-future",
+	  "edit-delete",
+	  N_("Delete This and F_uture Occurrences…"),
+	  NULL,
+	  NULL,
+	  etdp_delete_this_and_future_cb },
+
+	{ "delete-all-instances",
+	  "edit-delete",
+	  N_("D_elete All Instances…"),
+	  NULL,
+	  NULL,
+	  etdp_delete_all_instances_cb },
+
+	{ "show-tasks-without-due-date",
+	  NULL,
+	  N_("_Show Tasks without Due date"),
+	  NULL,
+	  NULL,
+	  NULL, NULL, "false",
+	  etdp_show_tasks_without_due_date_cb },
+};
+
 static void
 e_to_do_pane_init (EToDoPane *to_do_pane)
 {
+	EUIAction *action;
+
 	to_do_pane->priv = e_to_do_pane_get_instance_private (to_do_pane);
 	to_do_pane->priv->cancellable = g_cancellable_new ();
 	to_do_pane->priv->roots = g_ptr_array_new ();
@@ -2956,6 +2987,13 @@ e_to_do_pane_init (EToDoPane *to_do_pane)
 	to_do_pane->priv->nearest_due = (time_t) -1;
 
 	g_weak_ref_init (&to_do_pane->priv->shell_view_weakref, NULL);
+
+	to_do_pane->priv->ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions_with_eui_data (to_do_pane->priv->ui_manager, "todo", GETTEXT_PACKAGE,
+		todo_entries, G_N_ELEMENTS (todo_entries), to_do_pane, etdp_popup_eui);
+	action = e_ui_manager_get_action (to_do_pane->priv->ui_manager, "show-tasks-without-due-date");
+	e_ui_action_set_state (action, g_variant_new_boolean (to_do_pane->priv->show_no_duedate_tasks));
+	e_ui_manager_set_action_groups_widget (to_do_pane->priv->ui_manager, GTK_WIDGET (to_do_pane));
 }
 
 static void
