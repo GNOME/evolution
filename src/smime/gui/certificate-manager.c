@@ -344,12 +344,13 @@ treeview_header_clicked (GtkWidget *widget,
                          GdkEvent *button_event,
                          gpointer user_data)
 {
-	GtkMenu *menu = user_data;
+	CertPage *cp = (CertPage *)user_data;
+	GtkMenu *menu = cp->popup_menu;
 	guint event_button = 0;
 
 	gdk_event_get_button (button_event, &event_button);
 
-	if (event_button != 3)
+	if (event_button != GDK_BUTTON_SECONDARY)
 		return FALSE;
 
 	gtk_widget_show_all (GTK_WIDGET (menu));
@@ -363,14 +364,14 @@ treeview_header_clicked (GtkWidget *widget,
 }
 
 static void
-header_popup_item_toggled (GtkCheckMenuItem *item,
+header_popup_item_toggled (EUIAction *action,
+                           GVariant *value,
                            gpointer user_data)
 {
 	GtkTreeViewColumn *column = user_data;
 
-	gtk_tree_view_column_set_visible (
-		column,
-		gtk_check_menu_item_get_active (item));
+	e_ui_action_set_state (action, value);
+	gtk_tree_view_column_set_visible (column, g_variant_get_boolean (value));
 }
 
 static void
@@ -378,12 +379,10 @@ treeview_column_visibility_changed (GtkTreeViewColumn *column,
                                     GParamSpec *pspec,
                                     gpointer user_data)
 {
-	GtkCheckMenuItem *menu_item = user_data;
+	EUIAction *action = user_data;
 
-	gtk_check_menu_item_set_active (
-		menu_item,
-		gtk_tree_view_column_get_visible (column));
-
+	e_ui_action_set_state (action,
+		g_variant_new_boolean (gtk_tree_view_column_get_visible (column)));
 }
 
 static void
@@ -420,11 +419,15 @@ treeview_selection_changed (GtkTreeSelection *selection,
 
 static void
 treeview_add_column (CertPage *cp,
-                     gint column_index)
+                     gint column_index,
+                     EUIActionGroup *action_group,
+                     GMenu *menu_model)
 {
 	GtkCellRenderer *cell;
 	GtkTreeViewColumn *column;
-	GtkWidget *header, *item;
+	GtkWidget *header;
+	EUIAction *action;
+	gchar *action_name, *full_action_name;
 
 	if (cp->columns[column_index].type != G_TYPE_STRING)
 		return;
@@ -443,7 +446,7 @@ treeview_add_column (CertPage *cp,
 	header = gtk_tree_view_column_get_button (column);
 	g_signal_connect (
 		header, "button-release-event",
-		G_CALLBACK (treeview_header_clicked), cp->popup_menu);
+		G_CALLBACK (treeview_header_clicked), cp);
 
 	/* The first column should not be concealable so there's no point in displaying
 	 * it in the popup menu */
@@ -451,16 +454,24 @@ treeview_add_column (CertPage *cp,
 		return;
 
 	/* Add item to header popup */
-	item = gtk_check_menu_item_new_with_label (
-		gettext (cp->columns[column_index].column_title));
-	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), cp->columns[column_index].visible);
-	gtk_menu_attach (cp->popup_menu, item, 0, 1, column_index - 1, column_index);
-	g_signal_connect (
-		item, "toggled",
-		G_CALLBACK (header_popup_item_toggled), column);
-	e_signal_connect_notify (
-		column, "notify::visible",
-		G_CALLBACK (treeview_column_visibility_changed), item);
+
+	action_name = g_strdup_printf ("show-column-%d", column_index);
+	action = e_ui_action_new_stateful (e_ui_action_group_get_name (action_group), action_name, NULL,
+		g_variant_new_boolean (cp->columns[column_index].visible));
+	e_ui_action_set_label (action, gettext (cp->columns[column_index].column_title));
+	g_signal_connect_object (action, "change-state",
+		G_CALLBACK (header_popup_item_toggled), column, 0);
+	e_ui_action_group_add (action_group, action);
+
+	full_action_name = g_strdup_printf ("certcol.%s", action_name);
+	g_menu_append (menu_model, gettext (cp->columns[column_index].column_title), full_action_name);
+
+	g_signal_connect_object (column, "notify::visible",
+		G_CALLBACK (treeview_column_visibility_changed), action, 0);
+
+	g_free (full_action_name);
+	g_free (action_name);
+	g_object_unref (action);
 }
 
 struct find_cert_data {
@@ -1823,14 +1834,26 @@ populate_ui (ECertManagerConfig *ecmc)
 static void
 initialize_ui (CertPage *cp)
 {
+	EUIManager *ui_manager;
+	EUIActionGroup *action_group;
+	GMenu *menu_model;
 	GtkTreeSelection *selection;
 	gint i;
 
-	cp->popup_menu = GTK_MENU (gtk_menu_new ());
+	ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions (ui_manager, "certcol", GETTEXT_PACKAGE, NULL, 0, cp);
+	action_group = e_ui_manager_get_action_group (ui_manager, "certcol");
+	menu_model = g_menu_new ();
 
 	/* Add columns to treeview */
 	for (i = 0; i < cp->columns_count; i++)
-		treeview_add_column (cp, i);
+		treeview_add_column (cp, i, action_group, menu_model);
+
+	cp->popup_menu = GTK_MENU (gtk_menu_new_from_model (G_MENU_MODEL (menu_model)));
+	g_object_unref (menu_model);
+
+	e_ui_manager_add_action_groups_to_widget (ui_manager, GTK_WIDGET (cp->popup_menu));
+	g_object_unref (ui_manager);
 
 	selection = gtk_tree_view_get_selection (cp->treeview);
 	g_signal_connect (
