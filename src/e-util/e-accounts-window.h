@@ -74,7 +74,7 @@ struct _EAccountsWindowClass {
 	void		(* enabled_toggled)	(EAccountsWindow *accounts_window,
 						 ESource *source);
 	void		(* populate_add_popup)	(EAccountsWindow *accounts_window,
-						 GtkMenuShell *popup_menu);
+						 GMenu *menu_model);
 	void		(* selection_changed)	(EAccountsWindow *accounts_window,
 						 ESource *source);
 };
@@ -89,7 +89,7 @@ ESource *	e_accounts_window_ref_selected_source	(EAccountsWindow *accounts_windo
 void		e_accounts_window_select_source		(EAccountsWindow *accounts_window,
 							 const gchar *uid);
 void		e_accounts_window_insert_to_add_popup	(EAccountsWindow *accounts_window,
-							 GtkMenuShell *popup_menu,
+							 GMenu *menu_model,
 							 const gchar *kind,
 							 const gchar *label,
 							 const gchar *icon_name);

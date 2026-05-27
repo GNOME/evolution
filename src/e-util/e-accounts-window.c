@@ -27,8 +27,8 @@
 #include "e-misc-utils.h"
 
 #include "e-accounts-window.h"
+#include "e-ui-manager.h"
 
-#define ADD_POPUP_KEY_KIND	"add-popup-key-kind"
 
 #define UNKNOWN_SORT_HINT	-1
 #define COLLECTIONS_SORT_HINT	0
@@ -40,6 +40,7 @@
 
 struct _EAccountsWindowPrivate {
 	ESourceRegistry *registry;
+	EUIManager *ui_manager;
 
 	GtkWidget *notebook;		/* not referenced */
 	GtkWidget *button_box;		/* not referenced */
@@ -1460,22 +1461,26 @@ accounts_window_tree_view_new (EAccountsWindow *accounts_window)
 }
 
 static void
-accounts_window_add_menu_activate_cb (GObject *item,
+accounts_window_add_menu_activate_cb (EUIAction *action,
+				      GVariant *parameter,
 				      gpointer user_data)
 {
 	EAccountsWindow *accounts_window = user_data;
 	const gchar *kind;
 	gboolean handled = FALSE;
 
-	g_return_if_fail (GTK_IS_MENU_ITEM (item));
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
 
-	kind = g_object_get_data (item, ADD_POPUP_KEY_KIND);
+	kind = g_variant_get_string (parameter, NULL);
 
 	g_return_if_fail (kind && *kind);
 
 	g_signal_emit (accounts_window, signals[ADD_SOURCE], 0, kind, &handled);
 }
+
+static const EUIActionEntry eaw_entries[] = {
+	{ "add-source", NULL, N_("Add Source"), NULL, NULL, accounts_window_add_menu_activate_cb, "s", NULL, NULL },
+};
 
 static void
 accounts_window_show_add_popup (EAccountsWindow *accounts_window,
@@ -1494,25 +1499,24 @@ accounts_window_show_add_popup (EAccountsWindow *accounts_window,
 		{ "task-list",	N_("_Task List"),		"evolution-tasks" }
 	};
 	GtkWidget *popup_menu;
-	GtkMenuShell *menu_shell;
+	GMenu *menu_model;
 	gint ii;
 
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
 
-	popup_menu = gtk_menu_new ();
-	menu_shell = GTK_MENU_SHELL (popup_menu);
+	menu_model = g_menu_new ();
 
 	for (ii = 0; ii < G_N_ELEMENTS (items); ii++) {
-		e_accounts_window_insert_to_add_popup (accounts_window, menu_shell, items[ii].kind, _(items[ii].text), items[ii].icon_name);
+		e_accounts_window_insert_to_add_popup (accounts_window, menu_model, items[ii].kind, _(items[ii].text), items[ii].icon_name);
 	}
 
-	g_signal_emit (accounts_window, signals[POPULATE_ADD_POPUP], 0, menu_shell);
+	g_signal_emit (accounts_window, signals[POPULATE_ADD_POPUP], 0, menu_model);
 
-	g_signal_connect (popup_menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
-
-	gtk_widget_show_all (popup_menu);
+	popup_menu = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+	g_object_unref (menu_model);
 
 	gtk_menu_attach_to_widget (GTK_MENU (popup_menu), accounts_window->priv->add_button, NULL);
+	e_util_connect_menu_detach_after_deactivate (GTK_MENU (popup_menu));
 
 	g_object_set (popup_menu,
 	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
@@ -1656,6 +1660,8 @@ accounts_window_dispose (GObject *object)
 
 		g_clear_object (&accounts_window->priv->registry);
 	}
+
+	g_clear_object (&accounts_window->priv->ui_manager);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_accounts_window_parent_class)->dispose (object);
@@ -1822,6 +1828,11 @@ accounts_window_constructed (GObject *object)
 	accounts_window->priv->source_changed_handler_id =
 		g_signal_connect (registry, "source-changed",
 			G_CALLBACK (accounts_window_source_changed_cb), accounts_window);
+
+	accounts_window->priv->ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions (accounts_window->priv->ui_manager, "eaw", GETTEXT_PACKAGE,
+		eaw_entries, G_N_ELEMENTS (eaw_entries), accounts_window);
+	e_ui_manager_set_action_groups_widget (accounts_window->priv->ui_manager, GTK_WIDGET (accounts_window));
 }
 
 static void
@@ -1979,7 +1990,7 @@ e_accounts_window_class_init (EAccountsWindowClass *klass)
 
 	/**
 	 * EAccountsWindow::populate-add-popup:
-	 * @popup_menu: a #GtkMenuShell, the popup menu
+	 * @menu_model: a #GMenu, the popup menu model
 	 *
 	 * Emitted before Add popup is shown. It is already populated with default
 	 * source types. The signal listener can use e_accounts_window_insert_to_add_popup()
@@ -1995,7 +2006,7 @@ e_accounts_window_class_init (EAccountsWindowClass *klass)
 		NULL, NULL,
 		NULL,
 		G_TYPE_NONE, 1,
-		GTK_TYPE_MENU_SHELL);
+		G_TYPE_MENU);
 
 	/**
 	 * EAccountsWindow::selection-changed:
@@ -2180,12 +2191,12 @@ e_accounts_window_select_source (EAccountsWindow *accounts_window,
 /**
  * e_accounts_window_insert_to_add_popup:
  * @accounts_window: an #EAccountsWindow
- * @popup_menu: a #GtkMenuShell
+ * @menu_model: a #GMenu
  * @kind: (nullable): item kind, or %NULL, when @label is "-"
  * @label: item label, possibly with a mnemonic
  * @icon_name: (nullable): optional icon name to use for the menu item, or %NULL
  *
- * Adds a new item into the @popup_menu, which will be labeled with @label.
+ * Adds a new item into the @menu_model, which will be labeled with @label.
  * Items added this way are executed with EAccountsWindow::add-source signal.
  *
  * Special case "-" can be used for the @label to add a separator. In that
@@ -2195,40 +2206,37 @@ e_accounts_window_select_source (EAccountsWindow *accounts_window,
  **/
 void
 e_accounts_window_insert_to_add_popup (EAccountsWindow *accounts_window,
-				       GtkMenuShell *popup_menu,
+				       GMenu *menu_model,
 				       const gchar *kind,
 				       const gchar *label,
 				       const gchar *icon_name)
 {
-	GtkWidget *item;
+	GMenuItem *item;
 
 	g_return_if_fail (E_IS_ACCOUNTS_WINDOW (accounts_window));
-	g_return_if_fail (GTK_IS_MENU_SHELL (popup_menu));
+	g_return_if_fail (G_IS_MENU (menu_model));
 
 	if (g_strcmp0 (label, "-") == 0) {
-		item = gtk_separator_menu_item_new ();
-		gtk_menu_shell_append (popup_menu, item);
-
+		GMenu *section = g_menu_new ();
+		g_menu_append_section (menu_model, NULL, G_MENU_MODEL (section));
+		g_object_unref (section);
 		return;
 	}
 
 	g_return_if_fail (kind != NULL);
 	g_return_if_fail (label != NULL);
 
-	if (icon_name) {
-		item = gtk_image_menu_item_new_with_mnemonic (label);
+	item = g_menu_item_new (label, NULL);
+	g_menu_item_set_action_and_target (item, "eaw.add-source", "s", kind);
 
-		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-			gtk_image_new_from_icon_name (icon_name, GTK_ICON_SIZE_MENU));
-	} else {
-		item = gtk_menu_item_new_with_mnemonic (label);
+	if (icon_name) {
+		GIcon *icon = g_themed_icon_new (icon_name);
+		g_menu_item_set_icon (item, icon);
+		g_object_unref (icon);
 	}
 
-	g_object_set_data_full (G_OBJECT (item), ADD_POPUP_KEY_KIND, g_strdup (kind), g_free);
-
-	g_signal_connect (item, "activate", G_CALLBACK (accounts_window_add_menu_activate_cb), accounts_window);
-
-	gtk_menu_shell_append (popup_menu, item);
+	g_menu_append_item (menu_model, item);
+	g_object_unref (item);
 }
 
 /**
