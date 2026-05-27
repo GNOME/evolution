@@ -14,6 +14,7 @@
 
 #include "e-misc-utils.h"
 #include "e-ui-action.h"
+#include "e-ui-action-group.h"
 #include "e-ui-manager.h"
 #include "e-ui-parser.h"
 #include "e-util-enumtypes.h"
@@ -669,7 +670,8 @@ context_menu_data_free (ContextMenuData *data)
 }
 
 static void
-e_ui_customizer_toolbar_context_menu_activate_cb (GtkMenuItem *item,
+e_ui_customizer_toolbar_context_menu_activate_cb (EUIAction *action,
+						  GVariant *parameter,
 						  gpointer user_data)
 {
 	ContextMenuData *data = user_data;
@@ -685,15 +687,13 @@ e_ui_customizer_toolbar_context_menu_cb (GtkWidget *toolbar,
 					 gpointer user_data)
 {
 	ContextMenuData *data = user_data, *data2;
+	EUIActionGroup *action_group;
+	EUIAction *action;
+	GMenu *menu_model;
 	GdkEvent *event;
 	GtkMenu *menu;
-	GtkWidget *item;
 
 	g_return_val_if_fail (data != NULL, FALSE);
-
-	menu = GTK_MENU (gtk_menu_new ());
-	item = gtk_menu_item_new_with_mnemonic (_("_Customize Toolbar…"));
-	gtk_widget_set_visible (item, TRUE);
 
 	data2 = g_new0 (ContextMenuData, 1);
 	data2->widget = data->widget;
@@ -701,10 +701,20 @@ e_ui_customizer_toolbar_context_menu_cb (GtkWidget *toolbar,
 	data2->func = data->func;
 	data2->user_data = data->user_data;
 
-	g_signal_connect_data (item, "activate",
+	action_group = e_ui_action_group_new ("euic");
+	action = e_ui_action_new ("euic", "customize-toolbar", NULL);
+	g_signal_connect_data (action, "activate",
 		G_CALLBACK (e_ui_customizer_toolbar_context_menu_activate_cb), data2, (GClosureNotify) context_menu_data_free, 0);
+	e_ui_action_group_add (action_group, action);
+	g_object_unref (action);
 
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	menu_model = g_menu_new ();
+	g_menu_append (menu_model, _("_Customize Toolbar…"), "euic.customize-toolbar");
+	menu = GTK_MENU (gtk_menu_new_from_model (G_MENU_MODEL (menu_model)));
+	g_object_unref (menu_model);
+
+	gtk_widget_insert_action_group (GTK_WIDGET (menu), "euic", G_ACTION_GROUP (action_group));
+	g_object_unref (action_group);
 
 	gtk_menu_attach_to_widget (menu, toolbar, NULL);
 	e_util_connect_menu_detach_after_deactivate (menu);
