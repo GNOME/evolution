@@ -27,6 +27,8 @@ struct _EMSubscriptionEditorPrivate {
 	EMailSession *session;
 	CamelStore *initial_store;
 
+	EUIManager *ui_manager;
+
 	GtkWidget *combo_box;		/* not referenced */
 	GtkWidget *entry;		/* not referenced */
 	GtkWidget *notebook;		/* not referenced */
@@ -557,25 +559,6 @@ subscription_editor_unsubscribe_many (EMSubscriptionEditor *editor,
 		subscription_editor_unsubscribe_folder_done, context);
 }
 
-static GtkWidget *
-subscription_editor_create_menu_item (const gchar *label,
-                                      gboolean sensitive,
-                                      GCallback activate_cb,
-                                      EMSubscriptionEditor *editor)
-{
-	GtkWidget *item;
-
-	item = gtk_menu_item_new_with_mnemonic (label);
-	gtk_widget_set_sensitive (item, sensitive);
-
-	gtk_widget_show (item);
-
-	g_signal_connect_swapped (
-		item, "activate", activate_cb, editor);
-
-	return item;
-}
-
 static TreeRowData *
 subscription_editor_tree_row_data_from_iter (GtkTreeView *tree_view,
                                              GtkTreeModel *model,
@@ -738,8 +721,12 @@ subscription_editor_pick_shown (EMSubscriptionEditor *editor,
 }
 
 static void
-subscription_editor_subscribe (EMSubscriptionEditor *editor)
+subscription_editor_subscribe (EUIAction *action,
+                                GVariant *parameter,
+                                gpointer user_data)
 {
+	EMSubscriptionEditor *editor = user_data;
+
 	GtkTreeSelection *selection;
 	GtkTreeModel *tree_model;
 	GtkTreeView *tree_view;
@@ -764,8 +751,12 @@ subscription_editor_subscribe (EMSubscriptionEditor *editor)
 }
 
 static void
-subscription_editor_subscribe_shown (EMSubscriptionEditor *editor)
+subscription_editor_subscribe_shown (EUIAction *action,
+                                      GVariant *parameter,
+                                      gpointer user_data)
 {
+	EMSubscriptionEditor *editor = user_data;
+
 	GQueue tree_rows = G_QUEUE_INIT;
 
 	subscription_editor_pick_shown (
@@ -774,8 +765,12 @@ subscription_editor_subscribe_shown (EMSubscriptionEditor *editor)
 }
 
 static void
-subscription_editor_subscribe_all (EMSubscriptionEditor *editor)
+subscription_editor_subscribe_all (EUIAction *action,
+                                    GVariant *parameter,
+                                    gpointer user_data)
 {
+	EMSubscriptionEditor *editor = user_data;
+
 	GQueue tree_rows = G_QUEUE_INIT;
 
 	subscription_editor_pick_all (
@@ -786,8 +781,10 @@ subscription_editor_subscribe_all (EMSubscriptionEditor *editor)
 static void
 subscription_editor_subscribe_popup_cb (EMSubscriptionEditor *editor)
 {
+	GObject *ui_item;
 	GtkWidget *menu;
 	GtkTreeIter iter;
+	EUIAction *action;
 	gboolean tree_filled;
 
 	tree_filled = editor->priv->active &&
@@ -797,35 +794,22 @@ subscription_editor_subscribe_popup_cb (EMSubscriptionEditor *editor)
 			: editor->priv->active->tree_store,
 			&iter);
 
-	menu = gtk_menu_new ();
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "subscribe");
+	e_ui_action_set_sensitive (action,
+		gtk_widget_get_sensitive (editor->priv->subscribe_button));
 
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		subscription_editor_create_menu_item (
-			_("_Subscribe"),
-			gtk_widget_get_sensitive (
-				editor->priv->subscribe_button),
-			G_CALLBACK (subscription_editor_subscribe),
-			editor));
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "subscribe-shown");
+	e_ui_action_set_sensitive (action, tree_filled);
 
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		subscription_editor_create_menu_item (
-			_("Su_bscribe To Shown"),
-			tree_filled,
-			G_CALLBACK (subscription_editor_subscribe_shown),
-			editor));
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "subscribe-all");
+	e_ui_action_set_sensitive (action, tree_filled);
 
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		subscription_editor_create_menu_item (
-			_("Subscribe To _All"),
-			tree_filled,
-			G_CALLBACK (subscription_editor_subscribe_all),
-			editor));
+	ui_item = e_ui_manager_create_item (editor->priv->ui_manager, "subscribe-popup");
+	menu = gtk_menu_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
-	g_signal_connect (menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
+	e_util_connect_menu_detach_after_deactivate (GTK_MENU (menu));
 
 	g_object_set (menu,
 	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
@@ -841,8 +825,12 @@ subscription_editor_subscribe_popup_cb (EMSubscriptionEditor *editor)
 }
 
 static void
-subscription_editor_unsubscribe_hidden (EMSubscriptionEditor *editor)
+subscription_editor_unsubscribe_hidden (EUIAction *action,
+                                         GVariant *parameter,
+                                         gpointer user_data)
 {
+	EMSubscriptionEditor *editor = user_data;
+
 	GQueue tree_rows = G_QUEUE_INIT;
 	GHashTable *skip_shown;
 
@@ -872,8 +860,12 @@ subscription_editor_unsubscribe_hidden (EMSubscriptionEditor *editor)
 }
 
 static void
-subscription_editor_unsubscribe_all (EMSubscriptionEditor *editor)
+subscription_editor_unsubscribe_all (EUIAction *action,
+                                      GVariant *parameter,
+                                      gpointer user_data)
 {
+	EMSubscriptionEditor *editor = user_data;
+
 	GQueue tree_rows = G_QUEUE_INIT;
 
 	subscription_editor_pick_all (
@@ -882,8 +874,12 @@ subscription_editor_unsubscribe_all (EMSubscriptionEditor *editor)
 }
 
 static void
-subscription_editor_unsubscribe (EMSubscriptionEditor *editor)
+subscription_editor_unsubscribe (EUIAction *action,
+                                  GVariant *parameter,
+                                  gpointer user_data)
 {
+	EMSubscriptionEditor *editor = user_data;
+
 	GtkTreeSelection *selection;
 	GtkTreeModel *tree_model;
 	GtkTreeView *tree_view;
@@ -906,11 +902,71 @@ subscription_editor_unsubscribe (EMSubscriptionEditor *editor)
 	subscription_editor_unsubscribe_many (editor, &tree_rows);
 }
 
+static const EUIActionEntry emse_entries[] = {
+	{ "subscribe",
+	  NULL,
+	  N_("_Subscribe"),
+	  NULL,
+	  NULL,
+	  subscription_editor_subscribe },
+
+	{ "subscribe-shown",
+	  NULL,
+	  N_("Su_bscribe To Shown"),
+	  NULL,
+	  NULL,
+	  subscription_editor_subscribe_shown },
+
+	{ "subscribe-all",
+	  NULL,
+	  N_("Subscribe To _All"),
+	  NULL,
+	  NULL,
+	  subscription_editor_subscribe_all },
+
+	{ "unsubscribe",
+	  NULL,
+	  N_("_Unsubscribe"),
+	  NULL,
+	  NULL,
+	  subscription_editor_unsubscribe },
+
+	{ "unsubscribe-from-hidden",
+	  NULL,
+	  N_("Unsu_bscribe From Hidden"),
+	  NULL,
+	  NULL,
+	  subscription_editor_unsubscribe_hidden },
+
+	{ "unsubscribe-from-all",
+	  NULL,
+	  N_("Unsubscribe From _All"),
+	  NULL,
+	  NULL,
+	  subscription_editor_unsubscribe_all },
+};
+
+static const gchar *emse_eui =
+	"<eui>"
+	"  <menu id='subscribe-popup'>"
+	"    <item action='subscribe'/>"
+	"    <item action='subscribe-shown'/>"
+	"    <item action='subscribe-all'/>"
+	"  </menu>"
+	"  <menu id='unsubscribe-popup'>"
+	"    <item action='unsubscribe'/>"
+	"    <item action='unsubscribe-from-hidden'/>"
+	"    <item action='unsubscribe-from-all'/>"
+	"  </menu>"
+	"</eui>";
+
 static void
 subscription_editor_unsubscribe_popup_cb (EMSubscriptionEditor *editor)
 {
+	GObject *ui_item;
 	GtkWidget *menu;
 	GtkTreeIter iter;
+	EUIAction *action;
 	gboolean tree_filled;
 
 	tree_filled = editor->priv->active &&
@@ -920,35 +976,22 @@ subscription_editor_unsubscribe_popup_cb (EMSubscriptionEditor *editor)
 			: editor->priv->active->tree_store,
 			&iter);
 
-	menu = gtk_menu_new ();
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "unsubscribe");
+	e_ui_action_set_sensitive (action,
+		gtk_widget_get_sensitive (editor->priv->unsubscribe_button));
 
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		subscription_editor_create_menu_item (
-			_("_Unsubscribe"),
-			gtk_widget_get_sensitive (
-				editor->priv->unsubscribe_button),
-			G_CALLBACK (subscription_editor_unsubscribe),
-			editor));
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "unsubscribe-from-hidden");
+	e_ui_action_set_sensitive (action, tree_filled);
 
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		subscription_editor_create_menu_item (
-			_("Unsu_bscribe From Hidden"),
-			tree_filled,
-			G_CALLBACK (subscription_editor_unsubscribe_hidden),
-			editor));
+	action = e_ui_manager_get_action (editor->priv->ui_manager, "unsubscribe-from-all");
+	e_ui_action_set_sensitive (action, tree_filled);
 
-	gtk_menu_shell_append (
-		GTK_MENU_SHELL (menu),
-		subscription_editor_create_menu_item (
-			_("Unsubscribe From _All"),
-			tree_filled,
-			G_CALLBACK (subscription_editor_unsubscribe_all),
-			editor));
+	ui_item = e_ui_manager_create_item (editor->priv->ui_manager, "unsubscribe-popup");
+	menu = gtk_menu_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (editor), NULL);
-	g_signal_connect (menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
+	e_util_connect_menu_detach_after_deactivate (GTK_MENU (menu));
 
 	g_object_set (menu,
 	              "anchor-hints", (GDK_ANCHOR_FLIP_Y |
@@ -1224,6 +1267,7 @@ subscription_editor_renderer_toggled_cb (GtkCellRendererToggle *renderer,
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GtkTreePath *path;
+	GActionGroup *group;
 
 	tree_view = editor->priv->active->tree_view;
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -1232,10 +1276,12 @@ subscription_editor_renderer_toggled_cb (GtkCellRendererToggle *renderer,
 	gtk_tree_selection_select_path (selection, path);
 	gtk_tree_path_free (path);
 
+	group = gtk_widget_get_action_group (GTK_WIDGET (editor), "emse");
+
 	if (gtk_cell_renderer_toggle_get_active (renderer))
-		subscription_editor_unsubscribe (editor);
+		g_action_group_activate_action (group, "unsubscribe", NULL);
 	else
-		subscription_editor_subscribe (editor);
+		g_action_group_activate_action (group, "subscribe", NULL);
 }
 
 static void
@@ -1539,6 +1585,7 @@ subscription_editor_dispose (GObject *object)
 
 	g_clear_object (&self->priv->session);
 	g_clear_object (&self->priv->initial_store);
+	g_clear_object (&self->priv->ui_manager);
 
 	if (self->priv->timeout_id > 0) {
 		g_source_remove (self->priv->timeout_id);
@@ -1699,6 +1746,11 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	const gchar *tooltip;
 
 	editor->priv = em_subscription_editor_get_instance_private (editor);
+
+	editor->priv->ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions_with_eui_data (editor->priv->ui_manager, "emse", GETTEXT_PACKAGE,
+		emse_entries, G_N_ELEMENTS (emse_entries), editor, emse_eui);
+	e_ui_manager_set_action_groups_widget (editor->priv->ui_manager, GTK_WIDGET (editor));
 
 	editor->priv->stores = g_ptr_array_new_with_free_func (
 		(GDestroyNotify) store_data_free);
