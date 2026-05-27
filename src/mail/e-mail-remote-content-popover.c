@@ -13,8 +13,6 @@
 #include "e-mail-remote-content-popover.h"
 
 #define REMOTE_CONTENT_KEY_POPOVER	"remote-content-key-popover"
-#define REMOTE_CONTENT_KEY_IS_MAIL	"remote-content-key-is-mail"
-#define REMOTE_CONTENT_KEY_VALUE	"remote-content-key-value"
 
 static void
 destroy_remote_content_popover (EMailReader *reader)
@@ -109,19 +107,19 @@ remote_content_menu_deactivate_cb (GtkMenuShell *popup_menu,
 }
 
 static void
-remote_content_menu_activate_cb (GObject *item,
-				 EMailReader *reader)
+remote_content_menu_activate_cb (EUIAction *action,
+				 GVariant *parameter,
+				 gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *mail_display;
 	EMailRemoteContent *remote_content;
 	gboolean is_mail;
 	const gchar *value;
 
-	g_return_if_fail (GTK_IS_MENU_ITEM (item));
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	is_mail = GPOINTER_TO_INT (g_object_get_data (item, REMOTE_CONTENT_KEY_IS_MAIL)) == 1;
-	value = g_object_get_data (item, REMOTE_CONTENT_KEY_VALUE);
+	g_variant_get (parameter, "(b&s)", &is_mail, &value);
 
 	destroy_remote_content_popover (reader);
 
@@ -146,9 +144,11 @@ remote_content_menu_activate_cb (GObject *item,
 }
 
 static void
-remote_content_disable_activate_cb (GObject *item,
-				    EMailReader *reader)
+remote_content_disable_activate_cb (EUIAction *action,
+				    GVariant *parameter,
+				    gpointer user_data)
 {
+	EMailReader *reader = user_data;
 	EMailDisplay *mail_display;
 	GSettings *settings;
 
@@ -166,30 +166,29 @@ remote_content_disable_activate_cb (GObject *item,
 }
 
 static void
-add_remote_content_menu_item (EMailReader *reader,
-			      GtkWidget *popup_menu,
+add_remote_content_menu_item (GMenu *menu,
 			      const gchar *label,
 			      gboolean is_mail,
 			      const gchar *value)
 {
-	GtkWidget *item;
-	GObject *object;
+	GMenuItem *item;
 
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-	g_return_if_fail (GTK_IS_MENU (popup_menu));
+	g_return_if_fail (G_IS_MENU (menu));
 	g_return_if_fail (label != NULL);
 	g_return_if_fail (value != NULL);
 
-	item = gtk_menu_item_new_with_label (label);
-	object = G_OBJECT (item);
+	item = g_menu_item_new (label, NULL);
+	g_menu_item_set_action_and_target (item, "rcpop.allow-content",
+		"(bs)", is_mail, value);
 
-	g_object_set_data (object, REMOTE_CONTENT_KEY_IS_MAIL, is_mail ? GINT_TO_POINTER (1) : NULL);
-	g_object_set_data_full (object, REMOTE_CONTENT_KEY_VALUE, g_strdup (value), g_free);
-
-	g_signal_connect (item, "activate", G_CALLBACK (remote_content_menu_activate_cb), reader);
-
-	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), item);
+	g_menu_append_item (menu, item);
+	g_object_unref (item);
 }
+
+static const EUIActionEntry rcpop_entries[] = {
+	{ "allow-content",         NULL, N_("Allow Content"),                    NULL, NULL, remote_content_menu_activate_cb,      "(bs)", NULL, NULL },
+	{ "disable-notifications", NULL, N_("Do not show this message again"),   NULL, NULL, remote_content_disable_activate_cb,   NULL,   NULL, NULL },
+};
 
 static void
 show_remote_content_popup (EMailReader *reader,
@@ -197,14 +196,24 @@ show_remote_content_popup (EMailReader *reader,
 			   GtkToggleButton *toggle_button)
 {
 	EMailDisplay *mail_display;
+	EUIManager *ui_manager;
 	GList *mails, *sites, *link;
-	GtkWidget *popup_menu = NULL;
+	GMenu *menu_model;
+	GMenu *items_section;
+	gboolean have_items = FALSE;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	mail_display = e_mail_reader_get_mail_display (reader);
 	mails = get_from_mail_addresses (mail_display);
 	sites = e_mail_display_get_skipped_remote_content_sites (mail_display);
+
+	ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions (ui_manager, "rcpop", GETTEXT_PACKAGE,
+		rcpop_entries, G_N_ELEMENTS (rcpop_entries), reader);
+
+	menu_model = g_menu_new ();
+	items_section = g_menu_new ();
 
 	for (link = mails; link; link = g_list_next (link)) {
 		const gchar *mail = link->data;
@@ -213,15 +222,13 @@ show_remote_content_popup (EMailReader *reader,
 		if (!mail || !*mail)
 			continue;
 
-		if (!popup_menu)
-			popup_menu = gtk_menu_new ();
-
 		if (*mail == '@')
 			label = g_strdup_printf (_("Allow remote content for anyone from %s"), mail);
 		else
 			label = g_strdup_printf (_("Allow remote content for %s"), mail);
 
-		add_remote_content_menu_item (reader, popup_menu, label, TRUE, mail);
+		add_remote_content_menu_item (items_section, label, TRUE, mail);
+		have_items = TRUE;
 
 		g_free (label);
 	}
@@ -233,12 +240,10 @@ show_remote_content_popup (EMailReader *reader,
 		if (!site || !*site)
 			continue;
 
-		if (!popup_menu)
-			popup_menu = gtk_menu_new ();
-
 		label = g_strdup_printf (_("Allow remote content from %s"), site);
 
-		add_remote_content_menu_item (reader, popup_menu, label, FALSE, site);
+		add_remote_content_menu_item (items_section, label, FALSE, site);
+		have_items = TRUE;
 
 		g_free (label);
 	}
@@ -246,16 +251,20 @@ show_remote_content_popup (EMailReader *reader,
 	g_list_free_full (mails, g_free);
 	g_list_free_full (sites, g_free);
 
-	if (popup_menu) {
+	if (have_items) {
 		GtkWidget *box = gtk_widget_get_parent (GTK_WIDGET (toggle_button));
-		GtkWidget *item;
+		GMenu *footer_section;
+		GtkWidget *popup_menu;
 
-		item = gtk_separator_menu_item_new ();
-		gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), item);
+		footer_section = g_menu_new ();
+		g_menu_append (footer_section, _("Do not show this message again"), "rcpop.disable-notifications");
 
-		item = gtk_menu_item_new_with_label (_("Do not show this message again"));
-		gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), item);
-		g_signal_connect (item, "activate", G_CALLBACK (remote_content_disable_activate_cb), reader);
+		g_menu_append_section (menu_model, NULL, G_MENU_MODEL (items_section));
+		g_menu_append_section (menu_model, NULL, G_MENU_MODEL (footer_section));
+		g_object_unref (footer_section);
+
+		popup_menu = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+		e_ui_manager_add_action_groups_to_widget (ui_manager, popup_menu);
 
 		gtk_toggle_button_set_active (toggle_button, TRUE);
 
@@ -279,6 +288,10 @@ show_remote_content_popup (EMailReader *reader,
 		                          GDK_GRAVITY_NORTH_WEST,
 		                          (const GdkEvent *) event);
 	}
+
+	g_object_unref (items_section);
+	g_object_unref (menu_model);
+	g_object_unref (ui_manager);
 }
 
 static gboolean
