@@ -11,6 +11,7 @@
 #include "e-alert-dialog.h"
 #include "e-misc-utils.h"
 #include "e-ui-action.h"
+#include "e-ui-action-group.h"
 #include "e-ui-customizer.h"
 #include "e-ui-manager.h"
 
@@ -61,6 +62,8 @@ struct _EUICustomizeDialog {
 	GtkLabel *shortcuts_tooltip;		/* not referenced */
 	GtkWidget *shortcuts_default_button;	/* not referenced */
 	GtkBox *shortcuts_box;			/* not referenced */
+
+	EUIManager *layout_ui_manager;
 
 	GPtrArray *customizers; /* EUICustomizer * */
 	GHashTable *save_customizers;
@@ -488,7 +491,8 @@ unset_shortcut_data_copy (UnsetShortcutData *src)
 }
 
 static void
-customize_shortcuts_unset_from_other_cb (GtkWidget *menu_item,
+customize_shortcuts_unset_from_other_cb (EUIAction *action,
+					 GVariant *parameter,
 					 gpointer user_data)
 {
 	UnsetShortcutData *usd = user_data;
@@ -571,40 +575,30 @@ customize_shortcuts_entry_icon_press_cb (GtkEntry *entry,
 {
 	UnsetShortcutData *usd = user_data;
 	GtkMenu *menu;
-	GtkWidget *item;
-	GtkWidget *widget;
+	EUIActionGroup *action_group;
+	EUIAction *sc_action;
+	GMenu *menu_model, *section;
 
 	if (icon_pos != GTK_ENTRY_ICON_SECONDARY || !usd)
 		return;
 
-	menu = GTK_MENU (gtk_menu_new ());
-
-	widget = gtk_label_new (gtk_entry_get_icon_tooltip_text (entry, icon_pos));
-	g_object_set (widget,
-		"use-underline", FALSE,
-		"visible", TRUE,
-		"wrap", TRUE,
-		"width-chars", 30,
-		"max-width-chars", 40,
-		NULL);
-
-	item = gtk_menu_item_new ();
-	g_object_set (item,
-		"visible", TRUE,
-		"sensitive", FALSE,
-		NULL);
-	gtk_container_add (GTK_CONTAINER (item), widget);
-
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-
-	item = gtk_menu_item_new_with_mnemonic (g_dngettext (GETTEXT_PACKAGE, "_Unset from other action", "_Unset from other actions", usd->n_clashing));
-	g_object_set (item,
-		"visible", TRUE,
-		NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-
-	g_signal_connect_data (item, "activate",
+	action_group = e_ui_action_group_new ("uicd");
+	sc_action = e_ui_action_new ("uicd", "unset-from-other", NULL);
+	g_signal_connect_data (sc_action, "activate",
 		G_CALLBACK (customize_shortcuts_unset_from_other_cb), unset_shortcut_data_copy (usd), (GClosureNotify) unset_shortcut_data_free, 0);
+	e_ui_action_group_add (action_group, sc_action);
+	g_object_unref (sc_action);
+
+	menu_model = g_menu_new ();
+	section = g_menu_new ();
+	g_menu_append (section, g_dngettext (GETTEXT_PACKAGE, "_Unset from other action", "_Unset from other actions", usd->n_clashing), "uicd.unset-from-other");
+	g_menu_append_section (menu_model, gtk_entry_get_icon_tooltip_text (entry, icon_pos), G_MENU_MODEL (section));
+	g_object_unref (section);
+
+	menu = GTK_MENU (gtk_menu_new_from_model (G_MENU_MODEL (menu_model)));
+	g_object_unref (menu_model);
+	gtk_widget_insert_action_group (GTK_WIDGET (menu), "uicd", G_ACTION_GROUP (action_group));
+	g_object_unref (action_group);
 
 	gtk_menu_attach_to_widget (GTK_MENU (menu), GTK_WIDGET (entry), NULL);
 	e_util_connect_menu_detach_after_deactivate (GTK_MENU (menu));
@@ -1491,7 +1485,8 @@ e_ui_customize_dialog_get_add_destination (EUICustomizeDialog *self,
 }
 
 static void
-e_ui_customize_dialog_layout_add_selected_activated_cb (GtkButton *button,
+e_ui_customize_dialog_layout_add_selected_activated_cb (EUIAction *action,
+							GVariant *parameter,
 							gpointer user_data)
 {
 	EUICustomizeDialog *self = user_data;
@@ -1509,7 +1504,8 @@ e_ui_customize_dialog_layout_add_selected_activated_cb (GtkButton *button,
 }
 
 static void
-e_ui_customize_dialog_layout_add_separator_activated_cb (GtkButton *button,
+e_ui_customize_dialog_layout_add_separator_activated_cb (EUIAction *action,
+							 GVariant *parameter,
 							 gpointer user_data)
 {
 	EUICustomizeDialog *self = user_data;
@@ -1538,33 +1534,59 @@ e_ui_customize_dialog_layout_add_separator_activated_cb (GtkButton *button,
 	customize_layout_changed (self);
 }
 
+static const EUIActionEntry uicd_layout_entries[] = {
+	{ "add-selected",
+	  NULL,
+	  N_("Selected _Action"),
+	  NULL,
+	  NULL,
+	  e_ui_customize_dialog_layout_add_selected_activated_cb },
+
+	{ "add-separator",
+	  NULL,
+	  N_("_Separator"),
+	  NULL,
+	  NULL,
+	  e_ui_customize_dialog_layout_add_separator_activated_cb },
+};
+
+static const gchar *uicd_layout_eui =
+	"<eui>"
+	"  <menu id='layout-add-popup' is-popup='true'>"
+	"    <item action='add-selected'/>"
+	"    <item action='add-separator'/>"
+	"  </menu>"
+	"</eui>";
+
 static void
 e_ui_customize_dialog_layout_add_clicked_cb (GtkWidget *button,
 					     gpointer user_data)
 {
 	EUICustomizeDialog *self = user_data;
+	EUIAction *layout_action;
+	GObject *ui_item;
 	GtkWidget *popup_menu;
-	GtkMenuShell *menu_shell;
-	GtkWidget *item;
 	GtkTreeSelection *selection;
 	gint n_selected;
 
 	selection = gtk_tree_view_get_selection (self->actions_tree_view);
 	n_selected = gtk_tree_selection_count_selected_rows (selection);
 
-	popup_menu = gtk_menu_new ();
-	menu_shell = GTK_MENU_SHELL (popup_menu);
+	if (!self->layout_ui_manager) {
+		self->layout_ui_manager = e_ui_manager_new (NULL);
+		e_ui_manager_add_actions_with_eui_data (self->layout_ui_manager, "uicd", GETTEXT_PACKAGE,
+			uicd_layout_entries, G_N_ELEMENTS (uicd_layout_entries), self, uicd_layout_eui);
+		e_ui_manager_set_action_groups_widget (self->layout_ui_manager, GTK_WIDGET (self));
+	}
 
-	item = gtk_menu_item_new_with_mnemonic (g_dngettext (GETTEXT_PACKAGE, _("Selected _Action"), _("Selected _Actions"), n_selected));
-	g_signal_connect (item, "activate", G_CALLBACK (e_ui_customize_dialog_layout_add_selected_activated_cb), self);
-	gtk_widget_set_sensitive (item, n_selected > 0);
-	gtk_menu_shell_append (menu_shell, item);
+	layout_action = e_ui_manager_get_action (self->layout_ui_manager, "add-selected");
+	e_ui_action_set_sensitive (layout_action, n_selected > 0);
+	e_ui_action_set_label (layout_action,
+		g_dngettext (GETTEXT_PACKAGE, _("Selected _Action"), _("Selected _Actions"), n_selected));
 
-	item = gtk_menu_item_new_with_mnemonic (_("_Separator"));
-	g_signal_connect (item, "activate", G_CALLBACK (e_ui_customize_dialog_layout_add_separator_activated_cb), self);
-	gtk_menu_shell_append (menu_shell, item);
-
-	gtk_widget_show_all (popup_menu);
+	ui_item = e_ui_manager_create_item (self->layout_ui_manager, "layout-add-popup");
+	popup_menu = gtk_menu_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
 
 	gtk_menu_attach_to_widget (GTK_MENU (popup_menu), button, NULL);
 	e_util_connect_menu_detach_after_deactivate (GTK_MENU (popup_menu));
@@ -2871,6 +2893,7 @@ e_ui_customize_dialog_dispose (GObject *object)
 	}
 	g_clear_pointer (&self->layout_drag_refs, g_ptr_array_unref);
 	g_clear_pointer (&self->shortcut_entries, g_ptr_array_unref);
+	g_clear_object (&self->layout_ui_manager);
 
 	G_OBJECT_CLASS (e_ui_customize_dialog_parent_class)->dispose (object);
 }
