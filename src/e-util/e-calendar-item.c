@@ -10,6 +10,7 @@
 #include <libebackend/libebackend.h>
 
 #include "e-calendar-item.h"
+#include "e-ui-manager.h"
 
 #include <time.h>
 #include <stdlib.h>
@@ -178,8 +179,9 @@ static void	e_calendar_item_show_popup_menu	(ECalendarItem *calitem,
 						 GdkEvent *button_event,
 						 gint month_offset);
 static void	e_calendar_item_on_menu_item_activate
-						(GtkWidget *menuitem,
-						 ECalendarItem *calitem);
+						(EUIAction *action,
+						 GVariant *parameter,
+						 gpointer user_data);
 static void	e_calendar_item_date_range_changed
 						(ECalendarItem *calitem);
 static void	e_calendar_item_queue_signal_emission
@@ -3595,57 +3597,50 @@ e_calendar_item_ensure_days_visible (ECalendarItem *calitem,
 	return need_update;
 }
 
+static const EUIActionEntry ecal_entries[] = {
+	{ "select-month", NULL, N_("Select Month"), NULL, NULL, e_calendar_item_on_menu_item_activate, "(ii)", NULL, NULL },
+};
+
 static void
 e_calendar_item_show_popup_menu (ECalendarItem *calitem,
                                  GdkEvent *button_event,
                                  gint month_offset)
 {
-	GtkWidget *menu, *submenu, *menuitem, *label;
+	EUIManager *ui_manager;
+	GMenu *menu_model, *year_submenu;
+	GMenuItem *item;
+	GtkWidget *menu;
 	GtkWidget *canvas_widget;
 	gint year, month;
 	const gchar *name;
 	gchar buffer[64];
 
-	menu = gtk_menu_new ();
+	ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions (ui_manager, "ecal", GETTEXT_PACKAGE,
+		ecal_entries, G_N_ELEMENTS (ecal_entries), calitem);
+
+	menu_model = g_menu_new ();
 
 	for (year = calitem->year - 2; year <= calitem->year + 2; year++) {
-		g_snprintf (buffer, 64, "%i", year);
-		menuitem = gtk_menu_item_new_with_label (buffer);
-		gtk_widget_show (menuitem);
-		gtk_container_add (GTK_CONTAINER (menu), menuitem);
-
-		submenu = gtk_menu_new ();
-		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), submenu);
-
-		g_object_set_data (
-			G_OBJECT (submenu), "year",
-			GINT_TO_POINTER (year));
-		g_object_set_data (
-			G_OBJECT (submenu), "month_offset",
-			GINT_TO_POINTER (month_offset));
+		year_submenu = g_menu_new ();
 
 		for (month = 0; month < 12; month++) {
 			name = e_get_month_name (month + 1, FALSE);
-
-			menuitem = gtk_menu_item_new ();
-			gtk_widget_show (menuitem);
-			gtk_container_add (GTK_CONTAINER (submenu), menuitem);
-
-			label = gtk_label_new (name);
-			gtk_label_set_xalign (GTK_LABEL (label), 0);
-			gtk_widget_show (label);
-			gtk_container_add (GTK_CONTAINER (menuitem), label);
-
-			g_object_set_data (
-				G_OBJECT (menuitem), "month",
-				GINT_TO_POINTER (month));
-
-			g_signal_connect (
-				menuitem, "activate",
-				G_CALLBACK (e_calendar_item_on_menu_item_activate),
-				calitem);
+			item = g_menu_item_new (name, NULL);
+			g_menu_item_set_action_and_target (item, "ecal.select-month", "(ii)", year, month - month_offset);
+			g_menu_append_item (year_submenu, item);
+			g_object_unref (item);
 		}
+
+		g_snprintf (buffer, 64, "%i", year);
+		g_menu_append_submenu (menu_model, buffer, G_MENU_MODEL (year_submenu));
+		g_object_unref (year_submenu);
 	}
+
+	menu = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+	g_object_unref (menu_model);
+	e_ui_manager_add_action_groups_to_widget (ui_manager, menu);
+	g_object_unref (ui_manager);
 
 	g_signal_connect (
 		menu, "deactivate",
@@ -3657,25 +3652,15 @@ e_calendar_item_show_popup_menu (ECalendarItem *calitem,
 }
 
 static void
-e_calendar_item_on_menu_item_activate (GtkWidget *menuitem,
-                                       ECalendarItem *calitem)
+e_calendar_item_on_menu_item_activate (EUIAction *action,
+                                       GVariant *parameter,
+                                       gpointer user_data)
 {
-	GtkWidget *parent;
-	gint year, month_offset, month;
-	gpointer data;
+	ECalendarItem *calitem = user_data;
+	gint year, month;
 
-	parent = gtk_widget_get_parent (menuitem);
-	data = g_object_get_data (G_OBJECT (parent), "year");
-	year = GPOINTER_TO_INT (data);
+	g_variant_get (parameter, "(ii)", &year, &month);
 
-	parent = gtk_widget_get_parent (menuitem);
-	data = g_object_get_data (G_OBJECT (parent), "month_offset");
-	month_offset = GPOINTER_TO_INT (data);
-
-	data = g_object_get_data (G_OBJECT (menuitem), "month");
-	month = GPOINTER_TO_INT (data);
-
-	month -= month_offset;
 	e_calendar_item_normalize_date (calitem, &year, &month);
 	e_calendar_item_set_first_month_with_emit (calitem, year, month, TRUE);
 }
