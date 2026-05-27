@@ -15,6 +15,7 @@
 
 #include "e-misc-utils.h"
 #include "e-spell-entry.h"
+#include "e-ui-manager.h"
 
 struct _ESpellEntryPrivate {
 	PangoAttrList *attr_list;
@@ -30,6 +31,7 @@ struct _ESpellEntryPrivate {
 	guint active_languages_handler_id;
 
 	gboolean im_in_preedit;
+	EUIManager *ui_manager;
 };
 
 enum {
@@ -341,20 +343,28 @@ spell_entry_byte_pos_to_char_pos (ESpellEntry *entry,
 }
 
 static void
-add_to_dictionary (GtkWidget *menuitem,
-                   ESpellEntry *entry)
+add_to_dictionary (EUIAction *action,
+                   GVariant *parameter,
+                   gpointer user_data)
 {
+	ESpellEntry *entry = user_data;
+	ESpellChecker *spell_checker;
+	ESpellDictionary *dict;
+	const gchar *lang_code;
 	gchar *word;
 	gint start, end;
-	ESpellDictionary *dict;
 
 	get_word_extents_from_position (
 		entry, &start, &end, entry->priv->mark_character);
 	word = spell_entry_get_chars_from_byte_pos (entry, start, end);
 
-	dict = g_object_get_data (G_OBJECT (menuitem), "spell-entry-checker");
-	if (dict != NULL)
+	lang_code = g_variant_get_string (parameter, NULL);
+	spell_checker = e_spell_entry_get_spell_checker (entry);
+	dict = e_spell_checker_ref_dictionary (spell_checker, lang_code);
+	if (dict != NULL) {
 		e_spell_dictionary_learn_word (dict, word, -1);
+		g_object_unref (dict);
+	}
 
 	g_free (word);
 
@@ -374,9 +384,11 @@ add_to_dictionary (GtkWidget *menuitem,
 }
 
 static void
-ignore_all (GtkWidget *menuitem,
-            ESpellEntry *entry)
+ignore_all (EUIAction *action,
+            GVariant *parameter,
+            gpointer user_data)
 {
+	ESpellEntry *entry = user_data;
 	ESpellChecker *spell_checker;
 	gchar *word;
 	gint start, end;
@@ -406,20 +418,23 @@ ignore_all (GtkWidget *menuitem,
 }
 
 static void
-replace_word (GtkWidget *menuitem,
-              ESpellEntry *entry)
+replace_word (EUIAction *action,
+              GVariant *parameter,
+              gpointer user_data)
 {
+	ESpellEntry *entry = user_data;
+	ESpellChecker *spell_checker;
+	ESpellDictionary *dict;
+	const gchar *newword, *lang_code;
 	gchar *oldword;
-	const gchar *newword;
 	gint start, end;
 	gint cursor;
-	ESpellDictionary *dict;
+
+	g_variant_get (parameter, "(&s&s)", &newword, &lang_code);
 
 	get_word_extents_from_position (
 		entry, &start, &end, entry->priv->mark_character);
 	oldword = spell_entry_get_chars_from_byte_pos (entry, start, end);
-	newword = gtk_label_get_text (
-		GTK_LABEL (gtk_bin_get_child (GTK_BIN (menuitem))));
 
 	spell_entry_byte_pos_to_char_pos (entry, start, &start);
 	spell_entry_byte_pos_to_char_pos (entry, end, &end);
@@ -437,11 +452,12 @@ replace_word (GtkWidget *menuitem,
 		GTK_EDITABLE (entry), newword, strlen (newword), &start);
 	gtk_editable_set_position (GTK_EDITABLE (entry), cursor);
 
-	dict = g_object_get_data (G_OBJECT (menuitem), "spell-entry-checker");
-
-	if (dict != NULL)
-		e_spell_dictionary_store_correction (
-			dict, oldword, -1, newword, -1);
+	spell_checker = e_spell_entry_get_spell_checker (entry);
+	dict = e_spell_checker_ref_dictionary (spell_checker, lang_code);
+	if (dict != NULL) {
+		e_spell_dictionary_store_correction (dict, oldword, -1, newword, -1);
+		g_object_unref (dict);
+	}
 
 	g_free (oldword);
 }
@@ -454,8 +470,12 @@ build_suggestion_menu (ESpellEntry *entry,
 {
 	GtkWidget *mi;
 	GList *suggestions, *iter;
+	const gchar *lang_code;
 
 	suggestions = e_spell_dictionary_get_suggestions (dict, word, -1);
+	lang_code = e_spell_dictionary_get_code (dict);
+	if (lang_code == NULL)
+		lang_code = "";
 
 	if (suggestions == NULL) {
 		/* no suggestions. Put something in the menu anyway... */
@@ -492,8 +512,9 @@ build_suggestion_menu (ESpellEntry *entry,
 			}
 
 			mi = gtk_menu_item_new_with_label (iter->data);
-			g_object_set_data (G_OBJECT (mi), "spell-entry-checker", dict);
-			g_signal_connect (mi, "activate", G_CALLBACK (replace_word), entry);
+			gtk_actionable_set_action_target_value (GTK_ACTIONABLE (mi),
+				g_variant_new ("(ss)", iter->data, lang_code));
+			gtk_actionable_set_action_name (GTK_ACTIONABLE (mi), "espell.replace-word");
 			gtk_widget_show (mi);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), mi);
 		}
@@ -577,11 +598,13 @@ build_spelling_menu (ESpellEntry *entry,
 		gtk_image_new_from_icon_name ("list-add", GTK_ICON_SIZE_MENU));
 
 	if (n_active_languages == 1) {
+		const gchar *lang_code;
+
 		dict = g_queue_peek_head (&queue);
-		g_object_set_data (G_OBJECT (mi), "spell-entry-checker", dict);
-		g_signal_connect (
-			mi, "activate",
-			G_CALLBACK (add_to_dictionary), entry);
+		lang_code = e_spell_dictionary_get_code (dict);
+		gtk_actionable_set_action_target_value (GTK_ACTIONABLE (mi),
+			g_variant_new_string (lang_code ? lang_code : ""));
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (mi), "espell.add-to-dictionary");
 	} else {
 		GtkWidget *menu, *submi;
 		GList *list, *link;
@@ -593,6 +616,7 @@ build_spelling_menu (ESpellEntry *entry,
 
 		for (link = list; link != NULL; link = g_list_next (link)) {
 			const gchar *lang_name;
+			const gchar *lang_code;
 
 			dict = E_SPELL_DICTIONARY (link->data);
 
@@ -602,11 +626,12 @@ build_spelling_menu (ESpellEntry *entry,
 			if (lang_name == NULL)
 				lang_name = "???";
 
+			lang_code = e_spell_dictionary_get_code (dict);
+
 			submi = gtk_menu_item_new_with_label (lang_name);
-			g_object_set_data (G_OBJECT (submi), "spell-entry-checker", dict);
-			g_signal_connect (
-				submi, "activate",
-				G_CALLBACK (add_to_dictionary), entry);
+			gtk_actionable_set_action_target_value (GTK_ACTIONABLE (submi),
+				g_variant_new_string (lang_code ? lang_code : ""));
+			gtk_actionable_set_action_name (GTK_ACTIONABLE (submi), "espell.add-to-dictionary");
 
 			gtk_widget_show (submi);
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu), submi);
@@ -621,7 +646,7 @@ build_spelling_menu (ESpellEntry *entry,
 	gtk_image_menu_item_set_image (
 		GTK_IMAGE_MENU_ITEM (mi),
 		gtk_image_new_from_icon_name ("list-remove", GTK_ICON_SIZE_MENU));
-	g_signal_connect (mi, "activate", G_CALLBACK (ignore_all), entry);
+	gtk_actionable_set_action_name (GTK_ACTIONABLE (mi), "espell.ignore-all");
 	gtk_widget_show_all (mi);
 	gtk_menu_shell_append (GTK_MENU_SHELL (topmenu), mi);
 
@@ -835,6 +860,7 @@ spell_entry_dispose (GObject *object)
 	}
 
 	g_clear_object (&self->priv->spell_checker);
+	g_clear_object (&self->priv->ui_manager);
 	g_clear_pointer (&self->priv->attr_list, pango_attr_list_unref);
 
 	/* Chain up to parent's dispose() method. */
@@ -955,6 +981,12 @@ e_spell_entry_class_init (ESpellEntryClass *class)
 	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
+static const EUIActionEntry espell_entries[] = {
+	{ "replace-word",      NULL,          N_("Replace Word"),       NULL, NULL, replace_word,      "(ss)", NULL, NULL },
+	{ "add-to-dictionary", "list-add",    N_("Add to Dictionary"),  NULL, NULL, add_to_dictionary, "s",    NULL, NULL },
+	{ "ignore-all",        "list-remove", N_("Ignore All"),         NULL, NULL, ignore_all,        NULL,   NULL, NULL },
+};
+
 static void
 e_spell_entry_init (ESpellEntry *spell_entry)
 {
@@ -962,6 +994,11 @@ e_spell_entry_init (ESpellEntry *spell_entry)
 	spell_entry->priv->attr_list = pango_attr_list_new ();
 	spell_entry->priv->checking_enabled = TRUE;
 	spell_entry->priv->im_in_preedit = FALSE;
+
+	spell_entry->priv->ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions (spell_entry->priv->ui_manager, "espell", GETTEXT_PACKAGE,
+		espell_entries, G_N_ELEMENTS (espell_entries), spell_entry);
+	e_ui_manager_set_action_groups_widget (spell_entry->priv->ui_manager, GTK_WIDGET (spell_entry));
 
 	g_signal_connect (
 		spell_entry, "popup-menu",
