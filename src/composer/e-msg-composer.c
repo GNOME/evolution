@@ -2967,7 +2967,6 @@ msg_composer_constructed (GObject *object)
 
 	gtk_target_table_free (targets, n_targets);
 
-	e_plugin_ui_register_manager (ui_manager, "org.gnome.evolution.composer", composer);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (composer));
 

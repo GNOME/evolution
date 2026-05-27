@@ -2001,7 +2001,6 @@ static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
 static gboolean force_shutdown = FALSE;
-static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean import_uris = FALSE;
 static gboolean view_uris = FALSE;
@@ -2042,8 +2041,6 @@ static GOptionEntry app_options[] = {
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &force_shutdown,
 	  N_("Forcibly shut down Evolution and background Evolution-Data-Server processes"), NULL },
 #endif
-	{ "disable-eplugin", '\0', 0, G_OPTION_ARG_NONE, &disable_eplugin,
-	  N_("Disable loading of any plugins."), NULL },
 	{ "disable-preview", '\0', 0, G_OPTION_ARG_NONE, &disable_preview,
 	  N_("Disable preview pane of Mail, Contacts and Tasks."), NULL },
 	{ "setup-only", '\0', G_OPTION_FLAG_HIDDEN, G_OPTION_ARG_NONE,
@@ -2230,15 +2227,6 @@ e_shell_handle_local_options_cb (GApplication *application,
 
 	g_idle_add (handle_options_idle_cb, (gpointer) remaining_args);
 
-	if (!disable_eplugin) {
-		/* Register built-in plugin hook types. */
-		g_type_ensure (E_TYPE_IMPORT_HOOK);
-		g_type_ensure (E_TYPE_PLUGIN_UI_HOOK);
-
-		/* All EPlugin and EPluginHook subclasses should be
-		 * registered in GType now, so load plugins now. */
-		e_plugin_load_plugins ();
-	}
 
 	return -1;
 }

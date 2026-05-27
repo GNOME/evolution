@@ -18,8 +18,6 @@ set(sources
 	autocompletion-config.h
 	eab-composer-util.c
 	eab-composer-util.h
-	e-book-config-hook.c
-	e-book-config-hook.h
 	e-book-shell-backend.c
 	e-book-shell-backend.h
 	e-book-shell-content.c

@@ -21,7 +21,6 @@
 #include "e-alert-sink.h"
 #include "e-file-request.h"
 #include "e-misc-utils.h"
-#include "e-plugin-ui.h"
 #include "e-selectable.h"
 #include "e-stock-request.h"
 #include "e-ui-action.h"

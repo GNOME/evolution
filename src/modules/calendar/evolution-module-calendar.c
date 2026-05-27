@@ -8,9 +8,6 @@
 
 #include "e-cal-attachment-handler.h"
 
-#include "e-cal-config-hook.h"
-#include "e-cal-event-hook.h"
-
 #include "e-calendar-preferences.h"
 
 #include "e-cal-base-shell-sidebar.h"
@@ -34,9 +31,6 @@ e_module_load (GTypeModule *type_module)
 	/* Register dynamically loaded types. */
 
 	e_cal_attachment_handler_type_register (type_module);
-
-	e_cal_config_hook_register_type (type_module);
-	e_cal_event_hook_register_type (type_module);
 
 	e_calendar_preferences_type_register (type_module);
 

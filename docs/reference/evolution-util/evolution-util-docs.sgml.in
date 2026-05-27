@@ -241,7 +241,6 @@
   <chapter>
     <title>Plugins (Legacy)</title>
     <xi:include href="xml/e-plugin.xml"/>
-    <xi:include href="xml/e-plugin-ui.xml"/>
     <xi:include href="xml/e-config.xml"/>
     <xi:include href="xml/e-event.xml"/>
     <xi:include href="xml/e-import.xml"/>

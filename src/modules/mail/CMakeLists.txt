@@ -11,10 +11,6 @@ set(sources
 	evolution-module-mail.c
 	e-mail-attachment-handler.c
 	e-mail-attachment-handler.h
-	e-mail-config-hook.c
-	e-mail-config-hook.h
-	e-mail-event-hook.c
-	e-mail-event-hook.h
 	e-mail-shell-backend.c
 	e-mail-shell-backend.h
 	e-mail-shell-content.c

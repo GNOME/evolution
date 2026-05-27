@@ -159,7 +159,6 @@
 #include <e-util/e-photo-cache.h>
 #include <e-util/e-photo-source.h>
 #include <e-util/e-picture-gallery.h>
-#include <e-util/e-plugin-ui.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-poolv.h>
 #include <e-util/e-popup-menu.h>

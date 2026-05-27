@@ -2265,8 +2265,6 @@ shell_view_constructed (GObject *object)
 		shell_view, "notify::view-id",
 		G_CALLBACK (shell_view_update_view_menu), NULL);
 
-	/* Register the EUIManager ID for the shell view. */
-	e_plugin_ui_register_manager (shell_view->priv->ui_manager, shell_view_class->ui_manager_id, shell_view);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
