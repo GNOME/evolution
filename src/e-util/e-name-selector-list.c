@@ -12,6 +12,7 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-name-selector-list.h"
+#include "e-ui-action-group.h"
 #include "e-name-selector-entry.h"
 
 #define MAX_ROW	10
@@ -322,76 +323,56 @@ delete_row (GtkTreePath *path,
 }
 
 static void
-popup_activate_email (ENameSelectorEntry *name_selector_entry,
-                      GtkWidget *menu_item)
-{
-	EDestination *destination;
-	EContact     *contact;
-	gint          email_num;
-
-	destination = e_name_selector_entry_get_popup_destination (name_selector_entry);
-	if (!destination)
-		return;
-
-	contact = e_destination_get_contact (destination);
-	if (!contact)
-		return;
-
-	email_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (menu_item), "order"));
-	e_destination_set_contact (destination, contact, email_num);
-}
-
-static void
-popup_activate_list (EDestination *destination,
-                     GtkWidget *item)
-{
-	gboolean status = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item));
-
-	e_destination_set_ignored (destination, !status);
-}
-
-static void
-destination_set_list (GtkWidget *item,
+destination_set_list (EUIAction *action,
+                      GVariant *value,
                       EDestination *destination)
 {
-	EContact *contact;
-	gboolean status = gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item));
+	gboolean status = g_variant_get_boolean (value);
 
-	contact = e_destination_get_contact (destination);
-	if (!contact)
-		return;
-
+	e_ui_action_set_state (action, value);
 	e_destination_set_ignored (destination, !status);
 }
 
 static void
-destination_set_email (GtkWidget *item,
+destination_set_email (EUIAction *action,
+                       GVariant *value,
                        EDestination *destination)
 {
-	gint email_num;
 	EContact *contact;
+	gint email_num;
 
-	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
-		return;
 	contact = e_destination_get_contact (destination);
 	if (!contact)
 		return;
 
-	email_num = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "order"));
+	email_num = g_variant_get_int32 (value);
+	e_ui_action_set_state (action, value);
 	e_destination_set_contact (destination, contact, email_num);
 }
 
 typedef struct {
 	ENameSelectorList *list;
 	GtkTreePath *path;
-}PopupDeleteRowInfo;
+} PopupDeleteRowInfo;
 
 static void
-popup_delete_row (GtkWidget *w,
-                  PopupDeleteRowInfo *row_info)
+popup_delete_row_info_free (gpointer data)
 {
-	delete_row (row_info->path, row_info->list);
+	PopupDeleteRowInfo *row_info = data;
+
+	g_clear_pointer (&row_info->path, gtk_tree_path_free);
 	g_slice_free (PopupDeleteRowInfo, row_info);
+}
+
+static void
+popup_delete_row (EUIAction *action,
+                  GVariant *parameter,
+                  gpointer user_data)
+{
+	PopupDeleteRowInfo *row_info = user_data;
+	GtkTreePath *path = g_steal_pointer (&row_info->path);
+
+	delete_row (path, row_info->list);
 }
 
 static void
@@ -406,17 +387,19 @@ enl_tree_button_press_event (GtkWidget *widget,
                              GdkEventButton *event,
                              ENameSelectorList *list)
 {
+	EUIActionGroup *action_group;
+	EUIAction *action;
 	GtkWidget *menu;
+	GMenu *menu_model, *email_section, *delete_section;
 	EDestination *destination;
 	ENameSelectorEntry *entry;
 	EDestinationStore *store;
 	EContact     *contact;
-	GtkWidget    *menu_item;
 	GList        *email_list = NULL, *l;
 	gint          i;
 	gint	      email_num, len;
 	gchar         *delete_label;
-	GSList	     *group = NULL;
+	gchar         *action_name, *full_action_name;
 	gboolean      is_list;
 	gboolean      show_menu = FALSE;
 	GtkTreeSelection *selection;
@@ -426,6 +409,7 @@ enl_tree_button_press_event (GtkWidget *widget,
 	GtkTreeIter   iter;
 	guint         button = 0;
 	gdouble       x = 0, y = 0;
+	gint          jj;
 
 	entry = E_NAME_SELECTOR_ENTRY (list);
 	tree_view = GTK_TREE_VIEW (list->priv->tree_view);
@@ -464,11 +448,9 @@ enl_tree_button_press_event (GtkWidget *widget,
 	if (list->priv->menu) {
 		gtk_menu_popdown (GTK_MENU (list->priv->menu));
 	}
-	menu = gtk_menu_new ();
-	g_signal_connect (menu, "deactivate", G_CALLBACK (menu_deactivate), list);
-	list->priv->menu = menu;
-	gtk_menu_attach_to_widget (GTK_MENU (menu), widget, NULL);
-	gtk_menu_popup_at_pointer (GTK_MENU (menu), (const GdkEvent *) event);
+
+	action_group = e_ui_action_group_new ("ensl");
+	email_section = g_menu_new ();
 
 	email_num = e_destination_get_email_num (destination);
 
@@ -479,7 +461,7 @@ enl_tree_button_press_event (GtkWidget *widget,
 		GList *iters;
 		gint length = g_list_length ((GList *) dests);
 
-		for (iters = (GList *) dests; iters; iters = iters->next) {
+		for (iters = (GList *) dests, jj = 0; iters; iters = iters->next, jj++) {
 			EDestination *dest = (EDestination *) iters->data;
 			const gchar *email = e_destination_get_email (dest);
 
@@ -487,31 +469,41 @@ enl_tree_button_press_event (GtkWidget *widget,
 				continue;
 
 			if (length > 1) {
-				menu_item = gtk_check_menu_item_new_with_label (email);
-				g_signal_connect (
-					menu_item, "toggled",
+				action_name = g_strdup_printf ("toggle-dest-%d", jj);
+				full_action_name = g_strdup_printf ("ensl.%s", action_name);
+
+				action = e_ui_action_new_stateful ("ensl", action_name, NULL,
+					g_variant_new_boolean (!e_destination_is_ignored (dest)));
+				e_ui_action_set_label (action, email);
+				g_signal_connect (action, "change-state",
 					G_CALLBACK (destination_set_list), dest);
+				e_ui_action_group_add (action_group, action);
+				g_object_unref (action);
+
+				g_menu_append (email_section, email, full_action_name);
+
+				g_free (full_action_name);
+				g_free (action_name);
 			} else {
-				menu_item = gtk_menu_item_new_with_label (email);
+				g_menu_append (email_section, email, NULL);
 			}
 
-			gtk_widget_show (menu_item);
-			gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
 			show_menu = TRUE;
-
-			if (length > 1) {
-				gtk_check_menu_item_set_active (
-					GTK_CHECK_MENU_ITEM (menu_item),
-					!e_destination_is_ignored (dest));
-				g_signal_connect_swapped (
-					menu_item, "activate",
-					G_CALLBACK (popup_activate_list), dest);
-			}
 		}
 
 	} else {
 		email_list = e_contact_get (contact, E_CONTACT_EMAIL);
 		len = g_list_length (email_list);
+
+		if (len > 1) {
+			action = e_ui_action_new_stateful ("ensl", "select-email", G_VARIANT_TYPE_INT32,
+				g_variant_new_int32 (email_num));
+			e_ui_action_set_label (action, _("Select Email Address"));
+			g_signal_connect (action, "change-state",
+				G_CALLBACK (destination_set_email), destination);
+			e_ui_action_group_add (action_group, action);
+			g_object_unref (action);
+		}
 
 		for (l = email_list, i = 0; l; l = g_list_next (l), i++) {
 			gchar *email = l->data;
@@ -520,54 +512,52 @@ enl_tree_button_press_event (GtkWidget *widget,
 				continue;
 
 			if (len > 1) {
-				menu_item = gtk_radio_menu_item_new_with_label (group, email);
-				group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menu_item));
-				g_signal_connect (
-					menu_item, "toggled",
-					G_CALLBACK (destination_set_email),
-					destination);
+				GMenuItem *item = g_menu_item_new (email, NULL);
+				g_menu_item_set_action_and_target (item, "ensl.select-email", "i", i);
+				g_menu_append_item (email_section, item);
+				g_object_unref (item);
 			} else {
-				menu_item = gtk_menu_item_new_with_label (email);
+				g_menu_append (email_section, email, NULL);
 			}
 
-			gtk_widget_show (menu_item);
-			gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
 			show_menu = TRUE;
-			g_object_set_data (G_OBJECT (menu_item), "order", GINT_TO_POINTER (i));
-
-			if (i == email_num && len > 1) {
-				gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (menu_item), TRUE);
-				g_signal_connect_swapped (
-					menu_item, "activate",
-					G_CALLBACK (popup_activate_email),
-					entry);
-			}
 		}
 		g_list_foreach (email_list, (GFunc) g_free, NULL);
 		g_list_free (email_list);
 	}
 
-	/* Separator */
-
-	if (show_menu) {
-		menu_item = gtk_separator_menu_item_new ();
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
-	}
-
-	delete_label = g_strdup_printf (_("_Delete %s"), (gchar *) e_contact_get_const (contact, E_CONTACT_FILE_AS));
-	menu_item = gtk_menu_item_new_with_mnemonic (delete_label);
-	g_free (delete_label);
-	gtk_widget_show (menu_item);
-	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), menu_item);
-
 	row_info = g_slice_new (PopupDeleteRowInfo);
 	row_info->list = list;
 	row_info->path = path;
 
-	g_signal_connect (
-		menu_item, "activate",
-		G_CALLBACK (popup_delete_row), row_info);
+	delete_label = g_strdup_printf (_("_Delete %s"), (gchar *) e_contact_get_const (contact, E_CONTACT_FILE_AS));
+	action = e_ui_action_new ("ensl", "delete-row", NULL);
+	e_ui_action_set_label (action, delete_label);
+	g_signal_connect_data (action, "activate",
+		G_CALLBACK (popup_delete_row), row_info,
+		(GClosureNotify) popup_delete_row_info_free, 0);
+	e_ui_action_group_add (action_group, action);
+	g_object_unref (action);
+	delete_section = g_menu_new ();
+	g_menu_append (delete_section, delete_label, "ensl.delete-row");
+	g_free (delete_label);
+
+	menu_model = g_menu_new ();
+	g_menu_append_section (menu_model, NULL, G_MENU_MODEL (delete_section));
+	g_object_unref (delete_section);
+	if (show_menu)
+		g_menu_append_section (menu_model, NULL, G_MENU_MODEL (email_section));
+	g_object_unref (email_section);
+
+	menu = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+	g_object_unref (menu_model);
+	gtk_widget_insert_action_group (menu, "ensl", G_ACTION_GROUP (action_group));
+	g_object_unref (action_group);
+
+	g_signal_connect (menu, "deactivate", G_CALLBACK (menu_deactivate), list);
+	list->priv->menu = menu;
+	gtk_menu_attach_to_widget (GTK_MENU (menu), widget, NULL);
+	gtk_menu_popup_at_pointer (GTK_MENU (menu), (const GdkEvent *) event);
 
 	return TRUE;
 
