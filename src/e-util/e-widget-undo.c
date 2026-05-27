@@ -597,15 +597,19 @@ undo_reset (GObject *object)
 }
 
 static void
-widget_undo_popup_activate_cb (GObject *menu_item,
-                               GtkWidget *widget)
+widget_undo_do_undo_cb (GSimpleAction *action,
+                        GVariant *parameter,
+                        gpointer user_data)
 {
-	EUndoDoType undo_type = GPOINTER_TO_INT (g_object_get_data (menu_item, UNDO_DATA_KEY));
+	e_widget_undo_do_undo (user_data);
+}
 
-	if (undo_type == E_UNDO_DO_UNDO)
-		e_widget_undo_do_undo (widget);
-	else
-		e_widget_undo_do_redo (widget);
+static void
+widget_undo_do_redo_cb (GSimpleAction *action,
+                        GVariant *parameter,
+                        gpointer user_data)
+{
+	e_widget_undo_do_redo (user_data);
 }
 
 static gboolean
@@ -641,8 +645,7 @@ widget_undo_prepend_popup (GtkWidget *widget,
 		gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
 		gtk_widget_show (item);
 
-		g_object_set_data (G_OBJECT (item), UNDO_DATA_KEY, GINT_TO_POINTER (undo_type));
-		g_signal_connect (item, "activate", G_CALLBACK (widget_undo_popup_activate_cb), widget);
+		gtk_actionable_set_action_name (GTK_ACTIONABLE (item), undo_type == E_UNDO_DO_UNDO ? "ewu.undo" : "ewu.redo");
 
 		gtk_menu_shell_prepend (menu, item);
 
@@ -657,6 +660,8 @@ widget_undo_populate_popup_cb (GtkWidget *widget,
                                GtkWidget *popup,
                                gpointer user_data)
 {
+	GSimpleActionGroup *action_group;
+	GSimpleAction *action;
 	GtkMenuShell *menu;
 	gboolean added = FALSE;
 
@@ -664,6 +669,25 @@ widget_undo_populate_popup_cb (GtkWidget *widget,
 		return;
 
 	menu = GTK_MENU_SHELL (popup);
+
+	action_group = g_simple_action_group_new ();
+
+	if (e_widget_undo_has_undo (widget)) {
+		action = g_simple_action_new ("undo", NULL);
+		g_signal_connect (action, "activate", G_CALLBACK (widget_undo_do_undo_cb), widget);
+		g_action_map_add_action (G_ACTION_MAP (action_group), G_ACTION (action));
+		g_object_unref (action);
+	}
+
+	if (e_widget_undo_has_redo (widget)) {
+		action = g_simple_action_new ("redo", NULL);
+		g_signal_connect (action, "activate", G_CALLBACK (widget_undo_do_redo_cb), widget);
+		g_action_map_add_action (G_ACTION_MAP (action_group), G_ACTION (action));
+		g_object_unref (action);
+	}
+
+	gtk_widget_insert_action_group (popup, "ewu", G_ACTION_GROUP (action_group));
+	g_object_unref (action_group);
 
 	/* first redo, because prependend, thus undo gets before it */
 	if (e_widget_undo_has_redo (widget))
