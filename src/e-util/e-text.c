@@ -35,7 +35,6 @@ enum {
 	E_TEXT_CHANGED,
 	E_TEXT_ACTIVATE,
 	E_TEXT_KEYPRESS,
-	E_TEXT_POPULATE_POPUP,
 	E_TEXT_LAST_SIGNAL
 };
 
@@ -197,6 +196,7 @@ e_text_dispose (GObject *object)
 	}
 
 	g_clear_pointer (&text->font_desc, pango_font_description_free);
+	g_clear_object (&text->ui_manager);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_text_parent_class)->dispose (object);
@@ -1991,6 +1991,38 @@ typedef struct {
 } PopupClosure;
 
 static void
+e_text_cut_cb (EUIAction *action,
+	       GVariant *parameter,
+	       gpointer user_data)
+{
+	e_text_cut_clipboard (user_data);
+}
+
+static void
+e_text_copy_cb (EUIAction *action,
+		GVariant *parameter,
+		gpointer user_data)
+{
+	e_text_copy_clipboard (user_data);
+}
+
+static void
+e_text_paste_cb (EUIAction *action,
+		 GVariant *parameter,
+		 gpointer user_data)
+{
+	e_text_paste_clipboard (user_data);
+}
+
+static void
+e_text_select_all_cb (EUIAction *action,
+		      GVariant *parameter,
+		      gpointer user_data)
+{
+	e_text_select_all (user_data);
+}
+
+static void
 popup_targets_received (GtkClipboard *clipboard,
                         GtkSelectionData *data,
                         gpointer user_data)
@@ -1998,9 +2030,9 @@ popup_targets_received (GtkClipboard *clipboard,
 	PopupClosure *closure = user_data;
 	EText *text = closure->text;
 	GdkEvent *event = closure->event;
-	gint position = closure->position;
-	GtkWidget *popup_menu = gtk_menu_new ();
-	GtkWidget *menuitem;
+	EUIAction *action;
+	GObject *ui_item;
+	GtkWidget *popup_menu;
 	guint event_button = 0;
 	GdkRectangle rect;
 
@@ -2008,71 +2040,29 @@ popup_targets_received (GtkClipboard *clipboard,
 
 	g_slice_free (PopupClosure, closure);
 
+	action = e_ui_manager_get_action (text->ui_manager, "cut");
+	e_ui_action_set_sensitive (action, text->editable && (text->selection_start != text->selection_end));
+
+	action = e_ui_manager_get_action (text->ui_manager, "copy");
+	e_ui_action_set_sensitive (action, text->selection_start != text->selection_end);
+
+	action = e_ui_manager_get_action (text->ui_manager, "paste");
+	e_ui_action_set_sensitive (action, text->editable && gtk_selection_data_targets_include_text (data));
+
+	action = e_ui_manager_get_action (text->ui_manager, "select-all");
+	e_ui_action_set_sensitive (action, strlen (text->text) > 0);
+
+	ui_item = e_ui_manager_create_item (text->ui_manager, "etext-popup");
+	popup_menu = gtk_menu_new ();
+	e_ui_manager_add_action_groups_to_widget (text->ui_manager, popup_menu);
+	gtk_menu_shell_bind_model (GTK_MENU_SHELL (popup_menu), G_MENU_MODEL (ui_item), NULL, TRUE);
+	g_clear_object (&ui_item);
+
 	gtk_menu_attach_to_widget (
 		GTK_MENU (popup_menu),
 		GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
 		NULL);
-	g_signal_connect (popup_menu, "deactivate", G_CALLBACK (gtk_menu_detach), NULL);
-
-	/* cut menu item */
-	menuitem = gtk_image_menu_item_new_with_mnemonic (_("Cu_t"));
-	gtk_image_menu_item_set_image (
-		GTK_IMAGE_MENU_ITEM (menuitem),
-		gtk_image_new_from_icon_name ("edit-cut", GTK_ICON_SIZE_MENU));
-	gtk_widget_show (menuitem);
-	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-	g_signal_connect_swapped (
-		menuitem, "activate",
-		G_CALLBACK (e_text_cut_clipboard), text);
-	gtk_widget_set_sensitive (
-		menuitem, text->editable &&
-		(text->selection_start != text->selection_end));
-
-	/* copy menu item */
-	menuitem = gtk_image_menu_item_new_with_mnemonic (_("_Copy"));
-	gtk_image_menu_item_set_image (
-		GTK_IMAGE_MENU_ITEM (menuitem),
-		gtk_image_new_from_icon_name ("edit-copy", GTK_ICON_SIZE_MENU));
-	gtk_widget_show (menuitem);
-	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-	g_signal_connect_swapped (
-		menuitem, "activate",
-		G_CALLBACK (e_text_copy_clipboard), text);
-	gtk_widget_set_sensitive (menuitem, text->selection_start != text->selection_end);
-
-	/* paste menu item */
-	menuitem = gtk_image_menu_item_new_with_mnemonic (_("_Paste"));
-	gtk_image_menu_item_set_image (
-		GTK_IMAGE_MENU_ITEM (menuitem),
-		gtk_image_new_from_icon_name ("edit-paste", GTK_ICON_SIZE_MENU));
-	gtk_widget_show (menuitem);
-	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-	g_signal_connect_swapped (
-		menuitem, "activate",
-		G_CALLBACK (e_text_paste_clipboard), text);
-	gtk_widget_set_sensitive (
-		menuitem, text->editable &&
-		gtk_selection_data_targets_include_text (data));
-
-	menuitem = gtk_menu_item_new_with_label (_("Select All"));
-	gtk_widget_show (menuitem);
-	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-	g_signal_connect_swapped (
-		menuitem, "activate",
-		G_CALLBACK (e_text_select_all), text);
-	gtk_widget_set_sensitive (menuitem, strlen (text->text) > 0);
-
-	menuitem = gtk_separator_menu_item_new ();
-	gtk_widget_show (menuitem);
-	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-
-	g_signal_emit (
-		text,
-		e_text_signals[E_TEXT_POPULATE_POPUP],
-		0,
-		event,
-		position,
-		popup_menu);
+	e_util_connect_menu_detach_after_deactivate (GTK_MENU (popup_menu));
 
 	/* If invoked by S-F10 key binding, button will be 0. */
 	if (event_button == 0 && text->item.canvas) {
@@ -2903,18 +2893,6 @@ e_text_class_init (ETextClass *class)
 		G_TYPE_UINT,
 		G_TYPE_UINT);
 
-	e_text_signals[E_TEXT_POPULATE_POPUP] = g_signal_new (
-		"populate_popup",
-		G_OBJECT_CLASS_TYPE (gobject_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (ETextClass, populate_popup),
-		NULL, NULL,
-		e_marshal_VOID__POINTER_INT_OBJECT,
-		G_TYPE_NONE, 3,
-		G_TYPE_POINTER,
-		G_TYPE_INT,
-		GTK_TYPE_MENU);
-
 	/**
 	 * EText:model
 	 *
@@ -3232,6 +3210,23 @@ e_text_class_init (ETextClass *class)
 	gal_a11y_e_text_init ();
 }
 
+static const gchar *etext_popup_eui =
+	"<eui>"
+	"  <menu id='etext-popup' is-popup='true'>"
+	"    <item action='cut'/>"
+	"    <item action='copy'/>"
+	"    <item action='paste'/>"
+	"    <item action='select-all'/>"
+	"  </menu>"
+	"</eui>";
+
+static const EUIActionEntry etext_entries[] = {
+	{ "cut",        "edit-cut",   N_("Cu_t"),      NULL, NULL, e_text_cut_cb },
+	{ "copy",       "edit-copy",  N_("_Copy"),     NULL, NULL, e_text_copy_cb },
+	{ "paste",      "edit-paste", N_("_Paste"),    NULL, NULL, e_text_paste_cb },
+	{ "select-all", NULL,         N_("Select _All"), NULL, NULL, e_text_select_all_cb },
+};
+
 /* Object initialization function for the text item */
 static void
 e_text_init (EText *text)
@@ -3309,6 +3304,10 @@ e_text_init (EText *text)
 
 	text->handle_popup = FALSE;
 	text->rgba_set = FALSE;
+
+	text->ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions_with_eui_data (text->ui_manager, "etext", GETTEXT_PACKAGE,
+		etext_entries, G_N_ELEMENTS (etext_entries), text, etext_popup_eui);
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (text), e_text_reflow);
 }

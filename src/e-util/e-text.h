@@ -19,6 +19,7 @@
 #include <e-util/e-canvas.h>
 #include <e-util/e-text-event-processor.h>
 #include <e-util/e-text-model.h>
+#include <e-util/e-ui-manager.h>
 
 /* Text item for the canvas.  Text items are positioned by an anchor point and an anchor direction.
  *
@@ -192,6 +193,8 @@ struct _EText {
 
 	gboolean handle_popup;
 
+	EUIManager *ui_manager;
+
 	PangoFontDescription *font_desc;
 };
 
@@ -203,10 +206,6 @@ struct _ETextClass {
 	void		(*keypress)		(EText *text,
 						 guint keyval,
 						 guint state);
-	void		(*populate_popup)	(EText *text,
-						 GdkEvent *button_event,
-						 gint pos,
-						 GtkMenu *menu);
 	void		(*style_updated)	(EText *text);
 };
 
