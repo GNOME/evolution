@@ -28,6 +28,7 @@ struct _EMeetingTimeSelectorPrivate {
 	gboolean use_24_hour_format;
 	gulong notify_free_busy_template_id;
 	gulong notify_timezone_id;
+	EUIManager *ui_manager;
 };
 
 /* An array of hour strings for 24 hour time, "0:00" .. "23:00". */
@@ -100,18 +101,22 @@ static void e_meeting_time_selector_on_canvas_realized (GtkWidget *widget,
 
 static void e_meeting_time_selector_on_options_button_clicked (GtkWidget *button,
 							       EMeetingTimeSelector *mts);
-static void e_meeting_time_selector_on_zoomed_out_toggled (GtkCheckMenuItem *button,
-							   EMeetingTimeSelector *mts);
-static void e_meeting_time_selector_on_working_hours_toggled (GtkCheckMenuItem *menuitem,
-							      EMeetingTimeSelector *mts);
+static void e_meeting_time_selector_on_zoomed_out_toggled (EUIAction *action,
+							   GVariant *value,
+							   gpointer user_data);
+static void e_meeting_time_selector_on_working_hours_toggled (EUIAction *action,
+							      GVariant *value,
+							      gpointer user_data);
 static void e_meeting_time_selector_on_invite_others_button_clicked (GtkWidget *button,
 								     EMeetingTimeSelector *mts);
-static void e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
-							 EMeetingTimeSelector *mts);
+static void e_meeting_time_selector_on_update_free_busy (EUIAction *action,
+							 GVariant *parameter,
+							 gpointer user_data);
 static void e_meeting_time_selector_on_autopick_button_clicked (GtkWidget *button,
 								EMeetingTimeSelector *mts);
-static void e_meeting_time_selector_on_autopick_option_toggled (GtkWidget *button,
-								EMeetingTimeSelector *mts);
+static void e_meeting_time_selector_on_autopick_option_toggled (EUIAction *action,
+								GVariant *value,
+								gpointer user_data);
 static void e_meeting_time_selector_on_prev_button_clicked (GtkWidget *button,
 							    EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_on_next_button_clicked (GtkWidget *button,
@@ -231,6 +236,8 @@ meeting_time_selector_dispose (GObject *object)
 		mts->model = NULL;
 	}
 
+	g_clear_object (&mts->priv->ui_manager);
+
 	mts->display_top = NULL;
 	mts->display_main = NULL;
 
@@ -315,16 +322,63 @@ e_meeting_time_selector_init (EMeetingTimeSelector *mts)
 	e_extensible_load_extensions (E_EXTENSIBLE (mts));
 }
 
+static const EUIActionEntry emts_entries[] = {
+	{ "working-hours-only",
+	  NULL,
+	  N_("Show _only working hours"),
+	  NULL,
+	  NULL,
+	  NULL, NULL, "false",
+	  e_meeting_time_selector_on_working_hours_toggled },
+
+	{ "zoomed-out",
+	  NULL,
+	  N_("Show _zoomed out"),
+	  NULL,
+	  NULL,
+	  NULL, NULL, "false",
+	  e_meeting_time_selector_on_zoomed_out_toggled },
+
+	{ "update-free-busy",
+	  NULL,
+	  N_("_Update free/busy"),
+	  NULL,
+	  NULL,
+	  e_meeting_time_selector_on_update_free_busy, NULL, NULL, NULL },
+
+	{ "autopick-option",
+	  NULL,
+	  N_("Auto-pick Option"),
+	  NULL,
+	  NULL,
+	  NULL, "u", "uint32 0",
+	  e_meeting_time_selector_on_autopick_option_toggled },
+};
+
+static const gchar *emts_options_eui =
+	"<eui>"
+	"  <menu id='options-popup' is-popup='true'>"
+	"    <item action='working-hours-only'/>"
+	"    <item action='zoomed-out'/>"
+	"    <separator/>"
+	"    <item action='update-free-busy'/>"
+	"  </menu>"
+	"</eui>";
+
 void
 e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
                                    EMeetingStore *ems)
 {
 	GtkWidget *hbox, *vbox, *separator, *label, *grid, *sw;
-	GtkWidget *child_hbox, *arrow, *menuitem;
+	GtkWidget *child_hbox, *arrow;
 	GtkWidget *child;
 	GtkAdjustment *adjustment;
 	GtkScrollable *scrollable;
-	GSList *group;
+	EUIManager *ui_manager;
+	EUIAction *action;
+	GObject *ui_item;
+	GMenu *menu_model;
+	GMenuItem *item;
 	guint accel_key;
 	time_t meeting_start_time;
 	struct tm *meeting_start_tm;
@@ -564,53 +618,29 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 	gtk_box_pack_start (GTK_BOX (child_hbox), arrow, FALSE, FALSE, 6);
 	gtk_widget_show (arrow);
 
+	/* Create the action group shared by both menus. */
+	ui_manager = e_ui_manager_new (NULL);
+	e_ui_manager_add_actions_with_eui_data (ui_manager, "emts", GETTEXT_PACKAGE,
+		emts_entries, G_N_ELEMENTS (emts_entries), mts, emts_options_eui);
+
+	/* Update initial states from the mts properties. */
+	action = e_ui_manager_get_action (ui_manager, "working-hours-only");
+	e_ui_action_set_state (action, g_variant_new_boolean (mts->working_hours_only));
+
+	action = e_ui_manager_get_action (ui_manager, "zoomed-out");
+	e_ui_action_set_state (action, g_variant_new_boolean (mts->zoomed_out));
+
+	e_ui_manager_set_action_groups_widget (ui_manager, GTK_WIDGET (mts));
+	mts->priv->ui_manager = ui_manager;
+
 	/* Create the Options menu. */
-	mts->options_menu = gtk_menu_new ();
+	ui_item = e_ui_manager_create_item (ui_manager, "options-popup");
+	mts->options_menu = gtk_menu_new_from_model (G_MENU_MODEL (ui_item));
+	g_clear_object (&ui_item);
 	g_object_set_data (G_OBJECT (mts->options_menu), "EMeetingTimeSelector", mts);
 	gtk_menu_attach_to_widget (
 		GTK_MENU (mts->options_menu), mts->options_button,
 		e_meeting_time_selector_options_menu_detacher);
-
-	menuitem = gtk_check_menu_item_new_with_label ("");
-	child = gtk_bin_get_child (GTK_BIN (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (child), _("Show _only working hours"));
-	gtk_menu_shell_append (GTK_MENU_SHELL (mts->options_menu), menuitem);
-	gtk_check_menu_item_set_active (
-		GTK_CHECK_MENU_ITEM (menuitem),
-		mts->working_hours_only);
-
-	g_signal_connect (
-		menuitem, "toggled",
-		G_CALLBACK (e_meeting_time_selector_on_working_hours_toggled), mts);
-	gtk_widget_show (menuitem);
-
-	menuitem = gtk_check_menu_item_new_with_label ("");
-	child = gtk_bin_get_child (GTK_BIN (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (child), _("Show _zoomed out"));
-	gtk_menu_shell_append (GTK_MENU_SHELL (mts->options_menu), menuitem);
-	gtk_check_menu_item_set_active (
-		GTK_CHECK_MENU_ITEM (menuitem),
-		mts->zoomed_out);
-
-	g_signal_connect (
-		menuitem, "toggled",
-		G_CALLBACK (e_meeting_time_selector_on_zoomed_out_toggled), mts);
-	gtk_widget_show (menuitem);
-
-	menuitem = gtk_menu_item_new ();
-	gtk_menu_shell_append (GTK_MENU_SHELL (mts->options_menu), menuitem);
-	gtk_widget_set_sensitive (menuitem, FALSE);
-	gtk_widget_show (menuitem);
-
-	menuitem = gtk_menu_item_new_with_label ("");
-	child = gtk_bin_get_child (GTK_BIN (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (child), _("_Update free/busy"));
-	gtk_menu_shell_append (GTK_MENU_SHELL (mts->options_menu), menuitem);
-
-	g_signal_connect (
-		menuitem, "activate",
-		G_CALLBACK (e_meeting_time_selector_on_update_free_busy), mts);
-	gtk_widget_show (menuitem);
 
 	/* Create the 3 AutoPick buttons on the left. */
 	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 6);
@@ -671,54 +701,39 @@ e_meeting_time_selector_construct (EMeetingTimeSelector *mts,
 		G_CALLBACK (e_meeting_time_selector_on_next_button_clicked), mts);
 
 	/* Create the Autopick menu. */
-	mts->autopick_menu = gtk_menu_new ();
+	menu_model = g_menu_new ();
+
+	item = g_menu_item_new (_("_All people and resources"), NULL);
+	g_menu_item_set_action_and_target (item, "emts.autopick-option", "u",
+		(guint32) E_MEETING_TIME_SELECTOR_ALL_PEOPLE_AND_RESOURCES);
+	g_menu_append_item (menu_model, item);
+	g_object_unref (item);
+
+	item = g_menu_item_new (_("All _people and one resource"), NULL);
+	g_menu_item_set_action_and_target (item, "emts.autopick-option", "u",
+		(guint32) E_MEETING_TIME_SELECTOR_ALL_PEOPLE_AND_ONE_RESOURCE);
+	g_menu_append_item (menu_model, item);
+	g_object_unref (item);
+
+	item = g_menu_item_new (_("_Required people"), NULL);
+	g_menu_item_set_action_and_target (item, "emts.autopick-option", "u",
+		(guint32) E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE);
+	g_menu_append_item (menu_model, item);
+	g_object_unref (item);
+
+	item = g_menu_item_new (_("Required people and _one resource"), NULL);
+	g_menu_item_set_action_and_target (item, "emts.autopick-option", "u",
+		(guint32) E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE_AND_ONE_RESOURCE);
+	g_menu_append_item (menu_model, item);
+	g_object_unref (item);
+
+	mts->autopick_menu = gtk_menu_new_from_model (G_MENU_MODEL (menu_model));
+	g_object_unref (menu_model);
 	g_object_set_data (G_OBJECT (mts->autopick_menu), "EMeetingTimeSelector", mts);
 	gtk_menu_attach_to_widget (
 		GTK_MENU (mts->autopick_menu), mts->autopick_button,
 		e_meeting_time_selector_autopick_menu_detacher);
-
-	menuitem = gtk_radio_menu_item_new_with_label (NULL, "");
-	mts->autopick_all_item = menuitem;
-	child = gtk_bin_get_child (GTK_BIN (menuitem));
-	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (child), _("_All people and resources"));
-	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
-	g_signal_connect (
-		menuitem, "toggled",
-		G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
-	gtk_widget_show (menuitem);
-
-	menuitem = gtk_radio_menu_item_new_with_label (group, "");
-	mts->autopick_all_people_one_resource_item = menuitem;
-	child = gtk_bin_get_child (GTK_BIN (menuitem));
-	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (child), _("All _people and one resource"));
-	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
-	g_signal_connect (
-		menuitem, "toggled",
-		G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
-	gtk_widget_show (menuitem);
-
-	menuitem = gtk_radio_menu_item_new_with_label (group, "");
-	mts->autopick_required_people_item = menuitem;
-	child = gtk_bin_get_child (GTK_BIN (menuitem));
-	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (child), _("_Required people"));
-	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
-	g_signal_connect (
-		menuitem, "activate",
-		G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
-	gtk_widget_show (menuitem);
-
-	menuitem = gtk_radio_menu_item_new_with_label (group, "");
-	mts->autopick_required_people_one_resource_item = menuitem;
-	child = gtk_bin_get_child (GTK_BIN (menuitem));
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (child), _("Required people and _one resource"));
-	gtk_menu_shell_append (GTK_MENU_SHELL (mts->autopick_menu), menuitem);
-	g_signal_connect (
-		menuitem, "activate",
-		G_CALLBACK (e_meeting_time_selector_on_autopick_option_toggled), mts);
-	gtk_widget_show (menuitem);
+	e_ui_manager_add_action_groups_to_widget (ui_manager, GTK_WIDGET (mts->autopick_menu));
 
 	/* Create the date entry fields on the right. */
 	grid = gtk_grid_new ();
@@ -1492,43 +1507,28 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts,
 EMeetingTimeSelectorAutopickOption
 e_meeting_time_selector_get_autopick_option (EMeetingTimeSelector *mts)
 {
-	GtkWidget *widget;
+	EUIAction *action;
+	GVariant *state;
+	EMeetingTimeSelectorAutopickOption option;
 
-	widget = mts->autopick_all_item;
-	if (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (widget)))
-		return E_MEETING_TIME_SELECTOR_ALL_PEOPLE_AND_RESOURCES;
+	action = e_ui_manager_get_action (mts->priv->ui_manager, "autopick-option");
+	state = g_action_get_state (G_ACTION (action));
+	option = (EMeetingTimeSelectorAutopickOption) g_variant_get_uint32 (state);
+	g_variant_unref (state);
 
-	widget = mts->autopick_all_people_one_resource_item;
-	if (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (widget)))
-		return E_MEETING_TIME_SELECTOR_ALL_PEOPLE_AND_ONE_RESOURCE;
-
-	widget = mts->autopick_required_people_item;
-	if (gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (widget)))
-		return E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE;
-
-	return E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE_AND_ONE_RESOURCE;
+	return option;
 }
 
 void
 e_meeting_time_selector_set_autopick_option (EMeetingTimeSelector *mts,
                                              EMeetingTimeSelectorAutopickOption autopick_option)
 {
+	EUIAction *action;
+
 	g_return_if_fail (E_IS_MEETING_TIME_SELECTOR (mts));
 
-	switch (autopick_option) {
-	case E_MEETING_TIME_SELECTOR_ALL_PEOPLE_AND_RESOURCES:
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (mts->autopick_all_item), TRUE);
-		break;
-	case E_MEETING_TIME_SELECTOR_ALL_PEOPLE_AND_ONE_RESOURCE:
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (mts->autopick_all_people_one_resource_item), TRUE);
-		break;
-	case E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE:
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (mts->autopick_required_people_item), TRUE);
-		break;
-	case E_MEETING_TIME_SELECTOR_REQUIRED_PEOPLE_AND_ONE_RESOURCE:
-		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (mts->autopick_required_people_one_resource_item), TRUE);
-		break;
-	}
+	action = e_ui_manager_get_action (mts->priv->ui_manager, "autopick-option");
+	e_ui_action_set_state (action, g_variant_new_uint32 (autopick_option));
 }
 
 void
@@ -1572,9 +1572,12 @@ e_meeting_time_selector_on_options_button_clicked (GtkWidget *button,
 }
 
 static void
-e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
-                                             EMeetingTimeSelector *mts)
+e_meeting_time_selector_on_update_free_busy (EUIAction *action,
+                                             GVariant *parameter,
+                                             gpointer user_data)
 {
+	EMeetingTimeSelector *mts = user_data;
+
 	/* Make sure the menu pops down, which doesn't happen by default if
 	 * keyboard accelerators are used. */
 	if (gtk_widget_get_visible (mts->options_menu))
@@ -1601,9 +1604,14 @@ e_meeting_time_selector_on_autopick_button_clicked (GtkWidget *button,
 }
 
 static void
-e_meeting_time_selector_on_autopick_option_toggled (GtkWidget *button,
-                                                    EMeetingTimeSelector *mts)
+e_meeting_time_selector_on_autopick_option_toggled (EUIAction *action,
+                                                    GVariant *value,
+                                                    gpointer user_data)
 {
+	EMeetingTimeSelector *mts = user_data;
+
+	e_ui_action_set_state (action, value);
+
 	/* Make sure the menu pops down, which doesn't happen by default if
 	 * keyboard accelerators are used. */
 	if (gtk_widget_get_visible (mts->autopick_menu))
@@ -2034,34 +2042,36 @@ e_meeting_time_selector_find_time_clash (EMeetingTimeSelector *mts,
 }
 
 static void
-e_meeting_time_selector_on_zoomed_out_toggled (GtkCheckMenuItem *menuitem,
-                                               EMeetingTimeSelector *mts)
+e_meeting_time_selector_on_zoomed_out_toggled (EUIAction *action,
+                                               GVariant *value,
+                                               gpointer user_data)
 {
-	gboolean active;
+	EMeetingTimeSelector *mts = user_data;
 
 	/* Make sure the menu pops down, which doesn't happen by default if
 	 * keyboard accelerators are used. */
 	if (gtk_widget_get_visible (mts->options_menu))
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
-	active = gtk_check_menu_item_get_active (menuitem);
-	e_meeting_time_selector_set_zoomed_out (mts, active);
+	e_ui_action_set_state (action, value);
+	e_meeting_time_selector_set_zoomed_out (mts, g_variant_get_boolean (value));
 	e_meeting_time_selector_ensure_meeting_time_shown (mts);
 }
 
 static void
-e_meeting_time_selector_on_working_hours_toggled (GtkCheckMenuItem *menuitem,
-                                                  EMeetingTimeSelector *mts)
+e_meeting_time_selector_on_working_hours_toggled (EUIAction *action,
+                                                  GVariant *value,
+                                                  gpointer user_data)
 {
-	gboolean active;
+	EMeetingTimeSelector *mts = user_data;
 
 	/* Make sure the menu pops down, which doesn't happen by default if
 	 * keyboard accelerators are used. */
 	if (gtk_widget_get_visible (mts->options_menu))
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
-	active = gtk_check_menu_item_get_active (menuitem);
-	e_meeting_time_selector_set_working_hours_only (mts, active);
+	e_ui_action_set_state (action, value);
+	e_meeting_time_selector_set_working_hours_only (mts, g_variant_get_boolean (value));
 	e_meeting_time_selector_ensure_meeting_time_shown (mts);
 }
 

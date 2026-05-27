@@ -131,15 +131,11 @@ struct _EMeetingTimeSelector {
 	GtkWidget *options_button;
 	GtkWidget *options_menu;
 
-	/* This is the 'Autopick' button, menu & radio menu items. */
+	/* This is the 'Autopick' button & menu. */
 	GtkWidget *autopick_down_button;
 	GtkWidget *autopick_button;
 	GtkWidget *autopick_up_button;
 	GtkWidget *autopick_menu;
-	GtkWidget *autopick_all_item;
-	GtkWidget *autopick_all_people_one_resource_item;
-	GtkWidget *autopick_required_people_item;
-	GtkWidget *autopick_required_people_one_resource_item;
 
 	/* The horizontal scrollbar which scrolls display_top & display_main.*/
 	GtkWidget *hscrollbar;
