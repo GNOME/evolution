@@ -162,7 +162,6 @@
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-poolv.h>
-#include <e-util/e-popup-menu.h>
 #include <e-util/e-port-entry.h>
 #include <e-util/e-preferences-window.h>
 #ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT

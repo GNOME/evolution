@@ -192,7 +192,6 @@ set(SOURCES
 	e-plugin-ui.c
 	e-plugin.c
 	e-poolv.c
-	e-popup-menu.c
 	e-port-entry.c
 	e-preferences-window.c
 	e-preview-pane.c
@@ -472,7 +471,6 @@ set(HEADERS
 	e-plugin-ui.h
 	e-plugin.h
 	e-poolv.h
-	e-popup-menu.h
 	e-port-entry.h
 	e-preferences-window.h
 	e-preview-pane.h

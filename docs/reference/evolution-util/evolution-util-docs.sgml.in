@@ -200,7 +200,6 @@
     <xi:include href="xml/e-cell-toggle.xml"/>
     <xi:include href="xml/e-cell-tree.xml"/>
     <xi:include href="xml/e-cell-vbox.xml"/>
-    <xi:include href="xml/e-popup-menu.xml"/>
   </chapter>
 
   <chapter>
