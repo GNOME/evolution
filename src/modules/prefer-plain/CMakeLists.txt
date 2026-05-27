@@ -23,5 +23,3 @@ add_evolution_module(module-prefer-plain
 	extra_incdirs
 	extra_ldflags
 )
-
-add_subdirectory(plugin)
