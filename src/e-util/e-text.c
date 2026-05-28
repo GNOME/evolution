@@ -2066,19 +2066,6 @@ popup_targets_received (GtkClipboard *clipboard,
 	gtk_widget_show (menuitem);
 	gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
 
-	if (text->im_context && GTK_IS_IM_MULTICONTEXT (text->im_context)) {
-		menuitem = gtk_menu_item_new_with_label (_("Input Methods"));
-		gtk_widget_show (menuitem);
-		submenu = gtk_menu_new ();
-		gtk_menu_item_set_submenu (GTK_MENU_ITEM (menuitem), submenu);
-
-		gtk_menu_shell_append (GTK_MENU_SHELL (popup_menu), menuitem);
-
-		gtk_im_multicontext_append_menuitems (
-			GTK_IM_MULTICONTEXT (text->im_context),
-			GTK_MENU_SHELL (submenu));
-	}
-
 	g_signal_emit (
 		text,
 		e_text_signals[E_TEXT_POPULATE_POPUP],
