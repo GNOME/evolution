@@ -2000,7 +2000,7 @@ popup_targets_received (GtkClipboard *clipboard,
 	GdkEvent *event = closure->event;
 	gint position = closure->position;
 	GtkWidget *popup_menu = gtk_menu_new ();
-	GtkWidget *menuitem, *submenu;
+	GtkWidget *menuitem;
 	guint event_button = 0;
 	GdkRectangle rect;
 
