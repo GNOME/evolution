@@ -349,6 +349,27 @@ mail_identity_combo_box_changed_cb (GtkComboBox *combo_box,
 	g_free (alias_address);
 }
 
+static void
+composer_mode_combo_box_changed_cb (GtkComboBox *combo_box,
+				    EMailComposerModeOverride *mode_override)
+{
+	const gchar *folder_uri;
+	EContentEditorMode mode;
+
+	g_return_if_fail (GTK_IS_COMBO_BOX (combo_box));
+	g_return_if_fail (E_IS_MAIL_COMPOSER_MODE_OVERRIDE (mode_override));
+
+	folder_uri = g_object_get_data (G_OBJECT (combo_box), "cmo-folder-uri");
+	g_return_if_fail (folder_uri != NULL);
+
+	mode = e_action_combo_box_get_current_value (E_ACTION_COMBO_BOX (combo_box));
+
+	if (mode == E_CONTENT_EDITOR_MODE_UNKNOWN)
+		e_mail_composer_mode_override_remove_for_folder (mode_override, folder_uri);
+	else
+		e_mail_composer_mode_override_set_for_folder (mode_override, folder_uri, mode);
+}
+
 static gint
 add_text_row (GtkGrid *grid,
 	      gint row,
@@ -476,7 +497,9 @@ emfp_get_folder_item (EConfig *ec,
 	EShell *shell;
 	EMailBackend *mail_backend;
 	EMailSendAccountOverride *account_override;
+	EMailComposerModeOverride *mode_override;
 	gchar *folder_uri, *account_uid, *alias_name = NULL, *alias_address = NULL;
+	EContentEditorMode current_mode;
 	GtkWidget *label;
 	gboolean has_mark_seen = FALSE, has_mark_seen_timeout = FALSE;
 
@@ -687,8 +710,38 @@ emfp_get_folder_item (EConfig *ec,
 
 	g_free (properties);
 
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
+	g_return_val_if_fail (mail_backend != NULL, grid);
+
+	/* add composer-mode-override setting widgets */
+
+	/* Translators: Label of a combo where a user can choose which composer
+	   format to use when composing a message in this folder */
+	label = gtk_label_new_with_mnemonic (_("Composer _Format Override:"));
+	gtk_widget_set_halign (label, GTK_ALIGN_START);
+	gtk_widget_show (label);
+	gtk_grid_attach (GTK_GRID (grid), label, 0, row, 1, 1);
+
+	widget = e_html_editor_util_new_mode_combobox (_("Use global setting"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_widget_show (widget);
+	gtk_grid_attach (GTK_GRID (grid), widget, 1, row, 1, 1);
+	row++;
+
+	mode_override = e_mail_backend_get_composer_mode_override (mail_backend);
+	folder_uri = e_mail_folder_uri_from_folder (context->folder);
+	current_mode = e_mail_composer_mode_override_get_for_folder (mode_override, folder_uri);
+
+	g_object_set_data_full (G_OBJECT (widget), "cmo-folder-uri", folder_uri, g_free);
+
+	e_action_combo_box_set_current_value (E_ACTION_COMBO_BOX (widget), current_mode);
+
+	g_signal_connect_after (widget, "changed", G_CALLBACK (composer_mode_combo_box_changed_cb), mode_override);
+
 	/* add send-account-override setting widgets */
-	registry = e_shell_get_registry (e_shell_get_default ());
 
 	/* Translators: Label of a combo with a list of configured accounts where a user can
 	   choose which account to use as the sender when composing a message in this folder */
@@ -711,10 +764,6 @@ emfp_get_folder_item (EConfig *ec,
 	gtk_widget_show (widget);
 	gtk_grid_attach (GTK_GRID (grid), widget, 0, row, 2, 1);
 	row++;
-
-	shell = e_shell_get_default ();
-	mail_backend = E_MAIL_BACKEND (e_shell_get_backend_by_name (shell, "mail"));
-	g_return_val_if_fail (mail_backend != NULL, grid);
 
 	account_override = e_mail_backend_get_send_account_override (mail_backend);
 	folder_uri = e_mail_folder_uri_from_folder (context->folder);

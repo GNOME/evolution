@@ -815,6 +815,919 @@ sao_recipients_remove_button_clicked_cb (GtkButton *button,
 	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
 }
 
+#define MAIL_COMPOSER_MODE_OVERRIDE_KEY "cmo-mail-composer-mode-override"
+#define MAIL_CMO_CAMEL_SESSION_KEY "cmo-mail-camel-session"
+
+enum {
+	CMO_FOLDERS_COLUMN_MARKUP,
+	CMO_FOLDERS_COLUMN_URI,
+	CMO_FOLDERS_COLUMN_MODE,
+	CMO_FOLDERS_COLUMN_MODE_NAME,
+	CMO_FOLDERS_N_COLUMNS
+};
+
+enum {
+	CMO_RECIPIENTS_COLUMN_RECIPIENT,
+	CMO_RECIPIENTS_COLUMN_MODE,
+	CMO_RECIPIENTS_COLUMN_MODE_NAME,
+	CMO_RECIPIENTS_N_COLUMNS
+};
+
+enum {
+	CMO_MODE_COMBO_COLUMN_NAME,
+	CMO_MODE_COMBO_COLUMN_VALUE,
+	CMO_MODE_COMBO_N_COLUMNS
+};
+
+static const gchar *
+cmo_mode_to_name (EContentEditorMode mode)
+{
+	switch (mode) {
+	case E_CONTENT_EDITOR_MODE_PLAIN_TEXT:
+		return _("Plain Text");
+	case E_CONTENT_EDITOR_MODE_HTML:
+		return _("HTML");
+	case E_CONTENT_EDITOR_MODE_MARKDOWN:
+		return _("Markdown");
+	case E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT:
+		return _("Markdown as Plain Text");
+	case E_CONTENT_EDITOR_MODE_MARKDOWN_HTML:
+		return _("Markdown as HTML");
+	default:
+		break;
+	}
+
+	return _("Unknown");
+}
+
+static GtkListStore *
+cmo_create_mode_model (void)
+{
+	GtkListStore *store;
+	GtkTreeIter iter;
+	guint ii;
+	EContentEditorMode modes[] = {
+		E_CONTENT_EDITOR_MODE_PLAIN_TEXT,
+		E_CONTENT_EDITOR_MODE_HTML,
+		E_CONTENT_EDITOR_MODE_MARKDOWN,
+		E_CONTENT_EDITOR_MODE_MARKDOWN_PLAIN_TEXT,
+		E_CONTENT_EDITOR_MODE_MARKDOWN_HTML
+	};
+
+	store = gtk_list_store_new (CMO_MODE_COMBO_N_COLUMNS, G_TYPE_STRING, G_TYPE_INT);
+
+	for (ii = 0; ii < G_N_ELEMENTS (modes); ii++) {
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+			CMO_MODE_COMBO_COLUMN_NAME, cmo_mode_to_name (modes[ii]),
+			CMO_MODE_COMBO_COLUMN_VALUE, modes[ii],
+			-1);
+	}
+
+	return store;
+}
+
+static void
+cmo_fill_overrides (GtkBuilder *builder)
+{
+	EMailComposerModeOverride *cmo_override;
+	CamelSession *session;
+	GPtrArray *folders_array;
+	GPtrArray *recipients_array;
+	GtkWidget *widget;
+	GtkListStore *list_store;
+	GtkTreeIter titer;
+	guint ii;
+
+	cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+	g_return_if_fail (cmo_override != NULL);
+
+	session = g_object_get_data (G_OBJECT (builder), MAIL_CMO_CAMEL_SESSION_KEY);
+
+	/* Fill folders treeview */
+	widget = e_builder_get_widget (builder, "cmo-folders-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	list_store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (widget)));
+	g_return_if_fail (list_store != NULL);
+
+	gtk_list_store_clear (list_store);
+
+	folders_array = e_mail_composer_mode_override_list_all_folders (cmo_override);
+	for (ii = 0; ii < folders_array->len; ii++) {
+		EMailComposerModeOverrideEntry *entry = g_ptr_array_index (folders_array, ii);
+		gchar *markup;
+
+		if (!entry->key || !*entry->key)
+			continue;
+
+		markup = e_mail_folder_uri_to_markup (session, entry->key, NULL);
+		if (!markup)
+			continue;
+
+		gtk_list_store_append (list_store, &titer);
+		gtk_list_store_set (list_store, &titer,
+			CMO_FOLDERS_COLUMN_MARKUP, markup,
+			CMO_FOLDERS_COLUMN_URI, entry->key,
+			CMO_FOLDERS_COLUMN_MODE, entry->mode,
+			CMO_FOLDERS_COLUMN_MODE_NAME, cmo_mode_to_name (entry->mode),
+			-1);
+
+		g_free (markup);
+	}
+	g_ptr_array_unref (folders_array);
+
+	/* Fill recipients treeview */
+	widget = e_builder_get_widget (builder, "cmo-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	list_store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (widget)));
+	g_return_if_fail (list_store != NULL);
+
+	gtk_list_store_clear (list_store);
+
+	recipients_array = e_mail_composer_mode_override_list_all_recipients (cmo_override);
+	for (ii = 0; ii < recipients_array->len; ii++) {
+		EMailComposerModeOverrideEntry *entry = g_ptr_array_index (recipients_array, ii);
+
+		if (!entry->key || !*entry->key)
+			continue;
+
+		gtk_list_store_append (list_store, &titer);
+		gtk_list_store_set (list_store, &titer,
+			CMO_RECIPIENTS_COLUMN_RECIPIENT, entry->key,
+			CMO_RECIPIENTS_COLUMN_MODE, entry->mode,
+			CMO_RECIPIENTS_COLUMN_MODE_NAME, cmo_mode_to_name (entry->mode),
+			-1);
+	}
+	g_ptr_array_unref (recipients_array);
+}
+
+static void
+cmo_overrides_changed_cb (EMailComposerModeOverride *cmo_override,
+                          GtkBuilder *builder)
+{
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	cmo_fill_overrides (builder);
+}
+
+static void
+cmo_block_changed_handler (GtkBuilder *builder)
+{
+	GObject *cmo_override;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+	g_signal_handlers_block_by_func (cmo_override, cmo_overrides_changed_cb, builder);
+}
+
+static void
+cmo_unblock_changed_handler (GtkBuilder *builder)
+{
+	GObject *cmo_override;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+	g_signal_handlers_unblock_by_func (cmo_override, cmo_overrides_changed_cb, builder);
+}
+
+static void
+cmo_folders_treeview_selection_changed_cb (GtkTreeSelection *selection,
+                                           GtkBuilder *builder)
+{
+	GtkWidget *widget;
+	gint nselected;
+
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	nselected = gtk_tree_selection_count_selected_rows (selection);
+
+	widget = e_builder_get_widget (builder, "cmo-folders-remove-button");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, nselected > 0);
+}
+
+static void
+cmo_folders_add_button_clicked_cb (GtkButton *button,
+                                   GtkBuilder *builder)
+{
+	EMailComposerModeOverride *cmo_override;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	EMFolderSelector *selector;
+	EMFolderTree *folder_tree;
+	GtkWidget *dialog;
+	GtkWindow *window;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "cmo-folders-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+	tree_view = GTK_TREE_VIEW (widget);
+
+	window = GTK_WINDOW (gtk_widget_get_toplevel (widget));
+
+	dialog = em_folder_selector_new (
+		window, em_folder_tree_model_get_default ());
+
+	gtk_window_set_title (
+		GTK_WINDOW (dialog), _("Select Folder to Add"));
+
+	selector = EM_FOLDER_SELECTOR (dialog);
+	em_folder_selector_set_default_button_label (selector, _("_Add"));
+
+	folder_tree = em_folder_selector_get_folder_tree (selector);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
+
+	em_folder_tree_set_excluded (folder_tree, EMFT_EXCLUDE_NOSELECT);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		GList *list, *folder_uris;
+
+		model = gtk_tree_view_get_model (tree_view);
+
+		folder_uris = em_folder_tree_get_selected_uris (folder_tree);
+
+		for (list = folder_uris; list; list = g_list_next (list)) {
+			const gchar *uri = list->data;
+
+			if (uri && *uri) {
+				gboolean found = FALSE;
+
+				if (gtk_tree_model_get_iter_first (model, &iter)) {
+					do {
+						gchar *old_uri = NULL;
+
+						gtk_tree_model_get (model, &iter,
+							CMO_FOLDERS_COLUMN_URI, &old_uri, -1);
+
+						found = g_strcmp0 (uri, old_uri) == 0;
+
+						g_free (old_uri);
+					} while (!found && gtk_tree_model_iter_next (model, &iter));
+				}
+
+				if (!found) {
+					GtkListStore *list_store;
+					CamelSession *session;
+					gchar *markup;
+					EContentEditorMode mode = E_CONTENT_EDITOR_MODE_PLAIN_TEXT;
+
+					list_store = GTK_LIST_STORE (model);
+					session = g_object_get_data (G_OBJECT (builder), MAIL_CMO_CAMEL_SESSION_KEY);
+					markup = e_mail_folder_uri_to_markup (session, uri, NULL);
+
+					gtk_list_store_append (list_store, &iter);
+					gtk_list_store_set (list_store, &iter,
+						CMO_FOLDERS_COLUMN_MARKUP, markup,
+						CMO_FOLDERS_COLUMN_URI, uri,
+						CMO_FOLDERS_COLUMN_MODE, mode,
+						CMO_FOLDERS_COLUMN_MODE_NAME, cmo_mode_to_name (mode),
+						-1);
+
+					g_free (markup);
+
+					cmo_block_changed_handler (builder);
+
+					cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+					e_mail_composer_mode_override_set_for_folder (cmo_override, uri, mode);
+
+					cmo_unblock_changed_handler (builder);
+				}
+
+				if (!list->next) {
+					selection = gtk_tree_view_get_selection (tree_view);
+
+					gtk_tree_selection_unselect_all (selection);
+					gtk_tree_selection_select_iter (selection, &iter);
+				}
+			}
+		}
+
+		g_list_free_full (folder_uris, g_free);
+	}
+
+	gtk_widget_destroy (dialog);
+}
+
+static void
+cmo_folders_remove_button_clicked_cb (GtkButton *button,
+                                      GtkBuilder *builder)
+{
+	EMailComposerModeOverride *cmo_override;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	GList *selected, *siter;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "cmo-folders-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+	model = gtk_tree_view_get_model (tree_view);
+
+	cmo_block_changed_handler (builder);
+
+	cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+	e_mail_composer_mode_override_freeze_save (cmo_override);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	selected = g_list_reverse (selected);
+
+	for (siter = selected; siter; siter = g_list_next (siter)) {
+		gchar *uri = NULL;
+
+		if (!gtk_tree_model_get_iter (model, &iter, siter->data))
+			continue;
+
+		gtk_tree_model_get (model, &iter, CMO_FOLDERS_COLUMN_URI, &uri, -1);
+
+		if (uri && *uri)
+			e_mail_composer_mode_override_remove_for_folder (cmo_override, uri);
+
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+		g_free (uri);
+	}
+
+	e_mail_composer_mode_override_thaw_save (cmo_override);
+	cmo_unblock_changed_handler (builder);
+
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+}
+
+static void
+cmo_folders_mode_changed_cb (GtkCellRendererCombo *renderer,
+                             const gchar *path_string,
+                             GtkTreeIter *new_iter,
+                             GtkBuilder *builder)
+{
+	EMailComposerModeOverride *cmo_override;
+	GtkTreeModel *combo_model;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	gchar *uri = NULL;
+	gint mode;
+
+	g_return_if_fail (path_string != NULL);
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	g_object_get (renderer, "model", &combo_model, NULL);
+	g_return_if_fail (combo_model != NULL);
+
+	gtk_tree_model_get (combo_model, new_iter,
+		CMO_MODE_COMBO_COLUMN_VALUE, &mode, -1);
+	g_object_unref (combo_model);
+
+	widget = e_builder_get_widget (builder, "cmo-folders-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	path = gtk_tree_path_new_from_string (path_string);
+	g_return_if_fail (path != NULL);
+
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return;
+	}
+	gtk_tree_path_free (path);
+
+	gtk_tree_model_get (model, &iter, CMO_FOLDERS_COLUMN_URI, &uri, -1);
+
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+		CMO_FOLDERS_COLUMN_MODE, mode,
+		CMO_FOLDERS_COLUMN_MODE_NAME, cmo_mode_to_name (mode),
+		-1);
+
+	if (uri && *uri) {
+		cmo_block_changed_handler (builder);
+
+		cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+		e_mail_composer_mode_override_set_for_folder (cmo_override, uri, mode);
+
+		cmo_unblock_changed_handler (builder);
+	}
+
+	g_free (uri);
+}
+
+static void
+cmo_recipients_treeview_selection_changed_cb (GtkTreeSelection *selection,
+                                              GtkBuilder *builder)
+{
+	GtkWidget *widget;
+	gint nselected;
+
+	g_return_if_fail (GTK_IS_TREE_SELECTION (selection));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	nselected = gtk_tree_selection_count_selected_rows (selection);
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-edit-button");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, nselected == 1);
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-remove-button");
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	gtk_widget_set_sensitive (widget, nselected > 0);
+}
+
+static void
+cmo_recipient_edited_cb (GtkCellRendererText *renderer,
+                         const gchar *path_str,
+                         const gchar *new_text,
+                         GtkBuilder *builder)
+{
+	EMailComposerModeOverride *cmo_override;
+	GtkTreePath *path;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	gchar *text, *old_text = NULL;
+	gint mode;
+
+	g_return_if_fail (path_str != NULL);
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	path = gtk_tree_path_new_from_string (path_str);
+	g_return_if_fail (path != NULL);
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	g_return_if_fail (gtk_tree_model_get_iter (model, &iter, path));
+	gtk_tree_path_free (path);
+
+	gtk_tree_model_get (model, &iter,
+		CMO_RECIPIENTS_COLUMN_RECIPIENT, &old_text,
+		CMO_RECIPIENTS_COLUMN_MODE, &mode,
+		-1);
+
+	cmo_block_changed_handler (builder);
+
+	cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+
+	text = g_strdup (new_text);
+	if (text)
+		g_strchomp (text);
+
+	if (old_text && *old_text)
+		e_mail_composer_mode_override_remove_for_recipient (cmo_override, old_text);
+
+	if (!text || !*text) {
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+	} else {
+		GtkTreeIter new_iter = iter;
+		gboolean is_new = TRUE;
+
+		if (gtk_tree_model_get_iter_first (model, &iter)) {
+			do {
+				gchar *old_recipient = NULL;
+
+				gtk_tree_model_get (model, &iter,
+					CMO_RECIPIENTS_COLUMN_RECIPIENT, &old_recipient, -1);
+
+				is_new = !old_recipient || e_util_utf8_strcasecmp (text, old_recipient) != 0;
+
+				g_free (old_recipient);
+			} while (is_new && gtk_tree_model_iter_next (model, &iter));
+		}
+
+		if (is_new) {
+			gtk_list_store_set (GTK_LIST_STORE (model), &new_iter,
+				CMO_RECIPIENTS_COLUMN_RECIPIENT, text, -1);
+			e_mail_composer_mode_override_set_for_recipient (cmo_override, text, mode);
+		} else {
+			GtkTreeSelection *selection;
+			GtkTreePath *path1, *path2;
+
+			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
+
+			path1 = gtk_tree_model_get_path (model, &iter);
+			path2 = gtk_tree_model_get_path (model, &new_iter);
+
+			if (!path1 || !path2 || gtk_tree_path_compare (path1, path2) != 0)
+				gtk_list_store_remove (GTK_LIST_STORE (model), &new_iter);
+
+			gtk_tree_path_free (path1);
+			gtk_tree_path_free (path2);
+
+			gtk_tree_selection_unselect_all (selection);
+			gtk_tree_selection_select_iter (selection, &iter);
+		}
+	}
+
+	cmo_unblock_changed_handler (builder);
+
+	g_free (old_text);
+	g_free (text);
+}
+
+static void
+cmo_recipient_editing_canceled_cb (GtkCellRenderer *renderer,
+                                   GtkBuilder *builder)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *old_recipient = NULL;
+
+			gtk_tree_model_get (model, &iter,
+				CMO_RECIPIENTS_COLUMN_RECIPIENT, &old_recipient, -1);
+
+			if (!old_recipient || !*old_recipient) {
+				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+				g_free (old_recipient);
+				break;
+			}
+
+			g_free (old_recipient);
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+}
+
+static void
+cmo_recipients_add_button_clicked_cb (GtkButton *button,
+                                      GtkBuilder *builder)
+{
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	GList *cells;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+	model = gtk_tree_view_get_model (tree_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+		CMO_RECIPIENTS_COLUMN_MODE, E_CONTENT_EDITOR_MODE_PLAIN_TEXT,
+		CMO_RECIPIENTS_COLUMN_MODE_NAME, cmo_mode_to_name (E_CONTENT_EDITOR_MODE_PLAIN_TEXT),
+		-1);
+
+	gtk_tree_selection_unselect_all (selection);
+	gtk_tree_selection_select_iter (selection, &iter);
+
+	column = gtk_tree_view_get_column (tree_view, 0);
+	g_return_if_fail (column != NULL);
+
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
+	g_return_if_fail (cells != NULL);
+
+	path = gtk_tree_model_get_path (model, &iter);
+	if (path == NULL) {
+		g_list_free (cells);
+		return;
+	}
+
+	g_object_set (cells->data, "editable", TRUE, NULL);
+	gtk_tree_view_set_cursor_on_cell (
+		tree_view, path, column, cells->data, TRUE);
+	g_object_set (cells->data, "editable", FALSE, NULL);
+
+	gtk_tree_path_free (path);
+	g_list_free (cells);
+}
+
+static void
+cmo_recipients_edit_button_clicked_cb (GtkButton *button,
+                                       GtkBuilder *builder)
+{
+	GtkTreeView *tree_view;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
+	GtkWidget *widget;
+	GList *cells, *selected;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	g_return_if_fail (gtk_tree_selection_count_selected_rows (selection) == 1);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, NULL);
+	g_return_if_fail (selected && selected->next == NULL);
+
+	path = selected->data;
+	/* 'path' is freed later in the function */
+	g_list_free (selected);
+
+	column = gtk_tree_view_get_column (tree_view, 0);
+	g_return_if_fail (column != NULL);
+
+	cells = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
+	g_return_if_fail (cells != NULL);
+
+	g_object_set (cells->data, "editable", TRUE, NULL);
+	gtk_tree_view_set_cursor_on_cell (
+		tree_view, path, column, cells->data, TRUE);
+	g_object_set (cells->data, "editable", FALSE, NULL);
+
+	gtk_tree_path_free (path);
+	g_list_free (cells);
+}
+
+static void
+cmo_recipients_remove_button_clicked_cb (GtkButton *button,
+                                         GtkBuilder *builder)
+{
+	EMailComposerModeOverride *cmo_override;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	GList *selected, *siter;
+
+	g_return_if_fail (GTK_IS_BUTTON (button));
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+	tree_view = GTK_TREE_VIEW (widget);
+	selection = gtk_tree_view_get_selection (tree_view);
+	model = gtk_tree_view_get_model (tree_view);
+
+	cmo_block_changed_handler (builder);
+
+	cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+	e_mail_composer_mode_override_freeze_save (cmo_override);
+
+	selected = gtk_tree_selection_get_selected_rows (selection, &model);
+	selected = g_list_reverse (selected);
+
+	for (siter = selected; siter; siter = g_list_next (siter)) {
+		gchar *recipient = NULL;
+
+		if (!gtk_tree_model_get_iter (model, &iter, siter->data))
+			continue;
+
+		gtk_tree_model_get (model, &iter,
+			CMO_RECIPIENTS_COLUMN_RECIPIENT, &recipient, -1);
+
+		if (recipient && *recipient)
+			e_mail_composer_mode_override_remove_for_recipient (cmo_override, recipient);
+
+		gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
+		g_free (recipient);
+	}
+
+	e_mail_composer_mode_override_thaw_save (cmo_override);
+	cmo_unblock_changed_handler (builder);
+
+	g_list_free_full (selected, (GDestroyNotify) gtk_tree_path_free);
+}
+
+static void
+cmo_recipients_mode_changed_cb (GtkCellRendererCombo *renderer,
+                                const gchar *path_string,
+                                GtkTreeIter *new_iter,
+                                GtkBuilder *builder)
+{
+	EMailComposerModeOverride *cmo_override;
+	GtkTreeModel *combo_model;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GtkWidget *widget;
+	gchar *recipient = NULL;
+	gint mode;
+
+	g_return_if_fail (path_string != NULL);
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+
+	g_object_get (renderer, "model", &combo_model, NULL);
+	g_return_if_fail (combo_model != NULL);
+
+	gtk_tree_model_get (combo_model, new_iter,
+		CMO_MODE_COMBO_COLUMN_VALUE, &mode, -1);
+	g_object_unref (combo_model);
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	path = gtk_tree_path_new_from_string (path_string);
+	g_return_if_fail (path != NULL);
+
+	if (!gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_path_free (path);
+		return;
+	}
+	gtk_tree_path_free (path);
+
+	gtk_tree_model_get (model, &iter,
+		CMO_RECIPIENTS_COLUMN_RECIPIENT, &recipient, -1);
+
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+		CMO_RECIPIENTS_COLUMN_MODE, mode,
+		CMO_RECIPIENTS_COLUMN_MODE_NAME, cmo_mode_to_name (mode),
+		-1);
+
+	if (recipient && *recipient) {
+		cmo_block_changed_handler (builder);
+
+		cmo_override = g_object_get_data (G_OBJECT (builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY);
+		e_mail_composer_mode_override_set_for_recipient (cmo_override, recipient, mode);
+
+		cmo_unblock_changed_handler (builder);
+	}
+
+	g_free (recipient);
+}
+
+static void
+composer_mode_override_setup (GtkBuilder *builder,
+                              EMailBackend *mail_backend)
+{
+	EMailComposerModeOverride *cmo_override;
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkListStore *list_store;
+	GtkListStore *mode_model;
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *column;
+	GtkWidget *widget;
+
+	g_return_if_fail (GTK_IS_BUILDER (builder));
+	g_return_if_fail (E_IS_MAIL_BACKEND (mail_backend));
+
+	g_object_set_data_full (
+		G_OBJECT (builder), MAIL_CMO_CAMEL_SESSION_KEY,
+		g_object_ref (e_mail_backend_get_session (mail_backend)), g_object_unref);
+
+	mode_model = cmo_create_mode_model ();
+
+	/* Folders treeview: markup, uri, mode, mode_name */
+	widget = e_builder_get_widget (builder, "cmo-folders-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+
+	list_store = gtk_list_store_new (CMO_FOLDERS_N_COLUMNS,
+		G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
+
+	/* Folder column */
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, -1, _("Folder"),
+		gtk_cell_renderer_text_new (),
+		"markup", CMO_FOLDERS_COLUMN_MARKUP, NULL);
+
+	/* Format combo column */
+	renderer = gtk_cell_renderer_combo_new ();
+	g_object_set (G_OBJECT (renderer),
+		"model", mode_model,
+		"text-column", CMO_MODE_COMBO_COLUMN_NAME,
+		"editable", TRUE,
+		"has-entry", FALSE,
+		NULL);
+	g_signal_connect (renderer, "changed",
+		G_CALLBACK (cmo_folders_mode_changed_cb), builder);
+
+	column = gtk_tree_view_column_new_with_attributes (
+		_("Format"), renderer,
+		"text", CMO_FOLDERS_COLUMN_MODE_NAME, NULL);
+	gtk_tree_view_append_column (tree_view, column);
+
+	g_object_unref (list_store);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (cmo_folders_treeview_selection_changed_cb), builder);
+
+	widget = e_builder_get_widget (builder, "cmo-folders-add-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (cmo_folders_add_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "cmo-folders-remove-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	gtk_widget_set_sensitive (widget, FALSE);
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (cmo_folders_remove_button_clicked_cb), builder);
+
+	/* Recipients treeview: recipient, mode, mode_name */
+	widget = e_builder_get_widget (builder, "cmo-recipients-treeview");
+	g_return_if_fail (GTK_IS_TREE_VIEW (widget));
+
+	tree_view = GTK_TREE_VIEW (widget);
+
+	/* Recipient text column */
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (G_OBJECT (renderer), "mode", GTK_CELL_RENDERER_MODE_EDITABLE, NULL);
+	g_signal_connect (renderer, "edited",
+		G_CALLBACK (cmo_recipient_edited_cb), builder);
+	g_signal_connect (renderer, "editing-canceled",
+		G_CALLBACK (cmo_recipient_editing_canceled_cb), builder);
+
+	list_store = gtk_list_store_new (CMO_RECIPIENTS_N_COLUMNS,
+		G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING);
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (list_store));
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, -1, _("Recipient"),
+		renderer, "text", CMO_RECIPIENTS_COLUMN_RECIPIENT, NULL);
+
+	/* Format combo column for recipients */
+	renderer = gtk_cell_renderer_combo_new ();
+	g_object_set (G_OBJECT (renderer),
+		"model", mode_model,
+		"text-column", CMO_MODE_COMBO_COLUMN_NAME,
+		"editable", TRUE,
+		"has-entry", FALSE,
+		NULL);
+	g_signal_connect (renderer, "changed",
+		G_CALLBACK (cmo_recipients_mode_changed_cb), builder);
+
+	column = gtk_tree_view_column_new_with_attributes (
+		_("Format"), renderer,
+		"text", CMO_RECIPIENTS_COLUMN_MODE_NAME, NULL);
+	gtk_tree_view_append_column (tree_view, column);
+
+	g_object_unref (list_store);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (cmo_recipients_treeview_selection_changed_cb), builder);
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-add-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (cmo_recipients_add_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-edit-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	gtk_widget_set_sensitive (widget, FALSE);
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (cmo_recipients_edit_button_clicked_cb), builder);
+
+	widget = e_builder_get_widget (builder, "cmo-recipients-remove-button");
+	g_return_if_fail (GTK_IS_BUTTON (widget));
+	gtk_widget_set_sensitive (widget, FALSE);
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (cmo_recipients_remove_button_clicked_cb), builder);
+
+	/* Fill initial data */
+	cmo_fill_overrides (builder);
+
+	/* Connect to external changes */
+	cmo_override = e_mail_backend_get_composer_mode_override (mail_backend);
+	g_signal_connect_object (cmo_override, "changed",
+		G_CALLBACK (cmo_overrides_changed_cb), builder, 0);
+
+	g_object_unref (mode_model);
+}
+
 static void
 send_account_override_setup (GtkBuilder *builder,
                              EMailBackend *mail_backend,
@@ -1589,6 +2502,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	EMConfigTargetPrefs *target;
 	EMailBackend *mail_backend;
 	EMailSendAccountOverride *send_override;
+	EMailComposerModeOverride *cmo_override;
 	GSList *l;
 	gint i;
 
@@ -1623,10 +2537,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	/* Default Behavior */
 
 	container = e_builder_get_widget (prefs->builder, "hboxSendMode");
-	action_combo_box = e_html_editor_util_new_mode_combobox ();
-	widget = GTK_WIDGET (action_combo_box);
-	gtk_widget_show (widget);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	action_combo_box = E_ACTION_COMBO_BOX (e_html_editor_util_new_mode_combobox (NULL));
+	gtk_widget_show (GTK_WIDGET (action_combo_box));
+	gtk_box_pack_start (GTK_BOX (container), GTK_WIDGET (action_combo_box), FALSE, FALSE, 0);
 	widget = e_builder_get_widget (prefs->builder, "lblSendMode");
 	gtk_label_set_mnemonic_widget (GTK_LABEL (widget), GTK_WIDGET (action_combo_box));
 	g_settings_bind_with_mapping (
@@ -1783,6 +2696,20 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	widget = e_builder_get_widget (prefs->builder, "sao-prefer-folder-check");
 	e_binding_bind_property (
 		send_override, "prefer-folder",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	/* Composer Mode override */
+	cmo_override = e_mail_backend_get_composer_mode_override (mail_backend);
+	g_object_set_data_full (
+		G_OBJECT (prefs->builder), MAIL_COMPOSER_MODE_OVERRIDE_KEY,
+		g_object_ref (cmo_override), g_object_unref);
+
+	composer_mode_override_setup (prefs->builder, mail_backend);
+
+	widget = e_builder_get_widget (prefs->builder, "cmo-prefer-folder-check");
+	e_binding_bind_property (
+		cmo_override, "prefer-folder",
 		widget, "active",
 		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
 

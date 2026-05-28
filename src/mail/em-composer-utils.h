@@ -105,6 +105,14 @@ ESource *	em_utils_check_send_account_override
 void		em_utils_apply_send_account_override_to_composer
 						(EMsgComposer *composer,
 						 CamelFolder *folder);
+EContentEditorMode
+		em_utils_check_composer_mode_override
+						(EShell *shell,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder);
+void		em_utils_apply_composer_mode_override_to_composer
+						(EMsgComposer *composer,
+						 CamelFolder *folder);
 gchar *		em_composer_utils_get_forward_marker
 						(EMsgComposer *composer);
 gchar *		em_composer_utils_get_original_marker

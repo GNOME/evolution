@@ -8,6 +8,8 @@
 
 #include <libedataserver/libedataserver.h>
 
+#include <e-util/e-util.h>
+
 #include "e-mail-config-page.h"
 #include "e-mail-config-activity-page.h"
 #include "em-composer-utils.h"
@@ -201,6 +203,47 @@ mail_config_composing_page_string_to_reply_style (GBinding *binding,
 	g_warn_if_fail (enum_value != NULL);
 
 	g_type_class_unref (enum_class);
+
+	return TRUE;
+}
+
+static gboolean
+mail_config_composing_page_mode_string_to_int (GBinding *binding,
+					       const GValue *source_value,
+					       GValue *target_value,
+					       gpointer data)
+{
+	const gchar *nick;
+	gint mode_value;
+
+	nick = g_value_get_string (source_value);
+	if (!nick || !*nick) {
+		g_value_set_int (target_value, E_CONTENT_EDITOR_MODE_UNKNOWN);
+		return TRUE;
+	}
+
+	if (!e_enum_from_string (E_TYPE_CONTENT_EDITOR_MODE, nick, &mode_value))
+		mode_value = E_CONTENT_EDITOR_MODE_UNKNOWN;
+	g_value_set_int (target_value, mode_value);
+
+	return TRUE;
+}
+
+static gboolean
+mail_config_composing_page_mode_int_to_string (GBinding *binding,
+					       const GValue *source_value,
+					       GValue *target_value,
+					       gpointer data)
+{
+	gint mode;
+
+	mode = g_value_get_int (source_value);
+	if (mode == E_CONTENT_EDITOR_MODE_UNKNOWN) {
+		g_value_set_string (target_value, NULL);
+		return TRUE;
+	}
+
+	g_value_set_string (target_value, e_enum_to_string (E_TYPE_CONTENT_EDITOR_MODE, mode));
 
 	return TRUE;
 }
@@ -513,6 +556,31 @@ mail_config_composing_page_constructed (GObject *object)
 
 	if (gtk_combo_box_get_active (GTK_COMBO_BOX (widget)) == -1)
 		gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
+
+	widget = gtk_label_new_with_mnemonic (_("_Format messages in:"));
+	gtk_widget_set_hexpand (widget, FALSE);
+	gtk_widget_set_margin_start (widget, 12);
+	gtk_label_set_xalign (GTK_LABEL (widget), 0);
+	gtk_grid_attach (GTK_GRID (container), widget, 0, 7, 1, 1);
+	gtk_widget_show (widget);
+
+	label = GTK_LABEL (widget);
+
+	widget = e_html_editor_util_new_mode_combobox (_("Use global setting"));
+	gtk_widget_set_halign (widget, GTK_ALIGN_START);
+	gtk_widget_set_hexpand (widget, TRUE);
+	gtk_label_set_mnemonic_widget (label, widget);
+	gtk_grid_attach (GTK_GRID (container), widget, 1, 7, 1, 1);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property_full (
+		composition_ext, "composer-mode",
+		widget, "current-value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		mail_config_composing_page_mode_string_to_int,
+		mail_config_composing_page_mode_int_to_string,
+		NULL, (GDestroyNotify) NULL);
 
 	widget = gtk_check_button_new_with_mnemonic (_("Start _typing at the bottom"));
 	gtk_widget_set_margin_start (widget, 12);

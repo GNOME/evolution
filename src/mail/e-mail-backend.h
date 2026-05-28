@@ -12,6 +12,7 @@
 
 #include <shell/e-shell-backend.h>
 #include <libemail-engine/libemail-engine.h>
+#include <mail/e-mail-composer-mode-override.h>
 #include <mail/e-mail-remote-content.h>
 #include <mail/e-mail-send-account-override.h>
 #include <mail/e-mail-properties.h>
@@ -62,6 +63,9 @@ EAlertSink *	e_mail_backend_get_alert_sink	(EMailBackend *backend);
 gboolean	e_mail_backend_delete_junk_policy_decision
 						(EMailBackend *backend);
 gboolean	e_mail_backend_empty_trash_policy_decision
+						(EMailBackend *backend);
+EMailComposerModeOverride *
+		e_mail_backend_get_composer_mode_override
 						(EMailBackend *backend);
 EMailSendAccountOverride *
 		e_mail_backend_get_send_account_override

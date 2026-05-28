@@ -85,6 +85,7 @@ set(SOURCES
 	e-mail-remote-content.c
 	e-mail-remote-content-popover.c
 	e-mail-request.c
+	e-mail-composer-mode-override.c
 	e-mail-send-account-override.c
 	e-mail-sidebar.c
 	e-mail-tag-editor.c
@@ -176,6 +177,7 @@ set(HEADERS
 	e-mail-remote-content.h
 	e-mail-remote-content-popover.h
 	e-mail-request.h
+	e-mail-composer-mode-override.h
 	e-mail-send-account-override.h
 	e-mail-sidebar.h
 	e-mail-tag-editor.h
