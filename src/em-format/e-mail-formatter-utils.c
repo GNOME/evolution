@@ -359,6 +359,8 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		time_t msg_date;
 		struct tm local;
 		gchar *html;
+		gchar *date_str;
+		gchar *date_html;
 		gboolean hide_real_date;
 
 		hide_real_date = !e_mail_formatter_get_show_real_date (formatter);
@@ -380,34 +382,24 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		/* Turn into offset from localtime, not UTC */
 		msg_offset -= local_tz / 60;
 
-		/* value will be freed at the end */
-		if (!hide_real_date && !msg_offset) {
-			/* No timezone difference; just
-			 * show the real Date: header. */
-			txt = value = html;
+		date_str = e_datetime_format_format (
+			"mail", "header",
+			DTFormatKindDateTime, msg_date);
+
+		date_html = camel_text_to_html (date_str, text_format_flags, 0);
+
+		if (hide_real_date) {
+			/* Show only the local-formatted date, losing
+			 * all timezone information like Outlook does.
+			 * Should we attempt to show it somehow? */
+			txt = value = date_html;
 		} else {
-			gchar *date_str;
-			gchar *date_html;
-
-			date_str = e_datetime_format_format (
-				"mail", "header",
-				DTFormatKindDateTime, msg_date);
-
-			date_html = camel_text_to_html (date_str, text_format_flags, 0);
-
-			if (hide_real_date) {
-				/* Show only the local-formatted date, losing
-				 * all timezone information like Outlook does.
-				 * Should we attempt to show it somehow? */
-				txt = value = date_html;
-			} else {
-				txt = value = g_strdup_printf ("%s (<I>%s</I>)", html, date_html);
-				g_free (date_html);
-			}
-
-			g_free (date_str);
-			g_free (html);
+			txt = value = g_strdup_printf ("%s (<I>%s</I>)", html, date_html);
+			g_free (date_html);
 		}
+
+		g_free (date_str);
+		g_free (html);
 
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_HTML;
 		flags |= E_MAIL_FORMATTER_HEADER_FLAG_BOLD;
