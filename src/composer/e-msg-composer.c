@@ -64,6 +64,32 @@ struct _AsyncContext {
 	guint is_draft : 1;
 };
 
+typedef struct _AutocryptAsyncData {
+	GWeakRef composer_weakref;
+	CamelSession *session;
+	gchar *from_email;
+	gchar *keyid;
+	gboolean send_prefer_encrypt;
+	gboolean sender_prefer_encrypt;
+	guint8 *key_data;
+	gsize key_data_size;
+} AutocryptAsyncData;
+
+static void
+autocrypt_async_data_free (gpointer ptr)
+{
+	AutocryptAsyncData *aad = ptr;
+
+	if (aad) {
+		g_weak_ref_clear (&aad->composer_weakref);
+		g_clear_object (&aad->session);
+		g_free (aad->from_email);
+		g_free (aad->keyid);
+		g_free (aad->key_data);
+		g_free (aad);
+	}
+}
+
 /* Flags for building a message. */
 typedef enum {
 	COMPOSER_FLAG_HTML_CONTENT			= 1 << 0,
@@ -146,6 +172,9 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 						 gboolean keep_signature,
 						 GCancellable *cancellable,
 						 gint depth);
+
+static void	msg_composer_autocrypt_cancel_deferred_send
+						(EMsgComposer *composer);
 
 G_DEFINE_TYPE_WITH_CODE (EMsgComposer, e_msg_composer, GTK_TYPE_WINDOW,
 	G_ADD_PRIVATE (EMsgComposer)
@@ -3008,6 +3037,8 @@ msg_composer_dispose (GObject *object)
 		e_signal_disconnect_notify_handler (table, &composer->priv->notify_subject_changed_handler);
 	}
 
+	msg_composer_autocrypt_cancel_deferred_send (composer);
+
 	e_composer_private_dispose (composer);
 
 	/* Chain up to parent's dispose() method. */
@@ -5124,6 +5155,50 @@ e_msg_composer_claim_no_build_message_error (EMsgComposer *composer,
 }
 
 static void
+msg_composer_deferred_send_cancelled_cb (GCancellable *send_cancellable,
+					 gpointer user_data)
+{
+	EMsgComposer *composer = user_data;
+
+	if (composer->priv->autocrypt_cancellable)
+		g_cancellable_cancel (composer->priv->autocrypt_cancellable);
+
+	composer->priv->autocrypt_loading = FALSE;
+	msg_composer_autocrypt_cancel_deferred_send (composer);
+}
+
+static gboolean
+msg_composer_defer_send_for_autocrypt (EMsgComposer *composer,
+				       AsyncContext *context,
+				       gboolean is_outbox)
+{
+	GCancellable *send_cancellable;
+
+	if (!composer->priv->autocrypt_loading &&
+	    composer->priv->autocrypt_check_complete)
+		return FALSE;
+
+	if (!composer->priv->autocrypt_loading)
+		e_msg_composer_check_autocrypt (composer, NULL);
+
+	composer->priv->autocrypt_deferred_send = context;
+	composer->priv->autocrypt_deferred_is_outbox = is_outbox;
+
+	send_cancellable = e_activity_get_cancellable (context->activity);
+
+	if (send_cancellable && CAMEL_IS_OPERATION (send_cancellable)) {
+		camel_operation_push_message (send_cancellable, "%s",
+			_("Waiting for OpenPGP key data…"));
+
+		composer->priv->autocrypt_deferred_cancelled_handler =
+			g_signal_connect (send_cancellable, "cancelled",
+				G_CALLBACK (msg_composer_deferred_send_cancelled_cb), composer);
+	}
+
+	return TRUE;
+}
+
+static void
 msg_composer_send_cb (EMsgComposer *composer,
                       GAsyncResult *result,
                       AsyncContext *context)
@@ -5175,6 +5250,10 @@ e_msg_composer_send_content_hash_ready_cb (EMsgComposer *composer,
 
 	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE, FALSE)) {
 		async_context_free (context);
+		return;
+	}
+
+	if (msg_composer_defer_send_for_autocrypt (composer, context, FALSE)) {
 		return;
 	}
 
@@ -5390,6 +5469,10 @@ e_msg_composer_save_to_outbox_content_hash_ready_cb (EMsgComposer *composer,
 
 	if (e_msg_composer_claim_no_build_message_error (composer, context->activity, error, FALSE, FALSE)) {
 		async_context_free (context);
+		return;
+	}
+
+	if (msg_composer_defer_send_for_autocrypt (composer, context, TRUE)) {
 		return;
 	}
 
@@ -7056,6 +7139,194 @@ e_msg_composer_set_destination_autocrypt_key (EMsgComposer *composer,
 	return FALSE;
 }
 
+static void
+msg_composer_autocrypt_apply_key (EMsgComposer *composer,
+				  AutocryptAsyncData *aad)
+{
+	gchar *keydata = NULL;
+
+	if (aad->key_data && aad->key_data_size > 0)
+		keydata = g_base64_encode ((const guchar *) aad->key_data, aad->key_data_size);
+
+	if (keydata) {
+		GString *value;
+		gint ii;
+
+		value = g_string_sized_new (strlen (keydata) + strlen (aad->from_email) + 64 + (strlen (keydata) / CAMEL_FOLD_SIZE) + 1);
+
+		g_string_append (value, "addr=");
+		g_string_append (value, aad->from_email);
+
+		if (aad->send_prefer_encrypt)
+			g_string_append (value, "; prefer-encrypt=mutual");
+
+		ii = value->len + 2; /* just at "keydata=" */
+
+		/* keep it as the last parameter */
+		g_string_append (value, "; keydata=");
+		g_string_append (value, keydata);
+
+		/* Ignore headers above 10KB in size. See:
+		   https://autocrypt.org/level1.html#id74 */
+		if (value->len <= 10240) {
+			/* insert "folding spaces" into the encoded key, to not have too long header lines;
+			   these spaces are ignored during decode of the key */
+			for (ii += CAMEL_FOLD_SIZE; ii < value->len - 1; ii += CAMEL_FOLD_SIZE + 1) {
+				g_string_insert_c (value, ii, ' ');
+			}
+			e_msg_composer_add_header (composer, "Autocrypt", value->str);
+		} else {
+			e_alert_submit (E_ALERT_SINK (e_msg_composer_get_editor (composer)),
+				"mail-composer:info-autocrypt-header-too-large", aad->from_email, NULL);
+		}
+
+		g_string_free (value, TRUE);
+	}
+
+	if (aad->send_prefer_encrypt && aad->sender_prefer_encrypt &&
+	    msg_composer_get_can_sign (composer)) {
+		e_ui_action_set_active (ACTION (PGP_SIGN), TRUE);
+		e_ui_action_set_active (ACTION (PGP_ENCRYPT), TRUE);
+	}
+
+	g_free (keydata);
+}
+
+static void
+msg_composer_autocrypt_cancel_deferred_send (EMsgComposer *composer)
+{
+	if (composer->priv->autocrypt_deferred_send) {
+		AsyncContext *ctx = composer->priv->autocrypt_deferred_send;
+		GCancellable *send_cancellable;
+
+		composer->priv->autocrypt_deferred_send = NULL;
+
+		send_cancellable = e_activity_get_cancellable (ctx->activity);
+
+		if (composer->priv->autocrypt_deferred_cancelled_handler &&
+		    send_cancellable) {
+			g_signal_handler_disconnect (send_cancellable,
+				composer->priv->autocrypt_deferred_cancelled_handler);
+		}
+		composer->priv->autocrypt_deferred_cancelled_handler = 0;
+
+		if (send_cancellable && CAMEL_IS_OPERATION (send_cancellable))
+			camel_operation_pop_message (send_cancellable);
+
+		e_msg_composer_unref_content_hash (composer);
+		async_context_free (ctx);
+	}
+}
+
+static void
+msg_composer_continue_deferred_send (EMsgComposer *composer)
+{
+	AsyncContext *context;
+	GCancellable *send_cancellable;
+	gboolean is_outbox;
+	gboolean proceed_with_send = TRUE;
+
+	context = composer->priv->autocrypt_deferred_send;
+	is_outbox = composer->priv->autocrypt_deferred_is_outbox;
+	composer->priv->autocrypt_deferred_send = NULL;
+
+	if (!context)
+		return;
+
+	send_cancellable = e_activity_get_cancellable (context->activity);
+
+	if (composer->priv->autocrypt_deferred_cancelled_handler &&
+	    send_cancellable) {
+		g_signal_handler_disconnect (send_cancellable,
+			composer->priv->autocrypt_deferred_cancelled_handler);
+	}
+	composer->priv->autocrypt_deferred_cancelled_handler = 0;
+
+	if (send_cancellable && CAMEL_IS_OPERATION (send_cancellable))
+		camel_operation_pop_message (send_cancellable);
+
+	if (is_outbox && composer->priv->is_sending_message) {
+		e_msg_composer_get_message (
+			composer, G_PRIORITY_DEFAULT, e_activity_get_cancellable (context->activity),
+			(GAsyncReadyCallback) msg_composer_save_to_outbox_cb,
+			context);
+		return;
+	}
+
+	g_signal_emit (composer, signals[PRESEND], 0, &proceed_with_send);
+
+	if (!proceed_with_send) {
+		gtk_window_present (GTK_WINDOW (composer));
+		e_msg_composer_unref_content_hash (composer);
+
+		if (e_msg_composer_is_exiting (composer)) {
+			gtk_window_present (GTK_WINDOW (composer));
+			composer->priv->application_exiting = FALSE;
+		}
+
+		async_context_free (context);
+		return;
+	}
+
+	if (is_outbox) {
+		e_msg_composer_get_message (
+			composer, G_PRIORITY_DEFAULT, e_activity_get_cancellable (context->activity),
+			(GAsyncReadyCallback) msg_composer_save_to_outbox_cb,
+			context);
+	} else {
+		e_msg_composer_get_message (
+			composer, G_PRIORITY_DEFAULT, e_activity_get_cancellable (context->activity),
+			(GAsyncReadyCallback) msg_composer_send_cb,
+			context);
+	}
+}
+
+static void
+msg_composer_autocrypt_thread_func (GTask *task,
+				    gpointer source_object,
+				    gpointer task_data,
+				    GCancellable *cancellable)
+{
+	AutocryptAsyncData *aad = task_data;
+	CamelGpgContext *gpgctx;
+
+	gpgctx = CAMEL_GPG_CONTEXT (camel_gpg_context_new (aad->session));
+	if (gpgctx) {
+		camel_gpg_context_get_public_key_sync (gpgctx, aad->keyid ? aad->keyid : aad->from_email, 0,
+			&aad->key_data, &aad->key_data_size, cancellable, NULL);
+		g_clear_object (&gpgctx);
+	}
+
+	g_task_return_boolean (task, TRUE);
+}
+
+static void
+msg_composer_autocrypt_ready_cb (GObject *source_object,
+				 GAsyncResult *result,
+				 gpointer user_data)
+{
+	AutocryptAsyncData *aad = user_data;
+	EMsgComposer *composer;
+
+	composer = g_weak_ref_get (&aad->composer_weakref);
+	if (!composer || g_cancellable_is_cancelled (g_task_get_cancellable (G_TASK (result)))) {
+		g_clear_object (&composer);
+		autocrypt_async_data_free (aad);
+		return;
+	}
+
+	composer->priv->autocrypt_loading = FALSE;
+	composer->priv->autocrypt_check_complete = TRUE;
+
+	msg_composer_autocrypt_apply_key (composer, aad);
+
+	if (composer->priv->autocrypt_deferred_send)
+		msg_composer_continue_deferred_send (composer);
+
+	g_clear_object (&composer);
+	autocrypt_async_data_free (aad);
+}
+
 void
 e_msg_composer_check_autocrypt (EMsgComposer *composer,
 				CamelMimeMessage *original_message)
@@ -7071,6 +7342,13 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 	if (original_message)
 		g_return_if_fail (CAMEL_IS_MIME_MESSAGE (original_message));
 
+	if (composer->priv->autocrypt_cancellable) {
+		g_cancellable_cancel (composer->priv->autocrypt_cancellable);
+		g_clear_object (&composer->priv->autocrypt_cancellable);
+	}
+	composer->priv->autocrypt_loading = FALSE;
+	msg_composer_autocrypt_cancel_deferred_send (composer);
+
 	e_msg_composer_remove_header (composer, "Autocrypt");
 
 	alert_bar = e_html_editor_get_alert_bar (e_msg_composer_get_editor (composer));
@@ -7080,6 +7358,7 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 	if (e_ui_action_get_active (ACTION (SMIME_SIGN)) ||
 	    e_ui_action_get_active (ACTION (SMIME_ENCRYPT))) {
 		/* Autocrypt is about GPG, thus ignore it when the user uses S/MIME */
+		composer->priv->autocrypt_check_complete = TRUE;
 		return;
 	}
 
@@ -7109,69 +7388,33 @@ e_msg_composer_check_autocrypt (EMsgComposer *composer,
 	}
 
 	if (send_public_key && from_email && *from_email) {
-		CamelSession *session;
-		CamelGpgContext *gpgctx;
-		gchar *keydata = NULL;
+		AutocryptAsyncData *aad;
+		GTask *task;
 
-		session = e_msg_composer_ref_session (composer);
-		gpgctx = CAMEL_GPG_CONTEXT (camel_gpg_context_new (session));
+		aad = g_new0 (AutocryptAsyncData, 1);
+		g_weak_ref_init (&aad->composer_weakref, composer);
+		aad->session = e_msg_composer_ref_session (composer);
+		aad->from_email = g_steal_pointer (&from_email);
+		aad->keyid = g_steal_pointer (&keyid);
+		aad->send_prefer_encrypt = send_prefer_encrypt;
+		aad->sender_prefer_encrypt = sender_prefer_encrypt;
 
-		if (gpgctx) {
-			guint8 *data = NULL;
-			gsize data_size = 0;
+		composer->priv->autocrypt_loading = TRUE;
+		composer->priv->autocrypt_check_complete = FALSE;
+		composer->priv->autocrypt_cancellable = g_cancellable_new ();
 
-			/* This should do no network I/O, aka be lightning fast */
-			if (camel_gpg_context_get_public_key_sync (gpgctx, keyid ? keyid : from_email, 0, &data, &data_size, NULL, NULL) && data && data_size > 0) {
-				keydata = g_base64_encode ((const guchar *) data, data_size);
+		task = g_task_new (NULL, composer->priv->autocrypt_cancellable, msg_composer_autocrypt_ready_cb, aad);
+		g_task_set_task_data (task, aad, NULL);
+		g_task_run_in_thread (task, msg_composer_autocrypt_thread_func);
+		g_object_unref (task);
+	} else {
+		composer->priv->autocrypt_check_complete = TRUE;
 
-				g_free (data);
-			}
+		if (send_prefer_encrypt && sender_prefer_encrypt &&
+		    msg_composer_get_can_sign (composer)) {
+			e_ui_action_set_active (ACTION (PGP_SIGN), TRUE);
+			e_ui_action_set_active (ACTION (PGP_ENCRYPT), TRUE);
 		}
-
-		if (keydata) {
-			GString *value;
-			gint ii;
-
-			value = g_string_sized_new (strlen (keydata) + strlen (from_email) + 64 + (strlen (keydata) / CAMEL_FOLD_SIZE) + 1);
-
-			g_string_append (value, "addr=");
-			g_string_append (value, from_email);
-
-			if (send_prefer_encrypt)
-				g_string_append (value, "; prefer-encrypt=mutual");
-
-			ii = value->len + 2; /* just at "keydata=" */
-
-			/* keep it as the last parameter */
-			g_string_append (value, "; keydata=");
-			g_string_append (value, keydata);
-
-			/* Ignore headers above 10KB in size. See:
-			   https://autocrypt.org/level1.html#id74 */
-			if (value->len <= 10240) {
-				/* insert "folding spaces" into the encoded key, to not have too long header lines;
-				   these spaces are ignored during decode of the key */
-				for (ii += CAMEL_FOLD_SIZE; ii < value->len - 1; ii += CAMEL_FOLD_SIZE + 1) {
-					g_string_insert_c (value, ii, ' ');
-				}
-				e_msg_composer_add_header (composer, "Autocrypt", value->str);
-			} else {
-				e_alert_submit (E_ALERT_SINK (e_msg_composer_get_editor (composer)),
-					"mail-composer:info-autocrypt-header-too-large", from_email, NULL);
-			}
-
-			g_string_free (value, TRUE);
-		}
-
-		g_clear_object (&gpgctx);
-		g_clear_object (&session);
-		g_free (keydata);
-	}
-
-	if (send_prefer_encrypt && sender_prefer_encrypt && msg_composer_get_can_sign (composer)) {
-		/* Set both sign & encrypt, not only encrypt */
-		e_ui_action_set_active (ACTION (PGP_SIGN), TRUE);
-		e_ui_action_set_active (ACTION (PGP_ENCRYPT), TRUE);
 	}
 
 	g_free (from_email);

@@ -112,6 +112,12 @@ struct _EMsgComposerPrivate {
 	EContentEditorContentHash *content_hash;
 
 	GCancellable *load_signature_cancellable;
+	GCancellable *autocrypt_cancellable;
+	gboolean autocrypt_loading;
+	gboolean autocrypt_check_complete;
+	gpointer autocrypt_deferred_send; /* AsyncContext *, if send waits for autocrypt */
+	gboolean autocrypt_deferred_is_outbox;
+	gulong autocrypt_deferred_cancelled_handler;
 	EAttachment *alternative_body_attachment; /* not referenced, only used for pointer comparison  */
 };
 

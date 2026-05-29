@@ -562,6 +562,11 @@ e_composer_private_dispose (EMsgComposer *composer)
 		composer->priv->shell = NULL;
 	}
 
+	if (composer->priv->autocrypt_cancellable) {
+		g_cancellable_cancel (composer->priv->autocrypt_cancellable);
+		g_clear_object (&composer->priv->autocrypt_cancellable);
+	}
+
 	g_clear_object (&composer->priv->editor);
 	g_clear_object (&composer->priv->header_table);
 	g_clear_object (&composer->priv->attachment_paned);
@@ -590,6 +595,7 @@ e_composer_private_finalize (EMsgComposer *composer)
 	g_ptr_array_free (array, TRUE);
 
 	g_clear_object (&composer->priv->load_signature_cancellable);
+	g_clear_object (&composer->priv->autocrypt_cancellable);
 
 	g_free (composer->priv->charset);
 	g_free (composer->priv->mime_type);
