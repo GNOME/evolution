@@ -3764,11 +3764,7 @@ iso_codes_parse (const GMarkupParser *parser,
 		g_markup_parse_context_parse (
 			context, contents, length, &error);
 		g_markup_parse_context_free (context);
-#if GLIB_CHECK_VERSION(2,21,3)
 		g_mapped_file_unref (mapped_file);
-#else
-		g_mapped_file_free (mapped_file);
-#endif
 	}
 
 	if (error != NULL) {
