@@ -144,25 +144,23 @@ get_override_for_recipients_locked (EMailComposerModeOverride *self,
 				    CamelAddress *recipients)
 {
 	CamelInternetAddress *iaddress;
-	gchar **keys;
 	EContentEditorMode *values;
 	EContentEditorMode result = E_CONTENT_EDITOR_MODE_UNKNOWN;
-	guint n_keys, ii, len;
+	gchar **keys;
+	gsize n_keys = 0;
+	guint ii, len;
 
 	if (!CAMEL_IS_INTERNET_ADDRESS (recipients))
 		return E_CONTENT_EDITOR_MODE_UNKNOWN;
 
-	keys = g_key_file_get_keys (self->key_file, RECIPIENTS_SECTION, NULL, NULL);
-	if (keys == NULL)
-		return E_CONTENT_EDITOR_MODE_UNKNOWN;
-
-	n_keys = g_strv_length (keys);
-	if (n_keys == 0) {
+	keys = g_key_file_get_keys (self->key_file, RECIPIENTS_SECTION, &n_keys, NULL);
+	if (!keys || !n_keys) {
 		g_strfreev (keys);
 		return E_CONTENT_EDITOR_MODE_UNKNOWN;
 	}
+
 	values = g_new (EContentEditorMode, n_keys);
-	for (ii = 0; ii < n_keys; ii++) {
+	for (ii = 0; keys[ii]; ii++) {
 		GError *error = NULL;
 
 		values[ii] = g_key_file_get_integer (self->key_file, RECIPIENTS_SECTION, keys[ii], &error);
