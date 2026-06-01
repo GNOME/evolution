@@ -123,6 +123,8 @@ connect_view (GalViewInstance *instance,
 {
 	GalViewClass *view_class;
 
+	g_return_if_fail (view != NULL);
+
 	if (instance->current_view)
 		disconnect_view (instance);
 	instance->current_view = view;

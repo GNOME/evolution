@@ -218,6 +218,8 @@ load_single_file (GalViewCollection *collection,
 			item->view_changed_id = g_signal_connect (
 				item->view, "changed",
 				G_CALLBACK (view_changed), item);
+		} else {
+			g_warning ("Failed to find view type '%s' for '%s'", item->type, item->title);
 		}
 	}
 	return item;
