@@ -1780,10 +1780,14 @@ webdav_browser_save_changes_thread (EAlertSinkThreadJobData *job_data,
 		} else if ((scd->supports & (E_WEBDAV_RESOURCE_SUPPORTS_EVENTS | E_WEBDAV_RESOURCE_SUPPORTS_MEMOS | E_WEBDAV_RESOURCE_SUPPORTS_TASKS)) != 0) {
 			gchar *color;
 
-			color = g_strdup_printf ("#%02x%02x%02x",
-				(gint) CLAMP (scd->rgba.red * 0xFF, 0, 0xFF),
-				(gint) CLAMP (scd->rgba.green * 0xFF, 0, 0xFF),
-				(gint) CLAMP (scd->rgba.blue * 0xFF, 0, 0xFF));
+			if (scd->rgba.alpha <= 1.0 - 1e-9) {
+				color = NULL;
+			} else {
+				color = g_strdup_printf ("#%02x%02x%02x",
+					(gint) CLAMP (scd->rgba.red * 0xFF, 0, 0xFF),
+					(gint) CLAMP (scd->rgba.green * 0xFF, 0, 0xFF),
+					(gint) CLAMP (scd->rgba.blue * 0xFF, 0, 0xFF));
+			}
 
 			success = e_webdav_session_mkcalendar_sync (session, new_href,
 				scd->name, scd->description, color,
