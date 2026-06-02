@@ -638,6 +638,75 @@ test_markdown_convert_composer_quirks_cite_body (void)
 }
 
 static void
+test_markdown_convert_p_paragraph_breaks (void)
+{
+	/* I#3326 - bare <p> elements should produce paragraph breaks, not soft breaks */
+	test_markdown_convert (
+		HTML_PREFIX
+		"<p>paragraph text 1</p>"
+		"<p>paragraph text 2</p>"
+		"<p>paragraph text 3</p>"
+		HTML_SUFFIX,
+		"paragraph text 1\n"
+		"\n"
+		"paragraph text 2\n"
+		"\n"
+		"paragraph text 3\n", 0);
+
+	test_markdown_convert (
+		HTML_PREFIX
+		"<p><strong>ABCD:</strong> blah blah</p>"
+		"<p>1800 <strong>blah blah avenue,</strong> between 2 and 3 AM</p>"
+		"<h2>Testing procedure</h2>"
+		"<p>Lorem ipsum dolor sit amet.</p>"
+		"<p>Apud quem praeclare Scaevola.</p>"
+		HTML_SUFFIX
+		"<span class='-x-evo-cite-body'></span>",
+		"> **ABCD:** blah blah\n"
+		"> \n"
+		"> 1800 **blah blah avenue,** between 2 and 3 AM\n"
+		"> \n"
+		"> ## Testing procedure\n"
+		"> \n"
+		"> Lorem ipsum dolor sit amet.\n"
+		"> \n"
+		"> Apud quem praeclare Scaevola.\n",
+		E_MARKDOWN_HTML_TO_TEXT_FLAG_COMPOSER_QUIRKS);
+
+	/* <p> with <p><br></p> separators should not produce extra blank lines */
+	test_markdown_convert (
+		HTML_PREFIX
+		"<p>paragraph text 1</p>"
+		"<p><br></p>"
+		"<p>paragraph text 2</p>"
+		HTML_SUFFIX,
+		"paragraph text 1\n"
+		"\n"
+		"paragraph text 2\n", 0);
+
+	/* <p> elements inside <blockquote> should also get paragraph breaks */
+	test_markdown_convert (
+		HTML_PREFIX
+		"<div>text before</div>"
+		"<blockquote type=\"cite\">"
+		"<p>paragraph text 1</p>"
+		"<p>paragraph text 2</p>"
+		"<p>paragraph text 3</p>"
+		"</blockquote>"
+		"<div><br></div>"
+		HTML_SUFFIX,
+		"text before\n"
+		"\n"
+		"> paragraph text 1\n"
+		"> \n"
+		"> paragraph text 2\n"
+		"> \n"
+		"> paragraph text 3\n"
+		"\n"
+		"\n", 0);
+}
+
+static void
 test_markdown_convert_composer_quirks_cite_body_complex (void)
 {
 	test_markdown_convert (
@@ -1329,6 +1398,7 @@ main (gint argc,
 	add_test ("/MarkdownConvert/NestedUlOl", test_markdown_convert_nested_ulol); */
 	add_test ("/MarkdownConvert/Blockquote", test_markdown_convert_blockquote);
 	add_test ("/MarkdownConvert/NestedBlockquote", test_markdown_convert_nested_blockquote);
+	add_test ("/MarkdownConvert/PParagraphBreaks", test_markdown_convert_p_paragraph_breaks);
 	add_test ("/MarkdownConvert/ComposerQuirksToBody", test_markdown_convert_composer_quirks_to_body);
 	add_test ("/MarkdownConvert/ComposerQuirksCiteBody", test_markdown_convert_composer_quirks_cite_body);
 	add_test ("/MarkdownConvert/ComposerQuirksCiteBodyComplex", test_markdown_convert_composer_quirks_cite_body_complex);

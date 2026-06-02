@@ -305,6 +305,7 @@ typedef struct _HTMLToTextData {
 	gboolean in_li;
 	gboolean in_ulol_start;
 	gboolean line_start;
+	gboolean last_end_was_p;
 	GString *quote_prefix;
 	gchar *href;
 	GString *link_text;
@@ -339,6 +340,27 @@ markdown_utils_append_text (HTMLToTextData *data,
 		else
 			g_string_append_c (data->buffer, '\n');
 
+		if (data->last_end_was_p && data->quote_prefix->len &&
+		    !data->plain_text && !data->in_pre && !data->list_index) {
+			gboolean already_blank = FALSE;
+			gint jj;
+
+			for (jj = data->buffer->len - 2; jj >= 0 && data->buffer->str[jj] != '\n'; jj--) {
+				if (data->buffer->str[jj] != ' ' && data->buffer->str[jj] != '>')
+					break;
+			}
+
+			if (jj < 0 || data->buffer->str[jj] == '\n')
+				already_blank = TRUE;
+
+			if (!already_blank) {
+				g_string_append (data->buffer, data->quote_prefix->str);
+				g_string_append_c (data->buffer, '\n');
+			}
+
+			data->last_end_was_p = FALSE;
+		}
+
 		if (data->quote_prefix->len)
 			g_string_append (data->buffer, data->quote_prefix->str);
 
@@ -368,9 +390,14 @@ markdown_utils_append_text (HTMLToTextData *data,
 			    data->buffer->str[data->buffer->len - 1] == '\n' &&
 			    data->buffer->str[data->buffer->len - 2] != '\n' && (data->buffer->len < 3 ||
 			    (data->buffer->str[data->buffer->len - 2] != ' ' || data->buffer->str[data->buffer->len - 3] != ' '))) {
-				g_string_insert (data->buffer, data->buffer->len - 1, "  ");
+				if (data->last_end_was_p)
+					g_string_append_c (data->buffer, '\n');
+				else
+					g_string_insert (data->buffer, data->buffer->len - 1, "  ");
 				from_index = data->buffer->len;
 			}
+
+			data->last_end_was_p = FALSE;
 
 			if (data->line_start && data->quote_prefix->len && !data->in_li)
 				g_string_append (data->buffer, data->quote_prefix->str);
@@ -830,6 +857,14 @@ markdown_utils_sax_end_element_cb (gpointer ctx,
 			if (data->in_paragraph > 0)
 				data->in_paragraph--;
 		}
+
+		data->last_end_was_p = (g_ascii_strcasecmp (name, "p") == 0 ||
+			g_ascii_strcasecmp (name, "h1") == 0 ||
+			g_ascii_strcasecmp (name, "h2") == 0 ||
+			g_ascii_strcasecmp (name, "h3") == 0 ||
+			g_ascii_strcasecmp (name, "h4") == 0 ||
+			g_ascii_strcasecmp (name, "h5") == 0 ||
+			g_ascii_strcasecmp (name, "h6") == 0);
 
 		return;
 	}
