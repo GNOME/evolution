@@ -1268,8 +1268,6 @@ filter:
 			break;
 	}
 
-	gtk_widget_set_sensitive (GTK_WIDGET (folder_tree), TRUE);
-
 	/* Apply selected scope. */
 
 	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
@@ -1354,8 +1352,6 @@ filter:
 	camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
  current_folder_and_subfolders_setup:
-
-	gtk_widget_set_sensitive (GTK_WIDGET (folder_tree), FALSE);
 
 	if (folder != NULL && folder != CAMEL_FOLDER (search_folder)) {
 		/* Just use the folder */
@@ -1442,8 +1438,6 @@ all_accounts:
 
 all_accounts_setup:
 
-	gtk_widget_set_sensitive (GTK_WIDGET (folder_tree), FALSE);
-
 	list = em_folder_tree_model_list_stores (EM_FOLDER_TREE_MODEL (
 		gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree))));
 	g_list_foreach (list, (GFunc) g_object_ref, NULL);
@@ -1483,7 +1477,7 @@ current_account:
 
 		vf_query = camel_vee_folder_get_expression (search_folder);
 		if (g_strcmp0 (query, vf_query) == 0)
-			goto current_accout_setup;
+			goto current_account_setup;
 	}
 
 	/* If we already have a search folder, reuse it. */
@@ -1495,7 +1489,7 @@ current_account:
 
 		camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
-		goto current_accout_setup;
+		goto current_account_setup;
 	}
 
 	/* Create a new search folder. */
@@ -1515,9 +1509,7 @@ current_account:
 
 	camel_vee_folder_set_expression_sync (search_folder, query, CAMEL_VEE_FOLDER_OP_FLAG_SKIP_REBUILD, NULL, NULL);
 
-current_accout_setup:
-
-	gtk_widget_set_sensitive (GTK_WIDGET (folder_tree), FALSE);
+current_account_setup:
 
 	if (folder != NULL && folder != CAMEL_FOLDER (search_folder)) {
 		store = camel_folder_get_parent_store (folder);
