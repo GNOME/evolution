@@ -46,6 +46,15 @@ void		e_ui_customizer_take_accels	(EUICustomizer *self,
 						 const gchar *action_name,
 						 GPtrArray *accels); /* gchar * */
 
+typedef struct _EUIActionRename {
+	const gchar *old_name;
+	const gchar *new_name;
+} EUIActionRename;
+
+void		e_ui_customizer_rename_actions	(EUICustomizer *self,
+						 const EUIActionRename *renames,
+						 guint n_renames);
+
 gchar *		e_ui_customizer_util_dup_filename_for_component
 						(const gchar *component);
 

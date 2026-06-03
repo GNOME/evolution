@@ -1646,16 +1646,19 @@ e_ui_manager_create_toolbar_item (EUIManager *self,
 	return G_OBJECT (item);
 }
 
+static void e_ui_manager_update_item_from_action_impl (EUIManager *self, gpointer item, EUIAction *action, EUIElement *elem, gboolean is_popup);
+
 static GObject *
 e_ui_manager_create_menu_item (EUIManager *self,
 			       EUIElement *elem,
-			       EUIAction *action)
+			       EUIAction *action,
+			       gboolean is_popup)
 {
 	GMenuItem *item;
 
 	item = g_menu_item_new (NULL, NULL);
 
-	e_ui_manager_update_item_from_action (self, item, action);
+	e_ui_manager_update_item_from_action_impl (self, item, action, elem, is_popup);
 
 	if (e_ui_element_item_get_text_only_is_set (elem) &&
 	    e_ui_element_item_get_text_only (elem))
@@ -1668,7 +1671,8 @@ static GObject *
 e_ui_manager_create_item_one (EUIManager *self,
 			      EUIElement *elem,
 			      EUIAction *action,
-			      EUIElementKind for_kind)
+			      EUIElementKind for_kind,
+			      gboolean is_popup)
 {
 	GObject *item = NULL;
 	gboolean handled = FALSE;
@@ -1688,7 +1692,7 @@ e_ui_manager_create_item_one (EUIManager *self,
 			item = e_ui_manager_create_toolbar_item (self, elem, action);
 			break;
 		case E_UI_ELEMENT_KIND_MENU:
-			item = e_ui_manager_create_menu_item (self, elem, action);
+			item = e_ui_manager_create_menu_item (self, elem, action, is_popup);
 			break;
 		default:
 			g_warn_if_reached ();
@@ -1747,7 +1751,7 @@ eum_traverse_headerbar_rec (EUIManager *self,
 			if (action) {
 				GObject *item;
 
-				item = e_ui_manager_create_item_one (self, elem, action, E_UI_ELEMENT_KIND_HEADERBAR);
+				item = e_ui_manager_create_item_one (self, elem, action, E_UI_ELEMENT_KIND_HEADERBAR, FALSE);
 				if (item) {
 					GPtrArray *radio_group;
 
@@ -1957,7 +1961,7 @@ eum_traverse_toolbar_rec (EUIManager *self,
 			if (action) {
 				GObject *item;
 
-				item = e_ui_manager_create_item_one (self, elem, action, E_UI_ELEMENT_KIND_TOOLBAR);
+				item = e_ui_manager_create_item_one (self, elem, action, E_UI_ELEMENT_KIND_TOOLBAR, FALSE);
 				if (item) {
 					if (GTK_IS_TOOL_ITEM (item)) {
 						if (*inout_any_added && *inout_need_separator) {
@@ -2142,7 +2146,7 @@ eum_traverse_menu (EUIManager *self,
 				    (!is_popup || g_action_get_enabled (G_ACTION (action)))) {
 					GObject *item;
 
-					item = e_ui_manager_create_item_one (self, elem, action, E_UI_ELEMENT_KIND_MENU);
+					item = e_ui_manager_create_item_one (self, elem, action, E_UI_ELEMENT_KIND_MENU, is_popup);
 					if (item) {
 						if (G_IS_MENU_ITEM (item)) {
 							if (!section)
@@ -2364,6 +2368,11 @@ e_ui_manager_synchro_menu_item_attribute (EUIManager *self,
 	if (g_strcmp0 (prop_name, "label") == 0) {
 		value = e_ui_action_get_label (action);
 		g_menu_item_set_label (item, value ? value : "");
+	} else if (g_strcmp0 (prop_name, "secondary-label") == 0) {
+		value = e_ui_action_get_secondary_label (action);
+		if (!value)
+			value = e_ui_action_get_label (action);
+		g_menu_item_set_label (item, value ? value : "");
 	} else if (g_strcmp0 (prop_name, "accel") == 0) {
 		gboolean has_customized = FALSE;
 
@@ -2440,25 +2449,12 @@ e_ui_manager_synchro_menu_item_attribute_cb (EUIAction *action,
 	g_clear_object (&self);
 }
 
-/**
- * e_ui_manager_update_item_from_action:
- * @self: an #EUIManager
- * @item: an item object, its type varies based on the place of use
- * @action: an #EUIAction to update the @item with
- *
- * Updates properties of the @item with the values from the @action.
- * The function can handle only #GMenuItem, #GtkToolButton,
- * #GtkButton and #EHeaderBarButton descendants.
- *
- * Passing other than supported types into the function is
- * considered a programming error.
- *
- * Since: 3.56
- **/
-void
-e_ui_manager_update_item_from_action (EUIManager *self,
-				      gpointer item,
-				      EUIAction *action)
+static void
+e_ui_manager_update_item_from_action_impl (EUIManager *self,
+					   gpointer item,
+					   EUIAction *action,
+					   EUIElement *elem,
+					   gboolean is_popup)
 {
 	GAction *gaction;
 	GVariant *target;
@@ -2480,6 +2476,7 @@ e_ui_manager_update_item_from_action (EUIManager *self,
 	action_name_full = g_strconcat (e_ui_action_get_map_name (action), ".", value, NULL);
 
 	if (G_IS_MENU_ITEM (item)) {
+		const gchar *label_prop;
 		static gint with_icons = -1;
 
 		/* this is remembered per application run, also because it's not
@@ -2500,7 +2497,11 @@ e_ui_manager_update_item_from_action (EUIManager *self,
 			G_CALLBACK (e_ui_manager_synchro_menu_item_attribute_cb),
 			menu_item_data_new (self, item), menu_item_data_free, 0);
 
-		e_ui_manager_synchro_menu_item_attribute (self, action, "label", item);
+		label_prop = ((is_popup || (elem &&
+			e_ui_element_item_get_use_secondary_label (elem))) &&
+			e_ui_action_get_secondary_label (action))
+			? "secondary-label" : "label";
+		e_ui_manager_synchro_menu_item_attribute (self, action, label_prop, item);
 		e_ui_manager_synchro_menu_item_attribute (self, action, "accel", item);
 
 		if (with_icons) {
@@ -2617,6 +2618,28 @@ e_ui_manager_update_item_from_action (EUIManager *self,
 	g_clear_pointer (&action_name_full, g_free);
 }
 
+/**
+ * e_ui_manager_update_item_from_action:
+ * @self: an #EUIManager
+ * @item: an item object, its type varies based on the place of use
+ * @action: an #EUIAction to update the @item with
+ *
+ * Updates properties of the @item with the values from the @action.
+ * The function can handle only #GMenuItem, #GtkToolButton,
+ * #GtkButton and #EHeaderBarButton descendants.
+ *
+ * Passing other than supported types into the function is
+ * considered a programming error.
+ *
+ * Since: 3.56
+ **/
+void
+e_ui_manager_update_item_from_action (EUIManager *self,
+				      gpointer item,
+				      EUIAction *action)
+{
+	e_ui_manager_update_item_from_action_impl (self, item, action, NULL, FALSE);
+}
 
 /**
  * e_ui_manager_create_item_from_menu_model:

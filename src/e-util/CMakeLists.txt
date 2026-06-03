@@ -843,6 +843,7 @@ add_private_programs_simple(
 	test-source-config
 	test-source-selector
 	test-tree-view-frame
+	test-ui-action
 	test-web-view-jsc
 )
 

@@ -66,6 +66,8 @@ gboolean	e_ui_element_item_get_text_only_is_set
 						(const EUIElement *self);
 gboolean	e_ui_element_item_get_text_only	(const EUIElement *self);
 gboolean	e_ui_element_item_get_important	(const EUIElement *self);
+gboolean	e_ui_element_item_get_use_secondary_label
+						(const EUIElement *self);
 const gchar *	e_ui_element_item_get_css_classes
 						(const EUIElement *self);
 const gchar *	e_ui_element_item_get_action	(const EUIElement *self);

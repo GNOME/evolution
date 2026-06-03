@@ -1773,7 +1773,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (MAIL_FOLDER_NEW);
 	sensitive = folder_allows_children;
 	e_ui_action_set_sensitive (action, sensitive);
-	e_ui_action_set_sensitive (ACTION (MAIL_FOLDER_NEW_FULL), sensitive);
 
 	action = ACTION (MAIL_FOLDER_PROPERTIES);
 	sensitive = folder_is_selected;

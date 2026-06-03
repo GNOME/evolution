@@ -143,6 +143,7 @@ struct _EUIElement {
 			gint icon_only;
 			gint text_only;
 			gboolean important;
+			gboolean use_secondary_label;
 			gchar *css_classes;
 			gchar *action;
 			gchar *group;
@@ -216,6 +217,7 @@ e_ui_element_copy (const EUIElement *src)
 		des->data.item.icon_only = src->data.item.icon_only;
 		des->data.item.text_only = src->data.item.text_only;
 		des->data.item.important = src->data.item.important;
+		des->data.item.use_secondary_label = src->data.item.use_secondary_label;
 		des->data.item.css_classes = g_strdup (src->data.item.css_classes);
 		des->data.item.action = g_strdup (src->data.item.action);
 		des->data.item.group = g_strdup (src->data.item.group);
@@ -528,6 +530,8 @@ e_ui_element_export (const EUIElement *self,
 			g_string_append_printf (str, " text_only='%s'", self->data.item.text_only ? "true" : "false");
 		if (self->data.item.important)
 			g_string_append (str, " important='true'");
+		if (self->data.item.use_secondary_label)
+			g_string_append (str, " use_secondary_label='true'");
 		if (self->data.item.css_classes)
 			g_string_append_printf (str, " css_classes='%s'", self->data.item.css_classes);
 		if (self->data.item.order)
@@ -894,6 +898,28 @@ e_ui_element_item_get_important (const EUIElement *self)
 }
 
 /**
+ * e_ui_element_item_get_use_secondary_label:
+ * @self: an #EUIElement
+ *
+ * Gets whether the item should use the action's secondary label
+ * instead of the primary label.
+ *
+ * This can be called only on elements of kind %E_UI_ELEMENT_KIND_ITEM.
+ *
+ * Returns: whether the secondary label should be used
+ *
+ * Since: 3.62
+ **/
+gboolean
+e_ui_element_item_get_use_secondary_label (const EUIElement *self)
+{
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (self->kind == E_UI_ELEMENT_KIND_ITEM, FALSE);
+
+	return self->data.item.use_secondary_label;
+}
+
+/**
  * e_ui_element_item_get_css_classes:
  * @self: an #EUIElement
  *
@@ -1120,6 +1146,7 @@ ui_parser_xml_read_item_element (const gchar *element_name,
 	const gchar *icon_only = NULL;
 	const gchar *text_only = NULL;
 	const gchar *important = NULL;
+	const gchar *use_secondary_label = NULL;
 	const gchar *css_classes = NULL;
 	const gchar *order = NULL;
 	gint order_index = 0;
@@ -1133,6 +1160,7 @@ ui_parser_xml_read_item_element (const gchar *element_name,
 		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "order", &order, /* for headerbar */
 		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "text_only", &text_only, /* for menu */
 		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "important", &important, /* for toolbar */
+		G_MARKUP_COLLECT_STRING | G_MARKUP_COLLECT_OPTIONAL, "use_secondary_label", &use_secondary_label, /* for menu */
 		G_MARKUP_COLLECT_INVALID))
 		return NULL;
 
@@ -1173,11 +1201,20 @@ ui_parser_xml_read_item_element (const gchar *element_name,
 		return NULL;
 	}
 
+	if (use_secondary_label && *use_secondary_label &&
+	    g_strcmp0 (use_secondary_label, "true") != 0 &&
+	    g_strcmp0 (use_secondary_label, "false") != 0) {
+		g_set_error (error, G_MARKUP_ERROR, G_MARKUP_ERROR_INVALID_CONTENT,
+			"The 'use_secondary_label' expects only 'true' or 'false' value, but '%s' was provided instead", use_secondary_label);
+		return NULL;
+	}
+
 	ui_elem = e_ui_element_new (E_UI_ELEMENT_KIND_ITEM, NULL);
 	ui_elem->data.item.css_classes = e_util_strdup_strip (css_classes);
 	ui_elem->data.item.action = e_util_strdup_strip (action);
 	ui_elem->data.item.group = e_util_strdup_strip (group);
 	ui_elem->data.item.important = g_strcmp0 (important, "true") == 0;
+	ui_elem->data.item.use_secondary_label = g_strcmp0 (use_secondary_label, "true") == 0;
 
 	if (icon_only && *icon_only)
 		ui_elem->data.item.icon_only = g_strcmp0 (icon_only, "true") == 0 ? 1 : 0;
@@ -1902,4 +1939,91 @@ e_ui_parser_export (EUIParser *self,
 		g_string_append_c (str, '\n');
 
 	return g_string_free (str, FALSE);
+}
+
+static void
+e_ui_parser_rename_actions_in_element (EUIElement *elem,
+				       GHashTable *renames)
+{
+	const gchar *new_name;
+	guint ii, len;
+
+	if (!elem)
+		return;
+
+	switch (e_ui_element_get_kind (elem)) {
+	case E_UI_ELEMENT_KIND_ITEM:
+		if (elem->data.item.action) {
+			new_name = g_hash_table_lookup (renames, elem->data.item.action);
+			if (new_name) {
+				g_free (elem->data.item.action);
+				elem->data.item.action = g_strdup (new_name);
+			}
+		}
+		break;
+	case E_UI_ELEMENT_KIND_SUBMENU:
+		if (elem->data.submenu.action) {
+			new_name = g_hash_table_lookup (renames, elem->data.submenu.action);
+			if (new_name) {
+				g_free (elem->data.submenu.action);
+				elem->data.submenu.action = g_strdup (new_name);
+			}
+		}
+		break;
+	default:
+		break;
+	}
+
+	len = e_ui_element_get_n_children (elem);
+	for (ii = 0; ii < len; ii++)
+		e_ui_parser_rename_actions_in_element (e_ui_element_get_child (elem, ii), renames);
+}
+
+void _e_ui_parser_rename_actions (EUIParser *self, GHashTable *renames);
+
+void
+_e_ui_parser_rename_actions (EUIParser *self,
+			     GHashTable *renames)
+{
+	g_return_if_fail (E_IS_UI_PARSER (self));
+	g_return_if_fail (renames != NULL);
+
+	if (self->root)
+		e_ui_parser_rename_actions_in_element (self->root, renames);
+
+	if (self->accels) {
+		GHashTableIter iter;
+		gpointer key, value;
+		GHashTable *to_rename;
+
+		to_rename = g_hash_table_new (g_str_hash, g_str_equal);
+
+		g_hash_table_iter_init (&iter, self->accels);
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			const gchar *new_action;
+
+			new_action = g_hash_table_lookup (renames, key);
+			if (new_action)
+				g_hash_table_insert (to_rename, key, (gpointer) new_action);
+		}
+
+		if (g_hash_table_size (to_rename) > 0) {
+			GHashTableIter rename_iter;
+			gpointer old_key, new_key;
+
+			g_hash_table_iter_init (&rename_iter, to_rename);
+			while (g_hash_table_iter_next (&rename_iter, &old_key, &new_key)) {
+				GPtrArray *accels;
+
+				accels = g_hash_table_lookup (self->accels, old_key);
+				if (accels) {
+					g_ptr_array_ref (accels);
+					g_hash_table_remove (self->accels, old_key);
+					g_hash_table_insert (self->accels, g_strdup (new_key), accels);
+				}
+			}
+		}
+
+		g_hash_table_unref (to_rename);
+	}
 }

@@ -19,6 +19,18 @@
 #define WEIGHT_NORMAL 400
 #define WEIGHT_BOLD 800
 
+static const gchar *
+e_ui_customize_dialog_get_action_label (EUIAction *action)
+{
+	const gchar *label;
+
+	label = e_ui_action_get_secondary_label (action);
+	if (!label)
+		label = e_ui_action_get_label (action);
+
+	return label;
+}
+
 /**
  * SECTION: e-ui-customize-dialog
  * @include: e-util/e-util.h
@@ -433,7 +445,7 @@ customize_shortcuts_action_take_accels (EUICustomizeDialog *self,
 	action = e_ui_manager_get_action (e_ui_customizer_get_manager (customizer), action_name);
 	g_return_if_fail (action != NULL);
 
-	label = e_str_without_underscores (e_ui_action_get_label (action));
+	label = e_str_without_underscores (e_ui_customize_dialog_get_action_label (action));
 
 	customize_shortcuts_traverse (self->all_shortcuts, customizer, action, label, customize_shortcuts_remove_from_all);
 	e_ui_customizer_take_accels (customizer, g_action_get_name (G_ACTION (action)), accels);
@@ -3006,7 +3018,7 @@ sort_actions_by_display_name_cb (gconstpointer aa,
 	EUIAction *act2 = *((EUIAction **) bb);
 
 	if (act1 && act2)
-		return g_utf8_collate (e_ui_action_get_label (act1), e_ui_action_get_label (act2));
+		return g_utf8_collate (e_ui_customize_dialog_get_action_label (act1), e_ui_customize_dialog_get_action_label (act2));
 
 	if (act1)
 		return -1;
@@ -3051,7 +3063,7 @@ add_element_children (GtkTreeStore *tree_store,
 
 				action = e_ui_manager_get_action (manager, action_name);
 				if (action)
-					label = e_str_without_underscores (e_ui_action_get_label (action));
+					label = e_str_without_underscores (e_ui_customize_dialog_get_action_label (action));
 			}
 
 			if (!label)
@@ -3086,7 +3098,7 @@ add_element_children (GtkTreeStore *tree_store,
 
 				action = e_ui_manager_get_action (manager, action_name);
 				if (action)
-					label = e_str_without_underscores (e_ui_action_get_label (action));
+					label = e_str_without_underscores (e_ui_customize_dialog_get_action_label (action));
 			}
 
 			if (!label)
@@ -3233,7 +3245,7 @@ part_combo_changed_cb (GtkComboBox *combo,
 				is_new_elem = TRUE;
 			}
 
-			label = e_str_without_underscores (e_ui_action_get_label (action));
+			label = e_str_without_underscores (e_ui_customize_dialog_get_action_label (action));
 			tooltip = e_ui_action_get_tooltip (action);
 			if (!tooltip)
 				tooltip = "";

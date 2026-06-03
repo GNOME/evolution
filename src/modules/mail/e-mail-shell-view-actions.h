@@ -71,8 +71,6 @@
 	E_SHELL_VIEW_ACTION ((view), "mail-folder-move")
 #define E_SHELL_VIEW_ACTION_MAIL_FOLDER_NEW(view) \
 	E_SHELL_VIEW_ACTION ((view), "mail-folder-new")
-#define E_SHELL_VIEW_ACTION_MAIL_FOLDER_NEW_FULL(view) \
-	E_SHELL_VIEW_ACTION ((view), "mail-folder-new-full")
 #define E_SHELL_VIEW_ACTION_MAIL_FOLDER_PROPERTIES(view) \
 	E_SHELL_VIEW_ACTION ((view), "mail-folder-properties")
 #define E_SHELL_VIEW_ACTION_MAIL_FOLDER_REFRESH(view) \

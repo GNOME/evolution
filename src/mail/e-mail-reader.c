@@ -3221,13 +3221,6 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("Flag the selected messages for follow-up"),
 		  action_mail_flag_for_followup_cb, NULL, NULL, NULL },
 
-		{ "mail-flag-for-followup-full",
-		  "stock_mail-flag-for-followup",
-		  N_("Mark for Follo_w Up…"),
-		  NULL,
-		  N_("Flag the selected messages for follow-up"),
-		  action_mail_flag_for_followup_cb, NULL, NULL, NULL },
-
 		{ "mail-forward",
 		  "mail-forward",
 		  N_("_Forward"),
@@ -3242,13 +3235,6 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("Forward the selected message to someone as an attachment"),
 		  action_mail_forward_attached_cb, NULL, NULL, NULL },
 
-		{ "mail-forward-attached-full",
-		  NULL,
-		  N_("Forward As _Attached"),
-		  NULL,
-		  N_("Forward the selected message to someone as an attachment"),
-		  action_mail_forward_attached_cb, NULL, NULL, NULL },
-
 		{ "mail-forward-inline",
 		  NULL,
 		  N_("_Inline"),
@@ -3256,23 +3242,9 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("Forward the selected message in the body of a new message"),
 		  action_mail_forward_inline_cb, NULL, NULL, NULL },
 
-		{ "mail-forward-inline-full",
-		  NULL,
-		  N_("Forward As _Inline"),
-		  NULL,
-		  N_("Forward the selected message in the body of a new message"),
-		  action_mail_forward_inline_cb, NULL, NULL, NULL },
-
 		{ "mail-forward-quoted",
 		  NULL,
 		  N_("_Quoted"),
-		  NULL,
-		  N_("Forward the selected message quoted like a reply"),
-		  action_mail_forward_quoted_cb, NULL, NULL, NULL },
-
-		{ "mail-forward-quoted-full",
-		  NULL,
-		  N_("Forward As _Quoted"),
 		  NULL,
 		  N_("Forward the selected message quoted like a reply"),
 		  action_mail_forward_quoted_cb, NULL, NULL, NULL },
@@ -3335,24 +3307,10 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("Mark the selected messages as important"),
 		  action_mail_mark_important_cb, NULL, NULL, NULL },
 
-		{ "mail-mark-important-full",
-		  "mail-mark-important",
-		  N_("Mark as _Important"),
-		  NULL,
-		  N_("Mark the selected messages as important"),
-		  action_mail_mark_important_cb, NULL, NULL, NULL },
-
 		{ "mail-mark-junk",
 		  "mail-mark-junk",
 		  N_("_Junk"),
 		  "<Control>j",
-		  N_("Mark the selected messages as junk"),
-		  action_mail_mark_junk_cb, NULL, NULL, NULL },
-
-		{ "mail-mark-junk-full",
-		  "mail-mark-junk",
-		  N_("Mark as _Junk"),
-		  NULL,
 		  N_("Mark the selected messages as junk"),
 		  action_mail_mark_junk_cb, NULL, NULL, NULL },
 
@@ -3363,23 +3321,9 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("Mark the selected messages as not being junk"),
 		  action_mail_mark_notjunk_cb, NULL, NULL, NULL },
 
-		{ "mail-mark-notjunk-full",
-		  "mail-mark-notjunk",
-		  N_("Mark as _Not Junk"),
-		  NULL,
-		  N_("Mark the selected messages as not being junk"),
-		  action_mail_mark_notjunk_cb, NULL, NULL, NULL },
-
 		{ "mail-mark-read",
 		  "mail-mark-read",
 		  N_("_Read"),
-		  "<Control>k",
-		  N_("Mark the selected messages as having been read"),
-		  action_mail_mark_read_cb, NULL, NULL, NULL },
-
-		{ "mail-mark-read-full",
-		  "mail-mark-read",
-		  N_("Mar_k as Read"),
 		  "<Control>k",
 		  N_("Mark the selected messages as having been read"),
 		  action_mail_mark_read_cb, NULL, NULL, NULL },
@@ -3405,24 +3349,10 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  N_("Mark the selected messages as unimportant"),
 		  action_mail_mark_unimportant_cb, NULL, NULL, NULL },
 
-		{ "mail-mark-unimportant-full",
-		  NULL,
-		  N_("Mark as Uni_mportant"),
-		  NULL,
-		  N_("Mark the selected messages as unimportant"),
-		  action_mail_mark_unimportant_cb, NULL, NULL, NULL },
-
 		{ "mail-mark-unread",
 		  "mail-mark-unread",
 		  N_("_Unread"),
 		  "<Shift><Control>k",
-		  N_("Mark the selected messages as not having been read"),
-		  action_mail_mark_unread_cb, NULL, NULL, NULL },
-
-		{ "mail-mark-unread-full",
-		  "mail-mark-unread",
-		  N_("Mark as _Unread"),
-		  NULL,
 		  N_("Mark the selected messages as not having been read"),
 		  action_mail_mark_unread_cb, NULL, NULL, NULL },
 
@@ -3697,23 +3627,37 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		  action_mail_search_folder_from_subject_cb, NULL, NULL, NULL },
 	};
 
-	const struct _name_pair {
-		const gchar *src_name;
-		const gchar *dst_name;
-	} name_pairs[] = {
-		{ "mail-flag-for-followup", "mail-flag-for-followup-full" },
-		{ "mail-forward-attached", "mail-forward-attached-full" },
-		{ "mail-forward-inline", "mail-forward-inline-full" },
-		{ "mail-forward-quoted", "mail-forward-quoted-full" },
-		{ "mail-mark-important", "mail-mark-important-full" },
-		{ "mail-mark-junk", "mail-mark-junk-full" },
-		{ "mail-mark-notjunk", "mail-mark-notjunk-full" },
-		{ "mail-mark-unimportant", "mail-mark-unimportant-full" },
-		{ "mail-mark-unread", "mail-mark-unread-full" }
+	static const struct _secondary_label {
+		const gchar *action_name;
+		const gchar *secondary_label;
+	} secondary_labels[] = {
+		{ "mail-mark-read", N_("Mar_k as Read") },
+		{ "mail-mark-unread", N_("Mark as _Unread") },
+		{ "mail-mark-important", N_("Mark as _Important") },
+		{ "mail-mark-unimportant", N_("Mark as Uni_mportant") },
+		{ "mail-mark-junk", N_("Mark as _Junk") },
+		{ "mail-mark-notjunk", N_("Mark as _Not Junk") },
+		{ "mail-flag-for-followup", N_("Mark for Follo_w Up…") },
+		{ "mail-forward-attached", N_("Forward As _Attached") },
+		{ "mail-forward-inline", N_("Forward As _Inline") },
+		{ "mail-forward-quoted", N_("Forward As _Quoted") },
+	};
+	static const EUIActionRename action_renames[] = {
+		{ "mail-flag-for-followup-full", "mail-flag-for-followup" },
+		{ "mail-forward-attached-full", "mail-forward-attached" },
+		{ "mail-forward-inline-full", "mail-forward-inline" },
+		{ "mail-forward-quoted-full", "mail-forward-quoted" },
+		{ "mail-mark-important-full", "mail-mark-important" },
+		{ "mail-mark-junk-full", "mail-mark-junk" },
+		{ "mail-mark-notjunk-full", "mail-mark-notjunk" },
+		{ "mail-mark-read-full", "mail-mark-read" },
+		{ "mail-mark-unimportant-full", "mail-mark-unimportant" },
+		{ "mail-mark-unread-full", "mail-mark-unread" },
 	};
 	EUIManager *ui_manager;
 	EMailReaderPrivate *priv;
 	EMailDisplay *display;
+	EUICustomizer *customizer;
 	EUIAction *action;
 	GSettings *settings;
 	gint ii;
@@ -3748,12 +3692,15 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 		"EMailReader::mail-label-actions",
 		NULL);
 
-	for (ii = 0; ii < G_N_ELEMENTS (name_pairs); ii++) {
-		e_binding_bind_property (
-			e_ui_manager_get_action (ui_manager, name_pairs[ii].src_name), "sensitive",
-			e_ui_manager_get_action (ui_manager, name_pairs[ii].dst_name), "sensitive",
-			G_BINDING_SYNC_CREATE);
+	for (ii = 0; ii < G_N_ELEMENTS (secondary_labels); ii++) {
+		action = e_ui_manager_get_action (ui_manager, secondary_labels[ii].action_name);
+		if (action)
+			e_ui_action_set_secondary_label (action, g_dgettext (NULL, secondary_labels[ii].secondary_label));
 	}
+
+	customizer = e_ui_manager_get_customizer (ui_manager);
+	if (customizer)
+		e_ui_customizer_rename_actions (customizer, action_renames, G_N_ELEMENTS (action_renames));
 
 	if (!e_ui_parser_merge_file (e_ui_manager_get_parser (ui_manager), "evolution-mail-reader.eui", &local_error))
 		g_warning ("%s: Failed to read %s file: %s", G_STRFUNC, "evolution-mail-reader.eui", local_error ? local_error->message : "Unknown error");

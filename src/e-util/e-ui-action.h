@@ -81,6 +81,9 @@ const gchar *	e_ui_action_get_icon_name	(EUIAction *self);
 void		e_ui_action_set_label		(EUIAction *self,
 						 const gchar *label);
 const gchar *	e_ui_action_get_label		(EUIAction *self);
+void		e_ui_action_set_secondary_label	(EUIAction *self,
+						 const gchar *label);
+const gchar *	e_ui_action_get_secondary_label	(EUIAction *self);
 void		e_ui_action_set_accel		(EUIAction *self,
 						 const gchar *accel);
 const gchar *	e_ui_action_get_accel		(EUIAction *self);

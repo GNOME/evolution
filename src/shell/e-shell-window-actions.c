@@ -142,10 +142,10 @@ shell_window_create_shortcuts_dialog (EShellWindow *self)
                 item ("mail-smart-forward", NC_("shortcut window", "Scroll down")),
 
                 group (NC_("shortcut window", "Mail Message")),
-                item ("mail-mark-read-full", NC_("shortcut window", "Mark selected messages as read")),
-                item ("mail-mark-unread-full", NC_("shortcut window", "Mark selected messages as unread")),
-                item ("mail-mark-junk-full", NC_("shortcut window", "Mark selected messages as junk")),
-                item ("mail-mark-notjunk-full", NC_("shortcut window", "Mark selected messages as not junk")),
+                item ("mail-mark-read", NC_("shortcut window", "Mark selected messages as read")),
+                item ("mail-mark-unread", NC_("shortcut window", "Mark selected messages as unread")),
+                item ("mail-mark-junk", NC_("shortcut window", "Mark selected messages as junk")),
+                item ("mail-mark-notjunk", NC_("shortcut window", "Mark selected messages as not junk")),
                 item ("mail-flag-for-followup", NC_("shortcut window", "Flag selected messages for follow-up")),
                 item ("mail-forward", NC_("shortcut window", "Forward selected messages")),
                 item ("mail-reply-sender", NC_("shortcut window", "Reply to sender")),
@@ -283,7 +283,11 @@ shell_window_create_shortcuts_dialog (EShellWindow *self)
 
 				if (accels->len) {
 					shortcut = g_object_new (GTK_TYPE_SHORTCUTS_SHORTCUT,
-						"title", shortcuts[ii].label ? g_dpgettext2 (GETTEXT_PACKAGE, "shortcut window", shortcuts[ii].label) : e_ui_action_get_label (action),
+						"title", shortcuts[ii].label ?
+						g_dpgettext2 (GETTEXT_PACKAGE, "shortcut window", shortcuts[ii].label) :
+						(e_ui_action_get_secondary_label (action) ?
+							e_ui_action_get_secondary_label (action) :
+							e_ui_action_get_label (action)),
 						"accelerator", accels->str,
 						"visible", TRUE,
 						NULL);

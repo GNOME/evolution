@@ -122,7 +122,7 @@
     <placeholder id='mail-folder-popup-actions'/>
     <item action='mail-popup-folder-mark-all-as-read'/>
     <separator/>
-    <item action='mail-folder-new-full'/>
+    <item action='mail-folder-new'/>
     <item action='mail-folder-copy'/>
     <item action='mail-folder-move'/>
     <separator/>
@@ -152,13 +152,13 @@
     <item action='mail-move'/>
     <item action='mail-archive'/>
     <separator/>
-    <item action='mail-mark-read-full'/>
-    <item action='mail-mark-unread-full'/>
-    <item action='mail-mark-important-full'/>
-    <item action='mail-mark-unimportant-full'/>
-    <item action='mail-mark-junk-full'/>
-    <item action='mail-mark-notjunk-full'/>
-    <item action='mail-flag-for-followup-full'/>
+    <item action='mail-mark-read'/>
+    <item action='mail-mark-unread'/>
+    <item action='mail-mark-important'/>
+    <item action='mail-mark-unimportant'/>
+    <item action='mail-mark-junk'/>
+    <item action='mail-mark-notjunk'/>
+    <item action='mail-flag-for-followup'/>
     <item action='mail-flag-clear'/>
     <item action='mail-flag-completed'/>
     <separator/>

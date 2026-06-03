@@ -393,6 +393,46 @@ e_ui_customizer_save (EUICustomizer *self,
 	return success;
 }
 
+/* Private function defined in e-ui-parser.c */
+void _e_ui_parser_rename_actions (EUIParser *self, GHashTable *renames);
+
+/**
+ * e_ui_customizer_rename_actions:
+ * @self: an #EUICustomizer
+ * @renames: (array length=n_renames): an array of old/new action name pairs
+ * @n_renames: the number of elements in @renames
+ *
+ * Renames action references in the loaded customization data.
+ * This is used to migrate user customizations when action names
+ * change between versions. The old action names in menus, toolbars,
+ * headerbars and accelerator overrides are replaced with the new names.
+ *
+ * Since: 3.62
+ **/
+void
+e_ui_customizer_rename_actions (EUICustomizer *self,
+				const EUIActionRename *renames,
+				guint n_renames)
+{
+	GHashTable *hash;
+	guint ii;
+
+	g_return_if_fail (E_IS_UI_CUSTOMIZER (self));
+	g_return_if_fail (renames != NULL || n_renames == 0);
+
+	if (!n_renames)
+		return;
+
+	hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	for (ii = 0; ii < n_renames; ii++)
+		g_hash_table_insert (hash, (gpointer) renames[ii].old_name, (gpointer) renames[ii].new_name);
+
+	_e_ui_parser_rename_actions (self->parser, hash);
+
+	g_hash_table_unref (hash);
+}
+
 /**
  * e_ui_customizer_register:
  * @self: an #EUICustomizer
