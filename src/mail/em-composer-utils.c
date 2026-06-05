@@ -1003,6 +1003,7 @@ em_utils_composer_real_send (EMsgComposer *composer,
 	CamelService *transport;
 	GCancellable *cancellable;
 	GSettings *settings;
+	GError *error = NULL;
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	if (g_settings_get_boolean (settings, "composer-use-outbox")) {
@@ -1032,12 +1033,23 @@ em_utils_composer_real_send (EMsgComposer *composer,
 		return;
 	}
 
+	transport = e_mail_session_ref_transport_for_message (session, message, &error);
+
+	if (!transport) {
+		if (error != NULL) {
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (composer),
+				"mail-composer:send-error",
+				error->message, NULL);
+			g_clear_error (&error);
+		}
+		return;
+	}
+
 	async_context = g_slice_new0 (AsyncContext);
 	async_context->message = g_object_ref (message);
 	async_context->composer = g_object_ref (composer);
 	async_context->activity = g_object_ref (activity);
-
-	transport = e_mail_session_ref_transport_for_message (session, message);
 
 	if (transport) {
 		EShell *shell;

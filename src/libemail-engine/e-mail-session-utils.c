@@ -47,6 +47,7 @@ struct _AsyncContext {
 
 	gchar *folder_uri;
 
+	GError *transport_error;
 	gboolean use_sent_folder;
 	gboolean request_dsn;
 };
@@ -66,6 +67,7 @@ async_context_free (AsyncContext *context)
 	g_clear_object (&context->recipients);
 	g_clear_object (&context->driver);
 	g_clear_object (&context->transport);
+	g_clear_error (&context->transport_error);
 
 	if (context->cancellable != NULL) {
 		camel_operation_pop_message (context->cancellable);
@@ -493,10 +495,12 @@ mail_session_send_to_thread (GTask *task,
 
 	if (context->transport == NULL) {
 		mail_tool_restore_xevolution_headers (context->message, context->xev_headers);
-		g_task_return_new_error (
-			task, CAMEL_SERVICE_ERROR,
-			CAMEL_SERVICE_ERROR_UNAVAILABLE,
-			_("No mail transport service available"));
+		if (context->transport_error != NULL) {
+			g_task_return_error (task, g_steal_pointer (&context->transport_error));
+		} else {
+			g_task_return_new_error (task, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_UNAVAILABLE,
+				_("No mail transport service available"));
+		}
 		return;
 	}
 
@@ -797,6 +801,7 @@ e_mail_session_send_to (EMailSession *session,
 	gboolean request_dsn;
 	gsize msg_size;
 	guint ii, len;
+	GError *transport_error = NULL;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
@@ -811,7 +816,7 @@ e_mail_session_send_to (EMailSession *session,
 
 	/* Do this before removing "X-Evolution" headers. */
 	transport = e_mail_session_ref_transport_for_message (
-		session, message);
+		session, message, &transport_error);
 
 	xev_headers = mail_tool_remove_xevolution_headers (message);
 	len = camel_name_value_array_get_length (xev_headers);
@@ -901,6 +906,7 @@ e_mail_session_send_to (EMailSession *session,
 	context->xev_headers = xev_headers;
 	context->post_to_uris = post_to_uris;
 	context->transport = transport;
+	context->transport_error = transport_error;
 
 	if (G_IS_CANCELLABLE (cancellable))
 		context->cancellable = g_object_ref (cancellable);
@@ -1425,7 +1431,8 @@ e_mail_session_get_fcc_for_message_finish (EMailSession *session,
  **/
 CamelService *
 e_mail_session_ref_transport (EMailSession *session,
-                              const gchar *transport_uid)
+                              const gchar *transport_uid,
+                              GError **error)
 {
 	ESourceRegistry *registry;
 	ESource *source = NULL;
@@ -1443,8 +1450,26 @@ e_mail_session_ref_transport (EMailSession *session,
 	if (source == NULL)
 		goto exit;
 
-	if (!e_source_registry_check_enabled (registry, source))
-		goto exit;
+	if (!e_source_get_enabled (source)) {
+		ESource *parent = NULL;
+		const gchar *parent_uid;
+
+		parent_uid = e_source_get_parent (source);
+		if (parent_uid)
+			parent = e_source_registry_ref_source (registry, parent_uid);
+
+		if (parent && e_source_registry_check_enabled (registry, parent)) {
+			e_source_set_enabled (source, TRUE);
+			e_source_write (source, NULL, NULL, NULL);
+		}
+		g_clear_object (&parent);
+
+		if (!e_source_get_enabled (source)) {
+			g_set_error (error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_INVALID,
+				_("Mail transport “%s” is disabled"), e_source_get_display_name (source));
+			goto exit;
+		}
+	}
 
 	if (!e_source_has_extension (source, extension_name))
 		goto exit;
@@ -1466,7 +1491,8 @@ exit:
  * and mail_session_ref_transport_from_x_identity(). */
 static CamelService *
 mail_session_ref_transport_for_identity (EMailSession *session,
-                                         ESource *source)
+                                         ESource *source,
+                                         GError **error)
 {
 	ESourceRegistry *registry;
 	ESourceMailSubmission *extension;
@@ -1490,7 +1516,7 @@ mail_session_ref_transport_for_identity (EMailSession *session,
 	uid = e_source_mail_submission_dup_transport_uid (extension);
 
 	if (uid != NULL) {
-		transport = e_mail_session_ref_transport (session, uid);
+		transport = e_mail_session_ref_transport (session, uid, error);
 		g_free (uid);
 	}
 
@@ -1514,7 +1540,8 @@ mail_session_ref_transport_for_identity (EMailSession *session,
  * Returns: a #CamelService, or %NULL
  **/
 CamelService *
-e_mail_session_ref_default_transport (EMailSession *session)
+e_mail_session_ref_default_transport (EMailSession *session,
+                                      GError **error)
 {
 	ESource *source;
 	ESourceRegistry *registry;
@@ -1524,7 +1551,7 @@ e_mail_session_ref_default_transport (EMailSession *session)
 
 	registry = e_mail_session_get_registry (session);
 	source = e_source_registry_ref_default_mail_identity (registry);
-	transport = mail_session_ref_transport_for_identity (session, source);
+	transport = mail_session_ref_transport_for_identity (session, source, error);
 	g_clear_object (&source);
 
 	return transport;
@@ -1533,7 +1560,8 @@ e_mail_session_ref_default_transport (EMailSession *session)
 /* Helper for e_mail_session_ref_transport_for_message() */
 static CamelService *
 mail_session_ref_transport_from_x_identity (EMailSession *session,
-                                            CamelMimeMessage *message)
+                                            CamelMimeMessage *message,
+                                            GError **error)
 {
 	ESource *source;
 	ESourceRegistry *registry;
@@ -1554,7 +1582,7 @@ mail_session_ref_transport_from_x_identity (EMailSession *session,
 
 	registry = e_mail_session_get_registry (session);
 	source = e_source_registry_ref_source (registry, uid);
-	transport = mail_session_ref_transport_for_identity (session, source);
+	transport = mail_session_ref_transport_for_identity (session, source, error);
 	g_clear_object (&source);
 
 	g_free (uid);
@@ -1565,7 +1593,8 @@ mail_session_ref_transport_from_x_identity (EMailSession *session,
 /* Helper for e_mail_session_ref_transport_for_message() */
 static CamelService *
 mail_session_ref_transport_from_x_transport (EMailSession *session,
-                                             CamelMimeMessage *message)
+                                             CamelMimeMessage *message,
+                                             GError **error)
 {
 	CamelMedium *medium;
 	CamelService *transport;
@@ -1582,7 +1611,7 @@ mail_session_ref_transport_from_x_transport (EMailSession *session,
 
 	uid = g_strstrip (g_strdup (header_value));
 
-	transport = e_mail_session_ref_transport (session, uid);
+	transport = e_mail_session_ref_transport (session, uid, error);
 
 	g_free (uid);
 
@@ -1606,26 +1635,30 @@ mail_session_ref_transport_from_x_transport (EMailSession *session,
  **/
 CamelService *
 e_mail_session_ref_transport_for_message (EMailSession *session,
-                                          CamelMimeMessage *message)
+                                          CamelMimeMessage *message,
+                                          GError **error)
 {
 	CamelService *transport = NULL;
+	GError *local_error = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	/* Check for "X-Evolution-Identity" header. */
-	if (transport == NULL)
-		transport = mail_session_ref_transport_from_x_identity (
-			session, message);
+	transport = mail_session_ref_transport_from_x_identity (
+		session, message, &local_error);
 
 	/* Check for "X-Evolution-Transport" header. */
-	if (transport == NULL)
+	if (transport == NULL && local_error == NULL)
 		transport = mail_session_ref_transport_from_x_transport (
-			session, message);
+			session, message, &local_error);
 
 	/* Fall back to the default mail transport. */
-	if (transport == NULL)
-		transport = e_mail_session_ref_default_transport (session);
+	if (transport == NULL && local_error == NULL)
+		transport = e_mail_session_ref_default_transport (session, &local_error);
+
+	if (local_error != NULL)
+		g_propagate_error (error, local_error);
 
 	return transport;
 }

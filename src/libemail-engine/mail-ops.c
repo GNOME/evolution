@@ -564,6 +564,7 @@ mail_send_message (struct _send_queue_msg *m,
 	gint i;
 	gsize msg_size;
 	guint jj, len;
+	GError *transport_error = NULL;
 	GError *local_error = NULL;
 	gboolean did_connect = FALSE;
 	gboolean sent_message_saved = FALSE;
@@ -581,7 +582,7 @@ mail_send_message (struct _send_queue_msg *m,
 
 	/* Do this before removing "X-Evolution" headers. */
 	service = e_mail_session_ref_transport_for_message (
-		m->session, message);
+		m->session, message, &transport_error);
 	if (service != NULL)
 		provider = camel_service_get_provider (service);
 
@@ -627,6 +628,15 @@ mail_send_message (struct _send_queue_msg *m,
 	}
 
 	if (camel_address_length (recipients) > 0) {
+		if (!service) {
+			if (transport_error != NULL) {
+				g_propagate_error (error, g_steal_pointer (&transport_error));
+			} else {
+				g_set_error (error, CAMEL_SERVICE_ERROR, CAMEL_SERVICE_ERROR_UNAVAILABLE,
+					_("No mail transport service available"));
+			}
+			goto exit;
+		}
 		if (provider && (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0 &&
 		    !camel_session_get_online (CAMEL_SESSION (m->session))) {
 			/* silently ignore */
@@ -886,6 +896,7 @@ exit:
 
 	g_clear_object (&info);
 	g_clear_object (&service);
+	g_clear_error (&transport_error);
 
 	g_object_unref (recipients);
 	g_object_unref (from);

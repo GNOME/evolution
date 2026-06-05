@@ -106,12 +106,15 @@ CamelFolder *	e_mail_session_get_fcc_for_message_finish
 						 gboolean *out_use_sent_folder,
 						 GError **error);
 CamelService *	e_mail_session_ref_transport	(EMailSession *session,
-						 const gchar *transport_uid);
+						 const gchar *transport_uid,
+						 GError **error);
 CamelService *	e_mail_session_ref_default_transport
-						(EMailSession *session);
+						(EMailSession *session,
+						 GError **error);
 CamelService *	e_mail_session_ref_transport_for_message
 						(EMailSession *session,
-						 CamelMimeMessage *message);
+						 CamelMimeMessage *message,
+						 GError **error);
 
 G_END_DECLS
 
