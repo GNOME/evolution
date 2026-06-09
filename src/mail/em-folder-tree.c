@@ -867,7 +867,7 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 			 * from your translation.
 			 */
 			C_("folder-display", "%s (%u%s)"),
-			name, unread, subdirs_unread ? "+" : "");
+			name, unread, !is_expanded && subdirs_unread ? "+" : "");
 		g_object_set (renderer, "text", name_and_unread, NULL);
 		g_free (name_and_unread);
 
