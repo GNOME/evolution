@@ -76,6 +76,7 @@ enum {
 	COL_UINT_SORT_ORDER,		/* 0 - use default; non-zero - define sort order on its level */
 
 	COL_UINT_STATUS_CODE,		/* Status code for the store - one of EMFT_STATUS_CODE_ constancts */
+	COL_BOOL_SUBDIRS_UNREAD,	/* TRUE if any descendant folder has unread > 0 */
 
 	NUM_COLUMNS
 };

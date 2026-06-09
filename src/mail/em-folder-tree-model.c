@@ -984,7 +984,8 @@ folder_tree_model_constructed (GObject *object)
 		G_TYPE_ICON,      /* COL_GICON_CUSTOM_ICON */
 		GDK_TYPE_RGBA,    /* COL_RGBA_FOREGROUND_RGBA */
 		G_TYPE_UINT,      /* COL_UINT_SORT_ORDER */
-		G_TYPE_UINT       /* COL_UINT_STATUS_CODE */
+		G_TYPE_UINT,      /* COL_UINT_STATUS_CODE */
+		G_TYPE_BOOLEAN    /* COL_BOOL_SUBDIRS_UNREAD */
 	};
 
 	g_warn_if_fail (G_N_ELEMENTS (col_types) == NUM_COLUMNS);
@@ -1075,6 +1076,37 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 		G_TYPE_STRING,
 		G_TYPE_POINTER,
 		G_TYPE_POINTER);
+}
+
+static void
+folder_tree_model_recompute_subdirs_unread (EMFolderTreeModel *model,
+					    GtkTreeIter *parent_iter)
+{
+	GtkTreeModel *tree_model;
+	GtkTreeIter child;
+	gboolean any_unread = FALSE;
+
+	tree_model = GTK_TREE_MODEL (model);
+
+	if (gtk_tree_model_iter_children (tree_model, &child, parent_iter)) {
+		do {
+			guint unread = 0;
+			gboolean child_subdirs = FALSE;
+
+			gtk_tree_model_get (tree_model, &child,
+				COL_UINT_UNREAD, &unread,
+				COL_BOOL_SUBDIRS_UNREAD, &child_subdirs,
+				-1);
+
+			if (unread > 0 || child_subdirs) {
+				any_unread = TRUE;
+				break;
+			}
+		} while (gtk_tree_model_iter_next (tree_model, &child));
+	}
+
+	gtk_tree_store_set (GTK_TREE_STORE (model), parent_iter,
+		COL_BOOL_SUBDIRS_UNREAD, any_unread, -1);
 }
 
 static void
@@ -1173,6 +1205,7 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 	 * they contain unread messages.  We signal that parent rows
 	 * have changed here to update them. */
 	while (gtk_tree_model_iter_parent (tree_model, &parent, &iter)) {
+		folder_tree_model_recompute_subdirs_unread (model, &parent);
 		path = gtk_tree_model_get_path (tree_model, &parent);
 		gtk_tree_model_row_changed (tree_model, path, &parent);
 		gtk_tree_path_free (path);
@@ -1587,10 +1620,21 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	g_signal_emit (model, signals[FOLDER_CUSTOM_ICON], 0,
 		iter, store, fi->full_name);
 
-	if (unread != ~0)
+	if (unread != ~0) {
 		gtk_tree_store_set (
 			tree_store, iter, COL_UINT_UNREAD, unread,
 			COL_UINT_UNREAD_LAST_SEL, unread, -1);
+
+		if (unread > 0) {
+			GtkTreeIter ancestor, current;
+
+			current = *iter;
+			while (gtk_tree_model_iter_parent (GTK_TREE_MODEL (model), &ancestor, &current)) {
+				folder_tree_model_recompute_subdirs_unread (model, &ancestor);
+				current = ancestor;
+			}
+		}
+	}
 
 	if (load) {
 		/* create a placeholder node for our subfolders... */

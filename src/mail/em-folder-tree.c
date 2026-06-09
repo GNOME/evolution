@@ -90,6 +90,9 @@ struct _EMFolderTreePrivate {
 
 	gchar *new_message_text_color;
 	GdkRGBA new_message_text_color_rgba;
+
+	GtkTreePath *cached_drag_dest_row;
+	GEmblem *new_mail_emblem;
 };
 
 struct _AsyncContext {
@@ -782,29 +785,6 @@ folder_tree_reset_store_unread_value_cb (GtkTreeView *tree_view,
 	}
 }
 
-static gboolean
-subdirs_contain_unread (GtkTreeModel *model,
-                        GtkTreeIter *root)
-{
-	guint unread;
-	GtkTreeIter iter;
-
-	if (!gtk_tree_model_iter_children (model, &iter, root))
-		return FALSE;
-
-	do {
-		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
-		if (unread)
-			return TRUE;
-
-		if (gtk_tree_model_iter_has_child (model, &iter))
-			if (subdirs_contain_unread (model, &iter))
-				return TRUE;
-	} while (gtk_tree_model_iter_next (model, &iter));
-
-	return FALSE;
-}
-
 static void
 folder_tree_render_display_name (GtkTreeViewColumn *column,
                                  GtkCellRenderer *renderer,
@@ -813,24 +793,23 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 				 gpointer user_data)
 {
 	EMFolderTree *self = user_data;
-	CamelService *service;
 	PangoWeight weight;
-	gboolean is_store, bold, subdirs_unread = FALSE;
+	gboolean is_store = FALSE, bold, subdirs_unread = FALSE;
 	gboolean is_expanded = TRUE, is_draft = FALSE;
-	gboolean editable;
-	guint unread, unread_last_sel;
+	gboolean editable = FALSE;
+	guint unread = 0, unread_last_sel = 0;
 	guint32 folder_flags = 0;
-	gchar *name;
+	gchar *name = NULL;
 
 	gtk_tree_model_get (
 		model, iter,
 		COL_STRING_DISPLAY_NAME, &name,
-		COL_OBJECT_CAMEL_STORE, &service,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_UINT_UNREAD, &unread,
 		COL_UINT_UNREAD_LAST_SEL, &unread_last_sel,
 		COL_UINT_FLAGS, &folder_flags,
 		COL_BOOL_IS_DRAFT, &is_draft,
+		COL_BOOL_SUBDIRS_UNREAD, &subdirs_unread,
 		-1);
 
 	g_object_get (renderer, "editable", &editable, NULL);
@@ -841,10 +820,10 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 		g_object_get (renderer, "is-expanded", &is_expanded, NULL);
 
 		if (!bold || !is_expanded)
-			subdirs_unread = subdirs_contain_unread (model, iter);
+			bold = bold || subdirs_unread;
 	}
 
-	bold = !editable && (bold || subdirs_unread);
+	bold = !editable && bold;
 	weight = bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL;
 	g_object_set (renderer, "weight", weight, NULL);
 
@@ -855,10 +834,15 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 		g_object_set (renderer, "foreground-rgba", &self->priv->new_message_text_color_rgba, NULL);
 
 	if (is_store) {
+		CamelService *service = NULL;
 		const gchar *display_name;
+
+		gtk_tree_model_get (model, iter,
+			COL_OBJECT_CAMEL_STORE, &service, -1);
 
 		display_name = camel_service_get_display_name (service);
 		g_object_set (renderer, "text", display_name, NULL);
+		g_clear_object (&service);
 
 	} else if (!editable && unread > 0 && self->priv->show_unread_count) {
 		gchar *name_and_unread;
@@ -892,21 +876,36 @@ folder_tree_render_display_name (GtkTreeViewColumn *column,
 	}
 
 	g_free (name);
-	g_clear_object (&service);
+}
+
+static GEmblem *
+folder_tree_get_new_mail_emblem (EMFolderTree *self)
+{
+	if (self->priv->new_mail_emblem == NULL) {
+		GIcon *icon;
+
+		icon = g_themed_icon_new ("emblem-new");
+		self->priv->new_mail_emblem = g_emblem_new (icon);
+		g_object_unref (icon);
+	}
+
+	return self->priv->new_mail_emblem;
 }
 
 static void
 folder_tree_render_icon (GtkTreeViewColumn *column,
                          GtkCellRenderer *renderer,
                          GtkTreeModel *model,
-                         GtkTreeIter *iter)
+                         GtkTreeIter *iter,
+			 gpointer user_data)
 {
+	EMFolderTree *self = user_data;
 	GtkTreeSelection *selection;
-	GtkWidget *tree_view;
 	GIcon *icon, *custom_icon = NULL;
-	guint unread;
-	guint old_unread;
-	gchar *icon_name;
+	const gchar *effective_icon_name;
+	guint unread = 0;
+	guint old_unread = 0;
+	gchar *icon_name = NULL;
 	gboolean is_selected;
 	gboolean is_drafts = FALSE;
 	gboolean show_new_mail_emblem;
@@ -925,56 +924,38 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 	if (!icon_name && !custom_icon)
 		return;
 
-	tree_view = gtk_tree_view_column_get_tree_view (column);
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (self));
 	is_selected = gtk_tree_selection_iter_is_selected (selection, iter);
 
-	if (!custom_icon && g_strcmp0 (icon_name, "folder") == 0) {
-		GtkTreePath *drag_dest_row;
-		gboolean is_drag_dest = FALSE;
+	effective_icon_name = icon_name;
 
-		gtk_tree_view_get_drag_dest_row (GTK_TREE_VIEW (tree_view), &drag_dest_row, NULL);
-		if (drag_dest_row != NULL) {
+	if (!custom_icon && g_strcmp0 (icon_name, "folder") == 0) {
+		if (is_selected) {
+			effective_icon_name = "folder-open";
+		} else if (self->priv->cached_drag_dest_row != NULL) {
 			GtkTreePath *path;
 
 			path = gtk_tree_model_get_path (model, iter);
-			if (gtk_tree_path_compare (path, drag_dest_row) == 0)
-				is_drag_dest = TRUE;
+			if (gtk_tree_path_compare (path, self->priv->cached_drag_dest_row) == 0)
+				effective_icon_name = "folder-drag-accept";
 			gtk_tree_path_free (path);
-
-			gtk_tree_path_free (drag_dest_row);
-		}
-
-		if (is_selected) {
-			g_free (icon_name);
-			icon_name = g_strdup ("folder-open");
-		} else if (is_drag_dest) {
-			g_free (icon_name);
-			icon_name = g_strdup ("folder-drag-accept");
 		}
 	}
 
 	if (custom_icon)
 		icon = g_object_ref (custom_icon);
 	else
-		icon = g_themed_icon_new (icon_name);
+		icon = g_themed_icon_new (effective_icon_name);
 
 	show_new_mail_emblem =
 		(unread > old_unread) &&
 		!is_selected && !is_drafts &&
 		((fi_flags & CAMEL_FOLDER_VIRTUAL) == 0);
 
-	/* Show an emblem if there's new mail. */
 	if (show_new_mail_emblem) {
 		GIcon *temp_icon;
-		GEmblem *emblem;
 
-		temp_icon = g_themed_icon_new ("emblem-new");
-		emblem = g_emblem_new (temp_icon);
-		g_object_unref (temp_icon);
-
-		temp_icon = g_emblemed_icon_new (icon, emblem);
-		g_object_unref (emblem);
+		temp_icon = g_emblemed_icon_new (icon, folder_tree_get_new_mail_emblem (self));
 		g_object_unref (icon);
 
 		icon = temp_icon;
@@ -1339,6 +1320,7 @@ folder_tree_dispose (GObject *object)
 	g_clear_object (&self->priv->alert_sink);
 	g_clear_object (&self->priv->session);
 	g_clear_object (&self->priv->text_renderer);
+	g_clear_object (&self->priv->new_mail_emblem);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (em_folder_tree_parent_class)->dispose (object);
@@ -1358,6 +1340,7 @@ folder_tree_finalize (GObject *object)
 
 	g_free (self->priv->select_store_uid_when_added);
 	g_free (self->priv->new_message_text_color);
+	g_clear_pointer (&self->priv->cached_drag_dest_row, gtk_tree_path_free);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_tree_parent_class)->finalize (object);
@@ -1409,8 +1392,8 @@ folder_tree_constructed (GObject *object)
 	gtk_tree_view_column_add_attribute (
 		column, renderer, "visible", COL_BOOL_IS_FOLDER);
 	gtk_tree_view_column_set_cell_data_func (
-		column, renderer, (GtkTreeCellDataFunc)
-		folder_tree_render_icon, NULL, NULL);
+		column, renderer,
+		folder_tree_render_icon, object, NULL);
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	g_object_set (G_OBJECT (renderer), "icon-name", "mail-unread", NULL);
@@ -2952,6 +2935,8 @@ tree_drag_leave (GtkWidget *widget,
 
 	gtk_tree_view_set_drag_dest_row (
 		tree_view, NULL, GTK_TREE_VIEW_DROP_BEFORE);
+
+	g_clear_pointer (&priv->cached_drag_dest_row, gtk_tree_path_free);
 }
 
 #define SCROLL_EDGE_SIZE 15
@@ -3117,6 +3102,10 @@ tree_drag_motion (GtkWidget *widget,
 	}
 
 	gdk_drag_status (context, chosen_action, time);
+
+	g_clear_pointer (&priv->cached_drag_dest_row, gtk_tree_path_free);
+	if (chosen_action != 0)
+		priv->cached_drag_dest_row = gtk_tree_path_copy (path);
 	gtk_tree_path_free (path);
 
 	return chosen_action != 0;
