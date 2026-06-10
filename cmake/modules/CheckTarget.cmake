@@ -8,6 +8,8 @@
 #   where _name is the name of the test, as defined by add_executable().
 #   Note it is a good idea to use EXCLUDE_FROM_ALL within the add_executable().
 
+set(CMAKE_CTEST_ARGUMENTS "--output-on-failure")
+
 include(CTest)
 
 # Disable this to not have verbose tests
