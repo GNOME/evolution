@@ -3284,7 +3284,7 @@ reply_setup_composer_recipients (EMsgComposer *composer,
 	/* Add post-to, if necessary */
 	if (postto && camel_address_length ((CamelAddress *) postto)) {
 		CamelFolder *use_folder = folder, *temp_folder = NULL;
-		gchar *folder_uri = NULL;
+		gchar *base_uri = NULL;
 		gchar *post;
 
 		if (use_folder && CAMEL_IS_VEE_FOLDER (use_folder) && message_uid) {
@@ -3294,14 +3294,20 @@ reply_setup_composer_recipients (EMsgComposer *composer,
 				use_folder = temp_folder;
 		}
 
-		if (use_folder)
-			folder_uri = e_mail_folder_uri_from_folder (use_folder);
+		if (use_folder) {
+			CamelStore *parent_store;
+			const gchar *store_uid;
+
+			parent_store = camel_folder_get_parent_store (use_folder);
+			store_uid = camel_service_get_uid (CAMEL_SERVICE (parent_store));
+			base_uri = g_strdup_printf ("folder://%s", store_uid);
+		}
 
 		post = camel_address_encode ((CamelAddress *) postto);
 		e_composer_header_table_set_post_to_base (
-			table, folder_uri ? folder_uri : "", post);
+			table, base_uri ? base_uri : "", post);
 		g_free (post);
-		g_free (folder_uri);
+		g_free (base_uri);
 		g_clear_object (&temp_folder);
 	}
 }
