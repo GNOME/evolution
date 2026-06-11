@@ -75,6 +75,8 @@
 	E_COMPOSER_ACTION ((composer), "view-mail-reply-to")
 #define E_COMPOSER_ACTION_VIEW_REPLY_TO(composer) \
 	E_COMPOSER_ACTION ((composer), "view-reply-to")
+#define E_COMPOSER_ACTION_VIEW_USE_THEME_COLORS(composer) \
+	E_COMPOSER_ACTION ((composer), "view-use-theme-colors")
 #define E_COMPOSER_ACTION_VISUALLY_WRAP_LONG_LINES(composer) \
 	E_COMPOSER_ACTION ((composer), "visually-wrap-long-lines")
 

@@ -811,6 +811,11 @@
       <_summary>Inherit theme colors in HTML format</_summary>
       <_description>When enabled the theme colors for background, text and links are sent in resulting HTML formatted message.</_description>
     </key>
+    <key name="composer-use-theme-colors" type="b">
+      <default>false</default>
+      <_summary>Use theme colors in HTML composer</_summary>
+      <_description>When enabled the theme colors are used for the composer background and text while editing, but they are not included in the sent message. This option has no effect when “Inherit theme colors” is enabled.</_description>
+    </key>
     <child name="browser-window" schema="org.gnome.evolution.window"/>
     <child name="composer-window" schema="org.gnome.evolution.window"/>
     <child name="filter-window" schema="org.gnome.evolution.window"/>

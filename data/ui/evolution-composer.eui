@@ -49,6 +49,7 @@
         <item action='toolbar-show-edit'/>
         <separator/>
         <item action='visually-wrap-long-lines'/>
+        <item action='view-use-theme-colors'/>
         <separator/>
         <submenu action='zoom-menu'>
           <item action='zoom-in'/>

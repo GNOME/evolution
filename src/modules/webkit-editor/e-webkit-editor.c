@@ -1798,17 +1798,19 @@ webkit_editor_style_updated (EWebKitEditor *wk_editor,
 	GString *css, *script;
 	gboolean backdrop;
 	gboolean inherit_theme_colors;
+	gboolean use_theme_colors;
 
 	g_return_if_fail (E_IS_WEBKIT_EDITOR (wk_editor));
 
 	cnt_editor = E_CONTENT_EDITOR (wk_editor);
 
 	inherit_theme_colors = g_settings_get_boolean (wk_editor->priv->mail_settings, "composer-inherit-theme-colors");
+	use_theme_colors = g_settings_get_boolean (wk_editor->priv->mail_settings, "composer-use-theme-colors");
 	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (wk_editor));
 	style_context = gtk_widget_get_style_context (GTK_WIDGET (wk_editor));
 	backdrop = (state_flags & GTK_STATE_FLAG_BACKDROP) != 0;
 
-	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML && !inherit_theme_colors) {
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML && !inherit_theme_colors && !use_theme_colors) {
 		/* Default to white background when not inheriting theme colors */
 		bgcolor.red = 1.0;
 		bgcolor.green = 1.0;
@@ -1821,7 +1823,7 @@ webkit_editor_style_updated (EWebKitEditor *wk_editor,
 		gdk_rgba_parse (&bgcolor, E_UTILS_DEFAULT_THEME_BASE_COLOR);
 	}
 
-	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML && !inherit_theme_colors) {
+	if (wk_editor->priv->mode == E_CONTENT_EDITOR_MODE_HTML && !inherit_theme_colors && !use_theme_colors) {
 		/* Default to black text color when not inheriting theme colors */
 		fgcolor.red = 0.0;
 		fgcolor.green = 0.0;
@@ -6123,6 +6125,10 @@ e_webkit_editor_init (EWebKitEditor *wk_editor)
 
 	g_signal_connect (
 		g_settings, "changed::composer-inherit-theme-colors",
+		G_CALLBACK (webkit_editor_style_settings_changed_cb), wk_editor);
+
+	g_signal_connect (
+		g_settings, "changed::composer-use-theme-colors",
 		G_CALLBACK (webkit_editor_style_settings_changed_cb), wk_editor);
 
 	wk_editor->priv->mode = E_CONTENT_EDITOR_MODE_HTML;
