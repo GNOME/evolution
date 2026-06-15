@@ -81,6 +81,7 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 	EDayView *day_view;
 	EDayViewEvent *event;
 	ECalendarView *cal_view;
+	GdkRGBA bar_rgba;
 	gint time_divisions;
 	gint event_num, start_day, end_day, day, bar_y1, bar_y2, grid_x;
 
@@ -90,7 +91,6 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
-		gboolean first = TRUE;
 		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
 
 		if (!is_comp_data_valid (event))
@@ -107,6 +107,10 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 			day_view->day_starts,
 			&start_day, &end_day)) {
 			continue;
+		}
+
+		if (!e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &bar_rgba)) {
+			bar_rgba = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND];
 		}
 
 		for (day = start_day; day <= end_day; day++) {
@@ -131,18 +135,7 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 
 			if (bar_y1 < height && bar_y2 > 0 && bar_y2 > bar_y1 && can_draw_in_region (draw_region, grid_x, bar_y1, E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1)) {
 				cairo_save (cr);
-				gdk_cairo_set_source_rgba (cr, &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND]);
-
-				if (first) {
-					GdkRGBA rgba;
-
-					first = FALSE;
-
-					if (e_cal_model_get_rgba_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data, &rgba)) {
-						gdk_cairo_set_source_rgba (cr, &rgba);
-					}
-				}
-
+				gdk_cairo_set_source_rgba (cr, &bar_rgba);
 				cairo_rectangle (cr, grid_x, bar_y1, E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1);
 				cairo_fill (cr);
 				cairo_restore (cr);
