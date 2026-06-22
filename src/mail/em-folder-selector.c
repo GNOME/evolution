@@ -641,7 +641,6 @@ folder_selector_constructed (GObject *object)
 	widget = e_tree_view_frame_new ();
 	gtk_box_pack_end (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	selector->priv->tree_view_frame = g_object_ref (widget);
-	gtk_widget_set_size_request (widget, -1, 240);
 	gtk_widget_show (widget);
 
 	g_signal_connect (
@@ -700,6 +699,8 @@ folder_selector_constructed (GObject *object)
 		E_TREE_VIEW_FRAME (selector->priv->tree_view_frame),
 		E_TREE_VIEW_FRAME_ACTION_REMOVE);
 	e_ui_action_set_visible (action, FALSE);
+
+	e_restore_window (GTK_WINDOW (selector), "/org/gnome/evolution/mail/folder-selector-window/", E_RESTORE_WINDOW_SIZE);
 }
 
 static void
