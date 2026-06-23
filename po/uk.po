@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-06-11 13:54+0000\n"
-"PO-Revision-Date: 2026-06-11 17:20+0300\n"
+"POT-Creation-Date: 2026-06-23 09:20+0000\n"
+"PO-Revision-Date: 2026-06-23 14:51+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -2970,7 +2970,6 @@ msgstr ""
 "відформатованому HTML."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
-#| msgid "Inherit theme colors in HTML format"
 msgid "Use theme colors in HTML composer"
 msgstr "Використовувати кольори теми у редакторі HTML"
 
@@ -2980,9 +2979,9 @@ msgid ""
 "while editing, but they are not included in the sent message. This option "
 "has no effect when “Inherit theme colors” is enabled."
 msgstr ""
-"Якщо увімкнено, кольори теми буде використано для тла і тексту у редакторі"
-" під час редагування, але їх не буде включено до надісланого повідомлення."
-" Цей пункт не діє, якщо позначено пункт «Успадковувати кольори теми»."
+"Якщо увімкнено, кольори теми буде використано для тла і тексту у редакторі "
+"під час редагування, але їх не буде включено до надісланого повідомлення. "
+"Цей пункт не діє, якщо позначено пункт «Успадковувати кольори теми»."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid "An Archive folder for On This Computer folders."
@@ -4311,7 +4310,7 @@ msgid "Memos"
 msgstr "Примітки"
 
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
-#: ../src/calendar/gui/e-task-table.c:604 ../src/calendar/gui/print.c:2480
+#: ../src/calendar/gui/e-task-table.c:604 ../src/calendar/gui/print.c:2513
 #: ../src/calendar/importers/icalendar-importer.c:57
 #: ../src/calendar/importers/icalendar-importer.c:1179
 #: ../src/e-util/e-webdav-browser.c:520
@@ -6330,7 +6329,7 @@ msgstr "Телефон містить"
 #: ../src/calendar/gui/memotypes.xml.in.h:20
 #: ../src/calendar/gui/tasktypes.xml.in.h:39
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1499
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1774
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1794
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:721
 #: ../src/modules/calendar/e-task-shell-view-actions.c:909
 msgid "Any field contains"
@@ -8341,8 +8340,8 @@ msgstr "Стан"
 #: ../src/calendar/gui/e-cal-day-column.c:943
 #: ../src/calendar/gui/e-day-view.c:2306 ../src/calendar/gui/e-to-do-pane.c:261
 #: ../src/calendar/gui/e-week-view.c:1932 ../src/calendar/gui/print.c:1111
-#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2701
-#: ../src/calendar/gui/print.c:2721
+#: ../src/calendar/gui/print.c:1130 ../src/calendar/gui/print.c:2734
+#: ../src/calendar/gui/print.c:2754
 #: ../src/modules/itip-formatter/itip-view.c:1245
 msgid "am"
 msgstr "am"
@@ -8352,8 +8351,8 @@ msgstr "am"
 #: ../src/calendar/gui/e-cal-day-column.c:944
 #: ../src/calendar/gui/e-day-view.c:2309 ../src/calendar/gui/e-to-do-pane.c:265
 #: ../src/calendar/gui/e-week-view.c:1935 ../src/calendar/gui/print.c:1116
-#: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2706
-#: ../src/calendar/gui/print.c:2723
+#: ../src/calendar/gui/print.c:1132 ../src/calendar/gui/print.c:2739
+#: ../src/calendar/gui/print.c:2756
 #: ../src/modules/itip-formatter/itip-view.c:1245
 msgid "pm"
 msgstr "pm"
@@ -8381,7 +8380,7 @@ msgstr "Організатор: %s"
 #. Translators: It will display "Location: LocationOfTheAppointment"
 #: ../src/calendar/gui/comp-util.c:2247
 #: ../src/calendar/gui/e-meeting-time-sel.c:2561
-#: ../src/calendar/gui/e-to-do-pane.c:394 ../src/calendar/gui/print.c:3651
+#: ../src/calendar/gui/e-to-do-pane.c:394 ../src/calendar/gui/print.c:3646
 #, c-format
 msgid "Location: %s"
 msgstr "Адреса: %s"
@@ -8825,7 +8824,7 @@ msgid "Select Date"
 msgstr "Вибір дати"
 
 #: ../src/calendar/gui/e-cal-dialogs.c:926
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1401
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1421
 msgid "Select _Today"
 msgstr "Вибрати _сьогодні"
 
@@ -8936,7 +8935,7 @@ msgid "Paste events from the clipboard"
 msgstr "Вставити події з буфера обміну"
 
 #: ../src/calendar/gui/e-calendar-view.c:341
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1522
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1542
 msgid "Delete selected events"
 msgstr "Вилучити вибрані події"
 
@@ -10539,7 +10538,7 @@ msgstr "Над_рукувати…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2302 ../src/mail/e-mail-reader.c:3452
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1568
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1805
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1832
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:752
 #: ../src/modules/calendar/e-task-shell-view-actions.c:940
 msgid "Pre_view…"
@@ -10622,7 +10621,7 @@ msgstr "Зберегти поточні зміни і закрити редак�
 #: ../src/calendar/gui/e-day-view.c:3223
 #: ../src/calendar/gui/e-day-view-top-item.c:816
 #: ../src/calendar/gui/e-week-view-main-item.c:187
-#: ../src/calendar/gui/print.c:2151
+#: ../src/calendar/gui/print.c:2184
 msgid "%A %d %B"
 msgstr "%A, %d %B"
 
@@ -10879,7 +10878,6 @@ msgstr ""
 "Адреса: %s"
 
 #: ../src/calendar/gui/e-meeting-time-sel.c:2559
-#: ../src/calendar/gui/print.c:3640
 #, c-format
 msgid "Summary: %s"
 msgstr "Зведення: %s"
@@ -11054,12 +11052,12 @@ msgid "Marking a task as complete"
 msgstr "Позначаємо завдання як виконане"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2287
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1625
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1645
 msgid "New _Appointment…"
 msgstr "Створити з_устріч…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2295
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1569
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1589
 msgid "New _Meeting…"
 msgstr "С_творити зібрання…"
 
@@ -11072,7 +11070,7 @@ msgid "_New Assigned Task…"
 msgstr "С_творити пов'язане завдання…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2324 ../src/mail/e-mail-viewer.c:1730
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1639
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1659
 msgid "_Open…"
 msgstr "_Відкрити…"
 
@@ -11085,7 +11083,7 @@ msgid "_Delete This Instance…"
 msgstr "Ви_лучити цей екземпляр…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2357
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1534
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1554
 msgid "Delete This and F_uture Occurrences…"
 msgstr "Вилучити цей і _майбутні екземпляри…"
 
@@ -11094,7 +11092,7 @@ msgid "D_elete All Instances…"
 msgstr "Ви_лучити усі екземпляри…"
 
 #: ../src/calendar/gui/e-to-do-pane.c:2374
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1520
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1540
 msgid "_Delete…"
 msgstr "В_илучити…"
 
@@ -11119,7 +11117,7 @@ msgstr "%s (%s)"
 #. * month name. You can change the order but don't
 #. * change the specifiers or add anything.
 #: ../src/calendar/gui/e-week-view-main-item.c:205
-#: ../src/calendar/gui/print.c:2130
+#: ../src/calendar/gui/print.c:2163
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -11322,85 +11320,99 @@ msgstr "Ндл"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../src/calendar/gui/print.c:3456
+#: ../src/calendar/gui/print.c:3489
 msgid " to "
 msgstr " до "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../src/calendar/gui/print.c:3466
+#: ../src/calendar/gui/print.c:3499
 msgid " (Completed "
 msgstr " (Виконано "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../src/calendar/gui/print.c:3472
+#: ../src/calendar/gui/print.c:3505
 msgid "Completed "
 msgstr "Виконано "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../src/calendar/gui/print.c:3482
+#: ../src/calendar/gui/print.c:3515
 msgid " (Due "
 msgstr " (до дати "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../src/calendar/gui/print.c:3489
+#: ../src/calendar/gui/print.c:3522
 msgid "Due "
 msgstr "До дати "
 
-#: ../src/calendar/gui/print.c:3610
-msgid "Appointment"
-msgstr "Зустріч"
-
-#: ../src/calendar/gui/print.c:3612
-msgid "Task"
-msgstr "Завдання"
-
-#: ../src/calendar/gui/print.c:3614
-msgid "Memo"
-msgstr "Примітка"
-
-#: ../src/calendar/gui/print.c:3671
+#: ../src/calendar/gui/print.c:3667
 msgid "Attendees: "
 msgstr "Учасники:"
 
-#: ../src/calendar/gui/print.c:3710
+#: ../src/calendar/gui/print.c:3701
 #, c-format
 msgid "Estimated duration: %s"
 msgstr "Оцінка тривалості: %s"
 
-#: ../src/calendar/gui/print.c:3731
+#: ../src/calendar/gui/print.c:3722
 #, c-format
 msgid "Status: %s"
 msgstr "Стан: %s"
 
-#: ../src/calendar/gui/print.c:3747
+#: ../src/calendar/gui/print.c:3738
 #, c-format
 msgid "Priority: %s"
 msgstr "Пріоритет: %s"
 
-#: ../src/calendar/gui/print.c:3762
+#: ../src/calendar/gui/print.c:3753
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Відсоток виконання: %i"
 
-#: ../src/calendar/gui/print.c:3777
+#: ../src/calendar/gui/print.c:3768
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../src/calendar/gui/print.c:3793
+#: ../src/calendar/gui/print.c:3784
 #, c-format
 msgid "Categories: %s"
 msgstr "Категорії: %s"
 
-#: ../src/calendar/gui/print.c:3805
+#: ../src/calendar/gui/print.c:3796
 msgid "Contacts: "
 msgstr "Контакти:"
+
+#: ../src/calendar/gui/print.c:3910
+msgid "Appointment"
+msgstr "Зустріч"
+
+#: ../src/calendar/gui/print.c:3912
+msgid "Task"
+msgstr "Завдання"
+
+#: ../src/calendar/gui/print.c:3914
+msgid "Memo"
+msgstr "Примітка"
+
+#: ../src/calendar/gui/print.c:4268 ../src/calendar/gui/print.c:4401
+#| msgid "All day:"
+msgid "All Day"
+msgstr "Весь день"
+
+#: ../src/calendar/gui/print.c:4285 ../src/calendar/gui/print.c:4418
+#, c-format
+msgid "%s – %s"
+msgstr "%s – %s"
+
+#: ../src/calendar/gui/print.c:4319
+msgid "No events in this period"
+msgstr "Протягом цього періоду подій немає"
 
 #: ../src/calendar/gui/tasktypes.xml.in.h:11
 msgid "Not Started"
@@ -13409,7 +13421,6 @@ msgid "Visually _Wrap Long Lines"
 msgstr "Візуально _переносити довгі рядки"
 
 #: ../src/composer/e-composer-actions.c:655
-#| msgid "Unse_t Color"
 msgid "Use _Theme Colors"
 msgstr "Використовувати кольори _теми"
 
@@ -13417,8 +13428,8 @@ msgstr "Використовувати кольори _теми"
 msgid ""
 "Use theme colors in the editor without including them in the sent message"
 msgstr ""
-"Використовувати кольори теми у редакторі без включення їх у надіслане"
-" повідомлення"
+"Використовувати кольори теми у редакторі без включення їх у надіслане "
+"повідомлення"
 
 #: ../src/composer/e-composer-from-header.c:97
 #: ../src/e-util/e-collection-account-wizard.c:2105
@@ -14702,7 +14713,7 @@ msgstr "Вкласти адресу"
 
 #: ../src/e-util/e-attachment-view.c:1134
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1313
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1436
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1456
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:620
 #: ../src/modules/calendar/e-task-shell-view-actions.c:786
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1616
@@ -17030,7 +17041,7 @@ msgstr "годин"
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
 #: ../src/e-util/e-interval-chooser.c:128 ../src/e-util/filter.ui.h:8
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:352
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:372
 #: ../src/plugins/publish-calendar/publish-calendar.ui.h:7
 msgid "days"
 msgstr "діб"
@@ -17112,7 +17123,7 @@ msgstr "З_апис"
 #: ../src/e-util/e-markdown-editor.c:1880
 #: ../src/e-util/e-markdown-editor.c:2489
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1441
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1696
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1716
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:690
 #: ../src/modules/calendar/e-task-shell-view-actions.c:878
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1842
@@ -17339,7 +17350,7 @@ msgstr "По_шук :"
 #: ../src/e-util/e-name-selector-dialog.c:337
 #: ../src/e-util/e-name-selector-dialog.c:1281
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1674
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1880
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1907
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:820
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1015
 msgid "Any Category"
@@ -17684,7 +17695,7 @@ msgid "Not set"
 msgstr "Не встановлено"
 
 #: ../src/e-util/e-split-date-edit.c:471
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1740
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1760
 msgid "Year"
 msgstr "Рік"
 
@@ -20460,7 +20471,7 @@ msgstr "Перевіряє, чи не повторювались вибрані 
 
 #: ../src/mail/e-mail-reader.c:3480 ../src/mail/e-mail-viewer.c:1884
 #: ../src/mail/em-composer-utils.c:4563 ../src/mail/mail.error.xml.h:28
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1653
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1673
 #: ../src/modules/mail/e-mail-attachment-handler.c:902
 msgid "Reply to _All"
 msgstr "Відповісти _усім"
@@ -21066,7 +21077,7 @@ msgid "Alternative Reply"
 msgstr "Альтернативна відповідь"
 
 #: ../src/mail/em-composer-utils.c:4506
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1646
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1666
 msgid "_Reply"
 msgstr "_Відповісти"
 
@@ -21356,7 +21367,7 @@ msgstr "<клацніть, щоб вибрати теку>"
 msgid "Search for folder…"
 msgstr "Шукати теку…"
 
-#: ../src/mail/em-folder-selector.c:697
+#: ../src/mail/em-folder-selector.c:696
 msgid "Create a new folder"
 msgstr "Створити нову теку"
 
@@ -24109,7 +24120,7 @@ msgid "Address Book Properties"
 msgstr "Властивості адресної книги"
 
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:535
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:291
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:311
 msgid "Calendar Properties"
 msgstr "Властивості календаря"
 
@@ -24345,7 +24356,7 @@ msgid "Manage address book groups order and visibility"
 msgstr "Організувати порядок груп адресної книги і їхню видимість"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1285
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1422
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1442
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:606
 #: ../src/modules/calendar/e-task-shell-view-actions.c:772
 msgid "_Manage groups…"
@@ -24373,7 +24384,7 @@ msgid "Show properties of the selected address book"
 msgstr "Показати властивості вибраної адресної книги"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1320
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1450
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1470
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:627
 #: ../src/modules/calendar/e-task-shell-view-actions.c:793
 msgid "Re_fresh"
@@ -24401,7 +24412,7 @@ msgid "Address Book Map"
 msgstr "Карта адресної книги"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1348
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1464
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1484
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:641
 #: ../src/modules/calendar/e-task-shell-view-actions.c:807
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1708
@@ -24487,7 +24498,7 @@ msgstr "Надіслати повідомлення до обраних конт
 
 #. ** Menus **
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1434
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1695
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1715
 #: ../src/modules/calendar/e-task-shell-view-actions.c:877
 msgid "_Actions"
 msgstr "Ді_ї"
@@ -24513,7 +24524,7 @@ msgid "Show maps in contact preview window"
 msgstr "Показати карти у вікні перегляду контактів"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1475
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1750
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1770
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:697
 #: ../src/modules/calendar/e-task-shell-view-actions.c:885
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1919
@@ -24525,7 +24536,7 @@ msgid "Show contact preview below the contact list"
 msgstr "Показувати попередній перегляд контактів нижче списку контактів"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1482
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1757
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1777
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:704
 #: ../src/modules/calendar/e-task-shell-view-actions.c:892
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1926
@@ -24537,7 +24548,7 @@ msgid "Show contact preview alongside the contact list"
 msgstr "Показувати попередній перегляд контактів поруч зі списком контактів"
 
 #: ../src/modules/addressbook/e-book-shell-view-actions.c:1492
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1767
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1787
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:714
 #: ../src/modules/calendar/e-task-shell-view-actions.c:902
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1936
@@ -25512,7 +25523,7 @@ msgid "Start events later"
 msgstr "Починати події пізніше"
 
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:23
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1733
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1753
 msgid "Work Week"
 msgstr "Робочий тиждень"
 
@@ -25770,7 +25781,7 @@ msgid "_Appointment"
 msgstr "З_устріч"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:258
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1627
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1647
 msgid "Create a new appointment"
 msgstr "Створити нову зустріч"
 
@@ -25798,7 +25809,7 @@ msgid "Cale_ndar"
 msgstr "Кале_ндар"
 
 #: ../src/modules/calendar/e-cal-shell-backend.c:281
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1431
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1451
 msgid "Create a new calendar"
 msgstr "Створити новий календар"
 
@@ -25806,7 +25817,7 @@ msgstr "Створити новий календар"
 msgid "Print"
 msgstr "Друк"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:322
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:342
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
@@ -25817,21 +25828,21 @@ msgstr ""
 
 #. Translators: This is the first part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:339
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:359
 msgid "Purge events older than"
 msgstr "Очищати події старші за"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:996
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1016
 msgid "Making an occurrence movable"
 msgstr "Створення екземпляра пере_міщуваним"
 
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1238
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1258
 msgid "event"
 msgstr "подія"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1240
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1260
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:201
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:281
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:527
@@ -25839,159 +25850,159 @@ msgstr "подія"
 msgid "Save as iCalendar"
 msgstr "Зберегти як iCalendar"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1373
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1393
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:585
 #: ../src/modules/calendar/e-task-shell-view-actions.c:751
 msgid "_Copy…"
 msgstr "С_копіювати…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1380
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1400
 msgid "D_elete Calendar…"
 msgstr "В_илучити календар…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1382
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1402
 msgid "Delete the selected calendar"
 msgstr "Вилучити вибраний календар"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1387
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1407
 msgid "Previous"
 msgstr "Попереднє"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1389
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1409
 msgid "Go Back"
 msgstr "Перейти назад"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1394
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1414
 msgid "Next"
 msgstr "Далі"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1396
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1416
 msgid "Go Forward"
 msgstr "Перейти вперед"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1403
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1423
 msgid "Select today"
 msgstr "Виділити сьогоднішній день"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1408
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1428
 msgid "Select _Date"
 msgstr "Виділити _дати"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1410
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1430
 msgid "Select a specific date"
 msgstr "Виділити вказану дату"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1415
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1435
 msgid "_Manage Calendar groups…"
 msgstr "_Організувати календарні групи…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1417
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1424
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1437
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1444
 msgid "Manage Calendar groups order and visibility"
 msgstr "Організувати порядок календарних груп і їхню видимість"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1429
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1449
 msgid "_New Calendar"
 msgstr "_Створити календар"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1443
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1463
 #: ../src/modules/calendar/e-task-shell-view-actions.c:863
 msgid "Purg_e"
 msgstr "О_чистити"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1445
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1465
 msgid "Purge old appointments and meetings"
 msgstr "Очистити старі зустрічі та зібрання"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1452
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1472
 msgid "Refresh the selected calendar"
 msgstr "Оновити виділений календар"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1457
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1477
 msgid "Re_fresh list of account calendars"
 msgstr "Оно_вити список календарів облікового запису"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1466
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1486
 msgid "Rename the selected calendar"
 msgstr "Перейменувати виділений календар"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1471
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1491
 msgid "Find _Next"
 msgstr "Знайти _наступне"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1473
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1493
 msgid "Find next occurrence of the current search string"
 msgstr "Знайти наступне повторення поточного рядка пошуку"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1478
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1498
 msgid "Find _Previous"
 msgstr "Знайти _попереднє"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1480
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1500
 msgid "Find previous occurrence of the current search string"
 msgstr "Знайти попереднє повторення поточного рядка пошуку"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1485
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1505
 msgid "Stop _Running Search"
 msgstr "Зупинити по_шук"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1487
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1507
 msgid "Stop currently running search"
 msgstr "Зупинити поточну роботу пошуку"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1492
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1512
 msgid "Sho_w All Calendars"
 msgstr "Пока_зувати всі календарі"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1499
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1519
 msgid "Show _Only This Calendar"
 msgstr "Показувати _лише цей календар"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1506
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1526
 msgid "Cop_y to Calendar…"
 msgstr "_Копіювати у календар…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1513
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1533
 msgid "_Delegate Meeting…"
 msgstr "_Доручити зібрання…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1527
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1547
 msgid "Delete This _Occurrence…"
 msgstr "Вилучити цей _екземпляр…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1529
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1549
 msgid "Delete this occurrence"
 msgstr "Вилучити цей екземпляр"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1536
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1556
 msgid "Delete this and any future occurrences"
 msgstr "Вилучити цей екземпляр і усі майбутні екземпляри"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1541
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1561
 msgid "Delete All Occ_urrences…"
 msgstr "Вилучити _всі екземпляри…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1543
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1563
 msgid "Delete all occurrences"
 msgstr "Вилучити всі екземпляри"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1548
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1568
 msgid "Edit as Ne_w…"
 msgstr "Редагувати як _новий…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1550
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1570
 msgid "Edit the selected event as new"
 msgstr "Редагувати позначений запис події як новий"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1555
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1575
 msgid "New All Day _Event…"
 msgstr "Створити _подію на увесь день…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1557
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1577
 msgid "Create a new all day event"
 msgstr "Створити нову щоденну подію"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1562
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1582
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:238
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:324
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:578
@@ -25999,177 +26010,177 @@ msgstr "Створити нову щоденну подію"
 msgid "_Forward as iCalendar…"
 msgstr "Перес_лати як iCalendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1571
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1591
 msgid "Create a new meeting"
 msgstr "Створити новий запит на зібрання"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1576
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1596
 msgid "_Accept"
 msgstr "При_йняти"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1578
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1598
 msgid "Accept meeting request"
 msgstr "Прийняти запрошення на засідання"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1583
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1603
 msgid "A_ccept this instance"
 msgstr "При_йняти цей запис"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1585
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1605
 msgid "Accept meeting request for selected instance only"
 msgstr "Прийняти запрошення на засідання лише для позначеного запису"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1590
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1610
 #: ../src/modules/itip-formatter/itip-view.c:1455
 msgid "_Decline"
 msgstr "Від_хилити"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1592
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1612
 msgid "Decline meeting request"
 msgstr "Відхилити запрошення на засідання"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1597
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1617
 msgid "D_ecline this instance"
 msgstr "Від_хилити цей запис"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1599
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1619
 msgid "Decline meeting request for selected instance only"
 msgstr "Відхилити запрошення на засідання лише для позначеного запису"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1604
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1624
 msgid "_Tentatively accept"
 msgstr "_Умовно прийняти"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1606
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1626
 msgid "Tentatively accept meeting request"
 msgstr "Умовно прийняти запрошення на засідання"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1611
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1631
 msgid "Te_ntatively accept this instance"
 msgstr "_Умовно прийняти запрошення для цього запису"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1613
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1633
 msgid "Tentatively accept meeting request for selected instance only"
 msgstr "Умовно прийняти запрошення на засідання лише для позначеного запису"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1618
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1638
 msgid "Mo_ve to Calendar…"
 msgstr "Пере_містити у календар…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1632
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1652
 msgid "Make this Occurrence _Movable"
 msgstr "Зробити цей екземпляр пере_міщуваним"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1641
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1661
 msgid "Edit the selected event"
 msgstr "Редагувати позначений запис події"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1660
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1680
 msgid "_Schedule Meeting…"
 msgstr "_Запланувати зібрання…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1662
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1682
 msgid "Converts an appointment to a meeting"
 msgstr "Перетворює зустріч на зібрання"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1667
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1687
 msgid "Conv_ert to Appointment…"
 msgstr "Перетворити на Зустріч…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1669
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1689
 msgid "Converts a meeting to an appointment"
 msgstr "Перетворює зібрання на зустріч"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1674
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1694
 msgid "Quit"
 msgstr "Вийти"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1681
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1701
 msgid "Event _Preview"
 msgstr "_Попередній перегляд подій"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1683
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1703
 msgid "Show event preview pane"
 msgstr "Показувати панель попереднього перегляду подій"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1688
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1708
 msgid "Show T_asks and Memos pane"
 msgstr "Показувати панель з_авдань і приміток"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1690
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1710
 msgid "Show Tasks and Memos pane"
 msgstr "Показати панель завдань та приміток"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1697
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1717
 msgid "Send _RSVP"
 msgstr "Надіслати пр_охання відповісти"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1698
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1718
 msgid "Navigation buttons"
 msgstr "Кнопки навігації"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1705
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1725
 msgid "Day"
 msgstr "День"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1707
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1727
 msgid "Show one day"
 msgstr "Показати один день"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1712
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1732
 msgid "List"
 msgstr "Список"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1714
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1734
 msgid "Show as list"
 msgstr "Показувати як список"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1719
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1739
 msgid "Month"
 msgstr "Місяць"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1721
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1741
 msgid "Show one month"
 msgstr "Показати один місяць"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1726
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1746
 msgid "Week"
 msgstr "Тиждень"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1728
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1748
 msgid "Show one week"
 msgstr "Показати один тиждень"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1735
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1755
 msgid "Show one work week"
 msgstr "Показати один робочий тиждень"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1742
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1762
 msgid "Show as year"
 msgstr "Показати як рік"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1752
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1772
 msgid "Show event preview below the calendar"
 msgstr "Показувати попередній перегляд подій під календарем"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1759
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1779
 msgid "Show event preview alongside the calendar"
 msgstr "Показувати попередній перегляд подій поруч із календарем"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1781
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1801
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:728
 #: ../src/modules/calendar/e-task-shell-view-actions.c:916
 msgid "Description contains"
 msgstr "Опис містить"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1788
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1808
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:735
 #: ../src/modules/calendar/e-task-shell-view-actions.c:923
 msgid "Summary contains"
 msgstr "Зведення містить"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1798
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1812
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1818
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1839
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:269
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:369
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:745
@@ -26179,15 +26190,24 @@ msgstr "Зведення містить"
 msgid "Print…"
 msgstr "Надрукувати…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1800
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1820
 msgid "Print this calendar"
 msgstr "Надрукувати цей календар"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1807
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1825
+#| msgid "Personal Details"
+msgid "Print _Details…"
+msgstr "Надрукувати _подробиці…"
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1827
+msgid "Print calendar with full event details"
+msgstr "Надрукувати календар із усіма подробицями подій"
+
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1834
 msgid "Preview the calendar to be printed"
 msgstr "Переглянути перегляд календаря при друку"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1822
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1849
 #: ../src/modules/calendar/e-cal-shell-view-memopad.c:279
 #: ../src/modules/calendar/e-cal-shell-view-taskpad.c:379
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:769
@@ -26195,25 +26215,25 @@ msgstr "Переглянути перегляд календаря при дру
 msgid "_Save as iCalendar…"
 msgstr "З_берегти як iCalendar…"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1873
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1900
 msgid "Active Appointments"
 msgstr "Активні зустрічі"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1887
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1914
 msgid "Next 7 Days’ Appointments"
 msgstr "Зустрічі найближчого тижня"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1894
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1921
 msgid "Occurs Less Than 5 Times"
 msgstr "Трапилось менше за 5 разів"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1901
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1928
 #: ../src/modules/calendar/e-memo-shell-view-actions.c:827
 #: ../src/modules/calendar/e-task-shell-view-actions.c:1071
 msgid "Without Category"
 msgstr "Без категорії"
 
-#: ../src/modules/calendar/e-cal-shell-view-actions.c:1903
+#: ../src/modules/calendar/e-cal-shell-view-actions.c:1930
 msgid "Show events with no category set"
 msgstr "Показувати записи подій без встановлено категорії"
 
