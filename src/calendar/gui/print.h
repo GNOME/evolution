@@ -17,7 +17,8 @@ typedef enum {
 	E_PRINT_VIEW_WORKWEEK,
 	E_PRINT_VIEW_WEEK,
 	E_PRINT_VIEW_MONTH,
-	E_PRINT_VIEW_LIST
+	E_PRINT_VIEW_LIST,
+	E_PRINT_VIEW_DETAILED
 } EPrintView;
 
 void		print_calendar			(ECalendarView *cal_view,
@@ -34,5 +35,9 @@ void		print_table			(ETable *table,
 						 const gchar *dialog_title,
 						 const gchar *print_header,
 						 GtkPrintOperationAction action);
+void		print_calendar_detailed		(ECalendarView *cal_view,
+						 GtkPrintOperationAction action,
+						 time_t start,
+						 time_t end);
 
 #endif

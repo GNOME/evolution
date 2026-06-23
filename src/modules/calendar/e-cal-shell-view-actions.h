@@ -33,6 +33,8 @@
 	E_SHELL_VIEW_ACTION ((view), "calendar-preview-vertical")
 #define E_SHELL_VIEW_ACTION_CALENDAR_PRINT(view) \
 	E_SHELL_VIEW_ACTION ((view), "calendar-print")
+#define E_SHELL_VIEW_ACTION_CALENDAR_PRINT_DETAILS(view) \
+	E_SHELL_VIEW_ACTION ((view), "calendar-print-details")
 #define E_SHELL_VIEW_ACTION_CALENDAR_PRINT_PREVIEW(view) \
 	E_SHELL_VIEW_ACTION ((view), "calendar-print-preview")
 #define E_SHELL_VIEW_ACTION_CALENDAR_PROPERTIES(view) \

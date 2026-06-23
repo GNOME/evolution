@@ -1321,6 +1321,34 @@ get_role_as_string (ICalParameterRole role)
 }
 
 static gdouble
+detailed_page_align (gdouble top,
+                     gdouble line_height,
+                     gdouble page_height)
+{
+	gdouble page_end, remaining;
+
+	if (page_height <= 0.0) {
+		return top;
+	}
+
+	if (top < page_height) {
+		page_end = page_height;
+	} else {
+		gint cur_page;
+
+		cur_page = 1 + (gint) ((top - page_height) / (page_height - 10.0));
+		page_end = page_height + (gdouble) cur_page * (page_height - 10.0);
+	}
+
+	remaining = page_end - top;
+	if (remaining > 0.0 && remaining < line_height) {
+		top = page_end;
+	}
+
+	return top;
+}
+
+static gdouble
 print_attendees (GtkPrintContext *context,
                  PangoFontDescription *font,
                  cairo_t *cr,
@@ -1330,14 +1358,17 @@ print_attendees (GtkPrintContext *context,
                  gdouble bottom,
                  ECalComponent *comp,
                  gint page_nr,
-                 gint *pages)
+                 gint *pages,
+                 gdouble real_page_height)
 {
 	GSList *attendees = NULL, *l;
+	gdouble line_height;
 
 	g_return_val_if_fail (context != NULL, top);
 	g_return_val_if_fail (font != NULL, top);
 	g_return_val_if_fail (cr != NULL, top);
 
+	line_height = get_font_size (font);
 	attendees = e_cal_component_get_attendees (comp);
 
 	for (l = attendees; l; l = l->next) {
@@ -1370,6 +1401,8 @@ print_attendees (GtkPrintContext *context,
 				g_string_append (text, tmp);
 				g_string_append_c (text, ')');
 			}
+
+			top = detailed_page_align (top, line_height, real_page_height);
 
 			if (top > bottom) {
 				top = 10.0;
@@ -3558,91 +3591,53 @@ print_calendar (ECalendarView *cal_view,
 	g_object_unref (operation);
 }
 
-/* returns number of required pages, when page_nr is -1 */
-static gint
-print_comp_draw_real (GtkPrintOperation *operation,
-                      GtkPrintContext *context,
-                      gint page_nr,
-                      PrintCompItem *pci)
+static gdouble
+print_comp_draw_content (GtkPrintContext *context,
+                         ECalComponent *comp,
+                         ECalClient *client,
+                         ICalTimezone *zone,
+                         gboolean use_24_hour_format,
+                         gboolean skip_date_label,
+                         gdouble left,
+                         gdouble width,
+                         gdouble top,
+                         gdouble height,
+                         gdouble real_page_height,
+                         gdouble *page_start,
+                         gint *pages)
 {
-	GtkPageSetup *setup;
 	PangoFontDescription *font;
-	ECalClient *client;
-	ECalComponent *comp;
 	ECalComponentVType vtype;
 	ECalComponentText *text;
 	GSList *contact_list, *elem;
-	const gchar *title;
 	gchar *categories, *location;
 	gchar *categories_string, *location_string, *summary_string;
-	gdouble header_size;
+	gdouble right;
 	cairo_t *cr;
-	gdouble width, height, page_start;
-	gdouble top;
-	gint pages = 1;
 
-	setup = gtk_print_context_get_page_setup (context);
-
-	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
-	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
-
-	top = 0.0;
-
-	/* Either draw only the right page or do not draw
-	 * anything when calculating number of pages. */
-	if (page_nr != -1)
-		top = top - ((page_nr) * height);
-	else
-		top = height;
-
-	page_start = top;
-
-        /* PrintCompItem structure contains elements to be used
-         * with the Print Context , obtained in comp_draw_page
-         */
-	client = pci->client;
-	comp = pci->comp;
+	right = left + width;
 
 	vtype = e_cal_component_get_vtype (comp);
-
-	/* We should only be asked to print VEVENTs, VTODOs, or VJOURNALs. */
-	if (vtype == E_CAL_COMPONENT_EVENT)
-		title = _("Appointment");
-	else if (vtype == E_CAL_COMPONENT_TODO)
-		title = _("Task");
-	else if (vtype == E_CAL_COMPONENT_JOURNAL)
-		title = _("Memo");
-	else
-		return pages;
+	if (vtype != E_CAL_COMPONENT_EVENT &&
+	    vtype != E_CAL_COMPONENT_TODO &&
+	    vtype != E_CAL_COMPONENT_JOURNAL) {
+		return top;
+	}
 
 	cr = gtk_print_context_get_cairo_context (context);
 
-	/* Print the title in a box at the top of the page. */
-	font = get_font_for_size (18, PANGO_WEIGHT_BOLD);
-	header_size = 40;
-
-	if (page_nr == 0) {
-		print_border (
-			context, 0.0, width, 0.0, header_size,
-			1.0, DARKER_BORDER);
-		print_text (
-			context, font, title, PANGO_ALIGN_CENTER, 0.0, width,
-			0.1, header_size - 0.1);
-	}
-
-	pango_font_description_free (font);
-
-	top += header_size + 30;
-
 	/* Summary */
-	font = get_font_for_size (18, PANGO_WEIGHT_BOLD);
+	font = get_font_for_size (14, PANGO_WEIGHT_BOLD);
 	text = e_cal_component_dup_summary_for_locale (comp, NULL);
-	summary_string = g_strdup_printf (_("Summary: %s"), (text && e_cal_component_text_get_value (text)) ? e_cal_component_text_get_value (text) : "");
+	summary_string = g_strdup ((text && e_cal_component_text_get_value (text)) ? e_cal_component_text_get_value (text) : "");
 	top = bound_text (
-		context, font, summary_string, -1, 0.0, top, width,
-		height, FALSE, NULL, &page_start, &pages);
+		context, font, summary_string, -1, left, top, right,
+		height, FALSE, NULL, page_start, pages);
 	e_cal_component_text_free (text);
 	g_free (summary_string);
+
+	pango_font_description_free (font);
+	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 
 	/* Location */
 	location = e_cal_component_get_location (comp);
@@ -3651,36 +3646,32 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			_("Location: %s"),
 			location);
 		top = bound_text (
-			context, font, location_string, -1, 0.0,
-			top + 3, width, height, FALSE, NULL, &page_start, &pages);
+			context, font, location_string, -1, left,
+			top + 3, right, height, FALSE, NULL, page_start, pages);
 		g_free (location_string);
 	}
 	g_free (location);
 
 	/* Date information */
-	if (page_nr == 0)
+	if (!skip_date_label) {
 		print_date_label (
 			context, comp, client,
-			pci->zone, pci->use_24_hour_format,
-			0.0, width, top + 3, top + 15);
-	top += 20;
-
-	/* Attendees */
-	if ((page_nr == 0) && e_cal_component_has_attendees (comp)) {
-		top = bound_text (
-			context, font, _("Attendees: "), -1, 0.0,
-			top, width, height, FALSE, NULL, &page_start, &pages);
-		pango_font_description_free (font);
-		font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
-		top = print_attendees (
-			context, font, cr, 0.0, width,
-			top, height, comp, page_nr, &pages);
-		top += get_font_size (font) - 6;
+			zone, use_24_hour_format,
+			left, right, top + 3, top + 15);
+		top += 20;
 	}
 
-	pango_font_description_free (font);
-
-	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
+	/* Attendees */
+	if (e_cal_component_has_attendees (comp)) {
+		top = bound_text (
+			context, font, _("Attendees: "), -1, left,
+			top, right, height, FALSE, NULL, page_start, pages);
+		top = print_attendees (
+			context, font, cr, left, right,
+			top, height, comp, 0, pages,
+			real_page_height);
+		top += get_font_size (font) - 6;
+	}
 
 	/* For a VTODO we print the Status, Priority, % Complete and URL. */
 	if (vtype == E_CAL_COMPONENT_TODO) {
@@ -3710,7 +3701,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 					gchar *estimated_duration = g_strdup_printf (_("Estimated duration: %s"), tmp);
 					top = bound_text (
 						context, font, estimated_duration, -1,
-						0.0, top, width, height, FALSE, NULL, &page_start, &pages);
+						left, top, right, height, FALSE, NULL, page_start, pages);
 					top += get_font_size (font) - 6;
 					g_free (estimated_duration);
 					g_free (tmp);
@@ -3732,7 +3723,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 					status_string);
 				top = bound_text (
 					context, font, status_text, -1,
-					0.0, top, width, height, FALSE, NULL, &page_start, &pages);
+					left, top, right, height, FALSE, NULL, page_start, pages);
 				top += get_font_size (font) - 6;
 				g_free (status_text);
 			}
@@ -3748,8 +3739,8 @@ print_comp_draw_real (GtkPrintOperation *operation,
 				e_cal_util_priority_to_string (priority));
 			top = bound_text (
 				context, font, pri_text, -1,
-				0.0, top, width, height, FALSE, NULL,
-				&page_start, &pages);
+				left, top, right, height, FALSE, NULL,
+				page_start, pages);
 			top += get_font_size (font) - 6;
 			g_free (pri_text);
 		}
@@ -3763,7 +3754,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 			top = bound_text (
 				context, font, percent_string, -1,
-				0.0, top, width, height, FALSE, NULL, &page_start, &pages);
+				left, top, right, height, FALSE, NULL, page_start, pages);
 			top += get_font_size (font) - 6;
 
 			g_free (percent_string);
@@ -3778,7 +3769,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 			top = bound_text (
 				context, font, url_string, -1,
-				0.0, top, width, height, TRUE, NULL, &page_start, &pages);
+				left, top, right, height, TRUE, NULL, page_start, pages);
 			top += get_font_size (font) - 6;
 			g_free (url_string);
 		}
@@ -3793,7 +3784,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			_("Categories: %s"), categories);
 		top = bound_text (
 			context, font, categories_string, -1,
-			0.0, top, width, height, TRUE, NULL, &page_start, &pages);
+			left, top, right, height, TRUE, NULL, page_start, pages);
 		top += get_font_size (font) - 6;
 		g_free (categories_string);
 	}
@@ -3805,7 +3796,6 @@ print_comp_draw_real (GtkPrintOperation *operation,
 		GString *contacts = g_string_new (_("Contacts: "));
 		for (elem = contact_list; elem; elem = elem->next) {
 			ECalComponentText *t = elem->data;
-			/* Put a comma between contacts. */
 			if (elem != contact_list)
 				g_string_append (contacts, ", ");
 			g_string_append (contacts, e_cal_component_text_get_value (t));
@@ -3814,14 +3804,14 @@ print_comp_draw_real (GtkPrintOperation *operation,
 
 		top = bound_text (
 			context, font, contacts->str, -1,
-			0.0, top, width, height, TRUE, NULL, &page_start, &pages);
+			left, top, right, height, TRUE, NULL, page_start, pages);
 		top += get_font_size (font) - 6;
 		g_string_free (contacts, TRUE);
 	}
 	top += 16;
 
 	/* Description */
-	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_JOURNAL) {
+	if (vtype == E_CAL_COMPONENT_JOURNAL) {
 		GSList *desc;
 
 		desc = e_cal_component_get_descriptions (comp);
@@ -3832,11 +3822,12 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			for (line = e_cal_component_text_get_value (ptext); line != NULL; line = next_line) {
 				next_line = strchr (line, '\n');
 
+				top = detailed_page_align (top, get_font_size (font), real_page_height);
 				top = bound_text (
 					context, font, line,
 					next_line ? next_line - line : -1,
-					0.0, top + 3, width, height, TRUE, NULL,
-					&page_start, &pages);
+					left, top + 3, right, height, TRUE, NULL,
+					page_start, pages);
 
 				if (next_line) {
 					next_line++;
@@ -3856,11 +3847,12 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			for (line = e_cal_component_text_get_value (text); line != NULL; line = next_line) {
 				next_line = strchr (line, '\n');
 
+				top = detailed_page_align (top, get_font_size (font), real_page_height);
 				top = bound_text (
 					context, font, line,
 					next_line ? next_line - line : -1,
-					0.0, top + 3, width, height, TRUE, NULL,
-					&page_start, &pages);
+					left, top + 3, right, height, TRUE, NULL,
+					page_start, pages);
 
 				if (next_line) {
 					next_line++;
@@ -3873,6 +3865,79 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	}
 
 	pango_font_description_free (font);
+
+	return top;
+}
+
+/* returns number of required pages, when page_nr is -1 */
+static gint
+print_comp_draw_real (GtkPrintOperation *operation,
+                      GtkPrintContext *context,
+                      gint page_nr,
+                      PrintCompItem *pci)
+{
+	GtkPageSetup *setup;
+	PangoFontDescription *font;
+	ECalComponent *comp;
+	ECalComponentVType vtype;
+	const gchar *title;
+	gdouble header_size;
+	gdouble width, height, page_start;
+	gdouble top;
+	gint pages = 1;
+
+	setup = gtk_print_context_get_page_setup (context);
+
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+
+	top = 0.0;
+
+	/* Either draw only the right page or do not draw
+	 * anything when calculating number of pages. */
+	if (page_nr != -1)
+		top = top - ((page_nr) * height);
+	else
+		top = height;
+
+	page_start = top;
+
+	comp = pci->comp;
+	vtype = e_cal_component_get_vtype (comp);
+
+	/* We should only be asked to print VEVENTs, VTODOs, or VJOURNALs. */
+	if (vtype == E_CAL_COMPONENT_EVENT)
+		title = _("Appointment");
+	else if (vtype == E_CAL_COMPONENT_TODO)
+		title = _("Task");
+	else if (vtype == E_CAL_COMPONENT_JOURNAL)
+		title = _("Memo");
+	else
+		return pages;
+
+	/* Print the title in a box at the top of the page. */
+	font = get_font_for_size (18, PANGO_WEIGHT_BOLD);
+	header_size = 40;
+
+	if (page_nr == 0) {
+		print_border (
+			context, 0.0, width, 0.0, header_size,
+			1.0, DARKER_BORDER);
+		print_text (
+			context, font, title, PANGO_ALIGN_CENTER, 0.0, width,
+			0.1, header_size - 0.1);
+	}
+
+	pango_font_description_free (font);
+
+	top += header_size + 30;
+
+	print_comp_draw_content (
+		context, comp, pci->client,
+		pci->zone, pci->use_24_hour_format,
+		FALSE,
+		0.0, width, top, height,
+		0.0, &page_start, &pages);
 
 	return pages;
 }
@@ -4038,6 +4103,427 @@ print_table (ETable *table,
 		operation, "draw_page",
 		G_CALLBACK (print_table_draw_page), opts,
 		print_opts_free, 0);
+
+	gtk_print_operation_run (operation, action, NULL, NULL);
+
+	g_object_unref (operation);
+}
+
+struct PrintDetailedItem {
+	ECalendarView *cal_view;
+	time_t start;
+	time_t end;
+};
+
+static void
+print_detailed_item_free (gpointer ptr,
+                          GClosure *closure)
+{
+	struct PrintDetailedItem *pdi = ptr;
+
+	if (pdi) {
+		g_clear_object (&pdi->cal_view);
+		g_free (pdi);
+	}
+}
+
+typedef struct {
+	ECalModelComponent *comp_data;
+	time_t start;
+	time_t end;
+	gboolean is_all_day;
+	gboolean is_date;
+} PrintDetailedEvent;
+
+static void
+print_detailed_event_free (gpointer ptr)
+{
+	PrintDetailedEvent *pde = ptr;
+
+	if (pde) {
+		g_clear_object (&pde->comp_data);
+		g_free (pde);
+	}
+}
+
+static gint
+print_detailed_event_compare (gconstpointer a,
+                              gconstpointer b)
+{
+	const PrintDetailedEvent *ea = *(const PrintDetailedEvent **) a;
+	const PrintDetailedEvent *eb = *(const PrintDetailedEvent **) b;
+
+	if (ea->start < eb->start)
+		return -1;
+	if (ea->start > eb->start)
+		return 1;
+	if (ea->end < eb->end)
+		return -1;
+	if (ea->end > eb->end)
+		return 1;
+
+	return 0;
+}
+
+static gint
+print_detailed_view_real (GtkPrintOperation *operation,
+                          GtkPrintContext *context,
+                          gint page_nr,
+                          struct PrintDetailedItem *pdi)
+{
+	GtkPageSetup *setup;
+	PangoFontDescription *font;
+	PangoLayout *layout;
+	ECalModel *model;
+	ICalTimezone *zone;
+	gboolean use_24_hour_format;
+	GPtrArray *events;
+	gdouble width, height;
+	gdouble top;
+	gdouble max_time_col_width;
+	gint rows, row;
+	gint pages = 1;
+	gint current_day = -1;
+	gint current_month = -1;
+	gint current_year = -1;
+	guint ii;
+	cairo_t *cr;
+
+	setup = gtk_print_context_get_page_setup (context);
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+
+	top = 0.0;
+
+	model = e_calendar_view_get_model (pdi->cal_view);
+	zone = e_cal_model_get_timezone (model);
+	use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
+
+	events = g_ptr_array_new_with_free_func (print_detailed_event_free);
+
+	rows = e_table_model_row_count (E_TABLE_MODEL (model));
+	for (row = 0; row < rows; row++) {
+		ECalModelComponent *comp_data;
+		ICalTime *dtstart;
+		gboolean is_date;
+		time_t start, end, day_s;
+
+		comp_data = e_cal_model_get_component_at (model, row);
+		if (!comp_data || !comp_data->icalcomp)
+			continue;
+
+		if (comp_data->instance_start >= pdi->end ||
+		    comp_data->instance_end <= pdi->start)
+			continue;
+
+		start = MAX (comp_data->instance_start, pdi->start);
+		end = MIN (comp_data->instance_end, pdi->end);
+
+		dtstart = i_cal_component_get_dtstart (comp_data->icalcomp);
+		is_date = dtstart && i_cal_time_is_date (dtstart);
+		g_clear_object (&dtstart);
+
+		day_s = time_day_begin_with_zone (start, zone);
+
+		while (day_s < end) {
+			PrintDetailedEvent *pde;
+			time_t day_e;
+
+			day_e = time_day_end_with_zone (day_s, zone);
+
+			pde = g_new0 (PrintDetailedEvent, 1);
+			pde->comp_data = g_object_ref (comp_data);
+			pde->start = MAX (start, day_s);
+			pde->end = MIN (end, day_e);
+			pde->is_date = is_date;
+
+			if (is_date) {
+				pde->is_all_day = TRUE;
+			} else {
+				pde->is_all_day = (pde->start <= day_s &&
+				                   pde->end >= day_e);
+			}
+
+			g_ptr_array_add (events, pde);
+
+			day_s = day_e;
+		}
+	}
+
+	g_ptr_array_sort (events, print_detailed_event_compare);
+
+	/* Measure the widest time string to size the time column */
+	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
+	layout = gtk_print_context_create_pango_layout (context);
+	pango_layout_set_font_description (layout, font);
+
+	max_time_col_width = 0.0;
+
+	for (ii = 0; ii < events->len; ii++) {
+		PrintDetailedEvent *pde = g_ptr_array_index (events, ii);
+		gchar time_buf[128];
+		gint text_width;
+
+		if (pde->is_all_day) {
+			g_snprintf (time_buf, sizeof (time_buf), "%s", _("All Day"));
+		} else {
+			struct tm start_tm, end_tm;
+			gchar start_buf[64], end_buf[64];
+
+			convert_timet_to_struct_tm (pde->start, zone, &start_tm);
+			convert_timet_to_struct_tm (pde->end, zone, &end_tm);
+
+			e_time_format_time (&start_tm, use_24_hour_format, FALSE,
+				start_buf, sizeof (start_buf));
+			e_time_format_time (&end_tm, use_24_hour_format, FALSE,
+				end_buf, sizeof (end_buf));
+
+			/* Translators: This is "START_TIME – END_TIME",
+			 * where the first %s is the event start time
+			 * and the second %s is the event end time. */
+			g_snprintf (time_buf, sizeof (time_buf),
+				_("%s – %s"),
+				start_buf, end_buf);
+		}
+
+		pango_layout_set_text (layout, time_buf, -1);
+		pango_layout_get_size (layout, &text_width, NULL);
+
+		if ((gdouble) text_width / PANGO_SCALE > max_time_col_width) {
+			max_time_col_width = (gdouble) text_width / PANGO_SCALE;
+		}
+	}
+
+	g_clear_object (&layout);
+	pango_font_description_free (font);
+
+	max_time_col_width += 12;
+
+	cr = gtk_print_context_get_cairo_context (context);
+
+	if (page_nr == -1) {
+		cairo_push_group (cr);
+	} else {
+		cairo_save (cr);
+		cairo_rectangle (cr, 0.0, 0.0, width, height);
+		cairo_clip (cr);
+		if (page_nr > 0) {
+			cairo_translate (cr, 0.0,
+				-((gdouble) page_nr) * (height - 10.0));
+		}
+	}
+
+	if (events->len == 0) {
+		font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
+		top = bound_text (
+			context, font, _("No events in this period"), -1,
+			0.0, top, width, height, FALSE, NULL,
+			NULL, NULL);
+		pango_font_description_free (font);
+	}
+
+	for (ii = 0; ii < events->len; ii++) {
+		PrintDetailedEvent *pde = g_ptr_array_index (events, ii);
+		ECalComponent *comp;
+		ECalClient *client;
+		ICalComponent *icomp;
+		ICalTime *dtend;
+		struct tm event_tm;
+		gchar time_buf[128];
+
+		if (!pde->comp_data || !pde->comp_data->icalcomp)
+			continue;
+
+		convert_timet_to_struct_tm (pde->start, zone, &event_tm);
+
+		/* If not enough space remains for a useful event
+		 * display (time + summary + some content),
+		 * advance to the next page */
+		top = detailed_page_align (top, 120.0, height);
+
+		/* Day header when the day changes */
+		if (event_tm.tm_mday != current_day ||
+		    event_tm.tm_mon != current_month ||
+		    event_tm.tm_year != current_year) {
+			gchar day_buf[100];
+			gdouble header_size = 30;
+
+			current_day = event_tm.tm_mday;
+			current_month = event_tm.tm_mon;
+			current_year = event_tm.tm_year;
+
+			if (ii > 0)
+				top += 10;
+
+			top = detailed_page_align (top, header_size + 60.0, height);
+
+			format_date (&event_tm,
+				DATE_DAYNAME | DATE_DAY | DATE_MONTH | DATE_YEAR,
+				day_buf, sizeof (day_buf));
+
+			print_border (
+				context, 0.0, width,
+				top, top + header_size,
+				1.0, DARKER_BORDER);
+
+			font = get_font_for_size (14, PANGO_WEIGHT_BOLD);
+			print_text (
+				context, font, day_buf,
+				PANGO_ALIGN_LEFT,
+				8.0, width,
+				top + (header_size - get_font_size (font)) / 2.0 - 2.0,
+				top + header_size);
+			pango_font_description_free (font);
+
+			top += header_size + 4;
+		}
+
+		comp = e_cal_component_new_from_icalcomponent (
+			i_cal_component_clone (pde->comp_data->icalcomp));
+		if (!comp)
+			continue;
+
+		if (pde->is_date) {
+			icomp = e_cal_component_get_icalcomponent (comp);
+			dtend = i_cal_component_get_dtend (icomp);
+			if (dtend && i_cal_time_is_date (dtend)) {
+				i_cal_time_adjust (dtend, -1, 0, 0, 0);
+				i_cal_component_set_dtend (icomp, dtend);
+			}
+			g_clear_object (&dtend);
+		}
+
+		client = pde->comp_data->client;
+
+		/* Two-column layout: time on the left, details on the right */
+
+		if (pde->is_all_day) {
+			g_snprintf (time_buf, sizeof (time_buf), "%s", _("All Day"));
+		} else {
+			struct tm start_tm, end_tm;
+			gchar start_buf[64], end_buf[64];
+
+			convert_timet_to_struct_tm (pde->start, zone, &start_tm);
+			convert_timet_to_struct_tm (pde->end, zone, &end_tm);
+
+			e_time_format_time (&start_tm, use_24_hour_format, FALSE,
+				start_buf, sizeof (start_buf));
+			e_time_format_time (&end_tm, use_24_hour_format, FALSE,
+				end_buf, sizeof (end_buf));
+
+			/* Translators: This is "START_TIME – END_TIME",
+			 * where the first %s is the event start time
+			 * and the second %s is the event end time. */
+			g_snprintf (time_buf, sizeof (time_buf),
+				_("%s – %s"),
+				start_buf, end_buf);
+		}
+
+		font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
+		bound_text (
+			context, font, time_buf, -1,
+			3.0, top, max_time_col_width - 8, height * 100,
+			FALSE, NULL, NULL, NULL);
+		pango_font_description_free (font);
+
+		top = print_comp_draw_content (
+			context, comp, client,
+			zone, use_24_hour_format,
+			TRUE,
+			max_time_col_width + 3, width - max_time_col_width - 7, top,
+			height * 100, height, NULL, NULL);
+
+		g_clear_object (&comp);
+
+		top += 8;
+
+		/* Separator line between events on the same day */
+		if (ii + 1 < events->len) {
+			PrintDetailedEvent *next_pde = g_ptr_array_index (events, ii + 1);
+			struct tm next_tm;
+
+			convert_timet_to_struct_tm (next_pde->start, zone, &next_tm);
+
+			if (next_tm.tm_mday == current_day &&
+			    next_tm.tm_mon == current_month &&
+			    next_tm.tm_year == current_year) {
+				cairo_save (cr);
+				cairo_set_source_rgb (cr, 0.5, 0.5, 0.5);
+				cairo_set_line_width (cr, 0.5);
+				cairo_move_to (cr, 3.0, top);
+				cairo_line_to (cr, width - 3.0, top);
+				cairo_stroke (cr);
+				cairo_restore (cr);
+			}
+		}
+
+		top += 8;
+	}
+
+	g_ptr_array_unref (events);
+
+	if (page_nr == -1) {
+		cairo_pattern_destroy (cairo_pop_group (cr));
+		if (top <= height) {
+			pages = 1;
+		} else {
+			pages = 1 + (gint) ceil ((top - height) / (height - 10.0));
+		}
+	} else {
+		cairo_restore (cr);
+	}
+
+	return pages;
+}
+
+static void
+print_detailed_draw_page (GtkPrintOperation *operation,
+                          GtkPrintContext *context,
+                          gint page_nr,
+                          struct PrintDetailedItem *pdi)
+{
+	print_detailed_view_real (operation, context, page_nr, pdi);
+}
+
+static void
+print_detailed_begin_print (GtkPrintOperation *operation,
+                            GtkPrintContext *context,
+                            struct PrintDetailedItem *pdi)
+{
+	gint pages;
+
+	pages = print_detailed_view_real (operation, context, -1, pdi);
+
+	gtk_print_operation_set_n_pages (operation, pages);
+}
+
+void
+print_calendar_detailed (ECalendarView *cal_view,
+                         GtkPrintOperationAction action,
+                         time_t start,
+                         time_t end)
+{
+	GtkPrintOperation *operation;
+	struct PrintDetailedItem *pdi;
+
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	pdi = g_new0 (struct PrintDetailedItem, 1);
+	pdi->cal_view = g_object_ref (cal_view);
+	pdi->start = start;
+	pdi->end = end;
+
+	operation = e_print_operation_new ();
+	gtk_print_operation_set_n_pages (operation, 1);
+
+	g_signal_connect (
+		operation, "begin-print",
+		G_CALLBACK (print_detailed_begin_print), pdi);
+
+	g_signal_connect_data (
+		operation, "draw-page",
+		G_CALLBACK (print_detailed_draw_page), pdi,
+		print_detailed_item_free, 0);
 
 	gtk_print_operation_run (operation, action, NULL, NULL);
 

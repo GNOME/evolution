@@ -240,6 +240,26 @@ action_calendar_print_cb (EUIAction *action,
 }
 
 static void
+action_calendar_print_details_cb (EUIAction *action,
+				  GVariant *parameter,
+				  gpointer user_data)
+{
+	ECalShellView *cal_shell_view = user_data;
+	ECalShellContent *cal_shell_content;
+	ECalendarView *cal_view;
+	ECalModel *model;
+	time_t start = 0, end = 0;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
+	model = e_calendar_view_get_model (cal_view);
+
+	e_cal_model_get_time_range (model, &start, &end);
+
+	print_calendar_detailed (cal_view, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG, start, end);
+}
+
+static void
 action_calendar_print_preview_cb (EUIAction *action,
 				  GVariant *parameter,
 				  gpointer user_data)
@@ -1799,6 +1819,13 @@ e_cal_shell_view_actions_init (ECalShellView *self)
 		  "<Control>p",
 		  N_("Print this calendar"),
 		  action_calendar_print_cb, NULL, NULL, NULL },
+
+		{ "calendar-print-details",
+		  "document-print",
+		  N_("Print _Details…"),
+		  NULL,
+		  N_("Print calendar with full event details"),
+		  action_calendar_print_details_cb, NULL, NULL, NULL },
 
 		{ "calendar-print-preview",
 		  "document-print-preview",
