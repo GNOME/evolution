@@ -1,3 +1,93 @@
+Evolution 3.61.1 2026-06-26
+---------------------------
+
+Bug Fixes:
+	I#1304 - Mail: Don't disable folder tree sensitivity after search setup (Alastair D'Silva)
+	I#2820 - Do not offer to create a folder under an RSS account
+	I#2833 - Add composer format override per folder, recipient, and account
+	I#2839 - Localization is not applied for the date field in the email preview
+	I#2894 - Composer open delayed by gpg call with stale gpg lock
+	I#3176 - itip-formatter: Guess attendee for REQUEST without attendees
+	I#3184 - itip-formatter: Layout has excessive empty space, long content
+	I#3192 - Mail: Allow to save emails as .eml via drag & drop
+	I#3215 - Composer: Inherit theme color not honoured on send
+	I#3232 - Better integration of custom layout dialog
+	I#3256 - Composer: Add 'View->Use Theme Colors' for HTML mode (view only)
+	I#3265 - prefer-plain: Remote content load reverts shown part
+	I#3272 - Blank email body for some S/MIME Encrypted mails
+	I#3273 - Incorrect month name declination in some locales
+	I#3283 - Paste into 'add/edit note' window not working after open
+	I#3287 - EUIAction: Declare alternative label for popup menus
+	I#3302 - Truncated file stored in the (mail) cache
+	I#3307 - prefer-plain: Empty body when prefer plain with HTML and no plain text
+	I#3311 - Fails to import Chinese Outook PST file (charset)
+	I#3312 - tnef: Fix OOB read when PR_ATTACH_DATA_OBJ buffer is too short
+	I#3313 - tnef: Fix PT_UNICODE property over-read via strlen()
+	I#3315 - Marcus Bains line is displayed on the wrong day
+	I#3316 - Work Week/Day view overlaps text for multi-day events with times
+	I#3317 - Inconsistent timezone for completed tasks
+	I#3322 - IMAP: Add "Manage subscriptions" into "Receiving options"
+	I#3325 - WebDAVBrowser: Do not save collection color when None is set
+	I#3326 - Fix line breaks for <p> and heading elements in HTML-to-markdown
+	I#3328 - Mail: Reject message send when account's transport source is disabled
+	I#3333 - Composer: Duplication of newsgroup name in reply
+	I#3337 - Calendar: Correct drawing of used time of multi-day events in Work Week view
+	I#3341 - EMFolderSelector: Remember last dialog size
+	I#3343 - Calendar: Add an un-truncated "Detailed Style" layout to printing
+	M!199 - Unescape URL path returned by GUri
+	M!213 - fedora.Dockerfile: Install grcov and tools for sanitizers (Federico Mena Quintero)
+	M!217 - Add rebeccapurple as known CSS color name (Дилян Палаузов)
+	M!218 - Mail: Call malloc_trim after folder sync and message list regen (Nirbheek Chauhan)
+	M!224 - EMonthWidget: Do not propagate the GdkEvent (Corentin Noël)
+	M!225 - Modernize the codebase around properties (Corentin Noël)
+	M!227 - Make CMAKE_BUILD_TYPE enumeration for cmake-gui (Дилян Палаузов)
+	M!232 - e-misc-utils: Remove unneeded glib version check (Дилян Палаузов)
+
+Miscellaneous:
+	Remove the usage of CamelURL (Corentin Noël)
+	test-web-view-jsc: Correct JavaScript variable initialization
+	message-list: Remove redundant g_free call (Nirbheek Chauhan)
+	mail: Escape newsgroup names before inserting into HTML output
+	dbx-import: Fix integer overflow in index table allocation
+	dbx-import: Fix heap buffer over-read in mail header parsing
+	dbx-import: Add recursion depth limit to index table parsing
+	Fix some compiler warnings
+	Replace all HBox and VBox by Box with the orientation property (Corentin Noël)
+	Remove usage of GtkAlignment (Corentin Noël)
+	Replace direct GdkEvent access with their accessors (Corentin Noël)
+	EMailAutoconfig: Implement Provider Auto-Configuration for Clients (PACC) (Corentin Noël)
+	e-message-popover: Make the label text selectable
+	Use slightly darker white as default background color
+	Calendar: Use icaldurationtype_as_utc_seconds() for libical 4.x
+	ECategoriesSelector: chain-up finalize to parent (Corentin Noël)
+	Convert license/copyright comments into SPDX notation
+	mail: Use E_OAUTH2_SERVICE_ERROR instead of abused G_IO_ERROR codes
+	Convert to CamelDataCache atomic write API
+	Remove PROP_ enum values that are not registered as GObject properties (Corentin Noël)
+	e-text: Ellipsize text at clip boundary when use_ellipsis is set
+	EText: Remove IM from popup menu (Corentin Noël)
+	Calendar: Day View instance could not be found
+	e-mail-composer-mode-override: Simplify code in get_override_for_recipients_locked()
+	EMFolderTree: Optimize rendering
+	Use "--output-on-failure" for ctest in "make test"
+
+Translations:
+	Aliaksandr Truš (be)
+	Aurimas Aurimas Černius (lt)
+	Cheng-Chia Tseng (zh_TW)
+	Christian Kirbach (de)
+	Ekaterine Papava (ka)
+	Emin Tufan Çetin (tr)
+	Haolin Xue (zh_CN)
+	Hugo Carvalho (pt)
+	Juliano de Souza Camargo (pt_BR)
+	Julien Humbert (fr)
+	Kjartan Maraas (nb)
+	Марко Костић (sr)
+	Martin (sl)
+	Sabri Ünal (tr)
+	Yuri Chornoivan (uk)
+
 Evolution 3.60.0 2026-03-13
 ---------------------------
 
