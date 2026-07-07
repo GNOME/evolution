@@ -750,7 +750,8 @@ camel_rss_folder_new (CamelStore *parent,
 	self = CAMEL_RSS_FOLDER (folder);
 	self->priv->id = g_strdup (id);
 
-	camel_folder_set_flags (folder, camel_folder_get_flags (folder) | CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY);
+	camel_folder_set_flags (folder, camel_folder_get_flags (folder) | CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY |
+		((filter_all || rss_folder_get_apply_filters (self)) ? CAMEL_FOLDER_FILTER_RECENT : 0));
 
 	storage_path = g_build_filename (user_data_dir, id, NULL);
 	root = g_strdup_printf ("%s.cmeta", storage_path);
@@ -761,9 +762,6 @@ camel_rss_folder_new (CamelStore *parent,
 	folder_summary = camel_rss_folder_summary_new (folder);
 
 	camel_folder_take_folder_summary (folder, folder_summary);
-
-	if (filter_all || rss_folder_get_apply_filters (self))
-		camel_folder_set_flags (folder, camel_folder_get_flags (folder) | CAMEL_FOLDER_FILTER_RECENT);
 
 	camel_folder_summary_load (folder_summary, NULL);
 
