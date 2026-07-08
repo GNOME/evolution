@@ -49,6 +49,9 @@ struct _EShellSearchbarPrivate {
 	gboolean filter_visible;
 	gboolean scope_visible;
 	gboolean state_dirty;
+	gboolean block_focus_out;
+	gint saved_cursor_position;
+	gint saved_selection_bound;
 };
 
 enum {
@@ -384,6 +387,9 @@ shell_searchbar_entry_icon_press_cb (EShellSearchbar *searchbar,
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);
 
+	if (!gtk_widget_has_focus (searchbar->priv->search_entry))
+		gtk_widget_grab_focus (searchbar->priv->search_entry);
+
 	action = e_shell_view_get_action (shell_view, "search-options");
 	g_action_activate (G_ACTION (action), NULL);
 }
@@ -483,6 +489,9 @@ shell_searchbar_entry_focus_out_cb (GtkWidget *entry,
                                     GdkEvent *event,
                                     EShellSearchbar *searchbar)
 {
+	if (searchbar->priv->block_focus_out)
+		return FALSE;
+
 	if (e_util_strcmp0 (searchbar->priv->active_search_text, gtk_entry_get_text (GTK_ENTRY (searchbar->priv->search_entry))) != 0) {
 		gtk_entry_set_text (GTK_ENTRY (searchbar->priv->search_entry), searchbar->priv->active_search_text ?
 			searchbar->priv->active_search_text : "");
@@ -1429,4 +1438,41 @@ e_shell_searchbar_search_entry_has_focus (EShellSearchbar *searchbar)
 	g_return_val_if_fail (searchbar->priv->search_entry, FALSE);
 
 	return gtk_widget_has_focus (searchbar->priv->search_entry);
+}
+
+gboolean
+e_shell_searchbar_get_block_focus_out (EShellSearchbar *searchbar)
+{
+	g_return_val_if_fail (E_IS_SHELL_SEARCHBAR (searchbar), FALSE);
+
+	return searchbar->priv->block_focus_out;
+}
+
+void
+e_shell_searchbar_set_block_focus_out (EShellSearchbar *searchbar,
+                                       gboolean block_focus_out)
+{
+	GtkEditable *editable;
+
+	g_return_if_fail (E_IS_SHELL_SEARCHBAR (searchbar));
+
+	searchbar->priv->block_focus_out = block_focus_out;
+
+	editable = GTK_EDITABLE (searchbar->priv->search_entry);
+
+	if (block_focus_out) {
+		if (!gtk_editable_get_selection_bounds (editable,
+			&searchbar->priv->saved_selection_bound,
+			&searchbar->priv->saved_cursor_position)) {
+			searchbar->priv->saved_cursor_position = gtk_editable_get_position (editable);
+			searchbar->priv->saved_selection_bound = searchbar->priv->saved_cursor_position;
+		}
+	} else {
+		gtk_editable_set_position (editable, searchbar->priv->saved_cursor_position);
+		if (searchbar->priv->saved_cursor_position != searchbar->priv->saved_selection_bound) {
+			gtk_editable_select_region (editable,
+				searchbar->priv->saved_selection_bound,
+				searchbar->priv->saved_cursor_position);
+		}
+	}
 }

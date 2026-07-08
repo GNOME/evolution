@@ -781,15 +781,23 @@ search_options_selection_done_cb (GtkMenuShell *menu,
 
 	search_bar = E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (self));
 	e_shell_searchbar_search_entry_grab_focus (search_bar);
+	e_shell_searchbar_set_block_focus_out (search_bar, FALSE);
 }
 
 static void
 search_options_selection_cancel_cb (GtkMenuShell *menu,
 				    EShellView *self)
 {
+	EShellSearchbar *search_bar;
+
 	/* only disconnect both functions, thus the selection-done is not called */
 	g_signal_handlers_disconnect_by_func (menu, search_options_selection_done_cb, self);
 	g_signal_handlers_disconnect_by_func (menu, search_options_selection_cancel_cb, self);
+
+	g_return_if_fail (E_IS_SHELL_VIEW (self));
+
+	search_bar = E_SHELL_SEARCHBAR (e_shell_view_get_searchbar (self));
+	e_shell_searchbar_set_block_focus_out (search_bar, FALSE);
 }
 
 static void
@@ -807,6 +815,8 @@ action_search_options_cb (EUIAction *action,
 		return;
 	}
 
+	e_shell_searchbar_set_block_focus_out (search_bar, TRUE);
+
 	popup_menu = e_shell_view_show_popup_menu (self, "search-options", NULL);
 
 	if (popup_menu) {
@@ -816,6 +826,8 @@ action_search_options_cb (EUIAction *action,
 			G_CALLBACK (search_options_selection_done_cb), self, 0);
 		g_signal_connect_object (popup_menu, "cancel",
 			G_CALLBACK (search_options_selection_cancel_cb), self, 0);
+	} else {
+		e_shell_searchbar_set_block_focus_out (search_bar, FALSE);
 	}
 }
 

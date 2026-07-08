@@ -100,6 +100,11 @@ void		e_shell_searchbar_search_entry_grab_focus
 						(EShellSearchbar *searchbar);
 gboolean	e_shell_searchbar_search_entry_has_focus
 						(EShellSearchbar *searchbar);
+gboolean	e_shell_searchbar_get_block_focus_out
+						(EShellSearchbar *searchbar);
+void		e_shell_searchbar_set_block_focus_out
+						(EShellSearchbar *searchbar,
+						 gboolean block_focus_out);
 
 G_END_DECLS
 
