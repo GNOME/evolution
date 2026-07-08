@@ -214,7 +214,7 @@ mail_shell_view_match_folder_tree_and_message_list_folder (EMailShellView *mail_
 	/* If the folder tree and message list disagree on the current
 	 * folder, reset the folder tree to match the message list. */
 	if (list_uri != NULL && g_strcmp0 (tree_uri, list_uri) != 0)
-		em_folder_tree_set_selected (folder_tree, list_uri, FALSE);
+		em_folder_tree_set_selected_no_scroll (folder_tree, list_uri, FALSE);
 
 	g_free (list_uri);
 	g_free (tree_uri);

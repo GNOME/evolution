@@ -78,6 +78,7 @@ struct _EMFolderTreePrivate {
 
 	GtkTreeRowReference *drag_row;
 	gboolean skip_double_click;
+	gboolean skip_scroll_to_cell;
 
 	GtkCellRenderer *text_renderer;
 
@@ -443,10 +444,14 @@ folder_tree_select_uri (EMFolderTree *folder_tree,
 	selection = gtk_tree_view_get_selection (tree_view);
 	gtk_tree_selection_select_path (selection, path);
 	if (!priv->cursor_set) {
-		gtk_tree_view_set_cursor (tree_view, path, NULL, FALSE);
+		if (!priv->skip_scroll_to_cell) {
+			gtk_tree_view_set_cursor (tree_view, path, NULL, FALSE);
+		}
 		priv->cursor_set = TRUE;
 	}
-	gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.8f, 0.0f);
+	if (!priv->skip_scroll_to_cell) {
+		gtk_tree_view_scroll_to_cell (tree_view, path, NULL, TRUE, 0.8f, 0.0f);
+	}
 	g_hash_table_remove (priv->select_uris_table, u->key);
 	priv->select_uris = g_slist_remove (priv->select_uris, u);
 	folder_tree_free_select_uri (u);
@@ -3366,6 +3371,18 @@ em_folder_tree_set_selected (EMFolderTree *folder_tree,
 
 	em_folder_tree_set_selected_list (folder_tree, l, expand_only);
 	g_list_free (l);
+}
+
+void
+em_folder_tree_set_selected_no_scroll (EMFolderTree *folder_tree,
+                                       const gchar *uri,
+                                       gboolean expand_only)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+
+	folder_tree->priv->skip_scroll_to_cell = TRUE;
+	em_folder_tree_set_selected (folder_tree, uri, expand_only);
+	folder_tree->priv->skip_scroll_to_cell = FALSE;
 }
 
 gboolean

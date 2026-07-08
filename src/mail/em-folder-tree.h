@@ -105,6 +105,10 @@ GList *		em_folder_tree_get_selected_paths
 void		em_folder_tree_set_selected	(EMFolderTree *folder_tree,
 						 const gchar *uri,
 						 gboolean expand_only);
+void		em_folder_tree_set_selected_no_scroll
+						(EMFolderTree *folder_tree,
+						 const gchar *uri,
+						 gboolean expand_only);
 gboolean	em_folder_tree_select_next_path	(EMFolderTree *folder_tree,
 						 gboolean skip_read_folders);
 gboolean	em_folder_tree_select_prev_path	(EMFolderTree *folder_tree,
