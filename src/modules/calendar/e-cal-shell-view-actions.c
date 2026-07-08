@@ -555,11 +555,10 @@ cal_shell_view_transfer_selected (ECalShellView *cal_shell_view,
 	g_return_if_fail (selected != NULL);
 
 	if (selected->data && is_move) {
-		ECalendarViewEvent *event = selected->data;
+		ECalendarViewSelectionData *sel_data = selected->data;
 
-		if (is_comp_data_valid (event) && event->comp_data->client)
-			source_source = e_client_get_source (
-				E_CLIENT (event->comp_data->client));
+		if (sel_data->client)
+			source_source = e_client_get_source (E_CLIENT (sel_data->client));
 	}
 
 	/* Get a destination source from the user. */
