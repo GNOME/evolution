@@ -4608,6 +4608,9 @@ e_util_ignore_accel_for_focused (GtkWidget *focused)
 	if (!focused)
 		return FALSE;
 
+	if (gtk_widget_get_ancestor (focused, GTK_TYPE_POPOVER) != NULL)
+		return TRUE;
+
 	if ((GTK_IS_ENTRY (focused) || GTK_IS_EDITABLE (focused) ||
 	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0))) {
 		GdkEvent *event;

@@ -5107,6 +5107,50 @@ mail_label_change_more_set_none_clicked_cb (GtkWidget *button,
 }
 
 static void
+mail_label_change_more_search_mnemonic_cb (GtkWidget *widget,
+					   gpointer user_data)
+{
+	guint *pdata = user_data;
+	guint keyval = pdata[0];
+	GtkWidget *mnemonic_widget;
+
+	if (pdata[1])
+		return;
+
+	if (GTK_IS_LABEL (widget)) {
+		if (gtk_label_get_mnemonic_keyval (GTK_LABEL (widget)) == keyval) {
+			mnemonic_widget = gtk_label_get_mnemonic_widget (GTK_LABEL (widget));
+			if (mnemonic_widget && gtk_widget_get_visible (mnemonic_widget)) {
+				gtk_widget_mnemonic_activate (mnemonic_widget, FALSE);
+				pdata[1] = 1;
+				return;
+			}
+		}
+	}
+
+	if (GTK_IS_CONTAINER (widget))
+		gtk_container_forall (GTK_CONTAINER (widget), mail_label_change_more_search_mnemonic_cb, user_data);
+}
+
+static gboolean
+mail_label_change_more_key_press_cb (GtkWidget *popover,
+				     GdkEventKey *event,
+				     gpointer user_data)
+{
+	guint pdata[2];
+
+	if ((event->state & gtk_accelerator_get_default_mod_mask ()) != GDK_MOD1_MASK)
+		return GDK_EVENT_PROPAGATE;
+
+	pdata[0] = gdk_keyval_to_lower (event->keyval);
+	pdata[1] = 0;
+
+	gtk_container_forall (GTK_CONTAINER (popover), mail_label_change_more_search_mnemonic_cb, pdata);
+
+	return pdata[1] ? GDK_EVENT_STOP : GDK_EVENT_PROPAGATE;
+}
+
+static void
 action_mail_label_change_more_cb (EUIAction *action,
 				  GVariant *parameter,
 				  gpointer user_data)
@@ -5264,6 +5308,8 @@ action_mail_label_change_more_cb (EUIAction *action,
 
 	g_signal_connect (popover, "closed",
 		G_CALLBACK (gtk_widget_destroy), NULL);
+	g_signal_connect (popover, "key-press-event",
+		G_CALLBACK (mail_label_change_more_key_press_cb), NULL);
 
 	widget = gtk_popover_get_relative_to (GTK_POPOVER (popover));
 	if (widget) {
