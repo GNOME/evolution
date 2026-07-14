@@ -1,4 +1,4 @@
-FROM fedora:41
+FROM fedora:44
 
 RUN dnf -y install \
 	abseil-cpp-devel \
@@ -7,8 +7,12 @@ RUN dnf -y install \
 	clang-analyzer \
 	clang-tools-extra \
 	cmake \
+	cyrus-imapd \
+	cyrus-sasl-plain \
+	dovecot \
 	gcc \
 	gcc-c++ \
+	gcovr \
 	gettext \
 	gi-docgen \
 	git \
@@ -78,18 +82,62 @@ RUN dnf -y install \
 	/usr/bin/killall \
 	&& dnf clean all
 
+# Disable dovecot services
+RUN systemctl disable --now dovecot.service dovecot.socket dovecot-init.service 2>/dev/null || true
+
+# Set up Cyrus IMAP for testing
+RUN echo 'cyruspass' | saslpasswd2 -f /etc/sasldb2 -p -c -u localhost cyrus && \
+    echo 'testpass' | saslpasswd2 -f /etc/sasldb2 -p -c -u localhost testuser && \
+    chown cyrus:mail /etc/sasldb2
+
+RUN printf '%s\n' \
+	'servername: localhost' \
+	'configdirectory: /var/lib/imap' \
+	'partition-default: /var/spool/imap' \
+	'proc_path: /run/cyrus/proc' \
+	'mboxname_lockpath: /run/cyrus/lock' \
+	'duplicate_db_path: /run/cyrus/db/deliver.db' \
+	'ptscache_db_path: /run/cyrus/db/ptscache.db' \
+	'statuscache_db_path: /run/cyrus/db/statuscache.db' \
+	'tls_sessions_db_path: /run/cyrus/db/tls_sessions.db' \
+	'defaultpartition: default' \
+	'sievedir: /var/lib/imap/sieve' \
+	'admins: cyrus' \
+	'allowplaintext: yes' \
+	'sasl_pwcheck_method: auxprop' \
+	'sasl_auxprop_plugin: sasldb' \
+	'sasl_sasldb_path: /etc/sasldb2' \
+	'sasl_auto_transition: no' \
+	'virtdomains: off' \
+	'hashimapspool: true' \
+	> /etc/imapd.conf
+
+RUN printf '%s\n' \
+	'START {' \
+	'  recover cmd="ctl_cyrusdb -r"' \
+	'}' \
+	'SERVICES {' \
+	'  imap cmd="imapd" listen="10143" prefork=1' \
+	'}' \
+	'EVENTS {' \
+	'  checkpoint cmd="ctl_cyrusdb -c" period=30' \
+	'}' \
+	> /etc/cyrus.conf
+
+RUN install -d -o cyrus -g mail /var/lib/imap /var/spool/imap \
+	/var/lib/imap/db /var/lib/imap/sieve /var/lib/imap/socket \
+	/var/lib/imap/proc /var/lib/imap/log \
+	/run/cyrus /run/cyrus/proc /run/cyrus/lock /run/cyrus/db \
+	/run/cyrus/socket
+
 # Enable sudo for wheel users
 RUN sed -i -e 's/# %wheel/%wheel/' -e '0,/%wheel/{s/%wheel/# %wheel/}' /etc/sudoers
 
-RUN cd /usr/local/bin && \
-    curl -L https://github.com/mozilla/grcov/releases/download/v0.10.6/grcov-x86_64-unknown-linux-gnu.tar.bz2 \
-    | tar jxvf -
-
 ARG HOST_USER_ID=5555
-ENV HOST_USER_ID ${HOST_USER_ID}
+ENV HOST_USER_ID=${HOST_USER_ID}
 RUN useradd -u $HOST_USER_ID -G wheel -ms /bin/bash user
 
 USER user
 WORKDIR /home/user
 
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
