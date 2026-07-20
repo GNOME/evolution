@@ -1050,11 +1050,17 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
 	today_tt = i_cal_time_new_current_with_zone (zone);
+	#if !ICAL_CHECK_VERSION(3, 99, 0)
+	i_cal_time_set_timezone (today_tt, zone);
+	#endif
 
 	for (day = 0; day < days_shown; day++) {
 		GDateWeekday weekday;
 
 		day_start_tt = i_cal_time_new_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
+		#if !ICAL_CHECK_VERSION(3, 99, 0)
+		i_cal_time_set_timezone (day_start_tt, zone);
+		#endif
 
 		switch (i_cal_time_day_of_week (day_start_tt)) {
 			case 1:
@@ -1273,9 +1279,15 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 			gdk_cairo_set_source_rgba (cr, &mb_color);
 
 		time_now = i_cal_time_new_current_with_zone (zone);
+		#if !ICAL_CHECK_VERSION(3, 99, 0)
+		i_cal_time_set_timezone (time_now, zone);
+		#endif
 
 		for (day = 0; day < days_shown; day++) {
 			day_start = i_cal_time_new_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
+			#if !ICAL_CHECK_VERSION(3, 99, 0)
+			i_cal_time_set_timezone (day_start, zone);
+			#endif
 
 			if (i_cal_time_compare_date_only_tz (day_start, time_now, zone) == 0) {
 				grid_x1 = day_view->day_offsets[day] - x + E_DAY_VIEW_BAR_WIDTH;

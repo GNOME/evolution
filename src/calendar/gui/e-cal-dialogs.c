@@ -43,6 +43,9 @@ is_past_event (ECalComponent *comp)
 
 	zone = i_cal_time_get_timezone (e_cal_component_datetime_get_value (end_date));
 	now = i_cal_time_new_current_with_zone (zone);
+	#if !ICAL_CHECK_VERSION(3, 99, 0)
+	i_cal_time_set_timezone (now, zone);
+	#endif
 
 	res = i_cal_time_compare_date_only_tz (e_cal_component_datetime_get_value (end_date), now, zone) < 0;
 
