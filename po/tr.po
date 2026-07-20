@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-07-08 16:56+0000\n"
-"PO-Revision-Date: 2026-07-09 08:00+0300\n"
+"POT-Creation-Date: 2026-07-20 08:38+0000\n"
+"PO-Revision-Date: 2026-07-20 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -2719,6 +2719,14 @@ msgstr ""
 msgid "Show original “Date” header value."
 msgstr "Özgün “Tarih” başlığı değerini göster."
 
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:249
+msgid ""
+"Show the original “Date” header with a user preferred format and in the "
+"local time zone value beside it."
+msgstr ""
+"Özgün “Tarih” başlığını kullanıcı yeğli biçimle ve yanında yerel saat dilimi "
+"değerinde göster."
+
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:250
 msgid "List of Labels and their associated colors"
 msgstr "Etiketlerin Listesi ve onların ilişkilendirilen renkleri"
@@ -2941,6 +2949,16 @@ msgstr ""
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:287
 msgid "Use theme colors in HTML composer"
 msgstr "Tema renklerini HTML biçiminde kullan"
+
+#: ../data/org.gnome.evolution.mail.gschema.xml.in.h:288
+msgid ""
+"When enabled the theme colors are used for the composer background and text "
+"while editing, but they are not included in the sent message. This option "
+"has no effect when “Inherit theme colors” is enabled."
+msgstr ""
+"Etkinleştirildiğinde, düzenlenirken gövde renkleri düzenleyici arka planı ve "
+"metin için kullanılır, ancak gönderilen iletide içerilmez. Bu seçenek, "
+"“Tema renklerini miras al” etkinken etkisizdir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid "An Archive folder for On This Computer folders."
@@ -4726,7 +4744,7 @@ msgstr ""
 #: ../src/addressbook/gui/widgets/eab-gui-util.c:270
 #: ../src/addressbook/gui/widgets/e-addressbook-view.c:1846
 #: ../src/calendar/calendar.error.xml.h:190
-#: ../src/calendar/gui/e-cal-dialogs.c:927
+#: ../src/calendar/gui/e-cal-dialogs.c:930
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:292
 #: ../src/composer/e-composer-actions.c:248 ../src/e-util/e-activity-bar.c:347
 #: ../src/e-util/e-attachment-store.c:628
@@ -7276,7 +7294,7 @@ msgstr ""
 "bilemeyebilir."
 
 #: ../src/calendar/calendar.error.xml.h:7
-#: ../src/calendar/gui/e-cal-dialogs.c:741
+#: ../src/calendar/gui/e-cal-dialogs.c:744
 #, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Bu toplantıyı silmek istediğinizden emin misiniz?"
@@ -7337,7 +7355,7 @@ msgstr ""
 "bilemeyebilir."
 
 #: ../src/calendar/calendar.error.xml.h:17
-#: ../src/calendar/gui/e-cal-dialogs.c:744
+#: ../src/calendar/gui/e-cal-dialogs.c:747
 #, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Bu görevi silmek istediğinizden emin misiniz?"
@@ -7372,7 +7390,7 @@ msgstr ""
 "bilemeyebilir."
 
 #: ../src/calendar/calendar.error.xml.h:23
-#: ../src/calendar/gui/e-cal-dialogs.c:747
+#: ../src/calendar/gui/e-cal-dialogs.c:750
 #, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Bu notu silmek istediğinizden emin misiniz?"
@@ -8686,142 +8704,142 @@ msgstr "Görev listesi “%s” için görünüm oluşturuluyor"
 msgid "Creating view for memo list “%s”"
 msgstr "Not listesi “%s” için görünüm oluşturuluyor"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:172
+#: ../src/calendar/gui/e-cal-dialogs.c:175
 msgid "Deletion _reason:"
 msgstr "Silme _nedeni:"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:308
+#: ../src/calendar/gui/e-cal-dialogs.c:311
 msgid "Cancellation _reason:"
 msgstr "İptal _nedeni:"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:454 ../src/calendar/gui/e-cal-ops.c:2011
+#: ../src/calendar/gui/e-cal-dialogs.c:457 ../src/calendar/gui/e-cal-ops.c:2011
 msgid "Destination is read only"
 msgstr "Hedef salt-okunur"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:534
+#: ../src/calendar/gui/e-cal-dialogs.c:537
 #, c-format
 msgid "Copying events to the calendar “%s”"
 msgstr "Olaylar “%s” takvimine kopyalanıyor"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:540
+#: ../src/calendar/gui/e-cal-dialogs.c:543
 #, c-format
 msgid "Copying memos to the memo list “%s”"
 msgstr "Notlar “%s” not listesine kopyalanıyor"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:546
+#: ../src/calendar/gui/e-cal-dialogs.c:549
 #, c-format
 msgid "Copying tasks to the task list “%s”"
 msgstr "Görevler “%s” görev listesine kopyalanıyor"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:765
+#: ../src/calendar/gui/e-cal-dialogs.c:768
 msgid "_Delete this item from all other recipient’s mailboxes?"
 msgstr "_Bu öge diğer tüm alıcıların posta kutularından silinsin mi?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:768
+#: ../src/calendar/gui/e-cal-dialogs.c:771
 msgid "_Retract comment"
 msgstr "Yorumu ge_ri al"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:925
+#: ../src/calendar/gui/e-cal-dialogs.c:928
 msgid "Select Date"
 msgstr "Tarihi Seç"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:926
+#: ../src/calendar/gui/e-cal-dialogs.c:929
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1420
 msgid "Select _Today"
 msgstr "Bugünü _Seç"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:945
+#: ../src/calendar/gui/e-cal-dialogs.c:948
 msgid "January"
 msgstr "Ocak"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:946
+#: ../src/calendar/gui/e-cal-dialogs.c:949
 msgid "February"
 msgstr "Şubat"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:947
+#: ../src/calendar/gui/e-cal-dialogs.c:950
 msgid "March"
 msgstr "Mart"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:948
+#: ../src/calendar/gui/e-cal-dialogs.c:951
 msgid "April"
 msgstr "Nisan"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:949
+#: ../src/calendar/gui/e-cal-dialogs.c:952
 msgid "May"
 msgstr "Mayıs"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:950
+#: ../src/calendar/gui/e-cal-dialogs.c:953
 msgid "June"
 msgstr "Haziran"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:951
+#: ../src/calendar/gui/e-cal-dialogs.c:954
 msgid "July"
 msgstr "Temmuz"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:952
+#: ../src/calendar/gui/e-cal-dialogs.c:955
 msgid "August"
 msgstr "Ağustos"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:953
+#: ../src/calendar/gui/e-cal-dialogs.c:956
 msgid "September"
 msgstr "Eylül"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:954
+#: ../src/calendar/gui/e-cal-dialogs.c:957
 msgid "October"
 msgstr "Ekim"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:955
+#: ../src/calendar/gui/e-cal-dialogs.c:958
 msgid "November"
 msgstr "Kasım"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:956
+#: ../src/calendar/gui/e-cal-dialogs.c:959
 msgid "December"
 msgstr "Aralık"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1119
+#: ../src/calendar/gui/e-cal-dialogs.c:1122
 #, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Yinelenen olayı değiştiriyorsunuz. Yine de değiştirmek ister misiniz?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1121
+#: ../src/calendar/gui/e-cal-dialogs.c:1124
 #, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr ""
 "Yinelenen olayı temsil ediyorsunuz. Yine de temsil etmek ister misiniz?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1125
+#: ../src/calendar/gui/e-cal-dialogs.c:1128
 #, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Yinelenen görevi değiştiriyorsunuz. Yine de değiştirmek ister misiniz?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1129
+#: ../src/calendar/gui/e-cal-dialogs.c:1132
 #, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Yinelenen notu değiştiriyorsunuz. Yine de değiştirmek ister misiniz?"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1156
+#: ../src/calendar/gui/e-cal-dialogs.c:1159
 msgid "This Instance Only"
 msgstr "Yalnızca Bu Kez"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1160
+#: ../src/calendar/gui/e-cal-dialogs.c:1163
 msgid "This and Prior Instances"
 msgstr "Bu ve Bundan Önceki Seferlerde"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1166
+#: ../src/calendar/gui/e-cal-dialogs.c:1169
 msgid "This and Future Instances"
 msgstr "Bu ve Bundan Sonraki Seferlerde"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1171
+#: ../src/calendar/gui/e-cal-dialogs.c:1174
 msgid "All Instances"
 msgstr "Tüm Seferlerde"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1419
-#: ../src/calendar/gui/e-cal-dialogs.c:1509
+#: ../src/calendar/gui/e-cal-dialogs.c:1422
+#: ../src/calendar/gui/e-cal-dialogs.c:1512
 msgid "Send my reminders with this event"
 msgstr "Anımsatmalarımı bu olayla birlikte gönder"
 
-#: ../src/calendar/gui/e-cal-dialogs.c:1424
-#: ../src/calendar/gui/e-cal-dialogs.c:1514
+#: ../src/calendar/gui/e-cal-dialogs.c:1427
+#: ../src/calendar/gui/e-cal-dialogs.c:1517
 msgid "Notify new attendees _only"
 msgstr "Yalnızca _yeni katılımcıları uyar"
 
@@ -13288,8 +13306,7 @@ msgstr "_Tema Renkleri Kullan"
 #: ../src/composer/e-composer-actions.c:657
 msgid ""
 "Use theme colors in the editor without including them in the sent message"
-msgstr ""
-"Tema renklerini, gönderilen iletiye koymadan düzenleyicide kullan"
+msgstr "Tema renklerini, gönderilen iletiye koymadan düzenleyicide kullan"
 
 #: ../src/composer/e-composer-from-header.c:97
 #: ../src/e-util/e-collection-account-wizard.c:2105
