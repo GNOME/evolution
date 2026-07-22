@@ -35,7 +35,7 @@ e_contact_card_accessible_initialize (AtkObject *obj,
 				      gpointer   data)
 {
 	ATK_OBJECT_CLASS (e_contact_card_accessible_parent_class)->initialize (obj, data);
-	obj->role = ATK_ROLE_TABLE_CELL;
+	obj->role = ATK_ROLE_LIST_ITEM;
 }
 
 static AtkStateSet *
@@ -467,6 +467,8 @@ e_contact_card_update (EContactCard *self)
 		file_as = e_contact_get (self->priv->contact, E_CONTACT_FILE_AS);
 		gtk_label_set_label (self->priv->header, file_as ? file_as : "");
 
+		atk_object_set_name (gtk_widget_get_accessible (GTK_WIDGET (self)), file_as ? file_as : "");
+
 		is_list = e_contact_get (self->priv->contact, E_CONTACT_IS_LIST) != NULL;
 		row = 0;
 		used_rows = 0;
@@ -630,6 +632,7 @@ e_contact_card_update (EContactCard *self)
 		gtk_widget_set_visible (GTK_WIDGET (self->priv->image), self->priv->have_image);
 	} else {
 		self->priv->have_image = FALSE;
+		atk_object_set_name (gtk_widget_get_accessible (GTK_WIDGET (self)), "");
 		gtk_widget_set_visible (GTK_WIDGET (self->priv->header), FALSE);
 		gtk_widget_set_visible (GTK_WIDGET (self->priv->image), FALSE);
 		gtk_widget_set_visible (self->priv->spinner, TRUE);

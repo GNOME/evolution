@@ -6,6 +6,7 @@
 #include "evolution-config.h"
 
 #include <gtk/gtk.h>
+#include <gtk/gtk-a11y.h>
 #include <libebook/libebook.h>
 
 #include "e-contact-card.h"
@@ -452,12 +453,21 @@ e_contact_card_container_update_card_state (EContactCardContainer *self,
 	current = gtk_style_context_has_class (style_context, "selected");
 
 	if ((current ? 1 : 0) != (item_state->selected ? 1 : 0)) {
+		AtkObject *card_accessible;
+
 		changed = TRUE;
 
-		if (item_state->selected)
+		if (item_state->selected) {
 			gtk_style_context_add_class (style_context, "selected");
-		else
+			gtk_widget_set_state_flags (card, GTK_STATE_FLAG_SELECTED, FALSE);
+		} else {
 			gtk_style_context_remove_class (style_context, "selected");
+			gtk_widget_unset_state_flags (card, GTK_STATE_FLAG_SELECTED);
+		}
+
+		card_accessible = gtk_widget_get_accessible (card);
+		if (card_accessible)
+			atk_object_notify_state_change (card_accessible, ATK_STATE_SELECTED, item_state->selected);
 	}
 
 	current = gtk_style_context_has_class (style_context, "focused");
