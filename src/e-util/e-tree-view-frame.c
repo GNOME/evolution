@@ -18,6 +18,7 @@
 
 #include "evolution-config.h"
 
+#include <glib/gi18n-lib.h>
 #include <libebackend/libebackend.h>
 
 #include "e-misc-utils.h"
@@ -123,13 +124,16 @@ G_DEFINE_TYPE_WITH_CODE (ETreeViewFrame, e_tree_view_frame, GTK_TYPE_BOX,
 static void
 tree_view_frame_append_action (ETreeViewFrame *tree_view_frame,
                                const gchar *action_name,
-                               const gchar *icon_name)
+                               const gchar *icon_name,
+                               const gchar *tooltip)
 {
 	EUIAction *action;
 
 	action = e_ui_action_new ("tree-view-frame", action_name, NULL);
 
 	e_ui_action_set_icon_name (action, icon_name);
+	if (tooltip)
+		e_ui_action_set_tooltip (action, tooltip);
 
 	e_tree_view_frame_insert_toolbar_action (tree_view_frame, action, -1);
 
@@ -562,31 +566,38 @@ tree_view_frame_constructed (GObject *object)
 	tree_view_frame_append_action (
 		tree_view_frame,
 		E_TREE_VIEW_FRAME_ACTION_ADD,
-		"list-add-symbolic");
+		"list-add-symbolic",
+		_("Add"));
 	tree_view_frame_append_action (
 		tree_view_frame,
 		E_TREE_VIEW_FRAME_ACTION_REMOVE,
-		"list-remove-symbolic");
+		"list-remove-symbolic",
+		_("Remove"));
 	tree_view_frame_append_action (
 		tree_view_frame,
 		E_TREE_VIEW_FRAME_ACTION_MOVE_TOP,
-		"go-top-symbolic");
+		"go-top-symbolic",
+		_("Move to Top"));
 	tree_view_frame_append_action (
 		tree_view_frame,
 		E_TREE_VIEW_FRAME_ACTION_MOVE_UP,
-		"go-up-symbolic");
+		"go-up-symbolic",
+		_("Move Up"));
 	tree_view_frame_append_action (
 		tree_view_frame,
 		E_TREE_VIEW_FRAME_ACTION_MOVE_DOWN,
-		"go-down-symbolic");
+		"go-down-symbolic",
+		_("Move Down"));
 	tree_view_frame_append_action (
 		tree_view_frame,
 		E_TREE_VIEW_FRAME_ACTION_MOVE_BOTTOM,
-		"go-bottom-symbolic");
+		"go-bottom-symbolic",
+		_("Move to Bottom"));
 	tree_view_frame_append_action (
 		tree_view_frame,
 		E_TREE_VIEW_FRAME_ACTION_SELECT_ALL,
-		"edit-select-all-symbolic");
+		"edit-select-all-symbolic",
+		_("Select All"));
 
 	/* Install a default GtkTreeView. */
 	e_tree_view_frame_set_tree_view (tree_view_frame, NULL);
