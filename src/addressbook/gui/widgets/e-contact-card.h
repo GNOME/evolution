@@ -51,6 +51,9 @@ GtkWidget *	e_contact_card_new		(GtkCssProvider *css_provider);
 EContact *	e_contact_card_get_contact	(EContactCard *self);
 void		e_contact_card_set_contact	(EContactCard *self,
 						 EContact *contact);
+void		e_contact_card_set_position	(EContactCard *self,
+						 guint item_index,
+						 guint n_items);
 void		e_contact_card_update		(EContactCard *self);
 
 G_END_DECLS

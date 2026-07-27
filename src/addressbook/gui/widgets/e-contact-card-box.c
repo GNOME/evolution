@@ -5,6 +5,7 @@
 
 #include "evolution-config.h"
 
+#include <camel/camel.h>
 #include <gtk/gtk.h>
 #include <gtk/gtk-a11y.h>
 #include <libebook/libebook.h>
@@ -35,6 +36,9 @@ static GtkTargetEntry dnd_types[] = {
 #define E_TYPE_CONTACT_CARD_CONTAINER e_contact_card_container_get_type ()
 G_DECLARE_FINAL_TYPE (EContactCardContainer, e_contact_card_container, E, CONTACT_CARD_CONTAINER, GtkLayout)
 
+#define E_TYPE_CONTACT_CARD_CONTAINER_ACCESSIBLE e_contact_card_container_accessible_get_type ()
+G_DECLARE_FINAL_TYPE (EContactCardContainerAccessible, e_contact_card_container_accessible, E, CONTACT_CARD_CONTAINER_ACCESSIBLE, GtkContainerAccessible)
+
 struct _EContactCardContainer {
 	GtkLayout parent;
 
@@ -64,6 +68,8 @@ struct _EContactCardContainer {
 	guint tracked_selected[TRACK_N_SELECTED]; /* cyclic buffer, contains indexes to items, G_MAXUINT for unused */
 	guint tracked_selected_index; /* index into tracked_selected[], last used item */
 	guint n_known_selected; /* when larger than TRACK_N_SELECTED, then tracked_selected[] is useless */
+
+	CamelWeakRefGroup *box_wrg;
 };
 
 G_DEFINE_TYPE (EContactCardContainer, e_contact_card_container, GTK_TYPE_LAYOUT)
@@ -401,8 +407,10 @@ e_contact_card_container_got_items_cb (GObject *source_object,
 				selected_or_focused_changed = selected_or_focused_changed || state->selected || item_index == self->focused_index;
 
 				card = e_contact_card_container_get_card (self, item_index);
-				if (card)
+				if (card) {
 					e_contact_card_set_contact (E_CONTACT_CARD (card), state->item);
+					e_contact_card_set_position (E_CONTACT_CARD (card), item_index, self->items->len);
+				}
 			}
 		}
 	} else if (!items &&
@@ -457,13 +465,10 @@ e_contact_card_container_update_card_state (EContactCardContainer *self,
 
 		changed = TRUE;
 
-		if (item_state->selected) {
+		if (item_state->selected)
 			gtk_style_context_add_class (style_context, "selected");
-			gtk_widget_set_state_flags (card, GTK_STATE_FLAG_SELECTED, FALSE);
-		} else {
+		else
 			gtk_style_context_remove_class (style_context, "selected");
-			gtk_widget_unset_state_flags (card, GTK_STATE_FLAG_SELECTED);
-		}
 
 		card_accessible = gtk_widget_get_accessible (card);
 		if (card_accessible)
@@ -656,6 +661,7 @@ e_contact_card_container_update (EContactCardContainer *self)
 
 			e_contact_card_container_update_card_state (self, card, first_item + ii, state);
 			e_contact_card_set_contact (E_CONTACT_CARD (card), state->item);
+			e_contact_card_set_position (E_CONTACT_CARD (card), first_item + ii, self->items->len);
 
 			if (!state->item) {
 				if (!get_range_length)
@@ -753,6 +759,7 @@ e_contact_card_container_finalize (GObject *object)
 	g_clear_pointer (&self->cards, g_ptr_array_unref);
 	g_clear_pointer (&self->items, g_array_unref);
 	g_clear_object (&self->css_provider);
+	g_clear_pointer (&self->box_wrg, camel_weak_ref_group_unref);
 
 	if (self->get_items_source_data_destroy)
 		self->get_items_source_data_destroy (self->get_items_source_data);
@@ -769,6 +776,9 @@ e_contact_card_container_class_init (EContactCardContainerClass *klass)
 
 	widget_class = GTK_WIDGET_CLASS (klass);
 	widget_class->focus = e_contact_card_container_focus;
+
+	gtk_widget_class_set_accessible_role (widget_class, ATK_ROLE_LIST_BOX);
+	gtk_widget_class_set_accessible_type (widget_class, E_TYPE_CONTACT_CARD_CONTAINER_ACCESSIBLE);
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose = e_contact_card_container_dispose;
@@ -1024,6 +1034,242 @@ e_contact_card_container_is_selected (EContactCardContainer *self,
 
 /* ************************************************************************* */
 
+struct _EContactCardContainerAccessible {
+	GtkContainerAccessible parent;
+};
+
+static void atk_selection_interface_init (AtkSelectionIface *iface);
+
+G_DEFINE_TYPE_WITH_CODE (EContactCardContainerAccessible, e_contact_card_container_accessible, GTK_TYPE_CONTAINER_ACCESSIBLE,
+	G_IMPLEMENT_INTERFACE (ATK_TYPE_SELECTION, atk_selection_interface_init))
+
+static void
+e_contact_card_container_accessible_init (EContactCardContainerAccessible *accessible)
+{
+}
+
+static void
+e_contact_card_container_accessible_initialize (AtkObject *obj,
+						gpointer data)
+{
+	ATK_OBJECT_CLASS (e_contact_card_container_accessible_parent_class)->initialize (obj, data);
+	obj->role = ATK_ROLE_LIST_BOX;
+}
+
+static AtkStateSet *
+e_contact_card_container_accessible_ref_state_set (AtkObject *obj)
+{
+	AtkStateSet *state_set;
+	GtkWidget *widget;
+
+	state_set = ATK_OBJECT_CLASS (e_contact_card_container_accessible_parent_class)->ref_state_set (obj);
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (obj));
+
+	if (widget)
+		atk_state_set_add_state (state_set, ATK_STATE_MANAGES_DESCENDANTS);
+
+	return state_set;
+}
+
+static void
+e_contact_card_container_accessible_class_init (EContactCardContainerAccessibleClass *klass)
+{
+	AtkObjectClass *object_class = ATK_OBJECT_CLASS (klass);
+
+	object_class->initialize = e_contact_card_container_accessible_initialize;
+	object_class->ref_state_set = e_contact_card_container_accessible_ref_state_set;
+}
+
+static EContactCardBox *
+e_contact_card_container_accessible_ref_box (AtkSelection *selection)
+{
+	GtkWidget *widget;
+	EContactCardContainer *container;
+	gpointer box;
+
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (selection));
+	if (!widget)
+		return NULL;
+
+	container = E_CONTACT_CARD_CONTAINER (widget);
+	box = camel_weak_ref_group_get (container->box_wrg);
+
+	return box ? E_CONTACT_CARD_BOX (box) : NULL;
+}
+
+static gboolean
+e_contact_card_container_accessible_add_selection (AtkSelection *selection,
+						   gint index)
+{
+	EContactCardBox *box;
+
+	if (index < 0)
+		return FALSE;
+
+	box = e_contact_card_container_accessible_ref_box (selection);
+	if (!box)
+		return FALSE;
+
+	e_contact_card_box_set_selected (box, (guint) index, TRUE);
+
+	g_clear_object (&box);
+
+	return TRUE;
+}
+
+static gboolean
+e_contact_card_container_accessible_remove_selection (AtkSelection *selection,
+						      gint index)
+{
+	EContactCardBox *box;
+	GPtrArray *indexes;
+	gboolean success = FALSE;
+
+	if (index < 0)
+		return FALSE;
+
+	box = e_contact_card_container_accessible_ref_box (selection);
+	if (!box)
+		return FALSE;
+
+	indexes = e_contact_card_box_dup_selected_indexes (box);
+	if (indexes) {
+		if ((guint) index < indexes->len) {
+			guint item_index = GPOINTER_TO_UINT (g_ptr_array_index (indexes, index));
+
+			e_contact_card_box_set_selected (box, item_index, FALSE);
+			success = TRUE;
+		}
+
+		g_ptr_array_unref (indexes);
+	}
+
+	g_clear_object (&box);
+
+	return success;
+}
+
+static gboolean
+e_contact_card_container_accessible_clear_selection (AtkSelection *selection)
+{
+	EContactCardBox *box;
+
+	box = e_contact_card_container_accessible_ref_box (selection);
+	if (!box)
+		return FALSE;
+
+	e_contact_card_box_set_selected_all (box, FALSE);
+
+	g_clear_object (&box);
+
+	return TRUE;
+}
+
+static gboolean
+e_contact_card_container_accessible_select_all_selection (AtkSelection *selection)
+{
+	EContactCardBox *box;
+
+	box = e_contact_card_container_accessible_ref_box (selection);
+	if (!box)
+		return FALSE;
+
+	e_contact_card_box_set_selected_all (box, TRUE);
+
+	g_clear_object (&box);
+
+	return TRUE;
+}
+
+static gint
+e_contact_card_container_accessible_get_selection_count (AtkSelection *selection)
+{
+	EContactCardBox *box;
+	gint count;
+
+	box = e_contact_card_container_accessible_ref_box (selection);
+	if (!box)
+		return 0;
+
+	count = (gint) e_contact_card_box_get_n_selected (box);
+
+	g_clear_object (&box);
+
+	return count;
+}
+
+static gboolean
+e_contact_card_container_accessible_is_child_selected (AtkSelection *selection,
+						       gint index)
+{
+	GtkWidget *widget;
+
+	if (index < 0)
+		return FALSE;
+
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (selection));
+	if (!widget)
+		return FALSE;
+
+	return e_contact_card_container_is_selected (E_CONTACT_CARD_CONTAINER (widget), (guint) index);
+}
+
+static AtkObject *
+e_contact_card_container_accessible_ref_selection (AtkSelection *selection,
+						   gint index)
+{
+	GtkWidget *widget;
+	EContactCardBox *box;
+	GPtrArray *indexes;
+	AtkObject *accessible = NULL;
+
+	if (index < 0)
+		return NULL;
+
+	widget = gtk_accessible_get_widget (GTK_ACCESSIBLE (selection));
+	if (!widget)
+		return NULL;
+
+	box = e_contact_card_container_accessible_ref_box (selection);
+	if (!box)
+		return NULL;
+
+	indexes = e_contact_card_box_dup_selected_indexes (box);
+	if (indexes) {
+		if ((guint) index < indexes->len) {
+			guint item_index = GPOINTER_TO_UINT (g_ptr_array_index (indexes, index));
+			GtkWidget *card;
+
+			card = e_contact_card_container_get_card (E_CONTACT_CARD_CONTAINER (widget), item_index);
+			if (card) {
+				accessible = gtk_widget_get_accessible (card);
+				if (accessible)
+					g_object_ref (accessible);
+			}
+		}
+
+		g_ptr_array_unref (indexes);
+	}
+
+	g_clear_object (&box);
+
+	return accessible;
+}
+
+static void
+atk_selection_interface_init (AtkSelectionIface *iface)
+{
+	iface->add_selection = e_contact_card_container_accessible_add_selection;
+	iface->remove_selection = e_contact_card_container_accessible_remove_selection;
+	iface->clear_selection = e_contact_card_container_accessible_clear_selection;
+	iface->ref_selection = e_contact_card_container_accessible_ref_selection;
+	iface->get_selection_count = e_contact_card_container_accessible_get_selection_count;
+	iface->is_child_selected = e_contact_card_container_accessible_is_child_selected;
+	iface->select_all_selection = e_contact_card_container_accessible_select_all_selection;
+}
+
+/* ************************************************************************* */
+
 struct _EContactCardBoxPrivate {
 	GtkCssProvider *css_provider;
 	EContactCardContainer *container;
@@ -1032,6 +1278,8 @@ struct _EContactCardBoxPrivate {
 	gint last_height;
 	guint n_columns;
 	guint n_rows;
+
+	CamelWeakRefGroup *self_wrg;
 };
 
 enum {
@@ -1163,7 +1411,7 @@ e_contact_card_box_update_cursor (EContactCardBox *self,
 
 	e_contact_card_container_item_grab_focus (self->priv->container, index, &card);
 
-	accessible = gtk_widget_get_accessible (GTK_WIDGET (self));
+	accessible = gtk_widget_get_accessible (GTK_WIDGET (self->priv->container));
 	if (accessible) {
 		AtkObject *descendant;
 
@@ -1391,11 +1639,11 @@ e_contact_card_box_unselect_all (EContactCardBox *self)
 static void
 e_contact_card_box_selected_children_changed (EContactCardBox *self)
 {
-	/*AtkObject *accessible;
+	AtkObject *accessible;
 
-	accessible = gtk_widget_get_accessible (self->priv->container);
+	accessible = gtk_widget_get_accessible (GTK_WIDGET (self->priv->container));
 	if (accessible)
-		g_signal_emit_by_name (accessible, "selection-changed");*/
+		g_signal_emit_by_name (accessible, "selection-changed");
 }
 
 static void
@@ -1570,6 +1818,9 @@ e_contact_card_box_constructed (GObject *object)
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_contact_card_box_parent_class)->constructed (object);
 
+	self->priv->self_wrg = camel_weak_ref_group_new ();
+	camel_weak_ref_group_set (self->priv->self_wrg, self);
+
 	g_object_set (self,
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
@@ -1647,6 +1898,7 @@ e_contact_card_box_constructed (GObject *object)
 
 	self->priv->container = e_contact_card_container_new ();
 	self->priv->container->css_provider = g_object_ref (self->priv->css_provider);
+	self->priv->container->box_wrg = camel_weak_ref_group_ref (self->priv->self_wrg);
 	g_object_set (self->priv->container,
 		"hexpand", TRUE,
 		"halign", GTK_ALIGN_FILL,
@@ -1678,6 +1930,7 @@ e_contact_card_box_finalize (GObject *object)
 	EContactCardBox *self = E_CONTACT_CARD_BOX (object);
 
 	g_clear_object (&self->priv->css_provider);
+	g_clear_pointer (&self->priv->self_wrg, camel_weak_ref_group_unref);
 
 	/* Chain up to parent's method. */
 	G_OBJECT_CLASS (e_contact_card_box_parent_class)->finalize (object);
