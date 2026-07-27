@@ -666,6 +666,7 @@ shell_view_update_search_menu (EShellView *self)
 	ERuleContext *context;
 	EFilterRule *rule;
 	EUIActionGroup *action_group;
+	EUIAction *saved_searches_action;
 	const gchar *source;
 	gint ii = 0;
 
@@ -721,6 +722,9 @@ shell_view_update_search_menu (EShellView *self)
 
 		rule = e_rule_context_next_rule (context, rule, source);
 	}
+
+	saved_searches_action = e_ui_manager_get_action (self->priv->ui_manager, "saved-searches");
+	e_ui_action_set_visible (saved_searches_action, ii > 0);
 
 	e_ui_manager_thaw (self->priv->ui_manager);
 }
