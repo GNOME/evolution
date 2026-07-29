@@ -783,7 +783,7 @@ e_shell_window_actions_constructed (EShellWindow *shell_window)
 
 		{ "new-collection-account",
 		  "evolution",
-		  N_("Collect_ion Account"),
+		  NC_("New", "Collect_ion Account"),
 		  NULL,
 		  N_("Create a new collection account"),
 		  action_new_collection_account_cb, NULL, NULL, NULL }
