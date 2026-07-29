@@ -923,12 +923,13 @@ gchar *
 string_to_utf8 (const gchar *string,
                 pst_item *item)
 {
-	/* Windows ANSI code pages, multi-byte (stricter) first to reduce false positives */
+	/* Multi-byte CJK first (stricter byte ranges), GB18030 last among
+	 * them since it accepts almost any byte sequence. */
 	static const gchar *const fallback_charsets[] = {
-		"GB18030",	/* CP936  - Simplified Chinese */
 		"BIG5",		/* CP950  - Traditional Chinese */
 		"CP932",	/* Shift-JIS - Japanese */
 		"CP949",	/* EUC-KR - Korean */
+		"GB18030",	/* CP936  - Simplified Chinese */
 		"CP874",	/* Thai */
 		"CP1250",	/* Central European */
 		"CP1252",	/* Western European */
@@ -953,7 +954,19 @@ string_to_utf8 (const gchar *string,
 		gint32 cpid;
 
 		charset = pst_default_charset (item, sizeof (charset_buf), charset_buf);
-		if (charset && *charset && g_ascii_strcasecmp (charset, "utf-8") != 0) {
+
+		/* internet_cpid 0 makes libpst return its compiled-in
+		 * default ("iso-8859-1"), which maps every byte and would
+		 * always "succeed" with garbage for non-ASCII data. */
+		if (charset && *charset &&
+		    g_ascii_strcasecmp (charset, "utf-8") != 0 &&
+		    !(item->internet_cpid == 0 &&
+		      g_ascii_strcasecmp (charset, "iso-8859-1") == 0)) {
+			/* libpst mislabels codepage 936 as "gb2313" */
+			if (g_ascii_strcasecmp (charset, "gb2313") == 0) {
+				charset = "gb2312";
+			}
+
 			utf8 = g_convert (string, -1, "UTF-8", charset, NULL, NULL, NULL);
 			if (utf8)
 				return utf8;
@@ -1004,13 +1017,10 @@ foldername_to_utf8 (const gchar *pstname,
 		folder_name = camel_url_encode (pstname, NULL);
 		g_warning ("foldername_to_utf8: Cannot convert to utf8! foldername=%s", folder_name);
 	} else {
-		/* Encode using the current locale */
-		folder_name = camel_url_encode (utf8name, NULL);
-		g_free (utf8name);
+		folder_name = utf8name;
 	}
 
 	g_strdelimit (folder_name, "/", '_');
-	g_strescape (folder_name, NULL);
 
 	return folder_name;
 }
@@ -1228,6 +1238,12 @@ pst_process_email (PstImporter *m,
 	const gchar *body_charset = NULL;
 	gchar *content_type = NULL;
 	gint32 cpid;
+	gchar *plain_body_utf8 = NULL;
+	gchar *html_body_utf8 = NULL;
+	const gchar *plain_body;
+	const gchar *plain_charset;
+	const gchar *html_body;
+	const gchar *html_charset;
 
 	if (m->folder == NULL) {
 		pst_create_folder (m);
@@ -1312,19 +1328,9 @@ pst_process_email (PstImporter *m,
 	camel_mime_message_set_from (msg, addr);
 	g_object_unref (addr);
 
-	if (item->email->sent_date != NULL) {
-		camel_mime_message_set_date (msg, pst_fileTimeToUnixTime (item->email->sent_date), 0);
-	}
-
-	if (item->email->messageid.str != NULL) {
-		camel_mime_message_set_message_id (msg, item->email->messageid.str);
-	}
-
 	if (item->email->header.str != NULL) {
 		/* Use mime parser to read headers */
 		CamelStream *stream;
-		/*g_debug ("  Email headers length=%zd", strlen (item->email->header));*/
-		/*g_message ("  Email headers... %s...", item->email->header);*/
 
 		stream = camel_stream_mem_new_with_buffer (item->email->header.str, strlen (item->email->header.str));
 		if (!camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *) msg, stream, NULL, NULL))
@@ -1351,6 +1357,27 @@ pst_process_email (PstImporter *m,
 		}
 	}
 
+	/* Fallback when the raw headers above had no Date field. */
+	if (camel_mime_message_get_date (msg, NULL) <= (time_t) 0) {
+		FILETIME *fallback_date;
+
+		fallback_date = item->email->sent_date;
+		if (!fallback_date) {
+			fallback_date = item->create_date;
+		}
+		if (!fallback_date) {
+			fallback_date = item->modify_date;
+		}
+
+		if (fallback_date) {
+			camel_mime_message_set_date (msg, pst_fileTimeToUnixTime (fallback_date), 0);
+		}
+	}
+
+	if (item->email->messageid.str != NULL && !camel_mime_message_get_message_id (msg)) {
+		camel_mime_message_set_message_id (msg, item->email->messageid.str);
+	}
+
 	body_charset = pst_default_charset (item, sizeof (charset_buf), charset_buf);
 	if (!body_charset || !*body_charset || g_ascii_strcasecmp (body_charset, "utf-8") == 0) {
 		cpid = item->message_codepage;
@@ -1361,6 +1388,27 @@ pst_process_email (PstImporter *m,
 			body_charset = "UTF-8";
 		}
 	}
+
+	/* The plain and HTML bodies are separate PST properties and
+	 * can have different actual encodings; convert each on its own
+	 * instead of trusting one item-wide charset guess for both. */
+	if (item->body.str != NULL) {
+		plain_body_utf8 = string_to_utf8 (item->body.str, item);
+		if (plain_body_utf8 == NULL)
+			g_warning ("Could not convert email body to utf8, subject:%s", camel_mime_message_get_subject (msg));
+	}
+
+	plain_body = plain_body_utf8 ? plain_body_utf8 : item->body.str;
+	plain_charset = plain_body_utf8 ? "UTF-8" : body_charset;
+
+	if (item->email->htmlbody.str != NULL) {
+		html_body_utf8 = string_to_utf8 (item->email->htmlbody.str, item);
+		if (html_body_utf8 == NULL)
+			g_warning ("Could not convert email html body to utf8, subject:%s", camel_mime_message_get_subject (msg));
+	}
+
+	html_body = html_body_utf8 ? html_body_utf8 : item->email->htmlbody.str;
+	html_charset = html_body_utf8 ? "UTF-8" : body_charset;
 
 	mp = camel_multipart_new ();
 
@@ -1380,19 +1428,19 @@ pst_process_email (PstImporter *m,
 
 	camel_multipart_set_boundary (mp, NULL);
 
-	if (item->body.str != NULL) {
+	if (plain_body != NULL) {
 		part = camel_mime_part_new ();
-		content_type = g_strconcat ("text/plain; charset=", body_charset, NULL);
-		camel_mime_part_set_content (part, item->body.str, strlen (item->body.str), content_type);
+		content_type = g_strconcat ("text/plain; charset=", plain_charset, NULL);
+		camel_mime_part_set_content (part, plain_body, strlen (plain_body), content_type);
 		g_free (content_type);
 		camel_multipart_add_part (mp, part);
 		g_object_unref (part);
 	}
 
-	if (item->email->htmlbody.str != NULL) {
+	if (html_body != NULL) {
 		part = camel_mime_part_new ();
-		content_type = g_strconcat ("text/html; charset=", body_charset, NULL);
-		camel_mime_part_set_content (part, item->email->htmlbody.str, strlen (item->email->htmlbody.str), content_type);
+		content_type = g_strconcat ("text/html; charset=", html_charset, NULL);
+		camel_mime_part_set_content (part, html_body, strlen (html_body), content_type);
 		g_free (content_type);
 		camel_multipart_add_part (mp, part);
 		g_object_unref (part);
@@ -1417,9 +1465,9 @@ pst_process_email (PstImporter *m,
 
 	if (item->email->htmlbody.str || item->attach) {
 		camel_medium_set_content (CAMEL_MEDIUM (msg), CAMEL_DATA_WRAPPER (mp));
-	} else if (item->body.str) {
-		content_type = g_strconcat ("text/plain; charset=", body_charset, NULL);
-		camel_mime_part_set_content (CAMEL_MIME_PART (msg), item->body.str, strlen (item->body.str), content_type);
+	} else if (plain_body) {
+		content_type = g_strconcat ("text/plain; charset=", plain_charset, NULL);
+		camel_mime_part_set_content (CAMEL_MIME_PART (msg), plain_body, strlen (plain_body), content_type);
 		g_free (content_type);
 	} else {
 		g_warning (
@@ -1451,6 +1499,8 @@ pst_process_email (PstImporter *m,
 	camel_folder_thaw (m->folder);
 
 	g_free (comp_str);
+	g_free (plain_body_utf8);
+	g_free (html_body_utf8);
 
 	if (!success) {
 		g_debug ("%s: Exception!", G_STRFUNC);
