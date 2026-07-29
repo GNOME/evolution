@@ -393,7 +393,7 @@
 			"name": "bogofilter",
 			"buildsystem": "simple",
 			"build-commands": [
-				"cd ./bogofilter/ && echo \"# Skip for Flatpak build\" > doc/Makefile.am && autoreconf -fi && ./configure --prefix=/app --disable-rpath --with-database=sqlite3 && make && make install"
+				"cd ./bogofilter/ && touch config.rpath && echo \"# Skip for Flatpak build\" > doc/Makefile.am && autoreconf -fi && ./configure --prefix=/app --disable-rpath --with-database=sqlite3 && make && make install"
 			],
 			"cleanup": [ "/etc" ],
 			"sources": [
