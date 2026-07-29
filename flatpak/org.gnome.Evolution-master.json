@@ -406,18 +406,6 @@
 		},
 
 		{
-			"name": "libmspack",
-			"cleanup": [ "/bin" ],
-			"sources": [
-				{
-					"type": "archive",
-					"url": "https://www.cabextract.org.uk/libmspack/libmspack-0.10.1alpha.tar.gz",
-					"sha256": "bac862dee6e0fc10d92c70212441d9f8ad9b0222edc9a708c3ead4adb1b24a8e"
-				}
-			]
-		},
-
-		{
 			"name": "cmark",
 			"buildsystem": "cmake-ninja",
 			"builddir": true,
@@ -588,6 +576,9 @@
 		{
 			"name": "evolution-ews",
 			"buildsystem": "cmake-ninja",
+			"config-opts": [
+				"-DWITH_MSPACK=OFF"
+			],
 			"sources": [
 				{
 					"type": "git",
