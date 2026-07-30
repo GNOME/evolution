@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-07-22 15:49+0000\n"
-"PO-Revision-Date: 2026-07-23 08:45+0200\n"
+"POT-Creation-Date: 2026-07-29 22:10+0000\n"
+"PO-Revision-Date: 2026-07-30 05:25+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -6439,7 +6439,7 @@ msgstr "და_პატარავება"
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:477
 #: ../src/e-util/e-html-editor-find-dialog.c:220
-#: ../src/shell/e-shell-view.c:1056
+#: ../src/shell/e-shell-view.c:1060
 msgid "_Find"
 msgstr "_ძებნა"
 
@@ -9740,7 +9740,7 @@ msgstr "_ჩასმა"
 #: ../src/e-util/e-mail-signature-editor.c:531
 #: ../src/e-util/e-ui-customizer.c:482 ../src/mail/e-mail-browser.c:609
 #: ../src/mail/e-mail-notes.c:1150 ../src/mail/e-mail-viewer.c:1939
-#: ../src/shell/e-shell-view.c:1163
+#: ../src/shell/e-shell-view.c:1167
 msgid "Menu"
 msgstr "მენიუ"
 
@@ -16992,7 +16992,7 @@ msgstr ""
 msgid "Format Column_s…"
 msgstr ""
 
-#: ../src/e-util/e-table-header-item.c:1647 ../src/shell/e-shell-view.c:1132
+#: ../src/e-util/e-table-header-item.c:1647 ../src/shell/e-shell-view.c:1136
 msgid "Custo_mize Current View…"
 msgstr ""
 
@@ -18532,7 +18532,7 @@ msgstr "არჩევა"
 
 #: ../src/mail/e-mail-config-security-page.c:756
 #: ../src/mail/e-mail-config-security-page.c:854
-#: ../src/shell/e-shell-view.c:1042
+#: ../src/shell/e-shell-view.c:1046
 msgid "_Clear"
 msgstr "გასუფთავება"
 
@@ -22888,7 +22888,7 @@ msgid "Show M_enu Bar"
 msgstr ""
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:516
-#: ../src/shell/e-shell-view.c:1108
+#: ../src/shell/e-shell-view.c:1112
 msgid "Show _Tool Bar"
 msgstr ""
 
@@ -29161,182 +29161,182 @@ msgstr "ვებგვერდი"
 msgid "Saving user interface state"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:703
+#: ../src/shell/e-shell-view.c:704
 msgid "Execute these search parameters"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1035
+#: ../src/shell/e-shell-view.c:1039
 msgid "_Advanced Search…"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1037
+#: ../src/shell/e-shell-view.c:1041
 msgid "Construct a more advanced search"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1044
+#: ../src/shell/e-shell-view.c:1048
 msgid "Clear the current search parameters"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1049
+#: ../src/shell/e-shell-view.c:1053
 msgid "_Edit Saved Searches…"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1051
+#: ../src/shell/e-shell-view.c:1055
 msgid "Manage your saved searches"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1058
+#: ../src/shell/e-shell-view.c:1062
 msgid "Click here to change the search type"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1063
+#: ../src/shell/e-shell-view.c:1067
 msgid "_Find Now"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1065
+#: ../src/shell/e-shell-view.c:1069
 msgid "Execute the current search parameters"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1070
+#: ../src/shell/e-shell-view.c:1074
 msgid "_Save Search…"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1072
+#: ../src/shell/e-shell-view.c:1076
 msgid "Save the current search parameters"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1080
+#: ../src/shell/e-shell-view.c:1084
 msgid "Show _Menu Bar"
 msgstr "_მენიუს ზოლის ჩვენება"
 
-#: ../src/shell/e-shell-view.c:1082
+#: ../src/shell/e-shell-view.c:1086
 msgid "Show the menu bar"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1087
+#: ../src/shell/e-shell-view.c:1091
 msgid "Show Side_bar"
 msgstr "_გვერდითი პანელის ჩვენება"
 
-#: ../src/shell/e-shell-view.c:1089
+#: ../src/shell/e-shell-view.c:1093
 msgid "Show the sidebar"
 msgstr "გვერდითი ზოლის ჩვენება"
 
-#: ../src/shell/e-shell-view.c:1094
+#: ../src/shell/e-shell-view.c:1098
 msgid "Show _Buttons"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1096
+#: ../src/shell/e-shell-view.c:1100
 msgid "Show the switcher buttons"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1101
+#: ../src/shell/e-shell-view.c:1105
 msgid "Show _Status Bar"
 msgstr "_სტატუსის ზოლის ჩვნეება"
 
-#: ../src/shell/e-shell-view.c:1103
+#: ../src/shell/e-shell-view.c:1107
 msgid "Show the status bar"
 msgstr "სტატუსის ზოლის ჩვენება"
 
-#: ../src/shell/e-shell-view.c:1110
+#: ../src/shell/e-shell-view.c:1114
 msgid "Show the tool bar"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1118
+#: ../src/shell/e-shell-view.c:1122
 msgid "Delete Current View"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1125
+#: ../src/shell/e-shell-view.c:1129
 msgid "Save Custom View…"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1127
+#: ../src/shell/e-shell-view.c:1131
 msgid "Save current custom view"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1139
+#: ../src/shell/e-shell-view.c:1143
 msgid "Custom View"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1141
+#: ../src/shell/e-shell-view.c:1145
 msgid "Current view is a customized view"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1146 ../src/shell/e-shell-window-actions.c:943
+#: ../src/shell/e-shell-view.c:1150 ../src/shell/e-shell-window-actions.c:943
 msgid "_New"
 msgstr "_ახალი"
 
-#: ../src/shell/e-shell-view.c:1153
+#: ../src/shell/e-shell-view.c:1157
 msgid "Customi_ze User Interface…"
 msgstr "მომხმარებლის ინტერფეისის მორ_გება…"
 
-#: ../src/shell/e-shell-view.c:1155
+#: ../src/shell/e-shell-view.c:1159
 msgid "Customize user interface, like toolbar content and shortcuts"
 msgstr ""
 
 #. ** Menus **
-#: ../src/shell/e-shell-view.c:1160
+#: ../src/shell/e-shell-view.c:1164
 msgid "C_urrent View"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1161
+#: ../src/shell/e-shell-view.c:1165
 msgid "Saved searches"
 msgstr "შენახული ძებნები"
 
-#: ../src/shell/e-shell-view.c:1162
+#: ../src/shell/e-shell-view.c:1166
 msgid "List of available views"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1164
+#: ../src/shell/e-shell-view.c:1168
 msgid "List of saved searches"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1165
+#: ../src/shell/e-shell-view.c:1169
 msgid "List of views"
 msgstr "ხედების სია"
 
-#: ../src/shell/e-shell-view.c:1172
+#: ../src/shell/e-shell-view.c:1176
 msgid "_Icons Only"
 msgstr "მხოლოდ ხატულებ_ი"
 
-#: ../src/shell/e-shell-view.c:1174
+#: ../src/shell/e-shell-view.c:1178
 msgid "Display window buttons with icons only"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1179
+#: ../src/shell/e-shell-view.c:1183
 msgid "_Text Only"
 msgstr "მხოლოდ _ტექსტი"
 
-#: ../src/shell/e-shell-view.c:1181
+#: ../src/shell/e-shell-view.c:1185
 msgid "Display window buttons with text only"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1186
+#: ../src/shell/e-shell-view.c:1190
 msgid "Icons _and Text"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1188
+#: ../src/shell/e-shell-view.c:1192
 msgid "Display window buttons with icons and text"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1193
+#: ../src/shell/e-shell-view.c:1197
 msgid "Tool_bar Style"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1195
+#: ../src/shell/e-shell-view.c:1199
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1513 ../src/shell/e-shell-view.c:1555
+#: ../src/shell/e-shell-view.c:1517 ../src/shell/e-shell-view.c:1559
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "ახალი"
 
-#: ../src/shell/e-shell-view.c:1648
+#: ../src/shell/e-shell-view.c:1652
 #, c-format
 msgid "Select view: %s"
 msgstr ""
 
-#: ../src/shell/e-shell-view.c:1662
+#: ../src/shell/e-shell-view.c:1666
 #, c-format
 msgid "Delete view: %s"
 msgstr ""
@@ -29668,8 +29668,9 @@ msgid "Bug Buddy could not be run."
 msgstr ""
 
 #: ../src/shell/e-shell-window-actions.c:786
+msgctxt "New"
 msgid "Collect_ion Account"
-msgstr ""
+msgstr "კოლექცი_ის ანგარიში"
 
 #: ../src/shell/e-shell-window-actions.c:788
 msgid "Create a new collection account"
