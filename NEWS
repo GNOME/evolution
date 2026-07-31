@@ -1,3 +1,35 @@
+Evolution 3.61.2 2026-07-31
+---------------------------
+
+Bug Fixes:
+	I#3311 - Fails to import Chinese Outook PST file (charset) ][
+	I#3315 - Marcus Bains line is displayed on the wrong day ][
+	I#3351 - EMFolderTree: Unexpected scroll after context menu dismiss
+	I#3352 - Can't toggle email labels in popover via keyboard
+	I#3353 - EShellSearchbar: When changing search type, field contents are erased
+	I#3355 - cal_shell_view_transfer_selected: Incorrect data type used when moving events
+	I#3358 - EShellSearchbar: Hide Saved Search submenu when none is saved
+	M!238 - Fix translation of "Collection Account" menu item (Aliaksandr Trush)
+
+Miscellaneous:
+	RSS: Reorder when a new folder flags are set and folder summary created
+	Addressbook: Improve accessibility of the card view widgets
+	ETreeViewFrame: Set tooltip on toolbar buttons
+	flatpak: Workaround autoreconf issue in the flatpak build
+	flatpak: Remove libmspack module from the build
+
+Translations:
+	Aurimas Aurimas Černius (lt)
+	Baurzhan Muftakhidinov (kk)
+	burns (pt_BR)
+	Ekaterine Papava (ka)
+	Emin Tufan Çetin (tr)
+	Haolin Xue (zh_CN)
+	Martin (sl)
+	Ryo Nakano (ja)
+	Vasil Pupkin (be)
+	Yuri Chornoivan (uk)
+
 Evolution 3.61.1 2026-06-26
 ---------------------------
 
