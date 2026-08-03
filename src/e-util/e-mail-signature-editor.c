@@ -577,9 +577,8 @@ mail_signature_editor_constructed (GObject *object)
 
 	container = widget;
 
-	ui_item = e_ui_manager_create_item (ui_manager, "main-menu");
+	ui_item = e_html_editor_get_ui_object (editor, E_HTML_EDITOR_UI_OBJECT_MAIN_MENU);
 	widget = gtk_menu_bar_new_from_model (G_MENU_MODEL (ui_item));
-	g_clear_object (&ui_item);
 
 	window->priv->menu_bar = e_menu_bar_new (GTK_MENU_BAR (widget), GTK_WINDOW (window), &window->priv->menu_button);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -590,6 +589,7 @@ mail_signature_editor_constructed (GObject *object)
 		ui_item = e_ui_manager_create_item (ui_manager, "main-headerbar");
 		widget = GTK_WIDGET (ui_item);
 		gtk_header_bar_set_title (GTK_HEADER_BAR (widget), _("Edit Signature"));
+		gtk_window_set_titlebar (GTK_WINDOW (window), widget);
 
 		ui_item = e_ui_manager_create_item (ui_manager, "main-toolbar-with-headerbar");
 	} else {
