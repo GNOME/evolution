@@ -2,6 +2,8 @@ install(FILES e-calendar-preferences.ui
 	DESTINATION ${uidir}
 )
 
+set(autostartdir ${SYSCONF_INSTALL_DIR}/xdg/autostart)
+
 pkg_check_variable(edsprivlibexecdir evolution-data-server-1.2 privlibexecdir)
 
 set(extra_deps
@@ -72,6 +74,7 @@ set(sources
 )
 set(extra_defines
 	-DEVOLUTION_DATA_SERVER_PRIVLIBEXECDIR=\"${edsprivlibexecdir}\"
+	-DEAN_DESKTOP_FILE=\"${autostartdir}/org.gnome.Evolution-alarm-notify.desktop\"
 )
 set(extra_cflags)
 set(extra_incdirs)
