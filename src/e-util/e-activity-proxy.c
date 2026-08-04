@@ -330,7 +330,7 @@ e_activity_proxy_init (EActivityProxy *proxy)
 
 	proxy->priv = e_activity_proxy_get_instance_private (proxy);
 
-	gtk_frame_set_shadow_type (GTK_FRAME (proxy), GTK_SHADOW_IN);
+	gtk_frame_set_shadow_type (GTK_FRAME (proxy), GTK_SHADOW_NONE);
 
 	container = GTK_WIDGET (proxy);
 
