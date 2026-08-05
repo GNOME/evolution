@@ -122,6 +122,8 @@ test_utils_fixture_set_up (TestFixture *fixture,
 
 	fixture->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
+	gtk_window_set_decorated (GTK_WINDOW (fixture->window), FALSE);
+
 	gtk_window_set_default_size (GTK_WINDOW (fixture->window), 320, 240);
 
 	fixture->web_view = WEBKIT_WEB_VIEW (e_web_view_new ());
@@ -3601,6 +3603,8 @@ main (gint argc,
 	gint res;
 
 	setlocale (LC_ALL, "");
+
+	g_set_prgname ("test-web-view-jsc");
 
 	g_test_init (&argc, &argv, NULL);
 	g_test_bug_base ("https://gitlab.gnome.org/GNOME/evolution/issues/");
