@@ -19,6 +19,7 @@ macro(setup_build_flags _maintainer_mode)
 		-Wredundant-decls
 		-Wshadow
 		-Wundef
+		-Wunused-function
 		-Wwrite-strings
 		-Wno-cast-function-type
 		-fno-strict-aliasing
