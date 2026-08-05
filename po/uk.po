@@ -12,16 +12,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-07-29 13:54+0000\n"
-"PO-Revision-Date: 2026-07-29 20:16+0300\n"
+"POT-Creation-Date: 2026-08-05 10:02+0000\n"
+"PO-Revision-Date: 2026-08-05 14:26+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>=2"
-" && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>="
+"2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Lokalize 25.12.1\n"
 "X-Project-Style: gnome\n"
 
@@ -662,7 +662,8 @@ msgid "Marcus Bains Line Color — Time bar"
 msgstr "Колір лінії Маркуса Байнса – поле часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:81
-msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)"
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)"
 msgstr ""
 "Колір для лінії Маркуса Байнса у розкладі (для типового значення залиште "
 "порожнім)"
@@ -978,7 +979,8 @@ msgid "Twenty four hour time format"
 msgstr "24-годинний формат часу"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:142
-msgid "Whether to show times in twenty four hour format instead of using am/pm"
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm"
 msgstr "Чи показувати час у 24-ох годинному форматі замість am/pm"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:143
@@ -1091,7 +1093,8 @@ msgstr "Показувати попередній перегляд у перег
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:167
 msgid "If “true”, show the preview pane in the Year View"
-msgstr "Якщо зазначено, показує панель попереднього перегляду у перегляді року"
+msgstr ""
+"Якщо зазначено, показує панель попереднього перегляду у перегляді року"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:168
 msgid "Year view horizontal pane position"
@@ -1567,7 +1570,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:45
 msgid "Show “Mail-Followup-To” field when sending a mail message"
-msgstr "Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
+msgstr ""
+"Показувати поле «Адреса переспрямовування» при надсиланні повідомлення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:46
 msgid ""
@@ -2194,7 +2198,8 @@ msgstr "Показувати спам (з червоною перекресле�
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:154
 msgid "Hides the per-folder preview and removes the selection"
-msgstr "Сховати попередній перегляд для кожного каталогу та вилучити виділення"
+msgstr ""
+"Сховати попередній перегляд для кожного каталогу та вилучити виділення"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:155
 msgid ""
@@ -2475,7 +2480,8 @@ msgstr "Спонукати під час очищення смітника"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:203
 msgid "Prompt the user when he or she tries to empty the trash."
-msgstr "Спонукати користувача, коли він або вона намагається очистити смітник."
+msgstr ""
+"Спонукати користувача, коли він або вона намагається очистити смітник."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:204
 msgid "Prompt when user expunges"
@@ -2505,7 +2511,8 @@ msgstr ""
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:210
 msgid "Prompt before sending to recipients not entered as mail addresses"
-msgstr "Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
+msgstr ""
+"Запитувати перед надсиланням до одержувачів, адреси до яких не введено"
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:211
 msgid ""
@@ -3479,8 +3486,8 @@ msgstr ""
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:4
 msgid "['attachment','attaching','attached','enclosed']"
 msgstr ""
-"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено'"
-",'вклав','вклали','долучили','вклала','вклали']"
+"['долучення','вкладення','долучено','долучив','долучила','долучило','вкладено"
+"','вклав','вклали','долучили','вклала','вклали']"
 
 #: ../data/org.gnome.evolution.plugin.attachment-reminder.gschema.xml.in.h:5
 msgid ""
@@ -3883,7 +3890,8 @@ msgid "Start in offline mode"
 msgstr "Запуск у автономному режимі"
 
 #: ../data/org.gnome.evolution.shell.gschema.xml.in.h:12
-msgid "Whether Evolution will start up in offline mode instead of online mode."
+msgid ""
+"Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
 "Якщо встановлено, Evolution буде запускатись у автономному режимі замість "
 "мережного режиму."
@@ -7515,7 +7523,8 @@ msgid "Are you sure you want to delete these {0} tasks?"
 msgstr "Вилучити завдання ці {0} завдання?"
 
 #: ../src/calendar/calendar.error.xml.h:34
-msgid "All information on these tasks will be deleted and can not be restored."
+msgid ""
+"All information on these tasks will be deleted and can not be restored."
 msgstr "Усі відомості про ці завдання будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:35
@@ -7523,7 +7532,8 @@ msgid "Are you sure you want to delete these {0} memos?"
 msgstr "Вилучити завдання ці {0} примітки?"
 
 #: ../src/calendar/calendar.error.xml.h:36
-msgid "All information in these memos will be deleted and can not be restored."
+msgid ""
+"All information in these memos will be deleted and can not be restored."
 msgstr "Усі відомості про ці примітки будуть остаточно вилучено."
 
 #: ../src/calendar/calendar.error.xml.h:37
@@ -9600,7 +9610,8 @@ msgstr "Не вдалося знайти долучення «%s», вилучі
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:563
 #, c-format
-msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
+msgid ""
+"Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "Долучення «%s» має недійсний URI, вилучіть його зі списку"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:764
@@ -11242,7 +11253,8 @@ msgstr "Інформація iCalendar"
 #: ../src/calendar/gui/itip-utils.c:1361
 #, c-format
 msgid "Unable to book a resource, the new event collides with some other."
-msgstr "Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
+msgstr ""
+"Не вдалося зарезервувати ресурс, нова подія конфліктує з якоюсь іншою."
 
 #: ../src/calendar/gui/itip-utils.c:1366
 msgid "Unable to book a resource, error: "
@@ -13322,7 +13334,8 @@ msgstr "_Запитати підтвердження про прочитання
 #: ../src/composer/e-composer-actions.c:538
 #: ../src/composer/e-composer-actions.c:587
 msgid "Get delivery notification when your message is read"
-msgstr "Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
+msgstr ""
+"Встановіть, щоб отримати сповіщення про прочитання вашого повідомлення"
 
 #: ../src/composer/e-composer-actions.c:543
 msgid "Request _Delivery Status Notification"
@@ -17044,7 +17057,7 @@ msgstr "Закрити"
 msgid "_Save and Close"
 msgstr "З_берегти та закрити"
 
-#: ../src/e-util/e-mail-signature-editor.c:592
+#: ../src/e-util/e-mail-signature-editor.c:591
 #: ../src/e-util/e-mail-signature-editor.c:596
 msgid "Edit Signature"
 msgstr "Редагувати підпис"
@@ -17175,6 +17188,11 @@ msgstr "Не вдалося запустити процес з рядка ком
 #, c-format
 msgid "Failed to parse command line “%s”: %s"
 msgstr "Не вдалося обробити рядок команди «%s»: %s"
+
+#: ../src/e-util/e-menu-bar.c:339
+#| msgid "Open map"
+msgid "Open menu"
+msgstr "Відкрити меню"
 
 #: ../src/e-util/e-misc-utils.c:238
 msgid "Could not open the link."
@@ -17735,7 +17753,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:13
 msgid "The calendar backend servicing “{0}” has quit unexpectedly."
-msgstr "Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
+msgstr ""
+"Модуль календаря для обслуговування «{0}» несподівано припинив роботу."
 
 #: ../src/e-util/e-system.error.xml.h:14
 msgid ""
@@ -17760,7 +17779,8 @@ msgstr ""
 
 #: ../src/e-util/e-system.error.xml.h:18
 msgid "Some of your tasks may not be available until Evolution is restarted."
-msgstr "Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
+msgstr ""
+"Деякі з ваших завдань можуть бути недоступні до перезапуску Evolution."
 
 #: ../src/e-util/e-system.error.xml.h:19
 msgid "The address book backend servicing “{0}” encountered an error."
@@ -18311,7 +18331,8 @@ msgstr "П_орядок:"
 
 #: ../src/e-util/e-webdav-browser.c:2621
 msgid "Use -1 to not set the sort order"
-msgstr "Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
+msgstr ""
+"Скористайтеся значенням -1, якщо не хочете встановлювати впорядкування"
 
 #: ../src/e-util/e-webdav-browser.c:2627
 msgid "For Components:"
@@ -18785,7 +18806,8 @@ msgstr "Пересилання листа скасовано, бо не вказ
 
 #: ../src/libemail-engine/e-mail-session.c:1725
 #, c-format
-msgid "No identity found to use, forwarding of the message has been cancelled."
+msgid ""
+"No identity found to use, forwarding of the message has been cancelled."
 msgstr "Пересилання листа скасовано, бо не знайдено тотожності."
 
 #: ../src/libemail-engine/e-mail-session.c:1928
@@ -19055,7 +19077,8 @@ msgstr "Відкрити _мережеві облікові записи"
 #: ../src/mail/e-mail-account-manager.c:127
 #: ../src/mail/e-mail-account-manager.c:215
 msgid "This account was created through the Online Accounts service."
-msgstr "Цей обліковий запис створено через службу мережевих облікових записів."
+msgstr ""
+"Цей обліковий запис створено через службу мережевих облікових записів."
 
 #: ../src/mail/e-mail-account-manager.c:670
 msgid "_Reset Order"
@@ -19742,7 +19765,8 @@ msgstr "_Масштабувати до вікна"
 
 #: ../src/mail/e-mail-display.c:1929
 msgid "Zoom large images to not be wider than the window width"
-msgstr "Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
+msgstr ""
+"Масштабувати великі зображення, щоб вони не були ширші за ширину вікна"
 
 #: ../src/mail/e-mail-display.c:2056
 msgid "Load this image"
@@ -22559,7 +22583,8 @@ msgstr "_Показувати рухомі зображення"
 
 #: ../src/mail/mail-config.ui.h:127
 msgid "Unset colors provided in HTML mails in message previe_w"
-msgstr "Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
+msgstr ""
+"Скидати кольори з повідомлень у HTML на панелі поп_ереднього перегляду"
 
 #: ../src/mail/mail-config.ui.h:128
 msgid "Loading Remote Content"
@@ -23486,7 +23511,8 @@ msgstr ""
 "Включіть обліковий запис або використовуйте для надсилання інший запис."
 
 #: ../src/mail/mail.error.xml.h:159
-msgid "This message cannot be sent because there is no mail account configured"
+msgid ""
+"This message cannot be sent because there is no mail account configured"
 msgstr ""
 "Це повідомлення не може бути надіслане, оскільки не налаштовано облікового "
 "запису пошти"
@@ -25765,44 +25791,44 @@ msgstr ""
 msgid "Publishing Information"
 msgstr "Оприлюднення інформації"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:220
+#: ../src/modules/calendar/e-cal-shell-backend.c:261
 msgid "Calendar and Tasks"
 msgstr "Календар та завдання"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:256
+#: ../src/modules/calendar/e-cal-shell-backend.c:298
 msgctxt "New"
 msgid "_Appointment"
 msgstr "З_устріч"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:258
+#: ../src/modules/calendar/e-cal-shell-backend.c:300
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1646
 msgid "Create a new appointment"
 msgstr "Створити нову зустріч"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:263
+#: ../src/modules/calendar/e-cal-shell-backend.c:305
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "_Щоденна зустріч"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:265
+#: ../src/modules/calendar/e-cal-shell-backend.c:307
 msgid "Create a new all-day appointment"
 msgstr "Створити нову щоденну зустріч"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:270
+#: ../src/modules/calendar/e-cal-shell-backend.c:312
 msgctxt "New"
 msgid "M_eeting"
 msgstr "Зас_ідання"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:272
+#: ../src/modules/calendar/e-cal-shell-backend.c:314
 msgid "Create a new meeting request"
 msgstr "Створити новий запит на зібрання"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:279
+#: ../src/modules/calendar/e-cal-shell-backend.c:321
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Кале_ндар"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:281
+#: ../src/modules/calendar/e-cal-shell-backend.c:323
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1450
 msgid "Create a new calendar"
 msgstr "Створити новий календар"
@@ -27360,7 +27386,8 @@ msgid ""
 msgid_plural ""
 "The calendar “%s” contains %d appointments which conflict with this meeting"
 msgstr[0] "Календар «%s» містить %d зустріч, яка конфліктує з цим зібранням"
-msgstr[1] "Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
+msgstr[1] ""
+"Календар «%s» містить %d зустрічі, які конфліктують з цим зібранням"
 msgstr[2] ""
 "Календар «%s» містить %d зустрічей, які конфліктують з цим зібранням"
 msgstr[3] "Календар «%s» містить зустріч, яка конфліктує з цим зібранням"
@@ -27606,7 +27633,8 @@ msgstr "Засідання неправильне і його неможливо
 
 #: ../src/modules/itip-formatter/itip-view.c:6424
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr "Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
+msgstr ""
+"Не вдалося оновити стан учасника, оскільки поточний стан є некоректним"
 
 #: ../src/modules/itip-formatter/itip-view.c:6500
 #: ../src/modules/itip-formatter/itip-view.c:6538
@@ -27685,7 +27713,8 @@ msgstr "Долучений календар містить декілька об
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr "Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
+msgstr ""
+"Щоб обробити усі елементи, файл треба зберегти та імпортувати календар"
 
 #: ../src/modules/itip-formatter/itip-view.c:7697
 msgctxt "cal-itip"
@@ -27706,7 +27735,8 @@ msgid "This meeting has been delegated"
 msgstr "Цю зустріч було направлено"
 
 #: ../src/modules/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-msgid "“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
+msgid ""
+"“{0}” has delegated the meeting. Do you want to add the delegate “{1}”?"
 msgstr "«{0}» доручено провести нараду. Ви бажаєте додати представника «{1}»?"
 
 #: ../src/modules/mail-config/e-mail-config-google-summary.c:279
@@ -28062,7 +28092,8 @@ msgstr "Вимкнути цей обліковий запис"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1604
 msgid "Permanently remove all the deleted messages from all folders"
-msgstr "Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
+msgstr ""
+"Остаточно знищити з усіх тек всі повідомлення, що позначені вилученими"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1609
 msgid "Empty _Junk"
@@ -28119,7 +28150,8 @@ msgstr "Вик_реслити"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1667
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
+msgstr ""
+"Остаточно вилучити всі повідомлення, позначені як вилучені з цієї теки"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1672
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1764
@@ -31207,7 +31239,6 @@ msgid "Bug Buddy could not be run."
 msgstr "Не вдалося запустити Bug Buddy."
 
 #: ../src/shell/e-shell-window-actions.c:786
-#| msgid "Collect_ion Account"
 msgctxt "New"
 msgid "Collect_ion Account"
 msgstr "Обліковий запис-з_бірка"
@@ -31896,7 +31927,8 @@ msgstr "Виберіть сертифікат"
 
 #: ../src/smime/gui/smime-ui.ui.h:1
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
+msgstr ""
+"Ви маєте сертифікати від наступних організацій, що вас ідентифікували:"
 
 #: ../src/smime/gui/smime-ui.ui.h:2
 msgid "Certificates Table"
