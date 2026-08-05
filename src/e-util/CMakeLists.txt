@@ -824,6 +824,16 @@ macro(add_private_programs_simple _name0)
 	endforeach(_name)
 endmacro(add_private_programs_simple)
 
+macro(add_test_programs _name0)
+	foreach(_name ${_name0} ${ARGN})
+		add_private_program(${_name} ${_name}.c)
+
+		add_check_test(${_name})
+		set_tests_properties(${_name} PROPERTIES ENVIRONMENT "GSETTINGS_SCHEMA_DIR=${CMAKE_BINARY_DIR}/data")
+		install_test_if_enabled(${_name} "session-exclusive" "")
+	endforeach(_name)
+endmacro(add_test_programs)
+
 add_private_programs_simple(
 	evolution-source-viewer
 	test-accounts-window
@@ -833,7 +843,6 @@ add_private_programs_simple(
 	test-dateedit
 	test-html-editor
 	test-mail-signatures
-	test-markdown
 	test-markdown-editor
 	test-month-widget
 	test-name-selector
@@ -843,6 +852,10 @@ add_private_programs_simple(
 	test-source-config
 	test-source-selector
 	test-tree-view-frame
+)
+
+add_test_programs(
+	test-markdown
 	test-ui-action
 	test-web-view-jsc
 )
