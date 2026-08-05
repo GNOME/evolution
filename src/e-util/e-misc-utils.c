@@ -4611,6 +4611,23 @@ e_util_ignore_accel_for_focused (GtkWidget *focused)
 	if (gtk_widget_get_ancestor (focused, GTK_TYPE_POPOVER) != NULL)
 		return TRUE;
 
+	if (GTK_IS_BUTTON (focused)) {
+		GdkEvent *event;
+		gboolean ignore = TRUE;
+
+		event = gtk_get_current_event ();
+		if (event) {
+			GdkModifierType modifs = 0;
+
+			ignore = gdk_event_get_state (event, &modifs) &&
+				(modifs & (GDK_CONTROL_MASK | GDK_MOD1_MASK)) == 0;
+
+			g_clear_pointer (&event, gdk_event_free);
+		}
+
+		return ignore;
+	}
+
 	if ((GTK_IS_ENTRY (focused) || GTK_IS_EDITABLE (focused) ||
 	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0))) {
 		GdkEvent *event;
