@@ -6,6 +6,8 @@
 
 #include "evolution-config.h"
 
+#include <glib/gi18n-lib.h>
+
 #include "e-menu-bar.h"
 
 struct _EMenuBarPrivate {
@@ -334,6 +336,7 @@ e_menu_bar_new (GtkMenuBar *inner_menu_bar,
 
 		button = gtk_button_new_from_icon_name ("open-menu", GTK_ICON_SIZE_MENU);
 		gtk_button_set_always_show_image (GTK_BUTTON (button), TRUE);
+		gtk_widget_set_tooltip_text (button, _("Open menu"));
 
 		g_settings_bind (
 			settings, "menubar-visible",
