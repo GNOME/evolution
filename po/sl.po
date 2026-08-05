@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-07-30 03:28+0000\n"
-"PO-Revision-Date: 2026-07-31 08:44+0200\n"
+"POT-Creation-Date: 2026-08-05 11:28+0000\n"
+"PO-Revision-Date: 2026-08-05 16:21+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -16120,7 +16120,7 @@ msgstr "Zapri"
 msgid "_Save and Close"
 msgstr "_Shrani in zapri"
 
-#: ../src/e-util/e-mail-signature-editor.c:592 ../src/e-util/e-mail-signature-editor.c:596
+#: ../src/e-util/e-mail-signature-editor.c:591 ../src/e-util/e-mail-signature-editor.c:596
 msgid "Edit Signature"
 msgstr "Uredi podpis"
 
@@ -16248,6 +16248,10 @@ msgstr "Zaganjanje ukaza »%s« iz ukazne vrstice je spodletelo: %s"
 #, c-format
 msgid "Failed to parse command line “%s”: %s"
 msgstr "Razčlenjevanje ukazne vrstice »%s« je spodletelo: %s"
+
+#: ../src/e-util/e-menu-bar.c:339
+msgid "Open menu"
+msgstr "Odpri meni"
 
 #: ../src/e-util/e-misc-utils.c:238
 msgid "Could not open the link."
@@ -24584,44 +24588,44 @@ msgstr ""
 msgid "Publishing Information"
 msgstr "Objavi podrobnosti"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:220
+#: ../src/modules/calendar/e-cal-shell-backend.c:261
 msgid "Calendar and Tasks"
 msgstr "Koledar in naloge"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:256
+#: ../src/modules/calendar/e-cal-shell-backend.c:298
 msgctxt "New"
 msgid "_Appointment"
 msgstr "_Sestanek"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:258
+#: ../src/modules/calendar/e-cal-shell-backend.c:300
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1646
 msgid "Create a new appointment"
 msgstr "Ustvari nov sestanek"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:263
+#: ../src/modules/calendar/e-cal-shell-backend.c:305
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "Celodnevni _sestanek"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:265
+#: ../src/modules/calendar/e-cal-shell-backend.c:307
 msgid "Create a new all-day appointment"
 msgstr "Ustvari nov celodnevni sestanek"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:270
+#: ../src/modules/calendar/e-cal-shell-backend.c:312
 msgctxt "New"
 msgid "M_eeting"
 msgstr "S_rečanje"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:272
+#: ../src/modules/calendar/e-cal-shell-backend.c:314
 msgid "Create a new meeting request"
 msgstr "Ustvari nov zahtevek za srečanje"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:279
+#: ../src/modules/calendar/e-cal-shell-backend.c:321
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "_Koledar"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:281
+#: ../src/modules/calendar/e-cal-shell-backend.c:323
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1450
 msgid "Create a new calendar"
 msgstr "Ustvari nov koledar"
