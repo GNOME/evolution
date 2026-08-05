@@ -73,10 +73,10 @@ fedora:
             ..
     - ninja
     - ninja install
+    - xvfb-run -a -s "-screen 0 1024x768x24" ctest --force-new-ctest-process --output-on-failure
     - cd $SOURCE
     - mkdir _prefix
     - cp -r $PREFIX/share/help/ _prefix/help
-    - xvfb-run -a -s "-screen 0 1024x768x24" bash ./.gitlab-ci/run-tests.sh
     - cp $DEPS/evolution-data-server/_build/evolution-data-server-config.h $DEPS/
   artifacts:
     name: "${CI_PROJECT_NAME}-${CI_JOB_NAME}-${CI_COMMIT_REF_NAME}"
