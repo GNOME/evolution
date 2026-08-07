@@ -2,14 +2,17 @@ FROM fedora:44
 
 RUN dnf -y install \
 	abseil-cpp-devel \
+	bison \
 	boost-devel \
 	clang \
 	clang-analyzer \
 	clang-tools-extra \
 	cmake \
+	curl \
 	cyrus-imapd \
 	cyrus-sasl-plain \
 	dovecot \
+	flex \
 	gcc \
 	gcc-c++ \
 	gcovr \
@@ -28,8 +31,11 @@ RUN dnf -y install \
 	libphonenumber-devel \
 	llvm \
 	make \
+	mhash-devel \
 	ninja-build \
 	openldap-devel \
+	openssl \
+	patch \
 	pkgconfig \
 	"pkgconfig(atk)" \
 	"pkgconfig(cairo-gobject)" \
@@ -130,6 +136,8 @@ RUN install -d -o cyrus -g mail /var/lib/imap /var/spool/imap \
 	/run/cyrus /run/cyrus/proc /run/cyrus/lock /run/cyrus/db \
 	/run/cyrus/socket
 
+COPY wendzelnntpd.patch /tmp/wendzelnntpd.patch
+
 # Enable sudo for wheel users
 RUN sed -i -e 's/# %wheel/%wheel/' -e '0,/%wheel/{s/%wheel/# %wheel/}' /etc/sudoers
 
@@ -139,5 +147,46 @@ RUN useradd -u $HOST_USER_ID -G wheel -ms /bin/bash user
 
 USER user
 WORKDIR /home/user
+
+ARG WENDZELNNTPD_VERSION=v2.2.0-alpha
+ARG WENDZELNNTPD_SHA256=457896ef5a0422f0aaccc8da98553d7a95613b29a87ed1a0512b07abbed38a37
+RUN curl -sSL "https://sourceforge.net/projects/wendzelnntpd/files/${WENDZELNNTPD_VERSION}/${WENDZELNNTPD_VERSION}.tar.gz/download" -o /tmp/wendzelnntpd.tar.gz && \
+	echo "${WENDZELNNTPD_SHA256}  /tmp/wendzelnntpd.tar.gz" | sha256sum -c - && \
+	mkdir /tmp/wendzelnntpd-src && \
+	tar -xzf /tmp/wendzelnntpd.tar.gz --strip-components=1 -C /tmp/wendzelnntpd-src && \
+	cd /tmp/wendzelnntpd-src && \
+	patch -p1 < /tmp/wendzelnntpd.patch && \
+	./configure --disable-mysql --prefix=$HOME/_wendzel && \
+	make -j$(nproc) && \
+	make install && \
+	printf '%s\n' \
+		'database-engine sqlite3' \
+		'' \
+		'<connector>' \
+		'    port        11119' \
+		'    listen      127.0.0.1' \
+		'    enable-starttls' \
+		'    tls-server-certificate "/home/user/_wendzel/etc/wendzelnntpd/ssl/server.crt"' \
+		'    tls-server-key "/home/user/_wendzel/etc/wendzelnntpd/ssl/server.key"' \
+		'    tls-ca-certificate "/home/user/_wendzel/etc/wendzelnntpd/ssl/ca.crt"' \
+		'</connector>' \
+		'' \
+		'<connector>' \
+		'    port        11129' \
+		'    listen      127.0.0.1' \
+		'    enable-tls' \
+		'    tls-server-certificate "/home/user/_wendzel/etc/wendzelnntpd/ssl/server.crt"' \
+		'    tls-server-key "/home/user/_wendzel/etc/wendzelnntpd/ssl/server.key"' \
+		'    tls-ca-certificate "/home/user/_wendzel/etc/wendzelnntpd/ssl/ca.crt"' \
+		'</connector>' \
+		'' \
+		'verbose-mode' \
+		'max-size-of-postings 20971520' \
+		'hash-salt 0.hG4//3baA-::_\' \
+		> $HOME/_wendzel/etc/wendzelnntpd/wendzelnntpd.conf && \
+	$HOME/_wendzel/sbin/wendzelnntpadm addgroup camel.test.group y && \
+	$HOME/_wendzel/sbin/wendzelnntpadm addgroup camel.test.group2 y && \
+	cd /home/user && \
+	rm -rf /tmp/wendzelnntpd.tar.gz /tmp/wendzelnntpd-src
 
 ENV LANG=C.UTF-8

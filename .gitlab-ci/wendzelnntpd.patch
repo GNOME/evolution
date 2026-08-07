@@ -1,0 +1,40 @@
+--- a/Makefile.in	2026-08-06 21:45:05.203870788 +0200
++++ b/Makefile.in	2026-08-06 21:45:05.208584189 +0200
+@@ -47,7 +47,7 @@
+ CREATE_CERTIFICATES=$(TLSINST)
+
+ CONFFILE=wendzelnntpd.conf
+-UDBDIR=/var/spool/news/wendzelnntpd
++UDBDIR=/tmp/wendzel-spool
+ UDBFILE=$(UDBDIR)/usenet.db
+ HEADERS=$(SRC)/include/cdpstrings.h $(SRC)/include/main.h $(SRC)/include/wendzelnntpdpath.h
+ CFLAGS+= -Wall -DCONFDIR=\"$(confdir)\"
+--- a/src/include/wendzelnntpdpath.h	2026-08-06 21:40:38.320238589 +0200
++++ b/src/include/wendzelnntpdpath.h	2026-08-06 21:40:38.333307697 +0200
+@@ -26,10 +26,10 @@
+    #define MSGID_FILE		"nextmsgid"
+ #else
+    #define CONFIGFILE		CONFDIR "/wendzelnntpd.conf"
+-   #define SPOOLFOLDER		"/var/spool/news/wendzelnntpd"
++   #define SPOOLFOLDER		"/tmp/wendzel-spool"
+    #define DBFILE		SPOOLFOLDER "/usenet.db" /* SQlite3 */
+    #define MSGID_FILE		SPOOLFOLDER "/nextmsgid"
+-   #define LOGFILE		"/var/log/wendzelnntpd"
++   #define LOGFILE		"/tmp/wendzel-log/wendzelnntpd.log"
+ #endif
+
+ /* The maximum size of a NNTP posting */
+--- a/create_certificate_raw	2025-10-06 11:34:05.000000000 +0200
++++ b/create_certificate_raw	2026-08-06 21:59:22.267469171 +0200
+@@ -37,11 +37,6 @@
+     shift
+ done
+
+-if [ $(id -u) -ne 0 ]; then
+-    echo "Run this script with root privileges!"
+-    exit 1
+-fi
+-
+ mkdir -p ${targetdir}
+
+ if [[ -z $environment || "$environment" = "local" ]]; then
