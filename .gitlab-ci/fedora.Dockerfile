@@ -186,6 +186,7 @@ RUN curl -sSL "https://sourceforge.net/projects/wendzelnntpd/files/${WENDZELNNTP
 		> $HOME/_wendzel/etc/wendzelnntpd/wendzelnntpd.conf && \
 	$HOME/_wendzel/sbin/wendzelnntpadm addgroup camel.test.group y && \
 	$HOME/_wendzel/sbin/wendzelnntpadm addgroup camel.test.group2 y && \
+	$HOME/_wendzel/sbin/wendzelnntpadm addgroup camel.test.readonly n && \
 	cd /home/user && \
 	rm -rf /tmp/wendzelnntpd.tar.gz /tmp/wendzelnntpd-src
 
