@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-07-29 22:10+0000\n"
-"PO-Revision-Date: 2026-07-30 05:25+0200\n"
+"POT-Creation-Date: 2026-08-07 13:44+0000\n"
+"PO-Revision-Date: 2026-08-08 07:09+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -3716,7 +3716,7 @@ msgstr "დაგეგმვა"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:12
 msgid "planning"
-msgstr ""
+msgstr "დაგეგმვა"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:13
 msgid "agenda"
@@ -3728,7 +3728,7 @@ msgstr "შეხსენება"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:15
 msgid "alarms"
-msgstr ""
+msgstr "განგაში"
 
 #: ../data/org.gnome.Evolution.metainfo.xml.in.in.h:16
 msgid "email"
@@ -16071,7 +16071,7 @@ msgstr "დახურვა"
 msgid "_Save and Close"
 msgstr "შ_ენახვა და დახურვა"
 
-#: ../src/e-util/e-mail-signature-editor.c:592
+#: ../src/e-util/e-mail-signature-editor.c:591
 #: ../src/e-util/e-mail-signature-editor.c:596
 msgid "Edit Signature"
 msgstr ""
@@ -16197,6 +16197,10 @@ msgstr "ჩავარდა პროცესის გაშვება ბ
 #, c-format
 msgid "Failed to parse command line “%s”: %s"
 msgstr "ჩავარდა დამუშავება ბრძანების სტრიქონისთვის \"%s\": %s"
+
+#: ../src/e-util/e-menu-bar.c:339
+msgid "Open menu"
+msgstr "მენიუს გახსნა"
 
 #: ../src/e-util/e-misc-utils.c:238
 msgid "Could not open the link."
@@ -24427,44 +24431,44 @@ msgstr ""
 msgid "Publishing Information"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:220
+#: ../src/modules/calendar/e-cal-shell-backend.c:261
 msgid "Calendar and Tasks"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:256
+#: ../src/modules/calendar/e-cal-shell-backend.c:298
 msgctxt "New"
 msgid "_Appointment"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:258
+#: ../src/modules/calendar/e-cal-shell-backend.c:300
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1646
 msgid "Create a new appointment"
 msgstr "ახალი შეხვედრის შექმნა"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:263
+#: ../src/modules/calendar/e-cal-shell-backend.c:305
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:265
+#: ../src/modules/calendar/e-cal-shell-backend.c:307
 msgid "Create a new all-day appointment"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:270
+#: ../src/modules/calendar/e-cal-shell-backend.c:312
 msgctxt "New"
 msgid "M_eeting"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:272
+#: ../src/modules/calendar/e-cal-shell-backend.c:314
 msgid "Create a new meeting request"
 msgstr ""
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:279
+#: ../src/modules/calendar/e-cal-shell-backend.c:321
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "კალე_ნდარი"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:281
+#: ../src/modules/calendar/e-cal-shell-backend.c:323
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1450
 msgid "Create a new calendar"
 msgstr ""
