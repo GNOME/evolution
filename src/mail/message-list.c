@@ -52,6 +52,9 @@
 #define EXCLUDE_DELETED_MESSAGES_EXPR	"(not (system-flag \"deleted\"))"
 #define EXCLUDE_JUNK_MESSAGES_EXPR	"(not (system-flag \"junk\"))"
 
+#define DEFAULT_IMPORTANT_FG_COLOR_LIGHT	"#A7453E"
+#define DEFAULT_IMPORTANT_FG_COLOR_DARK	"#FF6B6B"
+
 typedef struct _ExtendedGNode ExtendedGNode;
 typedef struct _RegenData RegenData;
 
@@ -111,6 +114,7 @@ struct _MessageListPrivate {
 
 	GdkRGBA *new_mail_bg_color;
 	gchar *new_mail_fg_color;
+	gchar *important_fg_color;
 
 	guint update_actions_idle_id;
 
@@ -1964,13 +1968,15 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		}
 
 		if (!colour) {
+			const gchar *important_fg_color = message_list->priv->important_fg_color ? message_list->priv->important_fg_color : DEFAULT_IMPORTANT_FG_COLOR_LIGHT;
+
 			if (camel_message_info_get_flags (msg_info) & CAMEL_MESSAGE_FLAGGED) {
-				colour = "#A7453E";
+				colour = important_fg_color;
 			} else if (((followup && *followup) || (due_by && *due_by)) && !(completed && *completed)) {
 				time_t now = time (NULL);
 
 				if ((followup && *followup) || now >= camel_header_decode_date (due_by, NULL))
-					colour = "#A7453E";
+					colour = important_fg_color;
 			}
 		}
 
@@ -3015,21 +3021,32 @@ static void
 ml_style_updated_cb (MessageList *message_list)
 {
 	GdkRGBA *new_mail_fg_color = NULL;
+	GdkRGBA *important_fg_color = NULL;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
 
 	g_clear_pointer (&message_list->priv->new_mail_bg_color, gdk_rgba_free);
 	g_clear_pointer (&message_list->priv->new_mail_fg_color, g_free);
+	g_clear_pointer (&message_list->priv->important_fg_color, g_free);
 
 	gtk_widget_style_get (GTK_WIDGET (message_list),
 		"new-mail-bg-color", &message_list->priv->new_mail_bg_color,
 		"new-mail-fg-color", &new_mail_fg_color,
+		"important-fg-color", &important_fg_color,
 		NULL);
 
 	if (new_mail_fg_color) {
 		message_list->priv->new_mail_fg_color = gdk_rgba_to_string (new_mail_fg_color);
 
 		gdk_rgba_free (new_mail_fg_color);
+	}
+
+	if (important_fg_color) {
+		message_list->priv->important_fg_color = gdk_rgba_to_string (important_fg_color);
+
+		gdk_rgba_free (important_fg_color);
+	} else {
+		message_list->priv->important_fg_color = g_strdup (e_util_is_dark_theme (GTK_WIDGET (message_list)) ? DEFAULT_IMPORTANT_FG_COLOR_DARK : DEFAULT_IMPORTANT_FG_COLOR_LIGHT);
 	}
 }
 
@@ -3510,6 +3527,7 @@ message_list_finalize (GObject *object)
 
 	g_clear_pointer (&message_list->priv->new_mail_bg_color, gdk_rgba_free);
 	g_clear_pointer (&message_list->priv->new_mail_fg_color, g_free);
+	g_clear_pointer (&message_list->priv->important_fg_color, g_free);
 
 	for (ii = 0; ii < CAMEL_UTILS_MAX_USER_HEADERS; ii++) {
 		g_free (message_list->priv->user_headers[ii]);
@@ -4217,6 +4235,15 @@ message_list_class_init (MessageListClass *class)
 			GDK_TYPE_RGBA,
 			G_PARAM_READABLE));
 
+	gtk_widget_class_install_style_property (
+		GTK_WIDGET_CLASS (class),
+		g_param_spec_boxed (
+			"important-fg-color",
+			NULL,
+			NULL,
+			GDK_TYPE_RGBA,
+			G_PARAM_READABLE));
+
 	signals[MESSAGE_SELECTED] = g_signal_new (
 		"message_selected",
 		MESSAGE_LIST_TYPE,
@@ -4339,6 +4366,7 @@ message_list_init (MessageList *message_list)
 	message_list->priv->group_by_threads = TRUE;
 	message_list->priv->new_mail_bg_color = NULL;
 	message_list->priv->new_mail_fg_color = NULL;
+	message_list->priv->important_fg_color = NULL;
 
 	g_signal_connect (message_list->priv->mail_settings, "changed::composer-localized-re",
 		G_CALLBACK (message_list_localized_re_changed_cb), message_list);
