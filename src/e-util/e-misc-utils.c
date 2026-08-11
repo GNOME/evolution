@@ -4629,7 +4629,8 @@ e_util_ignore_accel_for_focused (GtkWidget *focused)
 	}
 
 	if ((GTK_IS_ENTRY (focused) || GTK_IS_EDITABLE (focused) ||
-	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0))) {
+	    (GTK_IS_TREE_VIEW (focused) && gtk_tree_view_get_enable_search (GTK_TREE_VIEW (focused)) &&
+	     gtk_tree_view_get_search_column (GTK_TREE_VIEW (focused)) >= 0))) {
 		GdkEvent *event;
 		gboolean ignore = TRUE;
 
