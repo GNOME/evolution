@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
 "POT-Creation-Date: 2025-03-07 09:02+0000\n"
-"PO-Revision-Date: 2026-02-15 20:48+0100\n"
+"PO-Revision-Date: 2026-08-12 20:48+0100\n"
 "Last-Translator: Bàrbara Vidal <barbara@barbara.cat>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
 "Language: ca\n"
@@ -17661,8 +17661,8 @@ msgstr "Quadre combinat per a seleccionar el fus horari"
 #| msgid "_Use the same fonts as other applications"
 msgid "_Unset from other action"
 msgid_plural "_Unset from other actions"
-msgstr[0] "_Utilitza el mateix tipus de lletra que la resta d'aplicacions"
-msgstr[1] "_Utilitza el mateix tipus de lletra que la resta d'aplicacions"
+msgstr[0] "_Desassigna d'una altra acció"
+msgstr[1] "_Desassigna d'altres accions"
 
 #: ../src/e-util/e-ui-customize-dialog.c:636
 #, c-format
@@ -24306,7 +24306,7 @@ msgstr "Restauració a partir d'una còpia de seguretat"
 #, fuzzy, c-format
 #| msgid "Folder '%s' not found"
 msgid "Program '%s' not found"
-msgstr "No s'ha trobat la carpeta «%s»"
+msgstr "No s'ha trobat el programa «%s»"
 
 #: ../src/modules/backup-restore/evolution-backup-restore.c:309
 msgid "Select name of the Evolution backup file"
