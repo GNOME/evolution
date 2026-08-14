@@ -94,6 +94,13 @@ struct _EMFolderTreePrivate {
 
 	GtkTreePath *cached_drag_dest_row;
 	GEmblem *new_mail_emblem;
+
+	GHashTable *new_mail_icon_cache; /* gchar *icon_name ~> GdkPixbuf */
+	GHashTable *custom_icon_cache; /* GIcon ~> GdkPixbuf */
+	gchar *icon_cache_theme_name;
+	gint icon_cache_scale_factor;
+	gboolean icon_cache_prefer_symbolic;
+	GdkRGBA icon_cache_fg_rgba;
 };
 
 struct _AsyncContext {
@@ -897,6 +904,91 @@ folder_tree_get_new_mail_emblem (EMFolderTree *self)
 	return self->priv->new_mail_emblem;
 }
 
+static GdkPixbuf *
+folder_tree_icon_to_pixbuf (EMFolderTree *self,
+			    GIcon *icon)
+{
+	GtkWidget *widget;
+	GtkIconTheme *icon_theme;
+	GtkIconInfo *icon_info;
+	GdkPixbuf *pixbuf;
+	GtkIconLookupFlags flags;
+	gint width = 16, height = 16;
+	gint scale;
+
+	widget = GTK_WIDGET (self);
+	icon_theme = gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget));
+	scale = gtk_widget_get_scale_factor (widget);
+
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, &height);
+
+	flags = GTK_ICON_LOOKUP_USE_BUILTIN;
+	flags |= e_icon_factory_get_prefer_symbolic_icons () ? GTK_ICON_LOOKUP_FORCE_SYMBOLIC : GTK_ICON_LOOKUP_FORCE_REGULAR;
+
+	icon_info = gtk_icon_theme_lookup_by_gicon_for_scale (icon_theme, icon, MIN (width, height), scale, flags);
+
+	if (icon_info == NULL)
+		return NULL;
+
+	if (gtk_icon_info_is_symbolic (icon_info))
+		pixbuf = gtk_icon_info_load_symbolic_for_context (icon_info, gtk_widget_get_style_context (widget), NULL, NULL);
+	else
+		pixbuf = gtk_icon_info_load_icon (icon_info, NULL);
+
+	g_object_unref (icon_info);
+
+	return pixbuf;
+}
+
+static GIcon *
+folder_tree_get_new_mail_icon (EMFolderTree *self,
+				const gchar *icon_name)
+{
+	GdkPixbuf *pixbuf;
+	GIcon *themed_icon, *emblemed_icon;
+
+	pixbuf = g_hash_table_lookup (self->priv->new_mail_icon_cache, icon_name);
+
+	if (pixbuf != NULL)
+		return G_ICON (pixbuf);
+
+	themed_icon = g_themed_icon_new (icon_name);
+	emblemed_icon = g_emblemed_icon_new (themed_icon, folder_tree_get_new_mail_emblem (self));
+	g_object_unref (themed_icon);
+
+	pixbuf = folder_tree_icon_to_pixbuf (self, emblemed_icon);
+
+	g_object_unref (emblemed_icon);
+
+	if (pixbuf == NULL)
+		return NULL;
+
+	g_hash_table_insert (self->priv->new_mail_icon_cache, g_strdup (icon_name), pixbuf);
+
+	return G_ICON (pixbuf);
+}
+
+static GIcon *
+folder_tree_get_cached_custom_icon (EMFolderTree *self,
+				     GIcon *icon)
+{
+	GdkPixbuf *pixbuf;
+
+	pixbuf = g_hash_table_lookup (self->priv->custom_icon_cache, icon);
+
+	if (pixbuf != NULL)
+		return G_ICON (pixbuf);
+
+	pixbuf = folder_tree_icon_to_pixbuf (self, icon);
+
+	if (pixbuf == NULL)
+		return NULL;
+
+	g_hash_table_insert (self->priv->custom_icon_cache, g_object_ref (icon), pixbuf);
+
+	return G_ICON (pixbuf);
+}
+
 static void
 folder_tree_render_icon (GtkTreeViewColumn *column,
                          GtkCellRenderer *renderer,
@@ -947,23 +1039,49 @@ folder_tree_render_icon (GtkTreeViewColumn *column,
 		}
 	}
 
-	if (custom_icon)
-		icon = g_object_ref (custom_icon);
-	else
-		icon = g_themed_icon_new (effective_icon_name);
-
 	show_new_mail_emblem =
 		(unread > old_unread) &&
 		!is_selected && !is_drafts &&
 		((fi_flags & CAMEL_FOLDER_VIRTUAL) == 0);
 
-	if (show_new_mail_emblem) {
-		GIcon *temp_icon;
+	if (custom_icon) {
+		if (show_new_mail_emblem) {
+			GIcon *emblemed_icon, *cached_icon;
 
-		temp_icon = g_emblemed_icon_new (icon, folder_tree_get_new_mail_emblem (self));
-		g_object_unref (icon);
+			emblemed_icon = g_emblemed_icon_new (custom_icon, folder_tree_get_new_mail_emblem (self));
+			cached_icon = folder_tree_get_cached_custom_icon (self, emblemed_icon);
 
-		icon = temp_icon;
+			if (cached_icon != NULL) {
+				icon = g_object_ref (cached_icon);
+				g_object_unref (emblemed_icon);
+			} else {
+				icon = emblemed_icon;
+			}
+		} else {
+			GIcon *cached_icon;
+
+			cached_icon = folder_tree_get_cached_custom_icon (self, custom_icon);
+			icon = g_object_ref (cached_icon ? cached_icon : custom_icon);
+		}
+	} else {
+		GIcon *cached_icon;
+
+		cached_icon = show_new_mail_emblem ? folder_tree_get_new_mail_icon (self, effective_icon_name) : NULL;
+
+		if (cached_icon != NULL) {
+			icon = g_object_ref (cached_icon);
+		} else {
+			icon = g_themed_icon_new (effective_icon_name);
+
+			if (show_new_mail_emblem) {
+				GIcon *temp_icon;
+
+				temp_icon = g_emblemed_icon_new (icon, folder_tree_get_new_mail_emblem (self));
+				g_object_unref (icon);
+
+				icon = temp_icon;
+			}
+		}
 	}
 
 	g_object_set (renderer, "gicon", icon, NULL);
@@ -1346,6 +1464,9 @@ folder_tree_finalize (GObject *object)
 	g_free (self->priv->select_store_uid_when_added);
 	g_free (self->priv->new_message_text_color);
 	g_clear_pointer (&self->priv->cached_drag_dest_row, gtk_tree_path_free);
+	g_hash_table_destroy (self->priv->new_mail_icon_cache);
+	g_hash_table_destroy (self->priv->custom_icon_cache);
+	g_free (self->priv->icon_cache_theme_name);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_folder_tree_parent_class)->finalize (object);
@@ -1593,12 +1714,55 @@ folder_tree_update_new_message_text_color (EMFolderTree *self,
 }
 
 static void
+folder_tree_maybe_invalidate_icon_caches (EMFolderTree *self)
+{
+	GtkWidget *widget = GTK_WIDGET (self);
+	GtkSettings *settings;
+	GdkRGBA fg_rgba;
+	gchar *theme_name = NULL;
+	gint scale_factor;
+	gboolean prefer_symbolic;
+	gboolean changed;
+
+	settings = gtk_widget_get_settings (widget);
+	g_object_get (settings, "gtk-icon-theme-name", &theme_name, NULL);
+
+	scale_factor = gtk_widget_get_scale_factor (widget);
+	prefer_symbolic = e_icon_factory_get_prefer_symbolic_icons ();
+
+	gtk_style_context_get_color (
+		gtk_widget_get_style_context (widget),
+		gtk_widget_get_state_flags (widget), &fg_rgba);
+
+	changed = g_strcmp0 (theme_name, self->priv->icon_cache_theme_name) != 0 ||
+		scale_factor != self->priv->icon_cache_scale_factor ||
+		(prefer_symbolic ? 1 : 0) != (self->priv->icon_cache_prefer_symbolic ? 1 : 0) ||
+		!gdk_rgba_equal (&fg_rgba, &self->priv->icon_cache_fg_rgba);
+
+	if (!changed) {
+		g_free (theme_name);
+		return;
+	}
+
+	g_hash_table_remove_all (self->priv->new_mail_icon_cache);
+	g_hash_table_remove_all (self->priv->custom_icon_cache);
+
+	g_free (self->priv->icon_cache_theme_name);
+	self->priv->icon_cache_theme_name = theme_name;
+	self->priv->icon_cache_scale_factor = scale_factor;
+	self->priv->icon_cache_prefer_symbolic = prefer_symbolic;
+	self->priv->icon_cache_fg_rgba = fg_rgba;
+}
+
+static void
 folder_tree_style_updated (GtkWidget *widget)
 {
 	EMFolderTree *self = EM_FOLDER_TREE (widget);
 
 	if (self->priv->new_message_text_color)
 		folder_tree_update_new_message_text_color (self, self->priv->new_message_text_color);
+
+	folder_tree_maybe_invalidate_icon_caches (self);
 
 	/* Chain up to parent's method. */
 	GTK_WIDGET_CLASS (em_folder_tree_parent_class)->style_updated (widget);
@@ -1872,6 +2036,8 @@ em_folder_tree_init (EMFolderTree *folder_tree)
 	folder_tree->priv = em_folder_tree_get_instance_private (folder_tree);
 	folder_tree->priv->select_uris_table = select_uris_table;
 	folder_tree->priv->show_unread_count = TRUE;
+	folder_tree->priv->new_mail_icon_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+	folder_tree->priv->custom_icon_cache = g_hash_table_new_full (g_icon_hash, (GEqualFunc) g_icon_equal, g_object_unref, g_object_unref);
 
 	settings = e_util_ref_settings ("org.gnome.evolution.mail");
 
