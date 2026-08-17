@@ -5928,6 +5928,25 @@ EvoEditor.processLoadedContent = function()
 
 	isDraft = document.body.hasAttribute("data-evo-draft");
 
+	if (!isDraft) {
+		if (document.body.style) {
+			document.body.style.removeProperty("color");
+			document.body.style.removeProperty("background-color");
+			document.body.style.removeProperty("background");
+			document.body.style.removeProperty("background-image");
+
+			if (!document.body.getAttribute("style"))
+				document.body.removeAttribute("style");
+		}
+
+		document.body.removeAttribute("bgcolor");
+		document.body.removeAttribute("text");
+		document.body.removeAttribute("link");
+		document.body.removeAttribute("alink");
+		document.body.removeAttribute("vlink");
+		document.body.removeAttribute("background");
+	}
+
 	if (!isDraft && document.querySelector("PRE")) {
 		var next, replacement;
 
