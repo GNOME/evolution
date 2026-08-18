@@ -242,6 +242,7 @@ typedef struct _JSCCallData {
 	TestFixture *fixture;
 	const gchar *script;
 	JSCValue **out_result;
+	gboolean success;
 } JSCCallData;
 
 static void
@@ -258,11 +259,13 @@ test_utils_jsc_call_sync_done_cb (GObject *source_object,
 	value = webkit_web_view_evaluate_javascript_finish (WEBKIT_WEB_VIEW (source_object), result, &error);
 
 	if (error) {
-		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED) &&
-		    (!g_error_matches (error, WEBKIT_JAVASCRIPT_ERROR, WEBKIT_JAVASCRIPT_ERROR_SCRIPT_FAILED) ||
-		     /* WebKit can return empty error message, thus ignore those. */
-		     (error->message && *(error->message))))
-			g_warning ("Failed to call '%s': %s", jcd->script, error->message);
+		if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			if (!g_error_matches (error, WEBKIT_JAVASCRIPT_ERROR, WEBKIT_JAVASCRIPT_ERROR_SCRIPT_FAILED) ||
+			    /* WebKit can return empty error message, thus ignore those. */
+			    (error->message && *(error->message)))
+				g_warning ("Failed to call '%s': %s", jcd->script, error->message);
+			jcd->success = FALSE;
+		}
 		g_clear_error (&error);
 	}
 
@@ -274,6 +277,7 @@ test_utils_jsc_call_sync_done_cb (GObject *source_object,
 		if (exception) {
 			g_warning ("Failed to call '%s': %s", jcd->script, jsc_exception_get_message (exception));
 			jsc_context_clear_exception (jsc_value_get_context (value));
+			jcd->success = FALSE;
 		} else if (jcd->out_result) {
 			*(jcd->out_result) = value ? g_object_ref (value) : NULL;
 		}
@@ -312,10 +316,14 @@ test_utils_jsc_call_sync (TestFixture *fixture,
 	jcd.fixture = fixture;
 	jcd.script = script;
 	jcd.out_result = out_result;
+	jcd.success = TRUE;
 
 	webkit_web_view_evaluate_javascript (fixture->web_view, script, -1, NULL, NULL, NULL, test_utils_jsc_call_sync_done_cb, &jcd);
 
 	test_utils_wait (fixture);
+
+	if (!jcd.success)
+		g_error ("test_utils_jsc_call_sync: script failed: %s", script);
 }
 
 static gboolean
