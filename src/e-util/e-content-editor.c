@@ -2223,6 +2223,32 @@ e_content_editor_selection_unlink (EContentEditor *editor)
 }
 
 /**
+ * e_content_editor_selection_unformat:
+ * @editor: an #EContentEditor
+ *
+ * Removes any character formatting (like bold, italic, underline,
+ * strikethrough, font name, font size or color) from the current
+ * selection, splitting any partially-selected elements so that only
+ * the selected part of the text is affected. Does nothing when there
+ * is no selection.
+ *
+ * Since: 3.62
+ **/
+void
+e_content_editor_selection_unformat (EContentEditor *editor)
+{
+	EContentEditorInterface *iface;
+
+	g_return_if_fail (E_IS_CONTENT_EDITOR (editor));
+
+	iface = E_CONTENT_EDITOR_GET_IFACE (editor);
+	g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface->selection_unformat != NULL);
+
+	iface->selection_unformat (editor);
+}
+
+/**
  * e_content_editor_find:
  * @editor: an #EContentEditor
  * @flags: a bit-OR of #EContentEditorFindFlags flags

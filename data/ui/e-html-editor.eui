@@ -97,6 +97,8 @@
         <item action='justify-fill' group='justify'/>
       </submenu>
       <separator/>
+      <item action='remove-formatting'/>
+      <separator/>
       <item action='indent'/>
       <item action='unindent'/>
       <item action='wrap-lines'/>
@@ -175,6 +177,7 @@
     <item action='paste'/>
     <item action='paste-quote'/>
     <item action='paste-as-text'/>
+    <item action='remove-formatting'/>
     <separator/>
     <item action='context-copy-link'/>
     <item action='context-open-link'/>

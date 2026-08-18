@@ -168,6 +168,144 @@ test_style_monospace_typed (TestFixture *fixture)
 }
 
 static void
+test_style_remove_formatting_selection (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:some bold text\n"
+		"seq:hCrcrCSrsc\n"
+		"action:bold\n"
+		"action:remove-formatting\n",
+		HTML_PREFIX "<div>some bold text</div>" HTML_SUFFIX,
+		"some bold text\n"))
+		g_test_fail ();
+}
+
+static void
+test_style_remove_formatting_multiple (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:some formatted text\n"
+		"seq:hCrcrCSrsc\n"
+		"action:bold\n"
+		"action:italic\n"
+		"action:underline\n"
+		"action:strikethrough\n"
+		"font-name:monospace\n"
+		"action:remove-formatting\n",
+		HTML_PREFIX "<div>some formatted text</div>" HTML_SUFFIX,
+		"some formatted text\n"))
+		g_test_fail ();
+}
+
+static void
+test_style_remove_formatting_partial (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:some bold text\n"
+		"seq:hCrcrCSrsc\n"
+		"action:bold\n"
+		"seq:hCrcrSrrs\n"
+		"action:remove-formatting\n",
+		HTML_PREFIX "<div>some bo<b>ld</b> text</div>" HTML_SUFFIX,
+		"some bold text\n"))
+		g_test_fail ();
+}
+
+static void
+test_undo_remove_formatting_simple (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:some bold text\n"
+		"seq:hCrcrCSrsc\n"
+		"action:bold\n"
+		"undo:save\n" /* 1: bold applied */
+		"action:remove-formatting\n"
+		"undo:save\n" /* 2: formatting removed */
+		"undo:undo\n"
+		"undo:test:2\n"
+		"undo:redo\n"
+		"undo:test\n",
+		HTML_PREFIX "<div>some bold text</div>" HTML_SUFFIX,
+		"some bold text\n"))
+		g_test_fail ();
+}
+
+static void
+test_undo_remove_formatting_multiple (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:some formatted text\n"
+		"seq:hCrcrCSrsc\n"
+		"action:bold\n"
+		"action:italic\n"
+		"action:underline\n"
+		"action:strikethrough\n"
+		"font-name:monospace\n"
+		"undo:save\n" /* 1: all formats applied */
+		"action:remove-formatting\n"
+		"undo:save\n" /* 2: formatting removed */
+		"undo:undo\n"
+		"undo:test:2\n"
+		"undo:redo\n"
+		"undo:test\n",
+		HTML_PREFIX "<div>some formatted text</div>" HTML_SUFFIX,
+		"some formatted text\n"))
+		g_test_fail ();
+}
+
+static void
+test_undo_remove_formatting_partial (TestFixture *fixture)
+{
+	if (!test_utils_run_simple_test (fixture,
+		"mode:html\n"
+		"type:some bold text\n"
+		"seq:hCrcrCSrsc\n"
+		"action:bold\n"
+		"undo:save\n" /* 1: whole word bold */
+		"seq:hCrcrSrrs\n"
+		"action:remove-formatting\n"
+		"undo:save\n" /* 2: only "bo" unbolded, "ld" still bold */
+		"undo:undo\n"
+		"undo:test:2\n"
+		"undo:redo\n"
+		"undo:test\n",
+		HTML_PREFIX "<div>some bo<b>ld</b> text</div>" HTML_SUFFIX,
+		"some bold text\n"))
+		g_test_fail ();
+}
+
+/* Character formatting applied via a CSS class on a block ancestor (as
+   opposed to direct/inline formatting) is intentionally left untouched:
+   splitting a block element to affect only part of its text would insert
+   an unwanted paragraph break, and blindly stripping "class" attributes
+   would risk breaking Evolution's own internal markers, such as
+   SPAN.-x-evo-quoted/-x-evo-signature/-x-evo-cite-body. */
+static void
+test_style_remove_formatting_class_based (TestFixture *fixture)
+{
+	if (!test_utils_process_commands (fixture, "mode:html\n")) {
+		g_test_fail ();
+		return;
+	}
+
+	test_utils_insert_content (fixture,
+		"<div class=\"bold blue\"><div>text</div></div>",
+		E_CONTENT_EDITOR_INSERT_REPLACE_ALL | E_CONTENT_EDITOR_INSERT_TEXT_HTML);
+
+	if (!test_utils_run_simple_test (fixture,
+		"seq:hrSrrs\n"
+		"action:remove-formatting\n",
+		HTML_PREFIX "<div class=\"bold blue\"><div>text</div></div>" HTML_SUFFIX,
+		"text\n"))
+		g_test_fail ();
+}
+
+static void
 test_justify_selection (TestFixture *fixture)
 {
 	if (!test_utils_run_simple_test (fixture,
@@ -7691,6 +7829,13 @@ main (gint argc,
 	test_utils_add_test ("/style/strikethrough-typed", test_style_strikethrough_typed);
 	test_utils_add_test ("/style/monospace-selection", test_style_monospace_selection);
 	test_utils_add_test ("/style/monospace-typed", test_style_monospace_typed);
+	test_utils_add_test ("/style/remove-formatting-selection", test_style_remove_formatting_selection);
+	test_utils_add_test ("/style/remove-formatting-multiple", test_style_remove_formatting_multiple);
+	test_utils_add_test ("/style/remove-formatting-partial", test_style_remove_formatting_partial);
+	test_utils_add_test ("/style/remove-formatting-class-based", test_style_remove_formatting_class_based);
+	test_utils_add_test ("/undo/remove-formatting-simple", test_undo_remove_formatting_simple);
+	test_utils_add_test ("/undo/remove-formatting-multiple", test_undo_remove_formatting_multiple);
+	test_utils_add_test ("/undo/remove-formatting-partial", test_undo_remove_formatting_partial);
 	test_utils_add_test ("/justify/selection", test_justify_selection);
 	test_utils_add_test ("/justify/typed", test_justify_typed);
 	test_utils_add_test ("/indent/selection", test_indent_selection);

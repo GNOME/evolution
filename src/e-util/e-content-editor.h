@@ -109,6 +109,8 @@ struct _EContentEditorInterface {
 
 	void		(*selection_unlink)		(EContentEditor *editor);
 
+	void		(*selection_unformat)		(EContentEditor *editor);
+
 	void		(*find)				(EContentEditor *editor,
 							 guint32 flags,
 							 const gchar *text);
@@ -619,6 +621,9 @@ void		e_content_editor_selection_unindent
 						(EContentEditor *editor);
 
 void		e_content_editor_selection_unlink
+						(EContentEditor *editor);
+
+void		e_content_editor_selection_unformat
 						(EContentEditor *editor);
 
 void		e_content_editor_find		(EContentEditor *editor,

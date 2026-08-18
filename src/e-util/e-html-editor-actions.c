@@ -850,6 +850,19 @@ action_paste_as_text_cb (EUIAction *action,
 }
 
 static void
+action_remove_formatting_cb (EUIAction *action,
+			     GVariant *parameter,
+			     gpointer user_data)
+{
+	EHTMLEditor *editor = user_data;
+	EContentEditor *cnt_editor;
+
+	cnt_editor = e_html_editor_get_content_editor (editor);
+	if (e_html_editor_action_can_run (GTK_WIDGET (cnt_editor)))
+		e_content_editor_selection_unformat (cnt_editor);
+}
+
+static void
 paste_quote_text (EHTMLEditor *editor,
 		  const gchar *text,
 		  gboolean is_html)
@@ -1879,6 +1892,14 @@ static const EUIActionEntry html_entries[] = {
 	  "<Shift><Control>v",
 	  NULL,
 	  action_paste_as_text_cb, NULL, NULL, NULL },
+
+	{ "remove-formatting",
+	  NULL,
+	  N_("_Remove Formatting"),
+	  "<Control>backslash",
+	  N_("Remove direct character formatting, such as bold, font and color, from the selected text; "
+	     "formatting coming from stylesheets or nested paragraphs is not affected"),
+	  action_remove_formatting_cb, NULL, NULL, NULL },
 
 };
 

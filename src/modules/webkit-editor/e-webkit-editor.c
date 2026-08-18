@@ -3310,6 +3310,15 @@ webkit_editor_selection_unlink (EContentEditor *editor)
 }
 
 static void
+webkit_editor_selection_unformat (EContentEditor *editor)
+{
+	EWebKitEditor *wk_editor = E_WEBKIT_EDITOR (editor);
+
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (wk_editor), wk_editor->priv->cancellable,
+		"EvoEditor.RemoveFormat();");
+}
+
+static void
 webkit_editor_link_set_properties (EContentEditor *editor,
 				   const gchar *href,
 				   const gchar *text,
@@ -6187,6 +6196,7 @@ e_webkit_editor_content_editor_init (EContentEditorInterface *iface)
 	iface->selection_indent = webkit_editor_selection_indent;
 	iface->selection_unindent = webkit_editor_selection_unindent;
 	iface->selection_unlink = webkit_editor_selection_unlink;
+	iface->selection_unformat = webkit_editor_selection_unformat;
 	iface->find = webkit_editor_find;
 	iface->replace = webkit_editor_replace;
 	iface->replace_all = webkit_editor_replace_all;

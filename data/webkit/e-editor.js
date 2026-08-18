@@ -5058,6 +5058,192 @@ EvoEditor.replaceSelectionWord = function(opType, expandWord, replacement)
 	}
 }
 
+/* Tags which carry nothing but character formatting and can be safely
+   unwrapped (keeping their content) once their formatting is removed. */
+EvoEditor.FORMATTING_TAG_NAMES = ["B", "STRONG", "I", "EM", "U", "S", "STRIKE", "DEL", "SUB", "SUP", "FONT"];
+
+/* CSS properties which carry character (not paragraph/block) formatting,
+   thus are safe to strip without touching indentation, alignment and
+   similar block-level styling. */
+EvoEditor.FORMATTING_STYLE_PROPERTIES = [
+	"color",
+	"background-color",
+	"font-weight",
+	"font-style",
+	"font-family",
+	"font-size",
+	"font",
+	"text-decoration",
+	"text-decoration-line",
+	"text-decoration-color",
+	"text-decoration-style"
+];
+
+EvoEditor.getInlineLimitAncestor = function(node)
+{
+	while (node && node.nodeType != Node.ELEMENT_NODE) {
+		node = node.parentNode;
+	}
+
+	while (node && node.parentElement && !EvoEditor.IsBlockNode(node) && node.tagName != "BODY") {
+		node = node.parentElement;
+	}
+
+	return node || document.body;
+}
+
+EvoEditor.splitBoundary = function(container, offset, limitNode)
+{
+	var node, parent, clone, sibling, next;
+
+	if (container.nodeType == Node.TEXT_NODE) {
+		if (offset <= 0) {
+			node = container;
+		} else if (offset >= container.data.length) {
+			node = container.nextSibling;
+		} else {
+			node = container.splitText(offset);
+		}
+
+		parent = container.parentNode;
+	} else {
+		node = offset < container.childNodes.length ? container.childNodes[offset] : null;
+		parent = container;
+	}
+
+	while (parent && parent !== limitNode) {
+		if (!node) {
+			node = parent.nextSibling;
+		} else if (node === parent.firstChild) {
+			node = parent;
+		} else {
+			clone = parent.cloneNode(false);
+
+			sibling = node;
+
+			while (sibling) {
+				next = sibling.nextSibling;
+				clone.appendChild(sibling);
+				sibling = next;
+			}
+
+			if (parent.nextSibling)
+				parent.parentNode.insertBefore(clone, parent.nextSibling);
+			else
+				parent.parentNode.appendChild(clone);
+
+			node = clone;
+		}
+
+		parent = parent.parentNode;
+	}
+
+	return node;
+}
+
+EvoEditor.stripFormattingElement = function(node)
+{
+	var walker, current, toUnwrap = [], ii;
+
+	if (!node || node.nodeType != Node.ELEMENT_NODE)
+		return;
+
+	walker = document.createTreeWalker(node, NodeFilter.SHOW_ELEMENT, null);
+	current = node;
+
+	while (current) {
+		if (current.hasAttribute("style")) {
+			for (ii = 0; ii < EvoEditor.FORMATTING_STYLE_PROPERTIES.length; ii++) {
+				current.style.removeProperty(EvoEditor.FORMATTING_STYLE_PROPERTIES[ii]);
+			}
+
+			if (!current.style.length)
+				current.removeAttribute("style");
+		}
+
+		if (current.hasAttribute("color"))
+			current.removeAttribute("color");
+		if (current.hasAttribute("face"))
+			current.removeAttribute("face");
+		if (current.hasAttribute("size"))
+			current.removeAttribute("size");
+
+		if (EvoEditor.FORMATTING_TAG_NAMES.indexOf(current.tagName) != -1 ||
+		    ((current.tagName == "SPAN" || current.tagName == "FONT") && !current.attributes.length)) {
+			toUnwrap[toUnwrap.length] = current;
+		}
+
+		current = walker.nextNode();
+	}
+
+	for (ii = 0; ii < toUnwrap.length; ii++) {
+		current = toUnwrap[ii];
+
+		while (current.firstChild) {
+			current.parentNode.insertBefore(current.firstChild, current);
+		}
+
+		current.remove();
+	}
+}
+
+EvoEditor.RemoveFormat = function()
+{
+	var selection, range, limitNode, startMarker, endMarker, beforeFirst, node,
+	    selectedNodes = [], newRange, ii;
+
+	selection = document.getSelection();
+
+	if (selection.isCollapsed || selection.rangeCount < 1)
+		return;
+
+	range = selection.getRangeAt(0).cloneRange();
+	limitNode = EvoEditor.getInlineLimitAncestor(range.commonAncestorContainer);
+
+	if (!limitNode)
+		return;
+
+	EvoUndoRedo.StartRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "RemoveFormat", limitNode, limitNode,
+		EvoEditor.CLAIM_CONTENT_FLAG_SAVE_HTML);
+	try {
+		endMarker = EvoEditor.splitBoundary(range.endContainer, range.endOffset, limitNode);
+		startMarker = EvoEditor.splitBoundary(range.startContainer, range.startOffset, limitNode);
+
+		for (node = startMarker; node && node !== endMarker; node = node.nextSibling) {
+			selectedNodes[selectedNodes.length] = node;
+		}
+
+		if (selectedNodes.length > 0) {
+			beforeFirst = selectedNodes[0].previousSibling;
+
+			for (ii = 0; ii < selectedNodes.length; ii++) {
+				EvoEditor.stripFormattingElement(selectedNodes[ii]);
+			}
+
+			newRange = document.createRange();
+
+			if (beforeFirst)
+				newRange.setStartAfter(beforeFirst);
+			else
+				newRange.setStart(limitNode, 0);
+
+			if (endMarker)
+				newRange.setEndBefore(endMarker);
+			else
+				newRange.setEnd(limitNode, limitNode.childNodes.length);
+
+			selection.removeAllRanges();
+			selection.addRange(newRange);
+
+			limitNode.normalize();
+		}
+	} finally {
+		EvoUndoRedo.StopRecord(EvoUndoRedo.RECORD_KIND_CUSTOM, "RemoveFormat");
+		EvoEditor.maybeUpdateFormattingState(EvoEditor.FORCE_MAYBE);
+		EvoEditor.EmitContentChanged();
+	}
+}
+
 EvoEditor.ReplaceCaretWord = function(replacement)
 {
 	EvoEditor.replaceSelectionWord("ReplaceCaretWord", true, replacement);
