@@ -3463,10 +3463,12 @@ webkit_editor_set_font_color (EWebKitEditor *wk_editor,
 	    (value && wk_editor->priv->font_color && gdk_rgba_equal (value, wk_editor->priv->font_color)))
 		return;
 
-	webkit_editor_utils_color_to_string (color, sizeof (color), value);
+	if (value && value->alpha > 1e-9)
+		webkit_editor_utils_color_to_string (color, sizeof (color), value);
+	else
+		g_snprintf (color, sizeof (color), "inherit");
 
-	webkit_web_view_execute_editing_command_with_argument (WEBKIT_WEB_VIEW (wk_editor), "ForeColor",
-		webkit_editor_utils_color_to_string (color, sizeof (color), value));
+	webkit_web_view_execute_editing_command_with_argument (WEBKIT_WEB_VIEW (wk_editor), "ForeColor", color);
 }
 
 static const GdkRGBA *
