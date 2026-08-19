@@ -116,6 +116,9 @@ RUN printf '%s\n' \
 	'sasl_auto_transition: no' \
 	'virtdomains: off' \
 	'hashimapspool: true' \
+	'httpmodules: jmap' \
+	'conversations: 1' \
+	'conversations_db: twoskip' \
 	> /etc/imapd.conf
 
 RUN printf '%s\n' \
@@ -124,6 +127,7 @@ RUN printf '%s\n' \
 	'}' \
 	'SERVICES {' \
 	'  imap cmd="imapd" listen="10143" prefork=1' \
+	'  http cmd="httpd" listen="8080" prefork=1' \
 	'}' \
 	'EVENTS {' \
 	'  checkpoint cmd="ctl_cyrusdb -c" period=30' \
