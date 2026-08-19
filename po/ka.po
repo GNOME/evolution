@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-08-07 13:44+0000\n"
-"PO-Revision-Date: 2026-08-08 07:09+0200\n"
+"POT-Creation-Date: 2026-08-19 10:18+0000\n"
+"PO-Revision-Date: 2026-08-19 15:17+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -4845,7 +4845,7 @@ msgstr "და_ხმარება"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5307
 #: ../src/calendar/gui/e-comp-editor.c:2323
-#: ../src/e-util/e-html-editor-actions.c:1376
+#: ../src/e-util/e-html-editor-actions.c:1389
 msgid "_Undo"
 msgstr "_დაბრუნება"
 
@@ -4857,7 +4857,7 @@ msgstr "დაბრუნება"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5314
 #: ../src/calendar/gui/e-comp-editor.c:2330
-#: ../src/e-util/e-html-editor-actions.c:1362
+#: ../src/e-util/e-html-editor-actions.c:1375
 msgid "_Redo"
 msgstr "_გამეორება"
 
@@ -6431,7 +6431,7 @@ msgstr "გა_დიდება"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:1397 ../src/mail/e-mail-reader.c:3564
+#: ../src/e-util/e-html-editor-actions.c:1410 ../src/mail/e-mail-reader.c:3564
 #: ../src/mail/e-mail-viewer.c:1821
 msgid "Zoom _Out"
 msgstr "და_პატარავება"
@@ -7706,18 +7706,18 @@ msgid "Categories:"
 msgstr "კატეგორიები:"
 
 #: ../src/calendar/gui/comp-util.c:2930 ../src/calendar/gui/e-task-table.c:450
-#: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:315
+#: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:319
 msgid "High"
 msgstr "მაღალი"
 
 #: ../src/calendar/gui/comp-util.c:2932 ../src/calendar/gui/e-cal-model.c:1778
 #: ../src/calendar/gui/e-task-table.c:451
-#: ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:314
+#: ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:318
 msgid "Normal"
 msgstr "ჩვეულებრივი"
 
 #: ../src/calendar/gui/comp-util.c:2934 ../src/calendar/gui/e-task-table.c:452
-#: ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:313
+#: ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:317
 msgid "Low"
 msgstr "დაბალი"
 
@@ -8913,7 +8913,7 @@ msgstr ""
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2436
 #: ../src/calendar/gui/e-comp-editor.c:2346
 #: ../src/e-util/e-accounts-window.c:1752
-#: ../src/e-util/e-html-editor-actions.c:1406
+#: ../src/e-util/e-html-editor-actions.c:1419
 #: ../src/e-util/e-mail-signature-manager.c:329
 #: ../src/e-util/e-ui-customize-dialog.c:1212
 #: ../src/e-util/e-webdav-browser.c:2882 ../src/e-util/filter.ui.h:26
@@ -9624,7 +9624,7 @@ msgstr "მიმდინარე ფანჯრის დახურვა"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2253
-#: ../src/e-util/e-html-editor-actions.c:1341 ../src/e-util/e-text.c:2032
+#: ../src/e-util/e-html-editor-actions.c:1354 ../src/e-util/e-text.c:2032
 #: ../src/e-util/e-web-view.c:1659 ../src/mail/e-mail-browser.c:571
 #: ../src/mail/e-mail-viewer.c:1758 ../src/mail/mail.error.xml.h:147
 #: ../src/shell/e-shell-window-actions.c:838
@@ -9648,7 +9648,7 @@ msgstr ""
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2267
-#: ../src/e-util/e-html-editor-actions.c:1348 ../src/e-util/e-text.c:2018
+#: ../src/e-util/e-html-editor-actions.c:1361 ../src/e-util/e-text.c:2018
 #: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:845
 msgid "Cu_t"
 msgstr "ამო_ჭრა"
@@ -9672,7 +9672,7 @@ msgstr ""
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2288
-#: ../src/e-util/e-html-editor-actions.c:1355 ../src/e-util/e-text.c:2044
+#: ../src/e-util/e-html-editor-actions.c:1368 ../src/e-util/e-text.c:2044
 #: ../src/mail/e-mail-browser.c:585 ../src/mail/e-mail-viewer.c:1765
 #: ../src/shell/e-shell-window-actions.c:873
 msgid "_Paste"
@@ -9701,7 +9701,7 @@ msgid "Pre_view…"
 msgstr ""
 
 #: ../src/calendar/gui/e-comp-editor.c:2309
-#: ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-web-view.c:1683
+#: ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1683
 #: ../src/mail/e-mail-browser.c:592 ../src/shell/e-shell-window-actions.c:901
 msgid "Select _All"
 msgstr "ყველაფრის _მონიშვნა"
@@ -9723,7 +9723,7 @@ msgstr ""
 #. ** Menus **
 #. menus
 #: ../src/calendar/gui/e-comp-editor.c:2353
-#: ../src/e-util/e-html-editor-actions.c:1413
+#: ../src/e-util/e-html-editor-actions.c:1426
 #: ../src/e-util/e-mail-signature-editor.c:530 ../src/mail/e-mail-browser.c:606
 #: ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1932
 #: ../src/shell/e-shell-window-actions.c:951
@@ -9731,7 +9731,7 @@ msgid "_File"
 msgstr "_ფაილი"
 
 #: ../src/calendar/gui/e-comp-editor.c:2367
-#: ../src/e-util/e-html-editor-actions.c:1434
+#: ../src/e-util/e-html-editor-actions.c:1447
 msgid "_Insert"
 msgstr "_ჩასმა"
 
@@ -9749,7 +9749,7 @@ msgid "_Options"
 msgstr "_პარამეტრები"
 
 #: ../src/calendar/gui/e-comp-editor.c:2388
-#: ../src/e-util/e-html-editor-actions.c:1455 ../src/mail/e-mail-browser.c:608
+#: ../src/e-util/e-html-editor-actions.c:1468 ../src/mail/e-mail-browser.c:608
 #: ../src/mail/e-mail-viewer.c:1934 ../src/shell/e-shell-window-actions.c:956
 #: ../src/smime/gui/certificate-manager.c:1575 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -9940,7 +9940,7 @@ msgstr "დასრულებულია"
 #: ../src/calendar/gui/e-meeting-store.c:173
 #: ../src/calendar/gui/e-meeting-store.c:196
 msgid "In Process"
-msgstr ""
+msgstr "მიმდინარეობს"
 
 #: ../src/calendar/gui/e-meeting-store.c:1971
 #, c-format
@@ -13950,7 +13950,7 @@ msgid "popup list"
 msgstr ""
 
 #: ../src/e-util/e-cell-date.c:34 ../src/e-util/e-cell-date.c:123
-#: ../src/e-util/e-cell-date.c:143 ../src/mail/message-list.c:2183
+#: ../src/e-util/e-cell-date.c:143 ../src/mail/message-list.c:2189
 msgid "?"
 msgstr "?"
 
@@ -14069,22 +14069,22 @@ msgstr "სხვა…"
 msgid "Cannot create a client object from extension name “%s”"
 msgstr ""
 
-#: ../src/e-util/e-client-selector.c:173 ../src/mail/em-folder-tree.c:1019
+#: ../src/e-util/e-client-selector.c:173 ../src/mail/em-folder-tree.c:1137
 msgctxt "Status"
 msgid "Offline"
 msgstr "გათიშული"
 
-#: ../src/e-util/e-client-selector.c:176 ../src/mail/em-folder-tree.c:1022
+#: ../src/e-util/e-client-selector.c:176 ../src/mail/em-folder-tree.c:1140
 msgctxt "Status"
 msgid "Online"
 msgstr "ონლაინ"
 
-#: ../src/e-util/e-client-selector.c:179 ../src/mail/em-folder-tree.c:1025
+#: ../src/e-util/e-client-selector.c:179 ../src/mail/em-folder-tree.c:1143
 msgctxt "Status"
 msgid "Unreachable"
 msgstr "მიუწვდომელი"
 
-#: ../src/e-util/e-client-selector.c:182 ../src/mail/em-folder-tree.c:1028
+#: ../src/e-util/e-client-selector.c:182 ../src/mail/em-folder-tree.c:1146
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "კავშირის შეცდომა"
@@ -14835,608 +14835,619 @@ msgstr ""
 msgid "Text file"
 msgstr "ტექსტური ფაილი"
 
-#: ../src/e-util/e-html-editor-actions.c:1343
+#: ../src/e-util/e-html-editor-actions.c:1356
 msgid "Copy selected text to the clipboard"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1350
+#: ../src/e-util/e-html-editor-actions.c:1363
 msgid "Cut selected text to the clipboard"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1357
+#: ../src/e-util/e-html-editor-actions.c:1370
 msgid "Paste text from the clipboard"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1364
+#: ../src/e-util/e-html-editor-actions.c:1377
 msgid "Redo the last undone action"
 msgstr "ბოლოს გაუქმებული ქმედების დაბრუნება"
 
-#: ../src/e-util/e-html-editor-actions.c:1378
+#: ../src/e-util/e-html-editor-actions.c:1391
 msgid "Undo the last action"
 msgstr "ბოლო მოქმედების გაუქმება"
 
-#: ../src/e-util/e-html-editor-actions.c:1383 ../src/mail/e-mail-reader.c:3550
+#: ../src/e-util/e-html-editor-actions.c:1396 ../src/mail/e-mail-reader.c:3550
 #: ../src/mail/e-mail-viewer.c:1828
 msgid "_Normal Size"
 msgstr "_ნორმალური ზომა"
 
-#: ../src/e-util/e-html-editor-actions.c:1385 ../src/mail/e-mail-reader.c:3552
+#: ../src/e-util/e-html-editor-actions.c:1398 ../src/mail/e-mail-reader.c:3552
 msgid "Reset the text to its original size"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1390 ../src/mail/e-mail-reader.c:3557
+#: ../src/e-util/e-html-editor-actions.c:1403 ../src/mail/e-mail-reader.c:3557
 #: ../src/mail/e-mail-viewer.c:1814
 msgid "_Zoom In"
 msgstr "_გადიდება"
 
-#: ../src/e-util/e-html-editor-actions.c:1392 ../src/mail/e-mail-reader.c:3559
+#: ../src/e-util/e-html-editor-actions.c:1405 ../src/mail/e-mail-reader.c:3559
 msgid "Increase the text size"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1399 ../src/mail/e-mail-reader.c:3566
+#: ../src/e-util/e-html-editor-actions.c:1412 ../src/mail/e-mail-reader.c:3566
 msgid "Decrease the text size"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1420
+#: ../src/e-util/e-html-editor-actions.c:1433
 msgid "For_mat"
 msgstr "_ფორმატი"
 
-#: ../src/e-util/e-html-editor-actions.c:1427
+#: ../src/e-util/e-html-editor-actions.c:1440
 msgid "_Paragraph Style"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1441
+#: ../src/e-util/e-html-editor-actions.c:1454
 #: ../src/e-util/e-html-editor-image-dialog.c:654
 msgid "_Alignment"
 msgstr "_სწორება"
 
-#: ../src/e-util/e-html-editor-actions.c:1448
+#: ../src/e-util/e-html-editor-actions.c:1461
 msgid "Current _Languages"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1460 ../src/mail/e-mail-reader.c:3592
+#: ../src/e-util/e-html-editor-actions.c:1473 ../src/mail/e-mail-reader.c:3592
 #: ../src/mail/e-mail-viewer.c:1935
 msgid "_Zoom"
 msgstr "_გადიდება"
 
-#: ../src/e-util/e-html-editor-actions.c:1466
+#: ../src/e-util/e-html-editor-actions.c:1479
 msgid "Recent spell check languages"
 msgstr "მართლწერის შემოწმების ბოლო ენები"
 
-#: ../src/e-util/e-html-editor-actions.c:1473
+#: ../src/e-util/e-html-editor-actions.c:1486
 msgid "All spell check languages"
 msgstr "ყველა მართლწერის შემოწმების ენა"
 
-#: ../src/e-util/e-html-editor-actions.c:1480
-#: ../src/e-util/e-html-editor-actions.c:1482
-#: ../src/e-util/e-html-editor-actions.c:2756
+#: ../src/e-util/e-html-editor-actions.c:1493
+#: ../src/e-util/e-html-editor-actions.c:1495
+#: ../src/e-util/e-html-editor-actions.c:2777
 #: ../src/e-util/e-html-editor.c:1125 ../src/e-util/e-html-editor.c:2259
 msgid "Editing Mode"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1487
-#: ../src/e-util/e-html-editor-actions.c:1489
+#: ../src/e-util/e-html-editor-actions.c:1500
+#: ../src/e-util/e-html-editor-actions.c:1502
 #: ../src/e-util/e-html-editor.c:1129
 msgid "Paragraph Style"
 msgstr "აბზაცის სტილი"
 
-#: ../src/e-util/e-html-editor-actions.c:1494
-#: ../src/e-util/e-html-editor-actions.c:1496
+#: ../src/e-util/e-html-editor-actions.c:1507
+#: ../src/e-util/e-html-editor-actions.c:1509
 #: ../src/e-util/e-html-editor.c:1137
 msgid "Font Name"
 msgstr "ფონტის სახელი"
 
-#: ../src/e-util/e-html-editor-actions.c:1501
-#: ../src/e-util/e-html-editor-actions.c:1503
+#: ../src/e-util/e-html-editor-actions.c:1514
+#: ../src/e-util/e-html-editor-actions.c:1516
 #: ../src/e-util/e-html-editor.c:1145
 msgid "Font Size"
 msgstr "ფონტის ზომა"
 
-#: ../src/e-util/e-html-editor-actions.c:1508
-#: ../src/e-util/e-html-editor-actions.c:1510
+#: ../src/e-util/e-html-editor-actions.c:1521
+#: ../src/e-util/e-html-editor-actions.c:1523
 #: ../src/e-util/e-html-editor.c:1148
 msgid "Font Color"
 msgstr "ფონტის ფერი"
 
-#: ../src/e-util/e-html-editor-actions.c:1515
-#: ../src/e-util/e-html-editor-actions.c:1517
+#: ../src/e-util/e-html-editor-actions.c:1528
+#: ../src/e-util/e-html-editor-actions.c:1530
 #: ../src/e-util/e-html-editor.c:1160
 msgid "Background Color"
 msgstr "ფონის ფერი"
 
-#: ../src/e-util/e-html-editor-actions.c:1525
+#: ../src/e-util/e-html-editor-actions.c:1538
 msgid "_Increase Indent"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1527
+#: ../src/e-util/e-html-editor-actions.c:1540
 msgid "Increase Indent"
 msgstr "დაშორების გაზრდა"
 
-#: ../src/e-util/e-html-editor-actions.c:1532
+#: ../src/e-util/e-html-editor-actions.c:1545
 msgid "E_moji"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1534
-#: ../src/e-util/e-html-editor-actions.c:1548
+#: ../src/e-util/e-html-editor-actions.c:1547
+#: ../src/e-util/e-html-editor-actions.c:1561
 #: ../src/e-util/e-markdown-editor.c:1955
 msgid "Insert Emoji"
 msgstr "ემოჯის ჩასმა"
 
-#: ../src/e-util/e-html-editor-actions.c:1539
+#: ../src/e-util/e-html-editor-actions.c:1552
 msgid "_Emoticon"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1541
+#: ../src/e-util/e-html-editor-actions.c:1554
 msgid "Insert Emoticon"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1546
+#: ../src/e-util/e-html-editor-actions.c:1559
 msgid "Insert E_moji"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1553
+#: ../src/e-util/e-html-editor-actions.c:1566
 msgid "_HTML File…"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1560
+#: ../src/e-util/e-html-editor-actions.c:1573
 msgid "Te_xt File…"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1567
+#: ../src/e-util/e-html-editor-actions.c:1580
 msgid "Paste _Quotation"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1574
+#: ../src/e-util/e-html-editor-actions.c:1587
 msgid "_Find…"
 msgstr "_ძიება…"
 
-#: ../src/e-util/e-html-editor-actions.c:1576
+#: ../src/e-util/e-html-editor-actions.c:1589
 msgid "Search for text"
 msgstr "ტექსტის ძიება"
 
-#: ../src/e-util/e-html-editor-actions.c:1581
+#: ../src/e-util/e-html-editor-actions.c:1594
 msgid "Find A_gain"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1588
+#: ../src/e-util/e-html-editor-actions.c:1601
 msgid "Re_place…"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1590
+#: ../src/e-util/e-html-editor-actions.c:1603
 msgid "Search for and replace text"
 msgstr "ტექსტის მოძებნა და ჩანაცვლება"
 
-#: ../src/e-util/e-html-editor-actions.c:1595
+#: ../src/e-util/e-html-editor-actions.c:1608
 msgid "Check _Spelling…"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1602
+#: ../src/e-util/e-html-editor-actions.c:1615
 msgid "_Decrease Indent"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1604
+#: ../src/e-util/e-html-editor-actions.c:1617
 msgid "Decrease Indent"
 msgstr "შეწევის შემცირება"
 
-#: ../src/e-util/e-html-editor-actions.c:1609
+#: ../src/e-util/e-html-editor-actions.c:1622
 msgid "_Wrap Lines"
 msgstr "სიტყვების _გადატანა"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1619
+#: ../src/e-util/e-html-editor-actions.c:1632
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:86
 msgid "_Center"
 msgstr "ცენტრი"
 
-#: ../src/e-util/e-html-editor-actions.c:1621
+#: ../src/e-util/e-html-editor-actions.c:1634
 msgid "Center Alignment"
 msgstr ""
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1626
+#: ../src/e-util/e-html-editor-actions.c:1639
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Justified"
 msgstr "_გათანაბრებული"
 
-#: ../src/e-util/e-html-editor-actions.c:1628
+#: ../src/e-util/e-html-editor-actions.c:1641
 msgid "Align Justified"
 msgstr ""
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1633
+#: ../src/e-util/e-html-editor-actions.c:1646
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:79
 msgid "_Left"
 msgstr "მარც_ხნივ"
 
-#: ../src/e-util/e-html-editor-actions.c:1635
+#: ../src/e-util/e-html-editor-actions.c:1648
 msgid "Left Alignment"
 msgstr ""
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1640
+#: ../src/e-util/e-html-editor-actions.c:1653
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:93
 msgid "_Right"
 msgstr "მარ_ჯვნივ"
 
-#: ../src/e-util/e-html-editor-actions.c:1642
+#: ../src/e-util/e-html-editor-actions.c:1655
 msgid "Right Alignment"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1650
+#: ../src/e-util/e-html-editor-actions.c:1663
 #: ../src/modules/text-highlight/languages.c:57
 msgid "_HTML"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1652
+#: ../src/e-util/e-html-editor-actions.c:1665
 msgid "HTML editing mode"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1657
+#: ../src/e-util/e-html-editor-actions.c:1670
 msgid "Plain _Text"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1659
+#: ../src/e-util/e-html-editor-actions.c:1672
 msgid "Plain text editing mode"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1664
+#: ../src/e-util/e-html-editor-actions.c:1677
 #: ../src/modules/text-highlight/languages.c:83
 msgid "_Markdown"
 msgstr "_მარკდაუნი"
 
-#: ../src/e-util/e-html-editor-actions.c:1666
+#: ../src/e-util/e-html-editor-actions.c:1679
 msgid "Markdown editing mode"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1671
+#: ../src/e-util/e-html-editor-actions.c:1684
 msgid "Ma_rkdown as Plain Text"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1673
+#: ../src/e-util/e-html-editor-actions.c:1686
 msgid "Markdown editing mode, exported as Plain Text"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1678
+#: ../src/e-util/e-html-editor-actions.c:1691
 msgid "Mar_kdown as HTML"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1680
+#: ../src/e-util/e-html-editor-actions.c:1693
 msgid "Markdown editing mode, exported as HTML"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1688
+#: ../src/e-util/e-html-editor-actions.c:1701
 msgid "_Normal"
 msgstr "_ნორმალური"
 
-#: ../src/e-util/e-html-editor-actions.c:1695
+#: ../src/e-util/e-html-editor-actions.c:1708
 msgid "Heading _1"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1702
+#: ../src/e-util/e-html-editor-actions.c:1715
 msgid "Heading _2"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1709
+#: ../src/e-util/e-html-editor-actions.c:1722
 msgid "Heading _3"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1716
+#: ../src/e-util/e-html-editor-actions.c:1729
 msgid "Heading _4"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1723
+#: ../src/e-util/e-html-editor-actions.c:1736
 msgid "Heading _5"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1730
+#: ../src/e-util/e-html-editor-actions.c:1743
 msgid "Heading _6"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1737
+#: ../src/e-util/e-html-editor-actions.c:1750
 msgid "_Preformatted"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1744
+#: ../src/e-util/e-html-editor-actions.c:1757
 msgid "A_ddress"
 msgstr "მისამართ_ი"
 
-#: ../src/e-util/e-html-editor-actions.c:1751
+#: ../src/e-util/e-html-editor-actions.c:1764
 msgid "_Bulleted List"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1758
+#: ../src/e-util/e-html-editor-actions.c:1771
 msgid "_Roman Numeral List"
 msgstr ""
 
-#: ../src/e-util/e-html-editor-actions.c:1765
+#: ../src/e-util/e-html-editor-actions.c:1778
 msgid "Numbered _List"
 msgstr "დანომრილი სია"
 
-#: ../src/e-util/e-html-editor-actions.c:1772
+#: ../src/e-util/e-html-editor-actions.c:1785
 msgid "_Alphabetical List"
 msgstr "ანბანით დალაგებული"
 
-#: ../src/e-util/e-html-editor-actions.c:1788
-#: ../src/e-util/e-html-editor-actions.c:1826
+#: ../src/e-util/e-html-editor-actions.c:1801
+#: ../src/e-util/e-html-editor-actions.c:1839
 msgid "_Image…"
 msgstr "_გამოსახულება…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1791
+#: ../src/e-util/e-html-editor-actions.c:1804
 msgid "Insert Image"
 msgstr "გამოსახულების დამატება"
 
-#: ../src/e-util/e-html-editor-actions.c:1796
-#: ../src/e-util/e-html-editor-actions.c:1833
+#: ../src/e-util/e-html-editor-actions.c:1809
+#: ../src/e-util/e-html-editor-actions.c:1846
 msgid "_Link…"
 msgstr "_ბმული…"
 
-#: ../src/e-util/e-html-editor-actions.c:1798
+#: ../src/e-util/e-html-editor-actions.c:1811
 msgid "Insert Link"
 msgstr "ბმულის დამატება"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1804
-#: ../src/e-util/e-html-editor-actions.c:1848
+#: ../src/e-util/e-html-editor-actions.c:1817
+#: ../src/e-util/e-html-editor-actions.c:1861
 msgid "_Rule…"
 msgstr "_წესი…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1807
+#: ../src/e-util/e-html-editor-actions.c:1820
 msgid "Insert Rule"
 msgstr "წესის დამატება"
 
-#: ../src/e-util/e-html-editor-actions.c:1812
-#: ../src/e-util/e-html-editor-actions.c:1855
+#: ../src/e-util/e-html-editor-actions.c:1825
+#: ../src/e-util/e-html-editor-actions.c:1868
 msgid "_Table…"
 msgstr "_ცხრილი…"
 
-#: ../src/e-util/e-html-editor-actions.c:1814
+#: ../src/e-util/e-html-editor-actions.c:1827
 msgid "Insert Table"
 msgstr "ცხრილის ჩასმა"
 
-#: ../src/e-util/e-html-editor-actions.c:1819
+#: ../src/e-util/e-html-editor-actions.c:1832
 msgid "_Cell…"
 msgstr "_უჯრედი…"
 
-#: ../src/e-util/e-html-editor-actions.c:1840
+#: ../src/e-util/e-html-editor-actions.c:1853
 msgid "Pa_ge…"
 msgstr "_გვერდი…"
 
-#: ../src/e-util/e-html-editor-actions.c:1864
+#: ../src/e-util/e-html-editor-actions.c:1877
 msgid "Font _Size"
 msgstr "_ფონტის ზომა"
 
-#: ../src/e-util/e-html-editor-actions.c:1871
+#: ../src/e-util/e-html-editor-actions.c:1884
 msgid "_Font Style"
 msgstr "_ფონტის სტილი"
 
-#: ../src/e-util/e-html-editor-actions.c:1878
+#: ../src/e-util/e-html-editor-actions.c:1891
 msgid "Paste As _Text"
 msgstr "ტექსტის სახით _ჩასმა"
 
-#: ../src/e-util/e-html-editor-actions.c:1889
+#: ../src/e-util/e-html-editor-actions.c:1898
+msgid "_Remove Formatting"
+msgstr "დაფო_რმატების მოცილება"
+
+#: ../src/e-util/e-html-editor-actions.c:1900
+msgid ""
+"Remove direct character formatting, such as bold, font and color, from the "
+"selected text; formatting coming from stylesheets or nested paragraphs is "
+"not affected"
+msgstr ""
+
+#: ../src/e-util/e-html-editor-actions.c:1910
 #: ../src/e-util/e-html-editor-text-dialog.c:177
 msgid "_Bold"
 msgstr "_სქელი"
 
-#: ../src/e-util/e-html-editor-actions.c:1891
+#: ../src/e-util/e-html-editor-actions.c:1912
 msgid "Bold"
 msgstr "გასქელება"
 
-#: ../src/e-util/e-html-editor-actions.c:1896
+#: ../src/e-util/e-html-editor-actions.c:1917
 #: ../src/e-util/e-html-editor-text-dialog.c:188
 msgid "_Italic"
 msgstr "_დახრილი"
 
-#: ../src/e-util/e-html-editor-actions.c:1898
+#: ../src/e-util/e-html-editor-actions.c:1919
 msgid "Italic"
 msgstr "დახრა"
 
-#: ../src/e-util/e-html-editor-actions.c:1903
+#: ../src/e-util/e-html-editor-actions.c:1924
 #: ../src/e-util/e-html-editor-text-dialog.c:209
 msgid "_Strikethrough"
 msgstr "_ხაზგადასმული"
 
-#: ../src/e-util/e-html-editor-actions.c:1905
+#: ../src/e-util/e-html-editor-actions.c:1926
 msgid "Strikethrough"
 msgstr "ხაზგადასმული"
 
-#: ../src/e-util/e-html-editor-actions.c:1910
+#: ../src/e-util/e-html-editor-actions.c:1931
 msgid "Subs_cript"
 msgstr "ქვედა _ხაზზე"
 
-#: ../src/e-util/e-html-editor-actions.c:1912
+#: ../src/e-util/e-html-editor-actions.c:1933
 msgid "Subscript"
 msgstr "ქვედა ხაზზე"
 
-#: ../src/e-util/e-html-editor-actions.c:1917
+#: ../src/e-util/e-html-editor-actions.c:1938
 msgid "Su_perscript"
 msgstr "ზედა _ხაზზე"
 
-#: ../src/e-util/e-html-editor-actions.c:1919
+#: ../src/e-util/e-html-editor-actions.c:1940
 msgid "Superscript"
 msgstr "ზედა ხაზზე"
 
-#: ../src/e-util/e-html-editor-actions.c:1924
+#: ../src/e-util/e-html-editor-actions.c:1945
 #: ../src/e-util/e-html-editor-text-dialog.c:199
 msgid "_Underline"
 msgstr "_ხაზგასმული"
 
-#: ../src/e-util/e-html-editor-actions.c:1926
+#: ../src/e-util/e-html-editor-actions.c:1947
 msgid "Underline"
 msgstr "ხაზგასმული"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1935
+#: ../src/e-util/e-html-editor-actions.c:1956
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1943
+#: ../src/e-util/e-html-editor-actions.c:1964
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1951
+#: ../src/e-util/e-html-editor-actions.c:1972
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1959
+#: ../src/e-util/e-html-editor-actions.c:1980
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1967
+#: ../src/e-util/e-html-editor-actions.c:1988
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1975
+#: ../src/e-util/e-html-editor-actions.c:1996
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1983
+#: ../src/e-util/e-html-editor-actions.c:2004
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:2002
+#: ../src/e-util/e-html-editor-actions.c:2023
 msgid "Copy _Link Location"
 msgstr "ბმულის _მდებარეობის კოპირება"
 
-#: ../src/e-util/e-html-editor-actions.c:2004 ../src/e-util/e-web-view.c:1600
+#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1600
 msgid "Copy the link to the clipboard"
 msgstr "ბმულის ბაფერში კოპირება"
 
-#: ../src/e-util/e-html-editor-actions.c:2009 ../src/e-util/e-web-view.c:1608
+#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1608
 msgid "_Open Link in Browser"
 msgstr "ბმულის _ნაგულისხმევ ვებ ბრაუზერში გახსნა"
 
-#: ../src/e-util/e-html-editor-actions.c:2011 ../src/e-util/e-web-view.c:1610
+#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1610
 msgid "Open the link in a web browser"
 msgstr "ბმულის ნაგულისხმევ ვებ ბრაუზერში გახსნა"
 
-#: ../src/e-util/e-html-editor-actions.c:2016
+#: ../src/e-util/e-html-editor-actions.c:2037
 msgid "Cell Contents"
 msgstr "უჯრედის შემცველობა"
 
-#: ../src/e-util/e-html-editor-actions.c:2023
+#: ../src/e-util/e-html-editor-actions.c:2044
 msgid "Column"
 msgstr "სვეტი"
 
-#: ../src/e-util/e-html-editor-actions.c:2030
+#: ../src/e-util/e-html-editor-actions.c:2051
 msgid "Row"
 msgstr "მწკრივი"
 
-#: ../src/e-util/e-html-editor-actions.c:2037
+#: ../src/e-util/e-html-editor-actions.c:2058
 msgid "Table"
 msgstr "ცხრილი"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:2047
+#: ../src/e-util/e-html-editor-actions.c:2068
 msgid "Table Delete"
 msgstr "ცხრილის წაშლა"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:2055
+#: ../src/e-util/e-html-editor-actions.c:2076
 msgid "Table Insert"
 msgstr "ცხრილის ჩასმა"
 
-#: ../src/e-util/e-html-editor-actions.c:2062
+#: ../src/e-util/e-html-editor-actions.c:2083
 msgid "Properties"
 msgstr "პარამეტრები"
 
-#: ../src/e-util/e-html-editor-actions.c:2080
+#: ../src/e-util/e-html-editor-actions.c:2101
 msgid "Delete Rule"
 msgstr "წესის წაშლა"
 
-#: ../src/e-util/e-html-editor-actions.c:2087
+#: ../src/e-util/e-html-editor-actions.c:2108
 msgid "Delete Image"
 msgstr "გამოსახულების წაშლა"
 
-#: ../src/e-util/e-html-editor-actions.c:2094
+#: ../src/e-util/e-html-editor-actions.c:2115
 msgid "Column After"
 msgstr "სვეტი შემდეგ"
 
-#: ../src/e-util/e-html-editor-actions.c:2101
+#: ../src/e-util/e-html-editor-actions.c:2122
 msgid "Column Before"
 msgstr "სვეტი მანამდე"
 
-#: ../src/e-util/e-html-editor-actions.c:2108
+#: ../src/e-util/e-html-editor-actions.c:2129
 msgid "Insert _Link"
 msgstr "ბმულის _ჩასმა"
 
-#: ../src/e-util/e-html-editor-actions.c:2115
+#: ../src/e-util/e-html-editor-actions.c:2136
 msgid "Row Above"
 msgstr "მწკრივი ზემოთ"
 
-#: ../src/e-util/e-html-editor-actions.c:2122
+#: ../src/e-util/e-html-editor-actions.c:2143
 msgid "Row Below"
 msgstr "მწკრივი ქვემოთ"
 
-#: ../src/e-util/e-html-editor-actions.c:2129
+#: ../src/e-util/e-html-editor-actions.c:2150
 msgid "Cell…"
 msgstr "უჯრედი…"
 
-#: ../src/e-util/e-html-editor-actions.c:2136
+#: ../src/e-util/e-html-editor-actions.c:2157
 msgid "Image…"
 msgstr "გამოსახულება…"
 
-#: ../src/e-util/e-html-editor-actions.c:2143
+#: ../src/e-util/e-html-editor-actions.c:2164
 msgid "Link…"
 msgstr "Ბმული…"
 
-#: ../src/e-util/e-html-editor-actions.c:2150
+#: ../src/e-util/e-html-editor-actions.c:2171
 msgid "Page…"
 msgstr "გვერდი…"
 
-#: ../src/e-util/e-html-editor-actions.c:2157
+#: ../src/e-util/e-html-editor-actions.c:2178
 msgid "Paragraph…"
 msgstr "პარაგრაფი…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2165
+#: ../src/e-util/e-html-editor-actions.c:2186
 msgid "Rule…"
 msgstr "წესი…"
 
-#: ../src/e-util/e-html-editor-actions.c:2172
+#: ../src/e-util/e-html-editor-actions.c:2193
 msgid "Table…"
 msgstr "ცხრილი…"
 
-#: ../src/e-util/e-html-editor-actions.c:2179
+#: ../src/e-util/e-html-editor-actions.c:2200
 msgid "Text…"
 msgstr "ტექსტი…"
 
-#: ../src/e-util/e-html-editor-actions.c:2186
+#: ../src/e-util/e-html-editor-actions.c:2207
 msgid "Remove Link"
 msgstr "ბმულის წაშლა"
 
-#: ../src/e-util/e-html-editor-actions.c:2203
+#: ../src/e-util/e-html-editor-actions.c:2224
 msgid "Add Word to Dictionary"
 msgstr "სიტყვის ლექსიკონში ჩამატება"
 
-#: ../src/e-util/e-html-editor-actions.c:2210
+#: ../src/e-util/e-html-editor-actions.c:2231
 msgid "Ignore Misspelled Word"
 msgstr "არასწორად დაწერილი სიტყვების გამოტოვება"
 
-#: ../src/e-util/e-html-editor-actions.c:2217
+#: ../src/e-util/e-html-editor-actions.c:2238
 msgid "Add Word To"
 msgstr "სიტყვის დამატება"
 
-#: ../src/e-util/e-html-editor-actions.c:2226
+#: ../src/e-util/e-html-editor-actions.c:2247
 msgid "Spell check suggestions"
 msgstr "მართლწერის შემოწმების შეთავაზებები"
 
-#: ../src/e-util/e-html-editor-actions.c:2233
+#: ../src/e-util/e-html-editor-actions.c:2254
 msgid "More Suggestions"
 msgstr "მეტი შეთავაზება"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2500
+#: ../src/e-util/e-html-editor-actions.c:2521
 #, c-format
 msgid "%s Dictionary"
 msgstr ""
@@ -20218,7 +20229,7 @@ msgstr "საქაღალდის ძებნა…"
 msgid "Create a new folder"
 msgstr "ახალი საქაღალდის შექმნა"
 
-#: ../src/mail/em-folder-tree.c:679
+#: ../src/mail/em-folder-tree.c:686
 msgid "Folder names cannot contain “/”"
 msgstr "საქაღალდის სახელი არ შეიძლება \"/\"-ს შეიცავდეს"
 
@@ -20240,37 +20251,37 @@ msgstr "საქაღალდის სახელი არ შეიძლ
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:874
+#: ../src/mail/em-folder-tree.c:881
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1894
+#: ../src/mail/em-folder-tree.c:2060
 msgid "Mail Folder Tree"
 msgstr ""
 
-#: ../src/mail/em-folder-tree.c:2444
+#: ../src/mail/em-folder-tree.c:2610
 #, c-format
 msgid "Moving folder %s"
 msgstr ""
 
-#: ../src/mail/em-folder-tree.c:2447
+#: ../src/mail/em-folder-tree.c:2613
 #, c-format
 msgid "Copying folder %s"
 msgstr ""
 
-#: ../src/mail/em-folder-tree.c:2454 ../src/mail/message-list.c:2656
+#: ../src/mail/em-folder-tree.c:2620 ../src/mail/message-list.c:2662
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr ""
 
-#: ../src/mail/em-folder-tree.c:2458 ../src/mail/message-list.c:2658
+#: ../src/mail/em-folder-tree.c:2624 ../src/mail/message-list.c:2664
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr ""
 
-#: ../src/mail/em-folder-tree.c:2477
+#: ../src/mail/em-folder-tree.c:2643
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr ""
@@ -22583,96 +22594,96 @@ msgstr ""
 msgid "New Search Folder"
 msgstr "ახალი ძებნის საქაღალდე"
 
-#: ../src/mail/message-list.c:293
+#: ../src/mail/message-list.c:297
 msgid "Unseen"
 msgstr "უხილავი"
 
-#: ../src/mail/message-list.c:294
+#: ../src/mail/message-list.c:298
 msgid "Seen"
 msgstr "ნანახი"
 
-#: ../src/mail/message-list.c:295 ../src/mail/message-list.c:297
+#: ../src/mail/message-list.c:299 ../src/mail/message-list.c:301
 msgid "Answered"
 msgstr "პასუხ გაცემული"
 
 #. and unread
-#: ../src/mail/message-list.c:296 ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300 ../src/mail/message-list.c:302
 msgid "Forwarded"
 msgstr "გადაგზავნილი"
 
-#: ../src/mail/message-list.c:311
+#: ../src/mail/message-list.c:315
 msgid "Lowest"
 msgstr "უმდაბლესი"
 
-#: ../src/mail/message-list.c:312
+#: ../src/mail/message-list.c:316
 msgid "Lower"
 msgstr "დაწევა"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:320
 msgid "Higher"
 msgstr ""
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:321
 msgid "Highest"
 msgstr "უმაღლესი"
 
-#: ../src/mail/message-list.c:466
+#: ../src/mail/message-list.c:470
 msgid "Generating message list"
 msgstr ""
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2191
+#: ../src/mail/message-list.c:2197
 #: ../src/modules/itip-formatter/itip-view.c:364
 msgid "Today %l:%M %p"
 msgstr "დღეს %l:%M %p"
 
-#: ../src/mail/message-list.c:2200
+#: ../src/mail/message-list.c:2206
 msgid "Yesterday %l:%M %p"
 msgstr "გუშინ %l:%M %p"
 
-#: ../src/mail/message-list.c:2212
+#: ../src/mail/message-list.c:2218
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2220
+#: ../src/mail/message-list.c:2226
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2222
+#: ../src/mail/message-list.c:2228
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../src/mail/message-list.c:3101 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3118 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr ""
 
-#: ../src/mail/message-list.c:3102 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3119 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr ""
 
-#: ../src/mail/message-list.c:3103 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3120 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr ""
 
-#: ../src/mail/message-list.c:3546
+#: ../src/mail/message-list.c:3564
 msgid "Select all visible messages"
 msgstr ""
 
-#: ../src/mail/message-list.c:4400 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4428 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "შეტყობინებები"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5791
+#: ../src/mail/message-list.c:5819
 msgid "Follow-up"
 msgstr ""
 
-#: ../src/mail/message-list.c:6536 ../src/mail/message-list.c:6975
+#: ../src/mail/message-list.c:6564 ../src/mail/message-list.c:7003
 msgid "Generating message list…"
 msgstr ""
 
-#: ../src/mail/message-list.c:6539
+#: ../src/mail/message-list.c:6567
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -22680,7 +22691,7 @@ msgid ""
 "changing the query above."
 msgstr ""
 
-#: ../src/mail/message-list.c:6546
+#: ../src/mail/message-list.c:6574
 msgid "There are no messages in this folder."
 msgstr ""
 
@@ -27919,13 +27930,13 @@ msgstr ""
 msgid "Failed to retrieve message content"
 msgstr "შეტყობინების შემცველობის მიღება ჩავარდა"
 
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5653
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5664
 #, c-format
 msgid "Ctrl-click to go to the section “%s” of the message"
 msgstr ""
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5656
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5667
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
 msgstr ""
