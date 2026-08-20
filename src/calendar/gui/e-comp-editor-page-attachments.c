@@ -497,6 +497,49 @@ ecep_attachments_fill_widgets (ECompEditorPage *page,
 	g_ptr_array_unref (attach_props);
 }
 
+static GFile *
+ecep_attachments_store_mime_part_as_file (ECompEditorPageAttachments *page_attachments,
+					  ICalComponent *component,
+					  EAttachment *attachment)
+{
+	GFile *destination_dir, *destination_file = NULL;
+	gchar *dir, *rid, *id_str;
+
+	rid = e_cal_util_component_get_recurid_as_string (component);
+	if (rid && !*rid) {
+		g_free (rid);
+		rid = NULL;
+	}
+
+	id_str = g_strconcat (i_cal_component_get_uid (component), rid ? "-" : NULL, rid, NULL);
+	g_free (rid);
+
+	dir = g_build_filename (e_get_user_cache_dir (), "tmp", "calendar", id_str, NULL);
+	g_free (id_str);
+
+	if (g_mkdir_with_parents (dir, 0700) < 0) {
+		g_free (dir);
+		return NULL;
+	}
+
+	destination_dir = g_file_new_for_path (dir);
+	g_free (dir);
+
+	if (e_attachment_save (attachment, destination_dir, &destination_file, NULL) && destination_file) {
+		gchar *temporary_filename;
+
+		temporary_filename = g_file_get_path (destination_file);
+		if (temporary_filename) {
+			page_attachments->priv->temporary_files = g_slist_prepend (
+				page_attachments->priv->temporary_files, temporary_filename);
+		}
+	}
+
+	g_object_unref (destination_dir);
+
+	return destination_file;
+}
+
 static gboolean
 ecep_attachments_fill_component (ECompEditorPage *page,
 				 ICalComponent *component)
@@ -537,6 +580,16 @@ ecep_attachments_fill_component (ECompEditorPage *page,
 		description = e_attachment_dup_description (attachment);
 
 		file = e_attachment_ref_file (attachment);
+		if (!file) {
+			CamelMimePart *mime_part;
+
+			mime_part = e_attachment_ref_mime_part (attachment);
+			if (mime_part)
+				file = ecep_attachments_store_mime_part_as_file (page_attachments, component, attachment);
+
+			g_clear_object (&mime_part);
+		}
+
 		if (!file) {
 			gchar *error_message;
 
