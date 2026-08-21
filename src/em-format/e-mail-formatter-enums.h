@@ -16,6 +16,7 @@ typedef enum {
 	E_MAIL_FORMATTER_COLOR_FRAME,		/* frame around message area */
 	E_MAIL_FORMATTER_COLOR_HEADER,		/* header font color */
 	E_MAIL_FORMATTER_COLOR_TEXT,		/* message font color */
+	E_MAIL_FORMATTER_COLOR_ERROR,		/* error font color */
 	E_MAIL_FORMATTER_NUM_COLOR_TYPES	/*< skip >*/
 } EMailFormatterColor;
 

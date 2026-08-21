@@ -87,6 +87,7 @@ enum {
 	PROP_SHOW_REAL_DATE,
 	PROP_SHOW_SENDER_PHOTO,
 	PROP_TEXT_COLOR,
+	PROP_ERROR_COLOR,
 	N_PROPS
 };
 
@@ -241,6 +242,13 @@ e_mail_formatter_set_property (GObject *object,
 				E_MAIL_FORMATTER_COLOR_TEXT,
 				g_value_get_boxed (value));
 			return;
+
+		case PROP_ERROR_COLOR:
+			e_mail_formatter_set_color (
+				E_MAIL_FORMATTER (object),
+				E_MAIL_FORMATTER_COLOR_ERROR,
+				g_value_get_boxed (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -348,6 +356,14 @@ e_mail_formatter_get_property (GObject *object,
 				e_mail_formatter_get_color (
 				E_MAIL_FORMATTER (object),
 				E_MAIL_FORMATTER_COLOR_TEXT));
+			return;
+
+		case PROP_ERROR_COLOR:
+			g_value_set_boxed (
+				value,
+				e_mail_formatter_get_color (
+				E_MAIL_FORMATTER (object),
+				E_MAIL_FORMATTER_COLOR_ERROR));
 			return;
 	}
 
@@ -699,6 +715,13 @@ e_mail_formatter_class_init (EMailFormatterClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS);
 
+	properties[PROP_ERROR_COLOR] =
+		g_param_spec_boxed (
+			"error-color", NULL, NULL,
+			GDK_TYPE_RGBA,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS);
+
 	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[CLAIM_ATTACHMENT] = g_signal_new (
@@ -741,6 +764,9 @@ e_mail_formatter_init (EMailFormatter *formatter)
 
 	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_TEXT];
 	gdk_rgba_parse (rgba, "#000000");
+
+	rgba = &formatter->priv->colors[E_MAIL_FORMATTER_COLOR_ERROR];
+	gdk_rgba_parse (rgba, "#ee0000");
 }
 
 EMailFormatter *
@@ -1216,6 +1242,9 @@ e_mail_formatter_set_color (EMailFormatter *formatter,
 			break;
 		case E_MAIL_FORMATTER_COLOR_TEXT:
 			property_name = "text-color";
+			break;
+		case E_MAIL_FORMATTER_COLOR_ERROR:
+			property_name = "error-color";
 			break;
 		default:
 			g_return_if_reached ();

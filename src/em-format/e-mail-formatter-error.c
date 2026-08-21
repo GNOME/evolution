@@ -57,7 +57,7 @@ emfe_error_format (EMailFormatterExtension *extension,
 		"cellpadding=\"0\" width=\"100%%\">\n"
 		"<tr valign=\"top\"><td width=50>"
 		"<img src=\"gtk-stock://%s/?size=%d\" width=\"%dpx\" height=\"%dpx\"/></td>\n"
-		"<td style=\"color: red;\">",
+		"<td class=\"-e-mail-formatter-error-color\">",
 		"dialog-error", GTK_ICON_SIZE_DIALOG, icon_width, icon_height);
 
 	g_output_stream_write_all (

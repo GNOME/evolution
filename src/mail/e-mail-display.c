@@ -312,8 +312,18 @@ mail_display_update_formatter_colors (EMailDisplay *display)
 	formatter = display->priv->formatter;
 	state_flags = gtk_widget_get_state_flags (GTK_WIDGET (display));
 
-	if (formatter != NULL)
+	if (formatter != NULL) {
+		GdkRGBA error_color = { 1.0, 0.0, 0.0, 1.0 };
+
 		e_mail_formatter_update_style (formatter, state_flags);
+
+		if (e_util_is_dark_theme (GTK_WIDGET (display))) {
+			error_color.green = 0.4;
+			error_color.blue = 0.4;
+		}
+
+		e_mail_formatter_set_color (formatter, E_MAIL_FORMATTER_COLOR_ERROR, &error_color);
+	}
 }
 
 static gboolean
@@ -415,7 +425,7 @@ add_color_css_rule_for_web_view (EWebView *web_view,
 
 	selector = g_strconcat (".-e-mail-formatter-", color_name, NULL);
 
-	if (g_strstr_len (color_name, -1, "header")) {
+	if (g_strstr_len (color_name, -1, "header") || g_strstr_len (color_name, -1, "error")) {
 		style = g_strconcat (
 			"color: ", color_value, " !important;", NULL);
 	} else if (g_strstr_len (color_name, -1, "frame")) {
@@ -452,6 +462,7 @@ initialize_web_view_colors (EMailDisplay *display,
 		"citation-color",
 		"frame-color",
 		"header-color",
+		"error-color",
 		NULL
 	};
 
@@ -3280,6 +3291,10 @@ e_mail_display_set_mode (EMailDisplay *display,
 
 	e_signal_connect_notify_object (
 		formatter, "notify::header-color",
+		G_CALLBACK (e_mail_display_update_colors), display, G_CONNECT_SWAPPED);
+
+	e_signal_connect_notify_object (
+		formatter, "notify::error-color",
 		G_CALLBACK (e_mail_display_update_colors), display, G_CONNECT_SWAPPED);
 
 	g_object_connect (formatter,
