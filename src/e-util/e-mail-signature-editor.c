@@ -6,6 +6,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
+#include <camel/camel.h>
 
 #include "e-alert-dialog.h"
 #include "e-alert-sink.h"
@@ -869,6 +870,55 @@ e_mail_signature_editor_get_source (EMailSignatureEditor *editor)
 /********************** e_mail_signature_editor_commit() *********************/
 
 static void
+mail_signature_editor_embed_inline_images (GString *contents,
+					   GSList *images)
+{
+	GSList *link;
+
+	for (link = images; link; link = g_slist_next (link)) {
+		CamelMimePart *part = link->data;
+		CamelDataWrapper *content;
+		CamelContentType *content_type;
+		CamelStream *mem_stream;
+		GByteArray *raw_bytes;
+		const gchar *content_id;
+		gchar *mime_type;
+		gchar *base64;
+		gchar *data_uri;
+		gchar *quoted_cid;
+		gchar *quoted_data_uri;
+
+		content_id = camel_mime_part_get_content_id (part);
+		if (!content_id)
+			continue;
+
+		content_type = camel_mime_part_get_content_type (part);
+		mime_type = content_type ? camel_content_type_simple (content_type) : NULL;
+		if (!mime_type)
+			mime_type = g_strdup ("application/octet-stream");
+
+		content = camel_medium_get_content (CAMEL_MEDIUM (part));
+		mem_stream = camel_stream_mem_new ();
+		camel_data_wrapper_decode_to_stream_sync (content, mem_stream, NULL, NULL);
+		raw_bytes = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem_stream));
+
+		base64 = g_base64_encode (raw_bytes->data, raw_bytes->len);
+		data_uri = e_util_construct_data_uri (mime_type, NULL, TRUE, base64);
+		quoted_cid = g_strconcat ("\"cid:", content_id, "\"", NULL);
+		quoted_data_uri = g_strconcat ("\"", data_uri, "\"", NULL);
+
+		g_string_replace (contents, quoted_cid, quoted_data_uri, 0);
+
+		g_free (quoted_cid);
+		g_free (quoted_data_uri);
+		g_free (data_uri);
+		g_free (base64);
+		g_free (mime_type);
+		g_object_unref (mem_stream);
+	}
+}
+
+static void
 mail_signature_editor_replace_cb (GObject *object,
                                   GAsyncResult *result,
                                   gpointer user_data)
@@ -949,14 +999,36 @@ mail_signature_editor_content_hash_ready_cb (GObject *source_object,
 	async_context->contents = e_content_editor_util_steal_content_data (content_hash,
 		async_context->contents_flag, &async_context->destroy_contents);
 
-	e_content_editor_util_free_content_hash (content_hash);
-
 	if (!async_context->contents) {
 		g_warning ("%s: Failed to retrieve content", G_STRFUNC);
 
 		async_context->contents = g_strdup ("");
 		async_context->destroy_contents = NULL;
 	}
+
+	if (async_context->editor_mode == E_CONTENT_EDITOR_MODE_HTML) {
+		GSList *images;
+
+		images = e_content_editor_util_get_content_data (content_hash, E_CONTENT_EDITOR_GET_INLINE_IMAGES);
+
+		if (images) {
+			GString *contents;
+
+			contents = g_string_new (async_context->contents);
+
+			mail_signature_editor_embed_inline_images (contents, images);
+
+			if (async_context->destroy_contents)
+				async_context->destroy_contents (async_context->contents);
+			else
+				g_free (async_context->contents);
+
+			async_context->contents = g_string_free (contents, FALSE);
+			async_context->destroy_contents = NULL;
+		}
+	}
+
+	e_content_editor_util_free_content_hash (content_hash);
 
 	async_context->length = strlen (async_context->contents);
 
@@ -1023,8 +1095,15 @@ e_mail_signature_editor_commit (EMailSignatureEditor *window,
 	g_task_set_source_tag (task, e_mail_signature_editor_commit);
 	g_task_set_task_data (task, async_context, (GDestroyNotify) async_context_free);
 
-	e_content_editor_get_content (cnt_editor, async_context->contents_flag, NULL,
-		cancellable, mail_signature_editor_content_hash_ready_cb, task);
+	if (async_context->editor_mode == E_CONTENT_EDITOR_MODE_HTML) {
+		e_content_editor_get_content (cnt_editor,
+			async_context->contents_flag | E_CONTENT_EDITOR_GET_INLINE_IMAGES,
+			e_source_get_uid (source),
+			cancellable, mail_signature_editor_content_hash_ready_cb, task);
+	} else {
+		e_content_editor_get_content (cnt_editor, async_context->contents_flag, NULL,
+			cancellable, mail_signature_editor_content_hash_ready_cb, task);
+	}
 }
 
 gboolean

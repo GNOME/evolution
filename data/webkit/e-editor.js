@@ -2909,7 +2909,8 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix, default_css_style)
 		}
 
 		// Do these before changing image sources
-		if ((flags & EvoEditor.E_CONTENT_EDITOR_GET_RAW_BODY_HTML) != 0)
+		if ((flags & EvoEditor.E_CONTENT_EDITOR_GET_RAW_BODY_HTML) != 0 &&
+		    (flags & EvoEditor.E_CONTENT_EDITOR_GET_INLINE_IMAGES) == 0)
 			content_data["raw-body-html"] = document.body.innerHTML;
 
 		if ((flags & EvoEditor.E_CONTENT_EDITOR_GET_RAW_BODY_PLAIN) != 0)
@@ -3039,6 +3040,10 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix, default_css_style)
 			if (images.length)
 				content_data["images"] = images;
 		}
+
+		if ((flags & EvoEditor.E_CONTENT_EDITOR_GET_RAW_BODY_HTML) != 0 &&
+		    (flags & EvoEditor.E_CONTENT_EDITOR_GET_INLINE_IMAGES) != 0)
+			content_data["raw-body-html"] = document.body.innerHTML;
 
 		// Draft should have replaced images as well
 		if ((flags & EvoEditor.E_CONTENT_EDITOR_GET_RAW_DRAFT) != 0) {
