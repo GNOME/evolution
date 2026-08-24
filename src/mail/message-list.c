@@ -3734,7 +3734,7 @@ message_list_sort_value_at (ETreeModel *tree_model,
 	ld.latest = 0;
 
 	latest_foreach (tree_model, path, &ld);
-	if (message_list->priv->thread_latest && !message_list->priv->thread_flat &&
+	if (message_list->priv->thread_latest &&
 	    (!e_tree_get_sort_children_ascending (E_TREE (message_list)) ||
 	    !path_node || !path_node->parent || !path_node->parent->parent))
 		e_tree_model_node_traverse (
@@ -4972,19 +4972,6 @@ build_subtree (MessageList *message_list,
 		}
 
 		node = ml_uid_nodemap_insert (message_list, nfo, parent, -1);
-
-		if (thread_latest && thread_flat && parent && node && parent->data && node->data) {
-			CamelMessageInfo *parent_nfo, *node_nfo;
-
-			parent_nfo = parent->data;
-			node_nfo = node->data;
-
-			if (camel_message_info_get_date_received (parent_nfo) < camel_message_info_get_date_received (node_nfo)) {
-				/* Swap the root node's message info with the added one, because the added is the latest */
-				parent->data = node_nfo;
-				node->data = parent_nfo;
-			}
-		}
 
 		if (camel_folder_thread_node_get_child (c)) {
 			build_subtree (message_list, (camel_folder_thread_node_get_parent (c) && thread_flat) ? parent : node,
