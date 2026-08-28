@@ -1,3 +1,43 @@
+Evolution 3.61.3 2026-08-28
+---------------------------
+
+Bug Fixes:
+	I#2 - Use gnome-shell-calendar-server for Reminders in GNOME
+	I#1593 - Composer: Add 'Remove Formatting' option
+	I#2714 - Mail: Do not replace first thread message with the latest
+	I#3271 - Composer: Remove sender's CSS color styles in HTML reply
+	I#3329 - EMailFormatter: Error text hard to read in dark theme
+	I#3336 - EMFolderTree: Cache folder icons for quicker drawing
+	I#3367 - EActivityProxy: Hide frame shadow
+	I#3369 - MessageList: Add style option for important mail color
+	I#3374 - Appointment cannot be saved when an e-mail is attached to it
+	I#3375 - Composer: Unsetting text color in HTML does not work
+	I#3377 - Mail: Embed file-based images in saved HTML signatures
+	M!239 - Fix signature editor window headerbar (Aliaksandr Trush)
+	M!240 - CI: Convert the tests into real CTest tests
+
+Miscellaneous:
+	flatpak: Return back the libmspack build
+	e_util_ignore_accel_for_focused: Ignore accels when a button is focused
+	EMenuBar: Set tooltip on a menu button
+	SetupBuildFlags.cmake: Add `-Wunused-function`
+	test-web-view-jsc: Correct the tests for newer WebKitGTK
+	CI: Install an NNTP server for libcamel unit tests
+	CI: Create also readonly NNTP group for the unit tests
+	e_util_ignore_accel_for_focused: Ignore on GtkTreeView only when its search is on
+	test-web-view-jsc: Stop test early when script execution fails
+	CI: Enable JMAP for the Cyrus server
+
+Translations:
+	Anders Jonsson (sv)
+	Asier Saratsua Garmendia (eu)
+	Aurimas Černius (lt)
+	Ekaterine Papava (ka)
+	Jean-Marc TISSIERES (fr)
+	Jordi Mas (ca)
+	Martin (sl)
+	Yuri Chornoivan (uk)
+
 Evolution 3.61.2 2026-07-31
 ---------------------------
 
