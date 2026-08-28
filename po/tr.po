@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-07-20 08:38+0000\n"
-"PO-Revision-Date: 2026-07-20 08:00+0300\n"
+"POT-Creation-Date: 2026-08-24 22:55+0000\n"
+"PO-Revision-Date: 2026-08-28 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -2957,8 +2957,8 @@ msgid ""
 "has no effect when “Inherit theme colors” is enabled."
 msgstr ""
 "Etkinleştirildiğinde, düzenlenirken gövde renkleri düzenleyici arka planı ve "
-"metin için kullanılır, ancak gönderilen iletide içerilmez. Bu seçenek, "
-"“Tema renklerini miras al” etkinken etkisizdir."
+"metin için kullanılır, ancak gönderilen iletide içerilmez. Bu seçenek, “Tema "
+"renklerini miras al” etkinken etkisizdir."
 
 #: ../data/org.gnome.evolution.mail.gschema.xml.in.h:289
 msgid "An Archive folder for On This Computer folders."
@@ -5445,7 +5445,7 @@ msgstr "_Yardım"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5307
 #: ../src/calendar/gui/e-comp-editor.c:2323
-#: ../src/e-util/e-html-editor-actions.c:1376
+#: ../src/e-util/e-html-editor-actions.c:1389
 msgid "_Undo"
 msgstr "_Geri Al"
 
@@ -5457,7 +5457,7 @@ msgstr "Geri Al"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5314
 #: ../src/calendar/gui/e-comp-editor.c:2330
-#: ../src/e-util/e-html-editor-actions.c:1362
+#: ../src/e-util/e-html-editor-actions.c:1375
 msgid "_Redo"
 msgstr "_Yinele"
 
@@ -6017,7 +6017,7 @@ msgstr "_Kategoriler…"
 #: ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3528
 #: ../src/e-util/e-misc-utils.c:3541 ../src/e-util/e-misc-utils.c:3555
 #: ../src/e-util/e-ui-customize-dialog.c:3534
-#: ../src/mail/e-mail-autoconfig.c:1399 ../src/mail/e-mail-display.c:3098
+#: ../src/mail/e-mail-autoconfig.c:1399 ../src/mail/e-mail-display.c:3109
 #: ../src/mail/e-mail-notes.c:918 ../src/mail/e-mail-reader.c:3991
 #: ../src/mail/e-mail-reader-utils.c:800 ../src/mail/e-mail-viewer.c:567
 #: ../src/mail/e-mail-viewer.c:1564 ../src/mail/e-mail-viewer.c:2511
@@ -6042,7 +6042,7 @@ msgstr "Desteklenen alanlar listesi alınamadı: %s"
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4573
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:624
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-section.c:148
-#: ../src/mail/mail-config.ui.h:133
+#: ../src/e-util/e-tree-view-frame.c:570 ../src/mail/mail-config.ui.h:133
 msgid "Add"
 msgstr "Ekle"
 
@@ -6149,7 +6149,7 @@ msgstr "Tanınmayan sertifika"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:594
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-item.c:198
-#: ../src/mail/mail-config.ui.h:134
+#: ../src/e-util/e-tree-view-frame.c:575 ../src/mail/mail-config.ui.h:134
 msgid "Remove"
 msgstr "Kaldır"
 
@@ -6499,7 +6499,7 @@ msgid "Blog"
 msgstr "Blog"
 
 #: ../src/addressbook/gui/widgets/eab-contact-merging.c:229
-#: ../src/e-util/e-mail-signature-editor.c:644
+#: ../src/e-util/e-mail-signature-editor.c:645
 msgid "Unnamed"
 msgstr "Adsız"
 
@@ -7062,7 +7062,7 @@ msgstr "_Yakınlaştır"
 
 #. Zoom-out button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:447
-#: ../src/e-util/e-html-editor-actions.c:1397 ../src/mail/e-mail-reader.c:3564
+#: ../src/e-util/e-html-editor-actions.c:1410 ../src/mail/e-mail-reader.c:3564
 #: ../src/mail/e-mail-viewer.c:1821
 msgid "Zoom _Out"
 msgstr "_Uzaklaştır"
@@ -7070,7 +7070,7 @@ msgstr "_Uzaklaştır"
 #. Search button
 #: ../src/addressbook/gui/widgets/e-contact-map-window.c:477
 #: ../src/e-util/e-html-editor-find-dialog.c:220
-#: ../src/shell/e-shell-view.c:1056
+#: ../src/shell/e-shell-view.c:1060
 msgid "_Find"
 msgstr "_Bul"
 
@@ -8409,18 +8409,18 @@ msgid "Categories:"
 msgstr "Kategoriler:"
 
 #: ../src/calendar/gui/comp-util.c:2930 ../src/calendar/gui/e-task-table.c:450
-#: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:315
+#: ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:319
 msgid "High"
 msgstr "Yüksek"
 
 #: ../src/calendar/gui/comp-util.c:2932 ../src/calendar/gui/e-cal-model.c:1778
 #: ../src/calendar/gui/e-task-table.c:451
-#: ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:314
+#: ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:318
 msgid "Normal"
 msgstr "Olağan"
 
 #: ../src/calendar/gui/comp-util.c:2934 ../src/calendar/gui/e-task-table.c:452
-#: ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:313
+#: ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:317
 msgid "Low"
 msgstr "Düşük"
 
@@ -9471,47 +9471,47 @@ msgstr "“%s” yüklenemedi"
 msgid "Could not load the attachment"
 msgstr "Eklenti yüklenemedi"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:518
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:561
 msgid ""
 "Some attachments are still being downloaded. Please wait until the download "
 "is finished."
 msgstr "Bazı ekler hala indiriliyor. Lütfen indirme bitene dek bekleyin."
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:546
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:599
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr "“%s” eki bulunamadı, lütfen listeden kaldırın"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:563
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:616
 #, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "“%s” ekinin geçerli URI’ı yok, lütfen listeden kaldırın"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:764
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:817
 #: ../src/composer/e-composer-actions.c:395
 msgid "_Attachment…"
 msgstr "_Ekler…"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:766
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:819
 #: ../src/composer/e-composer-actions.c:397
 #: ../src/e-util/e-attachment-view.c:1122
 msgid "Attach a file"
 msgstr "Dosya ekle"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:773
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:826
 msgid "_Attachments"
 msgstr "_Ekler"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:775
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:828
 msgid "Show attachments"
 msgstr "Ekleri göster"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:948
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:1001
 #: ../src/e-util/e-attachment-bar.c:868 ../src/e-util/e-attachment-paned.c:649
 msgid "Icon View"
 msgstr "Simge Görünümü"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:950
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:1003
 #: ../src/e-util/e-attachment-bar.c:870 ../src/e-util/e-attachment-paned.c:651
 msgid "List View"
 msgstr "Liste Görünümü"
@@ -9618,7 +9618,7 @@ msgstr "Katılı_mcılar…"
 #: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2436
 #: ../src/calendar/gui/e-comp-editor.c:2346
 #: ../src/e-util/e-accounts-window.c:1752
-#: ../src/e-util/e-html-editor-actions.c:1406
+#: ../src/e-util/e-html-editor-actions.c:1419
 #: ../src/e-util/e-mail-signature-manager.c:329
 #: ../src/e-util/e-ui-customize-dialog.c:1212
 #: ../src/e-util/e-webdav-browser.c:2882 ../src/e-util/filter.ui.h:26
@@ -10327,7 +10327,7 @@ msgstr "Değişiklikler kaydediliyor…"
 #: ../src/composer/e-composer-actions.c:402
 #: ../src/e-util/e-accounts-window.c:1785
 #: ../src/e-util/e-html-editor-dialog.c:167
-#: ../src/e-util/e-mail-signature-editor.c:518
+#: ../src/e-util/e-mail-signature-editor.c:519
 #: ../src/e-util/e-name-selector-dialog.c:522
 #: ../src/e-util/e-preferences-window.c:308
 #: ../src/e-util/e-table-field-chooser-dialog.c:174
@@ -10347,7 +10347,7 @@ msgstr "Geçerli pencereyi kapat"
 
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2253
-#: ../src/e-util/e-html-editor-actions.c:1341 ../src/e-util/e-text.c:2032
+#: ../src/e-util/e-html-editor-actions.c:1354 ../src/e-util/e-text.c:2032
 #: ../src/e-util/e-web-view.c:1659 ../src/mail/e-mail-browser.c:571
 #: ../src/mail/e-mail-viewer.c:1758 ../src/mail/mail.error.xml.h:147
 #: ../src/shell/e-shell-window-actions.c:838
@@ -10371,7 +10371,7 @@ msgstr "Araç çubuğundaki eylemleri özelleştir"
 
 #. cut menu item
 #: ../src/calendar/gui/e-comp-editor.c:2267
-#: ../src/e-util/e-html-editor-actions.c:1348 ../src/e-util/e-text.c:2018
+#: ../src/e-util/e-html-editor-actions.c:1361 ../src/e-util/e-text.c:2018
 #: ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:845
 msgid "Cu_t"
 msgstr "K_es"
@@ -10395,7 +10395,7 @@ msgstr "Yardımı görüntüle"
 
 #. paste menu item
 #: ../src/calendar/gui/e-comp-editor.c:2288
-#: ../src/e-util/e-html-editor-actions.c:1355 ../src/e-util/e-text.c:2044
+#: ../src/e-util/e-html-editor-actions.c:1368 ../src/e-util/e-text.c:2044
 #: ../src/mail/e-mail-browser.c:585 ../src/mail/e-mail-viewer.c:1765
 #: ../src/shell/e-shell-window-actions.c:873
 msgid "_Paste"
@@ -10424,7 +10424,7 @@ msgid "Pre_view…"
 msgstr "Ön İz_le…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2309
-#: ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-web-view.c:1683
+#: ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1683
 #: ../src/mail/e-mail-browser.c:592 ../src/shell/e-shell-window-actions.c:901
 msgid "Select _All"
 msgstr "Tümünü _Seç"
@@ -10446,24 +10446,24 @@ msgstr "_Sınıflandırma"
 #. ** Menus **
 #. menus
 #: ../src/calendar/gui/e-comp-editor.c:2353
-#: ../src/e-util/e-html-editor-actions.c:1413
-#: ../src/e-util/e-mail-signature-editor.c:530 ../src/mail/e-mail-browser.c:606
+#: ../src/e-util/e-html-editor-actions.c:1426
+#: ../src/e-util/e-mail-signature-editor.c:531 ../src/mail/e-mail-browser.c:606
 #: ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1932
 #: ../src/shell/e-shell-window-actions.c:951
 msgid "_File"
 msgstr "_Dosya"
 
 #: ../src/calendar/gui/e-comp-editor.c:2367
-#: ../src/e-util/e-html-editor-actions.c:1434
+#: ../src/e-util/e-html-editor-actions.c:1447
 msgid "_Insert"
 msgstr "_Ekle"
 
 #: ../src/calendar/gui/e-comp-editor.c:2374
 #: ../src/composer/e-composer-actions.c:446
-#: ../src/e-util/e-mail-signature-editor.c:531
+#: ../src/e-util/e-mail-signature-editor.c:532
 #: ../src/e-util/e-ui-customizer.c:482 ../src/mail/e-mail-browser.c:609
 #: ../src/mail/e-mail-notes.c:1150 ../src/mail/e-mail-viewer.c:1939
-#: ../src/shell/e-shell-view.c:1163
+#: ../src/shell/e-shell-view.c:1167
 msgid "Menu"
 msgstr "Menü"
 
@@ -10472,7 +10472,7 @@ msgid "_Options"
 msgstr "_Seçenekler"
 
 #: ../src/calendar/gui/e-comp-editor.c:2388
-#: ../src/e-util/e-html-editor-actions.c:1455 ../src/mail/e-mail-browser.c:608
+#: ../src/e-util/e-html-editor-actions.c:1468 ../src/mail/e-mail-browser.c:608
 #: ../src/mail/e-mail-viewer.c:1934 ../src/shell/e-shell-window-actions.c:956
 #: ../src/smime/gui/certificate-manager.c:1575 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
@@ -10483,7 +10483,7 @@ msgid "Save current changes"
 msgstr "Geçerli değişiklikleri kaydet"
 
 #: ../src/calendar/gui/e-comp-editor.c:2405
-#: ../src/e-util/e-mail-signature-editor.c:527 ../src/mail/e-mail-notes.c:1146
+#: ../src/e-util/e-mail-signature-editor.c:528 ../src/mail/e-mail-notes.c:1146
 msgid "Save and Close"
 msgstr "Kaydet ve Kapat"
 
@@ -14517,16 +14517,16 @@ msgstr "Yalnızca çıkarılan dosyaları _kaydet"
 msgid "Save extracted files and the original _archive"
 msgstr "Çıkarılan dosyaları ve asıl _arşivi kaydet"
 
-#: ../src/e-util/e-attachment-view.c:927 ../src/mail/e-mail-display.c:2282
+#: ../src/e-util/e-attachment-view.c:927 ../src/mail/e-mail-display.c:2293
 #, c-format
 msgid "Open With “%s”"
 msgstr "“%s” İle Aç"
 
-#: ../src/e-util/e-attachment-view.c:929 ../src/mail/e-mail-display.c:2284
+#: ../src/e-util/e-attachment-view.c:929 ../src/mail/e-mail-display.c:2295
 msgid "Open With Default Application"
 msgstr "Öntanımlı Uygulamayla Aç"
 
-#: ../src/e-util/e-attachment-view.c:1080 ../src/mail/e-mail-display.c:2307
+#: ../src/e-util/e-attachment-view.c:1080 ../src/mail/e-mail-display.c:2318
 msgid "Open With Other Application…"
 msgstr "Başka Uygulamayla Aç…"
 
@@ -14545,7 +14545,7 @@ msgstr "Far_klı Kaydet"
 msgid "Save _As"
 msgstr "Farklı K_aydet"
 
-#: ../src/e-util/e-attachment-view.c:1110 ../src/mail/e-mail-display.c:2103
+#: ../src/e-util/e-attachment-view.c:1110 ../src/mail/e-mail-display.c:2114
 msgid "Open with…"
 msgstr "Birlikte Aç…"
 
@@ -14740,7 +14740,7 @@ msgid "popup list"
 msgstr "açılır liste"
 
 #: ../src/e-util/e-cell-date.c:34 ../src/e-util/e-cell-date.c:123
-#: ../src/e-util/e-cell-date.c:143 ../src/mail/message-list.c:2183
+#: ../src/e-util/e-cell-date.c:143 ../src/mail/message-list.c:2189
 msgid "?"
 msgstr "?"
 
@@ -14859,22 +14859,22 @@ msgstr "Diğer…"
 msgid "Cannot create a client object from extension name “%s”"
 msgstr "Eklenti adı “%s”den istemci nesnesi oluşturulamıyor"
 
-#: ../src/e-util/e-client-selector.c:173 ../src/mail/em-folder-tree.c:1019
+#: ../src/e-util/e-client-selector.c:173 ../src/mail/em-folder-tree.c:1137
 msgctxt "Status"
 msgid "Offline"
 msgstr "Çevrim dışı"
 
-#: ../src/e-util/e-client-selector.c:176 ../src/mail/em-folder-tree.c:1022
+#: ../src/e-util/e-client-selector.c:176 ../src/mail/em-folder-tree.c:1140
 msgctxt "Status"
 msgid "Online"
 msgstr "Çevrim içi"
 
-#: ../src/e-util/e-client-selector.c:179 ../src/mail/em-folder-tree.c:1025
+#: ../src/e-util/e-client-selector.c:179 ../src/mail/em-folder-tree.c:1143
 msgctxt "Status"
 msgid "Unreachable"
 msgstr "Ulaşılamaz"
 
-#: ../src/e-util/e-client-selector.c:182 ../src/mail/em-folder-tree.c:1028
+#: ../src/e-util/e-client-selector.c:182 ../src/mail/em-folder-tree.c:1146
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Bağlanamadı"
@@ -15623,609 +15623,623 @@ msgstr "Metin dosyası ekle"
 msgid "Text file"
 msgstr "Metin dosyası"
 
-#: ../src/e-util/e-html-editor-actions.c:1343
+#: ../src/e-util/e-html-editor-actions.c:1356
 msgid "Copy selected text to the clipboard"
 msgstr "Seçili metni panoya kopyala"
 
-#: ../src/e-util/e-html-editor-actions.c:1350
+#: ../src/e-util/e-html-editor-actions.c:1363
 msgid "Cut selected text to the clipboard"
 msgstr "Seçili metni panoya kes"
 
-#: ../src/e-util/e-html-editor-actions.c:1357
+#: ../src/e-util/e-html-editor-actions.c:1370
 msgid "Paste text from the clipboard"
 msgstr "Panodaki metni yapıştır"
 
-#: ../src/e-util/e-html-editor-actions.c:1364
+#: ../src/e-util/e-html-editor-actions.c:1377
 msgid "Redo the last undone action"
 msgstr "Geri alınmış son işlemi yinele"
 
-#: ../src/e-util/e-html-editor-actions.c:1378
+#: ../src/e-util/e-html-editor-actions.c:1391
 msgid "Undo the last action"
 msgstr "Son eylemi geri al"
 
-#: ../src/e-util/e-html-editor-actions.c:1383 ../src/mail/e-mail-reader.c:3550
+#: ../src/e-util/e-html-editor-actions.c:1396 ../src/mail/e-mail-reader.c:3550
 #: ../src/mail/e-mail-viewer.c:1828
 msgid "_Normal Size"
 msgstr "_Olağan Boyut"
 
-#: ../src/e-util/e-html-editor-actions.c:1385 ../src/mail/e-mail-reader.c:3552
+#: ../src/e-util/e-html-editor-actions.c:1398 ../src/mail/e-mail-reader.c:3552
 msgid "Reset the text to its original size"
 msgstr "Metni asıl boyuna sıfırla"
 
-#: ../src/e-util/e-html-editor-actions.c:1390 ../src/mail/e-mail-reader.c:3557
+#: ../src/e-util/e-html-editor-actions.c:1403 ../src/mail/e-mail-reader.c:3557
 #: ../src/mail/e-mail-viewer.c:1814
 msgid "_Zoom In"
 msgstr "_Yakınlaştır"
 
-#: ../src/e-util/e-html-editor-actions.c:1392 ../src/mail/e-mail-reader.c:3559
+#: ../src/e-util/e-html-editor-actions.c:1405 ../src/mail/e-mail-reader.c:3559
 msgid "Increase the text size"
 msgstr "Metin boyunu büyült"
 
-#: ../src/e-util/e-html-editor-actions.c:1399 ../src/mail/e-mail-reader.c:3566
+#: ../src/e-util/e-html-editor-actions.c:1412 ../src/mail/e-mail-reader.c:3566
 msgid "Decrease the text size"
 msgstr "Metin boyunu küçült"
 
-#: ../src/e-util/e-html-editor-actions.c:1420
+#: ../src/e-util/e-html-editor-actions.c:1433
 msgid "For_mat"
 msgstr "Biçi_m"
 
-#: ../src/e-util/e-html-editor-actions.c:1427
+#: ../src/e-util/e-html-editor-actions.c:1440
 msgid "_Paragraph Style"
 msgstr "_Paragraf Biçimi"
 
-#: ../src/e-util/e-html-editor-actions.c:1441
+#: ../src/e-util/e-html-editor-actions.c:1454
 #: ../src/e-util/e-html-editor-image-dialog.c:654
 msgid "_Alignment"
 msgstr "_Hizalama"
 
-#: ../src/e-util/e-html-editor-actions.c:1448
+#: ../src/e-util/e-html-editor-actions.c:1461
 msgid "Current _Languages"
 msgstr "Geçerli _Diller"
 
-#: ../src/e-util/e-html-editor-actions.c:1460 ../src/mail/e-mail-reader.c:3592
+#: ../src/e-util/e-html-editor-actions.c:1473 ../src/mail/e-mail-reader.c:3592
 #: ../src/mail/e-mail-viewer.c:1935
 msgid "_Zoom"
 msgstr "_Yakınlaştır"
 
-#: ../src/e-util/e-html-editor-actions.c:1466
+#: ../src/e-util/e-html-editor-actions.c:1479
 msgid "Recent spell check languages"
 msgstr "Son imla denetimi dilleri"
 
-#: ../src/e-util/e-html-editor-actions.c:1473
+#: ../src/e-util/e-html-editor-actions.c:1486
 msgid "All spell check languages"
 msgstr "Tüm imla denetimi dilleri"
 
-#: ../src/e-util/e-html-editor-actions.c:1480
-#: ../src/e-util/e-html-editor-actions.c:1482
-#: ../src/e-util/e-html-editor-actions.c:2756
+#: ../src/e-util/e-html-editor-actions.c:1493
+#: ../src/e-util/e-html-editor-actions.c:1495
+#: ../src/e-util/e-html-editor-actions.c:2777
 #: ../src/e-util/e-html-editor.c:1125 ../src/e-util/e-html-editor.c:2259
 msgid "Editing Mode"
 msgstr "Düzenleme Kipi"
 
-#: ../src/e-util/e-html-editor-actions.c:1487
-#: ../src/e-util/e-html-editor-actions.c:1489
+#: ../src/e-util/e-html-editor-actions.c:1500
+#: ../src/e-util/e-html-editor-actions.c:1502
 #: ../src/e-util/e-html-editor.c:1129
 msgid "Paragraph Style"
 msgstr "Paragraf Biçimi"
 
-#: ../src/e-util/e-html-editor-actions.c:1494
-#: ../src/e-util/e-html-editor-actions.c:1496
+#: ../src/e-util/e-html-editor-actions.c:1507
+#: ../src/e-util/e-html-editor-actions.c:1509
 #: ../src/e-util/e-html-editor.c:1137
 msgid "Font Name"
 msgstr "Yazı Tipi Adı"
 
-#: ../src/e-util/e-html-editor-actions.c:1501
-#: ../src/e-util/e-html-editor-actions.c:1503
+#: ../src/e-util/e-html-editor-actions.c:1514
+#: ../src/e-util/e-html-editor-actions.c:1516
 #: ../src/e-util/e-html-editor.c:1145
 msgid "Font Size"
 msgstr "Yazı Tipi Boyutu"
 
-#: ../src/e-util/e-html-editor-actions.c:1508
-#: ../src/e-util/e-html-editor-actions.c:1510
+#: ../src/e-util/e-html-editor-actions.c:1521
+#: ../src/e-util/e-html-editor-actions.c:1523
 #: ../src/e-util/e-html-editor.c:1148
 msgid "Font Color"
 msgstr "Yazı Tipi Rengi"
 
-#: ../src/e-util/e-html-editor-actions.c:1515
-#: ../src/e-util/e-html-editor-actions.c:1517
+#: ../src/e-util/e-html-editor-actions.c:1528
+#: ../src/e-util/e-html-editor-actions.c:1530
 #: ../src/e-util/e-html-editor.c:1160
 msgid "Background Color"
 msgstr "Arka Plan Rengi"
 
-#: ../src/e-util/e-html-editor-actions.c:1525
+#: ../src/e-util/e-html-editor-actions.c:1538
 msgid "_Increase Indent"
 msgstr "Girintiyi _Artır"
 
-#: ../src/e-util/e-html-editor-actions.c:1527
+#: ../src/e-util/e-html-editor-actions.c:1540
 msgid "Increase Indent"
 msgstr "Girintiyi Artır"
 
-#: ../src/e-util/e-html-editor-actions.c:1532
+#: ../src/e-util/e-html-editor-actions.c:1545
 msgid "E_moji"
 msgstr "E_moji"
 
-#: ../src/e-util/e-html-editor-actions.c:1534
-#: ../src/e-util/e-html-editor-actions.c:1548
+#: ../src/e-util/e-html-editor-actions.c:1547
+#: ../src/e-util/e-html-editor-actions.c:1561
 #: ../src/e-util/e-markdown-editor.c:1955
 msgid "Insert Emoji"
 msgstr "Emoji Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:1539
+#: ../src/e-util/e-html-editor-actions.c:1552
 msgid "_Emoticon"
 msgstr "_Duygu Simgesi"
 
-#: ../src/e-util/e-html-editor-actions.c:1541
+#: ../src/e-util/e-html-editor-actions.c:1554
 msgid "Insert Emoticon"
 msgstr "Duygu Simgesi Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:1546
+#: ../src/e-util/e-html-editor-actions.c:1559
 msgid "Insert E_moji"
 msgstr "E_moji Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:1553
+#: ../src/e-util/e-html-editor-actions.c:1566
 msgid "_HTML File…"
 msgstr "_HTML Dosyası…"
 
-#: ../src/e-util/e-html-editor-actions.c:1560
+#: ../src/e-util/e-html-editor-actions.c:1573
 msgid "Te_xt File…"
 msgstr "Met_in Dosyası…"
 
-#: ../src/e-util/e-html-editor-actions.c:1567
+#: ../src/e-util/e-html-editor-actions.c:1580
 msgid "Paste _Quotation"
 msgstr "_Alıntıyı Yapıştır"
 
-#: ../src/e-util/e-html-editor-actions.c:1574
+#: ../src/e-util/e-html-editor-actions.c:1587
 msgid "_Find…"
 msgstr "_Bul…"
 
-#: ../src/e-util/e-html-editor-actions.c:1576
+#: ../src/e-util/e-html-editor-actions.c:1589
 msgid "Search for text"
 msgstr "Metin ara"
 
-#: ../src/e-util/e-html-editor-actions.c:1581
+#: ../src/e-util/e-html-editor-actions.c:1594
 msgid "Find A_gain"
 msgstr "Yeniden _Bul"
 
-#: ../src/e-util/e-html-editor-actions.c:1588
+#: ../src/e-util/e-html-editor-actions.c:1601
 msgid "Re_place…"
 msgstr "_Değiştir…"
 
-#: ../src/e-util/e-html-editor-actions.c:1590
+#: ../src/e-util/e-html-editor-actions.c:1603
 msgid "Search for and replace text"
 msgstr "Metin ara ve değiştir"
 
-#: ../src/e-util/e-html-editor-actions.c:1595
+#: ../src/e-util/e-html-editor-actions.c:1608
 msgid "Check _Spelling…"
 msgstr "Yazım _Denetle…"
 
-#: ../src/e-util/e-html-editor-actions.c:1602
+#: ../src/e-util/e-html-editor-actions.c:1615
 msgid "_Decrease Indent"
 msgstr "Girintiyi _Azalt"
 
-#: ../src/e-util/e-html-editor-actions.c:1604
+#: ../src/e-util/e-html-editor-actions.c:1617
 msgid "Decrease Indent"
 msgstr "Girintiyi Azalt"
 
-#: ../src/e-util/e-html-editor-actions.c:1609
+#: ../src/e-util/e-html-editor-actions.c:1622
 msgid "_Wrap Lines"
 msgstr "_Satırları Kaydır"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1619
+#: ../src/e-util/e-html-editor-actions.c:1632
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:86
 msgid "_Center"
 msgstr "_Merkez"
 
-#: ../src/e-util/e-html-editor-actions.c:1621
+#: ../src/e-util/e-html-editor-actions.c:1634
 msgid "Center Alignment"
 msgstr "Ortaya Hizalama"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1626
+#: ../src/e-util/e-html-editor-actions.c:1639
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Justified"
 msgstr "İki _Yana Yaslı"
 
-#: ../src/e-util/e-html-editor-actions.c:1628
+#: ../src/e-util/e-html-editor-actions.c:1641
 msgid "Align Justified"
 msgstr "İki Yana Yaslandı"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1633
+#: ../src/e-util/e-html-editor-actions.c:1646
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:79
 msgid "_Left"
 msgstr "_Sol"
 
-#: ../src/e-util/e-html-editor-actions.c:1635
+#: ../src/e-util/e-html-editor-actions.c:1648
 msgid "Left Alignment"
 msgstr "Sol Hizalama"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1640
+#: ../src/e-util/e-html-editor-actions.c:1653
 #: ../src/e-util/e-html-editor-paragraph-dialog.c:93
 msgid "_Right"
 msgstr "_Sağ"
 
-#: ../src/e-util/e-html-editor-actions.c:1642
+#: ../src/e-util/e-html-editor-actions.c:1655
 msgid "Right Alignment"
 msgstr "Sağa Hizalama"
 
-#: ../src/e-util/e-html-editor-actions.c:1650
+#: ../src/e-util/e-html-editor-actions.c:1663
 #: ../src/modules/text-highlight/languages.c:57
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1652
+#: ../src/e-util/e-html-editor-actions.c:1665
 msgid "HTML editing mode"
 msgstr "HTML düzenleme kipi"
 
-#: ../src/e-util/e-html-editor-actions.c:1657
+#: ../src/e-util/e-html-editor-actions.c:1670
 msgid "Plain _Text"
 msgstr "Düz _Metin"
 
-#: ../src/e-util/e-html-editor-actions.c:1659
+#: ../src/e-util/e-html-editor-actions.c:1672
 msgid "Plain text editing mode"
 msgstr "Düz metin düzenleme kipi"
 
-#: ../src/e-util/e-html-editor-actions.c:1664
+#: ../src/e-util/e-html-editor-actions.c:1677
 #: ../src/modules/text-highlight/languages.c:83
 msgid "_Markdown"
 msgstr "_Markdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1666
+#: ../src/e-util/e-html-editor-actions.c:1679
 msgid "Markdown editing mode"
 msgstr "Markdown düzenleme kipi"
 
-#: ../src/e-util/e-html-editor-actions.c:1671
+#: ../src/e-util/e-html-editor-actions.c:1684
 msgid "Ma_rkdown as Plain Text"
 msgstr "Düz Metin olarak Ma_rkdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1673
+#: ../src/e-util/e-html-editor-actions.c:1686
 msgid "Markdown editing mode, exported as Plain Text"
 msgstr "Markdown düzenleme kipi, Düz Metin olarak dışa aktarıldı"
 
-#: ../src/e-util/e-html-editor-actions.c:1678
+#: ../src/e-util/e-html-editor-actions.c:1691
 msgid "Mar_kdown as HTML"
 msgstr "HTML olarak Mar_kdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1680
+#: ../src/e-util/e-html-editor-actions.c:1693
 msgid "Markdown editing mode, exported as HTML"
 msgstr "Markdown düzenleme kipi, HTML olarak dışa aktarıldı"
 
-#: ../src/e-util/e-html-editor-actions.c:1688
+#: ../src/e-util/e-html-editor-actions.c:1701
 msgid "_Normal"
 msgstr "_Olağan"
 
-#: ../src/e-util/e-html-editor-actions.c:1695
+#: ../src/e-util/e-html-editor-actions.c:1708
 msgid "Heading _1"
 msgstr "Başlık _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1702
+#: ../src/e-util/e-html-editor-actions.c:1715
 msgid "Heading _2"
 msgstr "Başlık _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1709
+#: ../src/e-util/e-html-editor-actions.c:1722
 msgid "Heading _3"
 msgstr "Başlık _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1716
+#: ../src/e-util/e-html-editor-actions.c:1729
 msgid "Heading _4"
 msgstr "Başlık _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1723
+#: ../src/e-util/e-html-editor-actions.c:1736
 msgid "Heading _5"
 msgstr "Başlık _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1730
+#: ../src/e-util/e-html-editor-actions.c:1743
 msgid "Heading _6"
 msgstr "Başlık _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1737
+#: ../src/e-util/e-html-editor-actions.c:1750
 msgid "_Preformatted"
 msgstr "Ö_nbiçimlenmiş"
 
-#: ../src/e-util/e-html-editor-actions.c:1744
+#: ../src/e-util/e-html-editor-actions.c:1757
 msgid "A_ddress"
 msgstr "A_dres"
 
-#: ../src/e-util/e-html-editor-actions.c:1751
+#: ../src/e-util/e-html-editor-actions.c:1764
 msgid "_Bulleted List"
 msgstr "İ_mli Liste"
 
-#: ../src/e-util/e-html-editor-actions.c:1758
+#: ../src/e-util/e-html-editor-actions.c:1771
 msgid "_Roman Numeral List"
 msgstr "_Roma Rakamlı Liste"
 
-#: ../src/e-util/e-html-editor-actions.c:1765
+#: ../src/e-util/e-html-editor-actions.c:1778
 msgid "Numbered _List"
 msgstr "Numaralı _Liste"
 
-#: ../src/e-util/e-html-editor-actions.c:1772
+#: ../src/e-util/e-html-editor-actions.c:1785
 msgid "_Alphabetical List"
 msgstr "_Alfabetik Liste"
 
-#: ../src/e-util/e-html-editor-actions.c:1788
-#: ../src/e-util/e-html-editor-actions.c:1826
+#: ../src/e-util/e-html-editor-actions.c:1801
+#: ../src/e-util/e-html-editor-actions.c:1839
 msgid "_Image…"
 msgstr "_Resim…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1791
+#: ../src/e-util/e-html-editor-actions.c:1804
 msgid "Insert Image"
 msgstr "Resim Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:1796
-#: ../src/e-util/e-html-editor-actions.c:1833
+#: ../src/e-util/e-html-editor-actions.c:1809
+#: ../src/e-util/e-html-editor-actions.c:1846
 msgid "_Link…"
 msgstr "_Bağlantı…"
 
-#: ../src/e-util/e-html-editor-actions.c:1798
+#: ../src/e-util/e-html-editor-actions.c:1811
 msgid "Insert Link"
 msgstr "Bağlantı Ekle"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1804
-#: ../src/e-util/e-html-editor-actions.c:1848
+#: ../src/e-util/e-html-editor-actions.c:1817
+#: ../src/e-util/e-html-editor-actions.c:1861
 msgid "_Rule…"
 msgstr "_Cetvel…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1807
+#: ../src/e-util/e-html-editor-actions.c:1820
 msgid "Insert Rule"
 msgstr "Cetvel Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:1812
-#: ../src/e-util/e-html-editor-actions.c:1855
+#: ../src/e-util/e-html-editor-actions.c:1825
+#: ../src/e-util/e-html-editor-actions.c:1868
 msgid "_Table…"
 msgstr "_Tablo…"
 
-#: ../src/e-util/e-html-editor-actions.c:1814
+#: ../src/e-util/e-html-editor-actions.c:1827
 msgid "Insert Table"
 msgstr "Tablo Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:1819
+#: ../src/e-util/e-html-editor-actions.c:1832
 msgid "_Cell…"
 msgstr "_Hücre…"
 
-#: ../src/e-util/e-html-editor-actions.c:1840
+#: ../src/e-util/e-html-editor-actions.c:1853
 msgid "Pa_ge…"
 msgstr "_Sayfa…"
 
-#: ../src/e-util/e-html-editor-actions.c:1864
+#: ../src/e-util/e-html-editor-actions.c:1877
 msgid "Font _Size"
 msgstr "Yazı Tipi _Boyutu"
 
-#: ../src/e-util/e-html-editor-actions.c:1871
+#: ../src/e-util/e-html-editor-actions.c:1884
 msgid "_Font Style"
 msgstr "_Yazı Tipi Biçemi"
 
-#: ../src/e-util/e-html-editor-actions.c:1878
+#: ../src/e-util/e-html-editor-actions.c:1891
 msgid "Paste As _Text"
 msgstr "_Metin Olarak Yapıştır"
 
-#: ../src/e-util/e-html-editor-actions.c:1889
+#: ../src/e-util/e-html-editor-actions.c:1898
+msgid "_Remove Formatting"
+msgstr "Biçimlendirmeyi _Kaldır"
+
+#: ../src/e-util/e-html-editor-actions.c:1900
+msgid ""
+"Remove direct character formatting, such as bold, font and color, from the "
+"selected text; formatting coming from stylesheets or nested paragraphs is "
+"not affected"
+msgstr ""
+"Seçilen metnin kalınlık, yazı tipi ve rengi gibi doğrudan karakter "
+"biçimlendirmelerini kaldır; biçem sayfalarından gelen biçimlendirme ya da "
+"iç içe paragraflar etkilenmez"
+
+#: ../src/e-util/e-html-editor-actions.c:1910
 #: ../src/e-util/e-html-editor-text-dialog.c:177
 msgid "_Bold"
 msgstr "_Kalın"
 
-#: ../src/e-util/e-html-editor-actions.c:1891
+#: ../src/e-util/e-html-editor-actions.c:1912
 msgid "Bold"
 msgstr "Kalın"
 
-#: ../src/e-util/e-html-editor-actions.c:1896
+#: ../src/e-util/e-html-editor-actions.c:1917
 #: ../src/e-util/e-html-editor-text-dialog.c:188
 msgid "_Italic"
 msgstr "_Eğik"
 
-#: ../src/e-util/e-html-editor-actions.c:1898
+#: ../src/e-util/e-html-editor-actions.c:1919
 msgid "Italic"
 msgstr "Eğik"
 
-#: ../src/e-util/e-html-editor-actions.c:1903
+#: ../src/e-util/e-html-editor-actions.c:1924
 #: ../src/e-util/e-html-editor-text-dialog.c:209
 msgid "_Strikethrough"
 msgstr "Ü_stü Çizili"
 
-#: ../src/e-util/e-html-editor-actions.c:1905
+#: ../src/e-util/e-html-editor-actions.c:1926
 msgid "Strikethrough"
 msgstr "Üstü Çizili"
 
-#: ../src/e-util/e-html-editor-actions.c:1910
+#: ../src/e-util/e-html-editor-actions.c:1931
 msgid "Subs_cript"
 msgstr "Alt Si_mge"
 
-#: ../src/e-util/e-html-editor-actions.c:1912
+#: ../src/e-util/e-html-editor-actions.c:1933
 msgid "Subscript"
 msgstr "Alt Simge"
 
-#: ../src/e-util/e-html-editor-actions.c:1917
+#: ../src/e-util/e-html-editor-actions.c:1938
 msgid "Su_perscript"
 msgstr "Üst Sim_ge"
 
-#: ../src/e-util/e-html-editor-actions.c:1919
+#: ../src/e-util/e-html-editor-actions.c:1940
 msgid "Superscript"
 msgstr "Üst Simge"
 
-#: ../src/e-util/e-html-editor-actions.c:1924
+#: ../src/e-util/e-html-editor-actions.c:1945
 #: ../src/e-util/e-html-editor-text-dialog.c:199
 msgid "_Underline"
 msgstr "_Altı Çizili"
 
-#: ../src/e-util/e-html-editor-actions.c:1926
+#: ../src/e-util/e-html-editor-actions.c:1947
 msgid "Underline"
 msgstr "Altı Çizili"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1935
+#: ../src/e-util/e-html-editor-actions.c:1956
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1943
+#: ../src/e-util/e-html-editor-actions.c:1964
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1951
+#: ../src/e-util/e-html-editor-actions.c:1972
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1959
+#: ../src/e-util/e-html-editor-actions.c:1980
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1967
+#: ../src/e-util/e-html-editor-actions.c:1988
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1975
+#: ../src/e-util/e-html-editor-actions.c:1996
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1983
+#: ../src/e-util/e-html-editor-actions.c:2004
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:2002
+#: ../src/e-util/e-html-editor-actions.c:2023
 msgid "Copy _Link Location"
 msgstr "Bağ Konumunu _Kopyala"
 
-#: ../src/e-util/e-html-editor-actions.c:2004 ../src/e-util/e-web-view.c:1600
+#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1600
 msgid "Copy the link to the clipboard"
 msgstr "Bağlantıyı panoya kopyalayın"
 
-#: ../src/e-util/e-html-editor-actions.c:2009 ../src/e-util/e-web-view.c:1608
+#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1608
 msgid "_Open Link in Browser"
 msgstr "_Bağlantıyı Tarayıcıda Aç"
 
-#: ../src/e-util/e-html-editor-actions.c:2011 ../src/e-util/e-web-view.c:1610
+#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1610
 msgid "Open the link in a web browser"
 msgstr "Bağlantıyı tarayıcıda aç"
 
-#: ../src/e-util/e-html-editor-actions.c:2016
+#: ../src/e-util/e-html-editor-actions.c:2037
 msgid "Cell Contents"
 msgstr "Hücre İçeriği"
 
-#: ../src/e-util/e-html-editor-actions.c:2023
+#: ../src/e-util/e-html-editor-actions.c:2044
 msgid "Column"
 msgstr "Sütun"
 
-#: ../src/e-util/e-html-editor-actions.c:2030
+#: ../src/e-util/e-html-editor-actions.c:2051
 msgid "Row"
 msgstr "Satır"
 
-#: ../src/e-util/e-html-editor-actions.c:2037
+#: ../src/e-util/e-html-editor-actions.c:2058
 msgid "Table"
 msgstr "Tablo"
 
 #. Translators: Popup menu item caption, containing all the Delete options for a table
-#: ../src/e-util/e-html-editor-actions.c:2047
+#: ../src/e-util/e-html-editor-actions.c:2068
 msgid "Table Delete"
 msgstr "Tablo Sil"
 
 #. Translators: Popup menu item caption, containing all the Insert options for a table
-#: ../src/e-util/e-html-editor-actions.c:2055
+#: ../src/e-util/e-html-editor-actions.c:2076
 msgid "Table Insert"
 msgstr "Tablo Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:2062
+#: ../src/e-util/e-html-editor-actions.c:2083
 msgid "Properties"
 msgstr "Özellikler"
 
 # Koddan kontrol edildi. Kural ile ilgili değil.
-#: ../src/e-util/e-html-editor-actions.c:2080
+#: ../src/e-util/e-html-editor-actions.c:2101
 msgid "Delete Rule"
 msgstr "Cetvel Sil"
 
-#: ../src/e-util/e-html-editor-actions.c:2087
+#: ../src/e-util/e-html-editor-actions.c:2108
 msgid "Delete Image"
 msgstr "Resim Sil"
 
-#: ../src/e-util/e-html-editor-actions.c:2094
+#: ../src/e-util/e-html-editor-actions.c:2115
 msgid "Column After"
 msgstr "Sonraki Sütun"
 
-#: ../src/e-util/e-html-editor-actions.c:2101
+#: ../src/e-util/e-html-editor-actions.c:2122
 msgid "Column Before"
 msgstr "Önceki Sütun"
 
-#: ../src/e-util/e-html-editor-actions.c:2108
+#: ../src/e-util/e-html-editor-actions.c:2129
 msgid "Insert _Link"
 msgstr "Bağ _Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:2115
+#: ../src/e-util/e-html-editor-actions.c:2136
 msgid "Row Above"
 msgstr "Üstteki Satır"
 
-#: ../src/e-util/e-html-editor-actions.c:2122
+#: ../src/e-util/e-html-editor-actions.c:2143
 msgid "Row Below"
 msgstr "Alttaki Satır"
 
-#: ../src/e-util/e-html-editor-actions.c:2129
+#: ../src/e-util/e-html-editor-actions.c:2150
 msgid "Cell…"
 msgstr "Hücre…"
 
-#: ../src/e-util/e-html-editor-actions.c:2136
+#: ../src/e-util/e-html-editor-actions.c:2157
 msgid "Image…"
 msgstr "Resim…"
 
-#: ../src/e-util/e-html-editor-actions.c:2143
+#: ../src/e-util/e-html-editor-actions.c:2164
 msgid "Link…"
 msgstr "Bağlantı…"
 
-#: ../src/e-util/e-html-editor-actions.c:2150
+#: ../src/e-util/e-html-editor-actions.c:2171
 msgid "Page…"
 msgstr "Sayfa…"
 
-#: ../src/e-util/e-html-editor-actions.c:2157
+#: ../src/e-util/e-html-editor-actions.c:2178
 msgid "Paragraph…"
 msgstr "Paragraf…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2165
+#: ../src/e-util/e-html-editor-actions.c:2186
 msgid "Rule…"
 msgstr "Cetvel…"
 
-#: ../src/e-util/e-html-editor-actions.c:2172
+#: ../src/e-util/e-html-editor-actions.c:2193
 msgid "Table…"
 msgstr "Tablo…"
 
-#: ../src/e-util/e-html-editor-actions.c:2179
+#: ../src/e-util/e-html-editor-actions.c:2200
 msgid "Text…"
 msgstr "Metin…"
 
-#: ../src/e-util/e-html-editor-actions.c:2186
+#: ../src/e-util/e-html-editor-actions.c:2207
 msgid "Remove Link"
 msgstr "Bağlantıyı Kaldır"
 
-#: ../src/e-util/e-html-editor-actions.c:2203
+#: ../src/e-util/e-html-editor-actions.c:2224
 msgid "Add Word to Dictionary"
 msgstr "Sözcüğü Sözlüğe Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:2210
+#: ../src/e-util/e-html-editor-actions.c:2231
 msgid "Ignore Misspelled Word"
 msgstr "Yanlış Hecelenmiş Sözcüğü Yok Say"
 
-#: ../src/e-util/e-html-editor-actions.c:2217
+#: ../src/e-util/e-html-editor-actions.c:2238
 msgid "Add Word To"
 msgstr "Sözcüğü Ekle"
 
-#: ../src/e-util/e-html-editor-actions.c:2226
+#: ../src/e-util/e-html-editor-actions.c:2247
 msgid "Spell check suggestions"
 msgstr "Yazım denetimi önerileri"
 
-#: ../src/e-util/e-html-editor-actions.c:2233
+#: ../src/e-util/e-html-editor-actions.c:2254
 msgid "More Suggestions"
 msgstr "Daha Çok Öneri"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2500
+#: ../src/e-util/e-html-editor-actions.c:2521
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s Sözlüğü"
@@ -16860,20 +16874,20 @@ msgstr "gün"
 msgid "Autogenerated"
 msgstr "Kendiliğinden oluşturulmuş"
 
-#: ../src/e-util/e-mail-signature-editor.c:520 ../src/mail/e-mail-notes.c:1139
+#: ../src/e-util/e-mail-signature-editor.c:521 ../src/mail/e-mail-notes.c:1139
 msgid "Close"
 msgstr "Kapat"
 
-#: ../src/e-util/e-mail-signature-editor.c:525 ../src/mail/e-mail-notes.c:1144
+#: ../src/e-util/e-mail-signature-editor.c:526 ../src/mail/e-mail-notes.c:1144
 msgid "_Save and Close"
 msgstr "_Kaydet ve Kapat"
 
 #: ../src/e-util/e-mail-signature-editor.c:592
-#: ../src/e-util/e-mail-signature-editor.c:596
+#: ../src/e-util/e-mail-signature-editor.c:597
 msgid "Edit Signature"
 msgstr "İmzayi Düzenle"
 
-#: ../src/e-util/e-mail-signature-editor.c:618
+#: ../src/e-util/e-mail-signature-editor.c:619
 msgid "_Signature Name:"
 msgstr "İ_mza Adı:"
 
@@ -17000,6 +17014,10 @@ msgstr "“%s” komut satırından süreç çalıştırılamadı: %s"
 #, c-format
 msgid "Failed to parse command line “%s”: %s"
 msgstr "“%s” komut satırı ayrıştırılamadı: %s"
+
+#: ../src/e-util/e-menu-bar.c:339
+msgid "Open menu"
+msgstr "Menüyü aç"
 
 #: ../src/e-util/e-misc-utils.c:238
 msgid "Could not open the link."
@@ -17449,7 +17467,7 @@ msgstr "Göster"
 msgid "Group name"
 msgstr "Küme adı"
 
-#: ../src/e-util/e-source-selector.c:3816 ../src/mail/e-mail-display.c:1892
+#: ../src/e-util/e-source-selector.c:3816 ../src/mail/e-mail-display.c:1903
 msgid "_Hide"
 msgstr "_Gizle"
 
@@ -17822,7 +17840,7 @@ msgstr "En _Uygun"
 msgid "Format Column_s…"
 msgstr "_Sütunları Biçimle…"
 
-#: ../src/e-util/e-table-header-item.c:1647 ../src/shell/e-shell-view.c:1132
+#: ../src/e-util/e-table-header-item.c:1647 ../src/shell/e-shell-view.c:1136
 msgid "Custo_mize Current View…"
 msgstr "Geçerli Görünümü Ö_zelleştir…"
 
@@ -17835,7 +17853,7 @@ msgstr "_Sıralama"
 msgid "_Custom"
 msgstr "Ö_zel"
 
-#: ../src/e-util/e-text.c:2057
+#: ../src/e-util/e-text.c:2057 ../src/e-util/e-tree-view-frame.c:600
 msgid "Select All"
 msgstr "Tümünü Seç"
 
@@ -17863,6 +17881,22 @@ msgstr "_Seçim"
 #: ../src/e-util/e-timezone-dialog.ui.h:8
 msgid "Timezone drop-down combination box"
 msgstr "Saat dilimi açılan bileşim kutusu"
+
+#: ../src/e-util/e-tree-view-frame.c:580
+msgid "Move to Top"
+msgstr "Yukarı Taşı"
+
+#: ../src/e-util/e-tree-view-frame.c:585
+msgid "Move Up"
+msgstr "Yukarı Taşı"
+
+#: ../src/e-util/e-tree-view-frame.c:590
+msgid "Move Down"
+msgstr "Aşağı Taşı"
+
+#: ../src/e-util/e-tree-view-frame.c:595
+msgid "Move to Bottom"
+msgstr "Aşağı Taşı"
 
 #: ../src/e-util/e-ui-customize-dialog.c:600
 msgid "_Unset from other action"
@@ -19375,7 +19409,7 @@ msgstr "Seç"
 
 #: ../src/mail/e-mail-config-security-page.c:756
 #: ../src/mail/e-mail-config-security-page.c:854
-#: ../src/shell/e-shell-view.c:1042
+#: ../src/shell/e-shell-view.c:1046
 msgid "_Clear"
 msgstr "_Temizle"
 
@@ -19481,70 +19515,70 @@ msgstr "Hoş Geldiniz"
 msgid "Account Editor"
 msgstr "Hesap Düzenleyici"
 
-#: ../src/mail/e-mail-display.c:1899
+#: ../src/mail/e-mail-display.c:1910
 msgid "Hid_e All"
 msgstr "Tümünü Gizl_e"
 
-#: ../src/mail/e-mail-display.c:1906
+#: ../src/mail/e-mail-display.c:1917
 msgid "_View Inline"
 msgstr "_Metin İçi Görüntüle"
 
-#: ../src/mail/e-mail-display.c:1913
+#: ../src/mail/e-mail-display.c:1924
 msgid "Vie_w All Inline"
 msgstr "Tümünü Satır arası _Görüntüle"
 
-#: ../src/mail/e-mail-display.c:1920
+#: ../src/mail/e-mail-display.c:1931
 msgid "_Zoom to 100%"
 msgstr "%100 _Yakınlaştır"
 
-#: ../src/mail/e-mail-display.c:1922
+#: ../src/mail/e-mail-display.c:1933
 msgid "Zoom the image to its natural size"
 msgstr "Resmi asıl boyutunda göster"
 
-#: ../src/mail/e-mail-display.c:1927
+#: ../src/mail/e-mail-display.c:1938
 msgid "_Zoom to window"
 msgstr "_Pencereye sığdır"
 
-#: ../src/mail/e-mail-display.c:1929
+#: ../src/mail/e-mail-display.c:1940
 msgid "Zoom large images to not be wider than the window width"
 msgstr ""
 "Büyük resimleri pencere genişliğini aşmayacak biçimde yakınlaştır/uzaklaştır"
 
-#: ../src/mail/e-mail-display.c:2056
+#: ../src/mail/e-mail-display.c:2067
 msgid "Load this image"
 msgstr "Bu resmi yükle"
 
-#: ../src/mail/e-mail-display.c:2066
+#: ../src/mail/e-mail-display.c:2077
 msgid "_Add to Address Book…"
 msgstr "Adres Defterine _Ekle…"
 
-#: ../src/mail/e-mail-display.c:2073
+#: ../src/mail/e-mail-display.c:2084
 msgid "_To This Address"
 msgstr "_Bu Adrese"
 
-#: ../src/mail/e-mail-display.c:2080
+#: ../src/mail/e-mail-display.c:2091
 msgid "_From This Address"
 msgstr "_Bu Adresten"
 
-#: ../src/mail/e-mail-display.c:2087
+#: ../src/mail/e-mail-display.c:2098
 msgid "Send _Reply To…"
 msgstr "_Yanıt Gönder…"
 
-#: ../src/mail/e-mail-display.c:2089
+#: ../src/mail/e-mail-display.c:2100
 msgid "Send a reply message to this address"
 msgstr "Bu adrese yanıt iletisi gönder"
 
-#: ../src/mail/e-mail-display.c:2096
+#: ../src/mail/e-mail-display.c:2107
 msgid "Create Search _Folder"
 msgstr "_Arama Klasörü Oluştur"
 
-#: ../src/mail/e-mail-display.c:2372
+#: ../src/mail/e-mail-display.c:2383
 #: ../src/mail/e-mail-remote-content-popover.c:239
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "%sʼden gelen uzaktaki içeriğe izin ver"
 
-#: ../src/mail/e-mail-display.c:2384
+#: ../src/mail/e-mail-display.c:2395
 #, c-format
 msgid "Load remote content from %s"
 msgstr "%sʼden gelen uzaktaki içeriği yükle"
@@ -21065,7 +21099,7 @@ msgstr "Klasör ara…"
 msgid "Create a new folder"
 msgstr "Yeni dizin oluştur"
 
-#: ../src/mail/em-folder-tree.c:679
+#: ../src/mail/em-folder-tree.c:686
 msgid "Folder names cannot contain “/”"
 msgstr "Klasör adları “/” karakteri bulunduramaz"
 
@@ -21087,37 +21121,37 @@ msgstr "Klasör adları “/” karakteri bulunduramaz"
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
 #.
-#: ../src/mail/em-folder-tree.c:874
+#: ../src/mail/em-folder-tree.c:881
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1894
+#: ../src/mail/em-folder-tree.c:2060
 msgid "Mail Folder Tree"
 msgstr "Posta Klasör Ağacı"
 
-#: ../src/mail/em-folder-tree.c:2444
+#: ../src/mail/em-folder-tree.c:2610
 #, c-format
 msgid "Moving folder %s"
 msgstr "%s klasörü taşınıyor"
 
-#: ../src/mail/em-folder-tree.c:2447
+#: ../src/mail/em-folder-tree.c:2613
 #, c-format
 msgid "Copying folder %s"
 msgstr "%s klasörü kopyalanıyor"
 
-#: ../src/mail/em-folder-tree.c:2454 ../src/mail/message-list.c:2656
+#: ../src/mail/em-folder-tree.c:2620 ../src/mail/message-list.c:2662
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "İletiler %s klasörüne taşınıyor"
 
-#: ../src/mail/em-folder-tree.c:2458 ../src/mail/message-list.c:2658
+#: ../src/mail/em-folder-tree.c:2624 ../src/mail/message-list.c:2664
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "İletiler %s klasörüne kopyalanıyor"
 
-#: ../src/mail/em-folder-tree.c:2477
+#: ../src/mail/em-folder-tree.c:2643
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "İleti(ler) üst düzey konuma taşınamıyor"
@@ -23558,96 +23592,96 @@ msgstr "Arama Klasörünü Düzenle"
 msgid "New Search Folder"
 msgstr "Yeni Arama Klasörü"
 
-#: ../src/mail/message-list.c:293
+#: ../src/mail/message-list.c:297
 msgid "Unseen"
 msgstr "Okunmamış"
 
-#: ../src/mail/message-list.c:294
+#: ../src/mail/message-list.c:298
 msgid "Seen"
 msgstr "Okunmuş"
 
-#: ../src/mail/message-list.c:295 ../src/mail/message-list.c:297
+#: ../src/mail/message-list.c:299 ../src/mail/message-list.c:301
 msgid "Answered"
 msgstr "Yanıtlanmış"
 
 #. and unread
-#: ../src/mail/message-list.c:296 ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300 ../src/mail/message-list.c:302
 msgid "Forwarded"
 msgstr "Yönlendirildi"
 
-#: ../src/mail/message-list.c:311
+#: ../src/mail/message-list.c:315
 msgid "Lowest"
 msgstr "En Düşük"
 
-#: ../src/mail/message-list.c:312
+#: ../src/mail/message-list.c:316
 msgid "Lower"
 msgstr "Daha Düşük"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:320
 msgid "Higher"
 msgstr "Daha Yüksek"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:321
 msgid "Highest"
 msgstr "En Yüksek"
 
-#: ../src/mail/message-list.c:466
+#: ../src/mail/message-list.c:470
 msgid "Generating message list"
 msgstr "İleti listesi oluşturuluyor"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2191
+#: ../src/mail/message-list.c:2197
 #: ../src/modules/itip-formatter/itip-view.c:364
 msgid "Today %l:%M %p"
 msgstr "Bugün %l:%M %p"
 
-#: ../src/mail/message-list.c:2200
+#: ../src/mail/message-list.c:2206
 msgid "Yesterday %l:%M %p"
 msgstr "Dün %l:%M %p"
 
-#: ../src/mail/message-list.c:2212
+#: ../src/mail/message-list.c:2218
 msgid "%a %l:%M %p"
 msgstr "%a %l %M %p"
 
-#: ../src/mail/message-list.c:2220
+#: ../src/mail/message-list.c:2226
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %l:%M %p"
 
-#: ../src/mail/message-list.c:2222
+#: ../src/mail/message-list.c:2228
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: ../src/mail/message-list.c:3101 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3118 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "Kullanıcı Başlığı 1"
 
-#: ../src/mail/message-list.c:3102 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3119 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "Kullanıcı Başlığı 2"
 
-#: ../src/mail/message-list.c:3103 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3120 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "Kullanıcı Başlığı 3"
 
-#: ../src/mail/message-list.c:3546
+#: ../src/mail/message-list.c:3564
 msgid "Select all visible messages"
 msgstr "Tüm görünen iletileri seç"
 
-#: ../src/mail/message-list.c:4400 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4428 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "İletiler"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5791
+#: ../src/mail/message-list.c:5806
 msgid "Follow-up"
 msgstr "Takip-eden"
 
-#: ../src/mail/message-list.c:6536 ../src/mail/message-list.c:6975
+#: ../src/mail/message-list.c:6551 ../src/mail/message-list.c:6990
 msgid "Generating message list…"
 msgstr "İleti listesi oluşturuluyor…"
 
-#: ../src/mail/message-list.c:6539
+#: ../src/mail/message-list.c:6554
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -23658,7 +23692,7 @@ msgstr ""
 "yeni Gösterim ileti süzgeci seçerek değiştirin veya Ara→Temizle menüsü "
 "yardımıyla silip yeni arama çalıştırın ya da aşağıdaki sorguyu değiştirin."
 
-#: ../src/mail/message-list.c:6546
+#: ../src/mail/message-list.c:6561
 msgid "There are no messages in this folder."
 msgstr "Bu klasörde hiçbir ileti yok."
 
@@ -23872,7 +23906,7 @@ msgid "Show M_enu Bar"
 msgstr "Menü Çubuğunu _Göster"
 
 #: ../src/modules/appearance-settings/evolution-appearance-settings.c:516
-#: ../src/shell/e-shell-view.c:1108
+#: ../src/shell/e-shell-view.c:1112
 msgid "Show _Tool Bar"
 msgstr "Araç Çubuğu_nu Göster"
 
@@ -25436,44 +25470,44 @@ msgstr ""
 msgid "Publishing Information"
 msgstr "Yayımlama Bilgisi"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:220
+#: ../src/modules/calendar/e-cal-shell-backend.c:261
 msgid "Calendar and Tasks"
 msgstr "Takvim ve Görevler"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:256
+#: ../src/modules/calendar/e-cal-shell-backend.c:298
 msgctxt "New"
 msgid "_Appointment"
 msgstr "_Randevu"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:258
+#: ../src/modules/calendar/e-cal-shell-backend.c:300
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1646
 msgid "Create a new appointment"
 msgstr "Yeni randevu oluştur"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:263
+#: ../src/modules/calendar/e-cal-shell-backend.c:305
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "_Tüm Gün Randevusu"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:265
+#: ../src/modules/calendar/e-cal-shell-backend.c:307
 msgid "Create a new all-day appointment"
 msgstr "Yeni tüm gün randevusu oluştur"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:270
+#: ../src/modules/calendar/e-cal-shell-backend.c:312
 msgctxt "New"
 msgid "M_eeting"
 msgstr "_Toplantı"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:272
+#: ../src/modules/calendar/e-cal-shell-backend.c:314
 msgid "Create a new meeting request"
 msgstr "Yeni toplantı istemi oluştur"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:279
+#: ../src/modules/calendar/e-cal-shell-backend.c:321
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "_Takvim"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:281
+#: ../src/modules/calendar/e-cal-shell-backend.c:323
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:1450
 msgid "Create a new calendar"
 msgstr "Yeni takvim oluştur"
@@ -28945,13 +28979,13 @@ msgstr "Bölmeyi adres defteri bağlantısı olarak göster"
 msgid "Failed to retrieve message content"
 msgstr "İleti içeriği alınamadı"
 
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5653
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5664
 #, c-format
 msgid "Ctrl-click to go to the section “%s” of the message"
 msgstr "Ctrl+tık ile iletinin “%s” bölümüne git"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like: "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5656
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5667
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
 msgstr "“%s” bağlantısını Ctrl+tık ile aç"
@@ -30270,182 +30304,182 @@ msgstr "Web Sitesi"
 msgid "Saving user interface state"
 msgstr "Kullanıcı arayüzü durumu kaydediliyor"
 
-#: ../src/shell/e-shell-view.c:703
+#: ../src/shell/e-shell-view.c:704
 msgid "Execute these search parameters"
 msgstr "Bu arama parametrelerini çalıştır"
 
-#: ../src/shell/e-shell-view.c:1035
+#: ../src/shell/e-shell-view.c:1039
 msgid "_Advanced Search…"
 msgstr "_Gelişmiş Arama…"
 
-#: ../src/shell/e-shell-view.c:1037
+#: ../src/shell/e-shell-view.c:1041
 msgid "Construct a more advanced search"
 msgstr "Daha gelişmiş arama oluştur"
 
-#: ../src/shell/e-shell-view.c:1044
+#: ../src/shell/e-shell-view.c:1048
 msgid "Clear the current search parameters"
 msgstr "Geçerli arama parametrelerini temizle"
 
-#: ../src/shell/e-shell-view.c:1049
+#: ../src/shell/e-shell-view.c:1053
 msgid "_Edit Saved Searches…"
 msgstr "Kayıtlı Aramaları _Düzenle…"
 
-#: ../src/shell/e-shell-view.c:1051
+#: ../src/shell/e-shell-view.c:1055
 msgid "Manage your saved searches"
 msgstr "Kayıtlı aramalarınızı yönetin"
 
-#: ../src/shell/e-shell-view.c:1058
+#: ../src/shell/e-shell-view.c:1062
 msgid "Click here to change the search type"
 msgstr "Arama türünü değiştirmek için buraya tıklayın"
 
-#: ../src/shell/e-shell-view.c:1063
+#: ../src/shell/e-shell-view.c:1067
 msgid "_Find Now"
 msgstr "Ş_imdi Bul"
 
-#: ../src/shell/e-shell-view.c:1065
+#: ../src/shell/e-shell-view.c:1069
 msgid "Execute the current search parameters"
 msgstr "Geçerli arama parametrelerini çalıştır"
 
-#: ../src/shell/e-shell-view.c:1070
+#: ../src/shell/e-shell-view.c:1074
 msgid "_Save Search…"
 msgstr "Aramayı _Kaydet…"
 
-#: ../src/shell/e-shell-view.c:1072
+#: ../src/shell/e-shell-view.c:1076
 msgid "Save the current search parameters"
 msgstr "Geçerli arama parametrelerini kaydet"
 
-#: ../src/shell/e-shell-view.c:1080
+#: ../src/shell/e-shell-view.c:1084
 msgid "Show _Menu Bar"
 msgstr "_Menü Çubuğunu Göster"
 
-#: ../src/shell/e-shell-view.c:1082
+#: ../src/shell/e-shell-view.c:1086
 msgid "Show the menu bar"
 msgstr "Menü çubuğunu göster"
 
-#: ../src/shell/e-shell-view.c:1087
+#: ../src/shell/e-shell-view.c:1091
 msgid "Show Side_bar"
 msgstr "_Kenar Çubuğunu Göster"
 
-#: ../src/shell/e-shell-view.c:1089
+#: ../src/shell/e-shell-view.c:1093
 msgid "Show the sidebar"
 msgstr "Kenar çubuğunu göster"
 
-#: ../src/shell/e-shell-view.c:1094
+#: ../src/shell/e-shell-view.c:1098
 msgid "Show _Buttons"
 msgstr "Düğmeleri _Göster"
 
-#: ../src/shell/e-shell-view.c:1096
+#: ../src/shell/e-shell-view.c:1100
 msgid "Show the switcher buttons"
 msgstr "Değiştirici düğmeleri göster"
 
-#: ../src/shell/e-shell-view.c:1101
+#: ../src/shell/e-shell-view.c:1105
 msgid "Show _Status Bar"
 msgstr "_Durum Çubuğunu Göster"
 
-#: ../src/shell/e-shell-view.c:1103
+#: ../src/shell/e-shell-view.c:1107
 msgid "Show the status bar"
 msgstr "Durum çubuğunu göster"
 
-#: ../src/shell/e-shell-view.c:1110
+#: ../src/shell/e-shell-view.c:1114
 msgid "Show the tool bar"
 msgstr "Araç çubuğunu göster"
 
-#: ../src/shell/e-shell-view.c:1118
+#: ../src/shell/e-shell-view.c:1122
 msgid "Delete Current View"
 msgstr "Şimdiki Görünümü Sil"
 
-#: ../src/shell/e-shell-view.c:1125
+#: ../src/shell/e-shell-view.c:1129
 msgid "Save Custom View…"
 msgstr "Özel Görünümü Kaydet…"
 
-#: ../src/shell/e-shell-view.c:1127
+#: ../src/shell/e-shell-view.c:1131
 msgid "Save current custom view"
 msgstr "Geçerli özel görünümü kaydet"
 
-#: ../src/shell/e-shell-view.c:1139
+#: ../src/shell/e-shell-view.c:1143
 msgid "Custom View"
 msgstr "Özel Görünüm"
 
-#: ../src/shell/e-shell-view.c:1141
+#: ../src/shell/e-shell-view.c:1145
 msgid "Current view is a customized view"
 msgstr "Geçerli görünüm özel görünümdür"
 
-#: ../src/shell/e-shell-view.c:1146 ../src/shell/e-shell-window-actions.c:943
+#: ../src/shell/e-shell-view.c:1150 ../src/shell/e-shell-window-actions.c:943
 msgid "_New"
 msgstr "_Yeni"
 
-#: ../src/shell/e-shell-view.c:1153
+#: ../src/shell/e-shell-view.c:1157
 msgid "Customi_ze User Interface…"
 msgstr "Kullanıcı Arayüzünü Ö_zelleştir…"
 
-#: ../src/shell/e-shell-view.c:1155
+#: ../src/shell/e-shell-view.c:1159
 msgid "Customize user interface, like toolbar content and shortcuts"
 msgstr "Araç çubuğu içeriği ve kısayollar gibi kullanıcı arayüzünü özelleştir"
 
 #. ** Menus **
-#: ../src/shell/e-shell-view.c:1160
+#: ../src/shell/e-shell-view.c:1164
 msgid "C_urrent View"
 msgstr "Şimdiki _Görünüm"
 
-#: ../src/shell/e-shell-view.c:1161
+#: ../src/shell/e-shell-view.c:1165
 msgid "Saved searches"
 msgstr "Kayıtlı aramalar"
 
-#: ../src/shell/e-shell-view.c:1162
+#: ../src/shell/e-shell-view.c:1166
 msgid "List of available views"
 msgstr "Kullanılabilir görünümlerin listesi"
 
-#: ../src/shell/e-shell-view.c:1164
+#: ../src/shell/e-shell-view.c:1168
 msgid "List of saved searches"
 msgstr "Kayıtlı aramaların listesi"
 
-#: ../src/shell/e-shell-view.c:1165
+#: ../src/shell/e-shell-view.c:1169
 msgid "List of views"
 msgstr "Görünümlerin listesi"
 
-#: ../src/shell/e-shell-view.c:1172
+#: ../src/shell/e-shell-view.c:1176
 msgid "_Icons Only"
 msgstr "Yalnızca _Simgeler"
 
-#: ../src/shell/e-shell-view.c:1174
+#: ../src/shell/e-shell-view.c:1178
 msgid "Display window buttons with icons only"
 msgstr "Pencere düğmelerini yalnızca simge olarak göster"
 
-#: ../src/shell/e-shell-view.c:1179
+#: ../src/shell/e-shell-view.c:1183
 msgid "_Text Only"
 msgstr "_Yalnızca Metin"
 
-#: ../src/shell/e-shell-view.c:1181
+#: ../src/shell/e-shell-view.c:1185
 msgid "Display window buttons with text only"
 msgstr "Pencere düğmelerini yalnızca metin olarak göster"
 
-#: ../src/shell/e-shell-view.c:1186
+#: ../src/shell/e-shell-view.c:1190
 msgid "Icons _and Text"
 msgstr "Simgeler _ve Metin"
 
-#: ../src/shell/e-shell-view.c:1188
+#: ../src/shell/e-shell-view.c:1192
 msgid "Display window buttons with icons and text"
 msgstr "Pencere düğmelerini simgelerle ve metinle göster"
 
-#: ../src/shell/e-shell-view.c:1193
+#: ../src/shell/e-shell-view.c:1197
 msgid "Tool_bar Style"
 msgstr "_Araç Çubuğu Biçemi"
 
-#: ../src/shell/e-shell-view.c:1195
+#: ../src/shell/e-shell-view.c:1199
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "Masaüstü araç çubuğu ayarlarını kullanarak pencere düğmelerini göster"
 
-#: ../src/shell/e-shell-view.c:1513 ../src/shell/e-shell-view.c:1555
+#: ../src/shell/e-shell-view.c:1517 ../src/shell/e-shell-view.c:1559
 msgctxt "toolbar-button"
 msgid "New"
 msgstr "Yeni"
 
-#: ../src/shell/e-shell-view.c:1648
+#: ../src/shell/e-shell-view.c:1652
 #, c-format
 msgid "Select view: %s"
 msgstr "Görünümü seç: %s"
 
-#: ../src/shell/e-shell-view.c:1662
+#: ../src/shell/e-shell-view.c:1666
 #, c-format
 msgid "Delete view: %s"
 msgstr "Görünümü sil: %s"
@@ -30777,8 +30811,9 @@ msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy çalıştırılamadı."
 
 #: ../src/shell/e-shell-window-actions.c:786
+msgctxt "New"
 msgid "Collect_ion Account"
-msgstr "Koleksiyon _Hesabı"
+msgstr "Koleks_iyon Hesabı"
 
 #: ../src/shell/e-shell-window-actions.c:788
 msgid "Create a new collection account"
