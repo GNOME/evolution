@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-07-28 23:19+0000\n"
-"PO-Revision-Date: 2026-07-29 13:04+0500\n"
+"POT-Creation-Date: 2026-08-28 21:48+0000\n"
+"PO-Revision-Date: 2026-08-29 11:53+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -4080,7 +4080,7 @@ msgstr "Жарамсыз контакт."
 msgid "_Help"
 msgstr "_Көмек"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5307 ../src/calendar/gui/e-comp-editor.c:2323 ../src/e-util/e-html-editor-actions.c:1376
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5307 ../src/calendar/gui/e-comp-editor.c:2323 ../src/e-util/e-html-editor-actions.c:1389
 msgid "_Undo"
 msgstr "Бол_дырмау"
 
@@ -4088,7 +4088,7 @@ msgstr "Бол_дырмау"
 msgid "Undo"
 msgstr "Болдырмау"
 
-#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5314 ../src/calendar/gui/e-comp-editor.c:2330 ../src/e-util/e-html-editor-actions.c:1362
+#: ../src/addressbook/gui/contact-editor/e-contact-editor.c:5314 ../src/calendar/gui/e-comp-editor.c:2330 ../src/e-util/e-html-editor-actions.c:1375
 msgid "_Redo"
 msgstr "Қай_талау"
 
@@ -4562,7 +4562,7 @@ msgstr "Са_наттар…"
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4082 ../src/calendar/gui/e-cal-range-model.c:208 ../src/calendar/gui/e-comp-editor-event.c:563 ../src/calendar/gui/e-comp-editor-event.c:579 ../src/calendar/gui/e-comp-editor-page-attachments.c:238
 #: ../src/calendar/gui/e-comp-editor.c:376 ../src/composer/e-composer-actions.c:178 ../src/em-format/e-mail-part-secure-button.c:86 ../src/e-util/e-markdown-utils.c:188 ../src/e-util/e-markdown-utils.c:198 ../src/e-util/e-markdown-utils.c:208 ../src/e-util/e-misc-utils.c:241
 #: ../src/e-util/e-misc-utils.c:3477 ../src/e-util/e-misc-utils.c:3485 ../src/e-util/e-misc-utils.c:3493 ../src/e-util/e-misc-utils.c:3528 ../src/e-util/e-misc-utils.c:3541 ../src/e-util/e-misc-utils.c:3555 ../src/e-util/e-ui-customize-dialog.c:3534
-#: ../src/mail/e-mail-autoconfig.c:1399 ../src/mail/e-mail-display.c:3098 ../src/mail/e-mail-notes.c:918 ../src/mail/e-mail-reader.c:3991 ../src/mail/e-mail-reader-utils.c:800 ../src/mail/e-mail-viewer.c:567 ../src/mail/e-mail-viewer.c:1564 ../src/mail/e-mail-viewer.c:2511
+#: ../src/mail/e-mail-autoconfig.c:1399 ../src/mail/e-mail-display.c:3109 ../src/mail/e-mail-notes.c:918 ../src/mail/e-mail-reader.c:3991 ../src/mail/e-mail-reader-utils.c:800 ../src/mail/e-mail-viewer.c:567 ../src/mail/e-mail-viewer.c:1564 ../src/mail/e-mail-viewer.c:2511
 #: ../src/mail/e-mail-viewer.c:2524 ../src/mail/em-composer-utils.c:4298 ../src/mail/em-composer-utils.c:4321 ../src/mail/mail-send-recv.c:589 ../src/mail/mail-send-recv.c:1485 ../src/modules/accounts-window/e-accounts-window-editors.c:160
 #: ../src/modules/mail/e-mail-attachment-handler.c:542 ../src/plugins/face/face.c:159 ../src/plugins/mail-to-task/mail-to-task.c:982 ../src/shell/e-shell.c:1266 ../src/shell/e-shell.c:1291 ../src/smime/gui/certificate-manager.c:336 ../src/smime/lib/e-cert-db.c:108
 #, c-format
@@ -4967,7 +4967,7 @@ msgstr "Үй парағы"
 msgid "Blog"
 msgstr "Блог"
 
-#: ../src/addressbook/gui/widgets/eab-contact-merging.c:229 ../src/e-util/e-mail-signature-editor.c:644
+#: ../src/addressbook/gui/widgets/eab-contact-merging.c:229 ../src/e-util/e-mail-signature-editor.c:645
 msgid "Unnamed"
 msgstr "Атаусыз"
 
@@ -5486,7 +5486,7 @@ msgid "Zoom _In"
 msgstr "Үлке_йту"
 
 #. Zoom-out button
-#: ../src/addressbook/gui/widgets/e-contact-map-window.c:447 ../src/e-util/e-html-editor-actions.c:1397 ../src/mail/e-mail-reader.c:3564 ../src/mail/e-mail-viewer.c:1821
+#: ../src/addressbook/gui/widgets/e-contact-map-window.c:447 ../src/e-util/e-html-editor-actions.c:1410 ../src/mail/e-mail-reader.c:3564 ../src/mail/e-mail-viewer.c:1821
 msgid "Zoom _Out"
 msgstr "Кі_шірейту"
 
@@ -6573,15 +6573,15 @@ msgstr "Қалып-күйі:"
 msgid "Categories:"
 msgstr "Санаттар:"
 
-#: ../src/calendar/gui/comp-util.c:2930 ../src/calendar/gui/e-task-table.c:450 ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:315
+#: ../src/calendar/gui/comp-util.c:2930 ../src/calendar/gui/e-task-table.c:450 ../src/calendar/gui/tasktypes.xml.in.h:20 ../src/mail/message-list.c:319
 msgid "High"
 msgstr "Жоғары"
 
-#: ../src/calendar/gui/comp-util.c:2932 ../src/calendar/gui/e-cal-model.c:1778 ../src/calendar/gui/e-task-table.c:451 ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:314
+#: ../src/calendar/gui/comp-util.c:2932 ../src/calendar/gui/e-cal-model.c:1778 ../src/calendar/gui/e-task-table.c:451 ../src/calendar/gui/tasktypes.xml.in.h:21 ../src/mail/message-list.c:318
 msgid "Normal"
 msgstr "Қалыпты"
 
-#: ../src/calendar/gui/comp-util.c:2934 ../src/calendar/gui/e-task-table.c:452 ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:313
+#: ../src/calendar/gui/comp-util.c:2934 ../src/calendar/gui/e-task-table.c:452 ../src/calendar/gui/tasktypes.xml.in.h:22 ../src/mail/message-list.c:317
 msgid "Low"
 msgstr "Төмен"
 
@@ -7536,41 +7536,41 @@ msgstr "\"%s\" жүктеу мүмкін емес:"
 msgid "Could not load the attachment"
 msgstr "Салынымды жүктеу мүмкін болмады"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:518
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:561
 msgid "Some attachments are still being downloaded. Please wait until the download is finished."
 msgstr "Кейбір салынымдар әлі жүктелуде. Жүктеу аяқталғанша күте тұрыңыз."
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:546
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:599
 #, c-format
 msgid "Attachment “%s” cannot be found, remove it from the list, please"
 msgstr "“%s” салынымы табылмады, оны тізімнен өшіріңіз"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:563
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:616
 #, c-format
 msgid "Attachment “%s” doesn’t have valid URI, remove it from the list, please"
 msgstr "“%s” салынымының URI адресі жарамсыз, оны тізімнен өшіріңіз"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:764 ../src/composer/e-composer-actions.c:395
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:817 ../src/composer/e-composer-actions.c:395
 msgid "_Attachment…"
 msgstr "С_алыным…"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:766 ../src/composer/e-composer-actions.c:397 ../src/e-util/e-attachment-view.c:1122
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:819 ../src/composer/e-composer-actions.c:397 ../src/e-util/e-attachment-view.c:1122
 msgid "Attach a file"
 msgstr "Файлды қосып жіберу"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:773
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:826
 msgid "_Attachments"
 msgstr "_Салынымдар"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:775
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:828
 msgid "Show attachments"
 msgstr "Салынымдарды көрсету"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:948 ../src/e-util/e-attachment-bar.c:868 ../src/e-util/e-attachment-paned.c:649
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:1001 ../src/e-util/e-attachment-bar.c:868 ../src/e-util/e-attachment-paned.c:649
 msgid "Icon View"
 msgstr "Таңбашалар көрінісі"
 
-#: ../src/calendar/gui/e-comp-editor-page-attachments.c:950 ../src/e-util/e-attachment-bar.c:870 ../src/e-util/e-attachment-paned.c:651
+#: ../src/calendar/gui/e-comp-editor-page-attachments.c:1003 ../src/e-util/e-attachment-bar.c:870 ../src/e-util/e-attachment-paned.c:651
 msgid "List View"
 msgstr "Тізім көрінісі"
 
@@ -7664,7 +7664,7 @@ msgid "Atte_ndees…"
 msgstr "Қат_ысушылар…"
 
 #. ** Menus **
-#: ../src/calendar/gui/e-comp-editor-page-general.c:1524 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2436 ../src/calendar/gui/e-comp-editor.c:2346 ../src/e-util/e-accounts-window.c:1752 ../src/e-util/e-html-editor-actions.c:1406
+#: ../src/calendar/gui/e-comp-editor-page-general.c:1524 ../src/calendar/gui/e-comp-editor-page-recurrence.c:2436 ../src/calendar/gui/e-comp-editor.c:2346 ../src/e-util/e-accounts-window.c:1752 ../src/e-util/e-html-editor-actions.c:1419
 #: ../src/e-util/e-mail-signature-manager.c:329 ../src/e-util/e-ui-customize-dialog.c:1212 ../src/e-util/e-webdav-browser.c:2882 ../src/e-util/filter.ui.h:26 ../src/mail/e-mail-account-manager.c:708 ../src/mail/e-mail-browser.c:607 ../src/mail/e-mail-label-manager.c:362
 #: ../src/mail/e-mail-viewer.c:1933 ../src/mail/em-folder-properties.c:1412 ../src/mail/mail-config.ui.h:70 ../src/modules/rss/evolution/e-rss-preferences.c:1805 ../src/plugins/attachment-reminder/attachment-reminder.c:549
 #: ../src/plugins/email-custom-header/email-custom-header.c:764 ../src/plugins/publish-calendar/publish-calendar.ui.h:34 ../src/plugins/sender-validation/sender-validation.c:682 ../src/plugins/sender-validation/sender-validation.c:793 ../src/plugins/templates/templates.c:475
@@ -8386,7 +8386,7 @@ msgid "Saving changes…"
 msgstr "Өзгерістерді сақтау…"
 
 #. == Button box ==
-#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/composer/e-composer-actions.c:402 ../src/e-util/e-accounts-window.c:1785 ../src/e-util/e-html-editor-dialog.c:167 ../src/e-util/e-mail-signature-editor.c:518 ../src/e-util/e-name-selector-dialog.c:522
+#: ../src/calendar/gui/e-comp-editor.c:2246 ../src/composer/e-composer-actions.c:402 ../src/e-util/e-accounts-window.c:1785 ../src/e-util/e-html-editor-dialog.c:167 ../src/e-util/e-mail-signature-editor.c:519 ../src/e-util/e-name-selector-dialog.c:522
 #: ../src/e-util/e-preferences-window.c:308 ../src/e-util/e-table-field-chooser-dialog.c:174 ../src/e-util/e-ui-customize-dialog.c:2508 ../src/mail/e-mail-browser.c:564 ../src/mail/e-mail-folder-sort-order-dialog.c:746 ../src/mail/e-mail-notes.c:1137
 #: ../src/mail/e-mail-viewer.c:1744 ../src/mail/em-filter-editor.c:30 ../src/mail/em-folder-properties.c:1537 ../src/mail/em-subscription-editor.c:1718 ../src/shell/e-shell-window-actions.c:817 ../src/smime/gui/certificate-manager.c:2109
 msgid "_Close"
@@ -8397,7 +8397,7 @@ msgid "Close the current window"
 msgstr "Ағымдағы терезені жабу"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2253 ../src/e-util/e-html-editor-actions.c:1341 ../src/e-util/e-text.c:2032 ../src/e-util/e-web-view.c:1659 ../src/mail/e-mail-browser.c:571 ../src/mail/e-mail-viewer.c:1758 ../src/mail/mail.error.xml.h:147
+#: ../src/calendar/gui/e-comp-editor.c:2253 ../src/e-util/e-html-editor-actions.c:1354 ../src/e-util/e-text.c:2032 ../src/e-util/e-web-view.c:1659 ../src/mail/e-mail-browser.c:571 ../src/mail/e-mail-viewer.c:1758 ../src/mail/mail.error.xml.h:147
 #: ../src/shell/e-shell-window-actions.c:838
 msgid "_Copy"
 msgstr "_Көшіріп алу"
@@ -8416,7 +8416,7 @@ msgid "Customize actions in the toolbar"
 msgstr "Құралдар панеліндегі әрекеттерді баптау"
 
 #. cut menu item
-#: ../src/calendar/gui/e-comp-editor.c:2267 ../src/e-util/e-html-editor-actions.c:1348 ../src/e-util/e-text.c:2018 ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:845
+#: ../src/calendar/gui/e-comp-editor.c:2267 ../src/e-util/e-html-editor-actions.c:1361 ../src/e-util/e-text.c:2018 ../src/mail/e-mail-browser.c:578 ../src/shell/e-shell-window-actions.c:845
 msgid "Cu_t"
 msgstr "Қ_иып алу"
 
@@ -8433,7 +8433,7 @@ msgid "View help"
 msgstr "Көмекті қарау"
 
 #. paste menu item
-#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/e-util/e-html-editor-actions.c:1355 ../src/e-util/e-text.c:2044 ../src/mail/e-mail-browser.c:585 ../src/mail/e-mail-viewer.c:1765 ../src/shell/e-shell-window-actions.c:873
+#: ../src/calendar/gui/e-comp-editor.c:2288 ../src/e-util/e-html-editor-actions.c:1368 ../src/e-util/e-text.c:2044 ../src/mail/e-mail-browser.c:585 ../src/mail/e-mail-viewer.c:1765 ../src/shell/e-shell-window-actions.c:873
 msgid "_Paste"
 msgstr "Кірі_стіру"
 
@@ -8450,7 +8450,7 @@ msgstr "Бас_паға шығару…"
 msgid "Pre_view…"
 msgstr "Алд_ын-ала қарау…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2309 ../src/e-util/e-html-editor-actions.c:1369 ../src/e-util/e-web-view.c:1683 ../src/mail/e-mail-browser.c:592 ../src/shell/e-shell-window-actions.c:901
+#: ../src/calendar/gui/e-comp-editor.c:2309 ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1683 ../src/mail/e-mail-browser.c:592 ../src/shell/e-shell-window-actions.c:901
 msgid "Select _All"
 msgstr "Барлығын _таңдау"
 
@@ -8468,15 +8468,15 @@ msgstr "_Жіктелуі"
 
 #. ** Menus **
 #. menus
-#: ../src/calendar/gui/e-comp-editor.c:2353 ../src/e-util/e-html-editor-actions.c:1413 ../src/e-util/e-mail-signature-editor.c:530 ../src/mail/e-mail-browser.c:606 ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1932 ../src/shell/e-shell-window-actions.c:951
+#: ../src/calendar/gui/e-comp-editor.c:2353 ../src/e-util/e-html-editor-actions.c:1426 ../src/e-util/e-mail-signature-editor.c:531 ../src/mail/e-mail-browser.c:606 ../src/mail/e-mail-notes.c:1149 ../src/mail/e-mail-viewer.c:1932 ../src/shell/e-shell-window-actions.c:951
 msgid "_File"
 msgstr "_Файл"
 
-#: ../src/calendar/gui/e-comp-editor.c:2367 ../src/e-util/e-html-editor-actions.c:1434
+#: ../src/calendar/gui/e-comp-editor.c:2367 ../src/e-util/e-html-editor-actions.c:1447
 msgid "_Insert"
 msgstr "_Кірістіру"
 
-#: ../src/calendar/gui/e-comp-editor.c:2374 ../src/composer/e-composer-actions.c:446 ../src/e-util/e-mail-signature-editor.c:531 ../src/e-util/e-ui-customizer.c:482 ../src/mail/e-mail-browser.c:609 ../src/mail/e-mail-notes.c:1150 ../src/mail/e-mail-viewer.c:1939
+#: ../src/calendar/gui/e-comp-editor.c:2374 ../src/composer/e-composer-actions.c:446 ../src/e-util/e-mail-signature-editor.c:532 ../src/e-util/e-ui-customizer.c:482 ../src/mail/e-mail-browser.c:609 ../src/mail/e-mail-notes.c:1150 ../src/mail/e-mail-viewer.c:1939
 #: ../src/shell/e-shell-view.c:1167
 msgid "Menu"
 msgstr "Мәзір"
@@ -8485,7 +8485,7 @@ msgstr "Мәзір"
 msgid "_Options"
 msgstr "_Опциялар"
 
-#: ../src/calendar/gui/e-comp-editor.c:2388 ../src/e-util/e-html-editor-actions.c:1455 ../src/mail/e-mail-browser.c:608 ../src/mail/e-mail-viewer.c:1934 ../src/shell/e-shell-window-actions.c:956 ../src/smime/gui/certificate-manager.c:1575 ../src/smime/gui/smime-ui.ui.h:3
+#: ../src/calendar/gui/e-comp-editor.c:2388 ../src/e-util/e-html-editor-actions.c:1468 ../src/mail/e-mail-browser.c:608 ../src/mail/e-mail-viewer.c:1934 ../src/shell/e-shell-window-actions.c:956 ../src/smime/gui/certificate-manager.c:1575 ../src/smime/gui/smime-ui.ui.h:3
 msgid "_View"
 msgstr "Тү_рі"
 
@@ -8493,7 +8493,7 @@ msgstr "Тү_рі"
 msgid "Save current changes"
 msgstr "Ағымдағы өзгерістерді сақтау"
 
-#: ../src/calendar/gui/e-comp-editor.c:2405 ../src/e-util/e-mail-signature-editor.c:527 ../src/mail/e-mail-notes.c:1146
+#: ../src/calendar/gui/e-comp-editor.c:2405 ../src/e-util/e-mail-signature-editor.c:528 ../src/mail/e-mail-notes.c:1146
 msgid "Save and Close"
 msgstr "Сақтау және жабу"
 
@@ -12212,16 +12212,16 @@ msgstr "Тек тарқатылған файлдарды _сақтау"
 msgid "Save extracted files and the original _archive"
 msgstr "Тарқатылған файлдарды және түпнұсқа _архивті сақтау"
 
-#: ../src/e-util/e-attachment-view.c:927 ../src/mail/e-mail-display.c:2282
+#: ../src/e-util/e-attachment-view.c:927 ../src/mail/e-mail-display.c:2293
 #, c-format
 msgid "Open With “%s”"
 msgstr "\"%s\" көмегімен ашу"
 
-#: ../src/e-util/e-attachment-view.c:929 ../src/mail/e-mail-display.c:2284
+#: ../src/e-util/e-attachment-view.c:929 ../src/mail/e-mail-display.c:2295
 msgid "Open With Default Application"
 msgstr "Бастапқы қолданбамен ашу"
 
-#: ../src/e-util/e-attachment-view.c:1080 ../src/mail/e-mail-display.c:2307
+#: ../src/e-util/e-attachment-view.c:1080 ../src/mail/e-mail-display.c:2318
 msgid "Open With Other Application…"
 msgstr "Басқа қолданбамен ашу…"
 
@@ -12237,7 +12237,7 @@ msgstr "Қалайша сақ_тау"
 msgid "Save _As"
 msgstr "Қала_йша сақтау"
 
-#: ../src/e-util/e-attachment-view.c:1110 ../src/mail/e-mail-display.c:2103
+#: ../src/e-util/e-attachment-view.c:1110 ../src/mail/e-mail-display.c:2114
 msgid "Open with…"
 msgstr "Мынамен ашу…"
 
@@ -12421,7 +12421,7 @@ msgstr "Баптауларда «%s» санаты бұрыннан бар. Ба
 msgid "popup list"
 msgstr "қалқымалы тізім"
 
-#: ../src/e-util/e-cell-date.c:34 ../src/e-util/e-cell-date.c:123 ../src/e-util/e-cell-date.c:143 ../src/mail/message-list.c:2183
+#: ../src/e-util/e-cell-date.c:34 ../src/e-util/e-cell-date.c:123 ../src/e-util/e-cell-date.c:143 ../src/mail/message-list.c:2189
 msgid "?"
 msgstr "?"
 
@@ -12538,22 +12538,22 @@ msgstr "Басқа…"
 msgid "Cannot create a client object from extension name “%s”"
 msgstr "«%s» кеңейту атынан клиент объектісін жасау мүмкін емес"
 
-#: ../src/e-util/e-client-selector.c:173 ../src/mail/em-folder-tree.c:1019
+#: ../src/e-util/e-client-selector.c:173 ../src/mail/em-folder-tree.c:1137
 msgctxt "Status"
 msgid "Offline"
 msgstr "Желіде емес"
 
-#: ../src/e-util/e-client-selector.c:176 ../src/mail/em-folder-tree.c:1022
+#: ../src/e-util/e-client-selector.c:176 ../src/mail/em-folder-tree.c:1140
 msgctxt "Status"
 msgid "Online"
 msgstr "Желіде"
 
-#: ../src/e-util/e-client-selector.c:179 ../src/mail/em-folder-tree.c:1025
+#: ../src/e-util/e-client-selector.c:179 ../src/mail/em-folder-tree.c:1143
 msgctxt "Status"
 msgid "Unreachable"
 msgstr "Қолжетімсіз"
 
-#: ../src/e-util/e-client-selector.c:182 ../src/mail/em-folder-tree.c:1028
+#: ../src/e-util/e-client-selector.c:182 ../src/mail/em-folder-tree.c:1146
 msgctxt "Status"
 msgid "Failed to connect"
 msgstr "Байланысу сәтсіз аяқталды"
@@ -13248,584 +13248,592 @@ msgstr "Мәтіндік файлды кірістіру"
 msgid "Text file"
 msgstr "Мәтіндік файл"
 
-#: ../src/e-util/e-html-editor-actions.c:1343
+#: ../src/e-util/e-html-editor-actions.c:1356
 msgid "Copy selected text to the clipboard"
 msgstr "Таңдалған мәтінді алмасу буферіне көшіріп алу"
 
-#: ../src/e-util/e-html-editor-actions.c:1350
+#: ../src/e-util/e-html-editor-actions.c:1363
 msgid "Cut selected text to the clipboard"
 msgstr "Таңдалған мәтінді алмасу буферіне қиып алу"
 
-#: ../src/e-util/e-html-editor-actions.c:1357
+#: ../src/e-util/e-html-editor-actions.c:1370
 msgid "Paste text from the clipboard"
 msgstr "Мәтінді алмасу буферінен кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1364
+#: ../src/e-util/e-html-editor-actions.c:1377
 msgid "Redo the last undone action"
 msgstr "Соңғы әрекетті қайталау"
 
-#: ../src/e-util/e-html-editor-actions.c:1378
+#: ../src/e-util/e-html-editor-actions.c:1391
 msgid "Undo the last action"
 msgstr "Соңғы әрекетті болдырмау"
 
-#: ../src/e-util/e-html-editor-actions.c:1383 ../src/mail/e-mail-reader.c:3550 ../src/mail/e-mail-viewer.c:1828
+#: ../src/e-util/e-html-editor-actions.c:1396 ../src/mail/e-mail-reader.c:3550 ../src/mail/e-mail-viewer.c:1828
 msgid "_Normal Size"
 msgstr "Қалы_пты өлшемі"
 
-#: ../src/e-util/e-html-editor-actions.c:1385 ../src/mail/e-mail-reader.c:3552
+#: ../src/e-util/e-html-editor-actions.c:1398 ../src/mail/e-mail-reader.c:3552
 msgid "Reset the text to its original size"
 msgstr "Мәтінді бастапқы өлшеміне қайтару"
 
-#: ../src/e-util/e-html-editor-actions.c:1390 ../src/mail/e-mail-reader.c:3557 ../src/mail/e-mail-viewer.c:1814
+#: ../src/e-util/e-html-editor-actions.c:1403 ../src/mail/e-mail-reader.c:3557 ../src/mail/e-mail-viewer.c:1814
 msgid "_Zoom In"
 msgstr "Үлке_йту"
 
-#: ../src/e-util/e-html-editor-actions.c:1392 ../src/mail/e-mail-reader.c:3559
+#: ../src/e-util/e-html-editor-actions.c:1405 ../src/mail/e-mail-reader.c:3559
 msgid "Increase the text size"
 msgstr "Мәтін өлшемін үлкейту"
 
-#: ../src/e-util/e-html-editor-actions.c:1399 ../src/mail/e-mail-reader.c:3566
+#: ../src/e-util/e-html-editor-actions.c:1412 ../src/mail/e-mail-reader.c:3566
 msgid "Decrease the text size"
 msgstr "Мәтін өлшемін кішірейту"
 
-#: ../src/e-util/e-html-editor-actions.c:1420
+#: ../src/e-util/e-html-editor-actions.c:1433
 msgid "For_mat"
 msgstr "_Пішім"
 
-#: ../src/e-util/e-html-editor-actions.c:1427
+#: ../src/e-util/e-html-editor-actions.c:1440
 msgid "_Paragraph Style"
 msgstr "_Абзац стилі"
 
-#: ../src/e-util/e-html-editor-actions.c:1441 ../src/e-util/e-html-editor-image-dialog.c:654
+#: ../src/e-util/e-html-editor-actions.c:1454 ../src/e-util/e-html-editor-image-dialog.c:654
 msgid "_Alignment"
 msgstr "_Туралануы"
 
-#: ../src/e-util/e-html-editor-actions.c:1448
+#: ../src/e-util/e-html-editor-actions.c:1461
 msgid "Current _Languages"
 msgstr "Ағымдағы _тілдер"
 
-#: ../src/e-util/e-html-editor-actions.c:1460 ../src/mail/e-mail-reader.c:3592 ../src/mail/e-mail-viewer.c:1935
+#: ../src/e-util/e-html-editor-actions.c:1473 ../src/mail/e-mail-reader.c:3592 ../src/mail/e-mail-viewer.c:1935
 msgid "_Zoom"
 msgstr "_Масштаб"
 
-#: ../src/e-util/e-html-editor-actions.c:1466
+#: ../src/e-util/e-html-editor-actions.c:1479
 msgid "Recent spell check languages"
 msgstr "Соңғы емлені тексеру тілдері"
 
-#: ../src/e-util/e-html-editor-actions.c:1473
+#: ../src/e-util/e-html-editor-actions.c:1486
 msgid "All spell check languages"
 msgstr "Барлық емлені тексеру тілдері"
 
-#: ../src/e-util/e-html-editor-actions.c:1480 ../src/e-util/e-html-editor-actions.c:1482 ../src/e-util/e-html-editor-actions.c:2756 ../src/e-util/e-html-editor.c:1125 ../src/e-util/e-html-editor.c:2259
+#: ../src/e-util/e-html-editor-actions.c:1493 ../src/e-util/e-html-editor-actions.c:1495 ../src/e-util/e-html-editor-actions.c:2777 ../src/e-util/e-html-editor.c:1125 ../src/e-util/e-html-editor.c:2259
 msgid "Editing Mode"
 msgstr "Түзету режимі"
 
-#: ../src/e-util/e-html-editor-actions.c:1487 ../src/e-util/e-html-editor-actions.c:1489 ../src/e-util/e-html-editor.c:1129
+#: ../src/e-util/e-html-editor-actions.c:1500 ../src/e-util/e-html-editor-actions.c:1502 ../src/e-util/e-html-editor.c:1129
 msgid "Paragraph Style"
 msgstr "Абзац стилі"
 
-#: ../src/e-util/e-html-editor-actions.c:1494 ../src/e-util/e-html-editor-actions.c:1496 ../src/e-util/e-html-editor.c:1137
+#: ../src/e-util/e-html-editor-actions.c:1507 ../src/e-util/e-html-editor-actions.c:1509 ../src/e-util/e-html-editor.c:1137
 msgid "Font Name"
 msgstr "Қаріп аты"
 
-#: ../src/e-util/e-html-editor-actions.c:1501 ../src/e-util/e-html-editor-actions.c:1503 ../src/e-util/e-html-editor.c:1145
+#: ../src/e-util/e-html-editor-actions.c:1514 ../src/e-util/e-html-editor-actions.c:1516 ../src/e-util/e-html-editor.c:1145
 msgid "Font Size"
 msgstr "Қаріп өлшемі"
 
-#: ../src/e-util/e-html-editor-actions.c:1508 ../src/e-util/e-html-editor-actions.c:1510 ../src/e-util/e-html-editor.c:1148
+#: ../src/e-util/e-html-editor-actions.c:1521 ../src/e-util/e-html-editor-actions.c:1523 ../src/e-util/e-html-editor.c:1148
 msgid "Font Color"
 msgstr "Қаріп түсі"
 
-#: ../src/e-util/e-html-editor-actions.c:1515 ../src/e-util/e-html-editor-actions.c:1517 ../src/e-util/e-html-editor.c:1160
+#: ../src/e-util/e-html-editor-actions.c:1528 ../src/e-util/e-html-editor-actions.c:1530 ../src/e-util/e-html-editor.c:1160
 msgid "Background Color"
 msgstr "Фон түсі"
 
-#: ../src/e-util/e-html-editor-actions.c:1525
+#: ../src/e-util/e-html-editor-actions.c:1538
 msgid "_Increase Indent"
 msgstr "Шегінуді үл_кейту"
 
-#: ../src/e-util/e-html-editor-actions.c:1527
+#: ../src/e-util/e-html-editor-actions.c:1540
 msgid "Increase Indent"
 msgstr "Шегіністі ұлғайту"
 
-#: ../src/e-util/e-html-editor-actions.c:1532
+#: ../src/e-util/e-html-editor-actions.c:1545
 msgid "E_moji"
 msgstr "Э_модзи"
 
-#: ../src/e-util/e-html-editor-actions.c:1534 ../src/e-util/e-html-editor-actions.c:1548 ../src/e-util/e-markdown-editor.c:1955
+#: ../src/e-util/e-html-editor-actions.c:1547 ../src/e-util/e-html-editor-actions.c:1561 ../src/e-util/e-markdown-editor.c:1955
 msgid "Insert Emoji"
 msgstr "Эмодзи кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1539
+#: ../src/e-util/e-html-editor-actions.c:1552
 msgid "_Emoticon"
 msgstr "_Смайл"
 
-#: ../src/e-util/e-html-editor-actions.c:1541
+#: ../src/e-util/e-html-editor-actions.c:1554
 msgid "Insert Emoticon"
 msgstr "Смайл кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1546
+#: ../src/e-util/e-html-editor-actions.c:1559
 msgid "Insert E_moji"
 msgstr "Э_моджи кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1553
+#: ../src/e-util/e-html-editor-actions.c:1566
 msgid "_HTML File…"
 msgstr "_HTML файлы…"
 
-#: ../src/e-util/e-html-editor-actions.c:1560
+#: ../src/e-util/e-html-editor-actions.c:1573
 msgid "Te_xt File…"
 msgstr "_Мәтіндік файл…"
 
-#: ../src/e-util/e-html-editor-actions.c:1567
+#: ../src/e-util/e-html-editor-actions.c:1580
 msgid "Paste _Quotation"
 msgstr "_Дәйексөзді кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1574
+#: ../src/e-util/e-html-editor-actions.c:1587
 msgid "_Find…"
 msgstr "_Табу…"
 
-#: ../src/e-util/e-html-editor-actions.c:1576
+#: ../src/e-util/e-html-editor-actions.c:1589
 msgid "Search for text"
 msgstr "Мәтінді іздеу"
 
-#: ../src/e-util/e-html-editor-actions.c:1581
+#: ../src/e-util/e-html-editor-actions.c:1594
 msgid "Find A_gain"
 msgstr "_Қайта табу"
 
-#: ../src/e-util/e-html-editor-actions.c:1588
+#: ../src/e-util/e-html-editor-actions.c:1601
 msgid "Re_place…"
 msgstr "Ал_мастыру…"
 
-#: ../src/e-util/e-html-editor-actions.c:1590
+#: ../src/e-util/e-html-editor-actions.c:1603
 msgid "Search for and replace text"
 msgstr "Мәтінді іздеу және алмастыру"
 
-#: ../src/e-util/e-html-editor-actions.c:1595
+#: ../src/e-util/e-html-editor-actions.c:1608
 msgid "Check _Spelling…"
 msgstr "Емлені _тексеру…"
 
-#: ../src/e-util/e-html-editor-actions.c:1602
+#: ../src/e-util/e-html-editor-actions.c:1615
 msgid "_Decrease Indent"
 msgstr "Шегінуді кі_шірейту"
 
-#: ../src/e-util/e-html-editor-actions.c:1604
+#: ../src/e-util/e-html-editor-actions.c:1617
 msgid "Decrease Indent"
 msgstr "Шегіністі азайту"
 
-#: ../src/e-util/e-html-editor-actions.c:1609
+#: ../src/e-util/e-html-editor-actions.c:1622
 msgid "_Wrap Lines"
 msgstr "Жолдарды _тасымалдау"
 
 #. Center
-#: ../src/e-util/e-html-editor-actions.c:1619 ../src/e-util/e-html-editor-paragraph-dialog.c:86
+#: ../src/e-util/e-html-editor-actions.c:1632 ../src/e-util/e-html-editor-paragraph-dialog.c:86
 msgid "_Center"
 msgstr "_Ортасынан"
 
-#: ../src/e-util/e-html-editor-actions.c:1621
+#: ../src/e-util/e-html-editor-actions.c:1634
 msgid "Center Alignment"
 msgstr "Ортасы бойынша туралау"
 
 #. Justified
-#: ../src/e-util/e-html-editor-actions.c:1626 ../src/e-util/e-html-editor-paragraph-dialog.c:100
+#: ../src/e-util/e-html-editor-actions.c:1639 ../src/e-util/e-html-editor-paragraph-dialog.c:100
 msgid "_Justified"
 msgstr "_Енімен тураланған"
 
-#: ../src/e-util/e-html-editor-actions.c:1628
+#: ../src/e-util/e-html-editor-actions.c:1641
 msgid "Align Justified"
 msgstr "Ені бойынша туралау"
 
 #. Left
-#: ../src/e-util/e-html-editor-actions.c:1633 ../src/e-util/e-html-editor-paragraph-dialog.c:79
+#: ../src/e-util/e-html-editor-actions.c:1646 ../src/e-util/e-html-editor-paragraph-dialog.c:79
 msgid "_Left"
 msgstr "_Сол жақтан"
 
-#: ../src/e-util/e-html-editor-actions.c:1635
+#: ../src/e-util/e-html-editor-actions.c:1648
 msgid "Left Alignment"
 msgstr "Сол жақ бойынша туралау"
 
 #. Right
-#: ../src/e-util/e-html-editor-actions.c:1640 ../src/e-util/e-html-editor-paragraph-dialog.c:93
+#: ../src/e-util/e-html-editor-actions.c:1653 ../src/e-util/e-html-editor-paragraph-dialog.c:93
 msgid "_Right"
 msgstr "_Оң жақ"
 
-#: ../src/e-util/e-html-editor-actions.c:1642
+#: ../src/e-util/e-html-editor-actions.c:1655
 msgid "Right Alignment"
 msgstr "Оң жақ бойынша туралау"
 
-#: ../src/e-util/e-html-editor-actions.c:1650 ../src/modules/text-highlight/languages.c:57
+#: ../src/e-util/e-html-editor-actions.c:1663 ../src/modules/text-highlight/languages.c:57
 msgid "_HTML"
 msgstr "_HTML"
 
-#: ../src/e-util/e-html-editor-actions.c:1652
+#: ../src/e-util/e-html-editor-actions.c:1665
 msgid "HTML editing mode"
 msgstr "HTML түзету режимі"
 
-#: ../src/e-util/e-html-editor-actions.c:1657
+#: ../src/e-util/e-html-editor-actions.c:1670
 msgid "Plain _Text"
 msgstr "Жай _мәтін"
 
-#: ../src/e-util/e-html-editor-actions.c:1659
+#: ../src/e-util/e-html-editor-actions.c:1672
 msgid "Plain text editing mode"
 msgstr "Жай мәтін түзету режимі"
 
-#: ../src/e-util/e-html-editor-actions.c:1664 ../src/modules/text-highlight/languages.c:83
+#: ../src/e-util/e-html-editor-actions.c:1677 ../src/modules/text-highlight/languages.c:83
 msgid "_Markdown"
 msgstr "_Markdown"
 
-#: ../src/e-util/e-html-editor-actions.c:1666
+#: ../src/e-util/e-html-editor-actions.c:1679
 msgid "Markdown editing mode"
 msgstr "Markdown түзету режимі"
 
-#: ../src/e-util/e-html-editor-actions.c:1671
+#: ../src/e-util/e-html-editor-actions.c:1684
 msgid "Ma_rkdown as Plain Text"
 msgstr "Markdown жай _мәтін ретінде"
 
-#: ../src/e-util/e-html-editor-actions.c:1673
+#: ../src/e-util/e-html-editor-actions.c:1686
 msgid "Markdown editing mode, exported as Plain Text"
 msgstr "Markdown түзету режимі, жай мәтін ретінде экспортталған"
 
-#: ../src/e-util/e-html-editor-actions.c:1678
+#: ../src/e-util/e-html-editor-actions.c:1691
 msgid "Mar_kdown as HTML"
 msgstr "Markdown _HTML ретінде"
 
-#: ../src/e-util/e-html-editor-actions.c:1680
+#: ../src/e-util/e-html-editor-actions.c:1693
 msgid "Markdown editing mode, exported as HTML"
 msgstr "Markdown түзету режимі, HTML ретінде экспортталған"
 
-#: ../src/e-util/e-html-editor-actions.c:1688
+#: ../src/e-util/e-html-editor-actions.c:1701
 msgid "_Normal"
 msgstr "_Қалыпты"
 
-#: ../src/e-util/e-html-editor-actions.c:1695
+#: ../src/e-util/e-html-editor-actions.c:1708
 msgid "Heading _1"
 msgstr "Тақырып _1"
 
-#: ../src/e-util/e-html-editor-actions.c:1702
+#: ../src/e-util/e-html-editor-actions.c:1715
 msgid "Heading _2"
 msgstr "Тақырып _2"
 
-#: ../src/e-util/e-html-editor-actions.c:1709
+#: ../src/e-util/e-html-editor-actions.c:1722
 msgid "Heading _3"
 msgstr "Тақырып _3"
 
-#: ../src/e-util/e-html-editor-actions.c:1716
+#: ../src/e-util/e-html-editor-actions.c:1729
 msgid "Heading _4"
 msgstr "Тақырып _4"
 
-#: ../src/e-util/e-html-editor-actions.c:1723
+#: ../src/e-util/e-html-editor-actions.c:1736
 msgid "Heading _5"
 msgstr "Тақырып _5"
 
-#: ../src/e-util/e-html-editor-actions.c:1730
+#: ../src/e-util/e-html-editor-actions.c:1743
 msgid "Heading _6"
 msgstr "Тақырып _6"
 
-#: ../src/e-util/e-html-editor-actions.c:1737
+#: ../src/e-util/e-html-editor-actions.c:1750
 msgid "_Preformatted"
 msgstr "_Пішімделген"
 
-#: ../src/e-util/e-html-editor-actions.c:1744
+#: ../src/e-util/e-html-editor-actions.c:1757
 msgid "A_ddress"
 msgstr "_Адрес"
 
-#: ../src/e-util/e-html-editor-actions.c:1751
+#: ../src/e-util/e-html-editor-actions.c:1764
 msgid "_Bulleted List"
 msgstr "_Маркерленген тізім"
 
-#: ../src/e-util/e-html-editor-actions.c:1758
+#: ../src/e-util/e-html-editor-actions.c:1771
 msgid "_Roman Numeral List"
 msgstr "_Рим цифрларымен тізім"
 
-#: ../src/e-util/e-html-editor-actions.c:1765
+#: ../src/e-util/e-html-editor-actions.c:1778
 msgid "Numbered _List"
 msgstr "Нөмірленген _тізім"
 
-#: ../src/e-util/e-html-editor-actions.c:1772
+#: ../src/e-util/e-html-editor-actions.c:1785
 msgid "_Alphabetical List"
 msgstr "_Алфавиттік тізім"
 
-#: ../src/e-util/e-html-editor-actions.c:1788 ../src/e-util/e-html-editor-actions.c:1826
+#: ../src/e-util/e-html-editor-actions.c:1801 ../src/e-util/e-html-editor-actions.c:1839
 msgid "_Image…"
 msgstr "_Сурет…"
 
 #. Translators: This is an action tooltip
-#: ../src/e-util/e-html-editor-actions.c:1791
+#: ../src/e-util/e-html-editor-actions.c:1804
 msgid "Insert Image"
 msgstr "Суретті кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1796 ../src/e-util/e-html-editor-actions.c:1833
+#: ../src/e-util/e-html-editor-actions.c:1809 ../src/e-util/e-html-editor-actions.c:1846
 msgid "_Link…"
 msgstr "Сі_лтеме…"
 
-#: ../src/e-util/e-html-editor-actions.c:1798
+#: ../src/e-util/e-html-editor-actions.c:1811
 msgid "Insert Link"
 msgstr "Сілтемені кірістіру"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1804 ../src/e-util/e-html-editor-actions.c:1848
+#: ../src/e-util/e-html-editor-actions.c:1817 ../src/e-util/e-html-editor-actions.c:1861
 msgid "_Rule…"
 msgstr "_Ереже…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:1807
+#: ../src/e-util/e-html-editor-actions.c:1820
 msgid "Insert Rule"
 msgstr "Ережені кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1812 ../src/e-util/e-html-editor-actions.c:1855
+#: ../src/e-util/e-html-editor-actions.c:1825 ../src/e-util/e-html-editor-actions.c:1868
 msgid "_Table…"
 msgstr "Кес_те…"
 
-#: ../src/e-util/e-html-editor-actions.c:1814
+#: ../src/e-util/e-html-editor-actions.c:1827
 msgid "Insert Table"
 msgstr "Кестені кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1819
+#: ../src/e-util/e-html-editor-actions.c:1832
 msgid "_Cell…"
 msgstr "Ұя_шық…"
 
-#: ../src/e-util/e-html-editor-actions.c:1840
+#: ../src/e-util/e-html-editor-actions.c:1853
 msgid "Pa_ge…"
 msgstr "Бе_т…"
 
-#: ../src/e-util/e-html-editor-actions.c:1864
+#: ../src/e-util/e-html-editor-actions.c:1877
 msgid "Font _Size"
 msgstr "Қаріп _өлшемі"
 
-#: ../src/e-util/e-html-editor-actions.c:1871
+#: ../src/e-util/e-html-editor-actions.c:1884
 msgid "_Font Style"
 msgstr "_Қаріп стилі"
 
-#: ../src/e-util/e-html-editor-actions.c:1878
+#: ../src/e-util/e-html-editor-actions.c:1891
 msgid "Paste As _Text"
 msgstr "_Мәтін ретінде кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:1889 ../src/e-util/e-html-editor-text-dialog.c:177
+#: ../src/e-util/e-html-editor-actions.c:1898
+msgid "_Remove Formatting"
+msgstr "_Пішімдеуді өшіру"
+
+#: ../src/e-util/e-html-editor-actions.c:1900
+msgid "Remove direct character formatting, such as bold, font and color, from the selected text; formatting coming from stylesheets or nested paragraphs is not affected"
+msgstr "Таңдалған мәтіннен жуан, қаріп және түс сияқты тікелей таңба пішімдеуін өшіру; стильдер кестесінен немесе кірістірілген абзацтардан келетін пішімдеуге әсер етпейді"
+
+#: ../src/e-util/e-html-editor-actions.c:1910 ../src/e-util/e-html-editor-text-dialog.c:177
 msgid "_Bold"
 msgstr "_Жуан"
 
-#: ../src/e-util/e-html-editor-actions.c:1891
+#: ../src/e-util/e-html-editor-actions.c:1912
 msgid "Bold"
 msgstr "Жуан"
 
-#: ../src/e-util/e-html-editor-actions.c:1896 ../src/e-util/e-html-editor-text-dialog.c:188
+#: ../src/e-util/e-html-editor-actions.c:1917 ../src/e-util/e-html-editor-text-dialog.c:188
 msgid "_Italic"
 msgstr "Курс_ив"
 
-#: ../src/e-util/e-html-editor-actions.c:1898
+#: ../src/e-util/e-html-editor-actions.c:1919
 msgid "Italic"
 msgstr "Курсив"
 
-#: ../src/e-util/e-html-editor-actions.c:1903 ../src/e-util/e-html-editor-text-dialog.c:209
+#: ../src/e-util/e-html-editor-actions.c:1924 ../src/e-util/e-html-editor-text-dialog.c:209
 msgid "_Strikethrough"
 msgstr "С_ызылған"
 
-#: ../src/e-util/e-html-editor-actions.c:1905
+#: ../src/e-util/e-html-editor-actions.c:1926
 msgid "Strikethrough"
 msgstr "Сызып тастау"
 
-#: ../src/e-util/e-html-editor-actions.c:1910
+#: ../src/e-util/e-html-editor-actions.c:1931
 msgid "Subs_cript"
 msgstr "Тө_менгі индекс"
 
-#: ../src/e-util/e-html-editor-actions.c:1912
+#: ../src/e-util/e-html-editor-actions.c:1933
 msgid "Subscript"
 msgstr "Төменгі индекс"
 
-#: ../src/e-util/e-html-editor-actions.c:1917
+#: ../src/e-util/e-html-editor-actions.c:1938
 msgid "Su_perscript"
 msgstr "Үс_тіңгі индекс"
 
-#: ../src/e-util/e-html-editor-actions.c:1919
+#: ../src/e-util/e-html-editor-actions.c:1940
 msgid "Superscript"
 msgstr "Үстіңгі индекс"
 
-#: ../src/e-util/e-html-editor-actions.c:1924 ../src/e-util/e-html-editor-text-dialog.c:199
+#: ../src/e-util/e-html-editor-actions.c:1945 ../src/e-util/e-html-editor-text-dialog.c:199
 msgid "_Underline"
 msgstr "Асты сы_зылған"
 
-#: ../src/e-util/e-html-editor-actions.c:1926
+#: ../src/e-util/e-html-editor-actions.c:1947
 msgid "Underline"
 msgstr "Асты сызылған"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please
 #. keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1935
+#: ../src/e-util/e-html-editor-actions.c:1956
 msgid "-2"
 msgstr "-2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please
 #. keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1943
+#: ../src/e-util/e-html-editor-actions.c:1964
 msgid "-1"
 msgstr "-1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please
 #. keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1951
+#: ../src/e-util/e-html-editor-actions.c:1972
 msgid "+0"
 msgstr "+0"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please
 #. keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1959
+#: ../src/e-util/e-html-editor-actions.c:1980
 msgid "+1"
 msgstr "+1"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please
 #. keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1967
+#: ../src/e-util/e-html-editor-actions.c:1988
 msgid "+2"
 msgstr "+2"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please
 #. keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1975
+#: ../src/e-util/e-html-editor-actions.c:1996
 msgid "+3"
 msgstr "+3"
 
 #. Translators: This is a font size level. It is shown on a tool bar. Please
 #. keep it as short as possible.
-#: ../src/e-util/e-html-editor-actions.c:1983
+#: ../src/e-util/e-html-editor-actions.c:2004
 msgid "+4"
 msgstr "+4"
 
-#: ../src/e-util/e-html-editor-actions.c:2002
+#: ../src/e-util/e-html-editor-actions.c:2023
 msgid "Copy _Link Location"
 msgstr "_Сілтеме адресін көшіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2004 ../src/e-util/e-web-view.c:1600
+#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1600
 msgid "Copy the link to the clipboard"
 msgstr "Сілтемені алмасу буферіне көшіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2009 ../src/e-util/e-web-view.c:1608
+#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1608
 msgid "_Open Link in Browser"
 msgstr "_Сілтемені браузерде ашу"
 
-#: ../src/e-util/e-html-editor-actions.c:2011 ../src/e-util/e-web-view.c:1610
+#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1610
 msgid "Open the link in a web browser"
 msgstr "Сілтемені веб-браузерде ашу"
 
-#: ../src/e-util/e-html-editor-actions.c:2016
+#: ../src/e-util/e-html-editor-actions.c:2037
 msgid "Cell Contents"
 msgstr "Ұяшық құрамы"
 
-#: ../src/e-util/e-html-editor-actions.c:2023
+#: ../src/e-util/e-html-editor-actions.c:2044
 msgid "Column"
 msgstr "Баған"
 
-#: ../src/e-util/e-html-editor-actions.c:2030
+#: ../src/e-util/e-html-editor-actions.c:2051
 msgid "Row"
 msgstr "Жол"
 
-#: ../src/e-util/e-html-editor-actions.c:2037
+#: ../src/e-util/e-html-editor-actions.c:2058
 msgid "Table"
 msgstr "Кесте"
 
 #. Translators: Popup menu item caption, containing all the Delete options for
 #. a table
-#: ../src/e-util/e-html-editor-actions.c:2047
+#: ../src/e-util/e-html-editor-actions.c:2068
 msgid "Table Delete"
 msgstr "Кестені өшіру"
 
 #. Translators: Popup menu item caption, containing all the Insert options for
 #. a table
-#: ../src/e-util/e-html-editor-actions.c:2055
+#: ../src/e-util/e-html-editor-actions.c:2076
 msgid "Table Insert"
 msgstr "Кестені кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2062
+#: ../src/e-util/e-html-editor-actions.c:2083
 msgid "Properties"
 msgstr "Қасиеттері"
 
-#: ../src/e-util/e-html-editor-actions.c:2080
+#: ../src/e-util/e-html-editor-actions.c:2101
 msgid "Delete Rule"
 msgstr "Ережені өшіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2087
+#: ../src/e-util/e-html-editor-actions.c:2108
 msgid "Delete Image"
 msgstr "Суретті өшіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2094
+#: ../src/e-util/e-html-editor-actions.c:2115
 msgid "Column After"
 msgstr "Кейінгі баған"
 
-#: ../src/e-util/e-html-editor-actions.c:2101
+#: ../src/e-util/e-html-editor-actions.c:2122
 msgid "Column Before"
 msgstr "Алдыңғы баған"
 
-#: ../src/e-util/e-html-editor-actions.c:2108
+#: ../src/e-util/e-html-editor-actions.c:2129
 msgid "Insert _Link"
 msgstr "_Сілтемені кірістіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2115
+#: ../src/e-util/e-html-editor-actions.c:2136
 msgid "Row Above"
 msgstr "Үстіңгі жол"
 
-#: ../src/e-util/e-html-editor-actions.c:2122
+#: ../src/e-util/e-html-editor-actions.c:2143
 msgid "Row Below"
 msgstr "Астыңғы жол"
 
-#: ../src/e-util/e-html-editor-actions.c:2129
+#: ../src/e-util/e-html-editor-actions.c:2150
 msgid "Cell…"
 msgstr "Ұяшық…"
 
-#: ../src/e-util/e-html-editor-actions.c:2136
+#: ../src/e-util/e-html-editor-actions.c:2157
 msgid "Image…"
 msgstr "Сурет…"
 
-#: ../src/e-util/e-html-editor-actions.c:2143
+#: ../src/e-util/e-html-editor-actions.c:2164
 msgid "Link…"
 msgstr "Сілтеме…"
 
-#: ../src/e-util/e-html-editor-actions.c:2150
+#: ../src/e-util/e-html-editor-actions.c:2171
 msgid "Page…"
 msgstr "Бет…"
 
-#: ../src/e-util/e-html-editor-actions.c:2157
+#: ../src/e-util/e-html-editor-actions.c:2178
 msgid "Paragraph…"
 msgstr "Абзац…"
 
 #. Translators: 'Rule' here means a horizontal line in an HTML text
-#: ../src/e-util/e-html-editor-actions.c:2165
+#: ../src/e-util/e-html-editor-actions.c:2186
 msgid "Rule…"
 msgstr "Ереже…"
 
-#: ../src/e-util/e-html-editor-actions.c:2172
+#: ../src/e-util/e-html-editor-actions.c:2193
 msgid "Table…"
 msgstr "Кесте…"
 
-#: ../src/e-util/e-html-editor-actions.c:2179
+#: ../src/e-util/e-html-editor-actions.c:2200
 msgid "Text…"
 msgstr "Мәтін…"
 
-#: ../src/e-util/e-html-editor-actions.c:2186
+#: ../src/e-util/e-html-editor-actions.c:2207
 msgid "Remove Link"
 msgstr "Сілтемені өшіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2203
+#: ../src/e-util/e-html-editor-actions.c:2224
 msgid "Add Word to Dictionary"
 msgstr "Сөзді сөздікке қосу"
 
-#: ../src/e-util/e-html-editor-actions.c:2210
+#: ../src/e-util/e-html-editor-actions.c:2231
 msgid "Ignore Misspelled Word"
 msgstr "Қате жазылған сөзді елемеу"
 
-#: ../src/e-util/e-html-editor-actions.c:2217
+#: ../src/e-util/e-html-editor-actions.c:2238
 msgid "Add Word To"
 msgstr "Сөзді қосу..."
 
-#: ../src/e-util/e-html-editor-actions.c:2226
+#: ../src/e-util/e-html-editor-actions.c:2247
 msgid "Spell check suggestions"
 msgstr "Емлені тексеру ұсыныстары"
 
-#: ../src/e-util/e-html-editor-actions.c:2233
+#: ../src/e-util/e-html-editor-actions.c:2254
 msgid "More Suggestions"
 msgstr "Көбірек ұсыныстар"
 
 #. Translators: %s will be replaced with the actual dictionary
 #. * name, where a user can add a word to. This is part of an
 #. * "Add Word To" submenu.
-#: ../src/e-util/e-html-editor-actions.c:2500
+#: ../src/e-util/e-html-editor-actions.c:2521
 #, c-format
 msgid "%s Dictionary"
 msgstr "%s сөздігі"
@@ -14395,19 +14403,19 @@ msgstr "күн"
 msgid "Autogenerated"
 msgstr "Автоматты түрде жасалған"
 
-#: ../src/e-util/e-mail-signature-editor.c:520 ../src/mail/e-mail-notes.c:1139
+#: ../src/e-util/e-mail-signature-editor.c:521 ../src/mail/e-mail-notes.c:1139
 msgid "Close"
 msgstr "Жабу"
 
-#: ../src/e-util/e-mail-signature-editor.c:525 ../src/mail/e-mail-notes.c:1144
+#: ../src/e-util/e-mail-signature-editor.c:526 ../src/mail/e-mail-notes.c:1144
 msgid "_Save and Close"
 msgstr "_Сақтау және жабу"
 
-#: ../src/e-util/e-mail-signature-editor.c:592 ../src/e-util/e-mail-signature-editor.c:596
+#: ../src/e-util/e-mail-signature-editor.c:592 ../src/e-util/e-mail-signature-editor.c:597
 msgid "Edit Signature"
 msgstr "Қолтаңбаны түзету"
 
-#: ../src/e-util/e-mail-signature-editor.c:618
+#: ../src/e-util/e-mail-signature-editor.c:619
 msgid "_Signature Name:"
 msgstr "_Қолтаңба аты:"
 
@@ -14522,6 +14530,10 @@ msgstr "“%s” командалық жолынан процесті орынд
 #, c-format
 msgid "Failed to parse command line “%s”: %s"
 msgstr "“%s” командалық жолын талдау сәтсіз аяқталды: %s"
+
+#: ../src/e-util/e-menu-bar.c:339
+msgid "Open menu"
+msgstr "Мәзірді ашу"
 
 #: ../src/e-util/e-misc-utils.c:238
 msgid "Could not open the link."
@@ -14947,7 +14959,7 @@ msgstr "Көрсету"
 msgid "Group name"
 msgstr "Топ аты"
 
-#: ../src/e-util/e-source-selector.c:3816 ../src/mail/e-mail-display.c:1892
+#: ../src/e-util/e-source-selector.c:3816 ../src/mail/e-mail-display.c:1903
 msgid "_Hide"
 msgstr "Жа_сыру"
 
@@ -16855,68 +16867,68 @@ msgstr "Қош келдіңіз"
 msgid "Account Editor"
 msgstr "Тіркелгі түзеткіші"
 
-#: ../src/mail/e-mail-display.c:1899
+#: ../src/mail/e-mail-display.c:1910
 msgid "Hid_e All"
 msgstr "Барлығын жа_сыру"
 
-#: ../src/mail/e-mail-display.c:1906
+#: ../src/mail/e-mail-display.c:1917
 msgid "_View Inline"
 msgstr "Іштей кө_ру"
 
-#: ../src/mail/e-mail-display.c:1913
+#: ../src/mail/e-mail-display.c:1924
 msgid "Vie_w All Inline"
 msgstr "Барлығын іштей кө_ру"
 
-#: ../src/mail/e-mail-display.c:1920
+#: ../src/mail/e-mail-display.c:1931
 msgid "_Zoom to 100%"
 msgstr "100%-ға дейін ма_сштабтау"
 
-#: ../src/mail/e-mail-display.c:1922
+#: ../src/mail/e-mail-display.c:1933
 msgid "Zoom the image to its natural size"
 msgstr "Суретті оның нақты өлшеміне дейін масштабтау"
 
-#: ../src/mail/e-mail-display.c:1927
+#: ../src/mail/e-mail-display.c:1938
 msgid "_Zoom to window"
 msgstr "Терезе өлшеміне дейін ма_сштабтау"
 
-#: ../src/mail/e-mail-display.c:1929
+#: ../src/mail/e-mail-display.c:1940
 msgid "Zoom large images to not be wider than the window width"
 msgstr "Үлкен суреттерді терезе енінен аспайтындай етіп масштабтау"
 
-#: ../src/mail/e-mail-display.c:2056
+#: ../src/mail/e-mail-display.c:2067
 msgid "Load this image"
 msgstr "Бұл суретті жүктеу"
 
-#: ../src/mail/e-mail-display.c:2066
+#: ../src/mail/e-mail-display.c:2077
 msgid "_Add to Address Book…"
 msgstr "Адрестік кітапшаға қ_осу…"
 
-#: ../src/mail/e-mail-display.c:2073
+#: ../src/mail/e-mail-display.c:2084
 msgid "_To This Address"
 msgstr "Осы ад_реске"
 
-#: ../src/mail/e-mail-display.c:2080
+#: ../src/mail/e-mail-display.c:2091
 msgid "_From This Address"
 msgstr "Осы адр_естен"
 
-#: ../src/mail/e-mail-display.c:2087
+#: ../src/mail/e-mail-display.c:2098
 msgid "Send _Reply To…"
 msgstr "_Жауапты жіберу…"
 
-#: ../src/mail/e-mail-display.c:2089
+#: ../src/mail/e-mail-display.c:2100
 msgid "Send a reply message to this address"
 msgstr "Бұл адреске жауап хабарламасын жіберу"
 
-#: ../src/mail/e-mail-display.c:2096
+#: ../src/mail/e-mail-display.c:2107
 msgid "Create Search _Folder"
 msgstr "Іздеу бу_масын жасау"
 
-#: ../src/mail/e-mail-display.c:2372 ../src/mail/e-mail-remote-content-popover.c:239
+#: ../src/mail/e-mail-display.c:2383 ../src/mail/e-mail-remote-content-popover.c:239
 #, c-format
 msgid "Allow remote content from %s"
 msgstr "%s жерінен қашықтағы мазмұнға рұқсат беру"
 
-#: ../src/mail/e-mail-display.c:2384
+#: ../src/mail/e-mail-display.c:2395
 #, c-format
 msgid "Load remote content from %s"
 msgstr "%s жерінен қашықтағы мазмұнды жүктеу"
@@ -18379,7 +18391,7 @@ msgstr "Буманы іздеу…"
 msgid "Create a new folder"
 msgstr "Жаңа буманы жасау"
 
-#: ../src/mail/em-folder-tree.c:679
+#: ../src/mail/em-folder-tree.c:686
 msgid "Folder names cannot contain “/”"
 msgstr "Бума атында \"/\" болмауы тиіс."
 
@@ -18400,37 +18412,37 @@ msgstr "Бума атында \"/\" болмауы тиіс."
 #. *
 #. * Do not translate the "folder-display|" part. Remove it
 #. * from your translation.
-#: ../src/mail/em-folder-tree.c:874
+#: ../src/mail/em-folder-tree.c:881
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../src/mail/em-folder-tree.c:1894
+#: ../src/mail/em-folder-tree.c:2060
 msgid "Mail Folder Tree"
 msgstr "Пошта бумаларының ағашы"
 
-#: ../src/mail/em-folder-tree.c:2444
+#: ../src/mail/em-folder-tree.c:2610
 #, c-format
 msgid "Moving folder %s"
 msgstr "%s бумасы жылжытылуда"
 
-#: ../src/mail/em-folder-tree.c:2447
+#: ../src/mail/em-folder-tree.c:2613
 #, c-format
 msgid "Copying folder %s"
 msgstr "%s бумасы көшірілуде"
 
-#: ../src/mail/em-folder-tree.c:2454 ../src/mail/message-list.c:2656
+#: ../src/mail/em-folder-tree.c:2620 ../src/mail/message-list.c:2662
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Хабарламалар %s бумасына жылжытылуда"
 
-#: ../src/mail/em-folder-tree.c:2458 ../src/mail/message-list.c:2658
+#: ../src/mail/em-folder-tree.c:2624 ../src/mail/message-list.c:2664
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Хабарламалар %s бумасына көшірілуде"
 
-#: ../src/mail/em-folder-tree.c:2477
+#: ../src/mail/em-folder-tree.c:2643
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Хабарламаларды жоғарғы деңгейдегі қоймаға тастау мүмкін емес"
@@ -20615,99 +20627,99 @@ msgstr "Іздеу бумасын түзету"
 msgid "New Search Folder"
 msgstr "Жаңа іздеу бумасы"
 
-#: ../src/mail/message-list.c:293
+#: ../src/mail/message-list.c:297
 msgid "Unseen"
 msgstr "Көрілмеген"
 
-#: ../src/mail/message-list.c:294
+#: ../src/mail/message-list.c:298
 msgid "Seen"
 msgstr "Көрілген"
 
-#: ../src/mail/message-list.c:295 ../src/mail/message-list.c:297
+#: ../src/mail/message-list.c:299 ../src/mail/message-list.c:301
 msgid "Answered"
 msgstr "Жауап берілген"
 
 #. and unread
-#: ../src/mail/message-list.c:296 ../src/mail/message-list.c:298
+#: ../src/mail/message-list.c:300 ../src/mail/message-list.c:302
 msgid "Forwarded"
 msgstr "Бағдарланған"
 
-#: ../src/mail/message-list.c:311
+#: ../src/mail/message-list.c:315
 msgid "Lowest"
 msgstr "Ең төмен"
 
-#: ../src/mail/message-list.c:312
+#: ../src/mail/message-list.c:316
 msgid "Lower"
 msgstr "Төменгі"
 
-#: ../src/mail/message-list.c:316
+#: ../src/mail/message-list.c:320
 msgid "Higher"
 msgstr "Жоғарырақ"
 
-#: ../src/mail/message-list.c:317
+#: ../src/mail/message-list.c:321
 msgid "Highest"
 msgstr "Ең жоғары"
 
-#: ../src/mail/message-list.c:466
+#: ../src/mail/message-list.c:470
 msgid "Generating message list"
 msgstr "Хабарламалар тізімін жасау"
 
 #. strftime format of a time,
 #. * in 12-hour format, without seconds.
-#: ../src/mail/message-list.c:2191 ../src/modules/itip-formatter/itip-view.c:364
+#: ../src/mail/message-list.c:2197 ../src/modules/itip-formatter/itip-view.c:364
 msgid "Today %l:%M %p"
 msgstr "Бүгін %l:%M %p"
 
-#: ../src/mail/message-list.c:2200
+#: ../src/mail/message-list.c:2206
 msgid "Yesterday %l:%M %p"
 msgstr "Кеше, уақыты %H:%M"
 
-#: ../src/mail/message-list.c:2212
+#: ../src/mail/message-list.c:2218
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../src/mail/message-list.c:2220
+#: ../src/mail/message-list.c:2226
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../src/mail/message-list.c:2222
+#: ../src/mail/message-list.c:2228
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: ../src/mail/message-list.c:3101 ../src/mail/message-list.etspec.h:24
+#: ../src/mail/message-list.c:3118 ../src/mail/message-list.etspec.h:24
 msgid "User Header 1"
 msgstr "Пайдаланушы тақырыптамасы 1"
 
-#: ../src/mail/message-list.c:3102 ../src/mail/message-list.etspec.h:25
+#: ../src/mail/message-list.c:3119 ../src/mail/message-list.etspec.h:25
 msgid "User Header 2"
 msgstr "Пайдаланушы тақырыптамасы 2"
 
-#: ../src/mail/message-list.c:3103 ../src/mail/message-list.etspec.h:26
+#: ../src/mail/message-list.c:3120 ../src/mail/message-list.etspec.h:26
 msgid "User Header 3"
 msgstr "Пайдаланушы тақырыптамасы 3"
 
-#: ../src/mail/message-list.c:3546
+#: ../src/mail/message-list.c:3564
 msgid "Select all visible messages"
 msgstr "Барлық көрінетін хабарламаларды таңдау"
 
-#: ../src/mail/message-list.c:4400 ../src/mail/message-list.etspec.h:17
+#: ../src/mail/message-list.c:4428 ../src/mail/message-list.etspec.h:17
 msgid "Messages"
 msgstr "Хабарламалар"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5791
+#: ../src/mail/message-list.c:5806
 msgid "Follow-up"
 msgstr "Орындау үшін"
 
-#: ../src/mail/message-list.c:6536 ../src/mail/message-list.c:6975
+#: ../src/mail/message-list.c:6551 ../src/mail/message-list.c:6990
 msgid "Generating message list…"
 msgstr "Хабарламалар тізімін генерациялау…"
 
-#: ../src/mail/message-list.c:6539
+#: ../src/mail/message-list.c:6554
 msgid "No message satisfies your search criteria. Change search criteria by selecting a new Show message filter from the drop down list above or by running a new search either by clearing it with Search→Clear menu item or by changing the query above."
 msgstr "Іздеу критерийлеріне сәйкес келетін хабарлама жоқ. Жоғарыдағы ашылмалы тізімнен жаңа хабарлама сүзгісін таңдау немесе Іздеу→Тазарту мәзірі арқылы оны тазалау немесе жоғарыдағы сұранысты өзгерту арқылы жаңа іздеуді орындау арқылы іздеу критерийлерін өзгертіңіз."
 
-#: ../src/mail/message-list.c:6546
+#: ../src/mail/message-list.c:6561
 msgid "There are no messages in this folder."
 msgstr "Бұл бумада хабарламалар жоқ."
 
@@ -22360,43 +22372,43 @@ msgstr "Сервер аутентификацияны талап еткен жа
 msgid "Publishing Information"
 msgstr "Жариялау ақпараты"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:220
+#: ../src/modules/calendar/e-cal-shell-backend.c:261
 msgid "Calendar and Tasks"
 msgstr "Күнтізбе және тапсырмалар"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:256
+#: ../src/modules/calendar/e-cal-shell-backend.c:298
 msgctxt "New"
 msgid "_Appointment"
 msgstr "Кезде_су"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:258 ../src/modules/calendar/e-cal-shell-view-actions.c:1646
+#: ../src/modules/calendar/e-cal-shell-backend.c:300 ../src/modules/calendar/e-cal-shell-view-actions.c:1646
 msgid "Create a new appointment"
 msgstr "Жаңа кездесуді жасау"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:263
+#: ../src/modules/calendar/e-cal-shell-backend.c:305
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "Күні бойғы кезде_су"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:265
+#: ../src/modules/calendar/e-cal-shell-backend.c:307
 msgid "Create a new all-day appointment"
 msgstr "Жаңа күні бойғы кездесуді жасау"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:270
+#: ../src/modules/calendar/e-cal-shell-backend.c:312
 msgctxt "New"
 msgid "M_eeting"
 msgstr "Жин_алыс"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:272
+#: ../src/modules/calendar/e-cal-shell-backend.c:314
 msgid "Create a new meeting request"
 msgstr "Жаңа жиналыс сұранымын жасау"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:279
+#: ../src/modules/calendar/e-cal-shell-backend.c:321
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Кү_нтізбе"
 
-#: ../src/modules/calendar/e-cal-shell-backend.c:281 ../src/modules/calendar/e-cal-shell-view-actions.c:1450
+#: ../src/modules/calendar/e-cal-shell-backend.c:323 ../src/modules/calendar/e-cal-shell-view-actions.c:1450
 msgid "Create a new calendar"
 msgstr "Жаңа күнтізбе жасау"
 
@@ -25692,14 +25704,14 @@ msgstr "Бөлікті адрестік кітапша контактісі ре
 msgid "Failed to retrieve message content"
 msgstr "Хабарлама құрамын алу сәтсіз аяқталды"
 
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5653
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5664
 #, c-format
 msgid "Ctrl-click to go to the section “%s” of the message"
 msgstr "Хабарламаның «%s» бөліміне өту үшін Ctrl-шерту"
 
 #. Translators: The "%s" is replaced with a link, constructing a text like:
 #. "Ctrl-click to open a link “http://www.example.com”"
-#: ../src/modules/webkit-editor/e-webkit-editor.c:5656
+#: ../src/modules/webkit-editor/e-webkit-editor.c:5667
 #, c-format
 msgid "Ctrl-click to open a link “%s”"
 msgstr "«%s» сілтемесін ашу үшін Ctrl-шерту"
@@ -27395,6 +27407,7 @@ msgid "Bug Buddy could not be run."
 msgstr "Bug Buddy іске қосу мүмкін болмады."
 
 #: ../src/shell/e-shell-window-actions.c:786
+msgctxt "New"
 msgid "Collect_ion Account"
 msgstr "Ж_инақ тіркелгісі"
 
