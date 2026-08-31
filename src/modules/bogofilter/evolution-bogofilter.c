@@ -132,7 +132,8 @@ bogofilter_command (const gchar **argv,
 		(gchar **) argv,
 		NULL,
 		G_SPAWN_DO_NOT_REAP_CHILD |
-		G_SPAWN_STDOUT_TO_DEV_NULL,
+		G_SPAWN_STDOUT_TO_DEV_NULL |
+		G_SPAWN_CLOEXEC_PIPES,
 		NULL, NULL,
 		&child_pid,
 		&standard_input,
