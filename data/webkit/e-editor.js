@@ -2957,10 +2957,17 @@ EvoEditor.GetContent = function(flags, cid_uid_prefix, default_css_style)
 							images[images.length - 1].name = elem.getAttribute("data-name");
 					}
 				} else if (elem && src.startsWith("cid:")) {
-					images[images.length] = {
-						cid : elem.src,
-						src : elem.src
-					};
+					for (jj = 0; jj < images.length; jj++) {
+						if (elem.src == images[jj].src)
+							break;
+					}
+
+					if (jj >= images.length) {
+						images[images.length] = {
+							cid : elem.src,
+							src : elem.src
+						};
+					}
 				}
 
 				if (elem) {
