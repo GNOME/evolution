@@ -179,7 +179,6 @@ else(WIN32)
 endif(WIN32)
 
 set(errordir "${privdatadir}/errors")
-set(etspecdir "${privdatadir}/etspec")
 set(evolutionhelpdir "${privdatadir}/help")
 set(icondir "${privdatadir}/icons")
 set(imagesdir "${privdatadir}/images")

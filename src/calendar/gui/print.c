@@ -4171,22 +4171,6 @@ print_printable (EPrintable *printable,
 	g_object_unref (printable);
 }
 
-void
-print_table (ETable *table,
-             const gchar *dialog_title,
-             const gchar *print_header,
-             GtkPrintOperationAction action)
-{
-	EPrintable *printable;
-
-	printable = e_table_get_printable (table);
-	g_object_ref_sink (printable);
-
-	print_printable (printable, dialog_title, print_header, action);
-
-	g_object_unref (printable);
-}
-
 struct PrintDetailedItem {
 	ECalendarView *cal_view;
 	time_t start;

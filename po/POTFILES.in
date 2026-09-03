@@ -79,7 +79,6 @@ src/calendar/gui/e-cal-range-model.c
 src/calendar/gui/e-cal-table-events.c
 src/calendar/gui/e-cal-table-memos.c
 src/calendar/gui/e-cal-table-tasks.c
-src/calendar/gui/e-cell-date-edit-text.c
 src/calendar/gui/e-comp-editor-event.c
 src/calendar/gui/e-comp-editor-memo.c
 src/calendar/gui/e-comp-editor-page-attachments.c
@@ -178,12 +177,6 @@ src/e-util/e-categories-editor.c
 src/e-util/e-categories-selector.c
 src/e-util/e-category-completion.c
 src/e-util/e-category-editor.c
-src/e-util/e-cell-combo.c
-src/e-util/e-cell-date.c
-src/e-util/e-cell-date-edit.c
-src/e-util/e-cell-percent.c
-src/e-util/e-cell-pixbuf.c
-src/e-util/e-cell-text.c
 src/e-util/e-charset.c
 src/e-util/e-charset-combo-box.c
 src/e-util/e-client-cache.c
@@ -259,27 +252,9 @@ src/e-util/e-spell-dictionary.c
 src/e-util/e-spell-entry.c
 src/e-util/e-split-date-edit.c
 src/e-util/e-system.error.xml
-src/e-util/e-table.c
-src/e-util/e-table-click-to-add.c
-src/e-util/e-table-col.c
-src/e-util/e-table-column-selector.c
-src/e-util/e-table-config.c
-[type: gettext/glade]src/e-util/e-table-config.ui
-src/e-util/e-table-field-chooser.c
-src/e-util/e-table-field-chooser-dialog.c
-src/e-util/e-table-field-chooser-item.c
-src/e-util/e-table-group-container.c
-src/e-util/e-table-group-leaf.c
-src/e-util/e-table-header-item.c
-src/e-util/e-table-item.c
-src/e-util/e-table-selection-model.c
-src/e-util/e-table-sorter.c
-src/e-util/e-table-utils.c
 src/e-util/e-text.c
 src/e-util/e-timezone-dialog.c
 [type: gettext/glade]src/e-util/e-timezone-dialog.ui
-src/e-util/e-tree.c
-src/e-util/e-tree-selection-model.c
 src/e-util/e-tree-view-frame.c
 src/e-util/e-ui-customize-dialog.c
 src/e-util/e-ui-customizer.c
@@ -292,13 +267,6 @@ src/e-util/e-widget-undo.c
 src/e-util/evolution-source-viewer.c
 src/e-util/filter.error.xml
 [type: gettext/glade]src/e-util/filter.ui
-src/e-util/gal-a11y-e-cell.c
-src/e-util/gal-a11y-e-cell-popup.c
-src/e-util/gal-a11y-e-cell-text.c
-src/e-util/gal-a11y-e-cell-toggle.c
-src/e-util/gal-a11y-e-cell-tree.c
-src/e-util/gal-a11y-e-table-click-to-add.c
-src/e-util/gal-a11y-e-table-column-header.c
 src/e-util/gal-view-instance.c
 src/e-util/gal-view-instance-save-as-dialog.c
 [type: gettext/glade]src/e-util/gal-view-instance-save-as-dialog.ui

@@ -148,62 +148,6 @@
   </chapter>
 
   <chapter>
-    <title>Tables and Trees</title>
-    <xi:include href="xml/e-table.xml"/>
-    <xi:include href="xml/e-table-click-to-add.xml"/>
-    <xi:include href="xml/e-table-col.xml"/>
-    <xi:include href="xml/e-table-column-selector.xml"/>
-    <xi:include href="xml/e-table-column-specification.xml"/>
-    <xi:include href="xml/e-table-config.xml"/>
-    <xi:include href="xml/e-table-extras.xml"/>
-    <xi:include href="xml/e-table-field-chooser-dialog.xml"/>
-    <xi:include href="xml/e-table-field-chooser-item.xml"/>
-    <xi:include href="xml/e-table-field-chooser.xml"/>
-    <xi:include href="xml/e-table-group-container.xml"/>
-    <xi:include href="xml/e-table-group-leaf.xml"/>
-    <xi:include href="xml/e-table-group.xml"/>
-    <xi:include href="xml/e-table-header.xml"/>
-    <xi:include href="xml/e-table-header-item.xml"/>
-    <xi:include href="xml/e-table-header-utils.xml"/>
-    <xi:include href="xml/e-table-item.xml"/>
-    <xi:include href="xml/e-table-model.xml"/>
-    <xi:include href="xml/e-table-one.xml"/>
-    <xi:include href="xml/e-table-search.xml"/>
-    <xi:include href="xml/e-table-selection-model.xml"/>
-    <xi:include href="xml/e-table-sort-info.xml"/>
-    <xi:include href="xml/e-table-sorted-variable.xml"/>
-    <xi:include href="xml/e-table-sorted.xml"/>
-    <xi:include href="xml/e-table-sorter.xml"/>
-    <xi:include href="xml/e-table-sorting-utils.xml"/>
-    <xi:include href="xml/e-table-specification.xml"/>
-    <xi:include href="xml/e-table-state.xml"/>
-    <xi:include href="xml/e-table-subset-variable.xml"/>
-    <xi:include href="xml/e-table-subset.xml"/>
-    <xi:include href="xml/e-table-utils.xml"/>
-    <xi:include href="xml/e-tree.xml"/>
-    <xi:include href="xml/e-tree-model.xml"/>
-    <xi:include href="xml/e-tree-selection-model.xml"/>
-    <xi:include href="xml/e-tree-table-adapter.xml"/>
-    <xi:include href="xml/e-cell.xml"/>
-    <xi:include href="xml/e-cell-checkbox.xml"/>
-    <xi:include href="xml/e-cell-combo.xml"/>
-    <xi:include href="xml/e-cell-date.xml"/>
-    <xi:include href="xml/e-cell-date-edit.xml"/>
-    <xi:include href="xml/e-cell-date-int.xml"/>
-    <xi:include href="xml/e-cell-hbox.xml"/>
-    <xi:include href="xml/e-cell-number.xml"/>
-    <xi:include href="xml/e-cell-percent.xml"/>
-    <xi:include href="xml/e-cell-pixbuf.xml"/>
-    <xi:include href="xml/e-cell-popup.xml"/>
-    <xi:include href="xml/e-cell-size.xml"/>
-    <xi:include href="xml/e-cell-text.xml"/>
-    <xi:include href="xml/e-cell-toggle.xml"/>
-    <xi:include href="xml/e-cell-tree.xml"/>
-    <xi:include href="xml/e-cell-vbox.xml"/>
-    <xi:include href="xml/e-popup-menu.xml"/>
-  </chapter>
-
-  <chapter>
     <title>ESource Support</title>
     <xi:include href="xml/e-source-config.xml"/>
     <xi:include href="xml/e-book-source-config.xml"/>
@@ -243,7 +187,6 @@
     <xi:include href="xml/gal-view.xml"/>
     <xi:include href="xml/gal-view-instance.xml"/>
     <xi:include href="xml/gal-view-collection.xml"/>
-    <xi:include href="xml/gal-view-etable.xml"/>
     <xi:include href="xml/gal-view-virtual-tree.xml"/>
     <xi:include href="xml/gal-view-instance-save-as-dialog.xml"/>
   </chapter>

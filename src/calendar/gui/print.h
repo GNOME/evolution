@@ -31,10 +31,6 @@ void		print_comp			(ECalComponent *comp,
 						 ICalTimezone *zone,
 						 gboolean use_24_hour_format,
 						 GtkPrintOperationAction action);
-void		print_table			(ETable *table,
-						 const gchar *dialog_title,
-						 const gchar *print_header,
-						 GtkPrintOperationAction action);
 void		print_printable			(EPrintable *printable,
 						 const gchar *dialog_title,
 						 const gchar *print_header,

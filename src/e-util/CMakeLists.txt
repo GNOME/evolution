@@ -8,7 +8,6 @@ add_error_files(e-util
 )
 
 set(uifiles
-	e-table-config.ui
 	e-timezone-dialog.ui
 	filter.ui
 	gal-view-instance-save-as-dialog.ui
@@ -76,22 +75,6 @@ set(SOURCES
 	e-categories-selector.c
 	e-category-completion.c
 	e-category-editor.c
-	e-cell-checkbox.c
-	e-cell-combo.c
-	e-cell-date-edit.c
-	e-cell-date-int.c
-	e-cell-date.c
-	e-cell-hbox.c
-	e-cell-number.c
-	e-cell-percent.c
-	e-cell-pixbuf.c
-	e-cell-popup.c
-	e-cell-size.c
-	e-cell-text.c
-	e-cell-toggle.c
-	e-cell-tree.c
-	e-cell-vbox.c
-	e-cell.c
 	e-charset-combo-box.c
 	e-charset.c
 	e-client-cache.c
@@ -192,7 +175,6 @@ set(SOURCES
 	e-plugin-ui.c
 	e-plugin.c
 	e-poolv.c
-	e-popup-menu.c
 	e-port-entry.c
 	e-preferences-window.c
 	e-preview-pane.c
@@ -229,37 +211,6 @@ set(SOURCES
 	e-split-date-edit.c
 	e-stock-request.c
 	e-supported-locales-private.h
-	e-table-click-to-add.c
-	e-table-col.c
-	e-table-column-selector.c
-	e-table-column-specification.c
-	e-table-config.c
-	e-table-extras.c
-	e-table-field-chooser-dialog.c
-	e-table-field-chooser-item.c
-	e-table-field-chooser.c
-	e-table-group-container.c
-	e-table-group-leaf.c
-	e-table-group.c
-	e-table-header-item.c
-	e-table-header-utils.c
-	e-table-header.c
-	e-table-item.c
-	e-table-model.c
-	e-table-one.c
-	e-table-search.c
-	e-table-selection-model.c
-	e-table-sort-info.c
-	e-table-sorted-variable.c
-	e-table-sorted.c
-	e-table-sorter.c
-	e-table-sorting-utils.c
-	e-table-specification.c
-	e-table-state.c
-	e-table-subset-variable.c
-	e-table-subset.c
-	e-table-utils.c
-	e-table.c
 	e-text-event-processor-emacs-like.c
 	e-text-event-processor.c
 	e-text-model-repos.c
@@ -267,11 +218,7 @@ set(SOURCES
 	e-text.c
 	e-timezone-dialog.c
 	e-tree-model-generator.c
-	e-tree-model.c
-	e-tree-selection-model.c
-	e-tree-table-adapter.c
 	e-tree-view-frame.c
-	e-tree.c
 	e-ui-action.c
 	e-ui-action-group.c
 	e-ui-customize-dialog.c
@@ -298,25 +245,10 @@ set(SOURCES
 	ea-calendar-item.c
 	ea-cell-table.c
 	ea-widgets.c
-	gal-a11y-e-cell-popup.c
-	gal-a11y-e-cell-registry.c
-	gal-a11y-e-cell-text.c
-	gal-a11y-e-cell-toggle.c
-	gal-a11y-e-cell-tree.c
-	gal-a11y-e-cell-vbox.c
-	gal-a11y-e-cell.c
-	gal-a11y-e-table-click-to-add-factory.c
-	gal-a11y-e-table-click-to-add.c
-	gal-a11y-e-table-column-header.c
-	gal-a11y-e-table-item-factory.c
-	gal-a11y-e-table-item.c
-	gal-a11y-e-table.c
 	gal-a11y-e-text-factory.c
 	gal-a11y-e-text.c
-	gal-a11y-e-tree.c
 	gal-a11y-util.c
 	gal-view-collection.c
-	gal-view-etable.c
 	gal-view-virtual-tree.c
 	gal-view-instance-save-as-dialog.c
 	gal-view-instance.c
@@ -367,22 +299,6 @@ set(HEADERS
 	e-categories-selector.h
 	e-category-completion.h
 	e-category-editor.h
-	e-cell-checkbox.h
-	e-cell-combo.h
-	e-cell-date-edit.h
-	e-cell-date-int.h
-	e-cell-date.h
-	e-cell-hbox.h
-	e-cell-number.h
-	e-cell-percent.h
-	e-cell-pixbuf.h
-	e-cell-popup.h
-	e-cell-size.h
-	e-cell-text.h
-	e-cell-toggle.h
-	e-cell-tree.h
-	e-cell-vbox.h
-	e-cell.h
 	e-charset-combo-box.h
 	e-charset.h
 	e-client-cache.h
@@ -479,7 +395,6 @@ set(HEADERS
 	e-plugin-ui.h
 	e-plugin.h
 	e-poolv.h
-	e-popup-menu.h
 	e-port-entry.h
 	e-preferences-window.h
 	e-preview-pane.h
@@ -515,39 +430,6 @@ set(HEADERS
 	e-spinner.h
 	e-split-date-edit.h
 	e-stock-request.h
-	e-table-click-to-add.h
-	e-table-col-dnd.h
-	e-table-col.h
-	e-table-column-selector.h
-	e-table-column-specification.h
-	e-table-config.h
-	e-table-defines.h
-	e-table-extras.h
-	e-table-field-chooser-dialog.h
-	e-table-field-chooser-item.h
-	e-table-field-chooser.h
-	e-table-group-container.h
-	e-table-group-leaf.h
-	e-table-group.h
-	e-table-header-item.h
-	e-table-header-utils.h
-	e-table-header.h
-	e-table-item.h
-	e-table-model.h
-	e-table-one.h
-	e-table-search.h
-	e-table-selection-model.h
-	e-table-sort-info.h
-	e-table-sorted-variable.h
-	e-table-sorted.h
-	e-table-sorter.h
-	e-table-sorting-utils.h
-	e-table-specification.h
-	e-table-state.h
-	e-table-subset-variable.h
-	e-table-subset.h
-	e-table-utils.h
-	e-table.h
 	e-text-event-processor-emacs-like.h
 	e-text-event-processor-types.h
 	e-text-event-processor.h
@@ -556,11 +438,7 @@ set(HEADERS
 	e-text.h
 	e-timezone-dialog.h
 	e-tree-model-generator.h
-	e-tree-model.h
-	e-tree-selection-model.h
-	e-tree-table-adapter.h
 	e-tree-view-frame.h
-	e-tree.h
 	e-ui-action.h
 	e-ui-action-group.h
 	e-ui-customize-dialog.h
@@ -586,26 +464,11 @@ set(HEADERS
 	ea-cell-table.h
 	ea-factory.h
 	ea-widgets.h
-	gal-a11y-e-cell-popup.h
-	gal-a11y-e-cell-registry.h
-	gal-a11y-e-cell-text.h
-	gal-a11y-e-cell-toggle.h
-	gal-a11y-e-cell-tree.h
-	gal-a11y-e-cell-vbox.h
-	gal-a11y-e-cell.h
-	gal-a11y-e-table-click-to-add-factory.h
-	gal-a11y-e-table-click-to-add.h
-	gal-a11y-e-table-column-header.h
-	gal-a11y-e-table-item-factory.h
-	gal-a11y-e-table-item.h
-	gal-a11y-e-table.h
 	gal-a11y-e-text-factory.h
 	gal-a11y-e-text.h
-	gal-a11y-e-tree.h
 	gal-a11y-factory.h
 	gal-a11y-util.h
 	gal-view-collection.h
-	gal-view-etable.h
 	gal-view-virtual-tree.h
 	gal-view-instance-save-as-dialog.h
 	gal-view-instance.h
@@ -628,7 +491,6 @@ target_compile_definitions(evolution-util PRIVATE
 	-DEVOLUTION_BINDIR=\"${BIN_INSTALL_DIR}\"
 	-DEVOLUTION_DATADIR=\"${SHARE_INSTALL_PREFIX}\"
 	-DEVOLUTION_ECPSDIR=\"${privdatadir}/ecps\"
-	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
 	-DEVOLUTION_GALVIEWSDIR=\"${viewsdir}\"
 	-DEVOLUTION_HELPDIR=\"${evolutionhelpdir}\"
 	-DEVOLUTION_ICONDIR=\"${icondir}\"

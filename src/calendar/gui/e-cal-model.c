@@ -28,6 +28,127 @@
 #define i_cal_duration_as_utc_seconds i_cal_duration_as_int
 #endif
 
+struct _EDateEditValue {
+	ICalTime *tt;
+	ICalTimezone *zone;
+};
+
+EDateEditValue *
+e_date_edit_value_new (const ICalTime *tt,
+		       const ICalTimezone *zone)
+{
+	g_return_val_if_fail (I_CAL_IS_TIME ((ICalTime *) tt), NULL);
+	if (zone)
+		g_return_val_if_fail (I_CAL_IS_TIMEZONE ((ICalTimezone *) zone), NULL);
+
+	return e_date_edit_value_new_take (i_cal_time_clone (tt),
+		zone ? e_cal_util_copy_timezone (zone) : NULL);
+}
+
+EDateEditValue *
+e_date_edit_value_new_take (ICalTime *tt,
+			    ICalTimezone *zone)
+{
+	EDateEditValue *value;
+
+	g_return_val_if_fail (I_CAL_IS_TIME (tt), NULL);
+	if (zone)
+		g_return_val_if_fail (I_CAL_IS_TIMEZONE (zone), NULL);
+
+	value = g_new0 (EDateEditValue, 1);
+	value->tt = tt;
+	value->zone = zone;
+
+	return value;
+}
+
+EDateEditValue *
+e_date_edit_value_copy (const EDateEditValue *src)
+{
+	if (!src)
+		return NULL;
+
+	return e_date_edit_value_new (src->tt, src->zone);
+}
+
+void
+e_date_edit_value_free (EDateEditValue *value)
+{
+	if (value) {
+		g_clear_object (&value->tt);
+		g_clear_object (&value->zone);
+		g_free (value);
+	}
+}
+
+ICalTime *
+e_date_edit_value_get_time (const EDateEditValue *value)
+{
+	g_return_val_if_fail (value != NULL, NULL);
+
+	return value->tt;
+}
+
+void
+e_date_edit_value_set_time (EDateEditValue *value,
+			    const ICalTime *tt)
+{
+	g_return_if_fail (value != NULL);
+	g_return_if_fail (I_CAL_IS_TIME ((ICalTime *) tt));
+
+	e_date_edit_value_take_time (value, i_cal_time_clone (tt));
+}
+
+void
+e_date_edit_value_take_time (EDateEditValue *value,
+			     ICalTime *tt)
+{
+	g_return_if_fail (value != NULL);
+	g_return_if_fail (I_CAL_IS_TIME (tt));
+
+	if (value->tt != tt) {
+		g_clear_object (&value->tt);
+		value->tt = tt;
+	} else {
+		g_clear_object (&tt);
+	}
+}
+
+ICalTimezone *
+e_date_edit_value_get_zone (const EDateEditValue *value)
+{
+	g_return_val_if_fail (value != NULL, NULL);
+
+	return value->zone;
+}
+
+void
+e_date_edit_value_set_zone (EDateEditValue *value,
+			    const ICalTimezone *zone)
+{
+	g_return_if_fail (value != NULL);
+	if (zone)
+		g_return_if_fail (I_CAL_IS_TIMEZONE ((ICalTimezone *) zone));
+
+	e_date_edit_value_take_zone (value, zone ? e_cal_util_copy_timezone (zone) : NULL);
+}
+
+void
+e_date_edit_value_take_zone (EDateEditValue *value,
+			     ICalTimezone *zone)
+{
+	g_return_if_fail (value != NULL);
+	if (zone)
+		g_return_if_fail (I_CAL_IS_TIMEZONE (zone));
+
+	if (zone != value->zone) {
+		g_clear_object (&value->zone);
+		value->zone = zone;
+	} else {
+		g_clear_object (&zone);
+	}
+}
+
 ECalModelComponent *
 		_e_cal_model_test_add_component	(ECalModel *model,
 							 const gchar *source_uid,
@@ -246,12 +367,12 @@ e_cal_model_component_set_icalcomponent (ECalModelComponent *comp_data,
 	comp_data->priv->categories_str = NULL;
 	comp_data->priv->icon_index = -1;
 
-	g_clear_pointer (&comp_data->dtstart, e_cell_date_edit_value_free);
-	g_clear_pointer (&comp_data->dtend, e_cell_date_edit_value_free);
-	g_clear_pointer (&comp_data->due, e_cell_date_edit_value_free);
-	g_clear_pointer (&comp_data->completed, e_cell_date_edit_value_free);
-	g_clear_pointer (&comp_data->created, e_cell_date_edit_value_free);
-	g_clear_pointer (&comp_data->lastmodified, e_cell_date_edit_value_free);
+	g_clear_pointer (&comp_data->dtstart, e_date_edit_value_free);
+	g_clear_pointer (&comp_data->dtend, e_date_edit_value_free);
+	g_clear_pointer (&comp_data->due, e_date_edit_value_free);
+	g_clear_pointer (&comp_data->completed, e_date_edit_value_free);
+	g_clear_pointer (&comp_data->created, e_date_edit_value_free);
+	g_clear_pointer (&comp_data->lastmodified, e_date_edit_value_free);
 	g_clear_pointer (&comp_data->color, g_free);
 
 	if (comp_data->icalcomp && model)
@@ -378,7 +499,7 @@ get_description (ECalModelComponent *comp_data)
 	return str ? g_string_free (str, FALSE) : g_strdup ("");
 }
 
-static ECellDateEditValue *
+static EDateEditValue *
 get_dtstart (ECalModel *model,
              ECalModelComponent *comp_data)
 {
@@ -387,15 +508,15 @@ get_dtstart (ECalModel *model,
 			I_CAL_DTSTART_PROPERTY, i_cal_property_get_dtstart);
 	}
 
-	return e_cell_date_edit_value_copy (comp_data->dtstart);
+	return e_date_edit_value_copy (comp_data->dtstart);
 }
 
-static ECellDateEditValue *
+static EDateEditValue *
 get_datetime_from_utc (ECalModel *model,
                        ECalModelComponent *comp_data,
                        ICalPropertyKind propkind,
                        ECalModelTimeGetFuncType get_value,
-		       ECellDateEditValue **buffer)
+		       EDateEditValue **buffer)
 {
 	g_return_val_if_fail (buffer != NULL, NULL);
 
@@ -423,10 +544,10 @@ get_datetime_from_utc (ECalModel *model,
 			return NULL;
 		}
 
-		*buffer = e_cell_date_edit_value_new_take (tt_value, NULL);
+		*buffer = e_date_edit_value_new_take (tt_value, NULL);
 	}
 
-	return e_cell_date_edit_value_copy (*buffer);
+	return e_date_edit_value_copy (*buffer);
 }
 
 static gpointer
@@ -1324,7 +1445,7 @@ cal_model_get_color_for_component (ECalModel *model,
 	return comp_data->color;
 }
 
-static ECellDateEditValue *
+static EDateEditValue *
 get_dtend (ECalModel *model,
            ECalModelComponent *comp_data)
 {
@@ -1335,14 +1456,14 @@ get_dtend (ECalModel *model,
 		if (comp_data->dtend) {
 			ICalTime *tt;
 
-			tt = e_cell_date_edit_value_get_time (comp_data->dtend);
+			tt = e_date_edit_value_get_time (comp_data->dtend);
 
 			if (tt && i_cal_time_is_date (tt))
 				i_cal_time_adjust (tt, -1, 0, 0, 0);
 		}
 	}
 
-	return e_cell_date_edit_value_copy (comp_data->dtend);
+	return e_date_edit_value_copy (comp_data->dtend);
 }
 
 static gpointer
@@ -1386,7 +1507,7 @@ get_transparency (ECalModelComponent *comp_data)
 	return NULL;
 }
 
-static ECellDateEditValue *
+static EDateEditValue *
 get_completed (ECalModel *model,
 	       ECalModelComponent *comp_data)
 {
@@ -1395,10 +1516,10 @@ get_completed (ECalModel *model,
 			I_CAL_COMPLETED_PROPERTY, i_cal_property_get_completed);
 	}
 
-	return e_cell_date_edit_value_copy (comp_data->completed);
+	return e_date_edit_value_copy (comp_data->completed);
 }
 
-static ECellDateEditValue *
+static EDateEditValue *
 get_due (ECalModel *model,
 	 ECalModelComponent *comp_data)
 {
@@ -1407,7 +1528,7 @@ get_due (ECalModel *model,
 			I_CAL_DUE_PROPERTY, i_cal_property_get_due);
 	}
 
-	return e_cell_date_edit_value_copy (comp_data->due);
+	return e_date_edit_value_copy (comp_data->due);
 }
 
 static gpointer
@@ -1492,7 +1613,7 @@ set_completed (ECalModel *model,
                ECalModelComponent *comp_data,
                gconstpointer value)
 {
-	ECellDateEditValue *dv = (ECellDateEditValue *) value;
+	EDateEditValue *dv = (EDateEditValue *) value;
 
 	if (!dv) {
 		cal_model_ensure_task_not_complete (comp_data, TRUE);
@@ -1500,12 +1621,12 @@ set_completed (ECalModel *model,
 		ICalTime *tt;
 		time_t t;
 
-		tt = e_cell_date_edit_value_get_time (dv);
+		tt = e_date_edit_value_get_time (dv);
 		if (i_cal_time_is_date (tt)) {
 			i_cal_time_set_is_date (tt, FALSE);
 			t = i_cal_time_as_timet_with_zone (tt, e_cal_model_get_timezone (model));
 		} else {
-			t = i_cal_time_as_timet_with_zone (tt, e_cell_date_edit_value_get_zone (dv));
+			t = i_cal_time_as_timet_with_zone (tt, e_date_edit_value_get_zone (dv));
 		}
 
 		cal_model_ensure_task_complete (comp_data, t);
@@ -2084,7 +2205,7 @@ cal_model_free_field_value (gint col,
 	case E_CAL_MODEL_FIELD_CREATED:
 	case E_CAL_MODEL_FIELD_LASTMODIFIED:
 		if (value)
-			e_cell_date_edit_value_free (value);
+			e_date_edit_value_free (value);
 		break;
 	case E_CAL_MODEL_FIELD_COMPONENT:
 		if (value)
@@ -2094,7 +2215,7 @@ cal_model_free_field_value (gint col,
 	case E_CAL_MODEL_FIELD_COMPLETED:
 	case E_CAL_MODEL_FIELD_DUE:
 		if (value)
-			e_cell_date_edit_value_free (value);
+			e_date_edit_value_free (value);
 		break;
 	case E_CAL_MODEL_FIELD_LOCATION:
 	case E_CAL_MODEL_FIELD_TRANSPARENCY:
@@ -2334,8 +2455,8 @@ cal_model_compare_field_values (ECalModel *model,
 	case E_CAL_MODEL_FIELD_DTEND:
 	case E_CAL_MODEL_FIELD_DUE:
 	case E_CAL_MODEL_FIELD_COMPLETED:
-		time_a = value_a ? e_cell_date_edit_value_get_time (value_a) : NULL;
-		time_b = value_b ? e_cell_date_edit_value_get_time (value_b) : NULL;
+		time_a = value_a ? e_date_edit_value_get_time (value_a) : NULL;
+		time_b = value_b ? e_date_edit_value_get_time (value_b) : NULL;
 
 		if (time_a && time_b)
 			cmp = i_cal_time_compare (time_a, time_b);
@@ -3578,7 +3699,7 @@ e_cal_model_update_comp_time (ECalModel *model,
                               ECalModelTimeSetFuncType set_func,
                               ECalModelTimeNewFuncType new_func)
 {
-	ECellDateEditValue *dv = (ECellDateEditValue *) time_value;
+	EDateEditValue *dv = (EDateEditValue *) time_value;
 	ICalProperty *prop;
 	ICalParameter *param;
 	ICalTimezone *model_zone;
@@ -3607,7 +3728,7 @@ e_cal_model_update_comp_time (ECalModel *model,
 	}
 
 	model_zone = e_cal_model_get_timezone (model);
-	tt = e_cell_date_edit_value_get_time (dv);
+	tt = e_date_edit_value_get_time (dv);
 	datetime_to_zone (comp_data->client, tt, model_zone, param ? i_cal_parameter_get_tzid (param) : NULL);
 
 	if (prop) {
@@ -5078,85 +5199,13 @@ e_cal_model_util_set_status (ECalModelComponent *comp_data,
 	return status;
 }
 
-static const gchar *
-get_cmp_cache_str (gpointer cmp_cache,
-		   const gchar *str)
-{
-	const gchar *value;
-
-	if (!cmp_cache || !str)
-		return str;
-
-	value = e_table_sorting_utils_lookup_cmp_cache (cmp_cache, str);
-	if (!value) {
-		gchar *ckey;
-
-		ckey = g_utf8_collate_key (str, -1);
-		e_table_sorting_utils_add_to_cmp_cache (cmp_cache, (gchar *) str, ckey);
-		value = ckey;
-	}
-
-	return value;
-}
-
-static gint
-cmp_cache_strings (gconstpointer str_a,
-		   gconstpointer str_b,
-		   gpointer cmp_cache)
-{
-	if (!cmp_cache)
-		return g_utf8_collate (str_a, str_b);
-
-	str_b = get_cmp_cache_str (cmp_cache, str_b);
-
-	g_return_val_if_fail (str_a != NULL, 0);
-	g_return_val_if_fail (str_b != NULL, 0);
-
-	return g_strcmp0 (str_a, str_b);
-}
-
-gint
-e_cal_model_util_status_compare_cb (gconstpointer a,
-				    gconstpointer b,
-				    gpointer cmp_cache)
-{
-	const gchar *string_a = a;
-	const gchar *string_b = b;
-	gint status_a = -2;
-	gint status_b = -2;
-
-	if (!string_a || !*string_a) {
-		status_a = -1;
-	} else {
-		const gchar *cache_str = get_cmp_cache_str (cmp_cache, string_a);
-
-		status_a = cal_comp_util_localized_string_to_status (I_CAL_ANY_COMPONENT, cache_str, cmp_cache_strings, cmp_cache);
-
-		if (status_a == I_CAL_STATUS_NONE)
-			status_a = -1;
-	}
-
-	if (string_b == NULL || *string_b == '\0') {
-		status_b = -1;
-	} else {
-		const gchar *cache_str = get_cmp_cache_str (cmp_cache, string_b);
-
-		status_b = cal_comp_util_localized_string_to_status (I_CAL_ANY_COMPONENT, cache_str, cmp_cache_strings, cmp_cache);
-
-		if (status_b == I_CAL_STATUS_NONE)
-			status_b = -1;
-	}
-
-	return status_a - status_b;
-}
-
-ECellDateEditValue *
+EDateEditValue *
 e_cal_model_util_get_datetime_value (ECalModel *model,
 				     ECalModelComponent *comp_data,
 				     ICalPropertyKind kind,
 				     ECalModelTimeGetFuncType get_time_func)
 {
-	ECellDateEditValue *value;
+	EDateEditValue *value;
 	ICalProperty *prop;
 	ICalParameter *param = NULL;
 	ICalTimezone *zone = NULL;
@@ -5266,7 +5315,7 @@ e_cal_model_util_get_datetime_value (ECalModel *model,
 		}
 	}
 
-	value = e_cell_date_edit_value_new_take (tt, zone ? e_cal_util_copy_timezone (zone) : NULL);
+	value = e_date_edit_value_new_take (tt, zone ? e_cal_util_copy_timezone (zone) : NULL);
 
 	g_clear_object (&prop);
 	g_clear_object (&param);

@@ -391,7 +391,7 @@ test_field_baseline (Fixture *fixture,
 		     gconstpointer user_data)
 {
 	ECalModelComponent *comp_data;
-	ECellDateEditValue *created, *lastmodified;
+	EDateEditValue *created, *lastmodified;
 	ICalTime *tt, *expected_tt;
 	gchar *categories, *summary;
 	const gchar *uid;
@@ -418,19 +418,19 @@ test_field_baseline (Fixture *fixture,
 
 	created = e_cal_model_get_field_value (fixture->model, comp_data, E_CAL_MODEL_FIELD_CREATED);
 	g_assert_nonnull (created);
-	tt = e_cell_date_edit_value_get_time (created);
+	tt = e_date_edit_value_get_time (created);
 	expected_tt = i_cal_time_new_from_string ("20260101T000000Z");
 	g_assert_cmpint (i_cal_time_compare (tt, expected_tt), ==, 0);
 	g_object_unref (expected_tt);
-	e_cell_date_edit_value_free (created);
+	e_date_edit_value_free (created);
 
 	lastmodified = e_cal_model_get_field_value (fixture->model, comp_data, E_CAL_MODEL_FIELD_LASTMODIFIED);
 	g_assert_nonnull (lastmodified);
-	tt = e_cell_date_edit_value_get_time (lastmodified);
+	tt = e_date_edit_value_get_time (lastmodified);
 	expected_tt = i_cal_time_new_from_string ("20260102T000000Z");
 	g_assert_cmpint (i_cal_time_compare (tt, expected_tt), ==, 0);
 	g_object_unref (expected_tt);
-	e_cell_date_edit_value_free (lastmodified);
+	e_date_edit_value_free (lastmodified);
 }
 
 static void

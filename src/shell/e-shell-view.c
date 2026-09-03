@@ -934,23 +934,7 @@ action_gal_customize_view_cb (EUIAction *action,
 
 	gal_view = gal_view_instance_get_current_view (view_instance);
 
-	if (GAL_IS_VIEW_ETABLE (gal_view)) {
-		GalViewEtable *etable_view = GAL_VIEW_ETABLE (gal_view);
-		ETable *etable;
-
-		etable = gal_view_etable_get_table (etable_view);
-
-		if (etable) {
-			e_table_customize_view (etable);
-		} else {
-			ETree *etree;
-
-			etree = gal_view_etable_get_tree (etable_view);
-
-			if (etree)
-				e_tree_customize_view (etree);
-		}
-	} else 	if (GAL_IS_VIEW_VIRTUAL_TREE (gal_view)) {
+	if (GAL_IS_VIEW_VIRTUAL_TREE (gal_view)) {
 		EVirtualTree *vtree;
 
 		vtree = gal_view_virtual_tree_get_virtual_tree (GAL_VIEW_VIRTUAL_TREE (gal_view));
@@ -1698,8 +1682,7 @@ shell_view_update_view_menu (EShellView *self)
 
 	view_instance = e_shell_view_get_view_instance (self);
 	visible = view_instance && gal_view_instance_get_current_view (view_instance) &&
-		(GAL_IS_VIEW_ETABLE (gal_view_instance_get_current_view (view_instance)) ||
-		GAL_IS_VIEW_VIRTUAL_TREE (gal_view_instance_get_current_view (view_instance)));
+		GAL_IS_VIEW_VIRTUAL_TREE (gal_view_instance_get_current_view (view_instance));
 	action = e_ui_manager_get_action (self->priv->ui_manager, "gal-customize-view");
 	e_ui_action_set_visible (action, visible);
 

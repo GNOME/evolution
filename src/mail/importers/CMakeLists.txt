@@ -27,7 +27,6 @@ add_dependencies(evolution-mail-importers
 target_compile_definitions(evolution-mail-importers PRIVATE
 	-DG_LOG_DOMAIN=\"evolution-mail-importers\"
 	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"
-	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
 )
 
 target_compile_options(evolution-mail-importers PUBLIC

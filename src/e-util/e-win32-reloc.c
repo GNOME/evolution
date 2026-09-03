@@ -20,7 +20,6 @@ static const gchar *localedir = NULL;
 static const gchar *bindir;
 static const gchar *datadir;
 static const gchar *ecpsdir;
-static const gchar *etspecdir;
 static const gchar *galviewsdir;
 static const gchar *helpdir;
 static const gchar *icondir;
@@ -103,7 +102,6 @@ setup (void)
 	bindir = replace_prefix (full_prefix, EVOLUTION_BINDIR);
 	datadir = replace_prefix (full_prefix, EVOLUTION_DATADIR);
 	ecpsdir = replace_prefix (full_prefix, EVOLUTION_ECPSDIR);
-	etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
 	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
 	helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
 	if (g_getenv ("E_DATA_SERVER_ICONDIR") &&
@@ -155,7 +153,6 @@ _e_get_##varbl (void)				\
 GETTER(bindir)
 GETTER(datadir)
 GETTER(ecpsdir)
-GETTER(etspecdir)
 GETTER(galviewsdir)
 GETTER(helpdir)
 GETTER(icondir)

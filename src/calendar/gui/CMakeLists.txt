@@ -39,8 +39,6 @@ set(SOURCES
 	e-cal-table-memos.c
 	e-cal-table-tasks.c
 	e-calendar-view.c
-	e-cell-date-edit-text.c
-	e-cell-estimated-duration.c
 	e-comp-editor.c
 	e-comp-editor-event.c
 	e-comp-editor-memo.c
@@ -118,8 +116,6 @@ set(HEADERS
 	e-cal-table-memos.h
 	e-cal-table-tasks.h
 	e-calendar-view.h
-	e-cell-date-edit-text.h
-	e-cell-estimated-duration.h
 	e-comp-editor.h
 	e-comp-editor-event.h
 	e-comp-editor-memo.h
@@ -185,7 +181,6 @@ add_dependencies(evolution-calendar
 
 target_compile_definitions(evolution-calendar PRIVATE
 	-DG_LOG_DOMAIN=\"evolution-calendar\"
-	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
 )
 
 target_compile_options(evolution-calendar PUBLIC

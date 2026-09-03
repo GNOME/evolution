@@ -13,8 +13,6 @@
 #include <shell/e-shell.h>
 #include <calendar/gui/e-cal-data-model.h>
 
-#include "e-cell-date-edit-text.h"
-
 /* Standard GObject macros */
 #define E_TYPE_CAL_MODEL \
 	(e_cal_model_get_type ())
@@ -95,6 +93,28 @@ typedef struct _ECalModelComponent ECalModelComponent;
 typedef struct _ECalModelComponentClass ECalModelComponentClass;
 typedef struct _ECalModelComponentPrivate ECalModelComponentPrivate;
 
+typedef struct _EDateEditValue EDateEditValue;
+
+EDateEditValue *
+		e_date_edit_value_new		(const ICalTime *tt,
+						 const ICalTimezone *zone);
+EDateEditValue *
+		e_date_edit_value_new_take	(ICalTime *tt,
+						 ICalTimezone *zone);
+EDateEditValue *
+		e_date_edit_value_copy		(const EDateEditValue *src);
+void		e_date_edit_value_free		(EDateEditValue *value);
+ICalTime *	e_date_edit_value_get_time	(const EDateEditValue *value);
+void		e_date_edit_value_set_time	(EDateEditValue *value,
+						 const ICalTime *tt);
+void		e_date_edit_value_take_time	(EDateEditValue *value,
+						 ICalTime *tt);
+ICalTimezone *	e_date_edit_value_get_zone	(const EDateEditValue *value);
+void		e_date_edit_value_set_zone	(EDateEditValue *value,
+						 const ICalTimezone *zone);
+void		e_date_edit_value_take_zone	(EDateEditValue *value,
+						 ICalTimezone *zone);
+
 struct _ECalModelComponent {
 	GObject object;
 
@@ -105,12 +125,12 @@ struct _ECalModelComponent {
 	gboolean is_new_component;
 
 	/* keep these public to avoid many accessor functions */
-	ECellDateEditValue *dtstart;
-	ECellDateEditValue *dtend;
-	ECellDateEditValue *due;
-	ECellDateEditValue *completed;
-	ECellDateEditValue *created;
-	ECellDateEditValue *lastmodified;
+	EDateEditValue *dtstart;
+	EDateEditValue *dtend;
+	EDateEditValue *due;
+	EDateEditValue *completed;
+	EDateEditValue *created;
+	EDateEditValue *lastmodified;
 	gchar *color;
 
 	/* ESource::uid of client, cached once at insert time */
@@ -409,11 +429,7 @@ gpointer	e_cal_model_util_get_status	(ECalModelComponent *comp_data);
 ICalPropertyStatus
 		e_cal_model_util_set_status	(ECalModelComponent *comp_data,
 						 gconstpointer value);
-gint		e_cal_model_util_status_compare_cb
-						(gconstpointer a,
-						 gconstpointer b,
-						 gpointer cmp_cache);
-ECellDateEditValue *
+EDateEditValue *
 		e_cal_model_util_get_datetime_value
 						(ECalModel *model,
 						 ECalModelComponent *comp_data,

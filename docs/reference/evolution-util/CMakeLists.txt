@@ -12,8 +12,6 @@ set(IGNORE_HEADERS
 	e-html-editor-actions.h
 	e-html-editor-private.h
 	e-marshal.h
-	e-table-col-dnd.h
-	e-table-defines.h
 	e-util-enumtypes.h
 	e-util-private.h
 	ea-calendar-cell.h
@@ -21,24 +19,8 @@ set(IGNORE_HEADERS
 	ea-cell-table.h
 	ea-factory.h
 	ea-widgets.h
-	gal-a11y-e-cell.h
-	gal-a11y-e-cell-popup.h
-	gal-a11y-e-cell-registry.h
-	gal-a11y-e-cell-text.h
-	gal-a11y-e-cell-toggle.h
-	gal-a11y-e-cell-tree.h
-	gal-a11y-e-cell-vbox.h
-	gal-a11y-e-table-click-to-add-factory.h
-	gal-a11y-e-table-click-to-add.h
-	gal-a11y-e-table-column-header.h
-	gal-a11y-e-table-factory.h
-	gal-a11y-e-table-item-factory.h
-	gal-a11y-e-table-item.h
-	gal-a11y-e-table.h
 	gal-a11y-e-text-factory.h
 	gal-a11y-e-text.h
-	gal-a11y-e-tree-factory.h
-	gal-a11y-e-tree.h
 	gal-a11y-factory.h
 	gal-a11y-util.h
 	test-html-editor-units-bugs.h

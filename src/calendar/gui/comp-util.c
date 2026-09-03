@@ -3572,7 +3572,7 @@ datetime_popover_commit (DatetimePopoverData *dpd)
 		e_cal_model_set_field_value (dpd->model, dpd->comp_data, dpd->field, NULL, TRUE);
 	} else {
 		ICalTime *itt;
-		ECellDateEditValue *dv;
+		EDateEditValue *dv;
 		gint hour, minute;
 		gboolean has_time;
 
@@ -3589,11 +3589,11 @@ datetime_popover_commit (DatetimePopoverData *dpd)
 			i_cal_time_set_is_date (itt, TRUE);
 		}
 
-		dv = e_cell_date_edit_value_new (itt, has_time ? e_cal_model_get_timezone (dpd->model) : NULL);
+		dv = e_date_edit_value_new (itt, has_time ? e_cal_model_get_timezone (dpd->model) : NULL);
 
 		e_cal_model_set_field_value (dpd->model, dpd->comp_data, dpd->field, dv, TRUE);
 
-		e_cell_date_edit_value_free (dv);
+		e_date_edit_value_free (dv);
 		g_object_unref (itt);
 	}
 }
@@ -3699,8 +3699,8 @@ cal_comp_util_edit_datetime_field_in_popover (GtkWidget *relative_to,
 	value = e_cal_model_get_field_value (model, comp_data, field);
 
 	if (value) {
-		ECellDateEditValue *dv = value;
-		ICalTime *itt = e_cell_date_edit_value_get_time (dv);
+		EDateEditValue *dv = value;
+		ICalTime *itt = e_date_edit_value_get_time (dv);
 
 		e_date_edit_set_date (E_DATE_EDIT (date_edit),
 			i_cal_time_get_year (itt), i_cal_time_get_month (itt), i_cal_time_get_day (itt));
@@ -3711,7 +3711,7 @@ cal_comp_util_edit_datetime_field_in_popover (GtkWidget *relative_to,
 			e_date_edit_set_time_of_day (E_DATE_EDIT (date_edit),
 				i_cal_time_get_hour (itt), i_cal_time_get_minute (itt));
 
-		e_cell_date_edit_value_free (dv);
+		e_date_edit_value_free (dv);
 	} else {
 		e_date_edit_set_time (E_DATE_EDIT (date_edit), (time_t) -1);
 	}

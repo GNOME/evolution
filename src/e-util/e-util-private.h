@@ -23,7 +23,6 @@ gpointer _e_get_dll_hmodule (void) G_GNUC_CONST;
 const gchar *_e_get_bindir (void) G_GNUC_CONST;
 const gchar *_e_get_datadir (void) G_GNUC_CONST;
 const gchar *_e_get_ecpsdir (void) G_GNUC_CONST;
-const gchar *_e_get_etspecdir (void) G_GNUC_CONST;
 const gchar *_e_get_galviewsdir (void) G_GNUC_CONST;
 const gchar *_e_get_helpdir (void) G_GNUC_CONST;
 const gchar *_e_get_icondir (void) G_GNUC_CONST;
@@ -63,9 +62,6 @@ const gchar *_e_get_data_server_icondir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_ECPSDIR
 #define EVOLUTION_ECPSDIR _e_get_ecpsdir ()
-
-#undef EVOLUTION_ETSPECDIR
-#define EVOLUTION_ETSPECDIR _e_get_etspecdir ()
 
 #undef EVOLUTION_LOCALEDIR
 #define EVOLUTION_LOCALEDIR _e_get_localedir ()

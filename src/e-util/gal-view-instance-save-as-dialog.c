@@ -10,7 +10,6 @@
 
 #include "e-misc-utils.h"
 #include "e-util-private.h"
-#include "gal-view-etable.h"
 #include "gal-view-instance-save-as-dialog.h"
 
 G_DEFINE_TYPE (GalViewInstanceSaveAsDialog, gal_view_instance_save_as_dialog, GTK_TYPE_DIALOG)

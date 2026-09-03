@@ -2918,7 +2918,7 @@ model_rows_inserted_cb (ECalModel *model,
 }
 
 static void
-model_comps_deleted_cb (ETableModel *etm,
+model_comps_deleted_cb (ECalModel *model,
                         gpointer data,
                         gpointer user_data)
 {

@@ -222,7 +222,6 @@ add_dependencies(evolution-mail
 target_compile_definitions(evolution-mail PRIVATE
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 	-DEVOLUTION_PRIVDATADIR=\"${privdatadir}\"
-	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
 	-DEVOLUTION_LOCALEDIR=\"${LOCALE_INSTALL_DIR}\"
 )
 
