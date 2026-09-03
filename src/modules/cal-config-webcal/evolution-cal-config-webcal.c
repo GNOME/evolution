@@ -91,6 +91,18 @@ cal_config_webcal_insert_widgets (ESourceConfigBackend *backend,
 		gtk_widget_show (widget);
 	}
 
+	/* alarms extension is set for new sources, thus do both with non-existent conflict search */
+	if (!e_source_has_extension (scratch_source, E_SOURCE_EXTENSION_CONFLICT_SEARCH)) {
+		ESourceAlarms *alarms;
+		ESourceConflictSearch *conflict_search;
+
+		alarms = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_ALARMS);
+		e_source_alarms_set_include_me (alarms, FALSE);
+
+		conflict_search = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_CONFLICT_SEARCH);
+		e_source_conflict_search_set_include_me (conflict_search, FALSE);
+	}
+
 	e_source_config_add_secure_connection_for_webdav (
 		config, scratch_source);
 

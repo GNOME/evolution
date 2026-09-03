@@ -69,6 +69,13 @@ cal_config_contacts_insert_widgets (ESourceConfigBackend *backend,
 	widget = e_contacts_selector_new (registry);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
+
+	if (!e_source_has_extension (scratch_source, E_SOURCE_EXTENSION_CONFLICT_SEARCH)) {
+		ESourceConflictSearch *conflict_search;
+
+		conflict_search = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_CONFLICT_SEARCH);
+		e_source_conflict_search_set_include_me (conflict_search, FALSE);
+	}
 }
 
 static void

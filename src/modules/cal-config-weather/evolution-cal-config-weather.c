@@ -271,10 +271,20 @@ cal_config_weather_insert_widgets (ESourceConfigBackend *backend,
 	extension_name = E_SOURCE_EXTENSION_WEATHER_BACKEND;
 	extension = e_source_get_extension (scratch_source, extension_name);
 
-	if (is_new_source)
+	if (is_new_source) {
+		ESourceAlarms *alarms;
+		ESourceConflictSearch *conflict_search;
+
+		alarms = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_ALARMS);
+		e_source_alarms_set_include_me (alarms, FALSE);
+
+		conflict_search = e_source_get_extension (scratch_source, E_SOURCE_EXTENSION_CONFLICT_SEARCH);
+		e_source_conflict_search_set_include_me (conflict_search, FALSE);
+
 		e_source_weather_set_units (
 			E_SOURCE_WEATHER (extension),
 			cal_config_weather_get_units_from_locale ());
+	}
 
 	e_binding_bind_property_full (
 		extension, "location",
