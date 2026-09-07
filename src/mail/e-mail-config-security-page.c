@@ -528,9 +528,6 @@ mail_config_security_page_constructed (GObject *object)
 		"", _("Default"));
 	gtk_combo_box_text_append (
 		GTK_COMBO_BOX_TEXT (widget),
-		"sha1", _("SHA1"));
-	gtk_combo_box_text_append (
-		GTK_COMBO_BOX_TEXT (widget),
 		"sha256", _("SHA256"));
 	gtk_combo_box_text_append (
 		GTK_COMBO_BOX_TEXT (widget),
@@ -776,9 +773,6 @@ mail_config_security_page_constructed (GObject *object)
 	gtk_combo_box_text_append (
 		GTK_COMBO_BOX_TEXT (widget),
 		"", _("Default"));
-	gtk_combo_box_text_append (
-		GTK_COMBO_BOX_TEXT (widget),
-		"sha1", _("SHA1"));
 	gtk_combo_box_text_append (
 		GTK_COMBO_BOX_TEXT (widget),
 		"sha256", _("SHA256"));

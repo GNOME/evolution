@@ -1956,29 +1956,6 @@
       <widget name="lblForwardStyle"/>
     </widgets>
   </object>
-  <object class="GtkListStore" id="hash_algo_model">
-    <columns>
-      <!-- column-name Hash -->
-      <column type="gchararray"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Default</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">SHA1</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">SHA256</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">SHA384</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">SHA512</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkListStore" id="model1">
     <columns>
       <!-- column-name gchararray -->

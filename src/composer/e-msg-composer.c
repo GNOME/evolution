@@ -880,9 +880,7 @@ account_hash_algo_to_camel_hash (const gchar *hash_algo)
 	CamelCipherHash res = CAMEL_CIPHER_HASH_DEFAULT;
 
 	if (hash_algo && *hash_algo) {
-		if (g_ascii_strcasecmp (hash_algo, "sha1") == 0)
-			res = CAMEL_CIPHER_HASH_SHA1;
-		else if (g_ascii_strcasecmp (hash_algo, "sha256") == 0)
+		if (g_ascii_strcasecmp (hash_algo, "sha256") == 0)
 			res = CAMEL_CIPHER_HASH_SHA256;
 		else if (g_ascii_strcasecmp (hash_algo, "sha384") == 0)
 			res = CAMEL_CIPHER_HASH_SHA384;
