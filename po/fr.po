@@ -39,8 +39,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-08-21 10:54+0000\n"
-"PO-Revision-Date: 2026-08-21 19:27+0200\n"
+"POT-Creation-Date: 2026-09-07 10:51+0000\n"
+"PO-Revision-Date: 2026-09-07 16:36+0200\n"
 "Last-Translator: Jean-Marc Tissières <jmetissieres@gmail.com>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
 "Language: fr\n"
@@ -13590,7 +13590,7 @@ msgid ""
 "Toggles whether the From override field to change name or email address is "
 "displayed"
 msgstr ""
-"Indique si le champ « De » pour remplacer le nom ou l’adresse de courriel "
+"Indique si le champ « De » pour remplacer le nom ou l’adresse électronique "
 "est affiché"
 
 #: ../src/composer/e-composer-actions.c:627
@@ -15388,7 +15388,7 @@ msgstr "Informations sur l’utilisateur"
 
 #: ../src/e-util/e-collection-account-wizard.c:1718
 msgid "_Email Address or User name:"
-msgstr "Adresse courri_el ou nom d’utilisateur :"
+msgstr "Adresse él_ectronique ou nom d’utilisateur :"
 
 #: ../src/e-util/e-collection-account-wizard.c:1746
 msgid "_Advanced Options"
@@ -19677,11 +19677,11 @@ msgstr "Le champ du nom complet ne devrait pas être vide"
 
 #: ../src/mail/e-mail-config-identity-page.c:926
 msgid "Email Address cannot be empty"
-msgstr "Le champ d’adresse courriel ne peut pas être vide"
+msgstr "Le champ d’adresse électronique ne peut pas être vide"
 
 #: ../src/mail/e-mail-config-identity-page.c:931
 msgid "Email Address is not a valid email"
-msgstr "L’adresse courriel n’est pas une adresse valide"
+msgstr "L’adresse électronique n’est pas une adresse valide"
 
 #: ../src/mail/e-mail-config-identity-page.c:943
 msgid "Reply To is not a valid email"
@@ -24225,15 +24225,15 @@ msgid "Messages"
 msgstr "Messages"
 
 #. default follow-up flag name to use when clicked in the message list column
-#: ../src/mail/message-list.c:5819
+#: ../src/mail/message-list.c:5806
 msgid "Follow-up"
 msgstr "Donner suite"
 
-#: ../src/mail/message-list.c:6564 ../src/mail/message-list.c:7003
+#: ../src/mail/message-list.c:6551 ../src/mail/message-list.c:6990
 msgid "Generating message list…"
 msgstr "Génération de la liste des messages…"
 
-#: ../src/mail/message-list.c:6567
+#: ../src/mail/message-list.c:6554
 msgid ""
 "No message satisfies your search criteria. Change search criteria by "
 "selecting a new Show message filter from the drop down list above or by "
@@ -24246,7 +24246,7 @@ msgstr ""
 "recherche, soit en l’effaçant avec l’élément de menu Recherche→Effacer ou "
 "bien en modifiant la requête ci-dessus."
 
-#: ../src/mail/message-list.c:6574
+#: ../src/mail/message-list.c:6561
 msgid "There are no messages in this folder."
 msgstr "Il n’y a aucun message dans ce dossier."
 
@@ -25151,29 +25151,29 @@ msgstr "Permissions insuffisantes"
 msgid "The selected folder is not writable."
 msgstr "Le dossier sélectionné n’est pas modifiable."
 
-#: ../src/modules/bogofilter/evolution-bogofilter.c:148
+#: ../src/modules/bogofilter/evolution-bogofilter.c:149
 #, c-format
 msgid "Failed to spawn Bogofilter (%s): "
 msgstr "Échec du lancement de Bogofilter (%s) : "
 
-#: ../src/modules/bogofilter/evolution-bogofilter.c:166
+#: ../src/modules/bogofilter/evolution-bogofilter.c:167
 msgid "Failed to stream mail message content to Bogofilter: "
 msgstr ""
 "Échec lors du filtrage du contenu des courriels en utilisant Bogofilter : "
 
-#: ../src/modules/bogofilter/evolution-bogofilter.c:215
+#: ../src/modules/bogofilter/evolution-bogofilter.c:216
 msgid "Bogofilter either crashed or failed to process a mail message"
 msgstr "Échec ou arrêt brutal de Bogofilter lors du traitement d’un courriel"
 
-#: ../src/modules/bogofilter/evolution-bogofilter.c:360
+#: ../src/modules/bogofilter/evolution-bogofilter.c:361
 msgid "Bogofilter Options"
 msgstr "Options de Bogofilter"
 
-#: ../src/modules/bogofilter/evolution-bogofilter.c:369
+#: ../src/modules/bogofilter/evolution-bogofilter.c:370
 msgid "Convert message text to _Unicode"
 msgstr "Convertir le texte du message en _Unicode"
 
-#: ../src/modules/bogofilter/evolution-bogofilter.c:527
+#: ../src/modules/bogofilter/evolution-bogofilter.c:528
 #: ../src/modules/bogofilter/org.gnome.Evolution-bogofilter.metainfo.xml.in.h:1
 msgid "Bogofilter"
 msgstr "Bogofilter"
@@ -25202,7 +25202,7 @@ msgstr "URL :"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:210
 msgid "Find Address Books"
-msgstr "Trouver un carnet d’adresses"
+msgstr "Rechercher les carnets d’adresses"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:221
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
@@ -25210,7 +25210,7 @@ msgstr "Éviter IfMatch (requis pour Apache < 2.2.8)"
 
 #: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:278
 #: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:411
-#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:159
+#: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:171
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:357
 msgid "URL is not a valid http:// nor https:// URL"
 msgstr "L’URL n’est ni un http://, ni un https:// valide"
@@ -25449,7 +25449,7 @@ msgstr "Limite de temps pour les mémos passés (en jours)"
 msgid "Choose which address books to use."
 msgstr "Choisissez les carnets d’adresses à utiliser."
 
-#: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:182
+#: ../src/modules/cal-config-contacts/evolution-cal-config-contacts.c:189
 msgid "Use in Birthdays & Anniversaries calendar"
 msgstr "Utiliser dans l’agenda Anniversaires"
 
@@ -25529,7 +25529,7 @@ msgstr "Kelvin (K)"
 msgid "Units:"
 msgstr "Unités :"
 
-#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:320
+#: ../src/modules/cal-config-weather/evolution-cal-config-weather.c:330
 msgid "Location cannot be empty"
 msgstr "Le champ emplacement ne peut pas être vide"
 
@@ -29297,41 +29297,41 @@ msgstr ""
 "Charger à nouveau tous les articles de flux depuis le serveur, mettre à jour "
 "ceux existants et ajouter ceux manquants"
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:178
+#: ../src/modules/spamassassin/evolution-spamassassin.c:179
 #, c-format
 msgid "Failed to spawn SpamAssassin (%s): "
 msgstr "Échec du lancement de SpamAssassin (%s) : "
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:201
+#: ../src/modules/spamassassin/evolution-spamassassin.c:202
 msgid "Failed to stream mail message content to SpamAssassin: "
 msgstr "Échec lors du filtrage des courriels en utilisant SpamAssassin : "
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:220
+#: ../src/modules/spamassassin/evolution-spamassassin.c:221
 #, c-format
 msgid "Failed to write “%s” to SpamAssassin: "
 msgstr "Échec lors de l’écriture de « %s » vers SpamAssassin : "
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:248
+#: ../src/modules/spamassassin/evolution-spamassassin.c:249
 msgid "Failed to read output from SpamAssassin: "
 msgstr "Échec lors de la lecture de la sortie de SpamAssassin : "
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:303
+#: ../src/modules/spamassassin/evolution-spamassassin.c:304
 msgid "SpamAssassin either crashed or failed to process a mail message"
 msgstr "Échec ou arrêt brutal de SpamAssassin lors du traitement d’un courriel"
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:526
+#: ../src/modules/spamassassin/evolution-spamassassin.c:527
 msgid "SpamAssassin Options"
 msgstr "Options de SpamAssassin"
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:541
+#: ../src/modules/spamassassin/evolution-spamassassin.c:542
 msgid "I_nclude remote tests"
 msgstr "I_nclure les tests distants"
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:555
+#: ../src/modules/spamassassin/evolution-spamassassin.c:556
 msgid "This will make SpamAssassin more reliable, but slower."
 msgstr "Cela rendra SpamAssassin plus fiable, mais plus lent."
 
-#: ../src/modules/spamassassin/evolution-spamassassin.c:730
+#: ../src/modules/spamassassin/evolution-spamassassin.c:731
 #: ../src/modules/spamassassin/org.gnome.Evolution-spamassassin.metainfo.xml.in.h:1
 msgid "SpamAssassin"
 msgstr "SpamAssassin"
@@ -29755,8 +29755,8 @@ msgid ""
 msgstr ""
 "Évite le travail répétitif dans la gestion de votre carnet d’adresses.\n"
 "\n"
-"Complète automatiquement votre carnet d’adresses avec les noms et adresses "
-"de courriel de la personne à qui vous répondez. Complète également les "
+"Complète automatiquement votre carnet d’adresses avec le nom et l’adresse "
+"électronique de la personne à qui vous répondez. Complète également les "
 "informations de messagerie instantanée issues de vos listes de contacts."
 
 #: ../src/plugins/dbx-import/dbx-importer.c:255
