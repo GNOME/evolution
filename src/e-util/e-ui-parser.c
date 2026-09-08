@@ -1996,7 +1996,7 @@ _e_ui_parser_rename_actions (EUIParser *self,
 		gpointer key, value;
 		GHashTable *to_rename;
 
-		to_rename = g_hash_table_new (g_str_hash, g_str_equal);
+		to_rename = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 		g_hash_table_iter_init (&iter, self->accels);
 		while (g_hash_table_iter_next (&iter, &key, &value)) {
@@ -2004,7 +2004,7 @@ _e_ui_parser_rename_actions (EUIParser *self,
 
 			new_action = g_hash_table_lookup (renames, key);
 			if (new_action)
-				g_hash_table_insert (to_rename, key, (gpointer) new_action);
+				g_hash_table_insert (to_rename, g_strdup (key), (gpointer) new_action);
 		}
 
 		if (g_hash_table_size (to_rename) > 0) {
@@ -2020,6 +2020,10 @@ _e_ui_parser_rename_actions (EUIParser *self,
 					g_ptr_array_ref (accels);
 					g_hash_table_remove (self->accels, old_key);
 					g_hash_table_insert (self->accels, g_strdup (new_key), accels);
+
+					g_ptr_array_ref (accels);
+					g_signal_emit (self, signals[SIGNAL_ACCELS_CHANGED], 0, new_key, NULL, accels, NULL);
+					g_ptr_array_unref (accels);
 				}
 			}
 		}

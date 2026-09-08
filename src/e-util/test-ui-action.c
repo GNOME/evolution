@@ -183,6 +183,56 @@ test_customizer_rename_actions (void)
 }
 
 static void
+test_customizer_rename_actions_accels (void)
+{
+	EUIParser *parser;
+	GError *error = NULL;
+	GtkAccelGroup *accel_group;
+	guint n_found = 0;
+	const gchar *data =
+		"<eui>"
+		"<accels action='old-action-1'>"
+		"<accel value='&lt;Control&gt;m'/>"
+		"</accels>"
+		"</eui>";
+	static const EUIActionEntry entries[] = {
+		{ "new-action-1", NULL, "Action 1", "<Control>k", NULL, NULL, NULL, NULL, NULL }
+	};
+	static const EUIActionRename renames[] = {
+		{ "old-action-1", "new-action-1" }
+	};
+	EUICustomizer *customizer;
+	EUIManager *manager;
+
+	manager = e_ui_manager_new (NULL);
+	customizer = e_ui_manager_get_customizer (manager);
+
+	parser = e_ui_customizer_get_parser (customizer);
+	g_assert_nonnull (parser);
+
+	g_assert_true (e_ui_parser_merge_data (parser, data, -1, &error));
+	g_assert_no_error (error);
+
+	e_ui_manager_add_actions (manager, "test", NULL, entries, G_N_ELEMENTS (entries), NULL);
+
+	accel_group = e_ui_manager_get_accel_group (manager);
+	g_assert_nonnull (accel_group);
+
+	gtk_accel_group_query (accel_group, GDK_KEY_k, GDK_CONTROL_MASK, &n_found);
+	g_assert_cmpuint (n_found, ==, 1);
+
+	e_ui_customizer_rename_actions (customizer, renames, G_N_ELEMENTS (renames));
+
+	gtk_accel_group_query (accel_group, GDK_KEY_m, GDK_CONTROL_MASK, &n_found);
+	g_assert_cmpuint (n_found, ==, 1);
+
+	gtk_accel_group_query (accel_group, GDK_KEY_k, GDK_CONTROL_MASK, &n_found);
+	g_assert_cmpuint (n_found, ==, 0);
+
+	g_object_unref (manager);
+}
+
+static void
 test_customizer_rename_submenu (void)
 {
 	EUIParser *parser;
@@ -234,11 +284,14 @@ main (gint argc,
 	g_test_init (&argc, &argv, NULL);
 	g_test_bug_base ("https://gitlab.gnome.org/GNOME/evolution/issues/");
 
+	gtk_init (&argc, &argv);
+
 	g_test_add_func ("/EUIAction/SecondaryLabel", test_action_secondary_label);
 	g_test_add_func ("/EUIAction/SecondaryLabelProperty", test_action_secondary_label_property);
 	g_test_add_func ("/EUIParser/UseSecondaryLabel", test_parser_use_secondary_label);
 	g_test_add_func ("/EUIParser/UseSecondaryLabelExport", test_parser_use_secondary_label_export);
 	g_test_add_func ("/EUICustomizer/RenameActions", test_customizer_rename_actions);
+	g_test_add_func ("/EUICustomizer/RenameActionsAccels", test_customizer_rename_actions_accels);
 	g_test_add_func ("/EUICustomizer/RenameSubmenu", test_customizer_rename_submenu);
 
 	res = g_test_run ();
