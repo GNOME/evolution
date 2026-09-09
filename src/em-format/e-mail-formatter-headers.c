@@ -463,16 +463,18 @@ format_full_headers (EMailFormatter *formatter,
 	/* Prefer contact photos over archaic "Face" headers. */
 	if (show_sender_photo && photo_name != NULL) {
 		gchar *escaped_name;
+		const gchar *page_token;
 
 		escaped_name = g_uri_escape_string (photo_name, NULL, FALSE);
+		page_token = e_mail_formatter_ensure_page_token (formatter);
 		g_string_append (
 			buffer,
 			"<td align=\"right\" valign=\"top\">");
 		g_string_append_printf (
 			buffer,
 			"<img src=\"mail://contact-photo?mailaddr=\" "
-			"data-mailaddr=\"%s\" id=\"__evo-contact-photo\"/>",
-			escaped_name);
+			"data-mailaddr=\"%s\" evo-token=\"%s\" id=\"__evo-contact-photo\"/>",
+			escaped_name, page_token);
 		g_string_append (buffer, "</td>");
 
 		g_free (escaped_name);

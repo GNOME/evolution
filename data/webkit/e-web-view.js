@@ -24,6 +24,7 @@ var Evo = {
 	blockquoteStyle : "margin:0 0 0 .8ex; border-left:2px #729fcf solid;padding-left:1ex",
 	magicSpacebarState: -1,
 	markCitationColor : null,
+	pageToken : null,
 	plugins : null
 };
 
@@ -230,6 +231,11 @@ Evo.SetElementAttribute = function(iframe_id, element_id, namespace_uri, qualifi
 		else
 			elem.removeAttributeNS(namespace_uri, qualified_name);
 	}
+}
+
+Evo.HasValidToken = function(elem)
+{
+	return !!Evo.pageToken && elem.getAttribute("evo-token") === Evo.pageToken;
 }
 
 Evo.createStyleSheet = function(doc, style_sheet_id, content)
@@ -1135,6 +1141,9 @@ Evo.mailDisplayVCardModeButtonClicked = function(elem)
 	if (!elem || !elem.parentElement)
 		return;
 
+	if (!Evo.HasValidToken(elem))
+		return;
+
 	var normal_btn = null, compact_btn = null, iframe_elem = null, child;
 
 	for (child = elem.parentElement.firstElementChild; child; child = child.nextElementSibling) {
@@ -1342,9 +1351,10 @@ Evo.mailDisplaySizeChanged = function(entries, observer)
 	window.requestAnimationFrame(Evo.mailDisplayHandleSizeEntries);
 }
 
-Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
+Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor, pageToken)
 {
 	Evo.markCitationColor = markCitationColor != "" ? markCitationColor : null;
+	Evo.pageToken = pageToken != "" ? pageToken : null;
 	if (!Evo.mailDisplayResizeObserver) {
 		Evo.mailDisplayResizeObserver = new ResizeObserver(Evo.mailDisplaySizeChanged);
 		Evo.mailDisplayResizeObserver.expectChange = 0;
@@ -1434,7 +1444,7 @@ Evo.MailDisplayBindDOM = function(iframe_id, markCitationColor)
 
 			elem = doc.getElementById("__evo-contact-photo");
 
-			if (elem && elem.hasAttribute("data-mailaddr")) {
+			if (elem && elem.hasAttribute("data-mailaddr") && Evo.HasValidToken(elem)) {
 				var mail_addr;
 
 				mail_addr = elem.getAttribute("data-mailaddr");
@@ -1938,13 +1948,13 @@ EvoItip.FlipAlternativeHTMLPart = function(iframe_id, element_value, img_id, spa
 		elem.hidden = !elem.hidden;
 	}
 	elem = Evo.FindElement(iframe_id, img_id);
-	if (elem) {
+	if (elem && Evo.HasValidToken(elem)) {
 		var tmp = elem.src;
 		elem.src = elem.getAttribute("othersrc");
 		elem.setAttribute("othersrc", tmp);
 	}
 	elem = Evo.FindElement(iframe_id, img_id + "-dark");
-	if (elem) {
+	if (elem && Evo.HasValidToken(elem)) {
 		var tmp = elem.src;
 		elem.src = elem.getAttribute("othersrc");
 		elem.setAttribute("othersrc", tmp);
