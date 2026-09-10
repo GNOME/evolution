@@ -6,10 +6,6 @@ add_custom_xml_files(mail ${privdatadir} filter .in ""
 	vfoldertypes.xml
 )
 
-install(FILES message-list.etspec
-	DESTINATION ${etspecdir}
-)
-
 install(FILES	mail-config.ui
 		mail-dialogs.ui
 	DESTINATION ${uidir}
@@ -71,6 +67,7 @@ set(SOURCES
 	e-mail-junk-options.c
 	e-mail-label-dialog.c
 	e-mail-label-list-store.c
+	e-message-list.c
 	e-mail-label-manager.c
 	e-mail-label-tree-view.c
 	e-mail-message-pane.c
@@ -118,7 +115,6 @@ set(SOURCES
 	mail-autofilter.c
 	mail-send-recv.c
 	mail-vfolder-ui.c
-	message-list.c
 	${CMAKE_CURRENT_BINARY_DIR}/e-mail-enumtypes.c
 )
 
@@ -163,6 +159,7 @@ set(HEADERS
 	e-mail-junk-options.h
 	e-mail-label-dialog.h
 	e-mail-label-list-store.h
+	e-message-list.h
 	e-mail-label-manager.h
 	e-mail-label-tree-view.h
 	e-mail-message-pane.h
@@ -210,7 +207,6 @@ set(HEADERS
 	mail-autofilter.h
 	mail-send-recv.h
 	mail-vfolder-ui.h
-	message-list.h
 	${CMAKE_CURRENT_BINARY_DIR}/e-mail-enumtypes.h
 )
 
@@ -315,6 +311,98 @@ target_link_libraries(test-mail-autoconfig
 	${EVOLUTION_DATA_SERVER_LDFLAGS}
 	${GNOME_PLATFORM_LDFLAGS}
 )
+
+# ******************************
+# test-message-list
+# ******************************
+
+add_executable(test-message-list
+	test-message-list.c
+)
+
+add_dependencies(test-message-list
+	evolution-mail
+	evolution-util
+	email-engine
+)
+
+target_compile_definitions(test-message-list PRIVATE
+	-DG_LOG_DOMAIN=\"test-message-list\"
+	-DLIBEMAIL_ENGINE_COMPILATION
+)
+
+target_compile_options(test-message-list PUBLIC
+	${EVOLUTION_DATA_SERVER_CFLAGS}
+	${GNOME_PLATFORM_CFLAGS}
+)
+
+target_include_directories(test-message-list PUBLIC
+	${CMAKE_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/src
+	${CMAKE_SOURCE_DIR}/src
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/src/em-format
+	${CMAKE_BINARY_DIR}/src/shell
+	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
+	${GNOME_PLATFORM_INCLUDE_DIRS}
+)
+
+target_link_libraries(test-message-list
+	evolution-mail
+	evolution-util
+	email-engine
+	${EVOLUTION_DATA_SERVER_LDFLAGS}
+	${GNOME_PLATFORM_LDFLAGS}
+)
+
+# ******************************
+# test-message-list-units
+# ******************************
+
+add_executable(test-message-list-units
+	test-message-list-units.c
+)
+
+add_dependencies(test-message-list-units
+	evolution-mail
+	evolution-util
+	email-engine
+	evolutiontestsettings
+)
+
+target_compile_definitions(test-message-list-units PRIVATE
+	-DG_LOG_DOMAIN=\"test-message-list-units\"
+	-DLIBEMAIL_ENGINE_COMPILATION
+	-DEVOLUTION_TESTGIOMODULESDIR=\"${CMAKE_BINARY_DIR}/src/e-util/test-gio-modules\"
+)
+
+target_compile_options(test-message-list-units PUBLIC
+	${EVOLUTION_DATA_SERVER_CFLAGS}
+	${GNOME_PLATFORM_CFLAGS}
+)
+
+target_include_directories(test-message-list-units PUBLIC
+	${CMAKE_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/src
+	${CMAKE_SOURCE_DIR}/src
+	${CMAKE_CURRENT_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/src/em-format
+	${CMAKE_BINARY_DIR}/src/shell
+	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
+	${GNOME_PLATFORM_INCLUDE_DIRS}
+)
+
+target_link_libraries(test-message-list-units
+	evolution-mail
+	evolution-util
+	email-engine
+	${EVOLUTION_DATA_SERVER_LDFLAGS}
+	${GNOME_PLATFORM_LDFLAGS}
+)
+
+add_check_test(test-message-list-units)
+set_tests_properties(test-message-list-units PROPERTIES ENVIRONMENT "GSETTINGS_SCHEMA_DIR=${CMAKE_BINARY_DIR}/data:${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas")
+install_test_if_enabled(test-message-list-units "session-exclusive" "")
 
 add_subdirectory(default)
 add_subdirectory(importers)

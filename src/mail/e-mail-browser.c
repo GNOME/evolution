@@ -18,7 +18,7 @@
 #include "e-mail-reader.h"
 #include "e-mail-reader-utils.h"
 #include "em-folder-tree-model.h"
-#include "message-list.h"
+#include "e-message-list.h"
 
 #define ACTION_GROUP_STANDARD		"action-group-standard"
 #define ACTION_GROUP_SEARCH_FOLDERS	"action-group-search-folders"
@@ -35,7 +35,7 @@ struct _EMailBrowserPrivate {
 	EMenuBar *menu_bar;
 	GtkWidget *menu_button; /* owned by menu_bar */
 	GtkWidget *main_toolbar;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	GtkWidget *preview_pane;
 	GtkWidget *statusbar;
 
@@ -59,6 +59,8 @@ enum {
 	N_PROPS,
 	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
+	PROP_THREADING,
+	PROP_THREADING_MODE,
 	PROP_REPLY_STYLE,
 	PROP_MARK_SEEN_ALWAYS,
 	PROP_DELETE_SELECTS_PREVIOUS,
@@ -179,12 +181,12 @@ close_on_idle_cb (gpointer browser)
 
 static void
 mail_browser_message_list_built_cb (EMailBrowser *browser,
-                                    MessageList *message_list)
+                                    EMessageList *message_list)
 {
 	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
-	g_return_if_fail (IS_MESSAGE_LIST (message_list));
+	g_return_if_fail (E_IS_MESSAGE_LIST (message_list));
 
-	if (message_list_count (message_list) == 0)
+	if (e_message_list_count (message_list) == 0)
 		/* Prioritize ahead of GTK+ redraws. */
 		g_idle_add_full (
 			G_PRIORITY_HIGH_IDLE,
@@ -356,6 +358,18 @@ mail_browser_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_THREADING:
+			e_mail_reader_set_threading (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
+			return;
+
+		case PROP_THREADING_MODE:
+			e_mail_reader_set_threading_mode (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_REPLY_STYLE:
 			e_mail_reader_set_reply_style (
 				E_MAIL_READER (object),
@@ -445,6 +459,20 @@ mail_browser_get_property (GObject *object,
 				E_MAIL_READER (object)));
 			return;
 
+		case PROP_THREADING:
+			g_value_set_enum (
+				value,
+				e_mail_reader_get_threading (
+				E_MAIL_READER (object)));
+			return;
+
+		case PROP_THREADING_MODE:
+			g_value_set_enum (
+				value,
+				e_mail_reader_get_threading_mode (
+				E_MAIL_READER (object)));
+			return;
+
 		case PROP_REPLY_STYLE:
 			g_value_set_enum (
 				value,
@@ -515,13 +543,14 @@ mail_browser_dispose (GObject *object)
 	g_clear_object (&self->priv->close_on_reply_alert);
 
 	if (self->priv->message_list != NULL) {
-		/* This will cancel a regen operation. */
-		gtk_widget_destroy (self->priv->message_list);
+		gtk_widget_destroy (GTK_WIDGET (self->priv->message_list));
 		g_clear_object (&self->priv->message_list);
 	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_browser_parent_class)->dispose (object);
+
+	e_util_call_malloc_trim ();
 }
 
 static void
@@ -659,7 +688,7 @@ mail_browser_constructed (GObject *object)
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
 	 * model is all we need. */
-	browser->priv->message_list = message_list_new (session);
+	browser->priv->message_list = E_MESSAGE_LIST (e_message_list_new (session));
 	g_object_ref_sink (browser->priv->message_list);
 
 	g_signal_connect_swapped (
@@ -857,7 +886,7 @@ mail_browser_get_mail_display (EMailReader *reader)
 	return E_MAIL_DISPLAY (web_view);
 }
 
-static GtkWidget *
+static EMessageList *
 mail_browser_get_message_list (EMailReader *reader)
 {
 	EMailBrowser *self = E_MAIL_BROWSER (reader);
@@ -1036,6 +1065,18 @@ e_mail_browser_class_init (EMailBrowserClass *class)
 		object_class,
 		PROP_GROUP_BY_THREADS,
 		"group-by-threads");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_THREADING,
+		"threading");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_THREADING_MODE,
+		"threading-mode");
 
 	/* Inherited from EMailReader */
 	g_object_class_override_property (

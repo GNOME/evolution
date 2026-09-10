@@ -13,7 +13,7 @@
 #include <libemail-engine/libemail-engine.h>
 
 #include "em-utils.h"
-#include "message-list.h"
+#include "e-message-list.h"
 #include "e-mail-reader-utils.h"
 
 #include "e-mail-paned-view.h"
@@ -23,16 +23,13 @@
 
 struct _EMailPanedViewPrivate {
 	GtkWidget *paned;
-	GtkWidget *scrolled_window;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	GtkWidget *preview_pane;
 	GtkWidget *preview_toolbar_box;
 
 	EMailDisplay *display;
 	GalViewInstance *view_instance;
-
-	/* ETable scrolling hack */
-	gdouble default_scrollbar_position;
+	gchar *view_instance_key;
 
 	guint paned_binding_id;
 
@@ -52,6 +49,8 @@ enum {
 	N_PROPS,
 	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
+	PROP_THREADING,
+	PROP_THREADING_MODE,
 	PROP_REPLY_STYLE,
 	PROP_MARK_SEEN_ALWAYS,
 	PROP_DELETE_SELECTS_PREVIOUS,
@@ -59,6 +58,7 @@ enum {
 
 static GParamSpec *properties[N_PROPS] = { NULL, };
 
+#define STATE_KEY_THREADING		"Threading"
 #define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
 #define STATE_KEY_SELECTED_MESSAGE	"SelectedMessage"
 #define STATE_KEY_PREVIEW_VISIBLE	"PreviewVisible"
@@ -107,28 +107,58 @@ mail_paned_view_save_boolean (EMailView *view,
 	}
 }
 
-static gboolean
-mail_paned_view_message_list_is_empty (MessageList *message_list)
+static void
+mail_paned_view_save_int (EMailView *view,
+                          const gchar *key,
+                          gint value)
 {
-	ETreeModel *model;
-	ETreePath root;
+	EMailReader *reader;
+	CamelFolder *folder;
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), TRUE);
+	reader = E_MAIL_READER (view);
+	folder = e_mail_reader_ref_folder (reader);
 
-	model = e_tree_get_model (E_TREE (message_list));
+	if (folder != NULL) {
+		EShellView *shell_view;
+		GKeyFile *key_file;
+		gchar *folder_uri;
+		gchar *group_name;
+
+		shell_view = e_mail_view_get_shell_view (view);
+		key_file = e_shell_view_get_state_key_file (shell_view);
+
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+		g_key_file_set_integer (key_file, group_name, key, value);
+		g_free (group_name);
+		g_free (folder_uri);
+
+		g_key_file_set_integer (
+			key_file, STATE_GROUP_GLOBAL_FOLDER, key, value);
+
+		e_shell_view_set_state_dirty (shell_view);
+
+		g_object_unref (folder);
+	}
+}
+
+static gboolean
+mail_paned_view_message_list_is_empty (EMessageList *message_list)
+{
+	EVirtualTreeModel *model;
+
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), TRUE);
+
+	model = e_virtual_tree_get_model (e_message_list_get_virtual_tree (message_list));
 	if (!model)
 		return TRUE;
 
-	root = e_tree_model_get_root (model);
-	if (!root)
-		return TRUE;
-
-	return !e_tree_model_node_get_first_child (model, root);
+	return e_virtual_tree_model_get_row_count (model) == 0;
 }
 
 static void
 mail_paned_view_message_list_built_cb (EMailView *view,
-                                       MessageList *message_list)
+                                       EMessageList *message_list)
 {
 	EMailPanedView *self = E_MAIL_PANED_VIEW (view);
 	EShellView *shell_view;
@@ -140,14 +170,14 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 	ensure_message_selected = self->priv->folder_just_set;
 	self->priv->folder_just_set = FALSE;
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	key_file = e_shell_view_get_state_key_file (shell_view);
 
-	if (message_list->cursor_uid != NULL)
+	if (e_message_list_get_cursor_uid (message_list) != NULL)
 		;  /* do nothing */
 
 	else if (folder == NULL)
@@ -162,13 +192,13 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 
 		/* This is for regen when setting filter, or when folder changed or such */
 		if (!ensure_message_selected &&
-		    !message_list_selected_count (message_list) &&
+		    !e_message_list_selected_count (message_list) &&
 		    !mail_paned_view_message_list_is_empty (message_list)) {
 			ensure_message_selected = TRUE;
 			with_fallback = FALSE;
 
 			if (self->priv->last_selected_uid &&
-			    message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
+			    e_message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
 				g_free (uid);
 				uid = g_strdup (self->priv->last_selected_uid);
 			}
@@ -178,7 +208,7 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 		   over the stored message. The _set_folder() makes sure to unset
 		   priv->last_selected_uid, when it's not from this folder. */
 		if (ensure_message_selected && !uid && self->priv->last_selected_uid &&
-		    message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
+		    e_message_list_contains_uid (message_list, self->priv->last_selected_uid)) {
 			uid = g_strdup (self->priv->last_selected_uid);
 		}
 
@@ -197,12 +227,12 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 			g_free (folder_uri);
 		}
 
-		if (ensure_message_selected && !message_list_contains_uid (message_list, uid) &&
+		if (ensure_message_selected && uid && !e_message_list_contains_uid (message_list, uid) &&
 		    e_mail_reader_get_mark_seen_always (E_MAIL_READER (view)))
 			e_mail_reader_unset_folder_just_selected (E_MAIL_READER (view));
 
 		if (ensure_message_selected)
-			message_list_select_uid (message_list, uid, with_fallback);
+			e_message_list_select_uid (message_list, uid, with_fallback);
 
 		g_free (uid);
 	}
@@ -213,7 +243,7 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 static void
 mail_paned_view_message_selected_cb (EMailView *view,
                                      const gchar *message_uid,
-                                     MessageList *message_list)
+                                     EMessageList *message_list)
 {
 	EShellView *shell_view;
 	CamelFolder *folder;
@@ -222,7 +252,7 @@ mail_paned_view_message_selected_cb (EMailView *view,
 	gchar *folder_uri;
 	gchar *group_name;
 
-	folder = message_list_ref_folder (message_list);
+	folder = e_message_list_ref_folder (message_list);
 
 	/* This also gets triggered when selecting a store name on
 	 * the sidebar such as "On This Computer", in which case
@@ -350,32 +380,38 @@ mail_paned_display_view_cb (GalViewInstance *view_instance,
                             GalView *gal_view,
                             EMailView *view)
 {
-	EMailReader *reader;
 	EShellView *shell_view;
-	GtkWidget *message_list;
+	EMessageList *message_list;
+	EVirtualTree *vtree;
 
 	shell_view = e_mail_view_get_shell_view (view);
 	e_shell_view_set_view_instance (shell_view, view_instance);
 
-	reader = E_MAIL_READER (view);
-	message_list = e_mail_reader_get_message_list (reader);
+	message_list = e_mail_reader_get_message_list (E_MAIL_READER (view));
+	if (!message_list)
+		return;
 
-	if (GAL_IS_VIEW_ETABLE (gal_view))
-		gal_view_etable_attach_tree (
-			GAL_VIEW_ETABLE (gal_view),
-			E_TREE (message_list));
+	vtree = e_message_list_get_virtual_tree (message_list);
+
+	if (GAL_IS_VIEW_VIRTUAL_TREE (gal_view)) {
+		gal_view_virtual_tree_attach (GAL_VIEW_VIRTUAL_TREE (gal_view), vtree);
+	} else {
+		return;
+	}
+
+	e_message_list_apply_sort_from_vtree (message_list);
 }
 
 static void
-mail_paned_view_notify_group_by_threads_cb (EMailReader *reader)
+mail_paned_view_notify_threading_cb (EMailReader *reader)
 {
-	gboolean group_by_threads;
+	CamelFolderViewThreading threading;
 
-	group_by_threads = e_mail_reader_get_group_by_threads (reader);
+	threading = e_mail_reader_get_threading (reader);
 
-	mail_paned_view_save_boolean (
+	mail_paned_view_save_int (
 		E_MAIL_VIEW (reader),
-		STATE_KEY_GROUP_BY_THREADS, group_by_threads);
+		STATE_KEY_THREADING, (gint) threading);
 }
 
 static void
@@ -395,6 +431,18 @@ mail_paned_view_set_property (GObject *object,
 			e_mail_reader_set_group_by_threads (
 				E_MAIL_READER (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_THREADING:
+			e_mail_reader_set_threading (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
+			return;
+
+		case PROP_THREADING_MODE:
+			e_mail_reader_set_threading_mode (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
 			return;
 
 		case PROP_REPLY_STYLE:
@@ -446,6 +494,20 @@ mail_paned_view_get_property (GObject *object,
 				E_MAIL_READER (object)));
 			return;
 
+		case PROP_THREADING:
+			g_value_set_enum (
+				value,
+				e_mail_reader_get_threading (
+				E_MAIL_READER (object)));
+			return;
+
+		case PROP_THREADING_MODE:
+			g_value_set_enum (
+				value,
+				e_mail_reader_get_threading_mode (
+				E_MAIL_READER (object)));
+			return;
+
 		case PROP_REPLY_STYLE:
 			g_value_set_enum (
 				value,
@@ -486,7 +548,6 @@ mail_paned_view_dispose (GObject *object)
 	e_mail_reader_dispose (E_MAIL_READER (object));
 
 	g_clear_object (&self->priv->paned);
-	g_clear_object (&self->priv->scrolled_window);
 
 	if (self->priv->message_list != NULL) {
 		/* It can be disconnected by EMailReader in e_mail_reader_dispose() */
@@ -503,6 +564,7 @@ mail_paned_view_dispose (GObject *object)
 	g_clear_object (&self->priv->preview_pane);
 	g_clear_object (&self->priv->preview_toolbar_box);
 	g_clear_object (&self->priv->view_instance);
+	g_clear_pointer (&self->priv->view_instance_key, g_free);
 
 	g_clear_pointer (&self->priv->last_selected_uid, g_free);
 
@@ -556,7 +618,7 @@ mail_paned_view_get_hide_deleted (EMailReader *reader)
 	return !e_mail_view_get_show_deleted (E_MAIL_VIEW (reader));
 }
 
-static GtkWidget *
+static EMessageList *
 mail_paned_view_get_message_list (EMailReader *reader)
 {
 	EMailPanedView *paned_view;
@@ -611,12 +673,13 @@ mail_paned_view_set_folder (EMailReader *reader,
 	EShellWindow *shell_window;
 	GSettings *settings;
 	EMailReaderInterface *default_interface;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	GKeyFile *key_file;
 	CamelFolder *previous_folder;
 	gchar *folder_uri;
 	gchar *group_name;
 	const gchar *key;
+	CamelFolderViewThreading threading;
 	gboolean value, global_view_setting;
 	GError *error = NULL;
 
@@ -667,7 +730,43 @@ mail_paned_view_set_folder (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_freeze (MESSAGE_LIST (message_list));
+	e_message_list_freeze (message_list);
+
+	if (folder != NULL) {
+		folder_uri = e_mail_folder_uri_from_folder (folder);
+		key_file = e_shell_view_get_state_key_file (shell_view);
+		group_name = g_strdup_printf ("Folder %s", folder_uri);
+		g_free (folder_uri);
+
+		/* Read threading state before set_folder, so that
+		 * e_message_list_set_folder creates the CamelFolderView
+		 * with the correct threading value. */
+		key = STATE_KEY_THREADING;
+		threading = g_key_file_get_integer (key_file, global_view_setting ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
+		if (error != NULL) {
+			g_clear_error (&error);
+
+			threading = g_key_file_get_integer (key_file, global_view_setting ? group_name : STATE_GROUP_GLOBAL_FOLDER, key, &error);
+			if (error != NULL) {
+				g_clear_error (&error);
+
+				/* Backward compat: try old boolean GroupByThreads key */
+				key = STATE_KEY_GROUP_BY_THREADS;
+				value = g_key_file_get_boolean (key_file, global_view_setting ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
+				if (error != NULL) {
+					g_clear_error (&error);
+					value = g_key_file_get_boolean (key_file, global_view_setting ? group_name : STATE_GROUP_GLOBAL_FOLDER, key, &error);
+					if (error != NULL) {
+						g_clear_error (&error);
+						value = TRUE;
+					}
+				}
+				threading = value ? CAMEL_FOLDER_VIEW_THREADING_COMPRESSED : CAMEL_FOLDER_VIEW_THREADING_NONE;
+			}
+		}
+
+		e_message_list_set_threading (message_list, threading);
+	}
 
 	/* Chain up to interface's default set_folder() method. */
 	default_interface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
@@ -676,33 +775,18 @@ mail_paned_view_set_folder (EMailReader *reader,
 	if (folder == NULL)
 		goto exit;
 
+	/* Load the GalView before the regen runs, so that the correct
+	   set of visible columns (and thus CamelFolderView fields) is
+	   known when the regen computes its needed columns. */
+	e_mail_view_update_view_instance (view);
+
 	/* Only refresh the folder if we're online. */
 	if (e_shell_get_online (shell))
 		e_mail_reader_refresh_folder (reader, folder);
 
 	self->priv->folder_just_set = TRUE;
 
-	/* Restore the folder's preview and threaded state. */
-
-	folder_uri = e_mail_folder_uri_from_folder (folder);
-	key_file = e_shell_view_get_state_key_file (shell_view);
-	group_name = g_strdup_printf ("Folder %s", folder_uri);
-	g_free (folder_uri);
-
-	key = STATE_KEY_GROUP_BY_THREADS;
-	value = g_key_file_get_boolean (key_file, global_view_setting ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
-	if (error != NULL) {
-		g_clear_error (&error);
-
-		value = !global_view_setting ||
-			g_key_file_get_boolean (key_file, STATE_GROUP_GLOBAL_FOLDER, key, &error);
-		if (error != NULL) {
-			g_clear_error (&error);
-			value = TRUE;
-		}
-	}
-
-	e_mail_reader_set_group_by_threads (reader, value);
+	e_mail_reader_set_threading (reader, threading);
 
 	key = STATE_KEY_PREVIEW_VISIBLE;
 	value = g_key_file_get_boolean (key_file, global_view_setting ? STATE_GROUP_GLOBAL_FOLDER : group_name, key, &error);
@@ -732,7 +816,7 @@ mail_paned_view_set_folder (EMailReader *reader,
 	g_free (group_name);
 
 exit:
-	message_list_thaw (MESSAGE_LIST (message_list));
+	e_message_list_thaw (message_list);
 
 	g_object_unref (settings);
 }
@@ -763,7 +847,7 @@ mail_paned_view_constructed (GObject *object)
 	EMailBackend *backend;
 	EMailSession *session;
 	EMailView *view;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	GtkWidget *container;
 	GtkWidget *widget;
 
@@ -810,19 +894,9 @@ mail_paned_view_constructed (GObject *object)
 
 	container = self->priv->paned;
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+	widget = e_message_list_new (session);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	self->priv->scrolled_window = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = message_list_new (session);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	self->priv->message_list = g_object_ref (widget);
+	self->priv->message_list = E_MESSAGE_LIST (g_object_ref (widget));
 	gtk_widget_show (widget);
 
 	self->priv->message_list_built_id = g_signal_connect_swapped (
@@ -1005,7 +1079,9 @@ mail_paned_view_update_view_instance (EMailView *view)
 	gboolean outgoing_folder;
 	gboolean show_vertical_view;
 	gboolean global_view_setting;
+	const gchar *instance_id;
 	gchar *view_id;
+	gchar *instance_key;
 
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
@@ -1021,8 +1097,6 @@ mail_paned_view_update_view_instance (EMailView *view)
 	/* If no folder is selected, return silently. */
 	if (folder == NULL)
 		return;
-
-	g_clear_object (&self->priv->view_instance);
 
 	view_id = empv_create_view_id (folder);
 	e_util_make_safe_filename (view_id);
@@ -1040,26 +1114,35 @@ mail_paned_view_update_view_instance (EMailView *view)
 		settings, "global-view-setting");
 	g_object_unref (settings);
 
-	if (global_view_setting) {
-		if (outgoing_folder) {
-			view_instance = e_shell_view_new_view_instance (
-				shell_view, "global_view_sent_setting");
-		} else {
-			view_instance = e_shell_view_new_view_instance (
-				shell_view, "global_view_setting");
-		}
-	} else {
-		view_instance = e_shell_view_new_view_instance (
-			shell_view, view_id);
-	}
-
-	self->priv->view_instance = g_object_ref (view_instance);
+	if (global_view_setting)
+		instance_id = outgoing_folder ? "global_view_sent_setting" : "global_view_setting";
+	else
+		instance_id = view_id;
 
 	orientable = GTK_ORIENTABLE (view);
 	orientation = gtk_orientable_get_orientation (orientable);
 	show_vertical_view =
 		!global_view_setting &&
 		(orientation == GTK_ORIENTATION_HORIZONTAL);
+
+	instance_key = g_strdup_printf ("%s:%d", instance_id, show_vertical_view);
+
+	if (self->priv->view_instance != NULL &&
+	    g_strcmp0 (self->priv->view_instance_key, instance_key) == 0) {
+		g_free (view_id);
+		g_free (instance_key);
+		g_clear_object (&folder);
+		return;
+	}
+
+	g_free (self->priv->view_instance_key);
+	self->priv->view_instance_key = instance_key;
+
+	g_clear_object (&self->priv->view_instance);
+
+	view_instance = e_shell_view_new_view_instance (shell_view, instance_id);
+
+	self->priv->view_instance = g_object_ref (view_instance);
 
 	if (show_vertical_view) {
 		const gchar *user_directory;
@@ -1111,11 +1194,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 		if (g_file_test (state_filename, G_FILE_TEST_IS_REGULAR)) {
 			GalView *gal_view;
 
-			gal_view = gal_view_etable_new ("");
-
-			/* XXX This only stashes the filename in the view.
-			 *     The state file is not actually loaded until
-			 *     the MessageList is attached to the view. */
+			gal_view = gal_view_virtual_tree_new ("");
 			gal_view_load (gal_view, state_filename);
 
 			gal_view_instance_set_custom_view (
@@ -1156,12 +1235,12 @@ mail_paned_view_set_preview_visible (EMailView *view,
 	 * message if necessary, so we don't get an empty preview. */
 	if (preview_visible) {
 		EMailReader *reader;
-		GtkWidget *message_list;
+		EMessageList *message_list;
 		const gchar *cursor_uid;
 
 		reader = E_MAIL_READER (view);
 		message_list = e_mail_reader_get_message_list (reader);
-		cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		cursor_uid = e_message_list_get_cursor_uid (message_list);
 
 		if (cursor_uid != NULL)
 			e_mail_reader_set_message (reader, cursor_uid);
@@ -1218,6 +1297,18 @@ e_mail_paned_view_class_init (EMailPanedViewClass *class)
 	/* Inherited from EMailReader */
 	g_object_class_override_property (
 		object_class,
+		PROP_THREADING,
+		"threading");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_THREADING_MODE,
+		"threading-mode");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
 		PROP_REPLY_STYLE,
 		"reply-style");
 
@@ -1265,8 +1356,8 @@ e_mail_paned_view_init (EMailPanedView *view)
 	view->priv = e_mail_paned_view_get_instance_private (view);
 
 	e_signal_connect_notify (
-		view, "notify::group-by-threads",
-		G_CALLBACK (mail_paned_view_notify_group_by_threads_cb),
+		view, "notify::threading",
+		G_CALLBACK (mail_paned_view_notify_threading_cb),
 		NULL);
 }
 
@@ -1287,9 +1378,9 @@ e_mail_paned_view_hide_message_list_pane (EMailPanedView *view,
 	g_return_if_fail (E_IS_MAIL_PANED_VIEW (view));
 
 	if (visible)
-		gtk_widget_show (view->priv->scrolled_window);
+		gtk_widget_show (GTK_WIDGET (view->priv->message_list));
 	else
-		gtk_widget_hide (view->priv->scrolled_window);
+		gtk_widget_hide (GTK_WIDGET (view->priv->message_list));
 }
 
 GtkWidget *

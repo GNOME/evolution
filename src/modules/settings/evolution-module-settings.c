@@ -16,7 +16,6 @@
 #include "e-settings-mail-session.h"
 #include "e-settings-meeting-store.h"
 #include "e-settings-meeting-time-selector.h"
-#include "e-settings-message-list.h"
 #include "e-settings-name-selector-entry.h"
 #include "e-settings-spell-checker.h"
 #include "e-settings-spell-entry.h"
@@ -44,7 +43,6 @@ e_module_load (GTypeModule *type_module)
 	e_settings_mail_session_type_register (type_module);
 	e_settings_meeting_store_type_register (type_module);
 	e_settings_meeting_time_selector_type_register (type_module);
-	e_settings_message_list_type_register (type_module);
 	e_settings_name_selector_entry_type_register (type_module);
 	e_settings_spell_checker_type_register (type_module);
 	e_settings_spell_entry_type_register (type_module);

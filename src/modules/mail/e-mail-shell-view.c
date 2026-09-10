@@ -20,21 +20,6 @@ static GParamSpec *properties[N_PROPS] = { NULL, };
 G_DEFINE_DYNAMIC_TYPE_EXTENDED (EMailShellView, e_mail_shell_view, E_TYPE_SHELL_VIEW, 0,
 	G_ADD_PRIVATE_DYNAMIC (EMailShellView))
 
-/* ETable spec for search results */
-static const gchar *SEARCH_RESULTS_STATE =
-"<ETableState>"
-"  <column source=\"0\"/>"
-"  <column source=\"3\"/>"
-"  <column source=\"1\"/>"
-"  <column source=\"14\"/>"
-"  <column source=\"5\"/>"
-"  <column source=\"7\"/>"
-"  <column source=\"13\"/>"
-"  <grouping>"
-"    <leaf column=\"7\" ascending=\"false\"/>"
-"  </grouping>"
-"</ETableState>";
-
 static void
 add_folders_from_store (GPtrArray *folders,
                         CamelStore *store,
@@ -95,7 +80,7 @@ add_folders_from_store (GPtrArray *folders,
 typedef struct {
 	MailMsg base;
 
-	MessageList *message_list;
+	EMessageList *message_list;
 	CamelFolder *folder;
 	GCancellable *cancellable;
 	GList *stores_list;
@@ -138,7 +123,7 @@ search_results_exec (SearchResultsMsg *msg,
 static void
 search_results_done (SearchResultsMsg *msg)
 {
-	message_list_dec_setting_up_search_folder (msg->message_list);
+	e_message_list_dec_setting_up_search_folder (msg->message_list);
 }
 
 static void
@@ -158,7 +143,7 @@ static MailMsgInfo search_results_setup_info = {
 };
 
 static gint
-mail_shell_view_setup_search_results_folder (MessageList *message_list,
+mail_shell_view_setup_search_results_folder (EMessageList *message_list,
 					     CamelFolder *folder,
                                              GList *stores,
                                              GCancellable *cancellable)
@@ -174,7 +159,7 @@ mail_shell_view_setup_search_results_folder (MessageList *message_list,
 	msg->cancellable = cancellable;
 	msg->stores_list = stores;
 
-	message_list_inc_setting_up_search_folder (message_list);
+	e_message_list_inc_setting_up_search_folder (message_list);
 
 	id = msg->base.seq;
 	mail_msg_slow_ordered_push (msg);
@@ -185,7 +170,7 @@ mail_shell_view_setup_search_results_folder (MessageList *message_list,
 typedef struct {
 	MailMsg base;
 
-	MessageList *message_list;
+	EMessageList *message_list;
 	CamelFolder *vfolder;
 	GCancellable *cancellable;
 	CamelFolder *root_folder;
@@ -257,7 +242,7 @@ search_results_with_subfolders_exec (SearchResultsWithSubfoldersMsg *msg,
 static void
 search_results_with_subfolders_done (SearchResultsWithSubfoldersMsg *msg)
 {
-	message_list_dec_setting_up_search_folder (msg->message_list);
+	e_message_list_dec_setting_up_search_folder (msg->message_list);
 }
 
 static void
@@ -277,7 +262,7 @@ static MailMsgInfo search_results_with_subfolders_setup_info = {
 };
 
 static gint
-mail_shell_view_setup_search_results_folder_and_subfolders (MessageList *message_list,
+mail_shell_view_setup_search_results_folder_and_subfolders (EMessageList *message_list,
 							    CamelFolder *vfolder,
 							    CamelFolder *root_folder,
 							    GCancellable *cancellable)
@@ -294,7 +279,7 @@ mail_shell_view_setup_search_results_folder_and_subfolders (MessageList *message
 	msg->cancellable = cancellable;
 	msg->root_folder = g_object_ref (root_folder);
 
-	message_list_inc_setting_up_search_folder (message_list);
+	e_message_list_inc_setting_up_search_folder (message_list);
 
 	id = msg->base.seq;
 	mail_msg_slow_ordered_push (msg);
@@ -307,10 +292,9 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
                                             CamelFolder *folder)
 {
 	EMailShellContent *mail_shell_content;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailView *mail_view;
 	EMailReader *reader;
-	GalViewInstance *view_instance;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -318,25 +302,11 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_freeze (MESSAGE_LIST (message_list));
+	e_message_list_freeze (message_list);
 
 	e_mail_reader_set_folder (reader, folder);
-	view_instance = e_mail_view_get_view_instance (mail_view);
 
-	if (!view_instance || !gal_view_instance_exists (view_instance)) {
-		ETree *tree;
-		ETableState *state;
-		ETableSpecification *specification;
-
-		tree = E_TREE (message_list);
-		specification = e_tree_get_spec (tree);
-		state = e_table_state_new (specification);
-		e_table_state_load_from_string (state, SEARCH_RESULTS_STATE);
-		e_tree_set_state_object (tree, state);
-		g_object_unref (state);
-	}
-
-	message_list_thaw (MESSAGE_LIST (message_list));
+	e_message_list_thaw (message_list);
 }
 
 static void
@@ -624,12 +594,6 @@ mail_shell_view_constructed (GObject *object)
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	e_binding_bind_property (
-		ACTION (MAIL_THREADS_GROUP_BY), "active",
-		mail_view, "group-by-threads",
-		G_BINDING_BIDIRECTIONAL |
-		G_BINDING_SYNC_CREATE);
-
 	/* Keep the sensitivity of "Create Search Folder from Search"
 	 * in sync with "Save Search" so that its only selectable when
 	 * showing search results. */
@@ -751,7 +715,9 @@ mail_shell_view_restore_selected_folder (EShellView *shell_view)
 		sel_folder = camel_store_get_folder_sync (
 			selected_store, selected_folder_name,
 			0, NULL, NULL);
+
 		e_mail_reader_set_folder (reader, sel_folder);
+
 		g_clear_object (&sel_folder);
 	}
 
@@ -987,7 +953,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EMailSession *session;
 	ESourceRegistry *registry;
 	EMFolderTree *folder_tree;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EFilterRule *rule;
 	EMailReader *reader;
 	EMailView *mail_view;
@@ -1373,7 +1339,7 @@ filter:
 	self->priv->search_account_cancel = camel_operation_new ();
 
 	mail_shell_view_setup_search_results_folder_and_subfolders (
-		MESSAGE_LIST (message_list),
+		message_list,
 		CAMEL_FOLDER (search_folder), folder,
 		self->priv->search_account_cancel);
 
@@ -1446,7 +1412,7 @@ all_accounts_setup:
 
 	/* This takes ownership of the stores list. */
 	mail_shell_view_setup_search_results_folder (
-		MESSAGE_LIST (message_list),
+		message_list,
 		CAMEL_FOLDER (search_folder), list,
 		self->priv->search_account_cancel);
 
@@ -1529,7 +1495,7 @@ current_account_setup:
 
 	/* This takes ownership of the stores list. */
 	mail_shell_view_setup_search_results_folder (
-		MESSAGE_LIST (message_list),
+		message_list,
 		CAMEL_FOLDER (search_folder), list,
 		self->priv->search_account_cancel);
 
@@ -1541,7 +1507,7 @@ execute:
 
 	/* Finally, execute the search. */
 
-	message_list_set_search (MESSAGE_LIST (message_list), query);
+	e_message_list_set_search_sexp (message_list, query);
 
 	e_mail_view_set_search_strings (mail_view, search_strings);
 
@@ -1954,7 +1920,7 @@ e_mail_shell_view_class_init (EMailShellViewClass *class)
 	shell_view_class->get_ui_customizers = mail_shell_view_get_ui_customizers;
 
 	/* Ensure the GalView types we need are registered. */
-	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
+	g_type_ensure (GAL_TYPE_VIEW_VIRTUAL_TREE);
 
 	/**
 	 * EMailShellView:vfolder-allow-expunge

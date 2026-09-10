@@ -39,7 +39,7 @@ mail_shell_view_got_folder_cb (CamelStore *store,
 {
 	EAlertSink *alert_sink;
 	CamelFolder *folder;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	GError *error = NULL;
 
 	alert_sink = e_activity_get_alert_sink (context->activity);
@@ -63,13 +63,15 @@ mail_shell_view_got_folder_cb (CamelStore *store,
 	}
 
 	message_list = e_mail_reader_get_message_list (context->reader);
-	message_list_freeze (MESSAGE_LIST (message_list));
+	e_message_list_freeze (message_list);
 
 	e_mail_reader_set_folder (context->reader, folder);
+
 	e_mail_shell_view_restore_state (E_MAIL_SHELL_VIEW (context->shell_view));
+
 	e_shell_view_execute_search (context->shell_view);
 
-	message_list_thaw (MESSAGE_LIST (message_list));
+	e_message_list_thaw (message_list);
 
 	e_shell_view_update_actions_in_idle (context->shell_view);
 
@@ -183,7 +185,7 @@ mail_shell_view_match_folder_tree_and_message_list_folder (EMailShellView *mail_
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailReader *reader;
 	EMailView *mail_view;
 	CamelFolder *folder;
@@ -203,7 +205,7 @@ mail_shell_view_match_folder_tree_and_message_list_folder (EMailShellView *mail_
 	 * method gets the folder from the message list is supposed to be
 	 * a hidden implementation detail, and we want to explicitly get
 	 * the folder URI from the message list here. */
-	folder = message_list_ref_folder (MESSAGE_LIST (message_list));
+	folder = e_message_list_ref_folder (message_list);
 	if (folder != NULL) {
 		list_uri = e_mail_folder_uri_from_folder (folder);
 		g_object_unref (folder);
@@ -263,9 +265,8 @@ mail_shell_view_message_list_popup_menu_cb (EShellView *shell_view)
 
 static gboolean
 mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
-                                             gint row,
-                                             ETreePath path,
-                                             gint col,
+                                             guint row,
+                                             GObject *row_object,
                                              GdkEvent *button_event)
 {
 	e_shell_view_show_popup_menu (shell_view, "mail-message-popup", button_event);
@@ -310,7 +311,7 @@ static void
 mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
                                    EMailReader *reader)
 {
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailDisplay *display;
 	EShellView *shell_view;
 	EShellTaskbar *shell_taskbar;
@@ -325,16 +326,16 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 	e_mail_shell_view_update_sidebar (mail_shell_view);
 
 	/* Connect if its not connected already */
-	if (g_signal_handler_find (message_list, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, mail_shell_view_message_list_popup_menu_cb, NULL))
+	if (g_signal_handler_find (GTK_WIDGET (message_list), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, mail_shell_view_message_list_popup_menu_cb, NULL))
 		return;
 
 	g_signal_connect_object (
-		message_list, "popup-menu",
+		GTK_WIDGET (message_list), "popup-menu",
 		G_CALLBACK (mail_shell_view_message_list_popup_menu_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		message_list, "right-click",
+		e_message_list_get_virtual_tree (message_list), "right-click",
 		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
@@ -356,7 +357,7 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
 	EMailView *mail_view;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 
 	/* If we got here, it means the application is shutting down
 	 * and this is the last EMailShellView instance.  Synchronize
@@ -367,7 +368,7 @@ mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
 
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
-	message_list_save_state (MESSAGE_LIST (message_list));
+	e_message_list_save_state (message_list);
 
 	/* Do not sync folder content here, it's duty of EMailBackend,
 	 * which does it for all accounts */
@@ -414,6 +415,46 @@ mail_shell_view_search_filter_changed_cb (EMailShellView *mail_shell_view)
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	e_mail_reader_avoid_next_mark_as_seen (E_MAIL_READER (mail_view));
+}
+
+static void
+mail_shell_view_threading_mode_action_notify_cb (GObject *object,
+						 GParamSpec *param,
+						 gpointer user_data)
+{
+	GAction *action = G_ACTION (object);
+	EMailShellView *mail_shell_view = user_data;
+	EMailShellContent *mail_shell_content;
+	EMailView *mail_view;
+	GVariant *state;
+	CamelFolderViewThreading mode;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+	state = g_action_get_state (action);
+	mode = g_variant_get_int32 (state);
+	g_clear_pointer (&state, g_variant_unref);
+
+	if (mode != e_mail_reader_get_threading_mode (E_MAIL_READER (mail_view)))
+		e_mail_reader_set_threading_mode (E_MAIL_READER (mail_view), mode);
+}
+
+static void
+mail_shell_view_threading_mode_view_notify_cb (GObject *object,
+					       GParamSpec *param,
+					       gpointer user_data)
+{
+	EMailShellView *mail_shell_view = user_data;
+	EShellView *shell_view = E_SHELL_VIEW (mail_shell_view);
+	CamelFolderViewThreading mode;
+	GVariant *state;
+
+	mode = e_mail_reader_get_threading_mode (E_MAIL_READER (object));
+
+	state = g_action_get_state (G_ACTION (ACTION (MAIL_THREADS_FULL)));
+	if (!state || g_variant_get_int32 (state) != (gint32) mode)
+		e_ui_action_set_state (ACTION (MAIL_THREADS_FULL), g_variant_new_int32 (mode));
+	g_clear_pointer (&state, g_variant_unref);
 }
 
 static void
@@ -467,13 +508,13 @@ mail_shell_view_folder_renamed_cb (MailFolderCache *folder_cache,
 	EMailShellView *mail_shell_view = user_data;
 	EMailView *mail_view;
 	CamelFolder *folder;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_view->priv->mail_shell_content);
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (mail_view)));
-	folder = message_list_ref_folder (message_list);
+	message_list = e_mail_reader_get_message_list (E_MAIL_READER (mail_view));
+	folder = e_message_list_ref_folder (message_list);
 
 	if (folder) {
 		if (new_folder_name && camel_folder_get_parent_store (folder) == store &&
@@ -512,7 +553,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EUIAction *action;
 	EUIManager *ui_manager;
 	GtkTreeSelection *selection;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	GSettings *settings;
 	EMailLabelListStore *label_store;
 	EMailBackend *backend;
@@ -566,7 +607,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	display = e_mail_reader_get_mail_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	em_folder_tree_set_selectable_widget (folder_tree, message_list);
+	em_folder_tree_set_selectable_widget (folder_tree, GTK_WIDGET (message_list));
 
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 	g_signal_connect_object (
@@ -590,12 +631,12 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		message_list, "popup-menu",
+		GTK_WIDGET (message_list), "popup-menu",
 		G_CALLBACK (mail_shell_view_message_list_popup_menu_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
 	g_signal_connect_object (
-		message_list, "right-click",
+		e_message_list_get_virtual_tree (message_list), "right-click",
 		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
 
@@ -603,11 +644,6 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		reader, "changed",
 		G_CALLBACK (mail_shell_view_reader_changed_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
-
-	g_signal_connect_object (
-		reader, "folder-loaded",
-		G_CALLBACK (e_mail_view_update_view_instance),
-		mail_view, G_CONNECT_SWAPPED);
 
 	/* Use the same callback as "changed". */
 	g_signal_connect_object (
@@ -682,6 +718,22 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	/* to propagate the loaded state */
 	e_mail_shell_view_mail_view_notify_cb (G_OBJECT (action), NULL, mail_shell_view);
+
+	e_binding_bind_property (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		mail_view, "group-by-threads",
+		G_BINDING_BIDIRECTIONAL | G_BINDING_SYNC_CREATE);
+
+	action = ACTION (MAIL_THREADS_FULL);
+
+	g_signal_connect_object (action, "notify::state",
+		G_CALLBACK (mail_shell_view_threading_mode_action_notify_cb), mail_shell_view, 0);
+
+	g_signal_connect_object (mail_view, "notify::threading-mode",
+		G_CALLBACK (mail_shell_view_threading_mode_view_notify_cb), mail_shell_view, 0);
+
+	/* to propagate the loaded state */
+	mail_shell_view_threading_mode_view_notify_cb (G_OBJECT (mail_view), NULL, mail_shell_view);
 
 	g_settings_bind (
 		settings, "show-attachment-bar",
@@ -788,7 +840,7 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	gchar *folder_uri;
 	gchar *tmp = NULL;
 	GSettings *settings;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 
 	/* XXX Move this to EMailShellContent. */
 
@@ -840,7 +892,7 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	message_list = e_mail_reader_get_message_list (reader);
 
 	/* Avoid loading search state unnecessarily. */
-	if ((!tmp && IS_MESSAGE_LIST (message_list) && MESSAGE_LIST (message_list)->just_set_folder) ||
+	if ((!tmp && E_IS_MESSAGE_LIST (message_list) && e_message_list_get_just_set_folder (message_list)) ||
 	    g_strcmp0 (new_state_group, old_state_group) != 0) {
 		e_shell_view_block_execute_search (E_SHELL_VIEW (mail_shell_view));
 
@@ -872,7 +924,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	CamelFolderInfoFlags flags = 0;
 	CamelFolderSummary *folder_summary;
 	MailFolderCache *folder_cache;
-	MessageList *message_list;
+	EMessageList *message_list;
 	guint selected_count;
 	GString *buffer, *title_short = NULL;
 	gboolean store_is_local, is_inbox;
@@ -930,8 +982,8 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	num_visible = camel_folder_summary_get_visible_count (folder_summary);
 
 	buffer = g_string_sized_new (256);
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
-	selected_count = message_list_selected_count (message_list);
+	message_list = e_mail_reader_get_message_list (reader);
+	selected_count = e_message_list_selected_count (message_list);
 
 	if (selected_count > 1)
 		g_string_append_printf (

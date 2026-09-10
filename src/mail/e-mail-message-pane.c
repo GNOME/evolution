@@ -24,7 +24,7 @@ mail_message_pane_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_message_pane_parent_class)->constructed (object);
 
-	gtk_widget_hide (e_mail_reader_get_message_list (E_MAIL_READER (object)));
+	gtk_widget_hide (GTK_WIDGET (e_mail_reader_get_message_list (E_MAIL_READER (object))));
 	e_mail_paned_view_hide_message_list_pane (E_MAIL_PANED_VIEW (object), FALSE);
 }
 

@@ -29,7 +29,7 @@
 #include <mail/mail-vfolder-ui.h>
 #include <mail/importers/mail-importer.h>
 #include <mail/e-mail-ui-session.h>
-#include <mail/message-list.h>
+#include <mail/e-message-list.h>
 
 #include <em-format/e-mail-parser.h>
 #include <em-format/e-mail-formatter.h>
@@ -356,7 +356,7 @@ action_mail_message_new_cb (EUIAction *action,
 	const gchar *view_name;
 	gboolean no_transport_defined;
 	const gchar *message_uid = NULL;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	NewComposerData *ncd;
 
 	shell = e_shell_window_get_shell (shell_window);
@@ -380,17 +380,16 @@ action_mail_message_new_cb (EUIAction *action,
 	message_list = e_mail_reader_get_message_list (E_MAIL_READER (
 		e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (e_shell_view_get_shell_content (shell_view)))));
 	if (message_list) {
-		MessageList *ml = MESSAGE_LIST (message_list);
 		GPtrArray *selected_uids;
 
-		folder = message_list_ref_folder (ml);
+		folder = e_message_list_ref_folder (message_list);
 
-		selected_uids = message_list_get_selected (ml);
+		selected_uids = e_message_list_get_selected (message_list);
 		if (selected_uids && selected_uids->len > 0)
 			message_uid = camel_pstring_strdup (g_ptr_array_index (selected_uids, 0));
 
 		if (!message_uid)
-			message_uid = camel_pstring_strdup (ml->cursor_uid);
+			message_uid = camel_pstring_strdup (e_message_list_get_cursor_uid (message_list));
 
 		if (selected_uids)
 			g_ptr_array_unref (selected_uids);

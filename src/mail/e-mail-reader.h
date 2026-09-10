@@ -6,11 +6,6 @@
 #ifndef E_MAIL_READER_H
 #define E_MAIL_READER_H
 
-/* XXX Anjal uses a different message list widget than Evolution, so
- *     avoid including <mail/message-list.h> in this file.  This makes
- *     the get_message_list() method a little awkward since it returns
- *     a GtkWidget pointer which almost always has to be type casted. */
-
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 #include <e-util/e-util.h>
@@ -19,6 +14,7 @@
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-display.h>
 #include <mail/e-mail-enums.h>
+#include <mail/e-message-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_READER \
@@ -86,7 +82,7 @@ struct _EMailReaderInterface {
 	EMailBackend *	(*get_backend)		(EMailReader *reader);
 	EMailDisplay *	(*get_mail_display)	(EMailReader *reader);
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
-	GtkWidget *	(*get_message_list)	(EMailReader *reader);
+	EMessageList *	(*get_message_list)	(EMailReader *reader);
 	EPreviewPane *	(*get_preview_pane)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids_with_collapsed_threads)
@@ -140,7 +136,7 @@ EAlertSink *	e_mail_reader_get_alert_sink	(EMailReader *reader);
 EMailBackend *	e_mail_reader_get_backend	(EMailReader *reader);
 EMailDisplay *	e_mail_reader_get_mail_display	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
-GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
+EMessageList *	e_mail_reader_get_message_list	(EMailReader *reader);
 guint		e_mail_reader_open_selected_mail
 						(EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
@@ -165,6 +161,16 @@ gboolean	e_mail_reader_get_group_by_threads
 void		e_mail_reader_set_group_by_threads
 						(EMailReader *reader,
 						 gboolean group_by_threads);
+CamelFolderViewThreading
+		e_mail_reader_get_threading	(EMailReader *reader);
+void		e_mail_reader_set_threading	(EMailReader *reader,
+						 CamelFolderViewThreading threading);
+CamelFolderViewThreading
+		e_mail_reader_get_threading_mode
+						(EMailReader *reader);
+void		e_mail_reader_set_threading_mode
+						(EMailReader *reader,
+						 CamelFolderViewThreading mode);
 EMailReplyStyle	e_mail_reader_get_reply_style	(EMailReader *reader);
 void		e_mail_reader_set_reply_style	(EMailReader *reader,
 						 EMailReplyStyle style);

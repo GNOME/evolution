@@ -540,16 +540,6 @@
       <_summary>Whether sort thread children always ascending</_summary>
       <_description>This setting specifies whether the thread children should be sorted always ascending, rather than using the same sort order as in the thread root level.</_description>
     </key>
-    <key name="thread-compress" type="b">
-      <default>true</default>
-      <_summary>Whether to compress thread level</_summary>
-      <_description>Set to true to compress thread levels for flat conversations, to make the level not so deep.</_description>
-    </key>
-    <key name="thread-flat" type="b">
-      <default>false</default>
-      <_summary>Whether to generate flat threads</_summary>
-      <_description>Set to true to generate flat threads. That is, the thread will have only one level, with no sublevels.</_description>
-    </key>
     <key name="sort-accounts-alpha" type="b">
       <default>true</default>
       <_summary>Sort accounts alphabetically in a folder tree</_summary>
@@ -890,6 +880,16 @@
       <default>false</default>
       <_summary>Show Subject above Sender in Messages column</_summary>
       <_description>Whether to show Subject above Sender (From/To) in the Messages column, usually shown in the Vertical/Wide view of the message list. Change of this option requires restart of the Evolution.</_description>
+    </key>
+    <key name="show-avatar-in-message-list" type="b">
+      <default>true</default>
+      <_summary>Show avatar in Messages column</_summary>
+      <_description>Whether to show a generated avatar next to each message in the Messages column.</_description>
+    </key>
+    <key name="show-body-preview-in-message-list" type="b">
+      <default>true</default>
+      <_summary>Show message preview in Messages column</_summary>
+      <_description>Whether to show a message body preview as a third line in the Messages column.</_description>
     </key>
     <key name="composer-visually-wrap-long-lines" type="b">
       <default>false</default>

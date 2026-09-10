@@ -1,7 +1,14 @@
-<?xml version="1.0"?>
-<ETableState state-version="0.100000000000000">
-  <column source="0"/>
-  <column source="1"/>
-  <column source="16"/>
-  <grouping/>
-</ETableState>
+[Column-status]
+order=0
+visible=true
+width=24
+
+[Column-flagged]
+order=1
+visible=true
+width=24
+
+[Column-composite]
+order=2
+visible=true
+width=600

@@ -364,6 +364,7 @@ src/mail/e-mail-tag-editor.c
 src/mail/e-mail-templates-store.c
 src/mail/e-mail-ui-session.c
 src/mail/e-mail-viewer.c
+src/mail/e-message-list.c
 src/mail/em-composer-utils.c
 src/mail/em-filter-editor.c
 src/mail/em-filter-editor-folder-element.c
@@ -392,8 +393,6 @@ src/mail/mail-autofilter.c
 src/mail/mail.error.xml
 src/mail/mail-send-recv.c
 src/mail/mail-vfolder-ui.c
-src/mail/message-list.c
-src/mail/message-list.etspec
 src/mail/searchtypes.xml.in
 src/mail/vfoldertypes.xml.in
 src/modules/accounts-window/e-accounts-window-editors.c

@@ -31,9 +31,11 @@
 #include <shell/e-shell.h>
 #include <shell/e-shell-migrate.h>
 
+#include <e-util/e-util.h>
 #include <libemail-engine/libemail-engine.h>
 
 #include "e-mail-backend.h"
+#include "e-message-list.h"
 #include "em-utils.h"
 
 #define d(x) x
@@ -496,6 +498,48 @@ em_ensure_global_view_setting_key (EShellBackend *shell_backend)
 	g_clear_object (&settings);
 }
 
+/* --- Migration of mail views from ETableState XML to EVirtualTree GKeyFile --- */
+
+static void
+em_migrate_mail_views_to_vtree (EShellBackend *shell_backend)
+{
+	static const gchar *extra_state_file_prefixes[] = { "custom_view-", "custom_wide_view-", NULL };
+	static const gchar *extra_current_view_prefixes[] = { "current_wide_view-", NULL };
+	const gchar *config_dir;
+	const gchar * const *legacy_column_ids;
+	guint n_legacy_column_ids;
+	gchar *views_dir;
+	gchar *folders_dir;
+	GDir *dir;
+
+	config_dir = mail_session_get_config_dir ();
+	legacy_column_ids = e_message_list_get_legacy_etable_column_ids (&n_legacy_column_ids);
+
+	views_dir = g_build_filename (config_dir, "views", NULL);
+	gal_view_virtual_tree_util_migrate_views_dir (views_dir, legacy_column_ids, n_legacy_column_ids,
+		extra_state_file_prefixes, extra_current_view_prefixes);
+	g_free (views_dir);
+
+	/* Convert et-header-* per-folder state files */
+	folders_dir = g_build_filename (config_dir, "folders", NULL);
+	dir = g_dir_open (folders_dir, 0, NULL);
+	if (dir) {
+		const gchar *name;
+
+		while ((name = g_dir_read_name (dir)) != NULL) {
+			if (g_str_has_prefix (name, "et-header-")) {
+				gchar *path = g_build_filename (folders_dir, name, NULL);
+
+				gal_view_virtual_tree_util_migrate_state_file (path, legacy_column_ids, n_legacy_column_ids);
+				g_free (path);
+			}
+		}
+
+		g_dir_close (dir);
+	}
+	g_free (folders_dir);
+}
+
 gboolean
 e_mail_migrate (EShellBackend *shell_backend,
                 gint major,
@@ -521,6 +565,9 @@ e_mail_migrate (EShellBackend *shell_backend,
 
 	if (major <= 2 || (major == 3 && minor < 27) || (major == 3 && minor == 27 && micro < 90))
 		em_ensure_global_view_setting_key (shell_backend);
+
+	if (major <= 2 || (major == 3 && minor < 64))
+		em_migrate_mail_views_to_vtree (shell_backend);
 
 	return TRUE;
 }

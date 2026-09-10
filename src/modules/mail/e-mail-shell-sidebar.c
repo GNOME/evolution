@@ -124,14 +124,14 @@ mail_shell_sidebar_tree_view_key_press_cb (GtkWidget *widget,
 		EShellView *shell_view;
 		EShellContent *shell_content;
 		EMailView *mail_view;
-		GtkWidget *message_list;
+		EMessageList *message_list;
 
 		shell_view = e_shell_sidebar_get_shell_view (E_SHELL_SIDEBAR (mail_shell_sidebar));
 		shell_content = e_shell_view_get_shell_content (shell_view);
 		mail_view = e_mail_shell_content_get_mail_view (E_MAIL_SHELL_CONTENT (shell_content));
 		message_list = e_mail_reader_get_message_list (E_MAIL_READER (mail_view));
 
-		gtk_widget_grab_focus (message_list);
+		gtk_widget_grab_focus (GTK_WIDGET (message_list));
 	}
 
 	return FALSE;

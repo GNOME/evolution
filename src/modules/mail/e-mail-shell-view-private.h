@@ -26,7 +26,7 @@
 #include <mail/mail-autofilter.h>
 #include <mail/mail-send-recv.h>
 #include <mail/mail-vfolder-ui.h>
-#include <mail/message-list.h>
+#include <mail/e-message-list.h>
 
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-content.h"
@@ -36,9 +36,6 @@
 /* Shorthand, requires a variable named "shell_view". */
 #define ACTION(name) \
 	(E_SHELL_VIEW_ACTION_##name (shell_view))
-
-/* ETable Specifications */
-#define ETSPEC_FILENAME		"message-list.etspec"
 
 /* State File Keys */
 #define STATE_KEY_SEARCH_FILTER		"SearchFilter"

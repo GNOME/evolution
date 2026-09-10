@@ -1,10 +1,31 @@
-<?xml version="1.0"?>
-<ETableState state-version="0.100000">
-  <column source="0"/>
-  <column source="3"/>
-  <column source="1"/>
-  <column source="8"/>
-  <column source="5"/>
-  <column source="6"/>
-  <grouping/>
-</ETableState>
+[Column-status]
+order=0
+visible=true
+width=24
+
+[Column-attachment]
+order=1
+visible=true
+width=24
+
+[Column-flagged]
+order=2
+visible=true
+width=24
+
+[Column-to]
+order=3
+visible=true
+width=180
+
+[Column-subject]
+order=4
+visible=true
+width=300
+
+[Column-date-sent]
+order=5
+visible=true
+width=104
+sort-order=0
+sort-dir=descending

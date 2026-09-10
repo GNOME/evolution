@@ -1,14 +1,43 @@
-<?xml version="1.0"?>
-<ETableState state-version="0.100000">
-  <column source="0"/>
-  <column source="3"/>
-  <column source="1"/>
-  <column source="11"/>
-  <column source="12"/>
-  <column source="4"/>
-  <column source="5"/>
-  <column source="6"/>
-  <grouping>
-    <leaf column="11" ascending="false"/>
-  </grouping>
-</ETableState>
+[Column-status]
+order=0
+visible=true
+width=24
+
+[Column-attachment]
+order=1
+visible=true
+width=24
+
+[Column-flagged]
+order=2
+visible=true
+width=24
+
+[Column-followup-flag]
+order=3
+visible=true
+width=120
+sort-order=0
+sort-dir=descending
+
+[Column-followup-due-by]
+order=4
+visible=true
+width=130
+
+[Column-from]
+order=5
+visible=true
+width=150
+
+[Column-subject]
+order=6
+visible=true
+width=250
+
+[Column-date-sent]
+order=7
+visible=true
+width=104
+sort-order=1
+sort-dir=descending

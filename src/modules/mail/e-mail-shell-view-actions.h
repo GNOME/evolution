@@ -189,6 +189,12 @@
 	E_SHELL_VIEW_ACTION ((view), "mail-threads-expand-all")
 #define E_SHELL_VIEW_ACTION_MAIL_THREADS_GROUP_BY(view) \
 	E_SHELL_VIEW_ACTION ((view), "mail-threads-group-by")
+#define E_SHELL_VIEW_ACTION_MAIL_THREADS_FLAT(view) \
+	E_SHELL_VIEW_ACTION ((view), "mail-threads-flat")
+#define E_SHELL_VIEW_ACTION_MAIL_THREADS_FULL(view) \
+	E_SHELL_VIEW_ACTION ((view), "mail-threads-full")
+#define E_SHELL_VIEW_ACTION_MAIL_THREADS_COMPRESSED(view) \
+	E_SHELL_VIEW_ACTION ((view), "mail-threads-compressed")
 #define E_SHELL_VIEW_ACTION_MAIL_TOOLS_FILTERS(view) \
 	E_SHELL_VIEW_ACTION ((view), "mail-tools-filters")
 #define E_SHELL_VIEW_ACTION_MAIL_TOOLS_SEARCH_FOLDERS(view) \

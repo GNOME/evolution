@@ -35,7 +35,7 @@
 #include "em-utils.h"
 #include "mail-autofilter.h"
 #include "mail-vfolder-ui.h"
-#include "message-list.h"
+#include "e-message-list.h"
 
 #define E_MAIL_READER_GET_PRIVATE(obj) \
 	((EMailReaderPrivate *) g_object_get_qdata \
@@ -74,6 +74,7 @@ struct _EMailReaderPrivate {
 	guint avoid_next_mark_as_seen : 1;
 	guint did_try_to_open_message : 1;
 
+	CamelFolderViewThreading threading_mode; /* never NONE; default COMPRESSED */
 	guint group_by_threads : 1;
 	guint mark_seen_always : 1;
 	guint delete_selects_previous : 1;
@@ -514,7 +515,7 @@ action_mail_copy_message_link_cb (EUIAction *action,
 	EMailPartList *part_list;
 	CamelMimeMessage *message;
 	GCancellable *cancellable;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	CamelFolder *folder;
 	const gchar *message_uid;
 
@@ -523,7 +524,7 @@ action_mail_copy_message_link_cb (EUIAction *action,
 	message = part_list ? e_mail_part_list_get_message (part_list) : NULL;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	message_uid = e_message_list_get_cursor_uid (message_list);
 	g_return_if_fail (message_uid != NULL);
 
 	folder = e_mail_reader_ref_folder (reader);
@@ -979,14 +980,14 @@ action_mail_goto_containing_folder_cb (EUIAction *action,
 
 			if (real_folder) {
 				GtkWindow *window;
-				MessageList *ml;
+				EMessageList *ml;
 
-				ml = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+				ml = e_mail_reader_get_message_list (reader);
 
-				message_list_freeze (ml);
+				e_message_list_freeze (ml);
 				e_mail_reader_set_folder (reader, real_folder);
 				e_mail_reader_set_message (reader, real_uid);
-				message_list_thaw (ml);
+				e_message_list_thaw (ml);
 
 				window = e_mail_reader_get_window (reader);
 				if (E_IS_SHELL_WINDOW (window)) {
@@ -1349,20 +1350,22 @@ action_mail_mark_unread_cb (EUIAction *action,
 			    gpointer user_data)
 {
 	EMailReader *reader = user_data;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMFolderTreeModel *model;
 	CamelFolder *folder;
 	guint32 mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
 	guint32 set = 0;
+	guint seen_id;
 	guint n_marked;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
 	n_marked = e_mail_reader_mark_selected (reader, mask, set);
 
-	if (MESSAGE_LIST (message_list)->seen_id != 0) {
-		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
-		MESSAGE_LIST (message_list)->seen_id = 0;
+	seen_id = e_message_list_get_seen_id (message_list);
+	if (seen_id != 0) {
+		g_source_remove (seen_id);
+		e_message_list_set_seen_id (message_list, 0);
 	}
 
 	folder = e_mail_reader_ref_folder (reader);
@@ -1468,11 +1471,11 @@ action_mail_message_new_cb (EUIAction *action,
 		selected_uid = g_ptr_array_index (selected_uids, 0);
 
 	if (!selected_uid) {
-		GtkWidget *message_list;
+		EMessageList *message_list;
 
 		message_list = e_mail_reader_get_message_list (reader);
 		if (message_list)
-			selected_uid = MESSAGE_LIST (message_list)->cursor_uid;
+			selected_uid = e_message_list_get_cursor_uid (message_list);
 	}
 
 	shell_backend = E_SHELL_BACKEND (backend);
@@ -1628,18 +1631,17 @@ action_mail_next_cb (EUIAction *action,
 		     gpointer user_data)
 {
 	EMailReader *reader = user_data;
-	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageList *message_list;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_NEXT;
+	direction = E_MESSAGE_LIST_SELECT_NEXT;
 	flags = 0;
 	mask = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	e_message_list_select (message_list, direction, flags, mask);
 }
 
 static void
@@ -1648,18 +1650,17 @@ action_mail_next_important_cb (EUIAction *action,
 			       gpointer user_data)
 {
 	EMailReader *reader = user_data;
-	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageList *message_list;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP;
+	direction = E_MESSAGE_LIST_SELECT_NEXT | E_MESSAGE_LIST_SELECT_WRAP;
 	flags = CAMEL_MESSAGE_FLAGGED;
 	mask = CAMEL_MESSAGE_FLAGGED;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	e_message_list_select (message_list, direction, flags, mask);
 }
 
 static void
@@ -1668,31 +1669,31 @@ action_mail_next_thread_cb (EUIAction *action,
 			    gpointer user_data)
 {
 	EMailReader *reader = user_data;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_next_thread (MESSAGE_LIST (message_list));
+	e_message_list_select_next_thread (message_list);
 }
 
 static void
 mail_reader_select_unread (EMailReader *reader,
 			   gboolean move_forward)
 {
-	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageList *message_list;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	direction = (move_forward ? MESSAGE_LIST_SELECT_NEXT : MESSAGE_LIST_SELECT_PREVIOUS) |
-		    MESSAGE_LIST_SELECT_WRAP | MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED;
+	direction = (move_forward ? E_MESSAGE_LIST_SELECT_NEXT : E_MESSAGE_LIST_SELECT_PREVIOUS) |
+		    E_MESSAGE_LIST_SELECT_WRAP | E_MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED;
 	flags = 0;
 	mask = CAMEL_MESSAGE_SEEN;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	if (!message_list_select (MESSAGE_LIST (message_list), direction, flags, mask)) {
+	if (!e_message_list_select (message_list, direction, flags, mask)) {
 		GtkWindow *window;
 
 		window = e_mail_reader_get_window (reader);
@@ -1721,7 +1722,7 @@ mail_reader_select_unread (EMailReader *reader,
 						selected = em_folder_tree_select_prev_path (folder_tree, TRUE);
 
 					if (selected)
-						message_list_set_regen_selects_unread (MESSAGE_LIST (message_list), TRUE);
+						e_message_list_set_regen_selects_unread (message_list, TRUE);
 				}
 
 				g_clear_object (&folder_tree);
@@ -1746,18 +1747,17 @@ action_mail_previous_cb (EUIAction *action,
 			 gpointer user_data)
 {
 	EMailReader *reader = user_data;
-	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageList *message_list;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_PREVIOUS;
+	direction = E_MESSAGE_LIST_SELECT_PREVIOUS;
 	flags = 0;
 	mask = 0;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	e_message_list_select (message_list, direction, flags, mask);
 }
 
 static void
@@ -1766,18 +1766,17 @@ action_mail_previous_important_cb (EUIAction *action,
 				   gpointer user_data)
 {
 	EMailReader *reader = user_data;
-	GtkWidget *message_list;
-	MessageListSelectDirection direction;
+	EMessageList *message_list;
+	EMessageListSelectDirection direction;
 	guint32 flags, mask;
 
-	direction = MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP;
+	direction = E_MESSAGE_LIST_SELECT_PREVIOUS | E_MESSAGE_LIST_SELECT_WRAP;
 	flags = CAMEL_MESSAGE_FLAGGED;
 	mask = CAMEL_MESSAGE_FLAGGED;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select (
-		MESSAGE_LIST (message_list), direction, flags, mask);
+	e_message_list_select (message_list, direction, flags, mask);
 }
 
 static void
@@ -1786,11 +1785,11 @@ action_mail_previous_thread_cb (EUIAction *action,
 				gpointer user_data)
 {
 	EMailReader *reader = user_data;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_prev_thread (MESSAGE_LIST (message_list));
+	e_message_list_select_prev_thread (message_list);
 }
 
 static void
@@ -1883,12 +1882,12 @@ action_mail_redirect_cb (EUIAction *action,
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	CamelFolder *folder;
 	const gchar *message_uid;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	message_uid = e_message_list_get_cursor_uid (message_list);
 	g_return_if_fail (message_uid != NULL);
 
 	/* Open the message asynchronously. */
@@ -2034,11 +2033,11 @@ action_mail_reply_all_cb (EUIAction *action,
 		GCancellable *cancellable;
 		EMailReaderClosure *closure;
 		CamelFolder *folder;
-		GtkWidget *message_list;
+		EMessageList *message_list;
 		const gchar *message_uid;
 
 		message_list = e_mail_reader_get_message_list (reader);
-		message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		message_uid = e_message_list_get_cursor_uid (message_list);
 		g_return_if_fail (message_uid != NULL);
 
 		activity = e_mail_reader_new_activity (reader);
@@ -2137,11 +2136,11 @@ action_mail_reply_alternative_cb (EUIAction *action,
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	const gchar *message_uid;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	message_uid = e_message_list_get_cursor_uid (message_list);
 	g_return_if_fail (message_uid != NULL);
 
 	activity = e_mail_reader_new_activity (reader);
@@ -2525,11 +2524,11 @@ action_mail_reply_sender_cb (EUIAction *action,
 		GCancellable *cancellable;
 		EMailReaderClosure *closure;
 		CamelFolder *folder;
-		GtkWidget *message_list;
+		EMessageList *message_list;
 		const gchar *message_uid;
 
 		message_list = e_mail_reader_get_message_list (reader);
-		message_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		message_uid = e_message_list_get_cursor_uid (message_list);
 		g_return_if_fail (message_uid != NULL);
 
 		activity = e_mail_reader_new_activity (reader);
@@ -2703,7 +2702,7 @@ action_mail_show_source_cb (EUIAction *action,
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
-	MessageList *ml;
+	EMessageList *ml;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_ref_folder (reader);
@@ -2725,12 +2724,12 @@ action_mail_show_source_cb (EUIAction *action,
 	}
 
 	browser = e_mail_browser_new (backend, E_MAIL_FORMATTER_MODE_SOURCE);
-	ml = MESSAGE_LIST (e_mail_reader_get_message_list (E_MAIL_READER (browser)));
+	ml = e_mail_reader_get_message_list (E_MAIL_READER (browser));
 
-	message_list_freeze (ml);
+	e_message_list_freeze (ml);
 	e_mail_reader_set_folder (E_MAIL_READER (browser), folder);
 	e_mail_reader_set_message (E_MAIL_READER (browser), message_uid);
-	message_list_thaw (ml);
+	e_message_list_thaw (ml);
 
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (browser));
 
@@ -3828,17 +3827,11 @@ e_mail_reader_init_ui_data_default (EMailReader *self)
 }
 
 static void
-mail_reader_double_click_cb (EMailReader *reader,
-                             gint row,
-                             ETreePath path,
-                             gint col,
-                             GdkEvent *event)
+mail_reader_row_activated_cb (EMailReader *reader,
+                              guint row,
+                              GObject *row_object)
 {
 	EUIAction *action;
-
-	/* Ignore double clicks on columns that handle their own state. */
-	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
-		return;
 
 	action = e_mail_reader_get_action (reader, "mail-message-open");
 	g_action_activate (G_ACTION (action), NULL);
@@ -3849,7 +3842,7 @@ mail_reader_message_seen_cb (gpointer user_data)
 {
 	EMailReaderClosure *closure = user_data;
 	EMailReader *reader;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailPartList *parts;
 	EMailDisplay *display;
 	CamelMimeMessage *message;
@@ -3864,16 +3857,16 @@ mail_reader_message_seen_cb (gpointer user_data)
 	parts = e_mail_display_get_part_list (display);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (message_list), FALSE);
 
 	/* zero the timeout id now, if it was not rescheduled */
-	if (g_source_get_id (g_main_current_source ()) == MESSAGE_LIST (message_list)->seen_id)
-		MESSAGE_LIST (message_list)->seen_id = 0;
+	if (g_source_get_id (g_main_current_source ()) == e_message_list_get_seen_id (message_list))
+		e_message_list_set_seen_id (message_list, 0);
 
-	if (e_tree_is_dragging (E_TREE (message_list)))
+	if (e_virtual_tree_is_dragging (e_message_list_get_virtual_tree (message_list)))
 		return FALSE;
 
-	current_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	current_uid = e_message_list_get_cursor_uid (message_list);
 	uid_is_current &= (g_strcmp0 (current_uid, message_uid) == 0);
 
 	if (parts != NULL)
@@ -3893,33 +3886,35 @@ static void
 schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
+	guint seen_id;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = e_mail_reader_get_message_list (reader);
 	g_return_if_fail (message_list != NULL);
 
-	if (message_list->cursor_uid) {
+	if (e_message_list_get_cursor_uid (message_list)) {
 		EMailReaderClosure *timeout_closure;
 
-		if (message_list->seen_id > 0) {
-			g_source_remove (message_list->seen_id);
-			message_list->seen_id = 0;
+		seen_id = e_message_list_get_seen_id (message_list);
+		if (seen_id > 0) {
+			g_source_remove (seen_id);
+			e_message_list_set_seen_id (message_list, 0);
 		}
 
 		timeout_closure = g_slice_new0 (EMailReaderClosure);
 		timeout_closure->reader = g_object_ref (reader);
-		timeout_closure->message_uid = g_strdup (message_list->cursor_uid);
+		timeout_closure->message_uid = g_strdup (e_message_list_get_cursor_uid (message_list));
 
-		MESSAGE_LIST (message_list)->seen_id =
+		e_message_list_set_seen_id (message_list,
 			e_named_timeout_add_full (
 				G_PRIORITY_DEFAULT, priv->schedule_mark_seen_interval,
 				mail_reader_message_seen_cb,
 				timeout_closure, (GDestroyNotify)
-				mail_reader_closure_free);
+				mail_reader_closure_free));
 	}
 }
 
@@ -4003,25 +3998,27 @@ static void
 maybe_schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
 	gboolean schedule_timeout;
 	gint timeout_interval = -1;
 	const gchar *message_uid;
+	guint seen_id;
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = e_mail_reader_get_message_list (reader);
 
-	message_uid = message_list->cursor_uid;
+	message_uid = e_message_list_get_cursor_uid (message_list);
 	if (message_uid == NULL ||
-	    e_tree_is_dragging (E_TREE (message_list)))
+	    e_virtual_tree_is_dragging (e_message_list_get_virtual_tree (message_list)))
 		return;
 
 	schedule_timeout =
 		(message_uid != NULL) &&
 		e_mail_reader_utils_get_mark_seen_setting (reader, &timeout_interval);
 
-	if (message_list->seen_id > 0) {
-		g_source_remove (message_list->seen_id);
-		message_list->seen_id = 0;
+	seen_id = e_message_list_get_seen_id (message_list);
+	if (seen_id > 0) {
+		g_source_remove (seen_id);
+		e_message_list_set_seen_id (message_list, 0);
 	}
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
@@ -4033,19 +4030,21 @@ static gboolean
 discard_timeout_mark_seen_cb (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
+	guint seen_id;
 
 	g_return_val_if_fail (reader != NULL, FALSE);
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	priv->schedule_mark_seen = FALSE;
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = e_mail_reader_get_message_list (reader);
 	g_return_val_if_fail (message_list != NULL, FALSE);
 
-	if (message_list->seen_id > 0) {
-		g_source_remove (message_list->seen_id);
-		message_list->seen_id = 0;
+	seen_id = e_message_list_get_seen_id (message_list);
+	if (seen_id > 0) {
+		g_source_remove (seen_id);
+		e_message_list_set_seen_id (message_list, 0);
 	}
 
 	return FALSE;
@@ -4183,7 +4182,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	EMailReader *reader;
 	EMailReaderPrivate *priv;
 	CamelMimeMessage *message = NULL;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	const gchar *message_uid;
 	GError *error = NULL;
 
@@ -4226,7 +4225,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		mi = camel_folder_get_message_info (folder, message_uid);
 		if (mi) {
 			if (camel_util_fill_message_info_user_headers (mi, camel_medium_get_headers (CAMEL_MEDIUM (message))))
-				gtk_widget_queue_draw (message_list);
+				gtk_widget_queue_draw (GTK_WIDGET (message_list));
 
 			g_object_unref (mi);
 		}
@@ -4271,7 +4270,7 @@ mail_reader_message_selected_timeout_cb (gpointer user_data)
 	EMailReader *reader;
 	EMailReaderPrivate *priv;
 	EMailDisplay *display;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	const gchar *cursor_uid;
 	const gchar *format_uid;
 	EMailPartList *parts;
@@ -4283,13 +4282,13 @@ mail_reader_message_selected_timeout_cb (gpointer user_data)
 	display = e_mail_reader_get_mail_display (reader);
 	parts = e_mail_display_get_part_list (display);
 
-	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
+	cursor_uid = e_message_list_get_cursor_uid (message_list);
 	if (parts != NULL)
 		format_uid = e_mail_part_list_get_message_uid (parts);
 	else
 		format_uid = NULL;
 
-	if (MESSAGE_LIST (message_list)->last_sel_single) {
+	if (e_message_list_get_last_sel_single (message_list)) {
 		GtkWidget *widget;
 		gboolean display_visible;
 		gboolean selected_uid_changed;
@@ -4349,7 +4348,8 @@ mail_reader_message_selected_cb (EMailReader *reader,
                                  const gchar *message_uid)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
+	guint seen_id;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
@@ -4369,14 +4369,15 @@ mail_reader_message_selected_cb (EMailReader *reader,
 			priv->did_try_to_open_message = TRUE;
 	}
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = e_mail_reader_get_message_list (reader);
+
 	if (message_list) {
 		EMailPartList *parts;
 		const gchar *cursor_uid, *format_uid;
 
 		parts = e_mail_display_get_part_list (e_mail_reader_get_mail_display (reader));
 
-		cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
+		cursor_uid = e_message_list_get_cursor_uid (message_list);
 		if (parts != NULL)
 			format_uid = e_mail_part_list_get_message_uid (parts);
 		else
@@ -4391,12 +4392,13 @@ mail_reader_message_selected_cb (EMailReader *reader,
 	}
 
 	/* Cancel the seen timer. */
-	if (message_list != NULL && message_list->seen_id) {
-		g_source_remove (message_list->seen_id);
-		message_list->seen_id = 0;
+	seen_id = message_list != NULL ? e_message_list_get_seen_id (message_list) : 0;
+	if (seen_id > 0) {
+		g_source_remove (seen_id);
+		e_message_list_set_seen_id (message_list, 0);
 	}
 
-	if (message_list_selected_count (message_list) != 1) {
+	if (e_message_list_selected_count (message_list) != 1) {
 		EMailDisplay *display;
 
 		display = e_mail_reader_get_mail_display (reader);
@@ -4420,7 +4422,7 @@ mail_reader_message_selected_cb (EMailReader *reader,
 static void
 mail_reader_message_cursor_change_cb (EMailReader *reader)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 	EMailReaderPrivate *priv;
 
 	g_return_if_fail (reader != NULL);
@@ -4428,10 +4430,10 @@ mail_reader_message_cursor_change_cb (EMailReader *reader)
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	g_return_if_fail (priv != NULL);
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = e_mail_reader_get_message_list (reader);
 	g_return_if_fail (message_list != NULL);
 
-	if (message_list->seen_id == 0 &&
+	if (e_message_list_get_seen_id (message_list) == 0 &&
 	    E_IS_MAIL_VIEW (reader) &&
 	    e_mail_view_get_preview_visible (E_MAIL_VIEW (reader)) &&
 	    !priv->avoid_next_mark_as_seen)
@@ -4442,20 +4444,20 @@ static void
 mail_reader_emit_folder_loaded (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = e_mail_reader_get_message_list (reader);
 
-	if (priv && (message_list_count (message_list) <= 0 ||
-	    message_list_selected_count (message_list) <= 0))
+	if (priv && (e_message_list_count (message_list) <= 0 ||
+	    e_message_list_selected_count (message_list) <= 0))
 		priv->avoid_next_mark_as_seen = FALSE;
 
 	g_signal_emit (reader, signals[FOLDER_LOADED], 0);
 }
 
 static void
-mail_reader_message_list_built_cb (MessageList *message_list,
+mail_reader_message_list_built_cb (EMessageList *message_list,
 				   EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
@@ -4466,7 +4468,7 @@ mail_reader_message_list_built_cb (MessageList *message_list,
 	/* No cursor_uid means that there will not be emitted any
 	   "cursor-changed" and "message-selected" signal, thus
 	   unset the "just selected folder" flag */
-	if (!message_list->cursor_uid)
+	if (!e_message_list_get_cursor_uid (message_list))
 		priv->folder_was_just_selected = FALSE;
 }
 
@@ -4492,31 +4494,31 @@ mail_reader_get_alert_sink (EMailReader *reader)
 static GPtrArray *
 mail_reader_get_selected_uids (EMailReader *reader)
 {
-	GtkWidget *message_list;
+	EMessageList *message_list;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	return message_list_get_selected (MESSAGE_LIST (message_list));
+	return e_message_list_get_selected (message_list);
 }
 
 static GPtrArray *
 mail_reader_get_selected_uids_with_collapsed_threads (EMailReader *reader)
 {
-	GtkWidget *message_list;
+	EMessageList *message_list;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	return message_list_get_selected_with_collapsed_threads (MESSAGE_LIST (message_list));
+	return e_message_list_get_selected_with_collapsed_threads (message_list);
 }
 
 static CamelFolder *
 mail_reader_ref_folder (EMailReader *reader)
 {
-	GtkWidget *message_list;
+	EMessageList *message_list;
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	return message_list_ref_folder (MESSAGE_LIST (message_list));
+	return e_message_list_ref_folder (message_list);
 }
 
 static void
@@ -4526,7 +4528,7 @@ mail_reader_set_folder (EMailReader *reader,
 	EMailReaderPrivate *priv;
 	EMailDisplay *display;
 	CamelFolder *previous_folder;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailBackend *backend;
 	EShell *shell;
 	gboolean sync_folder;
@@ -4551,6 +4553,7 @@ mail_reader_set_folder (EMailReader *reader,
 
 	/* Skip the rest if we're already viewing the folder. */
 	if (folder != previous_folder) {
+		e_mail_display_set_part_list (display, NULL);
 		e_web_view_clear (E_WEB_VIEW (display));
 
 		priv->folder_was_just_selected = (folder != NULL) && !priv->mark_seen_always;
@@ -4561,7 +4564,7 @@ mail_reader_set_folder (EMailReader *reader,
 		if (CAMEL_IS_VEE_FOLDER (folder))
 			mail_sync_folder (folder, FALSE, NULL, NULL);
 
-		message_list_set_folder (MESSAGE_LIST (message_list), folder);
+		e_message_list_set_folder (message_list, folder);
 
 		mail_reader_emit_folder_loaded (reader);
 	}
@@ -4573,7 +4576,7 @@ static void
 mail_reader_set_message (EMailReader *reader,
                          const gchar *message_uid)
 {
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailReaderPrivate *priv;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
@@ -4583,8 +4586,7 @@ mail_reader_set_message (EMailReader *reader,
 
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_uid (
-		MESSAGE_LIST (message_list), message_uid, FALSE);
+	e_message_list_select_uid (message_list, message_uid, FALSE);
 }
 
 static void
@@ -4670,7 +4672,7 @@ mail_reader_message_loaded (EMailReader *reader,
                             CamelMimeMessage *message)
 {
 	EMailReaderPrivate *priv;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailBackend *backend;
 	CamelFolder *folder;
 	EMailDisplay *display;
@@ -4678,6 +4680,7 @@ mail_reader_message_loaded (EMailReader *reader,
 	EShell *shell;
 	EMEvent *event;
 	EMEventTargetMessage *target;
+	guint seen_id;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
@@ -4708,9 +4711,10 @@ mail_reader_message_loaded (EMailReader *reader,
 	/* Reset the shell view icon. */
 	e_shell_event (shell, "mail-icon", (gpointer) "evolution-mail");
 
-	if (MESSAGE_LIST (message_list)->seen_id > 0) {
-		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
-		MESSAGE_LIST (message_list)->seen_id = 0;
+	seen_id = e_message_list_get_seen_id (message_list);
+	if (seen_id > 0) {
+		g_source_remove (seen_id);
+		e_message_list_set_seen_id (message_list, 0);
 	}
 
 	/* Determine whether to mark the message as read. */
@@ -5412,27 +5416,16 @@ mail_reader_update_actions (EMailReader *reader,
 	mail_display = e_mail_reader_get_mail_display (reader);
 
 	if (any_messages_selected) {
-		MessageList *message_list;
-		gint row = -1, count = -1;
-		ETreeTableAdapter *etta;
-		ETreePath node = NULL;
+		EMessageList *message_list;
+		gint row;
+		guint count;
 
-		message_list = MESSAGE_LIST (
-			e_mail_reader_get_message_list (reader));
-		etta = e_tree_get_table_adapter (E_TREE (message_list));
-
-		if (message_list->cursor_uid != NULL)
-			node = g_hash_table_lookup (
-				message_list->uid_nodemap,
-				message_list->cursor_uid);
-
-		if (node != NULL) {
-			row = e_tree_table_adapter_row_of_node (etta, node);
-			count = e_table_model_row_count (E_TABLE_MODEL (etta));
-		}
+		message_list = e_mail_reader_get_message_list (reader);
+		row = e_message_list_get_cursor_row (message_list);
+		count = e_message_list_count (message_list);
 
 		first_message_selected = row <= 0;
-		last_message_selected = row < 0 || row + 1 >= count;
+		last_message_selected = row < 0 || (guint) (row + 1) >= count;
 	}
 
 	sensitive = single_message_selected;
@@ -5779,6 +5772,26 @@ e_mail_reader_default_init (EMailReaderInterface *iface)
 	g_object_interface_install_property (
 		iface,
 		g_param_spec_enum (
+			"threading",
+			"Threading",
+			"Threading mode for the message list",
+			CAMEL_TYPE_FOLDER_VIEW_THREADING,
+			CAMEL_FOLDER_VIEW_THREADING_NONE,
+			G_PARAM_READWRITE));
+
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_enum (
+			"threading-mode",
+			"Threading Mode",
+			"Which threading algorithm to use when threading is enabled",
+			CAMEL_TYPE_FOLDER_VIEW_THREADING,
+			CAMEL_FOLDER_VIEW_THREADING_COMPRESSED,
+			G_PARAM_READWRITE));
+
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_enum (
 			"reply-style",
 			"Reply Style",
 			"How to reply to messages",
@@ -5877,21 +5890,24 @@ void
 e_mail_reader_init (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	GtkWidget *message_list;
+	EMessageList *message_list;
+	EVirtualTree *vtree;
 	EMailDisplay *display;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	message_list = e_mail_reader_get_message_list (reader);
+	vtree = e_message_list_get_virtual_tree (message_list);
 	display = e_mail_reader_get_mail_display (reader);
 
 	/* Initialize a private struct. */
 	priv = g_new0 (EMailReaderPrivate, 1);
+	priv->threading_mode = CAMEL_FOLDER_VIEW_THREADING_COMPRESSED;
 	g_object_set_qdata_full (G_OBJECT (reader), quark_private, priv, (GDestroyNotify) mail_reader_private_free);
 
 	e_binding_bind_property (
-		reader, "group-by-threads",
-		message_list, "group-by-threads",
+		reader, "threading",
+		message_list, "threading",
 		G_BINDING_SYNC_CREATE);
 
 	priv->labels_menu = g_menu_new ();
@@ -5937,20 +5953,20 @@ e_mail_reader_init (EMailReader *reader)
 
 	/* re-schedule mark-as-seen,... */
 	g_signal_connect_swapped (
-		message_list, "cursor-change",
+		vtree, "cursor-changed",
 		G_CALLBACK (mail_reader_message_cursor_change_cb), reader);
 
 	/* but do not mark-as-seen if... */
 	g_signal_connect_swapped (
-		message_list, "tree-drag-begin",
+		vtree, "tree-drag-begin",
 		G_CALLBACK (discard_timeout_mark_seen_cb), reader);
 
 	g_signal_connect_swapped (
-		message_list, "tree-drag-end",
+		vtree, "tree-drag-end",
 		G_CALLBACK (discard_timeout_mark_seen_cb), reader);
 
 	g_signal_connect_swapped (
-		message_list, "right-click",
+		vtree, "right-click",
 		G_CALLBACK (discard_timeout_mark_seen_cb), reader);
 
 	g_signal_connect_swapped (
@@ -5962,11 +5978,11 @@ e_mail_reader_init (EMailReader *reader)
 		G_CALLBACK (mail_reader_message_list_built_cb), reader);
 
 	g_signal_connect_swapped (
-		message_list, "double-click",
-		G_CALLBACK (mail_reader_double_click_cb), reader);
+		vtree, "row-activated",
+		G_CALLBACK (mail_reader_row_activated_cb), reader);
 
 	g_signal_connect_swapped (
-		message_list, "selection-change",
+		vtree, "selection-changed",
 		G_CALLBACK (e_mail_reader_changed), reader);
 }
 
@@ -5989,7 +6005,7 @@ e_mail_reader_dispose (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
 	EMailDisplay *mail_display;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	GSList *ongoing_operations, *link;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
@@ -6023,22 +6039,24 @@ e_mail_reader_dispose (EMailReader *reader)
 		g_signal_handlers_disconnect_by_data (mail_display, reader);
 
 	message_list = e_mail_reader_get_message_list (reader);
-	if (message_list)
+	if (message_list) {
 		g_signal_handlers_disconnect_by_data (message_list, reader);
+		g_signal_handlers_disconnect_by_data (e_message_list_get_virtual_tree (message_list), reader);
+	}
 }
 
 void
 e_mail_reader_changed (EMailReader *reader)
 {
-	MessageList *message_list;
+	EMessageList *message_list;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	g_signal_emit (reader, signals[CHANGED], 0);
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = e_mail_reader_get_message_list (reader);
 
-	if (!message_list || message_list_selected_count (message_list) != 1)
+	if (!message_list || e_message_list_selected_count (message_list) != 1)
 		mail_reader_remove_followup_alert (reader);
 }
 
@@ -6404,7 +6422,7 @@ e_mail_reader_get_hide_deleted (EMailReader *reader)
 	return iface->get_hide_deleted (reader);
 }
 
-GtkWidget *
+EMessageList *
 e_mail_reader_get_message_list (EMailReader *reader)
 {
 	EMailReaderInterface *iface;
@@ -6620,6 +6638,96 @@ e_mail_reader_set_group_by_threads (EMailReader *reader,
 	priv->group_by_threads = group_by_threads;
 
 	g_object_notify (G_OBJECT (reader), "group-by-threads");
+	g_object_notify (G_OBJECT (reader), "threading");
+}
+
+CamelFolderViewThreading
+e_mail_reader_get_threading (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), CAMEL_FOLDER_VIEW_THREADING_NONE);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (!priv->group_by_threads)
+		return CAMEL_FOLDER_VIEW_THREADING_NONE;
+
+	return priv->threading_mode;
+}
+
+void
+e_mail_reader_set_threading (EMailReader *reader,
+                             CamelFolderViewThreading threading)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (threading == CAMEL_FOLDER_VIEW_THREADING_NONE) {
+		if (!priv->group_by_threads)
+			return;
+		priv->group_by_threads = FALSE;
+		g_object_notify (G_OBJECT (reader), "group-by-threads");
+		g_object_notify (G_OBJECT (reader), "threading");
+	} else {
+		gboolean group_changed = FALSE;
+		gboolean mode_changed = FALSE;
+
+		if (!priv->group_by_threads) {
+			priv->group_by_threads = TRUE;
+			group_changed = TRUE;
+		}
+		if (priv->threading_mode != threading) {
+			priv->threading_mode = threading;
+			mode_changed = TRUE;
+		}
+		if (!group_changed && !mode_changed)
+			return;
+		if (group_changed)
+			g_object_notify (G_OBJECT (reader), "group-by-threads");
+		if (mode_changed)
+			g_object_notify (G_OBJECT (reader), "threading-mode");
+		g_object_notify (G_OBJECT (reader), "threading");
+	}
+}
+
+CamelFolderViewThreading
+e_mail_reader_get_threading_mode (EMailReader *reader)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), CAMEL_FOLDER_VIEW_THREADING_COMPRESSED);
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	return priv->threading_mode;
+}
+
+void
+e_mail_reader_set_threading_mode (EMailReader *reader,
+                                  CamelFolderViewThreading mode)
+{
+	EMailReaderPrivate *priv;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	priv = E_MAIL_READER_GET_PRIVATE (reader);
+
+	if (mode == CAMEL_FOLDER_VIEW_THREADING_NONE)
+		mode = CAMEL_FOLDER_VIEW_THREADING_COMPRESSED;
+
+	if (priv->threading_mode == mode)
+		return;
+
+	priv->threading_mode = mode;
+
+	g_object_notify (G_OBJECT (reader), "threading-mode");
+
+	if (priv->group_by_threads)
+		g_object_notify (G_OBJECT (reader), "threading");
 }
 
 EMailReplyStyle
@@ -6724,15 +6832,11 @@ void
 e_mail_reader_avoid_next_mark_as_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
-	MessageList *message_list;
 
 	g_return_if_fail (reader != NULL);
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	g_return_if_fail (priv != NULL);
-
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
-	g_return_if_fail (message_list != NULL);
 
 	priv->avoid_next_mark_as_seen = TRUE;
 }

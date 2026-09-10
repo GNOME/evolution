@@ -1083,7 +1083,7 @@ action_mail_folder_select_thread_cb (EUIAction *action,
 {
 	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailReader *reader;
 	EMailView *mail_view;
 
@@ -1093,7 +1093,7 @@ action_mail_folder_select_thread_cb (EUIAction *action,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_thread (MESSAGE_LIST (message_list));
+	e_message_list_select_thread (message_list);
 }
 
 static void
@@ -1103,7 +1103,7 @@ action_mail_folder_select_subthread_cb (EUIAction *action,
 {
 	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailReader *reader;
 	EMailView *mail_view;
 
@@ -1113,7 +1113,7 @@ action_mail_folder_select_subthread_cb (EUIAction *action,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_subthread (MESSAGE_LIST (message_list));
+	e_message_list_select_subthread (message_list);
 }
 
 static gboolean
@@ -1383,7 +1383,7 @@ mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
 	EMFolderTree *folder_tree;
 	EMailReader *reader;
 	EMailView *mail_view;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailDisplay *display;
 	GSettings *settings;
 	gboolean magic_spacebar;
@@ -1406,15 +1406,15 @@ mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
 	g_object_unref (settings);
 
 	if (!e_mail_display_process_magic_spacebar (display, move_forward)) {
-		guint32 direction = move_forward ? MESSAGE_LIST_SELECT_NEXT : MESSAGE_LIST_SELECT_PREVIOUS;
+		guint32 direction = move_forward ? E_MESSAGE_LIST_SELECT_NEXT : E_MESSAGE_LIST_SELECT_PREVIOUS;
 		gboolean selected;
 
 		if (!magic_spacebar)
 			return;
 
-		if (message_list_select (MESSAGE_LIST (message_list),
-		    direction | MESSAGE_LIST_SELECT_WRAP |
-		    MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
+		if (e_message_list_select (message_list,
+		    direction | E_MESSAGE_LIST_SELECT_WRAP |
+		    E_MESSAGE_LIST_SELECT_INCLUDE_COLLAPSED,
 		    0, CAMEL_MESSAGE_SEEN))
 			return;
 
@@ -1424,9 +1424,9 @@ mail_shell_view_magic_spacebar (EMailShellView *mail_shell_view,
 			selected = em_folder_tree_select_prev_path (folder_tree, TRUE);
 
 		if (selected)
-			message_list_set_regen_selects_unread (MESSAGE_LIST (message_list), TRUE);
+			e_message_list_set_regen_selects_unread (message_list, TRUE);
 
-		gtk_widget_grab_focus (message_list);
+		gtk_widget_grab_focus (GTK_WIDGET (message_list));
 	}
 }
 
@@ -1472,7 +1472,7 @@ action_mail_threads_collapse_all_cb (EUIAction *action,
 {
 	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailReader *reader;
 	EMailView *mail_view;
 
@@ -1482,7 +1482,7 @@ action_mail_threads_collapse_all_cb (EUIAction *action,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded_collapse_all (MESSAGE_LIST (message_list));
+	e_message_list_collapse_all_threads (message_list);
 }
 
 static void
@@ -1492,7 +1492,7 @@ action_mail_threads_expand_all_cb (EUIAction *action,
 {
 	EMailShellView *mail_shell_view = user_data;
 	EMailShellContent *mail_shell_content;
-	GtkWidget *message_list;
+	EMessageList *message_list;
 	EMailReader *reader;
 	EMailView *mail_view;
 
@@ -1502,7 +1502,7 @@ action_mail_threads_expand_all_cb (EUIAction *action,
 	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded_expand_all (MESSAGE_LIST (message_list));
+	e_message_list_expand_all_threads (message_list);
 }
 
 static void
@@ -1840,6 +1840,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 		{ "mail-folder-menu", NULL, N_("F_older"), NULL, NULL, NULL, NULL, NULL, NULL },
 		{ "mail-preview-menu", NULL, N_("_Preview"), NULL, NULL, NULL, NULL, NULL, NULL },
+		{ "mail-threading-mode-menu", NULL, N_("Threading _Mode"), NULL, NULL, NULL, NULL, NULL, NULL },
 		{ "EMailShellView::mail-send-receive", "mail-send-receive", N_("Send / _Receive"), NULL, NULL, NULL, NULL, NULL, NULL }
 	};
 
@@ -1910,6 +1911,30 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		  NULL,
 		  N_("Show To Do bar with appointments and tasks"),
 		  NULL, NULL, "true", NULL } /* Handled by property bindings */
+	};
+
+	static const EUIActionEnumEntry mail_threading_entries[] = {
+
+		{ "mail-threads-full",
+		  NULL,
+		  N_("F_ull Threads"),
+		  NULL,
+		  N_("Group messages showing full thread hierarchy"),
+		  NULL, CAMEL_FOLDER_VIEW_THREADING_FULL },
+
+		{ "mail-threads-compressed",
+		  NULL,
+		  N_("_Compressed Threads"),
+		  NULL,
+		  N_("Group messages with compressed thread chains"),
+		  NULL, CAMEL_FOLDER_VIEW_THREADING_COMPRESSED },
+
+		{ "mail-threads-flat",
+		  NULL,
+		  N_("_Flat Threads"),
+		  NULL,
+		  N_("Group messages into flat threads"),
+		  NULL, CAMEL_FOLDER_VIEW_THREADING_FLAT }
 	};
 
 	static const EUIActionEnumEntry mail_view_entries[] = {
@@ -2046,6 +2071,8 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	e_ui_manager_add_actions (ui_manager, "mail", NULL,
 		mail_toggle_entries, G_N_ELEMENTS (mail_toggle_entries), mail_shell_view);
 	e_ui_manager_add_actions_enum (ui_manager, "mail", NULL,
+		mail_threading_entries, G_N_ELEMENTS (mail_threading_entries), mail_shell_view);
+	e_ui_manager_add_actions_enum (ui_manager, "mail", NULL,
 		mail_view_entries, G_N_ELEMENTS (mail_view_entries), mail_shell_view);
 	e_ui_manager_add_actions_enum (ui_manager, "mail", NULL,
 		mail_search_entries, G_N_ELEMENTS (mail_search_entries), mail_shell_view);
@@ -2095,6 +2122,21 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	e_binding_bind_property (
 		ACTION (MAIL_THREADS_GROUP_BY), "active",
 		ACTION (MAIL_THREADS_EXPAND_ALL), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		ACTION (MAIL_THREADS_FULL), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		ACTION (MAIL_THREADS_COMPRESSED), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		ACTION (MAIL_THREADS_FLAT), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (
