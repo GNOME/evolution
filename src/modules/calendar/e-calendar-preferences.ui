@@ -849,7 +849,7 @@
         </child>
         <child>
           <object class="GtkCheckButton" id="allow_direct_summary_edit">
-            <property name="label" translatable="yes">Allo_w direct edit of event Summary</property>
+            <property name="label" translatable="yes">Allo_w direct modifications of events, memos and tasks</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">False</property>
@@ -880,6 +880,22 @@
           </packing>
         </child>
         <child>
+          <object class="GtkCheckButton" id="table_sort_on_header_click">
+            <property name="label" translatable="yes">Sort _table on header click</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="use_underline">True</property>
+            <property name="draw_indicator">True</property>
+            <property name="margin-start">12</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">11</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkLabel" id="general-space-label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -887,7 +903,7 @@
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">11</property>
+            <property name="position">12</property>
           </packing>
         </child>
       </object>

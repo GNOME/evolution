@@ -1,8 +1,24 @@
-<?xml version="1.0"?>
-<ETableState state-version="0.100000">
-  <column source="1"/>
-  <column source="4"/>
-  <column source="2"/>
-  <column source="8"/>
-  <grouping/>
-</ETableState>
+[Column-tasklist-color]
+order=0
+visible=true
+width=24
+
+[Column-icon]
+order=1
+visible=true
+width=24
+
+[Column-complete]
+order=2
+visible=true
+width=24
+
+[Column-summary]
+order=3
+visible=true
+width=300
+
+[Column-status]
+order=4
+visible=true
+width=120

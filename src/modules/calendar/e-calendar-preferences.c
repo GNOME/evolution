@@ -1188,6 +1188,10 @@ calendar_preferences_construct (ECalendarPreferences *prefs,
 		widget, "active",
 		G_SETTINGS_BIND_DEFAULT);
 
+	widget = e_builder_get_widget (prefs->priv->builder, "table_sort_on_header_click");
+	e_util_setup_automatic_action_policy_check_button (
+		GTK_CHECK_BUTTON (widget), settings, "table-sort-on-header-click");
+
 	widget = e_builder_get_widget (prefs->priv->builder, "hide_cancelled_events");
 	g_settings_bind (
 		settings, "hide-cancelled-events",

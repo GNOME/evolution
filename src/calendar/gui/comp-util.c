@@ -3540,3 +3540,277 @@ cal_comp_util_set_color_for_component (ECalClient *client,
 
 	return changed;
 }
+
+typedef struct _DatetimePopoverData {
+	ECalModel *model;
+	ECalModelComponent *comp_data;
+	GtkWidget *date_edit; /* not referenced, owned by the popover */
+	gint field;
+} DatetimePopoverData;
+
+static void
+datetime_popover_data_free (gpointer ptr)
+{
+	DatetimePopoverData *dpd = ptr;
+
+	if (dpd) {
+		g_clear_object (&dpd->model);
+		g_clear_object (&dpd->comp_data);
+		g_free (dpd);
+	}
+}
+
+static void
+datetime_popover_commit (DatetimePopoverData *dpd)
+{
+	EDateEdit *date_edit;
+	gint year, month, day;
+
+	date_edit = E_DATE_EDIT (dpd->date_edit);
+
+	if (!e_date_edit_get_date (date_edit, &year, &month, &day)) {
+		e_cal_model_set_field_value (dpd->model, dpd->comp_data, dpd->field, NULL, TRUE);
+	} else {
+		ICalTime *itt;
+		ECellDateEditValue *dv;
+		gint hour, minute;
+		gboolean has_time;
+
+		itt = i_cal_time_new_null_time ();
+		i_cal_time_set_date (itt, year, month, day);
+
+		has_time = e_date_edit_get_time_of_day (date_edit, &hour, &minute);
+
+		if (has_time) {
+			i_cal_time_set_time (itt, hour, minute, 0);
+			i_cal_time_set_is_date (itt, FALSE);
+			i_cal_time_set_timezone (itt, e_cal_model_get_timezone (dpd->model));
+		} else {
+			i_cal_time_set_is_date (itt, TRUE);
+		}
+
+		dv = e_cell_date_edit_value_new (itt, has_time ? e_cal_model_get_timezone (dpd->model) : NULL);
+
+		e_cal_model_set_field_value (dpd->model, dpd->comp_data, dpd->field, dv, TRUE);
+
+		e_cell_date_edit_value_free (dv);
+		g_object_unref (itt);
+	}
+}
+
+static void
+datetime_popover_save_clicked_cb (GtkButton *button,
+				   DatetimePopoverData *dpd)
+{
+	GtkWidget *popover;
+
+	datetime_popover_commit (dpd);
+
+	popover = gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_POPOVER);
+	if (popover)
+		gtk_widget_hide (popover);
+}
+
+static void
+datetime_popover_cancel_clicked_cb (GtkButton *button,
+				     gpointer user_data)
+{
+	GtkWidget *popover;
+
+	popover = gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_POPOVER);
+	if (popover)
+		gtk_widget_hide (popover);
+}
+
+/**
+ * cal_comp_util_edit_datetime_field_in_popover:
+ * @relative_to: a #GtkWidget the popover should point to
+ * @cell_rect: (nullable): a #GdkRectangle within @relative_to to point to, or %NULL
+ * @model: an #ECalModel
+ * @comp_data: an #ECalModelComponent being edited
+ * @field: an #ECalModelField date/time field to edit
+ * @allow_no_date: whether the field can be cleared to have no date/time set
+ *
+ * Shows a popover with an #EDateEdit anchored to @cell_rect, pre-filled with
+ * the current value of @field, with Save/Cancel buttons. The change is
+ * committed back into @model only when the user clicks Save; dismissing
+ * the popover any other way, including Cancel, discards the change.
+ **/
+void
+cal_comp_util_edit_datetime_field_in_popover (GtkWidget *relative_to,
+					      const GdkRectangle *cell_rect,
+					      ECalModel *model,
+					      ECalModelComponent *comp_data,
+					      gint field,
+					      gboolean allow_no_date)
+{
+	GtkWidget *popover;
+	GtkWidget *date_edit;
+	GtkWidget *box;
+	GtkWidget *button_box;
+	GtkWidget *cancel_button;
+	GtkWidget *save_button;
+	DatetimePopoverData *dpd;
+	gpointer value;
+	ICalComponentKind kind;
+	gboolean date_only;
+	const gchar *date_format;
+
+	g_return_if_fail (GTK_IS_WIDGET (relative_to));
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (comp_data != NULL);
+
+	popover = gtk_popover_new (relative_to);
+	if (cell_rect)
+		gtk_popover_set_pointing_to (GTK_POPOVER (popover), cell_rect);
+
+	kind = comp_data->icalcomp ? i_cal_component_isa (comp_data->icalcomp) : I_CAL_NO_COMPONENT;
+
+	if (kind == I_CAL_VJOURNAL_COMPONENT)
+		date_only = TRUE;
+	else if (kind == I_CAL_VTODO_COMPONENT)
+		date_only = !comp_data->client || e_client_check_capability (E_CLIENT (comp_data->client), E_CAL_STATIC_CAPABILITY_TASK_DATE_ONLY);
+	else
+		date_only = FALSE;
+
+	date_edit = e_date_edit_new ();
+	e_date_edit_set_show_time (E_DATE_EDIT (date_edit), !date_only);
+	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (date_edit), allow_no_date);
+
+	date_format = e_datetime_format_get_format ("calendar", "table", DTFormatKindDate);
+	/* the "%ad" is not a strftime format, thus avoid it, if included */
+	if (date_format && *date_format && !strstr (date_format, "%ad"))
+		e_date_edit_set_date_format (E_DATE_EDIT (date_edit), date_format);
+
+	if (field == E_CAL_MODEL_FIELD_DTSTART || field == E_CAL_MODEL_FIELD_DTEND) {
+		GSettings *settings;
+		gboolean shorten_time_end;
+		gint shorten_time;
+
+		settings = e_util_ref_settings ("org.gnome.evolution.calendar");
+		shorten_time = g_settings_get_int (settings, "shorten-time");
+		shorten_time_end = g_settings_get_boolean (settings, "shorten-time-end");
+		g_object_unref (settings);
+
+		e_date_edit_set_shorten_time_end (E_DATE_EDIT (date_edit), field == E_CAL_MODEL_FIELD_DTEND);
+		e_date_edit_set_shorten_time (E_DATE_EDIT (date_edit), (!!(field == E_CAL_MODEL_FIELD_DTEND)) == (!!shorten_time_end) ? shorten_time : 0);
+	}
+
+	value = e_cal_model_get_field_value (model, comp_data, field);
+
+	if (value) {
+		ECellDateEditValue *dv = value;
+		ICalTime *itt = e_cell_date_edit_value_get_time (dv);
+
+		e_date_edit_set_date (E_DATE_EDIT (date_edit),
+			i_cal_time_get_year (itt), i_cal_time_get_month (itt), i_cal_time_get_day (itt));
+
+		if (i_cal_time_is_date (itt))
+			e_date_edit_set_time_of_day (E_DATE_EDIT (date_edit), -1, -1);
+		else
+			e_date_edit_set_time_of_day (E_DATE_EDIT (date_edit),
+				i_cal_time_get_hour (itt), i_cal_time_get_minute (itt));
+
+		e_cell_date_edit_value_free (dv);
+	} else {
+		e_date_edit_set_time (E_DATE_EDIT (date_edit), (time_t) -1);
+	}
+
+	box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (box), 6);
+	gtk_container_add (GTK_CONTAINER (box), date_edit);
+
+	button_box = gtk_button_box_new (GTK_ORIENTATION_HORIZONTAL);
+	gtk_widget_set_halign (button_box, GTK_ALIGN_CENTER);
+	gtk_box_set_spacing (GTK_BOX (button_box), 6);
+
+	cancel_button = gtk_button_new_with_mnemonic (_("_Cancel"));
+	gtk_container_add (GTK_CONTAINER (button_box), cancel_button);
+
+	save_button = gtk_button_new_with_mnemonic (_("_Save"));
+	gtk_style_context_add_class (gtk_widget_get_style_context (save_button), "suggested-action");
+	gtk_container_add (GTK_CONTAINER (button_box), save_button);
+
+	gtk_container_add (GTK_CONTAINER (box), button_box);
+
+	gtk_container_add (GTK_CONTAINER (popover), box);
+	gtk_widget_show_all (box);
+
+	dpd = g_new0 (DatetimePopoverData, 1);
+	dpd->model = g_object_ref (model);
+	dpd->comp_data = g_object_ref (comp_data);
+	dpd->date_edit = date_edit;
+	dpd->field = field;
+
+	g_signal_connect_data (save_button, "clicked",
+		G_CALLBACK (datetime_popover_save_clicked_cb), dpd,
+		(GClosureNotify) datetime_popover_data_free, 0);
+
+	g_signal_connect (cancel_button, "clicked",
+		G_CALLBACK (datetime_popover_cancel_clicked_cb), NULL);
+
+	g_signal_connect_swapped (popover, "closed", G_CALLBACK (gtk_widget_destroy), popover);
+
+	gtk_popover_popup (GTK_POPOVER (popover));
+
+	gtk_widget_grab_focus (date_edit);
+}
+
+/**
+ * cal_comp_util_cell_clicked_edit_datetime_popover:
+ * @vtree: an #EVirtualTree
+ * @visible_row: the visible row index that was clicked
+ * @row_object: the row's backing #ECalModelComponent
+ * @col_idx: the clicked column index
+ * @hit_renderer: (nullable): the specific renderer hit within the cell, or %NULL
+ * @model: an #ECalModel
+ * @date_fields: array of #ECalModelField values this table opens the popover for
+ * @n_date_fields: number of entries in @date_fields
+ * @allow_no_date: whether the field can be cleared to have no date/time set
+ *
+ * Meant to be called from an #EVirtualTree::cell-clicked handler. Opens
+ * the datetime popover for @hit_renderer's field, but only when @visible_row
+ * already holds the tree's cursor -- cell-clicked fires before the tree's own
+ * row-focus handling, so without this check the popover would steal the click
+ * that was supposed to just move focus to the row, on an unfocused row.
+ *
+ * Returns: %TRUE if the click was handled (the popover was shown)
+ *
+ * Since: 3.64
+ **/
+gboolean
+cal_comp_util_cell_clicked_edit_datetime_popover (EVirtualTree *vtree,
+						  guint visible_row,
+						  GObject *row_object,
+						  guint col_idx,
+						  GtkCellRenderer *hit_renderer,
+						  ECalModel *model,
+						  const gint *date_fields,
+						  guint n_date_fields,
+						  gboolean allow_no_date)
+{
+	GdkRectangle cell_rect;
+	gint field;
+	guint ii;
+
+	if (!hit_renderer || !e_virtual_tree_get_editable (vtree) ||
+	    e_virtual_tree_get_cursor (vtree) != (gint) visible_row)
+		return FALSE;
+
+	field = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (hit_renderer), "e-cal-field"));
+
+	for (ii = 0; ii < n_date_fields && date_fields[ii] != field; ii++) {
+		;
+	}
+
+	if (ii == n_date_fields)
+		return FALSE;
+
+	if (!e_virtual_tree_get_cell_rect (vtree, col_idx, visible_row, &cell_rect))
+		return FALSE;
+
+	cal_comp_util_edit_datetime_field_in_popover (GTK_WIDGET (e_virtual_tree_get_tree_view (vtree)),
+		&cell_rect, model, E_CAL_MODEL_COMPONENT (row_object), field, allow_no_date);
+
+	return TRUE;
+}

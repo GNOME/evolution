@@ -25,7 +25,7 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	EUIAction *action;
 	ECalComponentPreview *memo_preview;
 	EPreviewPane *preview_pane;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	EWebView *web_view;
 	ECalModel *model;
 	ECalDataModel *data_model;
@@ -33,6 +33,8 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	gchar *query;
 	gchar *temp;
 	gint value;
+	gboolean have_search;
+	gboolean filter_changed;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
@@ -49,6 +51,8 @@ memo_shell_view_execute_search (EShellView *shell_view)
 
 		if (!query)
 			query = g_strdup ("");
+
+		have_search = *query != '\0';
 	} else {
 		const gchar *format;
 		const gchar *text;
@@ -60,6 +64,8 @@ memo_shell_view_execute_search (EShellView *shell_view)
 			text = "";
 			value = MEMO_SEARCH_SUMMARY_CONTAINS;
 		}
+
+		have_search = *text != '\0';
 
 		switch (value) {
 			default:
@@ -89,6 +95,10 @@ memo_shell_view_execute_search (EShellView *shell_view)
 	/* Apply selected filter. */
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 	value = e_action_combo_box_get_current_value (combo_box);
+
+	if (value != MEMO_FILTER_ANY_CATEGORY)
+		have_search = TRUE;
+
 	switch (value) {
 		case MEMO_FILTER_ANY_CATEGORY:
 			break;
@@ -121,17 +131,21 @@ memo_shell_view_execute_search (EShellView *shell_view)
 
 	/* Submit the query. */
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	model = e_memo_table_get_model (memo_table);
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (memo_table));
 	data_model = e_cal_model_get_data_model (model);
-	e_cal_data_model_set_filter (data_model, query);
+
+	filter_changed = e_cal_data_model_set_filter (data_model, query);
 	g_free (query);
 
-	preview_pane =
-		e_memo_shell_content_get_preview_pane (memo_shell_content);
+	e_cal_table_list_base_set_search_active (E_CAL_TABLE_LIST_BASE (memo_table), have_search);
 
-	web_view = e_preview_pane_get_web_view (preview_pane);
-	memo_preview = E_CAL_COMPONENT_PREVIEW (web_view);
-	e_cal_component_preview_clear (memo_preview);
+	if (filter_changed) {
+		preview_pane = e_memo_shell_content_get_preview_pane (memo_shell_content);
+
+		web_view = e_preview_pane_get_web_view (preview_pane);
+		memo_preview = E_CAL_COMPONENT_PREVIEW (web_view);
+		e_cal_component_preview_clear (memo_preview);
+	}
 }
 
 static void
@@ -361,7 +375,7 @@ e_memo_shell_view_class_init (EMemoShellViewClass *class)
 	cal_base_shell_view_class->source_type = E_CAL_CLIENT_SOURCE_TYPE_MEMOS;
 
 	/* Ensure the GalView types we need are registered. */
-	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
+	g_type_ensure (GAL_TYPE_VIEW_VIRTUAL_TREE);
 }
 
 static void
@@ -373,6 +387,8 @@ static void
 e_memo_shell_view_init (EMemoShellView *memo_shell_view)
 {
 	memo_shell_view->priv = e_memo_shell_view_get_instance_private (memo_shell_view);
+
+	e_memo_shell_view_private_init (memo_shell_view);
 }
 
 void

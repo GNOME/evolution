@@ -96,6 +96,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	time_t end_range;
 	time_t now_time;
 	gboolean range_search;
+	gboolean have_search;
 	gchar *query;
 	gchar *temp;
 	gint value;
@@ -126,12 +127,16 @@ cal_shell_view_execute_search (EShellView *shell_view)
 
 		if (!query)
 			query = g_strdup ("");
+
+		have_search = *query != '\0';
 	} else {
 		const gchar *format;
 		const gchar *text;
 		GString *string;
 
 		text = e_shell_searchbar_get_search_text (searchbar);
+
+		have_search = text != NULL && *text != '\0';
 
 		if (text == NULL || *text == '\0') {
 			text = "";
@@ -174,6 +179,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			break;
 
 		case CALENDAR_FILTER_UNMATCHED:
+			have_search = TRUE;
 			temp = g_strdup_printf (
 				"(and (has-categories? #f) %s)", query);
 			g_free (query);
@@ -182,18 +188,21 @@ cal_shell_view_execute_search (EShellView *shell_view)
 
 		case CALENDAR_FILTER_ACTIVE_APPOINTMENTS:
 			/* Show a year's worth of appointments. */
+			have_search = TRUE;
 			start_range = now_time;
 			end_range = time_day_end (time_add_day (start_range, 365));
 			range_search = TRUE;
 			break;
 
 		case CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS:
+			have_search = TRUE;
 			start_range = now_time;
 			end_range = time_day_end (time_add_day (start_range, 7));
 			range_search = TRUE;
 			break;
 
 		case CALENDAR_FILTER_OCCURS_LESS_THAN_5_TIMES:
+			have_search = TRUE;
 			temp = g_strdup_printf (
 				"(and %s (< (occurrences-count?) 5))", query);
 			g_free (query);
@@ -205,6 +214,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			GList *categories;
 			const gchar *category_name;
 
+			have_search = TRUE;
 			categories = e_util_dup_searchable_categories ();
 			category_name = g_list_nth_data (categories, value);
 
@@ -238,7 +248,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Submit the query. */
-	e_cal_shell_content_update_filters (cal_shell_content, query, start_range, end_range);
+	e_cal_shell_content_update_filters (cal_shell_content, query, start_range, end_range, have_search);
 
 	g_free (query);
 
@@ -258,8 +268,6 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	ESource *source;
 	ESourceRegistry *registry;
 	ECalendarView *cal_view;
-	EMemoTable *memo_table;
-	ETaskTable *task_table;
 	ECalDataModel *data_model;
 	EUIAction *action;
 	gchar *data_filter;
@@ -305,9 +313,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	cal_shell_content = self->priv->cal_shell_content;
 	cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
-	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
-	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-	is_list_view = E_IS_CAL_LIST_VIEW (cal_view);
+	is_list_view = E_IS_CAL_TABLE_EVENTS (cal_view);
 	if (is_list_view)
 		data_model = e_cal_shell_content_get_list_view_data_model (cal_shell_content);
 	else
@@ -522,9 +528,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	e_ui_action_set_sensitive (ACTION (CALENDAR_GO_TODAY), !is_list_view);
 	e_ui_action_set_sensitive (ACTION (CALENDAR_JUMP_TO), !is_list_view);
 
-	if ((cal_view && e_calendar_view_is_editing (cal_view)) ||
-	    e_table_is_editing (E_TABLE (memo_table)) ||
-	    e_table_is_editing (E_TABLE (task_table))) {
+	if (cal_view && e_calendar_view_is_editing (cal_view)) {
 		EFocusTracker *focus_tracker;
 
 		/* disable all clipboard actions, if any of the views is in editing mode */
@@ -738,7 +742,7 @@ e_cal_shell_view_class_init (ECalShellViewClass *class)
 	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_WEEK);
 	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_MONTH);
 	g_type_ensure (GAL_TYPE_VIEW_CALENDAR_YEAR);
-	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
+	g_type_ensure (GAL_TYPE_VIEW_VIRTUAL_TREE);
 
 	e_calendar_a11y_init ();
 }

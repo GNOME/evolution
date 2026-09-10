@@ -18,6 +18,13 @@
     <value nick='sunday'    value='7'/>
   </enum>
 
+  <!-- Keep this synchronized with EAutomaticActionPolicy. -->
+  <enum id="org.gnome.evolution.calendar.AutomaticActionPolicy">
+    <value nick='ask'    value='0'/>
+    <value nick='always' value='1'/>
+    <value nick='never'  value='2'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.calendar" path="/org/gnome/evolution/calendar/">
     <key name="audio-dir" type="s">
       <default>''</default>
@@ -475,7 +482,7 @@
     </key>
     <key name="allow-direct-summary-edit" type="b">
       <default>false</default>
-      <_summary>Allow direct edit of event Summary when clicking on it in the Day, Work Week, Week or Month view.</_summary>
+      <_summary>Allow direct edit of event Summary when clicking on it in the Day, Work Week, Week or Month view, and direct edit of cells in the Events, Memos and Tasks tables.</_summary>
     </key>
     <key name="custom-reminders-minutes" type="ai">
       <default>[]</default>
@@ -484,6 +491,10 @@
     <key name="use-markdown-editor" type="b">
       <default>false</default>
       <_summary>Whether to use markdown editor for the description in the component editor.</_summary>
+    </key>
+    <key name="table-sort-on-header-click" enum="org.gnome.evolution.calendar.AutomaticActionPolicy">
+      <default>'ask'</default>
+      <_summary>Whether click on a header in the events, memos or tasks table can change sort order by the clicked column.</_summary>
     </key>
     <key name="year-show-day-names" type="b">
       <default>true</default>

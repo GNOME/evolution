@@ -54,7 +54,7 @@ struct _EMemoShellViewPrivate {
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
 
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	gulong open_component_handler_id;
 	gulong popup_event_handler_id;
 	gulong selection_change_1_handler_id;

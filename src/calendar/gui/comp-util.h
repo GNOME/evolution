@@ -230,5 +230,22 @@ gboolean	cal_comp_util_set_color_for_component
 						(ECalClient *client,
 						 ICalComponent *icomp,
 						 gchar **inout_color_spec);
+void		cal_comp_util_edit_datetime_field_in_popover
+						(GtkWidget *relative_to,
+						 const GdkRectangle *cell_rect,
+						 ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 gint field,
+						 gboolean allow_no_date);
+gboolean	cal_comp_util_cell_clicked_edit_datetime_popover
+						(EVirtualTree *vtree,
+						 guint visible_row,
+						 GObject *row_object,
+						 guint col_idx,
+						 GtkCellRenderer *hit_renderer,
+						 ECalModel *model,
+						 const gint *date_fields,
+						 guint n_date_fields,
+						 gboolean allow_no_date);
 
 #endif

@@ -21,7 +21,7 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-dialogs.h"
-#include "e-cal-model-calendar.h"
+#include "e-cal-model.h"
 #include "e-cal-ops.h"
 #include "e-week-view-event-item.h"
 #include "e-week-view-layout.h"
@@ -248,7 +248,7 @@ week_view_process_component (EWeekView *week_view,
 
 static void
 week_view_update_row (EWeekView *week_view,
-                      gint row)
+                      guint row)
 {
 	ECalModelComponent *comp_data;
 	ECalModel *model;
@@ -257,7 +257,7 @@ week_view_update_row (EWeekView *week_view,
 	gchar *rid;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-	comp_data = e_cal_model_get_component_at (model, row);
+	comp_data = e_cal_model_get_visible_row (model, row, NULL, NULL);
 	g_return_if_fail (comp_data != NULL);
 
 	uid = i_cal_component_get_uid (comp_data->icalcomp);
@@ -272,20 +272,6 @@ week_view_update_row (EWeekView *week_view,
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 	e_week_view_queue_layout (week_view);
-}
-
-static void
-week_view_model_cell_changed_cb (EWeekView *week_view,
-                                 gint col,
-                                 gint row)
-{
-	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
-		e_week_view_free_events (week_view);
-		week_view->requires_update = TRUE;
-		return;
-	}
-
-	week_view_update_row (week_view, row);
 }
 
 static void
@@ -321,25 +307,30 @@ week_view_model_comps_deleted_cb (EWeekView *week_view,
 }
 
 static void
-week_view_model_row_changed_cb (EWeekView *week_view,
-                                gint row)
+week_view_model_rows_changed_cb (EWeekView *week_view,
+                                 guint first_row,
+                                 guint last_row)
 {
+	guint row;
+
 	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
 		e_week_view_free_events (week_view);
 		week_view->requires_update = TRUE;
 		return;
 	}
 
-	week_view_update_row (week_view, row);
+	for (row = first_row; row <= last_row; row++) {
+		week_view_update_row (week_view, row);
+	}
 }
 
 static void
 week_view_model_rows_inserted_cb (EWeekView *week_view,
-                                  gint row,
-                                  gint count)
+                                  guint first_row,
+                                  guint last_row)
 {
 	ECalModel *model;
-	gint i;
+	guint row;
 
 	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
 		e_week_view_free_events (week_view);
@@ -349,10 +340,10 @@ week_view_model_rows_inserted_cb (EWeekView *week_view,
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
-	for (i = 0; i < count; i++) {
+	for (row = first_row; row <= last_row; row++) {
 		ECalModelComponent *comp_data;
 
-		comp_data = e_cal_model_get_component_at (model, row + i);
+		comp_data = e_cal_model_get_visible_row (model, row, NULL, NULL);
 		if (comp_data == NULL) {
 			g_warning ("comp_data is NULL\n");
 			continue;
@@ -940,15 +931,11 @@ week_view_constructed (GObject *object)
 		G_CALLBACK (week_view_model_comps_deleted_cb), object);
 
 	g_signal_connect_swapped (
-		model, "model-cell-changed",
-		G_CALLBACK (week_view_model_cell_changed_cb), object);
+		model, "rows-changed",
+		G_CALLBACK (week_view_model_rows_changed_cb), object);
 
 	g_signal_connect_swapped (
-		model, "model-row-changed",
-		G_CALLBACK (week_view_model_row_changed_cb), object);
-
-	g_signal_connect_swapped (
-		model, "model-rows-inserted",
+		model, "rows-inserted",
 		G_CALLBACK (week_view_model_rows_inserted_cb), object);
 
 	g_signal_connect_swapped (
@@ -2318,7 +2305,7 @@ e_week_view_update_query (EWeekView *week_view)
 	e_week_view_queue_layout (week_view);
 
 	cal_model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-	rows = e_table_model_row_count (E_TABLE_MODEL (cal_model));
+	rows = e_cal_model_get_object_array (cal_model)->len;
 
 	for (r = 0; r < rows; r++) {
 		ECalModelComponent *comp_data;

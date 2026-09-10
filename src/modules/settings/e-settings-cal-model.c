@@ -8,7 +8,6 @@
 
 #include "calendar/gui/calendar-config.h"
 #include <calendar/gui/e-cal-model.h>
-#include <calendar/gui/e-cal-model-tasks.h>
 
 struct _ESettingsCalModelPrivate {
 	gint placeholder;
@@ -225,9 +224,9 @@ settings_cal_model_constructed (GObject *object)
 		extensible, "work-day-end-sun",
 		G_SETTINGS_BIND_GET);
 
-	/*** ECalModelTasks ***/
+	/*** tasks-specific ***/
 
-	if (E_IS_CAL_MODEL_TASKS (extensible)) {
+	if (e_cal_model_get_component_kind (E_CAL_MODEL (extensible)) == I_CAL_VTODO_COMPONENT) {
 
 		g_settings_bind (
 			settings, "task-due-today-highlight",

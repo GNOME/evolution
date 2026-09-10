@@ -169,36 +169,36 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	priv->popup_event_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->memo_table, "selection-change",
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->memo_table)), "selection-changed",
 		G_CALLBACK (e_memo_shell_view_update_sidebar),
 		memo_shell_view);
 	priv->selection_change_1_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->memo_table, "selection-change",
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->memo_table)), "selection-changed",
 		G_CALLBACK (e_shell_view_update_actions_in_idle),
 		memo_shell_view);
 	priv->selection_change_2_handler_id = handler_id;
 
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
-	priv->model = e_memo_table_get_model (priv->memo_table);
+	priv->model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (priv->memo_table));
 	g_object_ref (priv->model);
 
 	handler_id = g_signal_connect_swapped (
-		priv->model, "model-changed",
+		priv->model, "after-rebuild",
 		G_CALLBACK (e_memo_shell_view_update_sidebar),
 		memo_shell_view);
 	priv->model_changed_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->model, "model-rows-deleted",
+		priv->model, "rows-removed",
 		G_CALLBACK (e_memo_shell_view_update_sidebar),
 		memo_shell_view);
 	priv->model_rows_deleted_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->model, "model-rows-inserted",
+		priv->model, "rows-inserted",
 		G_CALLBACK (e_memo_shell_view_update_sidebar),
 		memo_shell_view);
 	priv->model_rows_inserted_handler_id = handler_id;
@@ -310,14 +310,14 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 
 	if (priv->selection_change_1_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->memo_table,
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->memo_table)),
 			priv->selection_change_1_handler_id);
 		priv->selection_change_1_handler_id = 0;
 	}
 
 	if (priv->selection_change_2_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->memo_table,
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->memo_table)),
 			priv->selection_change_2_handler_id);
 		priv->selection_change_2_handler_id = 0;
 	}
@@ -402,12 +402,12 @@ e_memo_shell_view_update_sidebar (EMemoShellView *memo_shell_view)
 	EMemoShellContent *memo_shell_content;
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModel *model;
 	GString *string;
 	const gchar *format;
 	gint n_rows;
-	gint n_selected;
+	guint n_selected;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
@@ -415,10 +415,10 @@ e_memo_shell_view_update_sidebar (EMemoShellView *memo_shell_view)
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	model = e_memo_table_get_model (memo_table);
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (memo_table));
 
-	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
-	n_selected = e_table_selected_count (E_TABLE (memo_table));
+	n_rows = e_cal_model_get_object_array (model)->len;
+	n_selected = e_virtual_tree_selected_count (e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (memo_table)));
 
 	string = g_string_sized_new (64);
 

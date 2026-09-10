@@ -17,7 +17,7 @@
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"
-#include "calendar/gui/e-cal-model-tasks.h"
+#include "calendar/gui/e-cal-model.h"
 #include "calendar/gui/print.h"
 
 #include "e-cal-base-shell-sidebar.h"
@@ -66,7 +66,7 @@ struct _ETaskShellViewPrivate {
 	EClientCache *client_cache;
 	gulong backend_error_handler_id;
 
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	gulong open_component_handler_id;
 	gulong popup_event_handler_id;
 	gulong selection_change_1_handler_id;

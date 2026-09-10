@@ -11,8 +11,8 @@
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
-#include <calendar/gui/e-memo-table.h>
-#include <calendar/gui/e-task-table.h>
+#include <calendar/gui/e-cal-table-memos.h>
+#include <calendar/gui/e-cal-table-tasks.h>
 #include <calendar/gui/e-calendar-view.h>
 
 #include "e-cal-base-shell-content.h"
@@ -68,8 +68,10 @@ GtkWidget *	e_cal_shell_content_new			(EShellView *shell_view);
 gboolean	e_cal_shell_content_get_initialized	(ECalShellContent *cal_shell_content);
 GtkNotebook *	e_cal_shell_content_get_calendar_notebook
 							(ECalShellContent *cal_shell_content);
-EMemoTable *	e_cal_shell_content_get_memo_table	(ECalShellContent *cal_shell_content);
-ETaskTable *	e_cal_shell_content_get_task_table	(ECalShellContent *cal_shell_content);
+ECalTableMemos *
+		e_cal_shell_content_get_memo_table	(ECalShellContent *cal_shell_content);
+ECalTableTasks *
+		e_cal_shell_content_get_task_table	(ECalShellContent *cal_shell_content);
 EShellSearchbar *
 		e_cal_shell_content_get_searchbar	(ECalShellContent *cal_shell_content);
 void		e_cal_shell_content_set_current_view_id	(ECalShellContent *cal_shell_content,
@@ -93,7 +95,8 @@ void		e_cal_shell_content_move_view_range	(ECalShellContent *cal_shell_content,
 void		e_cal_shell_content_update_filters	(ECalShellContent *cal_shell_content,
 							 const gchar *cal_filter,
 							 time_t start_range,
-							 time_t end_range);
+							 time_t end_range,
+							 gboolean have_search);
 void		e_cal_shell_content_update_tasks_filter	(ECalShellContent *cal_shell_content,
 							 const gchar *cal_filter);
 ECalDataModel *	e_cal_shell_content_get_list_view_data_model

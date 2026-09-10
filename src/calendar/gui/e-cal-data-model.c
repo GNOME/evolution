@@ -2469,21 +2469,27 @@ e_cal_data_model_set_timezone (ECalDataModel *data_model,
  * contain time constraints, these are meant to be defined by
  * subscribers.
  *
+ * Returns: %TRUE, when the filter actually changed, %FALSE otherwise
+ *
  * Since: 3.16
  **/
-void
+gboolean
 e_cal_data_model_set_filter (ECalDataModel *data_model,
 			     const gchar *sexp)
 {
-	g_return_if_fail (E_IS_CAL_DATA_MODEL (data_model));
-	g_return_if_fail (sexp != NULL);
+	gboolean changed;
+
+	g_return_val_if_fail (E_IS_CAL_DATA_MODEL (data_model), FALSE);
+	g_return_val_if_fail (sexp != NULL, FALSE);
 
 	LOCK_PROPS ();
 
 	if (sexp && !*sexp)
 		sexp = NULL;
 
-	if (g_strcmp0 (data_model->priv->filter, sexp) != 0) {
+	changed = g_strcmp0 (data_model->priv->filter, sexp) != 0;
+
+	if (changed) {
 		g_free (data_model->priv->filter);
 		data_model->priv->filter = g_strdup (sexp);
 
@@ -2492,6 +2498,8 @@ e_cal_data_model_set_filter (ECalDataModel *data_model,
 	}
 
 	UNLOCK_PROPS ();
+
+	return changed;
 }
 
 /**

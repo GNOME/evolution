@@ -101,7 +101,7 @@ void		e_cal_data_model_set_skip_cancelled
 ICalTimezone *	e_cal_data_model_get_timezone	(ECalDataModel *data_model);
 void		e_cal_data_model_set_timezone	(ECalDataModel *data_model,
 						 ICalTimezone *zone);
-void		e_cal_data_model_set_filter	(ECalDataModel *data_model,
+gboolean	e_cal_data_model_set_filter	(ECalDataModel *data_model,
 						 const gchar *sexp);
 gchar *		e_cal_data_model_dup_filter	(ECalDataModel *data_model);
 void		e_cal_data_model_add_client	(ECalDataModel *data_model,

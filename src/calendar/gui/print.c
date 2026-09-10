@@ -26,7 +26,6 @@
 #include "itip-utils.h"
 #include "e-week-view.h"
 #include "e-week-view-layout.h"
-#include "e-task-table.h"
 
 #if !ICAL_CHECK_VERSION(3, 99, 99)
 #define i_cal_duration_as_utc_seconds i_cal_duration_as_int
@@ -57,7 +56,7 @@ print_comp_item_free (gpointer ptr)
 
 struct PrintCalItem {
 	ECalendarView *cal_view;
-	ETable *tasks_table;
+	ECalModel *tasks_model;
 	EPrintView print_view_type;
 	time_t start;
 };
@@ -70,7 +69,7 @@ print_cal_item_free (gpointer ptr,
 
 	if (pci) {
 		g_clear_object (&pci->cal_view);
-		g_clear_object (&pci->tasks_table);
+		g_clear_object (&pci->tasks_model);
 		g_slice_free (PrintCalItem, pci);
 	}
 }
@@ -2481,7 +2480,7 @@ print_month_summary (GtkPrintContext *context,
 
 static void
 print_todo_details (GtkPrintContext *context,
-		    ETable *tasks_table,
+		    ECalModel *tasks_model,
                     time_t start,
                     time_t end,
                     gdouble left,
@@ -2492,14 +2491,12 @@ print_todo_details (GtkPrintContext *context,
 	PangoFontDescription *font_summary;
 	gdouble y, yend, x, xend;
 	ICalTime *tt;
-	ECalModel *model;
-	gint rows, row;
+	guint rows, row;
 	cairo_t *cr;
 
-	/* We get the tasks directly from the TaskPad ETable. This means we
-	 * get them filtered & sorted for free. */
-	g_return_if_fail (tasks_table != NULL);
-	model = e_task_table_get_model (E_TASK_TABLE (tasks_table));
+	/* We get the tasks directly from the TaskPad model's visible rows.
+	 * This means we get them filtered & sorted for free. */
+	g_return_if_fail (tasks_model != NULL);
 
 	font_summary = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 
@@ -2516,15 +2513,13 @@ print_todo_details (GtkPrintContext *context,
 	y = top;
 	yend = bottom - 2;
 
-	rows = e_table_model_row_count (E_TABLE_MODEL (model));
+	rows = e_cal_model_get_visible_row_count (tasks_model);
 	for (row = 0; row < rows; row++) {
 		ECalModelComponent *comp_data;
 		ECalComponent *comp;
 		ECalComponentText *summary;
-		gint model_row;
 
-		model_row = e_table_view_to_model_row (tasks_table, row);
-		comp_data = e_cal_model_get_component_at (model, model_row);
+		comp_data = e_cal_model_get_visible_row (tasks_model, row, NULL, NULL);
 		if (!comp_data)
 			continue;
 
@@ -2585,7 +2580,7 @@ print_todo_details (GtkPrintContext *context,
 static void
 print_day_view (GtkPrintContext *context,
 		ECalendarView *cal_view,
-                ETable *tasks_table,
+                ECalModel *tasks_model,
                 time_t date)
 {
 	ECalModel *model;
@@ -2618,7 +2613,7 @@ print_day_view (GtkPrintContext *context,
 
 		 /* Print the TaskPad down the right. */
 		print_todo_details (
-			context, tasks_table, 0, INT_MAX,
+			context, tasks_model, 0, INT_MAX,
 			todo, width, HEADER_HEIGHT + 4,
 			height);
 
@@ -3536,7 +3531,7 @@ print_calendar_draw_page (GtkPrintOperation *operation,
 {
 	switch (pcali->print_view_type) {
 		case E_PRINT_VIEW_DAY:
-			print_day_view (context, pcali->cal_view, pcali->tasks_table, pcali->start);
+			print_day_view (context, pcali->cal_view, pcali->tasks_model, pcali->start);
 			break;
 		case E_PRINT_VIEW_WORKWEEK:
 			print_work_week_view (context, pcali->cal_view, pcali->start);
@@ -3554,7 +3549,7 @@ print_calendar_draw_page (GtkPrintOperation *operation,
 
 void
 print_calendar (ECalendarView *cal_view,
-		ETable *tasks_table,
+		ECalModel *tasks_model,
 		EPrintView print_view_type,
                 GtkPrintOperationAction action,
                 time_t start)
@@ -3574,7 +3569,7 @@ print_calendar (ECalendarView *cal_view,
 
 	pci = g_slice_new0 (PrintCalItem);
 	pci->cal_view = g_object_ref (cal_view);
-	pci->tasks_table = g_object_ref (tasks_table);
+	pci->tasks_model = g_object_ref (tasks_model);
 	pci->print_view_type = print_view_type;
 	pci->start = start;
 
@@ -3999,6 +3994,37 @@ print_comp (ECalComponent *comp,
 	g_object_unref (operation);
 }
 
+#define PRINT_TABLE_TITLE_HEIGHT 18.0
+#define PRINT_TABLE_FOOTER_HEIGHT 18.0
+
+static void
+print_table_draw_footer (GtkPrintContext *context,
+			 gint page_nr,
+			 gint n_pages,
+			 gdouble page_width,
+			 gdouble page_height)
+{
+	PangoLayout *layout;
+	cairo_t *cr;
+	gchar *text;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	text = g_strdup_printf (_("Page %d/%d"), page_nr + 1, n_pages);
+
+	layout = gtk_print_context_create_pango_layout (context);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+	pango_layout_set_width (layout, pango_units_from_double (page_width));
+
+	cairo_save (cr);
+	cairo_move_to (cr, 0.0, page_height - PRINT_TABLE_FOOTER_HEIGHT);
+	pango_cairo_show_layout (cr, layout);
+	cairo_restore (cr);
+
+	g_object_unref (layout);
+	g_free (text);
+}
+
 static void
 print_title (GtkPrintContext *context,
              const gchar *text,
@@ -4024,7 +4050,7 @@ print_title (GtkPrintContext *context,
 	pango_cairo_show_layout (cr, layout);
 	cairo_restore (cr);
 
-	cairo_translate (cr, 0.0, 18);
+	cairo_translate (cr, 0.0, PRINT_TABLE_TITLE_HEIGHT);
 
 	g_object_unref (layout);
 
@@ -4034,19 +4060,60 @@ print_title (GtkPrintContext *context,
 struct print_opts {
 	EPrintable *printable;
 	gchar *print_header;
+	gint n_pages;
 };
 
 static void
-print_opts_free (gpointer ptr,
-		 GClosure *closure)
+print_opts_free (gpointer ptr)
 {
 	struct print_opts *opts = ptr;
 
 	if (opts) {
 		g_clear_object (&opts->printable);
 		g_free (opts->print_header);
-		g_slice_free (struct print_opts, opts);
+		g_free (opts);
 	}
+}
+
+static gint
+print_table_count_pages (GtkPrintContext *context,
+			 struct print_opts *opts,
+			 gdouble width,
+			 gdouble body_height)
+{
+	gint pages = 0;
+
+	e_printable_reset (opts->printable);
+
+	do {
+		e_printable_print_page (opts->printable, context, width, body_height, TRUE);
+		pages++;
+	} while (e_printable_data_left (opts->printable));
+
+	e_printable_reset (opts->printable);
+
+	return pages;
+}
+
+static void
+print_table_begin_print (GtkPrintOperation *operation,
+			 GtkPrintContext *context,
+			 struct print_opts *opts)
+{
+	GtkPageSetup *setup;
+	gdouble width, body_height;
+	gint pages;
+
+	setup = gtk_print_context_get_page_setup (context);
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	body_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS) -
+		PRINT_TABLE_TITLE_HEIGHT - PRINT_TABLE_FOOTER_HEIGHT;
+
+	pages = print_table_count_pages (context, opts, width, body_height);
+
+	opts->n_pages = MAX (pages, 1);
+
+	gtk_print_operation_set_n_pages (operation, opts->n_pages);
 }
 
 static void
@@ -4056,26 +4123,52 @@ print_table_draw_page (GtkPrintOperation *operation,
                        struct print_opts *opts)
 {
 	GtkPageSetup *setup;
-	gdouble width;
-	cairo_t *cr;
+	gdouble width, page_height, body_height;
 
-	cr = gtk_print_context_get_cairo_context (context);
 	setup = gtk_print_context_get_page_setup (context);
-
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+	body_height = page_height - PRINT_TABLE_TITLE_HEIGHT - PRINT_TABLE_FOOTER_HEIGHT;
 
-	do {
-		cairo_save (cr);
+	/* TODO Allow the user to customize the title. */
+	print_title (context, opts->print_header, width);
 
-		/* TODO Allow the user to customize the title. */
-		print_title (context, opts->print_header, width);
+	e_printable_print_page (opts->printable, context, width, body_height, TRUE);
 
-		if (e_printable_data_left (opts->printable))
-			e_printable_print_page (
-				opts->printable, context, width, 24, TRUE);
+	print_table_draw_footer (context, page_nr, opts->n_pages, width, page_height);
+}
 
-		cairo_restore (cr);
-	} while (e_printable_data_left (opts->printable));
+void
+print_printable (EPrintable *printable,
+                 const gchar *dialog_title,
+                 const gchar *print_header,
+                 GtkPrintOperationAction action)
+{
+	GtkPrintOperation *operation;
+	struct print_opts *opts;
+
+	g_object_ref_sink (printable);
+
+	operation = e_print_operation_new ();
+
+	opts = g_new0 (struct print_opts, 1);
+	opts->printable = g_object_ref (printable);
+	opts->print_header = g_strdup (print_header);
+
+	g_object_set_data_full (G_OBJECT (operation), "print-table-opts", opts, print_opts_free);
+
+	g_signal_connect (
+		operation, "begin-print",
+		G_CALLBACK (print_table_begin_print), opts);
+
+	g_signal_connect (
+		operation, "draw-page",
+		G_CALLBACK (print_table_draw_page), opts);
+
+	gtk_print_operation_run (operation, action, NULL, NULL);
+
+	g_object_unref (operation);
+	g_object_unref (printable);
 }
 
 void
@@ -4084,29 +4177,14 @@ print_table (ETable *table,
              const gchar *print_header,
              GtkPrintOperationAction action)
 {
-	GtkPrintOperation *operation;
 	EPrintable *printable;
-	struct print_opts *opts;
 
 	printable = e_table_get_printable (table);
 	g_object_ref_sink (printable);
-	e_printable_reset (printable);
 
-	operation = e_print_operation_new ();
-	gtk_print_operation_set_n_pages (operation, 1);
+	print_printable (printable, dialog_title, print_header, action);
 
-	opts = g_slice_new0 (struct print_opts);
-	opts->printable = g_object_ref (printable);
-	opts->print_header = g_strdup (print_header);
-
-	g_signal_connect_data (
-		operation, "draw_page",
-		G_CALLBACK (print_table_draw_page), opts,
-		print_opts_free, 0);
-
-	gtk_print_operation_run (operation, action, NULL, NULL);
-
-	g_object_unref (operation);
+	g_object_unref (printable);
 }
 
 struct PrintDetailedItem {
@@ -4201,7 +4279,7 @@ print_detailed_view_real (GtkPrintOperation *operation,
 
 	events = g_ptr_array_new_with_free_func (print_detailed_event_free);
 
-	rows = e_table_model_row_count (E_TABLE_MODEL (model));
+	rows = e_cal_model_get_object_array (model)->len;
 	for (row = 0; row < rows; row++) {
 		ECalModelComponent *comp_data;
 		ICalTime *dtstart;

@@ -21,7 +21,7 @@ action_calendar_taskpad_assign_cb (EUIAction *action,
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
 	ECalModel *model;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	EShellContent *shell_content;
 	GSList *list;
 
@@ -30,7 +30,7 @@ action_calendar_taskpad_assign_cb (EUIAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -51,14 +51,14 @@ action_calendar_taskpad_forward_cb (EUIAction *action,
 	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	ECalComponent *comp;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -67,7 +67,7 @@ action_calendar_taskpad_forward_cb (EUIAction *action,
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
-	itip_send_component_with_model (e_cal_model_get_data_model (e_task_table_get_model (task_table)),
+	itip_send_component_with_model (e_cal_model_get_data_model (e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table))),
 		I_CAL_METHOD_PUBLISH, comp, comp_data->client,
 		NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
 
@@ -81,19 +81,18 @@ action_calendar_taskpad_mark_complete_cb (EUIAction *action,
 {
 	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	ECalModel *model;
 	GSList *list, *iter;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-	list = e_task_table_get_selected (task_table);
-	model = e_task_table_get_model (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table));
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		e_cal_model_tasks_mark_comp_complete (
-			E_CAL_MODEL_TASKS (model), comp_data);
+		e_cal_model_mark_comp_complete (model, comp_data);
 	}
 
 	g_slist_free (list);
@@ -106,19 +105,18 @@ action_calendar_taskpad_mark_incomplete_cb (EUIAction *action,
 {
 	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	ECalModel *model;
 	GSList *list, *iter;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-	list = e_task_table_get_selected (task_table);
-	model = e_task_table_get_model (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table));
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		e_cal_model_tasks_mark_comp_incomplete (
-			E_CAL_MODEL_TASKS (model), comp_data);
+		e_cal_model_mark_comp_incomplete (model, comp_data);
 	}
 
 	g_slist_free (list);
@@ -134,7 +132,7 @@ action_calendar_taskpad_new_cb (EUIAction *action,
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	GSList *list;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
@@ -143,7 +141,7 @@ action_calendar_taskpad_new_cb (EUIAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -160,13 +158,13 @@ action_calendar_taskpad_open_cb (EUIAction *action,
 	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -185,7 +183,7 @@ action_calendar_taskpad_open_url_cb (EUIAction *action,
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	ICalProperty *prop;
 	const gchar *uri;
 	GSList *list;
@@ -196,7 +194,7 @@ action_calendar_taskpad_open_url_cb (EUIAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 
@@ -217,16 +215,16 @@ action_calendar_taskpad_print_cb (EUIAction *action,
 	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	ECalComponent *comp;
 	ECalModel *model;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-	model = e_task_table_get_model (task_table);
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table));
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -255,7 +253,7 @@ action_calendar_taskpad_save_as_cb (EUIAction *action,
 	EShellBackend *shell_backend;
 	ECalShellContent *cal_shell_content;
 	ECalModelComponent *comp_data;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	EActivity *activity;
 	GSList *list;
 	GFile *file;
@@ -269,7 +267,7 @@ action_calendar_taskpad_save_as_cb (EUIAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -406,14 +404,14 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
 	EShellView *shell_view;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	EUIAction *action;
 	GSList *list, *iter;
 	gboolean assignable = TRUE;
 	gboolean editable = TRUE;
 	gboolean has_url = FALSE;
 	gboolean sensitive;
-	gint n_selected;
+	guint n_selected;
 	gint n_complete = 0;
 	gint n_incomplete = 0;
 
@@ -422,9 +420,9 @@ e_cal_shell_view_taskpad_actions_update (ECalShellView *cal_shell_view)
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
-	n_selected = e_table_selected_count (E_TABLE (task_table));
+	n_selected = e_virtual_tree_selected_count (e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_table)));
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 		const gchar *cap;

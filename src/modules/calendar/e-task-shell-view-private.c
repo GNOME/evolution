@@ -15,7 +15,7 @@ task_shell_view_process_completed_tasks_cb (gpointer user_data)
 {
 	ETaskShellContent *task_shell_content;
 	ETaskShellView *task_shell_view;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 
 	task_shell_view = E_TASK_SHELL_VIEW (user_data);
 
@@ -24,7 +24,7 @@ task_shell_view_process_completed_tasks_cb (gpointer user_data)
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	e_task_table_process_completed_tasks (task_table, TRUE);
+	e_cal_table_tasks_process_completed_tasks (task_table, TRUE);
 
 	/* Search query takes whether to show completed tasks into account,
 	 * so if the preference has changed we need to update the query. */
@@ -126,16 +126,16 @@ task_shell_view_update_timeout_cb (gpointer user_data)
 {
 	ETaskShellView *task_shell_view;
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	ECalModel *model;
 
 	task_shell_view = E_TASK_SHELL_VIEW (user_data);
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table));
 
-	e_task_table_process_completed_tasks (task_table, FALSE);
-	e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (model));
+	e_cal_table_tasks_process_completed_tasks (task_table, FALSE);
+	e_cal_model_update_due_tasks (model);
 
 	return TRUE;
 }
@@ -286,36 +286,36 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	priv->popup_event_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->task_table, "selection-change",
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->task_table)), "selection-changed",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
 		task_shell_view);
 	priv->selection_change_1_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->task_table, "selection-change",
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->task_table)), "selection-changed",
 		G_CALLBACK (e_shell_view_update_actions_in_idle),
 		task_shell_view);
 	priv->selection_change_2_handler_id = handler_id;
 
 	/* Keep our own reference to this so we can
 	 * disconnect our signal handlers in dispose(). */
-	priv->model = e_task_table_get_model (priv->task_table);
+	priv->model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (priv->task_table));
 	g_object_ref (priv->model);
 
 	handler_id = g_signal_connect_swapped (
-		priv->model, "model-changed",
+		priv->model, "after-rebuild",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
 		task_shell_view);
 	priv->model_changed_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->model, "model-rows-deleted",
+		priv->model, "rows-removed",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
 		task_shell_view);
 	priv->model_rows_deleted_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->model, "model-rows-inserted",
+		priv->model, "rows-inserted",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
 		task_shell_view);
 	priv->model_rows_inserted_handler_id = handler_id;
@@ -465,14 +465,14 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 
 	if (priv->selection_change_1_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->task_table,
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->task_table)),
 			priv->selection_change_1_handler_id);
 		priv->selection_change_1_handler_id = 0;
 	}
 
 	if (priv->selection_change_2_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->task_table,
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->task_table)),
 			priv->selection_change_2_handler_id);
 		priv->selection_change_2_handler_id = 0;
 	}
@@ -611,12 +611,12 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	ETaskShellContent *task_shell_content;
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	ECalModel *model;
 	GString *string;
 	const gchar *format;
 	gint n_rows;
-	gint n_selected;
+	guint n_selected;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
@@ -624,10 +624,10 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	model = e_task_table_get_model (task_table);
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table));
 
-	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
-	n_selected = e_table_selected_count (E_TABLE (task_table));
+	n_rows = e_cal_model_get_object_array (model)->len;
+	n_selected = e_virtual_tree_selected_count (e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_table)));
 
 	string = g_string_sized_new (64);
 

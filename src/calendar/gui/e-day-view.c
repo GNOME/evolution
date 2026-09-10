@@ -23,7 +23,7 @@
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-ops.h"
-#include "e-cal-model-calendar.h"
+#include "e-cal-model.h"
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 #include "e-day-view-time-item.h"
@@ -94,7 +94,6 @@ struct _EDayViewPrivate {
 	gulong notify_work_day_end_sun_handler_id;
 	gulong time_range_changed_handler_id;
 	gulong model_row_changed_handler_id;
-	gulong model_cell_changed_handler_id;
 	gulong model_rows_inserted_handler_id;
 	gulong comps_deleted_handler_id;
 	gulong timezone_changed_handler_id;
@@ -1081,7 +1080,6 @@ day_view_dispose (GObject *object)
 	disconnect_model_handler (day_view->priv->notify_work_day_end_sun_handler_id);
 	disconnect_model_handler (day_view->priv->time_range_changed_handler_id);
 	disconnect_model_handler (day_view->priv->model_row_changed_handler_id);
-	disconnect_model_handler (day_view->priv->model_cell_changed_handler_id);
 	disconnect_model_handler (day_view->priv->model_rows_inserted_handler_id);
 	disconnect_model_handler (day_view->priv->comps_deleted_handler_id);
 	disconnect_model_handler (day_view->priv->timezone_changed_handler_id);
@@ -2832,7 +2830,7 @@ process_component (EDayView *day_view,
 
 static void
 update_row (EDayView *day_view,
-	    gint row,
+	    guint row,
 	    gboolean do_cancel_editing)
 {
 	ECalModelComponent *comp_data;
@@ -2847,7 +2845,7 @@ update_row (EDayView *day_view,
 		e_day_view_stop_editing_event (day_view);
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	comp_data = e_cal_model_get_component_at (model, row);
+	comp_data = e_cal_model_get_visible_row (model, row, NULL, NULL);
 	g_return_if_fail (comp_data != NULL);
 
 	uid = i_cal_component_get_uid (comp_data->icalcomp);
@@ -2866,28 +2864,13 @@ update_row (EDayView *day_view,
 }
 
 static void
-model_row_changed_cb (ETableModel *etm,
-                      gint row,
-                      gpointer user_data)
-{
-	EDayView *day_view = E_DAY_VIEW (user_data);
-
-	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
-		e_day_view_free_events (day_view);
-		day_view->requires_update = TRUE;
-		return;
-	}
-
-	update_row (day_view, row, TRUE);
-}
-
-static void
-model_cell_changed_cb (ETableModel *etm,
-                       gint col,
-                       gint row,
+model_rows_changed_cb (ECalModel *model,
+                       guint first_row,
+                       guint last_row,
                        gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
+	guint row;
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
 		e_day_view_free_events (day_view);
@@ -2895,18 +2878,19 @@ model_cell_changed_cb (ETableModel *etm,
 		return;
 	}
 
-	update_row (day_view, row, FALSE);
+	for (row = first_row; row <= last_row; row++) {
+		update_row (day_view, row, TRUE);
+	}
 }
 
 static void
-model_rows_inserted_cb (ETableModel *etm,
-                        gint row,
-                        gint count,
+model_rows_inserted_cb (ECalModel *model,
+                        guint first_row,
+                        guint last_row,
                         gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
-	ECalModel *model;
-	gint i;
+	guint row;
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
 		e_day_view_free_events (day_view);
@@ -2916,11 +2900,10 @@ model_rows_inserted_cb (ETableModel *etm,
 
 	e_day_view_stop_editing_event (day_view);
 
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	for (i = 0; i < count; i++) {
+	for (row = first_row; row <= last_row; row++) {
 		ECalModelComponent *comp_data;
 
-		comp_data = e_cal_model_get_component_at (model, row + i);
+		comp_data = e_cal_model_get_visible_row (model, row, NULL, NULL);
 		if (comp_data == NULL) {
 			g_warning ("comp_data is NULL\n");
 			continue;
@@ -3021,17 +3004,12 @@ init_model (EDayView *day_view,
 	day_view->priv->time_range_changed_handler_id = handler_id;
 
 	handler_id = g_signal_connect (
-		model, "model_row_changed",
-		G_CALLBACK (model_row_changed_cb), day_view);
+		model, "rows-changed",
+		G_CALLBACK (model_rows_changed_cb), day_view);
 	day_view->priv->model_row_changed_handler_id = handler_id;
 
 	handler_id = g_signal_connect (
-		model, "model_cell_changed",
-		G_CALLBACK (model_cell_changed_cb), day_view);
-	day_view->priv->model_cell_changed_handler_id = handler_id;
-
-	handler_id = g_signal_connect (
-		model, "model_rows_inserted",
+		model, "rows-inserted",
 		G_CALLBACK (model_rows_inserted_cb), day_view);
 	day_view->priv->model_rows_inserted_handler_id = handler_id;
 
@@ -5086,7 +5064,7 @@ e_day_view_update_query (EDayView *day_view)
 	e_day_view_free_events (day_view);
 	e_day_view_queue_layout (day_view);
 
-	rows = e_table_model_row_count (E_TABLE_MODEL (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view))));
+	rows = e_cal_model_get_object_array (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)))->len;
 	for (r = 0; r < rows; r++) {
 		ECalModelComponent *comp_data;
 

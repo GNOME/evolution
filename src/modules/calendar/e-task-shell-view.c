@@ -35,7 +35,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 	EUIAction *action;
 	ECalComponentPreview *task_preview;
 	EPreviewPane *preview_pane;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	EWebView *web_view;
 	ECalModel *model;
 	ECalDataModel *data_model;
@@ -49,6 +49,8 @@ task_shell_view_execute_search (EShellView *shell_view)
 	gchar *query;
 	gchar *temp;
 	gint value;
+	gboolean have_search;
+	gboolean filter_changed;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
@@ -57,7 +59,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table));
 	data_model = e_cal_model_get_data_model (model);
 	timezone = e_cal_model_get_timezone (model);
 	current_time = i_cal_time_new_current_with_zone (timezone);
@@ -74,6 +76,8 @@ task_shell_view_execute_search (EShellView *shell_view)
 
 		if (!query)
 			query = g_strdup ("");
+
+		have_search = *query != '\0';
 	} else {
 		const gchar *format;
 		const gchar *text;
@@ -85,6 +89,8 @@ task_shell_view_execute_search (EShellView *shell_view)
 			text = "";
 			value = TASK_SEARCH_SUMMARY_CONTAINS;
 		}
+
+		have_search = *text != '\0';
 
 		switch (value) {
 			default:
@@ -114,6 +120,10 @@ task_shell_view_execute_search (EShellView *shell_view)
 	/* Apply selected filter. */
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 	value = e_action_combo_box_get_current_value (combo_box);
+
+	if (value != TASK_FILTER_ANY_CATEGORY)
+		have_search = TRUE;
+
 	switch (value) {
 		case TASK_FILTER_ANY_CATEGORY:
 			break;
@@ -250,14 +260,18 @@ task_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Submit the query. */
-	e_cal_data_model_set_filter (data_model, query);
+	filter_changed = e_cal_data_model_set_filter (data_model, query);
 	g_free (query);
 
-	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
+	e_cal_table_list_base_set_search_active (E_CAL_TABLE_LIST_BASE (task_table), have_search);
 
-	web_view = e_preview_pane_get_web_view (preview_pane);
-	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
-	e_cal_component_preview_clear (task_preview);
+	if (filter_changed) {
+		preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
+
+		web_view = e_preview_pane_get_web_view (preview_pane);
+		task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
+		e_cal_component_preview_clear (task_preview);
+	}
 }
 
 static void
@@ -567,7 +581,7 @@ e_task_shell_view_class_init (ETaskShellViewClass *class)
 	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* Ensure the GalView types we need are registered. */
-	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
+	g_type_ensure (GAL_TYPE_VIEW_VIRTUAL_TREE);
 }
 
 static void

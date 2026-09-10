@@ -22,7 +22,7 @@ typedef enum {
 } EPrintView;
 
 void		print_calendar			(ECalendarView *cal_view,
-						 ETable *tasks_table,
+						 ECalModel *tasks_model,
 						 EPrintView print_view_type,
 						 GtkPrintOperationAction action,
 						 time_t start);
@@ -32,6 +32,10 @@ void		print_comp			(ECalComponent *comp,
 						 gboolean use_24_hour_format,
 						 GtkPrintOperationAction action);
 void		print_table			(ETable *table,
+						 const gchar *dialog_title,
+						 const gchar *print_header,
+						 GtkPrintOperationAction action);
+void		print_printable			(EPrintable *printable,
 						 const gchar *dialog_title,
 						 const gchar *print_header,
 						 GtkPrintOperationAction action);

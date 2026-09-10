@@ -17,8 +17,8 @@
 
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/comp-util.h>
-#include <calendar/gui/e-cal-list-view.h>
-#include <calendar/gui/e-cal-model-tasks.h>
+#include <calendar/gui/e-cal-table-events.h>
+#include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-calendar-view.h>
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>
@@ -80,11 +80,11 @@ struct _ECalShellViewPrivate {
 	ESourceSelector *selector;
 	gulong selector_popup_event_handler_id;
 
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	gulong memo_table_popup_event_handler_id;
 	gulong memo_table_selection_change_handler_id;
 
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	gulong task_table_popup_event_handler_id;
 	gulong task_table_selection_change_handler_id;
 

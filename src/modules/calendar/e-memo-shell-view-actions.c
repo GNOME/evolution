@@ -19,7 +19,7 @@ action_memo_delete_cb (EUIAction *action,
 {
 	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
@@ -49,7 +49,7 @@ action_memo_forward_cb (EUIAction *action,
 {
 	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	GSList *list;
@@ -57,7 +57,7 @@ action_memo_forward_cb (EUIAction *action,
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -66,7 +66,7 @@ action_memo_forward_cb (EUIAction *action,
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
-	itip_send_component_with_model (e_cal_model_get_data_model (e_memo_table_get_model (memo_table)),
+	itip_send_component_with_model (e_cal_model_get_data_model (e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (memo_table))),
 		I_CAL_METHOD_PUBLISH, comp,
 		comp_data->client, NULL, NULL, NULL,
 		E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS |
@@ -192,13 +192,13 @@ action_memo_list_print_cb (EUIAction *action,
 {
 	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	print_table (
-		E_TABLE (memo_table), _("Print Memos"), _("Memos"),
+	print_printable (
+		e_cal_table_list_base_get_printable (E_CAL_TABLE_LIST_BASE (memo_table)), _("Print Memos"), _("Memos"),
 		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
@@ -209,13 +209,13 @@ action_memo_list_print_preview_cb (EUIAction *action,
 {
 	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	print_table (
-		E_TABLE (memo_table), _("Print Memos"), _("Memos"),
+	print_printable (
+		e_cal_table_list_base_get_printable (E_CAL_TABLE_LIST_BASE (memo_table)), _("Print Memos"), _("Memos"),
 		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
@@ -371,7 +371,7 @@ action_memo_new_cb (EUIAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	EClient *client = NULL;
 	GSList *list;
 
@@ -381,7 +381,7 @@ action_memo_new_cb (EUIAction *action,
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	if (list) {
 		ECalModelComponent *comp_data;
 
@@ -403,14 +403,14 @@ action_memo_open_cb (EUIAction *action,
 {
 	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -428,7 +428,7 @@ action_memo_open_url_cb (EUIAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	ICalProperty *prop;
 	const gchar *uri;
@@ -440,7 +440,7 @@ action_memo_open_url_cb (EUIAction *action,
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -462,7 +462,7 @@ action_memo_print_cb (EUIAction *action,
 {
 	EMemoShellView *memo_shell_view = user_data;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	ECalModel *model;
@@ -470,9 +470,9 @@ action_memo_print_cb (EUIAction *action,
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	model = e_memo_table_get_model (memo_table);
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (memo_table));
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -500,7 +500,7 @@ action_memo_save_as_cb (EUIAction *action,
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	EActivity *activity;
 	GSList *list;
@@ -515,7 +515,7 @@ action_memo_save_as_cb (EUIAction *action,
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);

@@ -210,7 +210,7 @@ cal_shell_view_notify_view_id_cb (EShellView *shell_view)
 	view_instance = e_shell_view_get_view_instance (shell_view);
 	state_key_file = e_shell_view_get_state_key_file (shell_view);
 
-	was_list_view = g_strcmp0 (view_instance->current_type, "etable") == 0;
+	was_list_view = g_strcmp0 (view_instance->current_type, "vtree") == 0;
 	if (was_list_view)
 		was_view_id = g_strdup (view_instance->current_id);
 
@@ -244,7 +244,7 @@ cal_shell_view_notify_view_id_cb (EShellView *shell_view)
 	else
 		cal_shell_view_set_custom_view (view_instance);
 
-	if (g_strcmp0 (view_instance->current_type, "etable") == 0) {
+	if (g_strcmp0 (view_instance->current_type, "vtree") == 0) {
 		cal_shell_view_save_last_list_view (shell_view, view_instance->current_id);
 	} else if (was_list_view) {
 		cal_shell_view_save_last_list_view (shell_view, was_view_id);
@@ -452,15 +452,15 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 				G_CALLBACK (e_cal_shell_view_update_sidebar), cal_shell_view,
 				G_CONNECT_SWAPPED);
 
-			g_signal_connect_object (model, "model-changed",
+			g_signal_connect_object (model, "after-rebuild",
 				G_CALLBACK (e_cal_shell_view_update_sidebar), cal_shell_view,
 				G_CONNECT_SWAPPED);
 
-			g_signal_connect_object (model, "model-rows-inserted",
+			g_signal_connect_object (model, "rows-inserted",
 				G_CALLBACK (e_cal_shell_view_update_sidebar), cal_shell_view,
 				G_CONNECT_SWAPPED);
 
-			g_signal_connect_object (model, "model-rows-deleted",
+			g_signal_connect_object (model, "rows-removed",
 				G_CALLBACK (e_cal_shell_view_update_sidebar), cal_shell_view,
 				G_CONNECT_SWAPPED);
 		}
@@ -497,7 +497,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	priv->memo_table_popup_event_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->memo_table, "selection-change",
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->memo_table)), "selection-changed",
 		G_CALLBACK (e_cal_shell_view_memopad_actions_update),
 		cal_shell_view);
 	priv->memo_table_selection_change_handler_id = handler_id;
@@ -515,7 +515,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	priv->task_table_popup_event_handler_id = handler_id;
 
 	handler_id = g_signal_connect_swapped (
-		priv->task_table, "selection-change",
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->task_table)), "selection-changed",
 		G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
 		cal_shell_view);
 	priv->task_table_selection_change_handler_id = handler_id;
@@ -641,7 +641,7 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 
 	if (priv->memo_table_selection_change_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->memo_table,
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->memo_table)),
 			priv->memo_table_selection_change_handler_id);
 		priv->memo_table_selection_change_handler_id = 0;
 	}
@@ -655,7 +655,7 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 
 	if (priv->task_table_selection_change_handler_id > 0) {
 		g_signal_handler_disconnect (
-			priv->task_table,
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->task_table)),
 			priv->task_table_selection_change_handler_id);
 		priv->task_table_selection_change_handler_id = 0;
 	}
@@ -701,6 +701,15 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 				priv->views[ii].calendar_view,
 				priv->views[ii].selection_changed_handler_id);
 			priv->views[ii].selection_changed_handler_id = 0;
+		}
+
+		if (ii == E_CAL_VIEW_KIND_LIST && priv->views[ii].calendar_view) {
+			ECalModel *model;
+
+			g_signal_handlers_disconnect_by_data (priv->views[ii].calendar_view, cal_shell_view);
+
+			model = e_calendar_view_get_model (priv->views[ii].calendar_view);
+			g_signal_handlers_disconnect_by_data (model, cal_shell_view);
 		}
 
 		g_clear_object (&priv->views[ii].calendar_view);

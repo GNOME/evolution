@@ -1,7 +1,19 @@
-<?xml version="1.0"?>
-<ETableState state-version="0.100000">
-  <column source="1"/>
-  <column source="0"/>
-  <column source="2"/>
-  <grouping></grouping>
-</ETableState>
+[Column-memolist-color]
+order=0
+visible=true
+width=24
+
+[Column-icon]
+order=1
+visible=true
+width=24
+
+[Column-summary]
+order=2
+visible=true
+width=300
+
+[Column-categories]
+order=3
+visible=true
+width=100

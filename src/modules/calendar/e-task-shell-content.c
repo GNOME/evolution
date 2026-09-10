@@ -9,9 +9,11 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include <e-util/e-util.h>
+
 #include <calendar/gui/comp-util.h>
 #include <calendar/gui/e-cal-component-preview.h>
-#include <calendar/gui/e-cal-model-tasks.h>
+#include <calendar/gui/e-cal-model.h>
 
 #include "e-cal-base-shell-sidebar.h"
 #include "e-task-shell-content.h"
@@ -45,73 +47,27 @@ static void
 task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
                                     GalView *gal_view)
 {
-	ETaskTable *task_table;
-
-	if (!GAL_IS_VIEW_ETABLE (gal_view))
-		return;
+	ECalTableTasks *task_table;
+	EVirtualTree *vtree;
 
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	vtree = e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_table));
 
-	gal_view_etable_attach_table (
-		GAL_VIEW_ETABLE (gal_view), E_TABLE (task_table));
-}
-
-static void
-task_shell_content_table_foreach_cb (gint model_row,
-                                     gpointer user_data)
-{
-	ECalModelComponent *comp_data;
-	ICalComponent *clone;
-	ICalComponent *vcal;
-	gchar *string;
-
-	struct {
-		ECalModel *model;
-		GSList *list;
-	} *foreach_data = user_data;
-
-	comp_data = e_cal_model_get_component_at (
-		foreach_data->model, model_row);
-
-	vcal = e_cal_util_new_top_level ();
-	clone = i_cal_component_clone (comp_data->icalcomp);
-	e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
-	i_cal_component_take_component (vcal, clone);
-
-	string = i_cal_component_as_ical_string (vcal);
-	if (string != NULL) {
-		ESource *source;
-		const gchar *source_uid;
-
-		source = e_client_get_source (E_CLIENT (comp_data->client));
-		source_uid = e_source_get_uid (source);
-
-		foreach_data->list = g_slist_prepend (
-			foreach_data->list,
-			g_strdup_printf ("%s\n%s", source_uid, string));
-
-		g_free (string);
-	}
-
-	g_object_unref (vcal);
+	if (GAL_IS_VIEW_VIRTUAL_TREE (gal_view))
+		gal_view_virtual_tree_attach (GAL_VIEW_VIRTUAL_TREE (gal_view), vtree);
 }
 
 static void
 task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content,
-                                           gint row,
-                                           gint col,
                                            GdkDragContext *context,
                                            GtkSelectionData *selection_data,
                                            guint info,
                                            guint time)
 {
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	GdkAtom target;
-
-	struct {
-		ECalModel *model;
-		GSList *list;
-	} foreach_data;
+	GSList *selected, *iter;
+	GSList *list = NULL;
 
 	/* Sanity check the selection target. */
 	target = gtk_selection_data_get_target (selection_data);
@@ -119,46 +75,54 @@ task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content
 		return;
 
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	selected = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 
-	foreach_data.model = e_task_table_get_model (task_table);
-	foreach_data.list = NULL;
+	for (iter = selected; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		ICalComponent *clone;
+		ICalComponent *vcal;
+		gchar *string;
 
-	e_table_selected_row_foreach (
-		E_TABLE (task_table),
-		task_shell_content_table_foreach_cb,
-		&foreach_data);
+		vcal = e_cal_util_new_top_level ();
+		clone = i_cal_component_clone (comp_data->icalcomp);
+		e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
+		i_cal_component_take_component (vcal, clone);
 
-	if (foreach_data.list != NULL) {
-		cal_comp_selection_set_string_list (
-			selection_data, foreach_data.list);
-		g_slist_foreach (foreach_data.list, (GFunc) g_free, NULL);
-		g_slist_free (foreach_data.list);
+		string = i_cal_component_as_ical_string (vcal);
+		if (string != NULL) {
+			ESource *source;
+			const gchar *source_uid;
+
+			source = e_client_get_source (E_CLIENT (comp_data->client));
+			source_uid = e_source_get_uid (source);
+
+			list = g_slist_prepend (
+				list,
+				g_strdup_printf ("%s\n%s", source_uid, string));
+
+			g_free (string);
+		}
+
+		g_object_unref (vcal);
+	}
+
+	g_slist_free (selected);
+
+	if (list != NULL) {
+		cal_comp_selection_set_string_list (selection_data, list);
+		g_slist_foreach (list, (GFunc) g_free, NULL);
+		g_slist_free (list);
 	}
 }
 
 static void
-task_shell_content_table_drag_data_delete_cb (ETaskShellContent *task_shell_content,
-                                              gint row,
-                                              gint col,
-                                              GdkDragContext *context)
-{
-	/* Moved components are deleted from source immediately when moved,
-	 * because some of them can be part of destination source, and we
-	 * don't want to delete not-moved tasks.  There is no such information
-	 * which event has been moved and which not, so skip this method. */
-}
-
-static void
-task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
-                                     gint row,
-                                     ETable *table)
+task_shell_content_update_preview (ETaskShellContent *task_shell_content,
+				   ECalModelComponent *comp_data)
 {
 	ECalComponentPreview *task_preview;
 	ECalModel *task_model;
-	ECalModelComponent *comp_data;
 	EPreviewPane *preview_pane;
 	EWebView *web_view;
-	const gchar *uid;
 
 	task_model = e_cal_base_shell_content_get_model (E_CAL_BASE_SHELL_CONTENT (task_shell_content));
 	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
@@ -166,14 +130,11 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	web_view = e_preview_pane_get_web_view (preview_pane);
 	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
-	if (e_table_selected_count (table) != 1) {
+	if (!comp_data) {
 		if (task_shell_content->priv->preview_visible)
 			e_cal_component_preview_clear (task_preview);
 		return;
 	}
-
-	row = e_table_get_cursor_row (table);
-	comp_data = e_cal_model_get_component_at (task_model, row);
 
 	if (task_shell_content->priv->preview_visible) {
 		ECalComponent *comp;
@@ -189,71 +150,74 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 		g_object_unref (comp);
 	}
 
-	uid = i_cal_component_get_uid (comp_data->icalcomp);
 	g_free (task_shell_content->priv->current_uid);
-	task_shell_content->priv->current_uid = g_strdup (uid);
+	task_shell_content->priv->current_uid = g_strdup (i_cal_component_get_uid (comp_data->icalcomp));
 }
 
 static void
-task_shell_content_selection_change_cb (ETaskShellContent *task_shell_content,
-                                        ETable *table)
+task_shell_content_cursor_changed_cb (ETaskShellContent *task_shell_content,
+                                      guint visible_row,
+                                      GObject *row_object)
 {
-	ECalComponentPreview *task_preview;
-	EPreviewPane *preview_pane;
-	EWebView *web_view;
+	ECalTableTasks *task_table;
 
-	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	web_view = e_preview_pane_get_web_view (preview_pane);
-	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
+	if (e_virtual_tree_selected_count (e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_table))) != 1) {
+		task_shell_content_update_preview (task_shell_content, NULL);
+		return;
+	}
 
-	if (e_table_selected_count (table) != 1)
-		e_cal_component_preview_clear (task_preview);
+	task_shell_content_update_preview (task_shell_content, row_object ? E_CAL_MODEL_COMPONENT (row_object) : NULL);
 }
 
 static void
-task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
-                                         gint row,
-                                         ETableModel *model)
+task_shell_content_selection_changed_cb (ETaskShellContent *task_shell_content)
+{
+	ECalTableTasks *task_table;
+	guint n_selected;
+
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	n_selected = e_virtual_tree_selected_count (e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_table)));
+
+	if (n_selected != 1)
+		task_shell_content_update_preview (task_shell_content, NULL);
+}
+
+static void
+task_shell_content_model_rows_changed_cb (ETaskShellContent *task_shell_content,
+                                          guint first_row,
+                                          guint last_row,
+                                          ECalModel *model)
 {
 	ECalModelComponent *comp_data;
-	ETaskTable *task_table;
 	const gchar *current_uid;
 	const gchar *uid;
+	guint row;
 
 	current_uid = task_shell_content->priv->current_uid;
 	if (current_uid == NULL)
 		return;
 
-	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
-	if (comp_data == NULL)
-		return;
+	for (row = first_row; row <= last_row; row++) {
+		comp_data = e_cal_model_get_visible_row (model, row, NULL, NULL);
+		if (comp_data == NULL)
+			continue;
 
-	uid = i_cal_component_get_uid (comp_data->icalcomp);
-	if (g_strcmp0 (uid, current_uid) != 0)
-		return;
+		uid = i_cal_component_get_uid (comp_data->icalcomp);
+		if (g_strcmp0 (uid, current_uid) != 0)
+			continue;
 
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-
-	task_shell_content_cursor_change_cb (
-		task_shell_content, 0, E_TABLE (task_table));
-}
-
-static void
-task_shell_content_is_editing_changed_cb (ETaskTable *task_table,
-                                          GParamSpec *param,
-                                          EShellView *shell_view)
-{
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-
-	e_shell_view_update_actions (shell_view);
+		task_shell_content_update_preview (task_shell_content, comp_data);
+		break;
+	}
 }
 
 static guint32
 task_shell_content_check_state (EShellContent *shell_content)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalTableTasks *task_table;
 	GSList *list, *iter;
 	gboolean assignable = TRUE;
 	gboolean editable = TRUE;
@@ -266,9 +230,9 @@ task_shell_content_check_state (EShellContent *shell_content)
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	n_selected = e_table_selected_count (E_TABLE (task_table));
+	n_selected = e_virtual_tree_selected_count (e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_table)));
 
-	list = e_task_table_get_selected (task_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (task_table));
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 		const gchar *cap;
@@ -431,6 +395,12 @@ task_shell_content_dispose (GObject *object)
 {
 	ETaskShellContent *task_shell_content = E_TASK_SHELL_CONTENT (object);
 
+	if (task_shell_content->priv->task_table) {
+		g_signal_handlers_disconnect_by_data (
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_shell_content->priv->task_table)),
+			task_shell_content);
+	}
+
 	g_clear_object (&task_shell_content->priv->paned);
 	g_clear_object (&task_shell_content->priv->task_table);
 	g_clear_object (&task_shell_content->priv->preview_pane);
@@ -486,17 +456,8 @@ task_shell_content_constructed (GObject *object)
 
 	container = task_shell_content->priv->paned;
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	widget = e_cal_table_tasks_new (shell_view, model);
 	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = e_task_table_new (shell_view, model);
-	gtk_container_add (GTK_CONTAINER (container), widget);
 	task_shell_content->priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -540,8 +501,8 @@ task_shell_content_constructed (GObject *object)
 	e_target_list_add_calendar_targets (target_list, 0);
 	targets = gtk_target_table_new_from_list (target_list, &n_targets);
 
-	e_table_drag_source_set (
-		E_TABLE (task_shell_content->priv->task_table),
+	e_virtual_tree_enable_drag_source (
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_shell_content->priv->task_table)),
 		GDK_BUTTON1_MASK, targets, n_targets,
 		GDK_ACTION_MOVE | GDK_ACTION_COPY | GDK_ACTION_ASK);
 
@@ -549,32 +510,23 @@ task_shell_content_constructed (GObject *object)
 	gtk_target_list_unref (target_list);
 
 	g_signal_connect_swapped (
-		task_shell_content->priv->task_table, "table-drag-data-get",
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_shell_content->priv->task_table)), "tree-drag-data-get",
 		G_CALLBACK (task_shell_content_table_drag_data_get_cb),
 		object);
 
 	g_signal_connect_swapped (
-		task_shell_content->priv->task_table, "table-drag-data-delete",
-		G_CALLBACK (task_shell_content_table_drag_data_delete_cb),
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_shell_content->priv->task_table)), "cursor-changed",
+		G_CALLBACK (task_shell_content_cursor_changed_cb),
 		object);
 
 	g_signal_connect_swapped (
-		task_shell_content->priv->task_table, "cursor-change",
-		G_CALLBACK (task_shell_content_cursor_change_cb),
+		e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_shell_content->priv->task_table)), "selection-changed",
+		G_CALLBACK (task_shell_content_selection_changed_cb),
 		object);
 
 	g_signal_connect_swapped (
-		task_shell_content->priv->task_table, "selection-change",
-		G_CALLBACK (task_shell_content_selection_change_cb),
-		object);
-
-	e_signal_connect_notify (
-		task_shell_content->priv->task_table, "notify::is-editing",
-		G_CALLBACK (task_shell_content_is_editing_changed_cb), shell_view);
-
-	g_signal_connect_swapped (
-		model, "model-row-changed",
-		G_CALLBACK (task_shell_content_model_row_changed_cb), object);
+		model, "rows-changed",
+		G_CALLBACK (task_shell_content_model_rows_changed_cb), object);
 
 	/* Prepare the view instance. */
 
@@ -605,7 +557,7 @@ e_task_shell_content_class_init (ETaskShellContentClass *class)
 	shell_content_class->focus_search_results = task_shell_content_focus_search_results;
 
 	cal_base_shell_content_class = E_CAL_BASE_SHELL_CONTENT_CLASS (class);
-	cal_base_shell_content_class->new_cal_model = e_cal_model_tasks_new;
+	cal_base_shell_content_class->new_cal_model = e_cal_model_new_tasks;
 	cal_base_shell_content_class->view_created = task_shell_content_view_created;
 
 	/**
@@ -658,12 +610,12 @@ e_task_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-ETaskTable *
+ECalTableTasks *
 e_task_shell_content_get_task_table (ETaskShellContent *task_shell_content)
 {
 	g_return_val_if_fail (E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
-	return E_TASK_TABLE (task_shell_content->priv->task_table);
+	return E_CAL_TABLE_TASKS (task_shell_content->priv->task_table);
 }
 
 EPreviewPane *
@@ -694,9 +646,15 @@ e_task_shell_content_set_preview_visible (ETaskShellContent *task_shell_content,
 	task_shell_content->priv->preview_visible = preview_visible;
 
 	if (preview_visible && task_shell_content->priv->preview_pane) {
-		task_shell_content_cursor_change_cb (
-			task_shell_content, 0,
-			E_TABLE (task_shell_content->priv->task_table));
+		EVirtualTree *vtree;
+		GObject *row_object;
+
+		vtree = e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (task_shell_content->priv->task_table));
+		row_object = e_virtual_tree_selected_count (vtree) == 1 ? e_virtual_tree_get_cursor_object (vtree) : NULL;
+
+		task_shell_content_update_preview (
+			task_shell_content,
+			row_object ? E_CAL_MODEL_COMPONENT (row_object) : NULL);
 
 		e_web_view_update_actions (e_preview_pane_get_web_view (E_PREVIEW_PANE (task_shell_content->priv->preview_pane)));
 	}

@@ -19,7 +19,7 @@ action_calendar_memopad_forward_cb (EUIAction *action,
 {
 	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	GSList *list;
@@ -27,7 +27,7 @@ action_calendar_memopad_forward_cb (EUIAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -36,7 +36,7 @@ action_calendar_memopad_forward_cb (EUIAction *action,
 	comp = e_cal_component_new_from_icalcomponent (i_cal_component_clone (comp_data->icalcomp));
 	g_return_if_fail (comp != NULL);
 
-	itip_send_component_with_model (e_cal_model_get_data_model (e_memo_table_get_model (memo_table)),
+	itip_send_component_with_model (e_cal_model_get_data_model (e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (memo_table))),
 		I_CAL_METHOD_PUBLISH, comp, comp_data->client,
 		NULL, NULL, NULL, E_ITIP_SEND_COMPONENT_FLAG_STRIP_ALARMS | E_ITIP_SEND_COMPONENT_FLAG_ENSURE_MASTER_OBJECT);
 
@@ -52,7 +52,7 @@ action_calendar_memopad_new_cb (EUIAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 
@@ -62,7 +62,7 @@ action_calendar_memopad_new_cb (EUIAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -78,14 +78,14 @@ action_calendar_memopad_open_cb (EUIAction *action,
 {
 	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -103,7 +103,7 @@ action_calendar_memopad_open_url_cb (EUIAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	ICalProperty *prop;
 	const gchar *uri;
@@ -115,7 +115,7 @@ action_calendar_memopad_open_url_cb (EUIAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -136,7 +136,7 @@ action_calendar_memopad_print_cb (EUIAction *action,
 {
 	ECalShellView *cal_shell_view = user_data;
 	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	ECalModel *model;
@@ -144,9 +144,9 @@ action_calendar_memopad_print_cb (EUIAction *action,
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
-	model = e_memo_table_get_model (memo_table);
+	model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (memo_table));
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -174,7 +174,7 @@ action_calendar_memopad_save_as_cb (EUIAction *action,
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
 	ECalShellContent *cal_shell_content;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	ECalModelComponent *comp_data;
 	EActivity *activity;
 	GSList *list;
@@ -189,7 +189,7 @@ action_calendar_memopad_save_as_cb (EUIAction *action,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -306,7 +306,7 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
 	EShellView *shell_view;
-	EMemoTable *memo_table;
+	ECalTableMemos *memo_table;
 	EUIAction *action;
 	GSList *list, *iter;
 	gboolean has_url = FALSE;
@@ -318,9 +318,9 @@ e_cal_shell_view_memopad_actions_update (ECalShellView *cal_shell_view)
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 
-	n_selected = e_table_selected_count (E_TABLE (memo_table));
+	n_selected = e_virtual_tree_selected_count (e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (memo_table)));
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_cal_table_list_base_get_selected (E_CAL_TABLE_LIST_BASE (memo_table));
 	for (iter = list; iter != NULL && !has_url; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 

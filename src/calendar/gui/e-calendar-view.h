@@ -94,6 +94,8 @@ struct _ECalendarView {
 	ECalendarViewPrivate *priv;
 };
 
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (ECalendarView, g_object_unref)
+
 typedef struct _ECalendarViewSelectionData {
 	ECalClient *client;
 	ICalComponent *icalcomp;

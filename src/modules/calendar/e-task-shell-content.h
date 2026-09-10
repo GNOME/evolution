@@ -11,7 +11,7 @@
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
-#include <calendar/gui/e-task-table.h>
+#include <calendar/gui/e-cal-table-tasks.h>
 
 #include "e-cal-base-shell-content.h"
 
@@ -52,7 +52,8 @@ struct _ETaskShellContentClass {
 GType		e_task_shell_content_get_type		(void);
 void		e_task_shell_content_type_register	(GTypeModule *type_module);
 GtkWidget *	e_task_shell_content_new		(EShellView *shell_view);
-ETaskTable *	e_task_shell_content_get_task_table	(ETaskShellContent *task_shell_content);
+ECalTableTasks *
+		e_task_shell_content_get_task_table	(ETaskShellContent *task_shell_content);
 EPreviewPane *	e_task_shell_content_get_preview_pane	(ETaskShellContent *task_shell_content);
 gboolean	e_task_shell_content_get_preview_visible
 							(ETaskShellContent *task_shell_content);

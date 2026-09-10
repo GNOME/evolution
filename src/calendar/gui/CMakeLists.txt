@@ -4,14 +4,6 @@ add_custom_xml_files(calendar ${privdatadir} filter .in ""
 	caltypes.xml
 )
 
-install(FILES	e-meeting-time-sel.etspec
-		e-cal-list-view.etspec
-		e-memo-table.etspec
-		e-task-table.etspec
-	DESTINATION ${etspecdir}
-)
-
-
 set(DEPENDENCIES
 	eabutil
 	econtacteditor
@@ -38,13 +30,14 @@ set(SOURCES
 	e-cal-day-column.c
 	e-cal-dialogs.c
 	e-cal-event.c
-	e-cal-list-view.c
 	e-cal-model.c
-	e-cal-model-calendar.c
-	e-cal-model-memos.c
-	e-cal-model-tasks.c
 	e-cal-ops.c
 	e-cal-range-model.c
+	e-cal-table-common.c
+	e-cal-table-events.c
+	e-cal-table-list-base.c
+	e-cal-table-memos.c
+	e-cal-table-tasks.c
 	e-calendar-view.c
 	e-cell-date-edit-text.c
 	e-cell-estimated-duration.c
@@ -73,11 +66,9 @@ set(SOURCES
 	e-meeting-time-sel.c
 	e-meeting-time-sel-item.c
 	e-meeting-utils.c
-	e-memo-table.c
 	e-month-view.c
 	e-select-names-editable.c
 	e-select-names-renderer.c
-	e-task-table.c
 	e-to-do-pane.c
 	e-week-view.c
 	e-week-view-event-item.c
@@ -118,13 +109,14 @@ set(HEADERS
 	e-cal-day-column.h
 	e-cal-dialogs.h
 	e-cal-event.h
-	e-cal-list-view.h
-	e-cal-model-calendar.h
 	e-cal-model.h
-	e-cal-model-memos.h
-	e-cal-model-tasks.h
 	e-cal-ops.h
 	e-cal-range-model.h
+	e-cal-table-common.h
+	e-cal-table-events.h
+	e-cal-table-list-base.h
+	e-cal-table-memos.h
+	e-cal-table-tasks.h
 	e-calendar-view.h
 	e-cell-date-edit-text.h
 	e-cell-estimated-duration.h
@@ -154,11 +146,9 @@ set(HEADERS
 	e-meeting-time-sel-item.h
 	e-meeting-types.h
 	e-meeting-utils.h
-	e-memo-table.h
 	e-month-view.h
 	e-select-names-editable.h
 	e-select-names-renderer.h
-	e-task-table.h
 	e-to-do-pane.h
 	e-week-view-event-item.h
 	e-week-view-layout.h
@@ -230,3 +220,45 @@ install(TARGETS evolution-calendar
 install(FILES ${HEADERS}
 	DESTINATION ${privincludedir}/calendar/gui
 )
+
+# ******************************
+# test-cal-model-tree-units
+# ******************************
+
+add_executable(test-cal-model-tree-units
+	test-cal-model-tree-units.c
+)
+
+add_dependencies(test-cal-model-tree-units
+	evolution-calendar
+	evolution-util
+)
+
+target_compile_definitions(test-cal-model-tree-units PRIVATE
+	-DG_LOG_DOMAIN=\"test-cal-model-tree-units\"
+)
+
+target_compile_options(test-cal-model-tree-units PUBLIC
+	${EVOLUTION_DATA_SERVER_CFLAGS}
+	${GNOME_PLATFORM_CFLAGS}
+)
+
+target_include_directories(test-cal-model-tree-units PUBLIC
+	${CMAKE_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/src
+	${CMAKE_SOURCE_DIR}/src
+	${CMAKE_CURRENT_BINARY_DIR}
+	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
+	${GNOME_PLATFORM_INCLUDE_DIRS}
+)
+
+target_link_libraries(test-cal-model-tree-units
+	evolution-calendar
+	evolution-util
+	${EVOLUTION_DATA_SERVER_LDFLAGS}
+	${GNOME_PLATFORM_LDFLAGS}
+)
+
+add_check_test(test-cal-model-tree-units)
+set_tests_properties(test-cal-model-tree-units PROPERTIES ENVIRONMENT "GSETTINGS_SCHEMA_DIR=${CMAKE_BINARY_DIR}/data:${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas")
+install_test_if_enabled(test-cal-model-tree-units "session-exclusive" "")

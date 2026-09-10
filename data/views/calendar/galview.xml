@@ -11,5 +11,5 @@
   <GalView id="Year_View" _title="_Year View" filename="Year_View.galview"
     type="year_view" accelerator="&lt;Control&gt;i"/>
   <GalView id="List_View" _title="_List View" filename="List_View.galview"
-    type="etable" accelerator="&lt;Control&gt;l"/>
+    type="vtree" accelerator="&lt;Control&gt;l"/>
 </GalViewCollection>

@@ -13,10 +13,8 @@
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-view.h"
 #include "calendar/gui/comp-util.h"
-#include "calendar/gui/e-cal-list-view.h"
-#include "calendar/gui/e-cal-model-calendar.h"
-#include "calendar/gui/e-cal-model-memos.h"
-#include "calendar/gui/e-cal-model-tasks.h"
+#include "calendar/gui/e-cal-model.h"
+#include "calendar/gui/e-cal-table-events.h"
 #include "calendar/gui/e-calendar-view.h"
 #include "calendar/gui/e-day-view.h"
 #include "calendar/gui/e-month-view.h"
@@ -62,6 +60,7 @@ struct _ECalShellContentPrivate {
 	gulong current_view_id_changed_id;
 
 	gboolean initialized;
+	gboolean search_active;
 };
 
 enum {
@@ -172,7 +171,8 @@ cal_shell_content_update_model_and_current_view_times (ECalShellContent *cal_she
 			time_to_gdate_with_zone (&new_view_end, cmp_range_end, NULL);
 
 			e_calendar_item_set_selection (calitem, &new_view_start, &new_view_end);
-			e_cal_shell_content_update_filters (cal_shell_content, cal_filter, visible_range_start, visible_range_end);
+			e_cal_shell_content_update_filters (cal_shell_content, cal_filter, visible_range_start, visible_range_end,
+				cal_shell_content->priv->search_active);
 			e_calendar_view_set_selected_time_range (current_view, cmp_range_start, cmp_range_start);
 			filters_updated = TRUE;
 			view_start_tt = cmp_range_start;
@@ -182,7 +182,8 @@ cal_shell_content_update_model_and_current_view_times (ECalShellContent *cal_she
 
 	if (!filters_updated) {
 		e_calendar_item_set_selection (calitem, view_start, view_end);
-		e_cal_shell_content_update_filters (cal_shell_content, cal_filter, view_start_tt, view_end_tt);
+		e_cal_shell_content_update_filters (cal_shell_content, cal_filter, view_start_tt, view_end_tt,
+			cal_shell_content->priv->search_active);
 		e_calendar_view_set_selected_time_range (current_view, view_start_tt, view_start_tt);
 	}
 
@@ -748,14 +749,14 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 
 	gal_view_type = G_OBJECT_TYPE (gal_view);
 
-	if (gal_view_type == GAL_TYPE_VIEW_ETABLE) {
+	if (gal_view_type == GAL_TYPE_VIEW_VIRTUAL_TREE) {
 		ECalendarView *calendar_view;
 
 		view_kind = E_CAL_VIEW_KIND_LIST;
 		calendar_view = cal_shell_content->priv->views[view_kind];
-		gal_view_etable_attach_table (
-			GAL_VIEW_ETABLE (gal_view),
-			e_cal_list_view_get_table (E_CAL_LIST_VIEW (calendar_view)));
+		gal_view_virtual_tree_attach (
+			GAL_VIEW_VIRTUAL_TREE (gal_view),
+			e_cal_table_events_get_virtual_tree (E_CAL_TABLE_EVENTS (calendar_view)));
 
 	} else if (gal_view_type == GAL_TYPE_VIEW_CALENDAR_DAY) {
 		view_kind = E_CAL_VIEW_KIND_DAY;
@@ -834,22 +835,14 @@ cal_shell_content_is_editing_changed_cb (gpointer cal_view_tasks_memos_table,
 
 static gchar *
 cal_shell_content_get_pad_state_filename (EShellContent *shell_content,
-                                          ETable *table)
+                                          const gchar *nick)
 {
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
-	const gchar *config_dir, *nick = NULL;
+	const gchar *config_dir;
 
 	g_return_val_if_fail (shell_content != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
-	g_return_val_if_fail (table != NULL, NULL);
-	g_return_val_if_fail (E_IS_TABLE (table), NULL);
-
-	if (E_IS_TASK_TABLE (table))
-		nick = "TaskPad";
-	else if (E_IS_MEMO_TABLE (table))
-		nick = "MemoPad";
-
 	g_return_val_if_fail (nick != NULL, NULL);
 
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -860,29 +853,40 @@ cal_shell_content_get_pad_state_filename (EShellContent *shell_content,
 }
 
 static void
-cal_shell_content_save_table_state (EShellContent *shell_content,
-                                    ETable *table)
+cal_shell_content_save_vtree_state (EShellContent *shell_content,
+                                    EVirtualTree *vtree,
+                                    const gchar *nick)
 {
+	GKeyFile *key_file;
 	gchar *filename;
 
-	filename = cal_shell_content_get_pad_state_filename (
-		shell_content, table);
+	filename = cal_shell_content_get_pad_state_filename (shell_content, nick);
 	g_return_if_fail (filename != NULL);
 
-	e_table_save_state (table, filename);
+	key_file = g_key_file_new ();
+	e_virtual_tree_save_column_state_to_key_file (vtree, key_file);
+	g_key_file_save_to_file (key_file, filename, NULL);
+
+	g_key_file_free (key_file);
 	g_free (filename);
 }
 
 static void
-cal_shell_content_load_table_state (EShellContent *shell_content,
-                                    ETable *table)
+cal_shell_content_load_vtree_state (EShellContent *shell_content,
+                                    EVirtualTree *vtree,
+                                    const gchar *nick)
 {
+	GKeyFile *key_file;
 	gchar *filename;
 
-	filename = cal_shell_content_get_pad_state_filename (shell_content, table);
+	filename = cal_shell_content_get_pad_state_filename (shell_content, nick);
 	g_return_if_fail (filename != NULL);
 
-	e_table_load_state (table, filename);
+	key_file = g_key_file_new ();
+	if (g_key_file_load_from_file (key_file, filename, G_KEY_FILE_NONE, NULL))
+		e_virtual_tree_load_column_state_from_key_file (vtree, key_file);
+
+	g_key_file_free (key_file);
 	g_free (filename);
 }
 
@@ -1160,36 +1164,6 @@ cal_shell_content_focus_search_results (EShellContent *shell_content)
 	calendar_view = e_cal_shell_content_get_current_calendar_view (E_CAL_SHELL_CONTENT (shell_content));
 
 	gtk_widget_grab_focus (GTK_WIDGET (calendar_view));
-}
-
-static time_t
-cal_shell_content_get_default_time (ECalModel *model,
-				    gpointer user_data)
-{
-	ECalShellContent *cal_shell_content = user_data;
-	ICalTimezone *zone;
-	ICalTime *itt;
-	time_t tt;
-
-	g_return_val_if_fail (model != NULL, 0);
-	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), 0);
-
-	if (e_cal_shell_content_get_current_view_id (cal_shell_content) != E_CAL_VIEW_KIND_LIST) {
-		ECalendarView *cal_view;
-		time_t selected_start = (time_t) 0, selected_end = (time_t) 0;
-
-		cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
-
-		if (cal_view && e_calendar_view_get_selected_time_range (cal_view, &selected_start, &selected_end))
-			return selected_start;
-	}
-
-	zone = e_cal_model_get_timezone (model);
-	itt = i_cal_time_new_current_with_zone (zone);
-	tt = i_cal_time_as_timet_with_zone (itt, zone);
-	g_clear_object (&itt);
-
-	return tt;
 }
 
 static void
@@ -1529,9 +1503,9 @@ cal_shell_content_update_tasks_table_cb (gpointer user_data)
 	ECalShellContent *self = user_data;
 
 	if (self->priv->task_table)
-		e_task_table_process_completed_tasks (E_TASK_TABLE (self->priv->task_table), FALSE);
+		e_cal_table_tasks_process_completed_tasks (E_CAL_TABLE_TASKS (self->priv->task_table), FALSE);
 	if (self->priv->task_model)
-		e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (self->priv->task_model));
+		e_cal_model_update_due_tasks (self->priv->task_model);
 
 	return G_SOURCE_CONTINUE;
 }
@@ -1714,7 +1688,7 @@ e_cal_shell_content_create_calendar_views (ECalShellContent *cal_shell_content)
 	g_object_ref_sink (calendar_view);
 
 	/* List View */
-	calendar_view = e_cal_list_view_new (cal_shell_content->priv->list_view_model);
+	calendar_view = e_cal_table_events_new (cal_shell_content->priv->list_view_model);
 	cal_shell_content->priv->views[E_CAL_VIEW_KIND_LIST] = calendar_view;
 	g_object_ref_sink (calendar_view);
 
@@ -1893,17 +1867,17 @@ cal_shell_content_constructed (GObject *object)
 	cal_shell_content->priv->memo_data_model =
 		e_cal_base_shell_content_create_new_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	cal_shell_content->priv->memo_model =
-		e_cal_model_memos_new (cal_shell_content->priv->memo_data_model, e_shell_get_registry (shell), shell);
+		e_cal_model_new_memos (cal_shell_content->priv->memo_data_model, e_shell_get_registry (shell), shell);
 
 	cal_shell_content->priv->task_data_model =
 		e_cal_base_shell_content_create_new_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	cal_shell_content->priv->task_model =
-		e_cal_model_tasks_new (cal_shell_content->priv->task_data_model, e_shell_get_registry (shell), shell);
+		e_cal_model_new_tasks (cal_shell_content->priv->task_data_model, e_shell_get_registry (shell), shell);
 
 	cal_shell_content->priv->list_view_data_model =
 		e_cal_base_shell_content_create_new_data_model (E_CAL_BASE_SHELL_CONTENT (cal_shell_content));
 	cal_shell_content->priv->list_view_model =
-		e_cal_model_calendar_new (cal_shell_content->priv->list_view_data_model, e_shell_get_registry (shell), shell);
+		e_cal_model_new_events (cal_shell_content->priv->list_view_data_model, e_shell_get_registry (shell), shell);
 
 	e_binding_bind_property (
 		cal_shell_content->priv->memo_model, "timezone",
@@ -1966,30 +1940,17 @@ cal_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	widget = e_cal_table_tasks_new (shell_view, cal_shell_content->priv->task_model);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = e_task_table_new (shell_view, cal_shell_content->priv->task_model);
-	gtk_container_add (GTK_CONTAINER (container), widget);
 	cal_shell_content->priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	cal_shell_content_load_table_state (shell_content, E_TABLE (widget));
+	cal_shell_content_load_vtree_state (shell_content, e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (widget)), "TaskPad");
 
 	g_signal_connect_swapped (
 		widget, "open-component",
 		G_CALLBACK (e_cal_shell_view_taskpad_open_task),
 		shell_view);
-
-	e_signal_connect_notify (
-		widget, "notify::is-editing",
-		G_CALLBACK (cal_shell_content_is_editing_changed_cb), shell_view);
 
 	container = cal_shell_content->priv->vpaned;
 
@@ -2006,32 +1967,17 @@ cal_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	widget = e_cal_table_memos_new (shell_view, cal_shell_content->priv->memo_model);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = e_memo_table_new (shell_view, cal_shell_content->priv->memo_model);
-	gtk_container_add (GTK_CONTAINER (container), widget);
 	cal_shell_content->priv->memo_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	cal_shell_content_load_table_state (shell_content, E_TABLE (widget));
-
-	e_cal_model_set_default_time_func (cal_shell_content->priv->memo_model, cal_shell_content_get_default_time, cal_shell_content);
+	cal_shell_content_load_vtree_state (shell_content, e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (widget)), "MemoPad");
 
 	g_signal_connect_swapped (
 		widget, "open-component",
 		G_CALLBACK (e_cal_shell_view_memopad_open_memo),
 		shell_view);
-
-	e_signal_connect_notify (
-		widget, "notify::is-editing",
-		G_CALLBACK (cal_shell_content_is_editing_changed_cb), shell_view);
 
 	/* Prepare the view instance. */
 
@@ -2090,7 +2036,7 @@ e_cal_shell_content_class_init (ECalShellContentClass *class)
 	shell_content_class->focus_search_results = cal_shell_content_focus_search_results;
 
 	cal_base_shell_content_class = E_CAL_BASE_SHELL_CONTENT_CLASS (class);
-	cal_base_shell_content_class->new_cal_model = e_cal_model_calendar_new;
+	cal_base_shell_content_class->new_cal_model = e_cal_model_new_events;
 	cal_base_shell_content_class->view_created = cal_shell_content_view_created;
 
 	properties[PROP_CALENDAR_NOTEBOOK] =
@@ -2102,13 +2048,13 @@ e_cal_shell_content_class_init (ECalShellContentClass *class)
 	properties[PROP_MEMO_TABLE] =
 		g_param_spec_object (
 			"memo-table", NULL, NULL,
-			E_TYPE_MEMO_TABLE,
+			E_TYPE_CAL_TABLE_MEMOS,
 			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_TASK_TABLE] =
 		g_param_spec_object (
 			"task-table", NULL, NULL,
-			E_TYPE_TASK_TABLE,
+			E_TYPE_CAL_TABLE_TASKS,
 			G_PARAM_READABLE | G_PARAM_STATIC_STRINGS);
 
 	properties[PROP_CURRENT_VIEW_ID] =
@@ -2194,20 +2140,20 @@ e_cal_shell_content_get_calendar_notebook (ECalShellContent *cal_shell_content)
 	return GTK_NOTEBOOK (cal_shell_content->priv->calendar_notebook);
 }
 
-EMemoTable *
+ECalTableMemos *
 e_cal_shell_content_get_memo_table (ECalShellContent *cal_shell_content)
 {
 	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
-	return E_MEMO_TABLE (cal_shell_content->priv->memo_table);
+	return E_CAL_TABLE_MEMOS (cal_shell_content->priv->memo_table);
 }
 
-ETaskTable *
+ECalTableTasks *
 e_cal_shell_content_get_task_table (ECalShellContent *cal_shell_content)
 {
 	g_return_val_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
-	return E_TASK_TABLE (cal_shell_content->priv->task_table);
+	return E_CAL_TABLE_TASKS (cal_shell_content->priv->task_table);
 }
 
 EShellSearchbar *
@@ -2362,17 +2308,17 @@ e_cal_shell_content_set_current_view_id (ECalShellContent *cal_shell_content,
 			cal_shell_content_resubscribe (cal_view, model);
 
 			if (cal_shell_content->priv->task_table) {
-				ETaskTable *task_table;
+				ECalTableTasks *task_table;
 
-				task_table = E_TASK_TABLE (cal_shell_content->priv->task_table);
-				cal_shell_content_resubscribe (cal_view, e_task_table_get_model (task_table));
+				task_table = E_CAL_TABLE_TASKS (cal_shell_content->priv->task_table);
+				cal_shell_content_resubscribe (cal_view, e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table)));
 			}
 
 			if (cal_shell_content->priv->memo_table) {
-				EMemoTable *memo_table;
+				ECalTableMemos *memo_table;
 
-				memo_table = E_MEMO_TABLE (cal_shell_content->priv->memo_table);
-				cal_shell_content_resubscribe (cal_view, e_memo_table_get_model (memo_table));
+				memo_table = E_CAL_TABLE_MEMOS (cal_shell_content->priv->memo_table);
+				cal_shell_content_resubscribe (cal_view, e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (memo_table)));
 			}
 		}
 	}
@@ -2432,14 +2378,14 @@ e_cal_shell_content_save_state (ECalShellContent *cal_shell_content)
 	priv = cal_shell_content->priv;
 
 	if (priv->task_table != NULL)
-		cal_shell_content_save_table_state (
+		cal_shell_content_save_vtree_state (
 			E_SHELL_CONTENT (cal_shell_content),
-			E_TABLE (priv->task_table));
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->task_table)), "TaskPad");
 
 	if (priv->memo_table != NULL)
-		cal_shell_content_save_table_state (
+		cal_shell_content_save_vtree_state (
 			E_SHELL_CONTENT (cal_shell_content),
-			E_TABLE (priv->memo_table));
+			e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (priv->memo_table)), "MemoPad");
 }
 
 void
@@ -2629,7 +2575,7 @@ e_cal_shell_content_update_tasks_filter (ECalShellContent *cal_shell_content,
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
 	if (cal_shell_content->priv->task_table) {
-		ETaskTable *task_table;
+		ECalTableTasks *task_table;
 		ECalDataModel *data_model;
 		ECalModel *model;
 		gchar *hide_completed_tasks_sexp;
@@ -2637,8 +2583,8 @@ e_cal_shell_content_update_tasks_filter (ECalShellContent *cal_shell_content,
 
 		/* Set the query on the task pad. */
 
-		task_table = E_TASK_TABLE (cal_shell_content->priv->task_table);
-		model = e_task_table_get_model (task_table);
+		task_table = E_CAL_TABLE_TASKS (cal_shell_content->priv->task_table);
+		model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (task_table));
 		data_model = e_cal_model_get_data_model (model);
 
 		hide_completed_tasks_sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE);
@@ -2686,17 +2632,23 @@ void
 e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 				    const gchar *cal_filter,
 				    time_t start_range,
-				    time_t end_range)
+				    time_t end_range,
+				    gboolean have_search)
 {
 	ECalDataModel *data_model;
 	ECalModel *model;
+	gboolean is_list_view;
 
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
 	if (!cal_filter)
 		return;
 
-	if (e_cal_shell_content_get_current_view_id (cal_shell_content) == E_CAL_VIEW_KIND_LIST) {
+	cal_shell_content->priv->search_active = have_search;
+
+	is_list_view = e_cal_shell_content_get_current_view_id (cal_shell_content) == E_CAL_VIEW_KIND_LIST;
+
+	if (is_list_view) {
 		data_model = cal_shell_content->priv->list_view_data_model;
 		model = cal_shell_content->priv->list_view_model;
 		start_range = 0;
@@ -2707,15 +2659,26 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 	}
 
 	cal_shell_content_update_model_filter (data_model, model, cal_filter, start_range, end_range);
+
+	if (is_list_view && cal_shell_content->priv->views[E_CAL_VIEW_KIND_LIST]) {
+		e_cal_table_events_set_search_active (
+			E_CAL_TABLE_EVENTS (cal_shell_content->priv->views[E_CAL_VIEW_KIND_LIST]), have_search);
+	}
+
 	e_cal_shell_content_update_tasks_filter (cal_shell_content, cal_filter);
 
+	if (cal_shell_content->priv->task_table) {
+		e_cal_table_list_base_set_search_active (
+			E_CAL_TABLE_LIST_BASE (cal_shell_content->priv->task_table), have_search);
+	}
+
 	if (cal_shell_content->priv->memo_table) {
-		EMemoTable *memo_table;
+		ECalTableMemos *memo_table;
 
 		/* Set the query on the memo pad. */
 
-		memo_table = E_MEMO_TABLE (cal_shell_content->priv->memo_table);
-		model = e_memo_table_get_model (memo_table);
+		memo_table = E_CAL_TABLE_MEMOS (cal_shell_content->priv->memo_table);
+		model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (memo_table));
 		data_model = e_cal_model_get_data_model (model);
 
 		if (start_range != 0 && end_range != 0) {
@@ -2753,6 +2716,8 @@ e_cal_shell_content_update_filters (ECalShellContent *cal_shell_content,
 		} else {
 			cal_shell_content_update_model_filter (data_model, model, *cal_filter ? cal_filter : "#t", 0, 0);
 		}
+
+		e_cal_table_list_base_set_search_active (E_CAL_TABLE_LIST_BASE (memo_table), have_search);
 	}
 }
 

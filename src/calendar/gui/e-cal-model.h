@@ -56,8 +56,6 @@
 G_BEGIN_DECLS
 
 typedef enum {
-	/* If you add new items here or reorder them, you have to update the
-	 * .etspec files for the tables using this model */
 	E_CAL_MODEL_FIELD_CATEGORIES,
 	E_CAL_MODEL_FIELD_CLASSIFICATION,
 	E_CAL_MODEL_FIELD_COLOR,            /* not a real field */
@@ -72,6 +70,20 @@ typedef enum {
 	E_CAL_MODEL_FIELD_LASTMODIFIED,
 	E_CAL_MODEL_FIELD_SOURCE,           /* not a real field */
 	E_CAL_MODEL_FIELD_CANCELLED,        /* not a real field */
+	E_CAL_MODEL_FIELD_DTEND,
+	E_CAL_MODEL_FIELD_LOCATION,
+	E_CAL_MODEL_FIELD_TRANSPARENCY,
+	E_CAL_MODEL_FIELD_STATUS,
+	E_CAL_MODEL_FIELD_COMPLETED,
+	E_CAL_MODEL_FIELD_COMPLETE,
+	E_CAL_MODEL_FIELD_DUE,
+	E_CAL_MODEL_FIELD_GEO,
+	E_CAL_MODEL_FIELD_OVERDUE,
+	E_CAL_MODEL_FIELD_PERCENT,
+	E_CAL_MODEL_FIELD_PRIORITY,
+	E_CAL_MODEL_FIELD_URL,
+	E_CAL_MODEL_FIELD_STRIKEOUT,        /* virtual, readonly */
+	E_CAL_MODEL_FIELD_ESTIMATED_DURATION,
 	E_CAL_MODEL_FIELD_LAST
 } ECalModelField;
 
@@ -92,7 +104,6 @@ struct _ECalModelComponent {
 	time_t instance_end;
 	gboolean is_new_component;
 
-	/* Private data used by ECalModelCalendar and ECalModelTasks */
 	/* keep these public to avoid many accessor functions */
 	ECellDateEditValue *dtstart;
 	ECellDateEditValue *dtend;
@@ -102,8 +113,20 @@ struct _ECalModelComponent {
 	ECellDateEditValue *lastmodified;
 	gchar *color;
 
+	/* ESource::uid of client, cached once at insert time */
+	gchar *source_uid;
+
+	/* RELATED-TO tree position, incrementally maintained */
+	ECalModelComponent *resolved_parent;
+	GPtrArray *resolved_children; /* ECalModelComponent *, borrowed */
+
 	ECalModelComponentPrivate *priv;
 };
+
+typedef struct _ECalModelSortColumn {
+	ECalModelField field;
+	GtkSortType order;
+} ECalModelSortColumn;
 
 struct _ECalModelComponentClass {
 	GObjectClass parent_class;
@@ -122,20 +145,6 @@ struct _ECalModel {
 struct _ECalModelClass {
 	GObjectClass parent_class;
 
-	/* virtual methods */
-	const gchar *	(*get_color_for_component)
-						(ECalModel *model,
-						 ECalModelComponent *comp_data);
-	void		(*store_values_from_model)
-						(ECalModel *model,
-						 ETableModel *source_model,
-						 gint row,
-						 GHashTable *values); /* column ID ~> value */
-	void		(*fill_component_from_values)
-						(ECalModel *model,
-						 ECalModelComponent *comp_data,
-						 GHashTable *values); /* column ID ~> value, populated by store_values_from_model() */
-
 	/* Signals */
 	void		(*time_range_changed)	(ECalModel *model,
 						 gint64 start, /* time_t */
@@ -150,8 +159,6 @@ struct _ECalModelClass {
 						 ECalClient *where);
 };
 
-typedef time_t (*ECalModelDefaultTimeFunc) (ECalModel *model, gpointer user_data);
-
 GType		e_cal_model_get_type		(void);
 GType		e_cal_model_component_get_type	(void);
 ECalDataModel *	e_cal_model_get_data_model	(ECalModel *model);
@@ -161,8 +168,19 @@ EShell *	e_cal_model_get_shell		(ECalModel *model);
 EClientCache *	e_cal_model_get_client_cache	(ECalModel *model);
 ICalComponentKind
 		e_cal_model_get_component_kind	(ECalModel *model);
-void		e_cal_model_set_component_kind	(ECalModel *model,
+ECalModel *	e_cal_model_new			(ECalDataModel *data_model,
+						 ESourceRegistry *registry,
+						 EShell *shell,
 						 ICalComponentKind kind);
+ECalModel *	e_cal_model_new_events		(ECalDataModel *data_model,
+						 ESourceRegistry *registry,
+						 EShell *shell);
+ECalModel *	e_cal_model_new_memos		(ECalDataModel *data_model,
+						 ESourceRegistry *registry,
+						 EShell *shell);
+ECalModel *	e_cal_model_new_tasks		(ECalDataModel *data_model,
+						 ESourceRegistry *registry,
+						 EShell *shell);
 gboolean	e_cal_model_get_confirm_delete	(ECalModel *model);
 void		e_cal_model_set_confirm_delete	(ECalModel *model,
 						 gboolean confirm_delete);
@@ -174,9 +192,6 @@ gboolean	e_cal_model_get_compress_weekend
 void		e_cal_model_set_compress_weekend
 						(ECalModel *model,
 						 gboolean compress_weekend);
-void		e_cal_model_set_default_category
-						(ECalModel *model,
-						 const gchar *default_cat);
 gint		e_cal_model_get_default_reminder_interval
 						(ECalModel *model);
 void		e_cal_model_set_default_reminder_interval
@@ -310,6 +325,13 @@ void		e_cal_model_set_default_source_uid
 						(ECalModel *model,
 						 const gchar *source_uid);
 void		e_cal_model_remove_all_objects	(ECalModel *model);
+void		e_cal_model_remove_component	(ECalModel *model,
+						 ECalClient *client,
+						 const gchar *uid,
+						 const gchar *rid);
+void		e_cal_model_add_component	(ECalModel *model,
+						 ECalClient *client,
+						 ICalComponent *icalcomp);
 void		e_cal_model_get_time_range	(ECalModel *model,
 						 time_t *start,
 						 time_t *end);
@@ -359,13 +381,6 @@ void		e_cal_model_generate_instances_sync
 GPtrArray *	e_cal_model_get_object_array	(ECalModel *model);
 void		e_cal_model_set_instance_times	(ECalModelComponent *comp_data,
 						 const ICalTimezone *zone);
-gboolean	e_cal_model_test_row_editable	(ECalModel *model,
-						 gint row);
-void		e_cal_model_set_default_time_func
-						(ECalModel *model,
-						 ECalModelDefaultTimeFunc func,
-						 gpointer user_data);
-
 #if ICAL_CHECK_VERSION(3, 99, 99)
 typedef ICalProperty * (* ECalModelTimeNewFuncType) (const ICalTime *v);
 typedef ICalTime * (* ECalModelTimeGetFuncType) (const ICalProperty *prop);
@@ -390,12 +405,6 @@ void		e_cal_model_modify_component	(ECalModel *model,
 						 ECalModelComponent *comp_data,
 						 ECalObjModType mod);
 
-void		e_cal_model_util_set_value	(GHashTable *values,
-						 ETableModel *table_model,
-						 gint column,
-						 gint row);
-gpointer	e_cal_model_util_get_value	(GHashTable *values,
-						 gint column);
 gpointer	e_cal_model_util_get_status	(ECalModelComponent *comp_data);
 ICalPropertyStatus
 		e_cal_model_util_set_status	(ECalModelComponent *comp_data,
@@ -413,6 +422,76 @@ ECellDateEditValue *
 void		e_cal_model_until_sanitize_text_value
 						(gchar *value,
 						 gint value_length);
+
+guint		e_cal_model_get_visible_row_count
+						(ECalModel *model);
+ECalModelComponent *
+		e_cal_model_get_visible_row	(ECalModel *model,
+						 guint visible_row_index,
+						 guint *out_depth,
+						 gboolean *out_expandable);
+gboolean	e_cal_model_get_row_expanded	(ECalModel *model,
+						 ECalModelComponent *comp_data);
+void		e_cal_model_set_row_expanded	(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 gboolean expanded);
+guint		e_cal_model_find_visible_row_for_component
+						(ECalModel *model,
+						 ECalClient *client,
+						 const gchar *uid,
+						 const gchar *rid);
+void		e_cal_model_set_sort_columns	(ECalModel *model,
+						 const ECalModelSortColumn *columns,
+						 guint n_columns);
+gpointer	e_cal_model_get_field_value	(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 gint col);
+void		e_cal_model_set_field_value	(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 gint col,
+						 gconstpointer value,
+						 gboolean save);
+gboolean	e_cal_model_is_field_editable	(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 gint col);
+
+gboolean	e_cal_model_get_reparent_by_dnd
+						(ECalModel *model);
+void		e_cal_model_set_reparent_by_dnd
+						(ECalModel *model,
+						 gboolean reparent_by_dnd);
+gboolean	e_cal_model_can_reparent_component
+						(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 ECalModelComponent *new_parent);
+void		e_cal_model_reparent_component	(ECalModel *model,
+						 ECalModelComponent *comp_data,
+						 ECalModelComponent *new_parent);
+
+gboolean	e_cal_model_get_highlight_due_today
+						(ECalModel *model);
+void		e_cal_model_set_highlight_due_today
+						(ECalModel *model,
+						 gboolean highlight);
+const gchar *	e_cal_model_get_color_due_today
+						(ECalModel *model);
+void		e_cal_model_set_color_due_today
+						(ECalModel *model,
+						 const gchar *color_due_today);
+gboolean	e_cal_model_get_highlight_overdue
+						(ECalModel *model);
+void		e_cal_model_set_highlight_overdue
+						(ECalModel *model,
+						 gboolean highlight);
+const gchar *	e_cal_model_get_color_overdue	(ECalModel *model);
+void		e_cal_model_set_color_overdue	(ECalModel *model,
+						 const gchar *color_overdue);
+void		e_cal_model_mark_comp_complete	(ECalModel *model,
+						 ECalModelComponent *comp_data);
+void		e_cal_model_mark_comp_incomplete
+						(ECalModel *model,
+						 ECalModelComponent *comp_data);
+void		e_cal_model_update_due_tasks	(ECalModel *model);
 
 G_END_DECLS
 

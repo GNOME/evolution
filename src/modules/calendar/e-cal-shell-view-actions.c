@@ -189,14 +189,13 @@ cal_shell_view_actions_print_or_preview (ECalShellView *cal_shell_view,
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	cal_view = e_cal_shell_content_get_current_calendar_view (cal_shell_content);
 
-	if (E_IS_CAL_LIST_VIEW (cal_view)) {
-		ETable *table;
-
-		table = e_cal_list_view_get_table (E_CAL_LIST_VIEW (cal_view));
-		print_table (table, _("Print"), _("Calendar"), print_action);
+	if (E_IS_CAL_TABLE_EVENTS (cal_view)) {
+		print_printable (
+			e_cal_table_events_get_printable (E_CAL_TABLE_EVENTS (cal_view)),
+			_("Print"), _("Calendar"), print_action);
 	} else {
 		EPrintView print_view_type;
-		ETable *tasks_table;
+		ECalModel *tasks_model;
 		time_t start = 0, end = 0;
 
 		switch (e_cal_shell_content_get_current_view_id (cal_shell_content)) {
@@ -221,11 +220,11 @@ cal_shell_view_actions_print_or_preview (ECalShellView *cal_shell_view,
 				return;
 		}
 
-		tasks_table = E_TABLE (e_cal_shell_content_get_task_table (cal_shell_content));
+		tasks_model = e_cal_table_list_base_get_model (E_CAL_TABLE_LIST_BASE (e_cal_shell_content_get_task_table (cal_shell_content)));
 
 		g_warn_if_fail (e_calendar_view_get_selected_time_range (cal_view, &start, &end));
 
-		print_calendar (cal_view, tasks_table, print_view_type, print_action, start);
+		print_calendar (cal_view, tasks_model, print_view_type, print_action, start);
 	}
 }
 

@@ -20,8 +20,7 @@
 #include "ea-cal-view.h"
 #include "ea-calendar.h"
 #include "e-cal-dialogs.h"
-#include "e-cal-list-view.h"
-#include "e-cal-model-calendar.h"
+#include "e-cal-model.h"
 #include "e-cal-ops.h"
 #include "e-calendar-view.h"
 #include "e-day-view.h"
@@ -1094,7 +1093,7 @@ calendar_view_get_description_text (ECalendarView *cal_view)
 	end_tm = e_cal_util_icaltime_to_tm (tt);
 	g_clear_object (&tt);
 
-	if (E_IS_MONTH_VIEW (cal_view) || E_IS_CAL_LIST_VIEW (cal_view)) {
+	if (E_IS_MONTH_VIEW (cal_view)) {
 		if (start_tm.tm_year == end_tm.tm_year) {
 			if (start_tm.tm_mon == end_tm.tm_mon) {
 				e_utf8_strftime (start_buffer, sizeof (start_buffer), "%d", &start_tm);

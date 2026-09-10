@@ -11,7 +11,7 @@
 #include <shell/e-shell-searchbar.h>
 #include <shell/e-shell-view.h>
 
-#include <calendar/gui/e-memo-table.h>
+#include <calendar/gui/e-cal-table-memos.h>
 
 #include "e-cal-base-shell-content.h"
 
@@ -53,7 +53,8 @@ GType		e_memo_shell_content_get_type		(void);
 void		e_memo_shell_content_type_register	(GTypeModule *type_module);
 GtkWidget *	e_memo_shell_content_new		(EShellView *shell_view);
 
-EMemoTable *	e_memo_shell_content_get_memo_table	(EMemoShellContent *memo_shell_content);
+ECalTableMemos *
+		e_memo_shell_content_get_memo_table	(EMemoShellContent *memo_shell_content);
 EPreviewPane *	e_memo_shell_content_get_preview_pane	(EMemoShellContent *memo_shell_content);
 gboolean	e_memo_shell_content_get_preview_visible(EMemoShellContent *memo_shell_content);
 void		e_memo_shell_content_set_preview_visible(EMemoShellContent *memo_shell_content,
