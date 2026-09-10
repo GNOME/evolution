@@ -47,10 +47,8 @@ src/addressbook/gui/widgets/eab-contact-display.c
 src/addressbook/gui/widgets/eab-contact-formatter.c
 src/addressbook/gui/widgets/eab-contact-merging.c
 src/addressbook/gui/widgets/eab-gui-util.c
-src/addressbook/gui/widgets/e-addressbook-model.c
-src/addressbook/gui/widgets/e-addressbook-table-adapter.c
+src/addressbook/gui/widgets/e-addressbook-table.c
 src/addressbook/gui/widgets/e-addressbook-view.c
-src/addressbook/gui/widgets/e-addressbook-view.etspec
 src/addressbook/gui/widgets/e-bulk-edit-contacts.c
 src/addressbook/gui/widgets/e-card-view.c
 src/addressbook/importers/evolution-csv-importer.c

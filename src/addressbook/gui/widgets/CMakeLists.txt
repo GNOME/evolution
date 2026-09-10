@@ -4,10 +4,6 @@ install(FILES	addresstypes.xml
 	DESTINATION ${privdatadir}
 )
 
-install(FILES e-addressbook-view.etspec
-	DESTINATION ${etspecdir}
-)
-
 set(DEPENDENCIES
 	eabutil
 	econtactprint
@@ -37,10 +33,8 @@ set(SOURCES
 	e-contact-card-box.h
 	e-contact-card.c
 	e-contact-card.h
-	e-addressbook-table-adapter.c
-	e-addressbook-table-adapter.h
-	e-addressbook-model.c
-	e-addressbook-model.h
+	e-addressbook-table.c
+	e-addressbook-table.h
 	e-addressbook-selector.c
 	e-addressbook-selector.h
 	e-addressbook-view.c
@@ -68,7 +62,6 @@ add_dependencies(eabwidgets
 
 target_compile_definitions(eabwidgets PRIVATE
 	-DG_LOG_DOMAIN=\"eabwidgets\"
-	-DEVOLUTION_ETSPECDIR=\"${etspecdir}\"
 	-DEVOLUTION_IMAGESDIR=\"${imagesdir}\"
 )
 
@@ -107,3 +100,45 @@ install(TARGETS eabwidgets
 install(FILES ${HEADERS}
 	DESTINATION ${privincludedir}/addressbook/gui/widgets
 )
+
+# ******************************
+# test-addressbook-table-units
+# ******************************
+
+add_executable(test-addressbook-table-units
+	test-addressbook-table-units.c
+)
+
+add_dependencies(test-addressbook-table-units
+	eabwidgets
+	evolution-util
+)
+
+target_compile_definitions(test-addressbook-table-units PRIVATE
+	-DG_LOG_DOMAIN=\"test-addressbook-table-units\"
+)
+
+target_compile_options(test-addressbook-table-units PUBLIC
+	${EVOLUTION_DATA_SERVER_CFLAGS}
+	${GNOME_PLATFORM_CFLAGS}
+)
+
+target_include_directories(test-addressbook-table-units PUBLIC
+	${CMAKE_BINARY_DIR}
+	${CMAKE_BINARY_DIR}/src
+	${CMAKE_SOURCE_DIR}/src
+	${CMAKE_CURRENT_BINARY_DIR}
+	${EVOLUTION_DATA_SERVER_INCLUDE_DIRS}
+	${GNOME_PLATFORM_INCLUDE_DIRS}
+)
+
+target_link_libraries(test-addressbook-table-units
+	eabwidgets
+	evolution-util
+	${EVOLUTION_DATA_SERVER_LDFLAGS}
+	${GNOME_PLATFORM_LDFLAGS}
+)
+
+add_check_test(test-addressbook-table-units)
+set_tests_properties(test-addressbook-table-units PROPERTIES ENVIRONMENT "GSETTINGS_SCHEMA_DIR=${CMAKE_BINARY_DIR}/data:${CMAKE_INSTALL_PREFIX}/share/glib-2.0/schemas")
+install_test_if_enabled(test-addressbook-table-units "session-exclusive" "")

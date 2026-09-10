@@ -11,7 +11,6 @@
 
 #include <shell/e-shell-view.h>
 
-#include "e-addressbook-model.h"
 #include "eab-contact-display.h"
 
 /* Standard GObject macros */
@@ -119,6 +118,9 @@ void		e_addressbook_view_set_search	(EAddressbookView *view,
 						 EFilterRule *advanced_search);
 const gchar *	e_addressbook_view_get_search_query
 						(EAddressbookView *view);
+void		e_addressbook_view_set_search_active
+						(EAddressbookView *view,
+						 gboolean search_active);
 void		e_addressbook_view_get_search	(EAddressbookView *view,
 						 gint *filter_id,
 						 gint *search_id,

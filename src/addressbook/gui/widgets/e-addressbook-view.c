@@ -8,8 +8,8 @@
 #include "evolution-config.h"
 
 #include <ctype.h>
-#include <string.h>
 
+#include <camel/camel.h>
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -24,10 +24,9 @@
 #include "e-card-view.h"
 #include "gal-view-minicard.h"
 
-#include "e-addressbook-model.h"
+#include "e-addressbook-table.h"
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
-#include "e-addressbook-table-adapter.h"
 #include "eab-contact-merging.h"
 
 #define d(x)
@@ -35,16 +34,11 @@
 static void	e_addressbook_view_delete_selection
 						(EAddressbookView *view,
 						 gboolean is_delete);
-static void	search_result			(EAddressbookView *view,
-						 const GError *error);
-static void	stop_state_changed		(GObject *object,
-						 EAddressbookView *view);
 static void	command_state_change		(EAddressbookView *view);
 
 struct _EAddressbookViewPrivate {
 	gpointer shell_view;  /* weak pointer */
 
-	EAddressbookModel *model;
 	EActivity *activity;
 
 	ESource *source;
@@ -58,14 +52,10 @@ struct _EAddressbookViewPrivate {
 	gchar *search_text;
 	gint search_id;
 	EFilterRule *advanced_search;
+	gboolean have_search;
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
-
-	GSList *previous_selection; /* EContact * */
-	EContact *cursor_contact;
-	gint cursor_col;
-	gboolean awaiting_search_start;
 };
 
 enum {
@@ -88,16 +78,6 @@ enum {
 	LAST_SIGNAL
 };
 
-enum {
-	DND_TARGET_TYPE_SOURCE_VCARD,
-	DND_TARGET_TYPE_VCARD
-};
-
-static GtkTargetEntry drag_types[] = {
-	{ (gchar *) "text/x-source-vcard", 0, DND_TARGET_TYPE_SOURCE_VCARD },
-	{ (gchar *) "text/x-vcard", 0, DND_TARGET_TYPE_VCARD }
-};
-
 static guint signals[LAST_SIGNAL];
 
 /* Forward Declarations */
@@ -107,31 +87,6 @@ static void	e_addressbook_view_selectable_init
 G_DEFINE_TYPE_WITH_CODE (EAddressbookView, e_addressbook_view, GTK_TYPE_SCROLLED_WINDOW,
 	G_ADD_PRIVATE (EAddressbookView)
 	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, e_addressbook_view_selectable_init))
-
-static ESelectionModel *
-e_addressbook_view_get_selection_model (EAddressbookView *view)
-{
-	GalView *gal_view;
-	GalViewInstance *view_instance;
-	ESelectionModel *model = NULL;
-
-	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
-
-	view_instance = e_addressbook_view_get_view_instance (view);
-	gal_view = gal_view_instance_get_current_view (view_instance);
-
-	if (GAL_IS_VIEW_ETABLE (gal_view)) {
-		GtkWidget *child;
-
-		child = gtk_bin_get_child (GTK_BIN (view));
-		model = e_table_get_selection_model (E_TABLE (child));
-
-	} else if (GAL_IS_VIEW_MINICARD (gal_view)) {
-		g_warn_if_reached ();
-	}
-
-	return model;
-}
 
 static void
 addressbook_view_emit_open_contact (EAddressbookView *view,
@@ -176,14 +131,6 @@ addressbook_view_emit_popup_event (EAddressbookView *view,
 static void
 addressbook_view_emit_selection_change (EAddressbookView *view)
 {
-	if (!view->priv->awaiting_search_start &&
-	    e_addressbook_view_get_n_selected (view) > 0) {
-		g_slist_free_full (view->priv->previous_selection, g_object_unref);
-		view->priv->previous_selection = NULL;
-
-		g_clear_object (&view->priv->cursor_contact);
-	}
-
 	g_signal_emit (view, signals[SELECTION_CHANGE], 0);
 }
 
@@ -356,37 +303,6 @@ addressbook_view_update_folder_bar_message (EAddressbookView *view)
 	g_free (tmp);
 }
 
-static void
-table_double_click (ETable *table,
-                    gint row,
-                    gint col,
-                    GdkEvent *event,
-                    EAddressbookView *view)
-{
-	EAddressbookModel *model;
-	EContact *contact;
-
-	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER (view->priv->object))
-		return;
-
-	model = view->priv->model;
-	contact = e_addressbook_model_get_contact (model, row);
-	addressbook_view_emit_open_contact (view, contact, FALSE);
-	g_object_unref (contact);
-}
-
-static gint
-table_right_click (ETable *table,
-                   gint row,
-                   gint col,
-                   GdkEvent *event,
-                   EAddressbookView *view)
-{
-	addressbook_view_emit_popup_event (view, event);
-
-	return TRUE;
-}
-
 static gboolean
 addressbook_view_popup_menu_cb (GtkWidget *widget,
 				EAddressbookView *view)
@@ -396,152 +312,86 @@ addressbook_view_popup_menu_cb (GtkWidget *widget,
 	return TRUE;
 }
 
-static gint
-table_white_space_event (ETable *table,
-                         GdkEvent *event,
-                         EAddressbookView *view)
+static void
+vtree_row_activated_cb (EVirtualTree *vtree,
+			guint row,
+			GObject *row_object,
+			EAddressbookView *view)
 {
-	guint event_button = 0;
+	EContact *contact;
 
-	gdk_event_get_button (event, &event_button);
-
-	if (gdk_event_get_event_type (event) == GDK_BUTTON_PRESS && event_button == GDK_BUTTON_SECONDARY) {
-		addressbook_view_emit_popup_event (view, event);
-		return TRUE;
+	contact = e_addressbook_table_row_ref_contact (row_object);
+	if (contact) {
+		addressbook_view_emit_open_contact (view, contact, FALSE);
+		g_object_unref (contact);
 	}
+}
 
-	return FALSE;
+static gboolean
+vtree_right_click_cb (EVirtualTree *vtree,
+		      guint row,
+		      GObject *row_object,
+		      GdkEvent *event,
+		      EAddressbookView *view)
+{
+	addressbook_view_emit_popup_event (view, event);
+
+	return TRUE;
 }
 
 static void
-table_drag_data_get (ETable *table,
-                     gint row,
-                     gint col,
-                     GdkDragContext *context,
-                     GtkSelectionData *selection_data,
-                     guint info,
-                     guint time,
-                     gpointer user_data)
+addressbook_table_status_message_cb (EAddressbookTable *table,
+				     const gchar *message,
+				     gint percentage,
+				     gpointer user_data)
 {
-	EAddressbookView *view = user_data;
-	EBookClient *book_client;
-	GPtrArray *contacts;
-	GdkAtom target;
-	gchar *value;
+	EAddressbookView *self = user_data;
 
-	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER (view->priv->object))
-		return;
-
-	contacts = e_addressbook_view_peek_selected_contacts (view);
-	g_return_if_fail (contacts != NULL);
-
-	book_client = e_addressbook_view_get_client (view);
-	target = gtk_selection_data_get_target (selection_data);
-
-	switch (info) {
-		case DND_TARGET_TYPE_VCARD:
-			value = eab_contact_array_to_string (contacts);
-
-			gtk_selection_data_set (
-				selection_data, target, 8,
-				(guchar *) value, strlen (value));
-
-			g_free (value);
-			break;
-
-		case DND_TARGET_TYPE_SOURCE_VCARD:
-			value = eab_book_and_contact_array_to_string (
-				book_client, contacts);
-
-			gtk_selection_data_set (
-				selection_data, target, 8,
-				(guchar *) value, strlen (value));
-
-			g_free (value);
-			break;
-	}
-
-	g_ptr_array_unref (contacts);
+	g_signal_emit (self, signals[STATUS_MESSAGE], 0, message, percentage);
 }
 
-static void
-addressbook_view_create_table_view (EAddressbookView *view,
-                                    GalViewEtable *gal_view)
+static EVirtualTree *
+addressbook_view_create_table_view (EAddressbookView *view)
 {
-	ETableModel *adapter;
-	ETableExtras *extras;
-	ETableSpecification *specification;
-	ECell *cell;
 	GtkWidget *widget;
-	gchar *etspecfile;
-	GError *local_error = NULL;
+	EVirtualTree *vtree;
 
-	adapter = e_addressbook_table_adapter_new (view->priv->model);
+	widget = e_addressbook_table_new ();
+	vtree = e_addressbook_table_get_virtual_tree (E_ADDRESSBOOK_TABLE (widget));
 
-	extras = e_table_extras_new ();
-
-	/* Set format component for 'date-int' cell renderer (Birthday, Anniversary). */
-	cell = e_table_extras_get_cell (extras, "date-int");
-	e_cell_date_set_format_component (E_CELL_DATE (cell), "addressbook");
-
-	etspecfile = g_build_filename (
-		EVOLUTION_ETSPECDIR, "e-addressbook-view.etspec", NULL);
-	specification = e_table_specification_new (etspecfile, &local_error);
-
-	/* Failure here is fatal. */
-	if (local_error != NULL) {
-		g_error ("%s: %s", etspecfile, local_error->message);
-		g_return_if_reached ();
-	}
-
-	/* Here we create the table.  We give it the three pieces of
-	 * the table we've created, the header, the model, and the
-	 * initial layout.  It does the rest.  */
-	widget = e_table_new (adapter, extras, specification);
-	g_object_set (G_OBJECT (widget), "uniform-row-height", TRUE, NULL);
 	gtk_container_add (GTK_CONTAINER (view), widget);
 
-	g_object_unref (specification);
-	g_object_unref (extras);
-	g_free (etspecfile);
-
-	view->priv->object = G_OBJECT (adapter);
+	view->priv->object = G_OBJECT (widget);
 
 	g_signal_connect (
-		widget, "double_click",
-		G_CALLBACK (table_double_click), view);
+		vtree, "row-activated",
+		G_CALLBACK (vtree_row_activated_cb), view);
 	g_signal_connect (
-		widget, "right_click",
-		G_CALLBACK (table_right_click), view);
+		vtree, "right-click",
+		G_CALLBACK (vtree_right_click_cb), view);
 	g_signal_connect (
 		widget, "popup-menu",
 		G_CALLBACK (addressbook_view_popup_menu_cb), view);
-	g_signal_connect (
-		widget, "white_space_event",
-		G_CALLBACK (table_white_space_event), view);
 	g_signal_connect_swapped (
-		widget, "selection_change",
+		vtree, "selection-changed",
 		G_CALLBACK (addressbook_view_emit_selection_change), view);
 	g_signal_connect_object (
-		adapter, "model-row-changed",
+		widget, "status-message",
+		G_CALLBACK (addressbook_table_status_message_cb), view, 0);
+	g_signal_connect_object (
+		widget, "count-changed",
 		G_CALLBACK (addressbook_view_emit_selection_change), view, G_CONNECT_SWAPPED);
-
-	e_table_drag_source_set (
-		E_TABLE (widget), GDK_BUTTON1_MASK,
-		drag_types, G_N_ELEMENTS (drag_types),
-		GDK_ACTION_MOVE | GDK_ACTION_COPY);
-
-	g_signal_connect (
-		E_TABLE (widget), "table_drag_data_get",
-		G_CALLBACK (table_drag_data_get), view);
+	g_signal_connect_object (
+		widget, "count-changed",
+		G_CALLBACK (addressbook_view_update_folder_bar_message), view, G_CONNECT_SWAPPED);
 
 	gtk_widget_show (widget);
 
-	gal_view_etable_attach_table (gal_view, E_TABLE (widget));
+	return vtree;
 }
 
 static void
-card_view_status_message_cb (EAddressbookModel *model,
+card_view_status_message_cb (ECardView *card_view,
 			     const gchar *message,
 			     gint percentage,
 			     gpointer user_data)
@@ -611,8 +461,8 @@ addressbook_view_set_query (EAddressbookView *view,
 {
 	if (E_IS_CARD_VIEW (view->priv->object))
 		e_card_view_set_query (E_CARD_VIEW (view->priv->object), query);
-	else
-		e_addressbook_model_set_query (view->priv->model, query);
+	else if (E_IS_ADDRESSBOOK_TABLE (view->priv->object))
+		e_addressbook_table_set_query (E_ADDRESSBOOK_TABLE (view->priv->object), query);
 }
 
 static void
@@ -635,12 +485,15 @@ addressbook_view_display_view_cb (GalViewInstance *view_instance,
 		gtk_container_remove (GTK_CONTAINER (view), child);
 	view->priv->object = NULL;
 
-	if (GAL_IS_VIEW_ETABLE (gal_view))
-		addressbook_view_create_table_view (
-			view, GAL_VIEW_ETABLE (gal_view));
-	else if (GAL_IS_VIEW_MINICARD (gal_view))
+	if (GAL_IS_VIEW_VIRTUAL_TREE (gal_view)) {
+		EVirtualTree *vtree;
+
+		vtree = addressbook_view_create_table_view (view);
+		gal_view_virtual_tree_attach (GAL_VIEW_VIRTUAL_TREE (gal_view), vtree);
+	} else if (GAL_IS_VIEW_MINICARD (gal_view)) {
 		addressbook_view_create_minicard_view (
 			view, GAL_VIEW_MINICARD (gal_view));
+	}
 
 	shell_view = e_addressbook_view_get_shell_view (view);
 	e_shell_view_set_view_instance (shell_view, view_instance);
@@ -648,110 +501,13 @@ addressbook_view_display_view_cb (GalViewInstance *view_instance,
 	if (book_client) {
 		e_addressbook_view_set_client (view, book_client);
 		addressbook_view_set_query (view, query);
+		e_addressbook_view_set_search_active (view, view->priv->have_search);
 	}
 
 	command_state_change (view);
 
 	g_clear_object (&book_client);
 	g_free (query);
-}
-
-static void
-add_to_list (gint model_row,
-             gpointer closure)
-{
-	GSList **list = closure;
-	*list = g_slist_prepend (*list, GINT_TO_POINTER (model_row));
-}
-
-static void
-addressbook_view_model_before_search_cb (EAddressbookModel *model,
-					 gpointer user_data)
-{
-	EAddressbookView *view = user_data;
-	ESelectionModel *selection_model;
-	GSList *link;
-	gint cursor_row;
-
-	selection_model = e_addressbook_view_get_selection_model (view);
-
-	g_slist_free_full (view->priv->previous_selection, g_object_unref);
-	view->priv->previous_selection = NULL;
-
-	e_selection_model_foreach (selection_model, add_to_list, &view->priv->previous_selection);
-	for (link = view->priv->previous_selection; link; link = g_slist_next (link)) {
-		link->data = e_addressbook_model_get_contact (model, GPOINTER_TO_INT (link->data));
-	}
-	view->priv->previous_selection = g_slist_reverse (view->priv->previous_selection);
-
-	g_clear_object (&view->priv->cursor_contact);
-
-	cursor_row = e_selection_model_cursor_row (selection_model);
-
-	if (cursor_row >= 0 && cursor_row < e_addressbook_model_contact_count (model))
-		view->priv->cursor_contact = g_object_ref (e_addressbook_model_contact_at (model, cursor_row));
-
-	view->priv->cursor_col = e_selection_model_cursor_col (selection_model);
-	view->priv->awaiting_search_start = TRUE;
-}
-
-static void
-addressbook_view_model_search_started_cb (EAddressbookModel *model,
-					  gpointer user_data)
-{
-	EAddressbookView *view = user_data;
-
-	view->priv->awaiting_search_start = FALSE;
-}
-
-static void
-addressbook_view_model_search_result_cb (EAddressbookModel *model,
-					 const GError *error,
-					 gpointer user_data)
-{
-	EAddressbookView *view = user_data;
-	ESelectionModel *selection_model;
-	EContact *cursor_contact;
-	GSList *previous_selection, *link;
-	gint row;
-
-	view->priv->awaiting_search_start = FALSE;
-
-	if (!view->priv->previous_selection && !view->priv->cursor_contact)
-		return;
-
-	/* This can change selection, which frees the 'previous_selection', thus take
-	   ownership of it. */
-	previous_selection = view->priv->previous_selection;
-	view->priv->previous_selection = NULL;
-
-	cursor_contact = view->priv->cursor_contact;
-	view->priv->cursor_contact = NULL;
-
-	selection_model = e_addressbook_view_get_selection_model (view);
-
-	if (cursor_contact) {
-		row = e_addressbook_model_find (model, cursor_contact);
-
-		if (row >= 0) {
-			e_selection_model_change_cursor (selection_model, row, view->priv->cursor_col);
-			e_selection_model_cursor_changed (selection_model, row, view->priv->cursor_col);
-		}
-	}
-
-	for (link = previous_selection; link; link = g_slist_next (link)) {
-		EContact *contact = link->data;
-
-		row = e_addressbook_model_find (model, contact);
-
-		if (row >= 0)
-			e_selection_model_change_one_row (selection_model, row, TRUE);
-	}
-
-	g_slist_free_full (previous_selection, g_object_unref);
-	g_clear_object (&cursor_contact);
-
-	e_selection_model_selection_changed (selection_model);
 }
 
 static gboolean
@@ -865,13 +621,6 @@ addressbook_view_dispose (GObject *object)
 		self->priv->shell_view = NULL;
 	}
 
-	if (self->priv->model != NULL) {
-		g_signal_handlers_disconnect_matched (
-			self->priv->model, G_SIGNAL_MATCH_DATA,
-			0, 0, NULL, NULL, object);
-		g_clear_object (&self->priv->model);
-	}
-
 	if (self->priv->activity != NULL) {
 		/* XXX Activity is not cancellable. */
 		e_activity_set_state (self->priv->activity, E_ACTIVITY_COMPLETED);
@@ -889,11 +638,6 @@ addressbook_view_dispose (GObject *object)
 	g_clear_pointer (&self->priv->copy_target_list, gtk_target_list_unref);
 	g_clear_pointer (&self->priv->paste_target_list, gtk_target_list_unref);
 
-	g_slist_free_full (self->priv->previous_selection, g_object_unref);
-	self->priv->previous_selection = NULL;
-
-	g_clear_object (&self->priv->cursor_contact);
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_addressbook_view_parent_class)->dispose (object);
 }
@@ -903,31 +647,14 @@ addressbook_view_constructed (GObject *object)
 {
 	EAddressbookView *view = E_ADDRESSBOOK_VIEW (object);
 	GalViewInstance *view_instance;
-	EShell *shell;
 	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EClientCache *client_cache;
 	ESource *source;
 	const gchar *uid;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell = e_shell_backend_get_shell (shell_backend);
-	client_cache = e_shell_get_client_cache (shell);
 
 	source = e_addressbook_view_get_source (view);
 	uid = e_source_get_uid (source);
-
-	view->priv->model = e_addressbook_model_new (client_cache);
-
-	g_signal_connect_object (view->priv->model, "before-search",
-		G_CALLBACK (addressbook_view_model_before_search_cb), view, 0);
-
-	g_signal_connect_object (view->priv->model, "search-started",
-		G_CALLBACK (addressbook_view_model_search_started_cb), view, 0);
-
-	g_signal_connect_object (view->priv->model, "search-result",
-		G_CALLBACK (addressbook_view_model_search_result_cb), view, 0);
 
 	view_instance = e_shell_view_new_view_instance (shell_view, uid);
 	g_signal_connect (
@@ -1124,19 +851,13 @@ static void
 addressbook_view_select_all (ESelectable *selectable)
 {
 	EAddressbookView *view;
-	ESelectionModel *selection_model;
 
 	view = E_ADDRESSBOOK_VIEW (selectable);
 
-	if (E_IS_CARD_VIEW (view->priv->object)) {
+	if (E_IS_CARD_VIEW (view->priv->object))
 		e_contact_card_box_set_selected_all (e_card_view_get_card_box (E_CARD_VIEW (view->priv->object)), TRUE);
-		return;
-	}
-
-	selection_model = e_addressbook_view_get_selection_model (view);
-
-	if (selection_model != NULL)
-		e_selection_model_select_all (selection_model);
+	else if (E_IS_ADDRESSBOOK_TABLE (view->priv->object))
+		e_addressbook_table_select_all (E_ADDRESSBOOK_TABLE (view->priv->object));
 }
 
 static void
@@ -1263,30 +984,8 @@ e_addressbook_view_selectable_init (ESelectableInterface *iface)
 static void
 update_empty_message (EAddressbookView *view)
 {
-	GtkWidget *widget;
-
-	widget = gtk_bin_get_child (GTK_BIN (view));
-
-	if (E_IS_TABLE (widget)) {
-		const gchar *msg = NULL;
-
-		if (view->priv->model && e_addressbook_model_can_stop (view->priv->model) &&
-		    !e_addressbook_model_contact_count (view->priv->model))
-			msg = _("Searching for the Contacts…");
-
-		e_table_set_info_message (E_TABLE (widget), msg);
-	}
-}
-
-static void
-model_status_message_cb (EAddressbookModel *model,
-			 const gchar *message,
-			 gint percent,
-			 gpointer user_data)
-{
-	EAddressbookView *view = user_data;
-
-	g_signal_emit (view, signals[STATUS_MESSAGE], 0, message, percent);
+	/* Searching-state empty messages are handled internally by
+	 * ECardView / EAddressbookTable themselves. */
 }
 
 GtkWidget *
@@ -1294,37 +993,12 @@ e_addressbook_view_new (EShellView *shell_view,
                         ESource *source)
 {
 	GtkWidget *widget;
-	EAddressbookView *view;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	widget = g_object_new (
 		E_TYPE_ADDRESSBOOK_VIEW, "shell-view",
 		shell_view, "source", source, NULL);
-
-	view = E_ADDRESSBOOK_VIEW (widget);
-
-	g_signal_connect_swapped (
-		view->priv->model, "search_result",
-		G_CALLBACK (search_result), view);
-	g_signal_connect_swapped (
-		view->priv->model, "count-changed",
-		G_CALLBACK (addressbook_view_update_folder_bar_message), view);
-	g_signal_connect (
-		view->priv->model, "stop_state_changed",
-		G_CALLBACK (stop_state_changed), view);
-	g_signal_connect_swapped (
-		view->priv->model, "writable-status",
-		G_CALLBACK (command_state_change), view);
-	g_signal_connect_object (
-		view->priv->model, "contact-added",
-		G_CALLBACK (update_empty_message), view, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
-	g_signal_connect_object (
-		view->priv->model, "contacts-removed",
-		G_CALLBACK (update_empty_message), view, G_CONNECT_SWAPPED | G_CONNECT_AFTER);
-	g_signal_connect_object (
-		view->priv->model, "status-message",
-		G_CALLBACK (model_status_message_cb), view, 0);
 
 	return widget;
 }
@@ -1337,7 +1011,10 @@ e_addressbook_view_get_client (EAddressbookView *view)
 	if (E_IS_CARD_VIEW (view->priv->object))
 		return e_card_view_get_book_client (E_CARD_VIEW (view->priv->object));
 
-	return e_addressbook_model_get_client (view->priv->model);
+	if (E_IS_ADDRESSBOOK_TABLE (view->priv->object))
+		return e_addressbook_table_get_book_client (E_ADDRESSBOOK_TABLE (view->priv->object));
+
+	return NULL;
 }
 
 void
@@ -1348,9 +1025,8 @@ e_addressbook_view_set_client (EAddressbookView *view,
 
 	if (E_IS_CARD_VIEW (view->priv->object)) {
 		e_card_view_set_book_client (E_CARD_VIEW (view->priv->object), book_client);
-		e_addressbook_model_set_client (view->priv->model, NULL);
-	} else {
-		e_addressbook_model_set_client (view->priv->model, book_client);
+	} else if (E_IS_ADDRESSBOOK_TABLE (view->priv->object)) {
+		e_addressbook_table_set_book_client (E_ADDRESSBOOK_TABLE (view->priv->object), book_client);
 	}
 
 	addressbook_view_update_folder_bar_message (view);
@@ -1376,30 +1052,10 @@ e_addressbook_view_force_folder_bar_message (EAddressbookView *view)
 	addressbook_view_update_folder_bar_message (view);
 }
 
-typedef struct _PeekSelectedContactsData {
-	EAddressbookModel *model;
-	GPtrArray *contacts;
-} PeekSelectedContactsData;
-
-static void
-addressbook_view_add_to_array_cb (gint row,
-				  gpointer user_data)
-{
-	PeekSelectedContactsData *pscd = user_data;
-	EContact *contact;
-
-	g_return_if_fail (pscd != NULL);
-
-	contact = e_addressbook_model_get_contact (pscd->model, row);
-	if (contact)
-		g_ptr_array_add (pscd->contacts, contact);
-}
-
 GPtrArray * /* (transfer container) */
 e_addressbook_view_peek_selected_contacts (EAddressbookView *view)
 {
 	GPtrArray *contacts;
-	PeekSelectedContactsData pscd;
 	guint n_selected;
 
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
@@ -1421,13 +1077,10 @@ e_addressbook_view_peek_selected_contacts (EAddressbookView *view)
 		} else {
 			contacts = g_ptr_array_new_with_free_func (g_object_unref);
 		}
+	} else if (E_IS_ADDRESSBOOK_TABLE (view->priv->object)) {
+		contacts = e_addressbook_table_peek_selected_contacts (E_ADDRESSBOOK_TABLE (view->priv->object));
 	} else {
-		contacts = g_ptr_array_new_full (n_selected, g_object_unref);
-
-		pscd.model = view->priv->model;
-		pscd.contacts = contacts;
-
-		e_selection_model_foreach (e_addressbook_view_get_selection_model (view), addressbook_view_add_to_array_cb, &pscd);
+		contacts = g_ptr_array_new_with_free_func (g_object_unref);
 	}
 
 	return contacts;
@@ -1454,13 +1107,33 @@ addressbook_view_got_selected_cb (GObject *source_object,
 	g_object_unref (task);
 }
 
+static void
+addressbook_view_table_got_selected_cb (GObject *source_object,
+					GAsyncResult *result,
+					gpointer user_data)
+{
+	GTask *task = user_data;
+	GPtrArray *contacts;
+	GError *error = NULL;
+
+	contacts = e_addressbook_table_dup_selected_contacts_finish (E_ADDRESSBOOK_TABLE (source_object), result, &error);
+
+	if (contacts)
+		g_task_return_pointer (task, contacts, (GDestroyNotify) g_ptr_array_unref);
+	else if (error)
+		g_task_return_error (task, error);
+	else
+		g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED, "%s", "Failed to get contacts: Unknown error");
+
+	g_object_unref (task);
+}
+
 void
 e_addressbook_view_dup_selected_contacts (EAddressbookView *view,
 					  GCancellable *cancellable,
 					  GAsyncReadyCallback cb,
 					  gpointer user_data)
 {
-	EContactCardBox *box;
 	GTask *task;
 	GPtrArray *array;
 
@@ -1477,29 +1150,29 @@ e_addressbook_view_dup_selected_contacts (EAddressbookView *view,
 		return;
 	}
 
-	if (!view->priv->object ||
-	    !E_IS_CARD_VIEW (view->priv->object)) {
-		if (view->priv->object) {
-			/* Should not get here with the table view */
-			g_warn_if_reached ();
+	if (E_IS_CARD_VIEW (view->priv->object)) {
+		EContactCardBox *box;
+
+		box = e_card_view_get_card_box (E_CARD_VIEW (view->priv->object));
+		array = e_contact_card_box_dup_selected_indexes (box);
+
+		if (!array || array->len == 0) {
+			g_task_return_pointer (task, g_ptr_array_new_with_free_func (g_object_unref), (GDestroyNotify) g_ptr_array_unref);
+			g_object_unref (task);
+		} else {
+			e_contact_card_box_dup_contacts (box, array, cancellable, addressbook_view_got_selected_cb, task);
 		}
 
-		g_task_return_pointer (task, g_ptr_array_new_with_free_func (g_object_unref), (GDestroyNotify) g_ptr_array_unref);
-		g_object_unref (task);
-		return;
-	}
-
-	box = e_card_view_get_card_box (E_CARD_VIEW (view->priv->object));
-	array = e_contact_card_box_dup_selected_indexes (box);
-
-	if (!array || array->len == 0) {
-		g_task_return_pointer (task, g_ptr_array_new_with_free_func (g_object_unref), (GDestroyNotify) g_ptr_array_unref);
-		g_object_unref (task);
+		g_clear_pointer (&array, g_ptr_array_unref);
+	} else if (E_IS_ADDRESSBOOK_TABLE (view->priv->object)) {
+		e_addressbook_table_dup_selected_contacts (E_ADDRESSBOOK_TABLE (view->priv->object),
+			cancellable, addressbook_view_table_got_selected_cb, task);
 	} else {
-		e_contact_card_box_dup_contacts	(box, array, cancellable, addressbook_view_got_selected_cb, task);
+		if (view->priv->object)
+			g_warning ("%s: Unknown view object type '%s'", G_STRFUNC, G_OBJECT_TYPE_NAME (view->priv->object));
+		g_task_return_pointer (task, g_ptr_array_new_with_free_func (g_object_unref), (GDestroyNotify) g_ptr_array_unref);
+		g_object_unref (task);
 	}
-
-	g_clear_pointer (&array, g_ptr_array_unref);
 }
 
 GPtrArray * /* (transfer container) */
@@ -1517,31 +1190,29 @@ e_addressbook_view_dup_selected_contacts_finish (EAddressbookView *view,
 guint
 e_addressbook_view_get_n_total (EAddressbookView *view)
 {
-	ESelectionModel *selection_model;
-
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), 0);
 
 	if (E_IS_CARD_VIEW (view->priv->object))
 		return e_contact_card_box_get_n_items (e_card_view_get_card_box (E_CARD_VIEW (view->priv->object)));
 
-	selection_model = e_addressbook_view_get_selection_model (view);
+	if (E_IS_ADDRESSBOOK_TABLE (view->priv->object))
+		return e_addressbook_table_get_n_total (E_ADDRESSBOOK_TABLE (view->priv->object));
 
-	return selection_model ? e_selection_model_row_count (selection_model) : 0;
+	return 0;
 }
 
 guint
 e_addressbook_view_get_n_selected (EAddressbookView *view)
 {
-	ESelectionModel *selection_model;
-
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), 0);
 
 	if (E_IS_CARD_VIEW (view->priv->object))
 		return e_contact_card_box_get_n_selected (e_card_view_get_card_box (E_CARD_VIEW (view->priv->object)));
 
-	selection_model = e_addressbook_view_get_selection_model (view);
+	if (E_IS_ADDRESSBOOK_TABLE (view->priv->object))
+		return e_addressbook_table_get_n_selected (E_ADDRESSBOOK_TABLE (view->priv->object));
 
-	return selection_model ? e_selection_model_selected_count (selection_model) : 0;
+	return 0;
 }
 
 GalViewInstance *
@@ -1593,26 +1264,6 @@ e_addressbook_view_get_paste_target_list (EAddressbookView *view)
 }
 
 static void
-search_result (EAddressbookView *view,
-               const GError *error)
-{
-	EShellView *shell_view;
-	EAlertSink *alert_sink;
-
-	shell_view = e_addressbook_view_get_shell_view (view);
-	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
-
-	eab_search_result_dialog (alert_sink, error);
-}
-
-static void
-stop_state_changed (GObject *object,
-                    EAddressbookView *view)
-{
-	command_state_change (view);
-}
-
-static void
 command_state_change (EAddressbookView *view)
 {
 	g_signal_emit (view, signals[COMMAND_STATE_CHANGE], 0);
@@ -1620,31 +1271,109 @@ command_state_change (EAddressbookView *view)
 	update_empty_message (view);
 }
 
+#define ADDRESSBOOK_TABLE_FOOTER_HEIGHT 18.0
+
+struct addressbook_table_print_opts {
+	EPrintable *printable;
+	gint n_pages;
+};
+
+static void
+addressbook_table_print_opts_free (gpointer ptr)
+{
+	struct addressbook_table_print_opts *opts = ptr;
+
+	if (opts) {
+		g_clear_object (&opts->printable);
+		g_free (opts);
+	}
+}
+
+static void
+addressbook_table_draw_footer (GtkPrintContext *context,
+			       gint page_nr,
+			       gint n_pages,
+			       gdouble page_width,
+			       gdouble page_height)
+{
+	PangoLayout *layout;
+	cairo_t *cr;
+	gchar *text;
+
+	cr = gtk_print_context_get_cairo_context (context);
+	text = g_strdup_printf (_("Page %d/%d"), page_nr + 1, n_pages);
+
+	layout = gtk_print_context_create_pango_layout (context);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+	pango_layout_set_width (layout, pango_units_from_double (page_width));
+
+	cairo_save (cr);
+	cairo_move_to (cr, 0.0, page_height - ADDRESSBOOK_TABLE_FOOTER_HEIGHT);
+	pango_cairo_show_layout (cr, layout);
+	cairo_restore (cr);
+
+	g_object_unref (layout);
+	g_free (text);
+}
+
+static gint
+addressbook_table_count_pages (GtkPrintContext *context,
+			       struct addressbook_table_print_opts *opts,
+			       gdouble width,
+			       gdouble body_height)
+{
+	gint pages = 0;
+
+	e_printable_reset (opts->printable);
+
+	do {
+		e_printable_print_page (opts->printable, context, width, body_height, TRUE);
+		pages++;
+	} while (e_printable_data_left (opts->printable));
+
+	e_printable_reset (opts->printable);
+
+	return pages;
+}
+
+static void
+addressbook_table_begin_print (GtkPrintOperation *operation,
+			       GtkPrintContext *context,
+			       struct addressbook_table_print_opts *opts)
+{
+	GtkPageSetup *setup;
+	gdouble width, body_height;
+	gint pages;
+
+	setup = gtk_print_context_get_page_setup (context);
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	body_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS) - ADDRESSBOOK_TABLE_FOOTER_HEIGHT;
+
+	pages = addressbook_table_count_pages (context, opts, width, body_height);
+
+	opts->n_pages = MAX (pages, 1);
+
+	gtk_print_operation_set_n_pages (operation, opts->n_pages);
+}
+
 static void
 contact_print_button_draw_page (GtkPrintOperation *operation,
                                 GtkPrintContext *context,
                                 gint page_nr,
-                                EPrintable *printable)
+                                struct addressbook_table_print_opts *opts)
 {
 	GtkPageSetup *setup;
-	gdouble top_margin, page_width;
-	cairo_t *cr;
+	gdouble width, page_height, body_height;
 
 	setup = gtk_print_context_get_page_setup (context);
-	top_margin = gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS);
-	page_width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+	body_height = page_height - ADDRESSBOOK_TABLE_FOOTER_HEIGHT;
 
-	cr = gtk_print_context_get_cairo_context (context);
+	e_printable_print_page (opts->printable, context, width, body_height, TRUE);
 
-	e_printable_reset (printable);
-
-	while (e_printable_data_left (printable)) {
-		cairo_save (cr);
-		contact_page_draw_footer (operation,context,page_nr++);
-		e_printable_print_page (
-			printable, context, page_width - 16, top_margin + 10, TRUE);
-		cairo_restore (cr);
-	}
+	addressbook_table_draw_footer (context, page_nr, opts->n_pages, width, page_height);
 }
 
 static void
@@ -1652,13 +1381,22 @@ e_contact_print_button (EPrintable *printable,
                         GtkPrintOperationAction action)
 {
 	GtkPrintOperation *operation;
+	struct addressbook_table_print_opts *opts;
 
 	operation = e_print_operation_new ();
-	gtk_print_operation_set_n_pages (operation, 1);
+
+	opts = g_new0 (struct addressbook_table_print_opts, 1);
+	opts->printable = g_object_ref (printable);
+
+	g_object_set_data_full (G_OBJECT (operation), "addressbook-table-print-opts", opts, addressbook_table_print_opts_free);
 
 	g_signal_connect (
-		operation, "draw_page",
-		G_CALLBACK (contact_print_button_draw_page), printable);
+		operation, "begin-print",
+		G_CALLBACK (addressbook_table_begin_print), opts);
+
+	g_signal_connect (
+		operation, "draw-page",
+		G_CALLBACK (contact_print_button_draw_page), opts);
 
 	gtk_print_operation_run (operation, action, NULL, NULL);
 
@@ -1685,6 +1423,107 @@ addressbook_view_print_got_selection_cb (GObject *source_object,
 
 	g_clear_pointer (&contacts, g_ptr_array_unref);
 	g_clear_error (&error);
+}
+
+static void
+addressbook_view_print_table (EAddressbookTable *table,
+			      GtkPrintOperationAction action)
+{
+	EPrintable *printable;
+
+	printable = e_addressbook_table_get_printable (table);
+	g_object_ref_sink (printable);
+
+	e_contact_print_button (printable, action);
+
+	g_object_unref (printable);
+}
+
+struct _AddressbookTablePrintWait {
+	EAddressbookTable *table;
+	GtkPrintOperationAction action;
+	EActivity *activity;
+	gulong notify_loading_id;
+};
+
+static void
+addressbook_table_print_wait_free (struct _AddressbookTablePrintWait *wait)
+{
+	g_clear_object (&wait->table);
+	g_clear_object (&wait->activity);
+	g_free (wait);
+}
+
+static void
+addressbook_table_print_prefetched_cb (GObject *source_object,
+				       GAsyncResult *result,
+				       gpointer user_data)
+{
+	struct _AddressbookTablePrintWait *wait = user_data;
+	GError *error = NULL;
+
+	if (!e_addressbook_table_prefetch_all_contacts_finish (E_ADDRESSBOOK_TABLE (source_object), result, &error) &&
+	    !g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		g_warning ("%s: Failed to prefetch contacts for printing: %s", G_STRFUNC, error ? error->message : "Unknown error");
+
+	g_clear_error (&error);
+
+	e_activity_set_state (wait->activity, E_ACTIVITY_COMPLETED);
+
+	addressbook_view_print_table (wait->table, wait->action);
+
+	addressbook_table_print_wait_free (wait);
+}
+
+static void
+addressbook_table_print_notify_loading_cb (GObject *object,
+					   GParamSpec *pspec,
+					   gpointer user_data)
+{
+	struct _AddressbookTablePrintWait *wait = user_data;
+
+	if (e_addressbook_table_get_loading (wait->table))
+		return;
+
+	g_signal_handler_disconnect (wait->table, wait->notify_loading_id);
+	wait->notify_loading_id = 0;
+
+	e_addressbook_table_prefetch_all_contacts (wait->table, NULL,
+		addressbook_table_print_prefetched_cb, wait);
+}
+
+static void
+addressbook_view_print_table_when_loaded (EAddressbookView *view,
+					  EAddressbookTable *table,
+					  GtkPrintOperationAction action)
+{
+	struct _AddressbookTablePrintWait *wait;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	GCancellable *camel_operation;
+
+	shell_view = e_addressbook_view_get_shell_view (view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	wait = g_new0 (struct _AddressbookTablePrintWait, 1);
+	wait->table = g_object_ref (table);
+	wait->action = action;
+	wait->activity = e_activity_new ();
+
+	camel_operation = camel_operation_new ();
+	e_activity_set_cancellable (wait->activity, camel_operation);
+	camel_operation_push_message (camel_operation, "%s", _("Loading contacts…"));
+	g_object_unref (camel_operation);
+
+	e_shell_backend_add_activity (shell_backend, wait->activity);
+
+	if (e_addressbook_table_get_loading (table)) {
+		wait->notify_loading_id = g_signal_connect (table, "notify::loading",
+			G_CALLBACK (addressbook_table_print_notify_loading_cb), wait);
+	} else {
+		e_addressbook_table_prefetch_all_contacts (table, NULL,
+			addressbook_table_print_prefetched_cb, wait);
+	}
 }
 
 void
@@ -1733,17 +1572,10 @@ e_addressbook_view_print (EAddressbookView *view,
 			e_book_query_unref (query);
 
 	/* XXX Does this print the entire table or just selected? */
-	} else if (GAL_IS_VIEW_ETABLE (gal_view)) {
-		EPrintable *printable;
-		GtkWidget *widget;
+	} else if (E_IS_ADDRESSBOOK_TABLE (view->priv->object)) {
+		EAddressbookTable *table = E_ADDRESSBOOK_TABLE (view->priv->object);
 
-		widget = gtk_bin_get_child (GTK_BIN (view));
-		printable = e_table_get_printable (E_TABLE (widget));
-		g_object_ref_sink (printable);
-
-		e_contact_print_button (printable, action);
-
-		g_object_unref (printable);
+		addressbook_view_print_table_when_loaded (view, table, action);
 	}
 }
 
@@ -1862,23 +1694,17 @@ e_addressbook_view_delete_selection_run (EAddressbookView *view,
 {
 	gboolean plural = FALSE, is_list = FALSE;
 	EContact *contact;
-	ETable *etable = NULL;
 	EBookClient *book_client;
 	EContactCardBox *card_box = NULL;
-	GalViewInstance *view_instance;
-	GalView *gal_view;
-	GtkWidget *widget;
+	guint table_row = G_MAXUINT;
 	gchar *name = NULL;
-	gint row = 0, select;
+	gint row = 0;
 	guint ii;
 
 	if (!contacts || !contacts->len)
 		return;
 
 	book_client = e_addressbook_view_get_client (view);
-
-	view_instance = e_addressbook_view_get_view_instance (view);
-	gal_view = gal_view_instance_get_current_view (view_instance);
 
 	contact = g_ptr_array_index (contacts, 0);
 
@@ -1890,14 +1716,11 @@ e_addressbook_view_delete_selection_run (EAddressbookView *view,
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
 		is_list = TRUE;
 
-	widget = gtk_bin_get_child (GTK_BIN (view));
-
-	if (GAL_IS_VIEW_MINICARD (gal_view)) {
+	if (E_IS_CARD_VIEW (view->priv->object)) {
 		card_box = e_card_view_get_card_box (E_CARD_VIEW (view->priv->object));
 		row = e_contact_card_box_get_focused_index (card_box);
-	} else if (GAL_IS_VIEW_ETABLE (gal_view)) {
-		etable = E_TABLE (widget);
-		row = e_table_get_cursor_row (E_TABLE (etable));
+	} else if (E_IS_ADDRESSBOOK_TABLE (view->priv->object)) {
+		table_row = e_addressbook_table_get_cursor_row (E_ADDRESSBOOK_TABLE (view->priv->object));
 	}
 
 	/* confirm delete */
@@ -1949,17 +1772,20 @@ e_addressbook_view_delete_selection_run (EAddressbookView *view,
 	}
 
 	/* Sets the cursor, at the row after the deleted row */
-	else if (GAL_IS_VIEW_ETABLE (gal_view) && row != 0) {
-		select = e_table_model_to_view_row (E_TABLE (etable), row);
+	else if (table_row != G_MAXUINT) {
+		guint n_total = e_addressbook_table_get_n_total (E_ADDRESSBOOK_TABLE (view->priv->object));
 
-		/* Sets the cursor, before the deleted row if its the last row */
-		if (select == e_table_model_row_count (E_TABLE (etable)->model) - 1)
-			select = select - 1;
-		else
-			select = select + 1;
+		if (n_total > 0) {
+			guint select = table_row;
 
-		row = e_table_view_to_model_row (E_TABLE (etable), select);
-		e_table_set_cursor_row (E_TABLE (etable), row);
+			/* Sets the cursor, before the deleted row if it was the last row */
+			if (select + 1 >= n_total)
+				select = select > 0 ? select - 1 : 0;
+			else
+				select = select + 1;
+
+			e_addressbook_table_set_cursor_row (E_ADDRESSBOOK_TABLE (view->priv->object), select);
+		}
 	}
 
 	g_free (name);
@@ -2097,15 +1923,16 @@ e_addressbook_view_can_stop (EAddressbookView *view)
 {
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), FALSE);
 
-	return !E_IS_CARD_VIEW (view->priv->object) && e_addressbook_model_can_stop (view->priv->model);
+	/* Both ECardView and EAddressbookTable fetch data in small windowed
+	 * ranges rather than one long eager fetch, so there is nothing
+	 * meaningful to interrupt mid-flight. */
+	return FALSE;
 }
 
 void
 e_addressbook_view_stop (EAddressbookView *view)
 {
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	e_addressbook_model_stop (view->priv->model);
 }
 
 struct TransferContactsData
@@ -2293,6 +2120,18 @@ e_addressbook_view_set_search (EAddressbookView *view,
 	addressbook_view_set_query (view, query);
 }
 
+void
+e_addressbook_view_set_search_active (EAddressbookView *view,
+				      gboolean search_active)
+{
+	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
+
+	view->priv->have_search = !!search_active;
+
+	if (E_IS_ADDRESSBOOK_TABLE (view->priv->object))
+		e_addressbook_table_set_search_active (E_ADDRESSBOOK_TABLE (view->priv->object), view->priv->have_search);
+}
+
 const gchar *
 e_addressbook_view_get_search_query (EAddressbookView *view)
 {
@@ -2301,7 +2140,10 @@ e_addressbook_view_get_search_query (EAddressbookView *view)
 	if (E_IS_CARD_VIEW (view->priv->object))
 		return e_card_view_get_query (E_CARD_VIEW (view->priv->object));
 
-	return e_addressbook_model_get_query (view->priv->model);
+	if (E_IS_ADDRESSBOOK_TABLE (view->priv->object))
+		return e_addressbook_table_get_query (E_ADDRESSBOOK_TABLE (view->priv->object));
+
+	return NULL;
 }
 
 /* Free returned values for search_text and advanced_search,

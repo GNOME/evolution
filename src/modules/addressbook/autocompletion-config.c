@@ -122,6 +122,12 @@ get_general_page (EConfig *config,
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
+	widget = gtk_check_button_new_with_mnemonic (_("Sort _table on header click"));
+	e_util_setup_automatic_action_policy_check_button (
+		GTK_CHECK_BUTTON (widget), settings, "table-sort-on-header-click");
+	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
 	container = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 12);
 	gtk_box_pack_start (GTK_BOX (itembox), container, FALSE, FALSE, 0);
 	gtk_widget_show (container);

@@ -34,9 +34,6 @@
 #define ACTION(name) \
 	(E_SHELL_VIEW_ACTION_##name (shell_view))
 
-/* ETable Specifications */
-#define ETSPEC_FILENAME		"e-addressbook-view.etspec"
-
 G_BEGIN_DECLS
 
 /* List these in the order to be displayed.

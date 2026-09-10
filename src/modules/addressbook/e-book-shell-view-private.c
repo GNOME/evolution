@@ -634,6 +634,13 @@ void
 e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
+	GHashTableIter view_iter;
+	gpointer view;
+
+	g_hash_table_iter_init (&view_iter, priv->uid_to_view);
+	while (g_hash_table_iter_next (&view_iter, NULL, &view)) {
+		g_signal_handlers_disconnect_by_data (view, book_shell_view);
+	}
 
 	if (priv->backend_error_handler_id > 0) {
 		g_signal_handler_disconnect (

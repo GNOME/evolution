@@ -102,6 +102,7 @@ book_shell_view_execute_search (EShellView *shell_view)
 	gint filter_id, search_id;
 	gchar *search_text = NULL;
 	EFilterRule *advanced_search = NULL;
+	gboolean have_search;
 
 	self = E_BOOK_SHELL_VIEW (shell_view);
 
@@ -126,6 +127,8 @@ book_shell_view_execute_search (EShellView *shell_view)
 
 		/* internal pointer, no need to free it */
 		advanced_search = e_shell_view_get_search_rule (shell_view);
+
+		have_search = *query != '\0';
 	} else {
 		const gchar *text;
 		const gchar *format;
@@ -139,6 +142,8 @@ book_shell_view_execute_search (EShellView *shell_view)
 		}
 
 		search_text = text && *text ? g_strdup (text) : NULL;
+
+		have_search = *text != '\0';
 
 		switch (search_id) {
 			case CONTACT_SEARCH_NAME_CONTAINS:
@@ -176,6 +181,10 @@ book_shell_view_execute_search (EShellView *shell_view)
 	/* Apply selected filter. */
 	combo_box = e_shell_searchbar_get_filter_combo_box (searchbar);
 	filter_id = e_action_combo_box_get_current_value (combo_box);
+
+	if (filter_id != CONTACT_FILTER_ANY_CATEGORY)
+		have_search = TRUE;
+
 	switch (filter_id) {
 		case CONTACT_FILTER_ANY_CATEGORY:
 			break;
@@ -223,6 +232,7 @@ book_shell_view_execute_search (EShellView *shell_view)
 	/* Submit the query. */
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	e_addressbook_view_set_search (view, query, filter_id, search_id, search_text, advanced_search);
+	e_addressbook_view_set_search_active (view, have_search);
 	g_free (query);
 	g_free (search_text);
 }
@@ -460,7 +470,6 @@ e_book_shell_view_class_init (EBookShellViewClass *class)
 	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	/* Ensure the GalView types we need are registered. */
-	g_type_ensure (GAL_TYPE_VIEW_ETABLE);
 	g_type_ensure (GAL_TYPE_VIEW_MINICARD);
 }
 

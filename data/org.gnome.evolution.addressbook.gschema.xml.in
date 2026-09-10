@@ -1,9 +1,20 @@
 <schemalist>
+  <!-- Keep this synchronized with EAutomaticActionPolicy. -->
+  <enum id="org.gnome.evolution.addressbook.AutomaticActionPolicy">
+    <value nick='ask'    value='0'/>
+    <value nick='always' value='1'/>
+    <value nick='never'  value='2'/>
+  </enum>
+
   <schema gettext-domain="evolution" id="org.gnome.evolution.addressbook" path="/org/gnome/evolution/addressbook/">
     <key name="address-formatting" type="b">
       <default>false</default>
       <_summary>Enable address formatting</_summary>
       <_description>Whether addresses should be formatted according to standard in their destination country</_description>
+    </key>
+    <key name="table-sort-on-header-click" enum="org.gnome.evolution.addressbook.AutomaticActionPolicy">
+      <default>'ask'</default>
+      <_summary>Whether click on a header in the contacts table can change sort order by the clicked column.</_summary>
     </key>
     <key name="completion-minimum-query-length" type="i">
       <default>3</default>

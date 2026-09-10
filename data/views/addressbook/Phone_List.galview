@@ -1,12 +1,31 @@
-<?xml version="1.0"?>
-<ETableState state-version="0.100000">
-  <column source="0"/>
-  <column source="1"/>
-  <column source="5"/>
-  <column source="9"/>
-  <column source="15"/>
-  <column source="19"/>
-  <grouping>
-    <leaf column="0" ascending="true"/>
-  </grouping>
-</ETableState>
+[Column-file-as]
+order=0
+visible=true
+width=200
+sort-order=0
+sort-dir=ascending
+
+[Column-full-name]
+order=1
+visible=true
+width=200
+
+[Column-email-1]
+order=2
+visible=true
+width=200
+
+[Column-business-phone]
+order=3
+visible=true
+width=150
+
+[Column-home-phone]
+order=4
+visible=true
+width=150
+
+[Column-mobile-phone]
+order=5
+visible=true
+width=150
