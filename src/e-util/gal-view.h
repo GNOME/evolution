@@ -45,6 +45,7 @@ struct _GalViewClass {
 	GObjectClass parent_class;
 
 	const gchar *type_code;
+	const gchar *legacy_type_code;
 
 	/* Methods */
 	void		(*load)			(GalView *view,

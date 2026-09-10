@@ -341,11 +341,6 @@ gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)
 		break;
 	}
 
-	/* The view stored in the collection should not be left attached, but detach it
-	   only after it's saved, to have data to save. */
-	if (GAL_IS_VIEW_ETABLE (view))
-		gal_view_etable_detach (GAL_VIEW_ETABLE (view));
-
 	if (id) {
 		gal_view_instance_set_current_view_id (dialog->instance, id);
 	}

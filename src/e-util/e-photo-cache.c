@@ -1209,3 +1209,36 @@ e_photo_cache_get_photo_finish (EPhotoCache *photo_cache,
 	return TRUE;
 }
 
+/**
+ * e_photo_cache_peek_cached:
+ * @photo_cache: an #EPhotoCache
+ * @email_address: an email address to check
+ * @out_stream: return location for a #GInputStream, or %NULL
+ *
+ * Synchronously and without blocking, checks whether a photo lookup for
+ * @email_address has already completed and its result is cached.
+ *
+ * If cached, returns %TRUE and sets @out_stream to a new #GInputStream
+ * with the photo data, or to %NULL if the cached result is "no photo
+ * found". If nothing is cached yet, returns %FALSE and @out_stream is
+ * left unset.
+ *
+ * Unlike e_photo_cache_get_photo(), this function never starts a lookup
+ * and never blocks.
+ *
+ * Returns: whether @email_address had a cached result
+ *
+ * Since: 3.64
+ **/
+gboolean
+e_photo_cache_peek_cached (EPhotoCache *photo_cache,
+                           const gchar *email_address,
+                           GInputStream **out_stream)
+{
+	g_return_val_if_fail (E_IS_PHOTO_CACHE (photo_cache), FALSE);
+	g_return_val_if_fail (email_address != NULL, FALSE);
+	g_return_val_if_fail (out_stream != NULL, FALSE);
+
+	return photo_ht_lookup (photo_cache, email_address, out_stream);
+}
+

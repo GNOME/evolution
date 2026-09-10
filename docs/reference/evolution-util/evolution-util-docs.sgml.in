@@ -230,11 +230,21 @@
   </chapter>
 
   <chapter>
+    <title>Virtual Tree</title>
+    <xi:include href="xml/e-virtual-tree-accessible.xml"/>
+    <xi:include href="xml/e-virtual-tree-customize-popover.xml"/>
+    <xi:include href="xml/e-virtual-tree-model.xml"/>
+    <xi:include href="xml/e-virtual-tree-printable.xml"/>
+    <xi:include href="xml/e-virtual-tree.xml"/>
+  </chapter>
+
+  <chapter>
     <title>View Management</title>
     <xi:include href="xml/gal-view.xml"/>
     <xi:include href="xml/gal-view-instance.xml"/>
     <xi:include href="xml/gal-view-collection.xml"/>
     <xi:include href="xml/gal-view-etable.xml"/>
+    <xi:include href="xml/gal-view-virtual-tree.xml"/>
     <xi:include href="xml/gal-view-instance-save-as-dialog.xml"/>
   </chapter>
 
@@ -337,6 +347,10 @@
   <index id="api-index-full">
     <title>Index</title>
     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
+  </index>
+  <index id="api-index-3-64">
+    <title>Index of new symbols in 3.64</title>
+    <xi:include href="xml/api-index-3.64.xml"><xi:fallback /></xi:include>
   </index>
   <index id="api-index-3-62">
     <title>Index of new symbols in 3.62</title>

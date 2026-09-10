@@ -112,49 +112,6 @@ static void e_table_item_redraw_row (ETableItem *eti, gint row);
 #define ETI_MULTIPLE_ROW_HEIGHT(eti,row) ((eti)->height_cache && (eti)->height_cache[(row)] != -1 ? (eti)->height_cache[(row)] : eti_row_height((eti),(row)))
 #define ETI_ROW_HEIGHT(eti,row) ((eti)->uniform_row_height ? ETI_SINGLE_ROW_HEIGHT ((eti)) : ETI_MULTIPLE_ROW_HEIGHT((eti),(row)))
 
-/* tweak_hsv is a really tweaky function. it modifies its first argument, which
- * should be the color you want tweaked. delta_h, delta_s and delta_v specify
- * how much you want their respective channels modified (and in what direction).
- * if it can't do the specified modification, it does it in the oppositon direction */
-static void
-e_hsv_tweak (GdkRGBA *rgba,
-             gdouble delta_h,
-             gdouble delta_s,
-             gdouble delta_v)
-{
-	gdouble h, s, v, r, g, b;
-
-	r = rgba->red;
-	g = rgba->green;
-	b = rgba->blue;
-
-	gtk_rgb_to_hsv (r, g, b, &h, &s, &v);
-
-	if (h + delta_h < 0) {
-		h -= delta_h;
-	} else {
-		h += delta_h;
-	}
-
-	if (s + delta_s < 0) {
-		s -= delta_s;
-	} else {
-		s += delta_s;
-	}
-
-	if (v + delta_v < 0) {
-		v -= delta_v;
-	} else {
-		v += delta_v;
-	}
-
-	gtk_hsv_to_rgb (h, s, v, &r, &g, &b);
-
-	rgba->red = r;
-	rgba->green = g;
-	rgba->blue = b;
-}
-
 inline static gint
 model_to_view_row (ETableItem *eti,
                    gint row)
@@ -350,7 +307,7 @@ eti_get_cell_background_color (ETableItem *eti,
 		if (row % 2) {
 
 		} else {
-			e_hsv_tweak (background, 0.0f, 0.0f, -0.07f);
+			e_utils_hsv_tweak (background, 0.0f, 0.0f, -0.07f);
 		}
 	}
 }

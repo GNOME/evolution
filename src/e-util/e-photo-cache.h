@@ -82,6 +82,9 @@ gboolean	e_photo_cache_get_photo_finish	(EPhotoCache *photo_cache,
 						 GAsyncResult *result,
 						 GInputStream **out_stream,
 						 GError **error);
+gboolean	e_photo_cache_peek_cached	(EPhotoCache *photo_cache,
+						 const gchar *email_address,
+						 GInputStream **out_stream);
 
 G_END_DECLS
 

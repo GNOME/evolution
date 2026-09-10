@@ -91,6 +91,12 @@ gboolean	e_printable_will_fit		(EPrintable *printable,
 						 gdouble max_height,
 						 gboolean quantized);
 
+#ifndef __GI_SCANNER__
+#ifdef G_DEFINE_AUTOPTR_CLEANUP_FUNC
+G_DEFINE_AUTOPTR_CLEANUP_FUNC(EPrintable, g_object_unref)
+#endif
+#endif
+
 G_END_DECLS
 
 #endif /* E_PRINTABLE_H */

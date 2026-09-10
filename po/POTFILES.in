@@ -292,10 +292,12 @@ src/e-util/e-tree-view-frame.c
 src/e-util/e-ui-customize-dialog.c
 src/e-util/e-ui-customizer.c
 src/e-util/e-url-entry.c
-src/e-util/evolution-source-viewer.c
+src/e-util/e-virtual-tree.c
+src/e-util/e-virtual-tree-customize-popover.c
 src/e-util/e-webdav-browser.c
 src/e-util/e-web-view.c
 src/e-util/e-widget-undo.c
+src/e-util/evolution-source-viewer.c
 src/e-util/filter.error.xml
 [type: gettext/glade]src/e-util/filter.ui
 src/e-util/gal-a11y-e-cell.c

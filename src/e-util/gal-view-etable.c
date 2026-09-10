@@ -144,7 +144,7 @@ gal_view_etable_class_init (GalViewEtableClass *class)
 	object_class->finalize = gal_view_etable_finalize;
 
 	gal_view_class = GAL_VIEW_CLASS (class);
-	gal_view_class->type_code = "etable";
+	gal_view_class->type_code = "etable-obsolete-by-vtree";
 	gal_view_class->load = gal_view_etable_load;
 	gal_view_class->save = gal_view_etable_save;
 	gal_view_class->clone = gal_view_etable_clone;
@@ -272,4 +272,12 @@ gal_view_etable_get_tree (GalViewEtable *view)
 	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
 
 	return view->priv->tree;
+}
+
+const gchar *
+gal_view_etable_get_state_filename (GalViewEtable *view)
+{
+	g_return_val_if_fail (GAL_IS_VIEW_ETABLE (view), NULL);
+
+	return view->priv->state_filename;
 }

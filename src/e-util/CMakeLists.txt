@@ -282,6 +282,12 @@ set(SOURCES
 	e-unicode.c
 	e-url-entry.c
 	e-util-private.h
+	e-virtual-tree.c
+	e-virtual-tree-customize-popover.c
+	e-virtual-tree-accessible.c
+	e-virtual-tree-accessible.h
+	e-virtual-tree-model.c
+	e-virtual-tree-printable.c
 	e-webdav-browser.c
 	e-web-view.c
 	e-web-view-jsc-utils.c
@@ -311,6 +317,7 @@ set(SOURCES
 	gal-a11y-util.c
 	gal-view-collection.c
 	gal-view-etable.c
+	gal-view-virtual-tree.c
 	gal-view-instance-save-as-dialog.c
 	gal-view-instance.c
 	gal-view.c
@@ -564,6 +571,10 @@ set(HEADERS
 	e-unicode.h
 	e-url-entry.h
 	e-util-enums.h
+	e-virtual-tree.h
+	e-virtual-tree-customize-popover.h
+	e-virtual-tree-model.h
+	e-virtual-tree-printable.h
 	e-webdav-browser.h
 	e-web-view.h
 	e-web-view-jsc-utils.h
@@ -595,6 +606,7 @@ set(HEADERS
 	gal-a11y-util.h
 	gal-view-collection.h
 	gal-view-etable.h
+	gal-view-virtual-tree.h
 	gal-view-instance-save-as-dialog.h
 	gal-view-instance.h
 	gal-view.h
@@ -852,11 +864,13 @@ add_private_programs_simple(
 	test-source-config
 	test-source-selector
 	test-tree-view-frame
+	test-virtual-tree
 )
 
 add_test_programs(
 	test-markdown
 	test-ui-action
+	test-virtual-tree-units
 	test-web-view-jsc
 )
 

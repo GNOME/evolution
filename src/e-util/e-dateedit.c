@@ -42,8 +42,7 @@ struct _EDateEditPrivate {
 	GtkWidget *none_button;		/* This will only be visible if a
 					 * 'None' date/time is permitted. */
 
-	GdkDevice *grabbed_keyboard;
-	GdkDevice *grabbed_pointer;
+	GdkSeat *grabbed_seat;
 
 	gchar *date_format;
 
@@ -129,6 +128,7 @@ enum {
 };
 
 static void create_children			(EDateEdit	*dedit);
+static void e_date_edit_show_all		(GtkWidget	*widget);
 static gboolean e_date_edit_mnemonic_activate	(GtkWidget	*widget,
 						 gboolean	 group_cycling);
 static void e_date_edit_grab_focus		(GtkWidget	*widget);
@@ -358,20 +358,9 @@ date_edit_dispose (GObject *object)
 	g_clear_pointer (&dedit->priv->cal_popup, gtk_widget_destroy);
 	g_clear_pointer (&dedit->priv->date_format, g_free);
 
-	if (dedit->priv->grabbed_keyboard != NULL) {
-		gdk_device_ungrab (
-			dedit->priv->grabbed_keyboard,
-			GDK_CURRENT_TIME);
-		g_object_unref (dedit->priv->grabbed_keyboard);
-		dedit->priv->grabbed_keyboard = NULL;
-	}
-
-	if (dedit->priv->grabbed_pointer != NULL) {
-		gdk_device_ungrab (
-			dedit->priv->grabbed_pointer,
-			GDK_CURRENT_TIME);
-		g_object_unref (dedit->priv->grabbed_pointer);
-		dedit->priv->grabbed_pointer = NULL;
+	if (dedit->priv->grabbed_seat != NULL) {
+		gdk_seat_ungrab (dedit->priv->grabbed_seat);
+		dedit->priv->grabbed_seat = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -390,6 +379,7 @@ e_date_edit_class_init (EDateEditClass *class)
 	object_class->dispose = date_edit_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->show_all = e_date_edit_show_all;
 	widget_class->mnemonic_activate = e_date_edit_mnemonic_activate;
 	widget_class->grab_focus = e_date_edit_grab_focus;
 
@@ -765,6 +755,12 @@ create_children (EDateEdit *dedit)
 		dedit, "allow-no-date-set",
 		priv->none_button, "visible",
 		G_BINDING_SYNC_CREATE);
+}
+
+static void
+e_date_edit_show_all (GtkWidget *widget)
+{
+	gtk_widget_show (widget);
 }
 
 /* GtkWidget::mnemonic_activate() handler for the EDateEdit */
@@ -1437,15 +1433,20 @@ on_date_button_clicked (GtkWidget *widget,
 }
 
 static void
+date_popup_grab_prepare_cb (GdkSeat *seat,
+                            GdkWindow *window,
+                            gpointer user_data)
+{
+	gtk_widget_show (GTK_WIDGET (user_data));
+}
+
+static void
 e_date_edit_show_date_popup (EDateEdit *dedit,
                              GdkEvent *event)
 {
 	EDateEditPrivate *priv;
 	ECalendar *calendar;
-	GdkDevice *event_device;
-	GdkDevice *assoc_device;
-	GdkDevice *keyboard_device;
-	GdkDevice *pointer_device;
+	GdkSeat *seat;
 	GdkWindow *window;
 	GdkGrabStatus grab_status;
 	GtkWidget *toplevel;
@@ -1486,66 +1487,30 @@ e_date_edit_show_date_popup (EDateEdit *dedit,
 	gtk_window_set_transient_for (GTK_WINDOW (priv->cal_popup), toplevel ? GTK_WINDOW (toplevel) : NULL);
 
 	position_date_popup (dedit);
-	gtk_widget_show (priv->cal_popup);
-	gtk_widget_grab_focus (priv->cal_popup);
-	gtk_grab_add (priv->cal_popup);
+	gtk_widget_realize (priv->cal_popup);
 
 	window = gtk_widget_get_window (priv->cal_popup);
 
-	g_return_if_fail (priv->grabbed_keyboard == NULL);
-	g_return_if_fail (priv->grabbed_pointer == NULL);
+	g_return_if_fail (priv->grabbed_seat == NULL);
 
-	event_device = gdk_event_get_device (event);
-	assoc_device = gdk_device_get_associated_device (event_device);
-
+	seat = gdk_event_get_seat (event);
 	event_time = gdk_event_get_time (event);
 
-	if (gdk_device_get_source (event_device) == GDK_SOURCE_KEYBOARD) {
-		keyboard_device = event_device;
-		pointer_device = assoc_device;
-	} else {
-		keyboard_device = assoc_device;
-		pointer_device = event_device;
-	}
+	grab_status = gdk_seat_grab (
+		seat,
+		window,
+		GDK_SEAT_CAPABILITY_KEYBOARD | GDK_SEAT_CAPABILITY_POINTER,
+		TRUE,
+		NULL,
+		event,
+		date_popup_grab_prepare_cb,
+		priv->cal_popup);
 
-	if (keyboard_device != NULL) {
-		grab_status = gdk_device_grab (
-			keyboard_device,
-			window,
-			GDK_OWNERSHIP_WINDOW,
-			TRUE,
-			GDK_KEY_PRESS_MASK |
-			GDK_KEY_RELEASE_MASK,
-			NULL,
-			event_time);
-		if (grab_status == GDK_GRAB_SUCCESS) {
-			priv->grabbed_keyboard =
-				g_object_ref (keyboard_device);
-		}
-	}
+	if (grab_status == GDK_GRAB_SUCCESS)
+		priv->grabbed_seat = seat;
 
-	if (pointer_device != NULL) {
-		grab_status = gdk_device_grab (
-			pointer_device,
-			window,
-			GDK_OWNERSHIP_WINDOW,
-			TRUE,
-			GDK_BUTTON_PRESS_MASK |
-			GDK_BUTTON_RELEASE_MASK |
-			GDK_POINTER_MOTION_MASK,
-			NULL,
-			event_time);
-		if (grab_status == GDK_GRAB_SUCCESS) {
-			priv->grabbed_pointer =
-				g_object_ref (pointer_device);
-		} else if (priv->grabbed_keyboard != NULL) {
-			gdk_device_ungrab (
-				priv->grabbed_keyboard,
-				event_time);
-			g_object_unref (priv->grabbed_keyboard);
-			priv->grabbed_keyboard = NULL;
-		}
-	}
+	gtk_widget_grab_focus (priv->cal_popup);
+	gtk_grab_add (priv->cal_popup);
 
 	gdk_window_focus (window, event_time);
 }
@@ -1720,20 +1685,9 @@ hide_date_popup (EDateEdit *dedit)
 	gtk_widget_hide (dedit->priv->cal_popup);
 	gtk_grab_remove (dedit->priv->cal_popup);
 
-	if (dedit->priv->grabbed_keyboard != NULL) {
-		gdk_device_ungrab (
-			dedit->priv->grabbed_keyboard,
-			GDK_CURRENT_TIME);
-		g_object_unref (dedit->priv->grabbed_keyboard);
-		dedit->priv->grabbed_keyboard = NULL;
-	}
-
-	if (dedit->priv->grabbed_pointer != NULL) {
-		gdk_device_ungrab (
-			dedit->priv->grabbed_pointer,
-			GDK_CURRENT_TIME);
-		g_object_unref (dedit->priv->grabbed_pointer);
-		dedit->priv->grabbed_pointer = NULL;
+	if (dedit->priv->grabbed_seat != NULL) {
+		gdk_seat_ungrab (dedit->priv->grabbed_seat);
+		dedit->priv->grabbed_seat = NULL;
 	}
 }
 

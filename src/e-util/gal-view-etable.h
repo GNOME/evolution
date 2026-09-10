@@ -58,6 +58,8 @@ void		gal_view_etable_attach_tree	(GalViewEtable *view,
 void		gal_view_etable_detach		(GalViewEtable *view);
 ETable *	gal_view_etable_get_table	(GalViewEtable *view);
 ETree *		gal_view_etable_get_tree	(GalViewEtable *view);
+const gchar *	gal_view_etable_get_state_filename
+						(GalViewEtable *view);
 
 G_END_DECLS
 

@@ -39,5 +39,14 @@
     <secondary xml:space="preserve">{0}</secondary>
   </error>
 
+  <error id="header-click-can-sort" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Change sort order of the list?</_primary>
+    <_secondary>Click in the list headers usually changes sort order. Choose what to do.</_secondary>
+    <button _label="_Sort" response="GTK_RESPONSE_YES"/>
+    <button _label="_Don’t Sort" response="GTK_RESPONSE_NO"/>
+    <button _label="_Always Sort" response="GTK_RESPONSE_ACCEPT"/>
+    <button _label="N_ever Sort" response="GTK_RESPONSE_CANCEL"/>
+  </error>
+
 </error-list>
 

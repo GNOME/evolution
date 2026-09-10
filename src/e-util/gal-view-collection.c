@@ -143,7 +143,8 @@ view_collection_check_type (GType type,
 	class = g_type_class_ref (type);
 	g_return_if_fail (class != NULL);
 
-	if (g_strcmp0 (class->type_code, closure->type_code) == 0)
+	if (g_strcmp0 (class->type_code, closure->type_code) == 0 ||
+	    g_strcmp0 (class->legacy_type_code, closure->type_code) == 0)
 		closure->type = type;
 
 	g_type_class_unref (class);
@@ -283,6 +284,17 @@ load_single_dir (GalViewCollection *collection,
 		if (!found) {
 			GalViewCollectionItem *item = load_single_file (collection, dir, local, child);
 			if (item->filename && *item->filename) {
+				gchar *fullpath = g_build_filename (dir, item->filename, NULL);
+				gboolean file_exists = g_file_test (fullpath, G_FILE_TEST_IS_REGULAR);
+
+				g_free (fullpath);
+
+				if (!file_exists) {
+					gal_view_collection_item_free (item);
+					g_free (id);
+					continue;
+				}
+
 				collection->priv->view_data = g_renew (GalViewCollectionItem *, collection->priv->view_data, collection->priv->view_count + 1);
 				collection->priv->view_data[collection->priv->view_count] = item;
 				collection->priv->view_count++;

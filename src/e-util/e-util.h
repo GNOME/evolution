@@ -258,6 +258,10 @@
 #include <e-util/e-unicode.h>
 #include <e-util/e-url-entry.h>
 #include <e-util/e-util-enums.h>
+#include <e-util/e-virtual-tree-model.h>
+#include <e-util/e-virtual-tree.h>
+#include <e-util/e-virtual-tree-customize-popover.h>
+#include <e-util/e-virtual-tree-printable.h>
 #include <e-util/e-util-enumtypes.h>
 #include <e-util/e-webdav-browser.h>
 #ifndef E_UTIL_INCLUDE_WITHOUT_WEBKIT
@@ -271,6 +275,7 @@
 #include <e-util/ea-factory.h>
 #include <e-util/gal-view-collection.h>
 #include <e-util/gal-view-etable.h>
+#include <e-util/gal-view-virtual-tree.h>
 #include <e-util/gal-view-instance-save-as-dialog.h>
 #include <e-util/gal-view-instance.h>
 #include <e-util/gal-view.h>

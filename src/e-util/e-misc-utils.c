@@ -1088,6 +1088,48 @@ e_utils_get_theme_color (GtkWidget *widget,
 	g_warn_if_fail (gdk_rgba_parse (rgba, fallback_color_ident));
 }
 
+/**
+ * e_utils_get_selected_bg_color:
+ * @widget: a #GtkWidget to read the theme color from
+ * @focused: whether to return the focused or unfocused selection color
+ * @rgba: return location for the resulting #GdkRGBA
+ *
+ * Like e_utils_get_theme_color() for "theme_selected_bg_color", except
+ * when @focused is %FALSE and the theme does not define a distinct
+ * "theme_unfocused_selected_bg_color" at all, in which case a dimmed
+ * variant is derived from the focused selection color instead of an
+ * unrelated flat gray.
+ *
+ * Since: 3.64
+ **/
+void
+e_utils_get_selected_bg_color (GtkWidget *widget,
+			       gboolean focused,
+			       GdkRGBA *rgba)
+{
+	GtkStyleContext *style_context;
+	GdkRGBA base_rgba;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	g_return_if_fail (rgba != NULL);
+
+	style_context = gtk_widget_get_style_context (widget);
+
+	if (!focused && gtk_style_context_lookup_color (style_context, "theme_unfocused_selected_bg_color", rgba))
+		return;
+
+	e_utils_get_theme_color (widget, "theme_selected_bg_color", E_UTILS_DEFAULT_THEME_SELECTED_BG_COLOR, rgba);
+
+	if (focused)
+		return;
+
+	e_utils_get_theme_color (widget, "theme_base_color", E_UTILS_DEFAULT_THEME_BASE_COLOR, &base_rgba);
+
+	rgba->red = (rgba->red + base_rgba.red) / 2.0;
+	rgba->green = (rgba->green + base_rgba.green) / 2.0;
+	rgba->blue = (rgba->blue + base_rgba.blue) / 2.0;
+}
+
 /* This is copied from gtk+ sources */
 static void
 rgb_to_hls (gdouble *r,
@@ -1310,6 +1352,86 @@ e_utils_get_text_color_for_background (const GdkRGBA *bg_rgba)
 	text_rgba.alpha = 1.0;
 
 	return text_rgba;
+}
+
+/**
+ * e_utils_hsv_tweak:
+ * @rgba: (inout): a #GdkRGBA to modify in place
+ * @delta_h: how much to shift the hue channel, in either direction
+ * @delta_s: how much to shift the saturation channel, in either direction
+ * @delta_v: how much to shift the value (brightness) channel, in either direction
+ *
+ * Converts @rgba to HSV, shifts its hue, saturation and value channels
+ * by the given deltas, then converts it back to RGB in place. If shifting
+ * a channel by its delta in the positive direction would take it below 0,
+ * the delta is applied in the opposite (negative) direction instead.
+ *
+ * Since: 3.64
+ **/
+void
+e_utils_hsv_tweak (GdkRGBA *rgba,
+		   gdouble delta_h,
+		   gdouble delta_s,
+		   gdouble delta_v)
+{
+	gdouble hh, ss, vv, rr, gg, bb;
+
+	g_return_if_fail (rgba != NULL);
+
+	rr = rgba->red;
+	gg = rgba->green;
+	bb = rgba->blue;
+
+	gtk_rgb_to_hsv (rr, gg, bb, &hh, &ss, &vv);
+
+	if (hh + delta_h < 0)
+		hh -= delta_h;
+	else
+		hh += delta_h;
+
+	if (ss + delta_s < 0)
+		ss -= delta_s;
+	else
+		ss += delta_s;
+
+	if (vv + delta_v < 0)
+		vv -= delta_v;
+	else
+		vv += delta_v;
+
+	gtk_hsv_to_rgb (hh, ss, vv, &rr, &gg, &bb);
+
+	rgba->red = rr;
+	rgba->green = gg;
+	rgba->blue = bb;
+}
+
+/**
+ * e_utils_tint_color:
+ * @rgba: (inout): a #GdkRGBA to modify in place
+ * @amount: how far to blend, from -1.0 (fully black) to 1.0 (fully white)
+ *
+ * Blends @rgba toward white (for positive @amount) or black (for
+ * negative @amount) by |@amount| (0.0 = unchanged, 1.0 = fully
+ * white/black). Unlike a flat HSV value shift, this stays visible
+ * regardless of how dark or light @rgba already is.
+ *
+ * Since: 3.64
+ **/
+void
+e_utils_tint_color (GdkRGBA *rgba,
+		    gdouble amount)
+{
+	gdouble target, ratio;
+
+	g_return_if_fail (rgba != NULL);
+
+	target = (amount >= 0.0) ? 1.0 : 0.0;
+	ratio = fabs (amount);
+
+	rgba->red = rgba->red + (target - rgba->red) * ratio;
+	rgba->green = rgba->green + (target - rgba->green) * ratio;
+	rgba->blue = rgba->blue + (target - rgba->blue) * ratio;
 }
 
 static gint
@@ -4693,4 +4815,119 @@ e_util_is_dark_theme (GtkWidget *widget)
 		(0.1021 * 255.0 * rgba.blue);
 
 	return brightness > 140;
+}
+
+typedef struct _ActionPolicyCheckButtonData {
+	GSettings *settings;
+	gchar *settings_key;
+} ActionPolicyCheckButtonData;
+
+static void
+action_policy_check_button_data_free (gpointer ptr)
+{
+	ActionPolicyCheckButtonData *data = ptr;
+
+	if (!data)
+		return;
+
+	g_clear_object (&data->settings);
+	g_free (data->settings_key);
+	g_free (data);
+}
+
+static void
+action_policy_check_button_toggled_cb (GtkToggleButton *toggle_button,
+				       gpointer user_data);
+
+static void
+action_policy_check_button_update (GtkCheckButton *check_button,
+				   EAutomaticActionPolicy policy)
+{
+	g_signal_handlers_block_matched (check_button, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		action_policy_check_button_toggled_cb, NULL);
+
+	if (policy == E_AUTOMATIC_ACTION_POLICY_ASK) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button), FALSE);
+		gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (check_button), TRUE);
+	} else {
+		gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (check_button), FALSE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check_button), policy == E_AUTOMATIC_ACTION_POLICY_ALWAYS);
+	}
+
+	g_signal_handlers_unblock_matched (check_button, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
+		action_policy_check_button_toggled_cb, NULL);
+}
+
+static void
+action_policy_check_button_toggled_cb (GtkToggleButton *toggle_button,
+				       gpointer user_data)
+{
+	ActionPolicyCheckButtonData *data = user_data;
+	EAutomaticActionPolicy policy;
+
+	policy = g_settings_get_enum (data->settings, data->settings_key);
+
+	if (policy == E_AUTOMATIC_ACTION_POLICY_NEVER)
+		policy = E_AUTOMATIC_ACTION_POLICY_ASK;
+	else if (policy == E_AUTOMATIC_ACTION_POLICY_ALWAYS)
+		policy = E_AUTOMATIC_ACTION_POLICY_NEVER;
+	else
+		policy = E_AUTOMATIC_ACTION_POLICY_ALWAYS;
+
+	g_settings_set_enum (data->settings, data->settings_key, policy);
+
+	action_policy_check_button_update (GTK_CHECK_BUTTON (toggle_button), policy);
+}
+
+static void
+action_policy_check_button_settings_changed_cb (GSettings *settings,
+						const gchar *key,
+						gpointer user_data)
+{
+	GtkCheckButton *check_button = user_data;
+
+	action_policy_check_button_update (check_button, g_settings_get_enum (settings, key));
+}
+
+/**
+ * e_util_setup_automatic_action_policy_check_button:
+ * @check_button: a #GtkCheckButton
+ * @settings: a #GSettings
+ * @settings_key: name of an #EAutomaticActionPolicy-backed key in @settings
+ *
+ * Turns @check_button into a tri-state control for an #EAutomaticActionPolicy
+ * @settings_key: unchecked means "never", checked means "always" and the
+ * inconsistent state means "ask". Clicking the button cycles between the
+ * three states and stores the result into @settings.
+ *
+ * Since: 3.64
+ **/
+void
+e_util_setup_automatic_action_policy_check_button (GtkCheckButton *check_button,
+						   GSettings *settings,
+						   const gchar *settings_key)
+{
+	ActionPolicyCheckButtonData *data;
+	gchar *changed_signal_name;
+
+	g_return_if_fail (GTK_IS_CHECK_BUTTON (check_button));
+	g_return_if_fail (G_IS_SETTINGS (settings));
+	g_return_if_fail (settings_key != NULL);
+
+	data = g_new0 (ActionPolicyCheckButtonData, 1);
+	data->settings = g_object_ref (settings);
+	data->settings_key = g_strdup (settings_key);
+
+	g_object_set_data_full (G_OBJECT (check_button), "e-util-action-policy-data",
+		data, action_policy_check_button_data_free);
+
+	g_signal_connect (check_button, "toggled",
+		G_CALLBACK (action_policy_check_button_toggled_cb), data);
+
+	changed_signal_name = g_strconcat ("changed::", settings_key, NULL);
+	g_signal_connect_object (settings, changed_signal_name,
+		G_CALLBACK (action_policy_check_button_settings_changed_cb), check_button, 0);
+	g_free (changed_signal_name);
+
+	action_policy_check_button_update (check_button, g_settings_get_enum (settings, settings_key));
 }

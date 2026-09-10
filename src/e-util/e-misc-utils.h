@@ -84,6 +84,9 @@ void		e_utils_get_theme_color		(GtkWidget *widget,
 						 const gchar *color_names,
 						 const gchar *fallback_color_ident,
 						 GdkRGBA *rgba);
+void		e_utils_get_selected_bg_color	(GtkWidget *widget,
+						 gboolean focused,
+						 GdkRGBA *rgba);
 
 #define E_UTILS_LIGHTNESS_MULT	1.3
 #define E_UTILS_DARKNESS_MULT	0.7
@@ -102,6 +105,12 @@ void		e_utils_shade_color		(const GdkRGBA *a,
 gdouble		e_utils_get_color_brightness	(const GdkRGBA *rgba);
 GdkRGBA		e_utils_get_text_color_for_background
 						(const GdkRGBA *bg_rgba);
+void		e_utils_hsv_tweak		(GdkRGBA *rgba,
+						 gdouble delta_h,
+						 gdouble delta_s,
+						 gdouble delta_v);
+void		e_utils_tint_color		(GdkRGBA *rgba,
+						 gdouble amount);
 
 /* This only makes a filename safe for usage as a filename.
  * It still may have shell meta-characters in it. */
@@ -309,6 +318,10 @@ void		e_util_connect_menu_detach_after_deactivate
 						(GtkMenu *menu);
 gboolean	e_util_ignore_accel_for_focused	(GtkWidget *focused);
 gboolean	e_util_is_dark_theme		(GtkWidget *widget);
+void		e_util_setup_automatic_action_policy_check_button
+						(GtkCheckButton *check_button,
+						 GSettings *settings,
+						 const gchar *settings_key);
 
 G_END_DECLS
 
