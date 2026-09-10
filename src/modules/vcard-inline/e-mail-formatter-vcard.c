@@ -191,6 +191,7 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 		g_free (html_label);
 		g_free (button_iframe_uri);
 		g_clear_pointer (&access_key, g_free);
+		g_clear_pointer (&page_token, camel_pstring_free);
 
 		html_label = e_mail_formatter_parse_html_mnemonics (
 				_("Save _To Addressbook"), &access_key);

@@ -1370,6 +1370,7 @@ mail_display_content_loaded_cb (EWebView *web_view,
 	EMailDisplay *mail_display;
 	GList *attachments, *link;
 	gchar *citation_color = NULL;
+	const gchar *page_token;
 
 	g_return_if_fail (E_IS_MAIL_DISPLAY (web_view));
 
@@ -1424,10 +1425,12 @@ mail_display_content_loaded_cb (EWebView *web_view,
 		}
 	}
 
-	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
-		"Evo.MailDisplayBindDOM(%s, %s, %s);", iframe_id, citation_color,
-		e_mail_formatter_peek_page_token (mail_display->priv->formatter));
+	page_token = e_mail_formatter_dup_page_token (mail_display->priv->formatter);
 
+	e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+		"Evo.MailDisplayBindDOM(%s, %s, %s);", iframe_id, citation_color, page_token);
+
+	g_clear_pointer (&page_token, camel_pstring_free);
 	g_free (citation_color);
 
 	if (mail_display->priv->part_list) {

@@ -177,8 +177,7 @@ void		e_mail_formatter_set_default_charset
 
 const gchar *	e_mail_formatter_ensure_page_token
 						(EMailFormatter *formatter);
-const gchar *	e_mail_formatter_peek_page_token
-						(EMailFormatter *formatter);
+const gchar *	e_mail_formatter_dup_page_token	(EMailFormatter *formatter);
 void		e_mail_formatter_reset_page_token
 						(EMailFormatter *formatter);
 

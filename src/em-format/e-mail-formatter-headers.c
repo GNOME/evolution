@@ -477,6 +477,7 @@ format_full_headers (EMailFormatter *formatter,
 			escaped_name, page_token);
 		g_string_append (buffer, "</td>");
 
+		g_clear_pointer (&page_token, camel_pstring_free);
 		g_free (escaped_name);
 
 	} else if (!is_rfc822_headers && face_header_value != NULL) {
