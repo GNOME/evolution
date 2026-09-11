@@ -480,8 +480,8 @@ addressbook_view_create_table_view (EAddressbookView *view,
 
 	extras = e_table_extras_new ();
 
-	/* Set proper format component for a default 'date' cell renderer. */
-	cell = e_table_extras_get_cell (extras, "date");
+	/* Set format component for 'date-int' cell renderer (Birthday, Anniversary). */
+	cell = e_table_extras_get_cell (extras, "date-int");
 	e_cell_date_set_format_component (E_CELL_DATE (cell), "addressbook");
 
 	etspecfile = g_build_filename (

@@ -99,7 +99,7 @@ get_general_page (EConfig *config,
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	e_datetime_format_add_setup_widget (
 		GTK_GRID (widget), 0, "addressbook", "table",
-		DTFormatKindDateTime, _("_Table column:"));
+		DTFormatKindDate, _("_Table column:"));
 	gtk_widget_show (widget);
 
 	itembox = add_section (vbox, _("Miscellaneous"), FALSE);
