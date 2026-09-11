@@ -41,7 +41,6 @@ set(GETTEXT_PO_DIR ${CMAKE_SOURCE_DIR}/po)
 # Required for 'disttest' and 'distcheck' of DistTarget module
 set(PROJECT_DISTCONFIGURE_PARAMS
 	-DENABLE_GTK_DOC=ON
-	-DENABLE_CONTACT_MAPS=ON
 	-DENABLE_INSTALLED_TESTS=ON
 	-DWITH_HELP=ON
 )
@@ -717,28 +716,6 @@ if(ENABLE_WEATHER)
 	endif(NOT "${geocode_glib_soupapiversion}" STREQUAL "3.0")
 	unset(geocode_glib_soupapiversion)
 endif(ENABLE_WEATHER)
-
-# maps in Contacts preview
-
-add_printable_option(ENABLE_CONTACT_MAPS "Enable contact maps" OFF)
-
-if(ENABLE_CONTACT_MAPS)
-	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CHAMPLAIN champlain-gtk-0.12>=${champlain_minimum_version})
-	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" GEO geocode-glib-2.0>=${geocode_glib_minimum_version})
-	pkg_check_modules_for_option(ENABLE_CONTACT_MAPS "contact maps" CLUTTER_GTK clutter-gtk-1.0>=${clutter_gtk_minimum_version})
-
-	pkg_check_variable(champlain_soupapiversion champlain-0.12 soupapiversion)
-	if(NOT "${champlain_soupapiversion}" STREQUAL "3.0")
-		message(FATAL_ERROR "Requires libchamplain compiled with libsoup 3.0 API, but found version '${champlain_soupapiversion}' instead. If you want to disable contact maps, please use -DENABLE_CONTACT_MAPS=OFF argument to cmake command.")
-	endif(NOT "${champlain_soupapiversion}" STREQUAL "3.0")
-	unset(champlain_soupapiversion)
-
-	pkg_check_variable(geocode_glib_soupapiversion geocode-glib-2.0 soupapiversion)
-	if(NOT "${geocode_glib_soupapiversion}" STREQUAL "3.0")
-		message(FATAL_ERROR "Requires geocode-glib compiled with libsoup 3.0 API, but found version '${geocode_glib_soupapiversion}' instead. If you want to disable contact maps, please use -DENABLE_CONTACT_MAPS=OFF argument to cmake command.")
-	endif(NOT "${geocode_glib_soupapiversion}" STREQUAL "3.0")
-	unset(geocode_glib_soupapiversion)
-endif(ENABLE_CONTACT_MAPS)
 
 # pst-import plugin
 

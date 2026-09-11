@@ -78,7 +78,6 @@ mail_formatter_vcard_format (EMailFormatterExtension *extension,
 
 		vcard_formatter = g_object_new (EAB_TYPE_CONTACT_FORMATTER,
 			"display-mode", display_mode,
-			"render-maps", FALSE,
 			NULL);
 
 		eab_contact_formatter_format_contact (vcard_formatter, contact, buffer);

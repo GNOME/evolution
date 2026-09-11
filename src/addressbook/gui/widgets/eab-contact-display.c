@@ -15,7 +15,6 @@
 
 #include "shell/e-shell-utils.h"
 
-#include "e-contact-map.h"
 #include "eab-contact-formatter.h"
 #include "eab-gui-util.h"
 
@@ -26,7 +25,6 @@ struct _EABContactDisplayPrivate {
 	EContact *contact;
 
 	EABContactDisplayMode mode;
-	gboolean show_maps;
 	gboolean home_before_work;
 };
 
@@ -34,7 +32,6 @@ enum {
 	PROP_0,
 	PROP_CONTACT,
 	PROP_MODE,
-	PROP_SHOW_MAPS,
 	N_PROPS
 };
 
@@ -131,7 +128,6 @@ load_contact (EABContactDisplay *display)
 	g_object_set (
 		G_OBJECT (formatter),
 		"display-mode", display->priv->mode,
-		"render-maps", display->priv->show_maps,
 		NULL);
 
 	buffer = g_string_sized_new (1024);
@@ -206,12 +202,6 @@ contact_display_set_property (GObject *object,
 				EAB_CONTACT_DISPLAY (object),
 				g_value_get_int (value));
 			return;
-
-		case PROP_SHOW_MAPS:
-			eab_contact_display_set_show_maps (
-				EAB_CONTACT_DISPLAY (object),
-				g_value_get_boolean (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -233,12 +223,6 @@ contact_display_get_property (GObject *object,
 		case PROP_MODE:
 			g_value_set_int (
 				value, eab_contact_display_get_mode (
-				EAB_CONTACT_DISPLAY (object)));
-			return;
-
-		case PROP_SHOW_MAPS:
-			g_value_set_boolean (
-				value, eab_contact_display_get_show_maps (
 				EAB_CONTACT_DISPLAY (object)));
 			return;
 	}
@@ -458,12 +442,6 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
 
-	properties[PROP_SHOW_MAPS] =
-		g_param_spec_boolean (
-			"show-maps", NULL, NULL,
-			FALSE,
-			G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS);
-
 	g_object_class_install_properties (object_class, N_PROPS, properties);
 
 	signals[SEND_MESSAGE] = g_signal_new (
@@ -541,28 +519,4 @@ eab_contact_display_set_mode (EABContactDisplay *display,
 	load_contact (display);
 
 	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_MODE]);
-}
-
-gboolean
-eab_contact_display_get_show_maps (EABContactDisplay *display)
-{
-	g_return_val_if_fail (EAB_IS_CONTACT_DISPLAY (display), FALSE);
-
-	return display->priv->show_maps;
-}
-
-void
-eab_contact_display_set_show_maps (EABContactDisplay *display,
-                                   gboolean show_maps)
-{
-	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
-
-	if (display->priv->show_maps == show_maps)
-		return;
-
-	display->priv->show_maps = show_maps;
-
-	load_contact (display);
-
-	g_object_notify_by_pspec (G_OBJECT (display), properties[PROP_SHOW_MAPS]);
 }

@@ -49,7 +49,6 @@
 
 struct _EABContactFormatterPrivate {
 	EABContactDisplayMode mode;
-	gboolean render_maps;
 	gboolean supports_tel;
 	gboolean supports_sip;
 };
@@ -57,7 +56,6 @@ struct _EABContactFormatterPrivate {
 enum {
 	PROP_0,
 	PROP_DISPLAY_MODE,
-	PROP_RENDER_MAPS,
 	N_PROPS
 };
 
@@ -1065,35 +1063,6 @@ render_contact_column (EABContactFormatter *formatter,
 }
 
 static void
-accum_address_map (GString *buffer,
-                   EContact *contact,
-                   gint map_type)
-{
-/* Disabled, due to the code depending on WebKit1 functionality (gtk+ widgets inside webview).
-   Re-enable once there is a good replacement. See also ACTION (CONTACT_PREVIEW_SHOW_MAPS) usage.
-*/
-#if 0
-#ifdef ENABLE_CONTACT_MAPS
-	g_string_append (buffer, "<tr><td colspan=\"3\">");
-
-	if (map_type == E_CONTACT_ADDRESS_WORK) {
-		g_string_append (
-			buffer,
-			"<object type=\"application/x-work-map-widget\" "
-			"width=\"250\" height=\"250\"></object>");
-	} else {
-		g_string_append (
-			buffer,
-			"<object type=\"application/x-home-map-widget\" "
-			"width=\"250\" height=\"250\"></object>");
-	}
-
-	g_string_append (buffer, "</td></tr>");
-#endif /* ENABLE_CONTACT_MAPS */
-#endif /* 0 */
-}
-
-static void
 render_work_column (EABContactFormatter *formatter,
                     EContact *contact,
                     GString *buffer)
@@ -1127,8 +1096,6 @@ render_work_column (EABContactFormatter *formatter,
 	accum_tel       (accum, contact, EAB_CONTACT_FORMATTER_TEL_TYPE_WORK, NULL, phone_flags);
 	accum_sip       (accum, contact, EAB_CONTACT_FORMATTER_SIP_TYPE_WORK, NULL, sip_flags);
 	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_WORK, E_CONTACT_ADDRESS_LABEL_WORK);
-	if (formatter->priv->render_maps)
-		accum_address_map (accum, contact, E_CONTACT_ADDRESS_WORK);
 
 	if (accum->len > 0) {
 		g_string_append_printf (
@@ -1173,8 +1140,6 @@ render_personal_column (EABContactFormatter *formatter,
 	accum_time_attribute (accum, contact, _("Death"), E_CONTACT_DEATHDATE, NULL, 0);
 	accum_attribute (accum, contact, _("Death Place"), E_CONTACT_DEATHPLACE, NULL, 0);
 	accum_attribute (accum, contact, _("Spouse"), E_CONTACT_SPOUSE, NULL, 0);
-	if (formatter->priv->render_maps)
-		accum_address_map (accum, contact, E_CONTACT_ADDRESS_HOME);
 
 	if (accum->len > 0) {
 		g_string_append_printf (
@@ -1196,8 +1161,6 @@ render_other_column (EABContactFormatter *formatter,
 	GString *accum = g_string_new ("");
 
 	accum_address (accum, contact, _("Address"), E_CONTACT_ADDRESS_OTHER, E_CONTACT_ADDRESS_LABEL_OTHER);
-	if (formatter->priv->render_maps)
-		accum_address_map (accum, contact, E_CONTACT_ADDRESS_OTHER);
 
 	if (accum->len > 0) {
 		g_string_append_printf (
@@ -1539,12 +1502,6 @@ eab_contact_formatter_set_property (GObject *object,
 				EAB_CONTACT_FORMATTER (object),
 				g_value_get_int (value));
 			return;
-
-		case PROP_RENDER_MAPS:
-			eab_contact_formatter_set_render_maps (
-				EAB_CONTACT_FORMATTER (object),
-				g_value_get_boolean (value));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1561,13 +1518,6 @@ eab_contact_formatter_get_property (GObject *object,
 			g_value_set_int (
 				value,
 				eab_contact_formatter_get_display_mode (
-				EAB_CONTACT_FORMATTER (object)));
-			return;
-
-		case PROP_RENDER_MAPS:
-			g_value_set_boolean (
-				value,
-				eab_contact_formatter_get_render_maps (
 				EAB_CONTACT_FORMATTER (object)));
 			return;
 	}
@@ -1594,14 +1544,6 @@ eab_contact_formatter_class_init (EABContactFormatterClass *class)
 			G_PARAM_CONSTRUCT |
 			G_PARAM_STATIC_STRINGS);
 
-	properties[PROP_RENDER_MAPS] =
-		g_param_spec_boolean (
-			"render-maps", NULL, NULL,
-			FALSE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT |
-			G_PARAM_STATIC_STRINGS);
-
 	g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 
@@ -1611,7 +1553,6 @@ eab_contact_formatter_init (EABContactFormatter *formatter)
 	formatter->priv = eab_contact_formatter_get_instance_private (formatter);
 
 	formatter->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
-	formatter->priv->render_maps = FALSE;
 	formatter->priv->supports_tel = eab_contact_formatter_scheme_supported ("tel");
 	formatter->priv->supports_sip = eab_contact_formatter_scheme_supported ("sip");
 }
@@ -1620,28 +1561,6 @@ EABContactFormatter *
 eab_contact_formatter_new (void)
 {
 	return g_object_new (EAB_TYPE_CONTACT_FORMATTER, NULL);
-}
-
-gboolean
-eab_contact_formatter_get_render_maps (EABContactFormatter *formatter)
-{
-	g_return_val_if_fail (EAB_IS_CONTACT_FORMATTER (formatter), FALSE);
-
-	return formatter->priv->render_maps;
-}
-
-void
-eab_contact_formatter_set_render_maps (EABContactFormatter *formatter,
-                                       gboolean render_maps)
-{
-	g_return_if_fail (EAB_IS_CONTACT_FORMATTER (formatter));
-
-	if (formatter->priv->render_maps == render_maps)
-		return;
-
-	formatter->priv->render_maps = render_maps;
-
-	g_object_notify_by_pspec (G_OBJECT (formatter), properties[PROP_RENDER_MAPS]);
 }
 
 EABContactDisplayMode

@@ -67,7 +67,6 @@ fedora:
             -DCMAKE_INSTALL_PREFIX=$PREFIX
             -DENABLE_AUTOAR=ON
             -DENABLE_GTK_DOC=ON
-            -DENABLE_CONTACT_MAPS=OFF
             -DENABLE_INSTALLED_TESTS=ON
             -DWITH_HELP=ON
             ..

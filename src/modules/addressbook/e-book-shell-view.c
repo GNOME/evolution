@@ -344,10 +344,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 	sensitive = has_primary_source;
 	e_ui_action_set_sensitive (action, sensitive);
 
-	action = ACTION (ADDRESS_BOOK_MAP_POPUP);
-	sensitive = clicked_source_is_primary;
-	e_ui_action_set_sensitive (action, sensitive);
-
 	action = ACTION (ADDRESS_BOOK_STOP);
 	sensitive = source_is_busy;
 	e_ui_action_set_sensitive (action, sensitive);
@@ -411,11 +407,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 	else
 		label = _("_Send Message to Contact");
 	e_ui_action_set_label (action, label);
-
-#ifndef ENABLE_CONTACT_MAPS
-	e_ui_action_set_visible (ACTION (ADDRESS_BOOK_MAP), FALSE);
-	e_ui_action_set_visible (ACTION (ADDRESS_BOOK_MAP_POPUP), FALSE);
-#endif
 }
 
 static void

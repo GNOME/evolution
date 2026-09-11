@@ -31,10 +31,6 @@
 	E_SHELL_VIEW_ACTION ((view), "address-book-save-as")
 #define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_STOP(view) \
 	E_SHELL_VIEW_ACTION ((view), "address-book-stop")
-#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_MAP(view) \
-	E_SHELL_VIEW_ACTION ((view), "address-book-map")
-#define E_SHELL_VIEW_ACTION_ADDRESS_BOOK_MAP_POPUP(view) \
-	E_SHELL_VIEW_ACTION ((view), "address-book-map-popup")
 
 /* Contact Actions */
 #define E_SHELL_VIEW_ACTION_CONTACT_BULK_EDIT(view) \
@@ -57,8 +53,6 @@
 	E_SHELL_VIEW_ACTION ((view), "contact-open")
 #define E_SHELL_VIEW_ACTION_CONTACT_PREVIEW(view) \
 	E_SHELL_VIEW_ACTION ((view), "contact-preview")
-#define E_SHELL_VIEW_ACTION_CONTACT_PREVIEW_SHOW_MAPS(view) \
-	E_SHELL_VIEW_ACTION ((view), "contact-preview-show-maps")
 #define E_SHELL_VIEW_ACTION_CONTACT_PRINT(view) \
 	E_SHELL_VIEW_ACTION ((view), "contact-print")
 #define E_SHELL_VIEW_ACTION_CONTACT_SAVE_AS(view) \

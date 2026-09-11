@@ -37,10 +37,6 @@ set(SOURCES
 	e-contact-card-box.h
 	e-contact-card.c
 	e-contact-card.h
-	e-contact-map.c
-	e-contact-map.h
-	e-contact-map-window.c
-	e-contact-map-window.h
 	e-addressbook-table-adapter.c
 	e-addressbook-table-adapter.h
 	e-addressbook-model.c

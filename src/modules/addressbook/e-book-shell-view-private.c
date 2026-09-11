@@ -593,11 +593,6 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 
 	settings = e_util_ref_settings ("org.gnome.evolution.addressbook");
 
-	g_settings_bind (
-		settings, "preview-show-maps",
-		ACTION (CONTACT_PREVIEW_SHOW_MAPS), "active",
-		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
-
 	action = ACTION (CONTACT_PREVIEW);
 
 	g_settings_bind (

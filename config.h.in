@@ -96,9 +96,6 @@
 /* Source code highlighting utility */
 #cmakedefine HIGHLIGHT_COMMAND "@HIGHLIGHT_COMMAND@"
 
-/* When defined Contacts preview will contain maps */
-#cmakedefine ENABLE_CONTACT_MAPS 1
-
 /* Define to 1 if you have the `gnu_get_libc_version' function. */
 #cmakedefine HAVE_GNU_GET_LIBC_VERSION 1
 

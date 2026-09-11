@@ -47,11 +47,6 @@ struct _EABContactFormatterClass {
 GType		eab_contact_formatter_get_type	(void) G_GNUC_CONST;
 EABContactFormatter *
 		eab_contact_formatter_new	(void);
-gboolean	eab_contact_formatter_get_render_maps
-						(EABContactFormatter *formatter);
-void		eab_contact_formatter_set_render_maps
-						(EABContactFormatter *formatter,
-						 gboolean render_maps);
 EABContactDisplayMode
 		eab_contact_formatter_get_display_mode
 						(EABContactFormatter *formatter);

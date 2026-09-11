@@ -465,7 +465,6 @@
 			"config-opts": [
 				"-DOVERRIDE_APPLICATION_ID=org.gnome.Evolution.Devel",
 				"-DENABLE_AUTOAR=OFF",
-				"-DENABLE_CONTACT_MAPS=OFF",
 				"-DENABLE_GNOME_DESKTOP=OFF",
 				"-DENABLE_GTK_DOC=ON",
 				"-DENABLE_INSTALLED_TESTS=OFF",

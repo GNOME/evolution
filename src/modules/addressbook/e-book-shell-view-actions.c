@@ -398,135 +398,6 @@ action_address_book_refresh_backend_cb (EUIAction *action,
 	g_object_unref (cancellable);
 }
 
-#ifdef ENABLE_CONTACT_MAPS
-
-static void
-map_window_show_contact_editor_cb (EContactMapWindow *window,
-                                   const gchar *contact_uid,
-                                   gpointer user_data)
-{
-	EBookShellView *book_shell_view = user_data;
-	EBookShellSidebar *book_shell_sidebar;
-	EShell *shell;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	ESource *source;
-	ESourceSelector *selector;
-	EClient *client;
-	EClientCache *client_cache;
-	EContact *contact;
-	GError *error = NULL;
-
-	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
-	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_ref_primary_selection (selector);
-	g_return_if_fail (source != NULL);
-
-	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell = e_shell_backend_get_shell (shell_backend);
-	client_cache = e_shell_get_client_cache (shell);
-
-	/* FIXME This blocks.  Needs to be asynchronous. */
-	client = e_client_cache_get_client_sync (
-		client_cache, source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
-		NULL, &error);
-
-	g_object_unref (source);
-
-	/* Sanity check. */
-	g_return_if_fail (
-		((client != NULL) && (error == NULL)) ||
-		((client == NULL) && (error != NULL)));
-
-	if (error != NULL) {
-		g_warning ("Error loading addressbook: %s", error->message);
-		g_error_free (error);
-		return;
-	}
-
-	e_book_client_get_contact_sync (
-		E_BOOK_CLIENT (client), contact_uid, &contact, NULL, &error);
-	if (error != NULL) {
-		g_warning ("Error getting contact from addressbook: %s", error->message);
-		g_error_free (error);
-		g_object_unref (client);
-		return;
-	}
-
-	e_contact_editor_util_show_for_contact (GTK_WINDOW (window), shell, E_BOOK_CLIENT (client), contact, FALSE, TRUE);
-
-	g_object_unref (client);
-}
-#endif
-
-/* We need this function to he defined all the time. */
-static void
-action_address_book_map_cb (EUIAction *action,
-			    GVariant *parameter,
-			    gpointer user_data)
-{
-#ifdef ENABLE_CONTACT_MAPS
-	EBookShellView *book_shell_view = user_data;
-	EShell *shell;
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EContactMapWindow *map_window;
-	EBookShellSidebar *book_shell_sidebar;
-	ESource *source;
-	ESourceSelector *selector;
-	EClient *client;
-	EClientCache *client_cache;
-	GError *error = NULL;
-
-	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
-	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_ref_primary_selection (selector);
-	g_return_if_fail (source != NULL);
-
-	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell = e_shell_backend_get_shell (shell_backend);
-	client_cache = e_shell_get_client_cache (shell);
-
-	/* FIXME This blocks.  Needs to be asynchronous. */
-	client = e_client_cache_get_client_sync (
-		client_cache, source,
-		E_SOURCE_EXTENSION_ADDRESS_BOOK, (guint32) -1,
-		NULL, &error);
-
-	g_object_unref (source);
-
-	/* Sanity check. */
-	g_return_if_fail (
-		((client != NULL) && (error == NULL)) ||
-		((client == NULL) && (error != NULL)));
-
-	if (error != NULL) {
-		g_warning ("Error loading addressbook: %s", error->message);
-		g_error_free (error);
-		return;
-	}
-
-	map_window = e_contact_map_window_new ();
-	e_contact_map_window_load_addressbook (
-		map_window, E_BOOK_CLIENT (client));
-
-	/* Free the map_window automatically when it is closed */
-	g_signal_connect_swapped (
-		map_window, "hide",
-		G_CALLBACK (gtk_widget_destroy), GTK_WIDGET (map_window));
-	g_signal_connect (
-		map_window, "show-contact-editor",
-		G_CALLBACK (map_window_show_contact_editor_cb), book_shell_view);
-
-	gtk_widget_show_all (GTK_WIDGET (map_window));
-
-	g_object_unref (client);
-#endif
-}
-
 static void
 action_address_book_rename_cb (EUIAction *action,
 			       GVariant *parameter,
@@ -984,22 +855,6 @@ action_contact_open_cb (EUIAction *action,
 }
 
 static void
-action_contact_preview_show_maps_cb (EUIAction *action,
-				     GVariant *parameter,
-				     gpointer user_data)
-{
-	EBookShellView *book_shell_view = user_data;
-	EBookShellContent *book_shell_content;
-	gboolean show_maps;
-
-	e_ui_action_set_state (action, parameter);
-
-	book_shell_content = book_shell_view->priv->book_shell_content;
-	show_maps = e_ui_action_get_active (action);
-	e_book_shell_content_set_preview_show_maps (book_shell_content, show_maps);
-}
-
-static void
 action_contact_print_cb (EUIAction *action,
 			 GVariant *parameter,
 			 gpointer user_data)
@@ -1329,20 +1184,6 @@ e_book_shell_view_actions_init (EBookShellView *self)
 		  NULL,
 		  action_address_book_refresh_backend_cb, NULL, NULL, NULL },
 
-		{ "address-book-map",
-		  NULL,
-		  N_("Address Book _Map"),
-		  NULL,
-		  N_("Show map with all contacts from selected address book"),
-		  action_address_book_map_cb, NULL, NULL, NULL },
-
-		{ "address-book-map-popup",
-		  NULL,
-		  N_("Address Book Map"),
-		  NULL,
-		  N_("Show map with all contacts from selected address book"),
-		  action_address_book_map_cb, NULL, NULL, NULL },
-
 		{ "address-book-rename",
 		  NULL,
 		  N_("_Rename…"),
@@ -1458,14 +1299,7 @@ e_book_shell_view_actions_init (EBookShellView *self)
 		  N_("Contact _Preview"),
 		  "<Control>m",
 		  N_("Show contact preview window"),
-		  NULL, NULL, "true", NULL },
-
-		{ "contact-preview-show-maps",
-		  NULL,
-		  N_("Show _Maps"),
-		  NULL,
-		  N_("Show maps in contact preview window"),
-		  NULL, NULL, "false", action_contact_preview_show_maps_cb }
+		  NULL, NULL, "true", NULL }
 	};
 
 	static const EUIActionEnumEntry contact_view_entries[] = {
@@ -1641,18 +1475,6 @@ e_book_shell_view_actions_init (EBookShellView *self)
 		ACTION (CONTACT_PREVIEW), "active",
 		ACTION (CONTACT_VIEW_VERTICAL), "sensitive",
 		G_BINDING_SYNC_CREATE);
-
-	e_binding_bind_property (
-		ACTION (CONTACT_PREVIEW), "active",
-		ACTION (CONTACT_PREVIEW_SHOW_MAPS), "sensitive",
-		G_BINDING_SYNC_CREATE);
-
-	/* Never show the action for the preview panel, the feature required
-	   WebKit1 functionality (gtk+ widgets inside webview).
-	   Re-enable once there is a good replacement.
-	   See also accum_address_map() in eab-contact-formatter.cpp.
-	*/
-	e_ui_action_set_visible (ACTION (CONTACT_PREVIEW_SHOW_MAPS), FALSE);
 
 	/* Hide it from the start */
 	e_ui_action_set_visible (ACTION (CONTACT_CARDS_SORT_BY_MENU), FALSE);
