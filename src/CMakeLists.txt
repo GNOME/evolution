@@ -11,10 +11,6 @@ add_subdirectory(plugins)
 add_subdirectory(shell)
 add_subdirectory(web-extensions)
 
-if(WITH_GLADE_CATALOG)
-	add_subdirectory(glade)
-endif(WITH_GLADE_CATALOG)
-
 if(ENABLE_SMIME)
 	add_subdirectory(smime)
 endif(ENABLE_SMIME)

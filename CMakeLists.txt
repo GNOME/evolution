@@ -44,7 +44,6 @@ set(PROJECT_DISTCONFIGURE_PARAMS
 	-DENABLE_CONTACT_MAPS=ON
 	-DENABLE_INSTALLED_TESTS=ON
 	-DWITH_HELP=ON
-	-DWITH_GLADE_CATALOG=ON
 )
 
 # Keep these two definitions in agreement.
@@ -89,7 +88,6 @@ set(sqlite_minimum_version 3.7.17)
 set(champlain_minimum_version 0.12.21)
 set(clutter_gtk_minimum_version 0.90)
 set(geocode_glib_minimum_version 3.26.3)
-set(gladeui_minimum_version 3.10.0)
 set(gnome_autoar_minimum_version 0.1.1)
 set(gweather_minimum_version 3.91)
 set(libcanberra_gtk_minimum_version 0.25)
@@ -761,16 +759,6 @@ elseif(ENABLE_PLUGINS STREQUAL "base")
 elseif(NOT ENABLE_PLUGINS STREQUAL "no")
 	message(FATAL_ERROR "Incorrect value for ENABLE_PLUGINS (${ENABLE_PLUGINS}), use either \"no\", or \"base\" or \"all\" value")
 endif()
-
-# ******************************
-# Glade catalog
-# ******************************
-
-add_printable_option(WITH_GLADE_CATALOG "Install the catalog files for Glade 3 (for maintainers only)" OFF)
-
-if(WITH_GLADE_CATALOG)
-	pkg_check_modules_for_option(WITH_GLADE_CATALOG "Glade 3 catalog files" GLADEUI gladeui-2.0>=${gladeui_minimum_version})
-endif(WITH_GLADE_CATALOG)
 
 # ******************************
 # cmark for CommonMarkdown
