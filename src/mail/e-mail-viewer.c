@@ -1047,8 +1047,8 @@ mail_viewer_reply_message_composer_created_cb (GObject *source_object,
 		if (rfd->skip_insecure_parts)
 			reply_flags |= E_MAIL_REPLY_FLAG_SKIP_INSECURE_PARTS;
 
-		em_utils_reply_to_message (composer, rfd->msg, NULL, NULL, rfd->reply_type,
-			reply_style, NULL, NULL, reply_flags);
+		if (!em_utils_reply_to_message (composer, rfd->msg, NULL, NULL, rfd->reply_type, reply_style, NULL, NULL, reply_flags))
+			gtk_widget_destroy (GTK_WIDGET (composer));
 	}
 
 	reply_forward_data_free (rfd);

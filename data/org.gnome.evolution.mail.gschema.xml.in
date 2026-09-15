@@ -667,6 +667,11 @@
       <_summary>Prompt when replying to many recipients</_summary>
       <_description>It disables/enables the repeated prompts to warn that you are sending a reply to many people.</_description>
     </key>
+    <key name="prompt-on-reply-to-self" type="b">
+      <default>true</default>
+      <_summary>Prompt when replying to a message you sent to yourself</_summary>
+      <_description>It disables/enables the repeated prompts to warn that you are replying to a message which you sent yourself, so the reply would go back to you instead of the original recipient.</_description>
+    </key>
     <key name="prompt-on-composer-mode-switch" type="b">
       <default>true</default>
       <_summary>Prompt when switching composer format and the content needs to lose its formatting</_summary>

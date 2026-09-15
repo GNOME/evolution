@@ -90,6 +90,13 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <button response="GTK_RESPONSE_NO" _label="Reply _Privately"/>
   </error>
 
+  <error id="ask-reply-to-self" type="question" default="GTK_RESPONSE_CANCEL">
+    <_primary>Reply to yourself?</_primary>
+    <_secondary>The message you are replying to was sent by you, so replying to its sender will send your reply back to yourself instead of to the person you likely mean to reach. Are you sure you want to proceed?</_secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button response="GTK_RESPONSE_OK" _label="Reply to _Self"></button>
+  </error>
+
   <error id="send-no-recipients" type="warning">
     <_primary>This message cannot be sent because you have not specified any recipients</_primary>
     <_secondary xml:space="preserve">Please enter a valid email address in the To: field. You can search for email addresses by clicking on the To: button next to the entry box.</_secondary>

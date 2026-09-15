@@ -2556,6 +2556,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	emc_prefs_bind_settings (prefs, settings, "prompt-on-only-bcc", "chkPromptBccOnly", "active");
 	emc_prefs_bind_settings (prefs, settings, "prompt-on-private-list-reply", "chkPromptPrivateListReply", "active");
 	emc_prefs_bind_settings (prefs, settings, "prompt-on-reply-many-recips", "chkPromptReplyManyRecips", "active");
+	emc_prefs_bind_settings (prefs, settings, "prompt-on-reply-to-self", "chkPromptReplyToSelf", "active");
 	emc_prefs_bind_settings (prefs, settings, "prompt-on-list-reply-to", "chkPromptListReplyTo", "active");
 	emc_prefs_bind_settings (prefs, settings, "prompt-on-many-to-cc-recips", "chkPromptManyToCCRecips", "active");
 	emc_prefs_bind_settings (prefs, settings, "prompt-on-invalid-recip", "chkPromptSendInvalidRecip", "active");

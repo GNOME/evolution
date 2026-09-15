@@ -60,7 +60,7 @@ void		em_utils_get_reply_all		(ESourceRegistry *registry,
 						 CamelInternetAddress *to,
 						 CamelInternetAddress *cc,
 						 CamelNNTPAddress *postto);
-void		em_utils_reply_to_message	(EMsgComposer *composer,
+gboolean	em_utils_reply_to_message	(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 CamelFolder *folder,
 						 const gchar *message_uid,

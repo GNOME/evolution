@@ -4287,9 +4287,15 @@ alt_reply_composer_created_cb (GObject *source_object,
 					CAMEL_MESSAGE_ANSWERED | get_composer_mark_read_on_reply_flag ());
 			}
 		} else {
-			em_utils_reply_to_message (composer, context->source_message,
+			if (!em_utils_reply_to_message (composer, context->source_message,
 				context->folder, context->message_uid, context->type, context->style,
-				context->source, NULL, context->flags | E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY);
+				context->source, NULL, context->flags | E_MAIL_REPLY_FLAG_FORCE_SENDER_REPLY)) {
+				gtk_widget_destroy (GTK_WIDGET (composer));
+				alt_reply_context_free (context);
+				g_clear_error (&error);
+
+				return;
+			}
 		}
 
 		em_composer_utils_update_security (composer, context->validity_pgp_sum, context->validity_smime_sum);
@@ -5023,12 +5029,15 @@ em_utils_get_reply_recipients (ESourceRegistry *registry,
  * @address: used for E_MAIL_REPLY_TO_RECIPIENT @type
  * @reply_flags: bit-or of #EMailReplyFlags
  *
- * Creates a new composer ready to reply to @message.
+ * Configures an existing composer ready to reply to @message.
  *
  * @folder and @message_uid may be supplied in order to update the message
  * flags once it has been replied to.
+ *
+ * Returns: %TRUE if reply was accepted and composer is ready to use,
+ *    %FALSE if user cancelled.
  **/
-void
+gboolean
 em_utils_reply_to_message (EMsgComposer *composer,
                            CamelMimeMessage *message,
                            CamelFolder *folder,
@@ -5049,9 +5058,13 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	EContentEditor *cnt_editor;
 	gchar *identity_uid = NULL, *identity_name = NULL, *identity_address = NULL;
 	guint32 flags;
+	GSettings *settings;
+	gint ii, len;
+	const gchar *email;
+	gboolean recipient_is_user;
 
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), FALSE);
 
 	cnt_editor = e_html_editor_get_content_editor (e_msg_composer_get_editor (composer));
 
@@ -5130,6 +5143,58 @@ em_utils_reply_to_message (EMsgComposer *composer,
 
 	if (type == E_MAIL_REPLY_TO_LIST || type == E_MAIL_REPLY_TO_ALL)
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
+
+	settings = e_util_ref_settings ("org.gnome.evolution.mail");
+
+	if (g_settings_get_boolean (settings, "prompt-on-reply-to-self")) {
+		recipient_is_user = FALSE;
+
+		len = camel_address_length (CAMEL_ADDRESS (to));
+		for (ii = 0; ii < len && !recipient_is_user; ii++) {
+			if (camel_internet_address_get (to, ii, NULL, &email) && email)
+				recipient_is_user = em_utils_address_is_user (registry, email, TRUE);
+		}
+
+		len = camel_address_length (CAMEL_ADDRESS (cc));
+		for (ii = 0; ii < len && !recipient_is_user; ii++) {
+			if (camel_internet_address_get (cc, ii, NULL, &email) && email)
+				recipient_is_user = em_utils_address_is_user (registry, email, TRUE);
+		}
+
+		if (recipient_is_user) {
+			GtkWidget *dialog, *check, *container;
+			gint response;
+
+			dialog = e_alert_dialog_new_for_args (GTK_WINDOW (composer), "mail:ask-reply-to-self", NULL);
+
+			container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
+
+			check = gtk_check_button_new_with_mnemonic (_("_Do not ask me again."));
+			gtk_box_pack_start (GTK_BOX (container), check, FALSE, FALSE, 0);
+			gtk_widget_show (check);
+
+			response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
+				g_settings_set_boolean (settings, "prompt-on-reply-to-self", FALSE);
+
+			gtk_widget_destroy (dialog);
+
+			if (response != GTK_RESPONSE_OK) {
+				g_object_unref (settings);
+				g_clear_object (&postto);
+				g_clear_object (&to);
+				g_clear_object (&cc);
+				g_free (identity_uid);
+				g_free (identity_name);
+				g_free (identity_address);
+
+				return FALSE;
+			}
+		}
+	}
+
+	g_object_unref (settings);
 
 	reply_setup_composer (composer, message, identity_uid, identity_name, identity_address, to, cc, folder, message_uid, postto);
 
@@ -5212,6 +5277,8 @@ em_utils_reply_to_message (EMsgComposer *composer,
 	g_free (identity_uid);
 	g_free (identity_name);
 	g_free (identity_address);
+
+	return TRUE;
 }
 
 static void
