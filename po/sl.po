@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-09-18 10:39+0000\n"
-"PO-Revision-Date: 2026-09-18 16:13+0200\n"
+"POT-Creation-Date: 2026-09-18 14:15+0000\n"
+"PO-Revision-Date: 2026-09-18 18:18+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -32,12 +32,11 @@ msgid "Whether addresses should be formatted according to standard in their dest
 msgstr "Ali naj bodo naslovi oblikovani glede na standard ciljne države"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:3
-#, fuzzy
 msgid ""
 "Whether click on a header in the contacts table can change sort order by the clicked column."
 msgstr ""
-"Ali lahko s klikom naslova stolpca v tabeli stikov spremenim vrstni red po stolpcu, na "
-"katerega sem kliknil?"
+"Ali se lahko s klikom naslova stolpca v tabeli stikov spremeni vrstni red v stolpcu, na "
+"katerega kliknete."
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:4
 msgid "Autocomplete length"
@@ -541,7 +540,7 @@ msgstr "Ali naj se v urejevalniku dogodkov/nalog/srečanj prikaže polje vrsta"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:62
 msgid "Show toolbar in the event/task/memo editor"
-msgstr "Pokaži orodno vrstico v urejevalniku dogodkov/nalog/srečanj"
+msgstr "Pokaži orodno vrstico v urejevalniku dogodkov/nalog/opomnikov"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:63
 msgid "Whether to show toolbar in the event/task/memo editor"
@@ -1006,13 +1005,12 @@ msgid "Whether to use markdown editor for the description in the component edito
 msgstr "Ali naj bo uporabljen urejevalnik Markdown za opis v urejevalniku."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:165
-#, fuzzy
 msgid ""
 "Whether click on a header in the events, memos or tasks table can change sort order by the "
 "clicked column."
 msgstr ""
-"Če kliknete na naslov stolpca v preglednici dogodkov, opomb ali nalog, se lahko spremeni "
-"vrstni red po stolpcu, na katerega ste kliknili."
+"Ali se, če kliknete na naslov stolpca v preglednici dogodkov, opomb ali nalog, lahko spremeni "
+"vrstni red v stolpcu, na katerega ste kliknili."
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:166
 msgid "Show week day names in the Year View"
@@ -8663,16 +8661,15 @@ msgid "Source"
 msgstr "Izvorna koda"
 
 #: ../src/calendar/gui/e-cal-table-events.c:258
-#, fuzzy
 msgid ""
 "No event satisfies your search criteria. Change search criteria by selecting a new Show "
 "appointments filter from the drop down list above or by running a new search either by "
 "clearing it with Search->Clear menu item or by changing the query above."
 msgstr ""
 "Noben dogodek ne ustreza vašim iskalnim merilom. Spremenite iskalna merila tako, da iz "
-"zgornjega spustnega seznama izberete nov filter »Prikaži dogodke« ali pa izvedete novo iskanje "
+"zgornjega spustnega seznama izberete nov filter »Pokaži dogodke« ali pa izvedete novo iskanje "
 "– bodisi tako, da izbrišete trenutno iskanje z menijsko možnostjo »Iskanje → Izbriši«, bodisi "
-"tako, da spremenite zgornje iskalno poizvedbo."
+"tako, da spremenite zgornjo iskalno poizvedbo."
 
 #: ../src/calendar/gui/e-cal-table-events.c:299
 #, c-format
@@ -8716,18 +8713,15 @@ msgid "Select all visible memos"
 msgstr "Izberi vse vidne opomnike"
 
 #: ../src/calendar/gui/e-cal-table-memos.c:250
-#, fuzzy
-#| msgid ""
-#| "No message satisfies your search criteria. Change search criteria by selecting a new Show "
-#| "message filter from the drop down list above or by running a new search either by clearing "
-#| "it with Search→Clear menu item or by changing the query above."
 msgid ""
 "No memo satisfies your search criteria. Change search criteria by selecting a new Show memos "
 "filter from the drop down list above or by running a new search either by clearing it with "
 "Search->Clear menu item or by changing the query above."
 msgstr ""
-"Ni sporočil, ki ustrezajo iskalnemu nizu. Spremenite kriterije z izbiro možnosti prikaza "
-"filtrov sporočil iz spustnega seznama, ali pa z zagonom novega iskanja."
+"Noben opomnik ne ustreza vašim iskalnim merilom. Spremenite iskalna merila tako, da iz "
+"zgornjega spustnega seznama izberete nov filter »Prikaži opomnike« ali pa izvedete novo "
+"iskanje – bodisi tako, da izbrišete trenutno iskanje z menijsko možnostjo »Iskanje → Izbriši«, "
+"bodisi tako, da spremenite zgornjo iskalno poizvedbo."
 
 #: ../src/calendar/gui/e-cal-table-tasks.c:23 ../src/mail/mail-send-recv.c:1137
 msgid "Complete"
@@ -8799,18 +8793,15 @@ msgid "Select all visible tasks"
 msgstr "Izberi vse vidne naloge"
 
 #: ../src/calendar/gui/e-cal-table-tasks.c:637
-#, fuzzy
-#| msgid ""
-#| "No message satisfies your search criteria. Change search criteria by selecting a new Show "
-#| "message filter from the drop down list above or by running a new search either by clearing "
-#| "it with Search→Clear menu item or by changing the query above."
 msgid ""
 "No task satisfies your search criteria. Change search criteria by selecting a new Show tasks "
 "filter from the drop down list above or by running a new search either by clearing it with "
 "Search->Clear menu item or by changing the query above."
 msgstr ""
-"Ni sporočil, ki ustrezajo iskalnemu nizu. Spremenite kriterije z izbiro možnosti prikaza "
-"filtrov sporočil iz spustnega seznama, ali pa z zagonom novega iskanja."
+"Nobena naloga ne ustreza vašim iskalnim merilom. Spremenite iskalna merila tako, da iz "
+"zgornjega spustnega seznama izberete nov filter »Pokaži naloge« ali pa izvedete novo iskanje – "
+"bodisi tako, da izbrišete trenutno iskanje z menijsko možnostjo »Iskanje → Izbriši«, bodisi "
+"tako, da spremenite zgornjo iskalno poizvedbo."
 
 #: ../src/calendar/gui/e-comp-editor-event.c:98
 msgid "Event’s time is in the past"
@@ -16982,7 +16973,6 @@ msgid "Sort _Descending"
 msgstr "Razvrsti _padajoče"
 
 #: ../src/e-util/e-virtual-tree.c:6965 ../src/e-util/e-virtual-tree.c:7071
-#, fuzzy
 msgid "_Unsort"
 msgstr "Pre_kliči razvrstitev"
 
@@ -19698,18 +19688,14 @@ msgid "Message list generation has been cancelled."
 msgstr "Tvorjenje seznama sporočil je preklicano."
 
 #: ../src/mail/e-message-list.c:491
-#, fuzzy
-#| msgid ""
-#| "No message satisfies your search criteria. Change search criteria by selecting a new Show "
-#| "message filter from the drop down list above or by running a new search either by clearing "
-#| "it with Search→Clear menu item or by changing the query above."
 msgid ""
 "No message satisfies your search criteria. Change search criteria by selecting a new Show "
 "message filter from the drop down list above or by running a new search either by clearing it "
 "with Search->Clear menu item or by changing the query above."
 msgstr ""
-"Ni sporočil, ki ustrezajo iskalnemu nizu. Spremenite kriterije z izbiro možnosti prikaza "
-"filtrov sporočil iz spustnega seznama, ali pa z zagonom novega iskanja."
+"Ni sporočil, ki ustrezajo iskanemu nizu in pogojem. Spremenite pogoje z izbiro možnosti filtra "
+"Pokaži sporočilo iz zgornjega spustnega seznama, ali pa z zagonom novega iskanja, tako da ga "
+"počistite z menijskim ukazom Iskanje -> Počisti ali spremembo zgornje poizvedbe."
 
 #: ../src/mail/e-message-list.c:498
 msgid "There are no messages in this folder."
@@ -19759,9 +19745,8 @@ msgid "Correspondents"
 msgstr "Dopisovalci"
 
 #: ../src/mail/e-message-list.c:2638
-#, fuzzy
 msgid "Subject Trimmed"
-msgstr "Zadeva, okleščena"
+msgstr "Zadeva okleščena"
 
 #: ../src/mail/e-message-list.c:2645 ../src/mail/em-folder-properties.c:1456
 #: ../src/mail/mail-config.ui.h:134
