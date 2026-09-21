@@ -26,7 +26,7 @@ static const ECalTableColumnDef event_table_columns[] = {
 	{ "last-modified", N_("Last modified"), E_CAL_MODEL_FIELD_LASTMODIFIED, FALSE },
 	{ "source", N_("Source"), E_CAL_MODEL_FIELD_SOURCE, FALSE },
 	{ "status", N_("Status"), E_CAL_MODEL_FIELD_STATUS, FALSE },
-	{ "calendar-color", N_("Calendar"), E_CAL_MODEL_FIELD_COLOR, TRUE }
+	{ "calendar-color", N_("Color"), E_CAL_MODEL_FIELD_COLOR, TRUE }
 };
 
 #define N_EVENT_TABLE_COLUMNS (G_N_ELEMENTS (event_table_columns))

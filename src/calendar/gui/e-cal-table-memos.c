@@ -23,7 +23,7 @@ static const ECalTableColumnDef memo_table_columns[] = {
 	{ "last-modified", N_("Last modified"), E_CAL_MODEL_FIELD_LASTMODIFIED, FALSE },
 	{ "source", N_("Source"), E_CAL_MODEL_FIELD_SOURCE, FALSE },
 	{ "status", N_("Status"), E_CAL_MODEL_FIELD_STATUS, FALSE },
-	{ "memolist-color", N_("Memo List"), E_CAL_MODEL_FIELD_COLOR, TRUE }
+	{ "memolist-color", N_("Color"), E_CAL_MODEL_FIELD_COLOR, TRUE }
 };
 
 #define N_MEMO_TABLE_COLUMNS (G_N_ELEMENTS (memo_table_columns))

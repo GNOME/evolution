@@ -33,7 +33,7 @@ static const ECalTableColumnDef task_table_columns[] = {
 	{ "last-modified", N_("Last modified"), E_CAL_MODEL_FIELD_LASTMODIFIED, FALSE },
 	{ "source", N_("Source"), E_CAL_MODEL_FIELD_SOURCE, FALSE },
 	{ "estimated-duration", N_("Estimated duration"), E_CAL_MODEL_FIELD_ESTIMATED_DURATION, FALSE },
-	{ "tasklist-color", N_("Task List"), E_CAL_MODEL_FIELD_COLOR, TRUE }
+	{ "tasklist-color", N_("Color"), E_CAL_MODEL_FIELD_COLOR, TRUE }
 };
 
 #define N_TASK_TABLE_COLUMNS (G_N_ELEMENTS (task_table_columns))
