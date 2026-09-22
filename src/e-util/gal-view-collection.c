@@ -284,15 +284,17 @@ load_single_dir (GalViewCollection *collection,
 		if (!found) {
 			GalViewCollectionItem *item = load_single_file (collection, dir, local, child);
 			if (item->filename && *item->filename) {
-				gchar *fullpath = g_build_filename (dir, item->filename, NULL);
-				gboolean file_exists = g_file_test (fullpath, G_FILE_TEST_IS_REGULAR);
+				if (local) {
+					gchar *fullpath = g_build_filename (dir, item->filename, NULL);
+					gboolean file_exists = g_file_test (fullpath, G_FILE_TEST_IS_REGULAR);
 
-				g_free (fullpath);
+					g_free (fullpath);
 
-				if (!file_exists) {
-					gal_view_collection_item_free (item);
-					g_free (id);
-					continue;
+					if (!file_exists) {
+						gal_view_collection_item_free (item);
+						g_free (id);
+						continue;
+					}
 				}
 
 				collection->priv->view_data = g_renew (GalViewCollectionItem *, collection->priv->view_data, collection->priv->view_count + 1);
