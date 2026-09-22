@@ -870,6 +870,13 @@ e_task_shell_view_actions_init (ETaskShellView *self)
 		  N_("Show task preview pane"),
 		  NULL, NULL, "true", NULL },
 
+		{ "task-show-hierarchy",
+		  NULL,
+		  N_("Show Tasks _Hierarchically"),
+		  "<Control>t",
+		  N_("Show sub-tasks indented under their parent task"),
+		  NULL, NULL, "true", NULL },
+
 		/*** Menus ***/
 
 		{ "task-actions-menu", NULL, N_("_Actions"), NULL, NULL, NULL },

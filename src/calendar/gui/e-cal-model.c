@@ -253,6 +253,7 @@ struct _ECalModelPrivate {
 	ECalModelSortColumn *sort_columns;
 	guint n_sort_columns;
 	gboolean reparent_by_dnd;
+	gboolean show_hierarchy;
 
 	/* VTODO-only, inert otherwise */
 	gboolean highlight_due_today;
@@ -307,7 +308,8 @@ enum {
 	PROP_HIGHLIGHT_DUE_TODAY,
 	PROP_COLOR_DUE_TODAY,
 	PROP_HIGHLIGHT_OVERDUE,
-	PROP_COLOR_OVERDUE
+	PROP_COLOR_OVERDUE,
+	PROP_SHOW_HIERARCHY
 };
 
 enum {
@@ -1041,6 +1043,12 @@ cal_model_set_property (GObject *object,
 				E_CAL_MODEL (object),
 				g_value_get_string (value));
 			return;
+
+		case PROP_SHOW_HIERARCHY:
+			e_cal_model_set_show_hierarchy (
+				E_CAL_MODEL (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1351,6 +1359,13 @@ cal_model_get_property (GObject *object,
 			g_value_set_string (
 				value,
 				e_cal_model_get_color_overdue (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_SHOW_HIERARCHY:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_show_hierarchy (
 				E_CAL_MODEL (object)));
 			return;
 	}
@@ -2783,6 +2798,43 @@ cal_model_ensure_visible_rows (ECalModel *model)
 }
 
 static void
+cal_model_rebuild_tree (ECalModel *model)
+{
+	ECalModelComponent *comp_data;
+	gchar *target_uid;
+	guint ii;
+
+	e_virtual_tree_model_emit_before_rebuild (E_VIRTUAL_TREE_MODEL (model));
+
+	for (ii = 0; ii < model->priv->objects->len; ii++) {
+		comp_data = g_ptr_array_index (model->priv->objects, ii);
+
+		comp_data->resolved_parent = NULL;
+
+		if (comp_data->resolved_children)
+			g_ptr_array_set_size (comp_data->resolved_children, 0);
+	}
+
+	g_ptr_array_set_size (model->priv->roots, 0);
+	g_hash_table_remove_all (model->priv->waiting_children);
+
+	for (ii = 0; ii < model->priv->objects->len; ii++) {
+		comp_data = g_ptr_array_index (model->priv->objects, ii);
+
+		target_uid = model->priv->show_hierarchy ? cal_model_component_get_related_to_parent_uid (comp_data->icalcomp) : NULL;
+
+		cal_model_attach_component (model, comp_data, target_uid);
+
+		g_free (target_uid);
+	}
+
+	model->priv->visible_dirty = TRUE;
+
+	e_virtual_tree_model_emit_after_rebuild (E_VIRTUAL_TREE_MODEL (model));
+	e_virtual_tree_model_emit_row_count_changed (E_VIRTUAL_TREE_MODEL (model));
+}
+
+static void
 cal_model_untrack_component (ECalModel *model,
 			     ECalModelComponent *comp_data)
 {
@@ -3006,7 +3058,7 @@ cal_model_data_subscriber_component_added_or_modified (ECalDataModelSubscriber *
 		comp_data->priv->own_key = cal_model_component_build_key (comp_data);
 		g_hash_table_insert (model->priv->uid_to_row, comp_data->priv->own_key, comp_data);
 
-		new_target = cal_model_component_get_related_to_parent_uid (icomp);
+		new_target = model->priv->show_hierarchy ? cal_model_component_get_related_to_parent_uid (icomp) : NULL;
 		cal_model_attach_component (model, comp_data, new_target);
 		g_free (new_target);
 
@@ -3014,11 +3066,11 @@ cal_model_data_subscriber_component_added_or_modified (ECalDataModelSubscriber *
 	} else {
 		comp_data = g_ptr_array_index (model->priv->objects, index);
 
-		old_target = cal_model_component_get_related_to_parent_uid (comp_data->icalcomp);
+		old_target = model->priv->show_hierarchy ? cal_model_component_get_related_to_parent_uid (comp_data->icalcomp) : NULL;
 
 		e_cal_model_component_set_icalcomponent (comp_data, model, icomp);
 
-		new_target = cal_model_component_get_related_to_parent_uid (comp_data->icalcomp);
+		new_target = model->priv->show_hierarchy ? cal_model_component_get_related_to_parent_uid (comp_data->icalcomp) : NULL;
 
 		if (g_strcmp0 (old_target, new_target) == 0) {
 			cal_model_reposition (model, comp_data);
@@ -3603,6 +3655,16 @@ e_cal_model_class_init (ECalModelClass *class)
 			"#ff0000",
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_HIERARCHY,
+		g_param_spec_boolean (
+			"show-hierarchy",
+			"Show Hierarchy",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
 	signals[TIME_RANGE_CHANGED] = g_signal_new (
 		"time_range_changed",
 		G_TYPE_FROM_CLASS (class),
@@ -3685,6 +3747,7 @@ e_cal_model_init (ECalModel *model)
 	model->priv->component_to_visible_index = g_hash_table_new (g_direct_hash, g_direct_equal);
 	model->priv->collapsed_uids = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	model->priv->visible_dirty = TRUE;
+	model->priv->show_hierarchy = TRUE;
 
 	model->priv->highlight_due_today = TRUE;
 	model->priv->highlight_overdue = TRUE;
@@ -5736,6 +5799,30 @@ e_cal_model_set_highlight_due_today (ECalModel *model,
 	model->priv->highlight_due_today = highlight;
 
 	g_object_notify (G_OBJECT (model), "highlight-due-today");
+}
+
+gboolean
+e_cal_model_get_show_hierarchy (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+
+	return model->priv->show_hierarchy;
+}
+
+void
+e_cal_model_set_show_hierarchy (ECalModel *model,
+				gboolean show_hierarchy)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if ((model->priv->show_hierarchy ? 1 : 0) == (show_hierarchy ? 1 : 0))
+		return;
+
+	model->priv->show_hierarchy = show_hierarchy;
+
+	cal_model_rebuild_tree (model);
+
+	g_object_notify (G_OBJECT (model), "show-hierarchy");
 }
 
 const gchar *

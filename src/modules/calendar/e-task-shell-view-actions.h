@@ -37,6 +37,8 @@
 	E_SHELL_VIEW_ACTION ((view), "task-purge")
 #define E_SHELL_VIEW_ACTION_TASK_SAVE_AS(view) \
 	E_SHELL_VIEW_ACTION ((view), "task-save-as")
+#define E_SHELL_VIEW_ACTION_TASK_SHOW_HIERARCHY(view) \
+	E_SHELL_VIEW_ACTION ((view), "task-show-hierarchy")
 #define E_SHELL_VIEW_ACTION_TASK_VIEW_CLASSIC(view) \
 	E_SHELL_VIEW_ACTION ((view), "task-view-classic")
 #define E_SHELL_VIEW_ACTION_TASK_VIEW_VERTICAL(view) \

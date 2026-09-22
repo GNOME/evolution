@@ -351,6 +351,11 @@
       <_summary>Show the task preview pane</_summary>
       <_description>If “true”, show the task preview pane in the main window</_description>
     </key>
+    <key name="show-task-hierarchy" type="b">
+      <default>true</default>
+      <_summary>Show tasks in a hierarchical view</_summary>
+      <_description>If “true”, show sub-tasks indented under their parent task; if “false”, show all tasks in a flat list</_description>
+    </key>
     <key name="show-week-numbers" type="b">
       <default>false</default>
       <_summary>Show week numbers in Day View, Work Week View, Year view and Date Navigator</_summary>

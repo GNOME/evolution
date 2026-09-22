@@ -26,6 +26,7 @@
     </submenu>
     <submenu action='view-menu'>
       <item action='task-list-manage-groups'/>
+      <item action='task-show-hierarchy'/>
       <placeholder id='view-custom-menus'>
         <submenu action='task-preview-menu'>
           <item action='task-preview'/>

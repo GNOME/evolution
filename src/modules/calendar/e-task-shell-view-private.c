@@ -417,6 +417,18 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		priv->task_shell_content, "preview-visible",
 		G_BINDING_SYNC_CREATE);
 
+	action = ACTION (TASK_SHOW_HIERARCHY);
+
+	g_settings_bind (
+		settings, "show-task-hierarchy",
+		action, "active",
+		G_SETTINGS_BIND_DEFAULT | G_SETTINGS_BIND_NO_SENSITIVITY);
+
+	e_binding_bind_property (
+		action, "active",
+		priv->model, "show-hierarchy",
+		G_BINDING_SYNC_CREATE);
+
 	/* use the "classic" action, because it's the first in the group and
 	   the group is not set yet, due to the UI manager being frozen */
 	action = ACTION (TASK_VIEW_CLASSIC);

@@ -502,6 +502,9 @@ void		e_cal_model_set_highlight_overdue
 const gchar *	e_cal_model_get_color_overdue	(ECalModel *model);
 void		e_cal_model_set_color_overdue	(ECalModel *model,
 						 const gchar *color_overdue);
+gboolean	e_cal_model_get_show_hierarchy	(ECalModel *model);
+void		e_cal_model_set_show_hierarchy	(ECalModel *model,
+						 gboolean show_hierarchy);
 void		e_cal_model_mark_comp_complete	(ECalModel *model,
 						 ECalModelComponent *comp_data);
 void		e_cal_model_mark_comp_incomplete

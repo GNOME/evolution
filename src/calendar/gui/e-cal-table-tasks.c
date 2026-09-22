@@ -54,6 +54,7 @@ struct _ECalTableTasks {
 	gulong notify_color_due_today_id;
 	gulong notify_highlight_overdue_id;
 	gulong notify_color_overdue_id;
+	gulong notify_show_hierarchy_id;
 
 	guint complete_column_index;
 
@@ -482,6 +483,17 @@ task_table_queue_draw_cb (ECalModel *model,
 	gtk_widget_queue_draw (GTK_WIDGET (vtree));
 }
 
+static void
+task_table_show_hierarchy_changed_cb (ECalModel *model,
+				      GParamSpec *param,
+				      gpointer user_data)
+{
+	ECalTableTasks *self = user_data;
+	EVirtualTree *vtree = e_cal_table_list_base_get_virtual_tree (E_CAL_TABLE_LIST_BASE (self));
+
+	e_virtual_tree_set_expander_visible (vtree, e_cal_model_get_show_hierarchy (model));
+}
+
 static gboolean
 check_for_retract (ECalComponent *comp,
                    ECalClient *client)
@@ -589,6 +601,7 @@ e_cal_table_tasks_dispose (GObject *object)
 		e_signal_disconnect_notify_handler (model, &self->notify_color_due_today_id);
 		e_signal_disconnect_notify_handler (model, &self->notify_highlight_overdue_id);
 		e_signal_disconnect_notify_handler (model, &self->notify_color_overdue_id);
+		e_signal_disconnect_notify_handler (model, &self->notify_show_hierarchy_id);
 	}
 
 	G_OBJECT_CLASS (e_cal_table_tasks_parent_class)->dispose (object);
@@ -664,6 +677,11 @@ e_cal_table_tasks_new (EShellView *shell_view,
 	self->notify_color_overdue_id = e_signal_connect_notify (
 		model, "notify::color-overdue",
 		G_CALLBACK (task_table_queue_draw_cb), self);
+	self->notify_show_hierarchy_id = e_signal_connect_notify (
+		model, "notify::show-hierarchy",
+		G_CALLBACK (task_table_show_hierarchy_changed_cb), self);
+
+	e_virtual_tree_set_expander_visible (vtree, e_cal_model_get_show_hierarchy (model));
 
 	e_cal_model_set_reparent_by_dnd (model, TRUE);
 
