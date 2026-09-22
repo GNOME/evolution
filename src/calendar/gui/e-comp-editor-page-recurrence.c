@@ -272,10 +272,40 @@ ecep_recurrence_exceptions_selection_changed_cb (GtkTreeSelection *selection,
 	gtk_widget_set_sensitive (page_recurrence->priv->exceptions_remove_button, any_selected);
 }
 
+static ICalTime *
+ecep_recurrence_ref_dtstart_for_exception (ECompEditorPageRecurrence *page_recurrence,
+					   gboolean *out_is_date_only)
+{
+	ECompEditor *comp_editor;
+	ICalTime *dtstart = NULL;
+
+	*out_is_date_only = TRUE;
+
+	comp_editor = e_comp_editor_page_ref_editor (E_COMP_EDITOR_PAGE (page_recurrence));
+
+	if (comp_editor) {
+		ECompEditorPropertyPart *dtstart_part = NULL;
+
+		e_comp_editor_get_time_parts (comp_editor, &dtstart_part, NULL);
+
+		if (dtstart_part) {
+			dtstart = e_comp_editor_property_part_datetime_get_value (
+				E_COMP_EDITOR_PROPERTY_PART_DATETIME (dtstart_part));
+
+			*out_is_date_only = i_cal_time_is_date (dtstart);
+		}
+
+		g_clear_object (&comp_editor);
+	}
+
+	return dtstart;
+}
+
 static GtkWidget *
 ecep_recurrence_create_exception_dialog (ECompEditorPageRecurrence *page_recurrence,
 					 const gchar *title,
-					 GtkWidget **out_date_edit)
+					 GtkWidget **out_date_edit,
+					 gboolean is_date_only)
 {
 	GtkWidget *dialog, *toplevel;
 	GtkWidget *container;
@@ -296,7 +326,7 @@ ecep_recurrence_create_exception_dialog (ECompEditorPageRecurrence *page_recurre
 	*out_date_edit = e_date_edit_new ();
 	date_edit = E_DATE_EDIT (*out_date_edit);
 	e_date_edit_set_show_date (date_edit, TRUE);
-	e_date_edit_set_show_time (date_edit, FALSE);
+	e_date_edit_set_show_time (date_edit, !is_date_only);
 
 	gtk_widget_show (*out_date_edit);
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -306,14 +336,44 @@ ecep_recurrence_create_exception_dialog (ECompEditorPageRecurrence *page_recurre
 }
 
 static void
+ecep_recurrence_fill_exception_time (ICalTime *inout_itt,
+				     EDateEdit *date_edit,
+				     const ICalTime *dtstart,
+				     gboolean is_date_only)
+{
+	if (is_date_only) {
+		/* We use DATE values for exceptions, so we don't need a TZID. */
+		i_cal_time_set_timezone (inout_itt, NULL);
+		i_cal_time_set_time (inout_itt, 0, 0, 0);
+		i_cal_time_set_is_date (inout_itt, TRUE);
+	} else {
+		gint hour = 0, minute = 0;
+
+		e_date_edit_get_time_of_day (date_edit, &hour, &minute);
+		i_cal_time_set_time (inout_itt, hour, minute, 0);
+		i_cal_time_set_is_date (inout_itt, FALSE);
+		i_cal_time_set_timezone (inout_itt, dtstart ? i_cal_time_get_timezone (dtstart) : NULL);
+	}
+}
+
+static void
 ecep_recurrence_exceptions_add_clicked_cb (GtkButton *button,
 					   ECompEditorPageRecurrence *page_recurrence)
 {
 	GtkWidget *dialog, *date_edit;
+	ICalTime *dtstart;
+	gboolean is_date_only;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
-	dialog = ecep_recurrence_create_exception_dialog (page_recurrence, _("Add exception"), &date_edit);
+	dtstart = ecep_recurrence_ref_dtstart_for_exception (page_recurrence, &is_date_only);
+
+	dialog = ecep_recurrence_create_exception_dialog (page_recurrence, _("Add exception"), &date_edit, is_date_only);
+
+	if (!is_date_only && dtstart) {
+		e_date_edit_set_time_of_day (E_DATE_EDIT (date_edit),
+			i_cal_time_get_hour (dtstart), i_cal_time_get_minute (dtstart));
+	}
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		gint year, month, day;
@@ -321,11 +381,8 @@ ecep_recurrence_exceptions_add_clicked_cb (GtkButton *button,
 		if (e_date_edit_get_date (E_DATE_EDIT (date_edit), &year, &month, &day)) {
 			ICalTime *itt = i_cal_time_new_null_time ();
 
-			/* We use DATE values for exceptions, so we don't need a TZID. */
-			i_cal_time_set_timezone (itt, NULL);
 			i_cal_time_set_date (itt, year, month, day);
-			i_cal_time_set_time (itt, 0,  0,  0);
-			i_cal_time_set_is_date (itt, TRUE);
+			ecep_recurrence_fill_exception_time (itt, E_DATE_EDIT (date_edit), dtstart, is_date_only);
 
 			ecep_recurrence_append_exception (page_recurrence, itt);
 			ecep_recurrence_changed (page_recurrence);
@@ -334,6 +391,7 @@ ecep_recurrence_exceptions_add_clicked_cb (GtkButton *button,
 		}
 	}
 
+	g_clear_object (&dtstart);
 	gtk_widget_destroy (dialog);
 }
 
@@ -343,8 +401,10 @@ ecep_recurrence_exceptions_edit_clicked_cb (GtkButton *button,
 {
 	GtkWidget *dialog, *date_edit;
 	const ICalTime *current_itt;
+	ICalTime *dtstart;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
+	gboolean is_date_only;
 
 	g_return_if_fail (E_IS_COMP_EDITOR_PAGE_RECURRENCE (page_recurrence));
 
@@ -354,9 +414,21 @@ ecep_recurrence_exceptions_edit_clicked_cb (GtkButton *button,
 	current_itt = e_date_time_list_get_date_time (page_recurrence->priv->exceptions_store, &iter);
 	g_return_if_fail (current_itt != NULL);
 
-	dialog = ecep_recurrence_create_exception_dialog (page_recurrence, _("Modify exception"), &date_edit);
+	dtstart = ecep_recurrence_ref_dtstart_for_exception (page_recurrence, &is_date_only);
+
+	dialog = ecep_recurrence_create_exception_dialog (page_recurrence, _("Modify exception"), &date_edit, is_date_only);
 	e_date_edit_set_date (E_DATE_EDIT (date_edit),
 		i_cal_time_get_year (current_itt), i_cal_time_get_month (current_itt), i_cal_time_get_day (current_itt));
+
+	if (!is_date_only) {
+		if (!i_cal_time_is_date ((ICalTime *) current_itt)) {
+			e_date_edit_set_time_of_day (E_DATE_EDIT (date_edit),
+				i_cal_time_get_hour (current_itt), i_cal_time_get_minute (current_itt));
+		} else if (dtstart) {
+			e_date_edit_set_time_of_day (E_DATE_EDIT (date_edit),
+				i_cal_time_get_hour (dtstart), i_cal_time_get_minute (dtstart));
+		}
+	}
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		gint year, month, day;
@@ -364,11 +436,8 @@ ecep_recurrence_exceptions_edit_clicked_cb (GtkButton *button,
 		if (e_date_edit_get_date (E_DATE_EDIT (date_edit), &year, &month, &day)) {
 			ICalTime *itt = i_cal_time_new_null_time ();
 
-			/* We use DATE values for exceptions, so we don't need a TZID. */
-			i_cal_time_set_timezone (itt, NULL);
 			i_cal_time_set_date (itt, year, month, day);
-			i_cal_time_set_time (itt, 0,  0,  0);
-			i_cal_time_set_is_date (itt, TRUE);
+			ecep_recurrence_fill_exception_time (itt, E_DATE_EDIT (date_edit), dtstart, is_date_only);
 
 			e_date_time_list_set_date_time (page_recurrence->priv->exceptions_store, &iter, itt);
 			ecep_recurrence_changed (page_recurrence);
@@ -377,6 +446,7 @@ ecep_recurrence_exceptions_edit_clicked_cb (GtkButton *button,
 		}
 	}
 
+	g_clear_object (&dtstart);
 	gtk_widget_destroy (dialog);
 }
 
