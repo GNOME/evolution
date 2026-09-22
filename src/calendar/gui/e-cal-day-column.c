@@ -23,6 +23,9 @@
 
 #define BORDER_SIZE 3
 
+/* maximum visible height of the all-day events strip before it scrolls */
+#define ALL_DAY_MAX_HEIGHT 120
+
 /**
  * SECTION: e-cal-day-column
  * @include: calendar/gui/e-cal-day-column.h
@@ -44,6 +47,9 @@ struct _ECalDayColumn {
 	ESourceRegistry *registry;
 	ICalTimezone *zone;
 	ECalComponentBag *bag;
+	ECalComponentBag *all_day_bag;
+	GtkWidget *all_day_box;
+	GtkWidget *all_day_scrolled;
 	ECalRangeModel *range_model;
 	PangoAttrList *hour_attrs;
 	PangoAttrList *minute_attrs;
@@ -111,6 +117,34 @@ static void
 comp_data_free (gpointer ptr)
 {
 	CompData *cd = ptr;
+
+	if (cd) {
+		g_clear_object (&cd->widget);
+		g_free (cd);
+	}
+}
+
+typedef struct _AllDayCompData {
+	GtkWidget *widget; /* (owned) ECalComponentWidget * */
+} AllDayCompData;
+
+static gpointer
+all_day_comp_data_copy (gpointer ptr)
+{
+	AllDayCompData *src = ptr, *des = NULL;
+
+	if (src) {
+		des = g_new0 (AllDayCompData, 1);
+		des->widget = g_object_ref (src->widget);
+	}
+
+	return des;
+}
+
+static void
+all_day_comp_data_free (gpointer ptr)
+{
+	AllDayCompData *cd = ptr;
 
 	if (cd) {
 		g_clear_object (&cd->widget);
@@ -406,8 +440,25 @@ e_cal_day_column_bag_added_cb (ECalComponentBag *bag,
 			       gpointer user_data)
 {
 	ECalDayColumn *self = user_data;
-	CompData *comp_data = item->user_data;
-	gboolean is_existing = comp_data != NULL;
+	CompData *comp_data;
+	guint start_minute, duration_minutes;
+	gboolean is_existing;
+
+	if (!e_cal_range_model_clamp_to_minutes (self->range_model, item->start, item->duration_minutes,
+	    &start_minute, &duration_minutes)) {
+		return;
+	}
+
+	if (start_minute == 0 && duration_minutes >= 24 * 60) {
+		e_cal_component_bag_add (self->all_day_bag, item->client, item->comp);
+		e_cal_component_bag_remove (bag, item->client, item->uid, item->rid);
+		return;
+	}
+
+	e_cal_component_bag_remove (self->all_day_bag, item->client, item->uid, item->rid);
+
+	comp_data = item->user_data;
+	is_existing = comp_data != NULL;
 
 	if (!is_existing) {
 		comp_data = g_new0 (CompData, 1);
@@ -417,10 +468,8 @@ e_cal_day_column_bag_added_cb (ECalComponentBag *bag,
 	if (!comp_data->widget)
 		comp_data->widget = g_object_ref_sink (e_cal_component_widget_new (item->client, item->comp, self->registry));
 
-	if (!e_cal_range_model_clamp_to_minutes (self->range_model, item->start, item->duration_minutes,
-	    &comp_data->start_minute, &comp_data->duration_minutes)) {
-		return;
-	}
+	comp_data->start_minute = start_minute;
+	comp_data->duration_minutes = duration_minutes;
 
 	e_cal_day_column_place_component (self, item, is_existing, -1);
 
@@ -453,13 +502,23 @@ e_cal_day_column_bag_item_changed_cb (ECalComponentBag *bag,
 {
 	ECalDayColumn *self = user_data;
 	CompData *comp_data = item->user_data;
+	guint start_minute, duration_minutes;
 
 	g_return_if_fail (comp_data != NULL);
 
+	if (!e_cal_range_model_clamp_to_minutes (self->range_model, item->start, item->duration_minutes, &start_minute, &duration_minutes))
+		return;
+
+	if (start_minute == 0 && duration_minutes >= 24 * 60) {
+		e_cal_component_bag_add (self->all_day_bag, item->client, item->comp);
+		e_cal_component_bag_remove (bag, item->client, item->uid, item->rid);
+		return;
+	}
+
 	e_cal_component_widget_update_component (E_CAL_COMPONENT_WIDGET (comp_data->widget), item->client, item->comp);
 
-	if (!e_cal_range_model_clamp_to_minutes (self->range_model, item->start, item->duration_minutes, &comp_data->start_minute, &comp_data->duration_minutes))
-		return;
+	comp_data->start_minute = start_minute;
+	comp_data->duration_minutes = duration_minutes;
 
 	e_cal_day_column_place_component (self, item, TRUE, -1);
 
@@ -481,6 +540,96 @@ e_cal_day_column_bag_span_changed_cb (ECalComponentBag *bag,
 	}
 
 	self->highlight.clashes = e_cal_day_column_check_highlight_clashes (self);
+}
+
+static void
+e_cal_day_column_all_day_bag_added_cb (ECalComponentBag *bag,
+				       ECalComponentBagItem *item,
+				       gpointer user_data)
+{
+	ECalDayColumn *self = user_data;
+	AllDayCompData *comp_data = item->user_data;
+
+	if (!comp_data) {
+		comp_data = g_new0 (AllDayCompData, 1);
+		comp_data->widget = g_object_ref_sink (e_cal_component_widget_new (item->client, item->comp, self->registry));
+		e_cal_component_widget_set_time_visible (E_CAL_COMPONENT_WIDGET (comp_data->widget), FALSE);
+		g_object_set (comp_data->widget,
+			"valign", GTK_ALIGN_START,
+			"vexpand", FALSE,
+			NULL);
+		e_cal_component_bag_item_set_user_data (item, comp_data, all_day_comp_data_copy, all_day_comp_data_free);
+		gtk_box_pack_start (GTK_BOX (self->all_day_box), comp_data->widget, FALSE, FALSE, 0);
+	}
+
+	gtk_box_reorder_child (GTK_BOX (self->all_day_box), comp_data->widget, item->span_index);
+}
+
+static void
+e_cal_day_column_all_day_bag_removed_cb (ECalComponentBag *bag,
+					 GPtrArray *items, /* ECalComponentBagItem * */
+					 gpointer user_data)
+{
+	guint ii;
+
+	for (ii = 0; ii < items->len; ii++) {
+		ECalComponentBagItem *item = g_ptr_array_index (items, ii);
+		AllDayCompData *cd = item->user_data;
+
+		if (cd)
+			g_clear_pointer (&cd->widget, gtk_widget_destroy);
+	}
+}
+
+static void
+e_cal_day_column_all_day_bag_item_changed_cb (ECalComponentBag *bag,
+					      ECalComponentBagItem *item,
+					      gpointer user_data)
+{
+	AllDayCompData *comp_data = item->user_data;
+
+	g_return_if_fail (comp_data != NULL);
+
+	e_cal_component_widget_update_component (E_CAL_COMPONENT_WIDGET (comp_data->widget), item->client, item->comp);
+}
+
+static void
+e_cal_day_column_all_day_bag_span_changed_cb (ECalComponentBag *bag,
+					      GPtrArray *items, /* ECalComponentBagItem * */
+					      gpointer user_data)
+{
+	ECalDayColumn *self = user_data;
+	guint ii;
+
+	for (ii = 0; ii < items->len; ii++) {
+		ECalComponentBagItem *item = g_ptr_array_index (items, ii);
+		AllDayCompData *cd = item->user_data;
+
+		if (cd)
+			gtk_box_reorder_child (GTK_BOX (self->all_day_box), cd->widget, item->span_index);
+	}
+}
+
+static void
+e_cal_day_column_all_day_bag_notify_n_items_cb (ECalComponentBag *bag,
+						GParamSpec *param,
+						gpointer user_data)
+{
+	ECalDayColumn *self = user_data;
+
+	gtk_widget_set_visible (self->all_day_scrolled, e_cal_component_bag_get_n_items (bag) > 0);
+}
+
+static void
+e_cal_day_column_all_day_scrolled_destroy_cb (GtkWidget *widget,
+					      gpointer user_data)
+{
+	ECalDayColumn *self = user_data;
+
+	if (self->all_day_scrolled == widget) {
+		self->all_day_scrolled = NULL;
+		self->all_day_box = NULL;
+	}
 }
 
 static void
@@ -771,6 +920,7 @@ e_cal_day_column_component_removed_cb (ECalRangeModel *model,
 	ECalDayColumn *self = user_data;
 
 	e_cal_component_bag_remove (self->bag, client, uid, rid);
+	e_cal_component_bag_remove (self->all_day_bag, client, uid, rid);
 }
 
 static void
@@ -836,6 +986,15 @@ e_cal_day_column_dispose (GObject *object)
 		e_cal_range_model_prepare_dispose (self->range_model);
 	g_clear_object (&self->range_model);
 	g_clear_object (&self->bag);
+
+	if (self->all_day_scrolled) {
+		if (!gtk_widget_get_parent (self->all_day_scrolled))
+			gtk_widget_destroy (self->all_day_scrolled);
+		self->all_day_scrolled = NULL;
+	}
+	self->all_day_box = NULL;
+
+	g_clear_object (&self->all_day_bag);
 
 	G_OBJECT_CLASS (e_cal_day_column_parent_class)->dispose (object);
 }
@@ -964,6 +1123,37 @@ e_cal_day_column_init (ECalDayColumn *self)
 
 	/* minimum duration is one line */
 	e_cal_component_bag_set_min_duration_minutes (self->bag, self->time_division_minutes);
+
+	self->all_day_bag = e_cal_component_bag_new ();
+	g_signal_connect (self->all_day_bag, "added",
+		G_CALLBACK (e_cal_day_column_all_day_bag_added_cb), self);
+	g_signal_connect (self->all_day_bag, "removed",
+		G_CALLBACK (e_cal_day_column_all_day_bag_removed_cb), self);
+	g_signal_connect (self->all_day_bag, "item-changed",
+		G_CALLBACK (e_cal_day_column_all_day_bag_item_changed_cb), self);
+	g_signal_connect (self->all_day_bag, "span-changed",
+		G_CALLBACK (e_cal_day_column_all_day_bag_span_changed_cb), self);
+	g_signal_connect (self->all_day_bag, "notify::n-items",
+		G_CALLBACK (e_cal_day_column_all_day_bag_notify_n_items_cb), self);
+
+	self->all_day_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	g_object_set (self->all_day_box,
+		"visible", TRUE,
+		"margin-bottom", 6,
+		NULL);
+
+	self->all_day_scrolled = gtk_scrolled_window_new (NULL, NULL);
+	g_object_set (self->all_day_scrolled,
+		"no-show-all", TRUE,
+		"hscrollbar-policy", GTK_POLICY_NEVER,
+		"vscrollbar-policy", GTK_POLICY_AUTOMATIC,
+		"propagate-natural-height", TRUE,
+		"shadow-type", GTK_SHADOW_NONE,
+		NULL);
+	gtk_scrolled_window_set_max_content_height (GTK_SCROLLED_WINDOW (self->all_day_scrolled), ALL_DAY_MAX_HEIGHT);
+	gtk_container_add (GTK_CONTAINER (self->all_day_scrolled), self->all_day_box);
+	g_signal_connect_object (self->all_day_scrolled, "destroy",
+		G_CALLBACK (e_cal_day_column_all_day_scrolled_destroy_cb), self, 0);
 }
 
 /**
@@ -1090,6 +1280,7 @@ e_cal_day_column_set_timezone (ECalDayColumn *self,
 
 		e_cal_range_model_set_timezone (self->range_model, zone);
 		e_cal_component_bag_set_timezone (self->bag, zone);
+		e_cal_component_bag_set_timezone (self->all_day_bag, zone);
 	}
 }
 
@@ -1213,7 +1404,7 @@ e_cal_day_column_set_range (ECalDayColumn *self,
 {
 	g_return_if_fail (E_IS_CAL_DAY_COLUMN (self));
 
-	e_cal_range_model_set_range (self->range_model, start, end - 1);
+	e_cal_range_model_set_range (self->range_model, start, end);
 }
 
 /**
@@ -1413,4 +1604,24 @@ e_cal_day_column_highlight_time (ECalDayColumn *self,
 
 	if (changed)
 		gtk_widget_queue_draw (GTK_WIDGET (self));
+}
+
+/**
+ * e_cal_day_column_get_all_day_widget:
+ * @self: an #ECalDayColumn
+ *
+ * Gets a widget showing the all-day components of the @self, in
+ * its own scrollable area. The caller is responsible to place the
+ * returned widget into its own widget hierarchy.
+ *
+ * Returns: (transfer none): a #GtkWidget with the all-day components of the @self
+ *
+ * Since: 3.64
+ **/
+GtkWidget *
+e_cal_day_column_get_all_day_widget (ECalDayColumn *self)
+{
+	g_return_val_if_fail (E_IS_CAL_DAY_COLUMN (self), NULL);
+
+	return self->all_day_scrolled;
 }

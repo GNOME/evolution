@@ -284,6 +284,7 @@ div.itip-day-event {
   position: absolute;
   perspective: 0px;
   padding: 3px;
+  border-radius: 6px;
 }
 
 div.itip-target {
@@ -302,4 +303,14 @@ div.itip-event-clash {
 
 div.itip-day-event-transparent {
   opacity: 0.6;
+}
+
+div.itip-allday-pill {
+  display: block;
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin: 2px 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

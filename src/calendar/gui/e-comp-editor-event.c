@@ -1145,7 +1145,7 @@ e_comp_editor_event_constructed (GObject *object)
 	EMeetingStore *meeting_store;
 	ENameSelector *name_selector;
 	EUIManager *ui_manager;
-	GtkWidget *widget, *paned, *scrolled_window, *timezone_entry;
+	GtkWidget *widget, *paned, *scrolled_window, *timezone_entry, *day_column_box, *day_column_separator, *all_day_widget;
 	GSettings *settings;
 
 	G_OBJECT_CLASS (e_comp_editor_event_parent_class)->constructed (object);
@@ -1307,10 +1307,27 @@ e_comp_editor_event_constructed (GObject *object)
 	g_signal_connect (scrolled_window, "size-allocate",
 		G_CALLBACK (e_comp_editor_event_day_column_scrolled_size_allocate_cb), event_editor);
 
+	all_day_widget = e_cal_day_column_get_all_day_widget (event_editor->priv->day_column);
+
+	day_column_separator = gtk_separator_new (GTK_ORIENTATION_HORIZONTAL);
+	g_object_set (day_column_separator,
+		"margin-top", 2,
+		"margin-bottom", 2,
+		NULL);
+	e_binding_bind_property (all_day_widget, "visible",
+		day_column_separator, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	day_column_box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+	gtk_widget_set_visible (day_column_box, TRUE);
+	gtk_box_pack_start (GTK_BOX (day_column_box), all_day_widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (day_column_box), day_column_separator, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (day_column_box), scrolled_window, TRUE, TRUE, 0);
+
 	paned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 	gtk_widget_set_visible (paned, TRUE);
 	gtk_paned_pack1 (GTK_PANED (paned), GTK_WIDGET (page), TRUE, FALSE);
-	gtk_paned_pack2 (GTK_PANED (paned), scrolled_window, FALSE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (paned), day_column_box, FALSE, FALSE);
 
 	e_comp_editor_add_encapsulated_page (comp_editor, C_("ECompEditorPage", "General"), page, paned);
 

@@ -62,6 +62,8 @@ void		e_cal_day_column_highlight_time	(ECalDayColumn *self,
 						 guint minute_end,
 						 const GdkRGBA *bg_rgba_freetime,
 						 const GdkRGBA *bg_rgba_clash);
+GtkWidget *	e_cal_day_column_get_all_day_widget
+						(ECalDayColumn *self);
 
 G_END_DECLS
 

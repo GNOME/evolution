@@ -195,6 +195,7 @@ struct _ItipViewPrivate {
 	ECalRangeModel *range_model;
 	GHashTable *search_source_uids; /* gchar *uid ~> NULL */
 	ECalComponentBag *day_events_bag;
+	ECalComponentBag *all_day_bag;
 	guint day_events_update_id;
 	gint comp_start_day_minute;
 	gint comp_duration_minutes;
@@ -890,6 +891,21 @@ update_agenda (ItipView *self,
 }
 
 static void
+update_all_day_agenda (ItipView *self,
+		       const gchar *html)
+{
+	EWebView *web_view;
+
+	web_view = itip_view_ref_web_view (self);
+	if (web_view) {
+		e_web_view_jsc_run_script (WEBKIT_WEB_VIEW (web_view), e_web_view_get_cancellable (web_view),
+			"EvoItip.UpdateAllDayAgenda(%s, %s);",
+			self->priv->part_id, html ? html : "");
+		g_object_unref (web_view);
+	}
+}
+
+static void
 input_set_checked (ItipView *view,
                    const gchar *input_id,
                    gboolean checked)
@@ -1248,6 +1264,8 @@ encode_agenda_iframe_html (GtkTextDirection text_direction)
 
 	use_24h_format = calendar_config_get_24_hour_format ();
 
+	g_string_append (buffer, "<div id=\"itip-agenda-allday\"></div>");
+	g_string_append (buffer, "<div id=\"itip-agenda-scroll\">");
 	g_string_append (buffer, "<div id=\"itip-agenda-column\" style=\"height:1441;\" class=\"-e-web-view-background-color\">");
 	g_string_append_printf (buffer, "<div id=\"itip-agenda-div\"></div><table class=\"itip-agenda -e-web-view-text-color\"%s>",
 		text_direction == GTK_TEXT_DIR_RTL ? " style=\"direction:rtl;\"" : "");
@@ -1260,7 +1278,7 @@ encode_agenda_iframe_html (GtkTextDirection text_direction)
 			g_string_append (buffer, hour < 12 ? am : pm);
 		g_string_append (buffer, "</sup></td><td></td></tr><tr><td></td><td></td></tr>");
 	}
-	g_string_append (buffer, "</table></div>");
+	g_string_append (buffer, "</table></div></div>");
 
 	itip_view_escape_string_to_html (buffer);
 
@@ -1874,6 +1892,7 @@ itip_view_finalize (GObject *object)
 	g_hash_table_destroy (self->priv->search_source_uids);
 
 	g_clear_object (&self->priv->day_events_bag);
+	g_clear_object (&self->priv->all_day_bag);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (itip_view_parent_class)->finalize (object);
@@ -7423,25 +7442,27 @@ itip_view_update_agenda (ItipView *self)
 
 	width = (MAX (n_spans, 1) * (DEF_DAY_EVENT_WIDTH + 5)) + 45;
 
-	height = self->priv->comp_start_day_minute + self->priv->comp_duration_minutes > 24 * 60 ?
-		24 * 60 - self->priv->comp_start_day_minute : self->priv->comp_duration_minutes;
-	if (height < 15)
-		height = 15;
+	if (!self->priv->is_all_day) {
+		height = self->priv->comp_start_day_minute + self->priv->comp_duration_minutes > 24 * 60 ?
+			24 * 60 - self->priv->comp_start_day_minute : self->priv->comp_duration_minutes;
+		if (height < 15)
+			height = 15;
 
-	str = g_string_sized_new (256);
+		str = g_string_sized_new (256);
 
-	e_util_markup_append_escaped (str, "<div class='itip-day-event itip-target %s' style='"
-		"width:%upx; height:%upx; "
-		"translate: %upx %upx 0px; "
-		"clip:rect(0,%upx,%upx,0px);'></div>",
-		has_clash ? "itip-event-clash" : "itip-event-freetime",
-		width, height,
-		5, self->priv->comp_start_day_minute,
-		width + 1, height + 1);
+		e_util_markup_append_escaped (str, "<div class='itip-day-event itip-target %s' style='"
+			"width:%upx; height:%upx; "
+			"translate: %upx %upx 0px; "
+			"clip:rect(0,%upx,%upx,0px);'></div>",
+			has_clash ? "itip-event-clash" : "itip-event-freetime",
+			width, height,
+			5, self->priv->comp_start_day_minute,
+			width + 1, height + 1);
 
-	g_string_insert (buffer, 0, str->str);
+		g_string_insert (buffer, 0, str->str);
 
-	g_string_free (str, TRUE);
+		g_string_free (str, TRUE);
+	}
 
 	e_cal_component_bag_unlock (self->priv->day_events_bag);
 
@@ -7449,6 +7470,69 @@ itip_view_update_agenda (ItipView *self)
 
 	g_string_free (buffer, TRUE);
 	g_object_unref (web_view);
+}
+
+static void
+itip_view_update_all_day_events (ItipView *self)
+{
+	GString *buffer;
+	const gchar *comp_uid;
+	guint ii, jj, n_spans;
+	gboolean has_clash = FALSE;
+
+	if (!self->priv->all_day_bag || !self->priv->show_day_agenda)
+		return;
+
+	e_cal_component_bag_lock (self->priv->all_day_bag);
+
+	n_spans = e_cal_component_bag_get_n_spans (self->priv->all_day_bag);
+	comp_uid = e_cal_component_get_uid (self->priv->comp);
+	buffer = g_string_sized_new (256);
+
+	for (jj = 0; jj < n_spans; jj++) {
+		const GPtrArray *span; /* ECalComponentBagItem * */
+
+		span = e_cal_component_bag_get_span (self->priv->all_day_bag, jj);
+		if (!span)
+			continue;
+
+		for (ii = 0; ii < span->len; ii++) {
+			const ECalComponentBagItem *item = g_ptr_array_index (span, ii);
+			CompData *cd = item->user_data;
+			gboolean is_transparent = e_cal_component_get_transparency (item->comp) == E_CAL_COMPONENT_TRANSP_TRANSPARENT;
+
+			if (!cd)
+				continue;
+
+			if (self->priv->is_all_day && !is_transparent && g_strcmp0 (comp_uid, item->uid) != 0)
+				has_clash = TRUE;
+
+			#define color_hex(_val) (((gint32) (255 * (_val))) & 0xFF)
+
+			e_util_markup_append_escaped (buffer, "<div class='itip-allday-pill%s' style='"
+				"background:#%02x%02x%02x; "
+				"color:#%02x%02x%02x;' "
+				"title='%s'>%s</div>",
+				is_transparent ? " itip-day-event-transparent" : "",
+				color_hex (cd->bg_color.red), color_hex (cd->bg_color.green), color_hex (cd->bg_color.blue),
+				color_hex (cd->fg_color.red), color_hex (cd->fg_color.green), color_hex (cd->fg_color.blue),
+				cd->description,
+				cd->description);
+
+			#undef color_hex
+		}
+	}
+
+	if (self->priv->is_all_day) {
+		e_util_markup_append_escaped (buffer, "<div class='itip-allday-pill itip-target %s'></div>",
+			has_clash ? "itip-event-clash" : "itip-event-freetime");
+	}
+
+	e_cal_component_bag_unlock (self->priv->all_day_bag);
+
+	update_all_day_agenda (self, buffer->str);
+
+	g_string_free (buffer, TRUE);
 }
 
 static gboolean
@@ -7462,6 +7546,7 @@ itip_view_needs_day_agenda_rebuild_idle_cb (gpointer user_data)
 
 	self->priv->day_events_update_id = 0;
 	itip_view_update_agenda (self);
+	itip_view_update_all_day_events (self);
 
 	g_object_unref (self);
 
@@ -7490,6 +7575,15 @@ itip_view_day_agenda_added_cb (ECalComponentBag *bag,
 		return;
 	}
 
+	if (cd->start_minute == 0 && cd->duration_minutes >= 24 * 60) {
+		e_cal_component_bag_add_with_user_data (self->priv->all_day_bag, item->client, item->comp,
+			comp_data_copy (cd), comp_data_copy, comp_data_free);
+		e_cal_component_bag_remove (bag, item->client, item->uid, item->rid);
+		return;
+	}
+
+	e_cal_component_bag_remove (self->priv->all_day_bag, item->client, item->uid, item->rid);
+
 	itip_view_schedule_day_agenda_rebuild (self);
 }
 
@@ -7504,6 +7598,15 @@ itip_view_day_agenda_item_changed_cb (ECalComponentBag *bag,
 	g_return_if_fail (cd != NULL);
 
 	e_cal_range_model_clamp_to_minutes (self->priv->range_model, item->start, item->duration_minutes, &cd->start_minute, &cd->duration_minutes);
+
+	if (cd->start_minute == 0 && cd->duration_minutes >= 24 * 60) {
+		e_cal_component_bag_add_with_user_data (self->priv->all_day_bag, item->client, item->comp,
+			comp_data_copy (cd), comp_data_copy, comp_data_free);
+		e_cal_component_bag_remove (bag, item->client, item->uid, item->rid);
+		return;
+	}
+
+	e_cal_component_bag_remove (self->priv->all_day_bag, item->client, item->uid, item->rid);
 
 	itip_view_schedule_day_agenda_rebuild (self);
 }
@@ -8162,6 +8265,7 @@ itip_view_init_view (ItipView *view)
 			if (view->priv->show_day_agenda && view->priv->type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS && range_start > 0) {
 				if (view->priv->day_events_bag) {
 					e_cal_component_bag_clear (view->priv->day_events_bag);
+					e_cal_component_bag_clear (view->priv->all_day_bag);
 				} else {
 					view->priv->day_events_bag = e_cal_component_bag_new ();
 					/* to have the text readable */
@@ -8177,6 +8281,19 @@ itip_view_init_view (ItipView *view)
 						G_CALLBACK (itip_view_update_agenda), view, G_CONNECT_SWAPPED);
 					e_signal_connect_notify_object (view->priv->day_events_bag, "notify::n-spans",
 						G_CALLBACK (itip_view_update_agenda), view, G_CONNECT_SWAPPED);
+
+					view->priv->all_day_bag = e_cal_component_bag_new ();
+
+					g_signal_connect_object (view->priv->all_day_bag, "added",
+						G_CALLBACK (itip_view_schedule_day_agenda_rebuild), view, G_CONNECT_SWAPPED);
+					g_signal_connect_object (view->priv->all_day_bag, "removed",
+						G_CALLBACK (itip_view_update_all_day_events), view, G_CONNECT_SWAPPED);
+					g_signal_connect_object (view->priv->all_day_bag, "item-changed",
+						G_CALLBACK (itip_view_schedule_day_agenda_rebuild), view, G_CONNECT_SWAPPED);
+					g_signal_connect_object (view->priv->all_day_bag, "span-changed",
+						G_CALLBACK (itip_view_update_all_day_events), view, G_CONNECT_SWAPPED);
+					e_signal_connect_notify_object (view->priv->all_day_bag, "notify::n-spans",
+						G_CALLBACK (itip_view_update_all_day_events), view, G_CONNECT_SWAPPED);
 				}
 
 				view->priv->comp_start_day_minute = -1;
@@ -8194,9 +8311,11 @@ itip_view_init_view (ItipView *view)
 				}
 
 				itip_view_update_agenda (view);
+				itip_view_update_all_day_events (view);
 
 				e_cal_range_model_set_timezone (view->priv->range_model, to_zone);
 				e_cal_component_bag_set_timezone (view->priv->day_events_bag, to_zone);
+				e_cal_component_bag_set_timezone (view->priv->all_day_bag, to_zone);
 				e_cal_range_model_set_range (view->priv->range_model, range_start, range_start + (24 * 60 * 60));
 				e_source_registry_watcher_reclaim (E_SOURCE_REGISTRY_WATCHER (view->priv->range_model));
 				hide_element (view, "itip-agenda-iframe", FALSE);
@@ -8293,6 +8412,7 @@ itip_view_range_model_component_removed_cb (ECalRangeModel *range_model,
 	ItipView *self = user_data;
 
 	e_cal_component_bag_remove (self->priv->day_events_bag, client, uid, rid);
+	e_cal_component_bag_remove (self->priv->all_day_bag, client, uid, rid);
 }
 
 void
