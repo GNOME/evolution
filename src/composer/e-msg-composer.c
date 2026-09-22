@@ -5758,6 +5758,7 @@ handle_mailto (EMsgComposer *composer,
 	EComposerHeaderTable *table;
 	GList *to = NULL, *cc = NULL, *bcc = NULL;
 	EDestination **tov, **ccv, **bccv;
+	GHashTable *attached_files; /* GFile * ~> NULL */
 	gchar *subject = NULL, *body = NULL;
 	gchar *header, *content, *buf;
 	gsize nread, nwritten;
@@ -5768,6 +5769,14 @@ handle_mailto (EMsgComposer *composer,
 	table = e_msg_composer_get_header_table (composer);
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
+
+	/* The same file can be requested by both the "attach" and the
+	 * "attachment" argument */
+	attached_files = g_hash_table_new_full (
+		(GHashFunc) g_file_hash,
+		(GEqualFunc) g_file_equal,
+		(GDestroyNotify) g_object_unref,
+		(GDestroyNotify) NULL);
 
 	buf = g_strdup (mailto);
 
@@ -5858,7 +5867,11 @@ handle_mailto (EMsgComposer *composer,
 				    !g_file_test (g_file_peek_path (file), G_FILE_TEST_EXISTS) ||
 				    g_file_test (g_file_peek_path (file), G_FILE_TEST_IS_DIR)) {
 					/* Do nothing, simply ignore the attachment request */
+				} else if (g_hash_table_contains (attached_files, file)) {
+					/* Do nothing, the file had been attached already */
 				} else {
+					g_hash_table_add (attached_files, g_object_ref (file));
+
 					has_attachments++;
 
 					if (file_is_blacklisted (content)) {
@@ -5960,6 +5973,7 @@ handle_mailto (EMsgComposer *composer,
 	}
 
 	g_free (buf);
+	g_hash_table_destroy (attached_files);
 
 	if (has_attachments && !has_blacklisted_attachment) {
 		const gchar *primary;
