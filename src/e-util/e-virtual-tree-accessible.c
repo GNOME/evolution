@@ -113,6 +113,11 @@ evta_get_model (AtkObject *obj)
 	return e_virtual_tree_get_model (vtree);
 }
 
+static AtkObject *
+evta_table_ref_at (AtkTable *table,
+		   gint row,
+		   gint column);
+
 static void
 evta_on_selection_changed (EVirtualTree *vtree,
 			   gpointer user_data)
@@ -139,8 +144,15 @@ evta_on_cursor_changed (EVirtualTree *vtree,
 			gpointer user_data)
 {
 	AtkObject *atk_obj = ATK_OBJECT (user_data);
+	AtkObject *child;
 
-	g_signal_emit_by_name (atk_obj, "active-descendant-changed", NULL);
+	child = evta_table_ref_at (ATK_TABLE (atk_obj), (gint) cursor_row, 0);
+	if (!child)
+		return;
+
+	g_signal_emit_by_name (atk_obj, "active-descendant-changed", child);
+
+	g_object_unref (child);
 }
 
 static void
