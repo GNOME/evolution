@@ -3394,6 +3394,20 @@ on_key_press_event (GtkWidget *widget,
 	gint cursor, new_cursor;
 	gunichar uni_ch;
 
+	if (event->keyval == GDK_KEY_Tab ||
+	    event->keyval == GDK_KEY_KP_Tab ||
+	    event->keyval == GDK_KEY_ISO_Left_Tab) {
+		if ((event->state & GDK_SHIFT_MASK) != 0 &&
+		    !gtk_widget_has_focus (GTK_WIDGET (self->tree_view)) &&
+		    gtk_container_get_focus_child (GTK_CONTAINER (self->tree_view))) {
+			g_signal_stop_emission_by_name (widget, "key-press-event");
+			gtk_widget_child_focus (gtk_widget_get_toplevel (GTK_WIDGET (self)), GTK_DIR_TAB_BACKWARD);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
 	g_signal_stop_emission_by_name (widget, "key-press-event");
 
 	if (!self->model)
