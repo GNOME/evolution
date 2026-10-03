@@ -1893,6 +1893,7 @@ static void
 virtual_tree_scroll_changed (GtkAdjustment *adj,
 			     EVirtualTree *self)
 {
+	GtkAdjustment *tv_vadj;
 	guint new_first;
 
 	if (!self->metrics_valid || self->row_stride <= 0)
@@ -1903,11 +1904,14 @@ virtual_tree_scroll_changed (GtkAdjustment *adj,
 	if (new_first != self->first_visible_row) {
 		self->first_visible_row = new_first;
 		virtual_tree_schedule_refill (self);
-	} else if (gtk_widget_get_realized (GTK_WIDGET (self->tree_view))) {
-		gint offset;
+	} else if (self->refill_idle_id == 0 && gtk_widget_get_realized (GTK_WIDGET (self->tree_view))) {
+		gdouble offset;
 
-		offset = (gint) fmod (gtk_adjustment_get_value (adj), (gdouble) self->row_stride);
-		gtk_tree_view_scroll_to_point (self->tree_view, -1, offset);
+		offset = fmod (gtk_adjustment_get_value (adj), (gdouble) self->row_stride);
+
+		tv_vadj = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (self->tree_view));
+		if (tv_vadj)
+			gtk_adjustment_set_value (tv_vadj, offset);
 	}
 }
 
@@ -2056,8 +2060,10 @@ virtual_tree_refill (EVirtualTree *self)
 	GtkTreeIter iter;
 	GtkTreeSelection *selection;
 	GObject *top_row;
+	GtkAdjustment *tv_vadj;
 	guint total_rows, last_row, ii;
 	gint view_height;
+	gboolean iter_valid;
 
 	if (!self->model || !self->tree_view || !self->list_store)
 		return;
@@ -2110,7 +2116,7 @@ virtual_tree_refill (EVirtualTree *self)
 	g_signal_handler_block (selection, self->selection_changed_id);
 	g_signal_handler_block (self->tree_view, self->cursor_changed_id);
 
-	gtk_list_store_clear (self->list_store);
+	iter_valid = gtk_tree_model_get_iter_first (GTK_TREE_MODEL (self->list_store), &iter);
 
 	for (ii = 0; ii < rows->len; ii++) {
 		GObject *row_object = g_ptr_array_index (rows, ii);
@@ -2130,7 +2136,9 @@ virtual_tree_refill (EVirtualTree *self)
 		expanded = e_virtual_tree_model_get_expanded (self->model, row_object);
 		is_group = (self->group_depth > 0 && depth < self->group_depth);
 
-		gtk_list_store_append (self->list_store, &iter);
+		if (!iter_valid)
+			gtk_list_store_append (self->list_store, &iter);
+
 		gtk_list_store_set (self->list_store, &iter,
 			COL_ROW_OBJECT, row_object,
 			COL_DEPTH, depth,
@@ -2143,6 +2151,15 @@ virtual_tree_refill (EVirtualTree *self)
 		key = e_virtual_tree_model_get_row_key (self->model, row_object);
 		if (key && virtual_tree_is_key_selected (self, key))
 			gtk_tree_selection_select_iter (selection, &iter);
+		else
+			gtk_tree_selection_unselect_iter (selection, &iter);
+
+		if (iter_valid)
+			iter_valid = gtk_tree_model_iter_next (GTK_TREE_MODEL (self->list_store), &iter);
+	}
+
+	while (iter_valid) {
+		iter_valid = gtk_list_store_remove (self->list_store, &iter);
 	}
 
 	top_row = rows->len > 0 ? g_ptr_array_index (rows, 0) : NULL;
@@ -2216,11 +2233,13 @@ virtual_tree_refill (EVirtualTree *self)
 	 * at the bottom boundary. */
 	if (self->vadjustment && self->row_stride > 0 &&
 	    gtk_widget_get_realized (GTK_WIDGET (self->tree_view))) {
-		gint offset;
+		gdouble offset;
 
-		offset = (gint) fmod (gtk_adjustment_get_value (self->vadjustment), (gdouble) self->row_stride);
+		offset = fmod (gtk_adjustment_get_value (self->vadjustment), (gdouble) self->row_stride);
 
-		gtk_tree_view_scroll_to_point (self->tree_view, -1, offset);
+		tv_vadj = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (self->tree_view));
+		if (tv_vadj)
+			gtk_adjustment_set_value (tv_vadj, offset);
 	}
 
 	self->in_refill = FALSE;
@@ -2817,12 +2836,8 @@ on_tree_view_scroll_event (GtkWidget *widget,
 
 	value = CLAMP (old_value + delta, 0, max_value);
 
-	if (value == old_value &&
-	    ((delta < 0 && old_value <= 0) ||
-	     (delta > 0 && old_value >= max_value)))
-		return FALSE;
-
-	gtk_adjustment_set_value (adj, value);
+	if (value != old_value)
+		gtk_adjustment_set_value (adj, value);
 
 	return TRUE;
 }
@@ -2832,6 +2847,9 @@ on_tv_vadjustment_changed (GtkAdjustment *adj,
 			    EVirtualTree *self)
 {
 	gdouble expected = 0.0;
+
+	if (self->refill_idle_id != 0)
+		return;
 
 	/* Allow the sub-row offset set by gtk_tree_view_scroll_to_point
 	 * in refill, but clamp anything larger (from gtk_tree_view_set_cursor
