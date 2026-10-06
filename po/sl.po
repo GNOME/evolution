@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-09-22 18:48+0000\n"
-"PO-Revision-Date: 2026-09-22 22:16+0200\n"
+"POT-Creation-Date: 2026-10-06 09:12+0000\n"
+"PO-Revision-Date: 2026-10-06 15:18+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -12725,36 +12725,36 @@ msgstr ""
 "Odhodnega sporočila ni mogoče šifrirati: za ta račun ni nastavljeno nobeno potrdilo za "
 "šifriranje"
 
-#: ../src/composer/e-msg-composer.c:1681
+#: ../src/composer/e-msg-composer.c:1732
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Pridobivanje obdelane vsebine besedila/navadno je spodletelo"
 
-#: ../src/composer/e-msg-composer.c:1805
+#: ../src/composer/e-msg-composer.c:1856
 msgid "Failed to retrieve draft content"
 msgstr "Pridobivanje vsebine osnutka ni uspelo"
 
-#: ../src/composer/e-msg-composer.c:1818
+#: ../src/composer/e-msg-composer.c:1869
 msgid "Failed to retrieve HTML processed content"
 msgstr "Pridobivanje vsebine, obdelane v HTML-ju, ni uspelo"
 
-#: ../src/composer/e-msg-composer.c:2130 ../src/composer/e-msg-composer.c:2844
+#: ../src/composer/e-msg-composer.c:2181 ../src/composer/e-msg-composer.c:2895
 msgid "Compose Message"
 msgstr "Sestavi sporočilo"
 
-#: ../src/composer/e-msg-composer.c:5063
+#: ../src/composer/e-msg-composer.c:5114
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:355
 msgid "Reading text content…"
 msgstr "Poteka branje vsebine …"
 
-#: ../src/composer/e-msg-composer.c:5129
+#: ../src/composer/e-msg-composer.c:5180
 msgid "Send _without encryption"
 msgstr "Pošlji brez _šifriranja"
 
-#: ../src/composer/e-msg-composer.c:5189
+#: ../src/composer/e-msg-composer.c:5240
 msgid "Waiting for OpenPGP key data…"
 msgstr "Čakanje na podatke ključa OpenPGP …"
 
-#: ../src/composer/e-msg-composer.c:5983
+#: ../src/composer/e-msg-composer.c:6034
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Odstrani priloge pred pošiljanjem."
@@ -12762,7 +12762,7 @@ msgstr[1] "Odstrani prilogo pred pošiljanjem."
 msgstr[2] "Odstrani prilogi pred pošiljanjem."
 msgstr[3] "Odstrani priloge pred pošiljanjem."
 
-#: ../src/composer/e-msg-composer.c:5988
+#: ../src/composer/e-msg-composer.c:6039
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not contain any "
@@ -12783,7 +12783,7 @@ msgstr[3] ""
 "Dodane so bile %d priloge. Preden sporočilo pošljete, se prepričajte, da niso vključeni nobeni "
 "občutljivi podatki."
 
-#: ../src/composer/e-msg-composer.c:6114
+#: ../src/composer/e-msg-composer.c:6165
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Sestavljalnik vsebuje ne-besedilno telo sporočila, ki ga ni mogoče urejati."
 
@@ -13292,11 +13292,21 @@ msgstr "Uvozi potrdilo"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:401
+#: ../src/em-format/e-mail-formatter-secure-button.c:494
+msgid "Encryption"
+msgstr "Šifriranje"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:498
+msgid "Encrypted by:"
+msgstr "Šifrirano:"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:520
+#: ../src/em-format/e-mail-formatter-secure-button.c:621
 msgid "Digital Signature"
 msgstr "Digitalni podpis"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:407
+#: ../src/em-format/e-mail-formatter-secure-button.c:526
+#: ../src/em-format/e-mail-formatter-secure-button.c:597
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "Podpisniki"
@@ -13304,13 +13314,21 @@ msgstr[1] "Podpisnik"
 msgstr[2] "Podpisnika"
 msgstr[3] "Podpisniki"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:418
-msgid "Encryption"
-msgstr "Šifriranje"
+#: ../src/em-format/e-mail-formatter-secure-button.c:623
+msgid "Outer signature (over the encrypted message)"
+msgstr "Zunanji podpis (čez šifrirano sporočilo)"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:423
-msgid "Encrypted by:"
-msgstr "Šifrirano:"
+#: ../src/em-format/e-mail-formatter-secure-button.c:624
+msgid "Inner signature (over the message content)"
+msgstr "Notranji podpis (čez vsebino sporočila)"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:731
+msgid "GPG"
+msgstr "GPG"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:733
+msgid "S/MIME"
+msgstr "S/MIME"
 
 #: ../src/em-format/e-mail-formatter-source.c:152
 msgid "Display source of a MIME part"
@@ -13404,7 +13422,7 @@ msgid "Could not parse PGP message: %s"
 msgstr "Ni mogoče razčleniti sporočila PGP: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-signed.c:66
-#: ../src/em-format/e-mail-parser-multipart-signed.c:150
+#: ../src/em-format/e-mail-parser-multipart-signed.c:165
 #, c-format
 msgid "Error verifying signature: %s"
 msgstr "Napaka med preverjanjem podpisa: %s"
@@ -13439,7 +13457,7 @@ msgid "Pointer to unknown external data (“%s” type)"
 msgstr "Kazalec na neznane zunanje podatke (vrsta »%s«)"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:61
-#: ../src/em-format/e-mail-parser-multipart-signed.c:96
+#: ../src/em-format/e-mail-parser-multipart-signed.c:109
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Ni mogoče razčleniti sporočila MIME. Prikazano bo kot vir."
 
@@ -13452,7 +13470,7 @@ msgstr "Nepodprta vrsta šifriranja za večdelno/šifrirano"
 msgid "Could not parse PGP/MIME message: %s"
 msgstr "Ni mogoče razčleniti sporočila PGP/MIME: %s"
 
-#: ../src/em-format/e-mail-parser-multipart-signed.c:136
+#: ../src/em-format/e-mail-parser-multipart-signed.c:149
 msgid "Unsupported signature format"
 msgstr "Nepodprta oblika podpisa"
 
@@ -16981,28 +16999,28 @@ msgstr "Orodna vrstica"
 msgid "Enter a URL here"
 msgstr "Vnesite naslov URL"
 
-#: ../src/e-util/e-virtual-tree.c:6961 ../src/e-util/e-virtual-tree.c:7069
+#: ../src/e-util/e-virtual-tree.c:6993 ../src/e-util/e-virtual-tree.c:7101
 msgid "Sort _Ascending"
 msgstr "Razvrsti _naraščajoče"
 
-#: ../src/e-util/e-virtual-tree.c:6963 ../src/e-util/e-virtual-tree.c:7070
+#: ../src/e-util/e-virtual-tree.c:6995 ../src/e-util/e-virtual-tree.c:7102
 msgid "Sort _Descending"
 msgstr "Razvrsti _padajoče"
 
-#: ../src/e-util/e-virtual-tree.c:6965 ../src/e-util/e-virtual-tree.c:7071
+#: ../src/e-util/e-virtual-tree.c:6997 ../src/e-util/e-virtual-tree.c:7103
 msgid "_Unsort"
 msgstr "Pre_kliči razvrstitev"
 
-#: ../src/e-util/e-virtual-tree.c:6967 ../src/e-util/e-virtual-tree.c:7076
+#: ../src/e-util/e-virtual-tree.c:6999 ../src/e-util/e-virtual-tree.c:7108
 msgid "_Remove This Column"
 msgstr "_Odstrani ta stolpec"
 
-#: ../src/e-util/e-virtual-tree.c:6969 ../src/e-util/e-virtual-tree.c:7103
+#: ../src/e-util/e-virtual-tree.c:7001 ../src/e-util/e-virtual-tree.c:7135
 #: ../src/shell/e-shell-view.c:1126
 msgid "Custo_mize Current View…"
 msgstr "_Prilagodi trenutni pogled …"
 
-#: ../src/e-util/e-virtual-tree.c:7099
+#: ../src/e-util/e-virtual-tree.c:7131
 msgid "Available _Columns"
 msgstr "_Razpoložljivi stolpci"
 
