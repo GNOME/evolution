@@ -667,7 +667,8 @@ mail_part_find_validity_pair (EMailPart *part,
  * Updates validity of the @part. When the part already has some validity
  * set, the new @validity and @validity_type are just appended, preserving
  * the original validity. Validities of the same type (PGP or S/MIME) are
- * merged together.
+ * merged together, except one with %E_MAIL_PART_VALIDITY_OUTER, which
+ * is always appended.
  */
 void
 e_mail_part_update_validity (EMailPart *part,
@@ -691,7 +692,11 @@ e_mail_part_update_validity (EMailPart *part,
 	    validity->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE)
 		validity_type |= E_MAIL_PART_VALIDITY_ENCRYPTED;
 
-	pair = mail_part_find_validity_pair (part, validity_type & mask);
+	/* camel_cipher_validity_envelope() cannot merge a signature into an already signed and encrypted validity */
+	if ((validity_type & E_MAIL_PART_VALIDITY_OUTER) != 0)
+		pair = NULL;
+	else
+		pair = mail_part_find_validity_pair (part, validity_type & mask);
 	if (pair != NULL) {
 		pair->validity_type |= validity_type;
 		camel_cipher_validity_envelope (pair->validity, validity);

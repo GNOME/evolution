@@ -72,7 +72,8 @@ typedef enum { /*< flags >*/
 	E_MAIL_PART_VALIDITY_SIGNED = 1 << 2,
 	E_MAIL_PART_VALIDITY_ENCRYPTED = 1 << 3,
 	E_MAIL_PART_VALIDITY_SENDER_SIGNER_MISMATCH = 1 << 4,
-	E_MAIL_PART_VALIDITY_VERIFIED = 1 << 5
+	E_MAIL_PART_VALIDITY_VERIFIED = 1 << 5,
+	E_MAIL_PART_VALIDITY_OUTER = 1 << 6
 } EMailPartValidityFlags;
 
 typedef enum { /*< flags >*/

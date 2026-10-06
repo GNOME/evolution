@@ -1260,15 +1260,8 @@ composer_build_message_smime (AsyncContext *context,
 
 		cipher = camel_smime_context_new (context->session);
 
-		/* if we're also encrypting, envelope-sign rather than clear-sign */
-		if (context->smime_encrypt) {
-			camel_smime_context_set_sign_mode (
-				(CamelSMIMEContext *) cipher,
-				CAMEL_SMIME_SIGN_ENVELOPED);
-			camel_smime_context_set_encrypt_key (
-				(CamelSMIMEContext *) cipher,
-				TRUE, encryption_certificate);
-		} else if (have_encryption_certificate) {
+		/* Clear-sign also when encrypting, Thunderbird does not recognize an opaque signature inside the envelope */
+		if (context->smime_encrypt || have_encryption_certificate) {
 			camel_smime_context_set_encrypt_key (
 				(CamelSMIMEContext *) cipher,
 				TRUE, encryption_certificate);
@@ -1328,6 +1321,64 @@ composer_build_message_smime (AsyncContext *context,
 			g_ptr_array_set_size (
 				context->recipients,
 				context->recipients->len - 1);
+	}
+
+	/* RFC 2634 triple-wrap: sign the encrypted body as well */
+	if (context->smime_sign && context->smime_encrypt) {
+		CamelCipherContext *cipher_outer;
+		CamelMimePart *encrypted_part;
+		CamelMimePart *outer_part;
+		CamelDataWrapper *outer_content;
+		const CamelNameValueArray *headers;
+		gboolean success;
+
+		/* Sign only the body, not the message headers */
+		encrypted_part = camel_mime_part_new ();
+		camel_medium_set_content (CAMEL_MEDIUM (encrypted_part), camel_medium_get_content (CAMEL_MEDIUM (context->message)));
+
+		headers = camel_medium_get_headers (CAMEL_MEDIUM (context->message));
+		if (headers) {
+			gint ii, length;
+			length = camel_name_value_array_get_length (headers);
+
+			for (ii = 0; ii < length; ii++) {
+				const gchar *header_name = NULL;
+				const gchar *header_value = NULL;
+
+				if (camel_name_value_array_get (headers, ii, &header_name, &header_value) && header_name &&
+				    g_ascii_strncasecmp (header_name, "Content-", 8) == 0) {
+					camel_medium_set_header (CAMEL_MEDIUM (encrypted_part), header_name, header_value);
+				}
+			}
+		}
+
+		cipher_outer = camel_smime_context_new (context->session);
+		camel_smime_context_set_sign_mode (CAMEL_SMIME_CONTEXT (cipher_outer), CAMEL_SMIME_SIGN_CLEARSIGN);
+
+		outer_part = camel_mime_part_new ();
+		success = camel_cipher_context_sign_sync (cipher_outer, signing_certificate, account_hash_algo_to_camel_hash (signing_algorithm),
+			encrypted_part, outer_part, cancellable, error);
+
+		g_object_unref (cipher_outer);
+		g_object_unref (encrypted_part);
+
+		if (!success) {
+			g_object_unref (outer_part);
+			g_object_unref (mime_part);
+			return FALSE;
+		}
+
+		camel_medium_remove_header (CAMEL_MEDIUM (context->message), "Content-Disposition");
+		camel_medium_remove_header (CAMEL_MEDIUM (context->message), "Content-Description");
+
+		outer_content = camel_medium_get_content (CAMEL_MEDIUM (outer_part));
+		camel_medium_set_content (CAMEL_MEDIUM (context->message), outer_content);
+
+		/* The encrypt step set base64, which is not allowed on a multipart */
+		camel_data_wrapper_set_encoding (outer_content, CAMEL_TRANSFER_ENCODING_DEFAULT);
+		camel_medium_remove_header (CAMEL_MEDIUM (context->message), "Content-Transfer-Encoding");
+
+		g_object_unref (outer_part);
 	}
 
 	/* we replaced the message directly, we don't want to do reparenting foo */

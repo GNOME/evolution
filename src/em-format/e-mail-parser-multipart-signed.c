@@ -29,6 +29,19 @@ static const gchar *parser_mime_types[] = {
 };
 
 static gboolean
+empe_mp_signed_is_signature_type (CamelContentType *content_type)
+{
+	if (!content_type)
+		return FALSE;
+
+	return camel_content_type_is (content_type, "application", "pkcs7-signature") ||
+		camel_content_type_is (content_type, "application", "xpkcs7signature") ||
+		camel_content_type_is (content_type, "application", "xpkcs7-signature") ||
+		camel_content_type_is (content_type, "application", "x-pkcs7-signature") ||
+		camel_content_type_is (content_type, "application", "pgp-signature");
+}
+
+static gboolean
 empe_mp_signed_parse (EMailParserExtension *extension,
                       EMailParser *parser,
                       CamelMimePart *part,
@@ -141,6 +154,8 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 		return TRUE;
 	}
 
+	validity_type |= E_MAIL_PART_VALIDITY_SIGNED;
+
 	valid = camel_cipher_context_verify_sync (
 		cipher, part, cancellable, &local_error);
 
@@ -169,6 +184,10 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 
 		subpart = camel_multipart_get_part (multipart, i);
 
+		/* Not content, do not show it as an attachment */
+		if (i == CAMEL_MULTIPART_SIGNED_SIGNATURE && empe_mp_signed_is_signature_type (camel_mime_part_get_content_type (subpart)))
+			continue;
+
 		g_string_append_printf (part_id, ".signed.%d", i);
 
 		g_warn_if_fail (e_mail_parser_parse_part (
@@ -183,10 +202,13 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 
 		for (link = head; link != NULL; link = g_list_next (link)) {
 			EMailPart *mail_part = link->data;
+			guint32 validity_flags = validity_type;
 
-			e_mail_part_update_validity (
-				mail_part, valid,
-				validity_type | E_MAIL_PART_VALIDITY_SIGNED);
+			/* Signed over encrypted content which is itself signed (RFC 2634 triple-wrap) */
+			if (e_mail_part_get_validity (mail_part, validity_type | E_MAIL_PART_VALIDITY_ENCRYPTED))
+				validity_flags |= E_MAIL_PART_VALIDITY_OUTER;
+
+			e_mail_part_update_validity (mail_part, valid, validity_flags);
 
 			/* Do not traverse sub-messages */
 			if (g_str_has_suffix (e_mail_part_get_id (mail_part), ".rfc822"))
@@ -213,9 +235,7 @@ empe_mp_signed_parse (EMailParserExtension *extension,
 		mail_part = g_queue_peek_head (&work_queue);
 
 		if (mail_part != NULL)
-			e_mail_part_update_validity (
-				mail_part, valid,
-				validity_type | E_MAIL_PART_VALIDITY_SIGNED);
+			e_mail_part_update_validity (mail_part, valid, validity_type);
 
 		e_queue_transfer (&work_queue, out_mail_parts);
 

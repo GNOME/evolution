@@ -311,62 +311,147 @@ add_details_part (GString *html,
 		details);
 }
 
-static void
-secure_button_format_validity (EMailPart *part,
-			       gboolean sender_signer_mismatch,
-			       CamelCipherValidity *validity,
-			       GString *html)
+/* Higher is worse */
+static gint
+secure_button_sign_severity (CamelCipherValiditySign status)
 {
+	switch (status) {
+	case CAMEL_CIPHER_VALIDITY_SIGN_NONE:
+		return 0;
+	case CAMEL_CIPHER_VALIDITY_SIGN_GOOD:
+		return 1;
+	case CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY:
+		return 2;
+	case CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN:
+		return 3;
+	case CAMEL_CIPHER_VALIDITY_SIGN_BAD:
+		return 4;
+	}
+
+	return 0;
+}
+
+static gboolean
+secure_button_cert_info_listed (GQueue *listed,
+				CamelCipherCertInfo *info)
+{
+	GList *link;
+
+	for (link = g_queue_peek_head_link (listed); link; link = g_list_next (link)) {
+		CamelCipherCertInfo *known = link->data;
+
+		if (g_strcmp0 (known->email, info->email) == 0 && g_strcmp0 (known->name, info->name) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+#define SECURE_BUTTON_CRYPTO_SYSTEMS (E_MAIL_PART_VALIDITY_PGP | E_MAIL_PART_VALIDITY_SMIME)
+
+static gboolean
+secure_button_pair_is_system (EMailPartValidityPair *pair,
+			      EMailPartValidityFlags crypto_system)
+{
+	if (!pair)
+		return FALSE;
+
+	return (pair->validity_type & SECURE_BUTTON_CRYPTO_SYSTEMS) == crypto_system;
+}
+
+static gboolean
+secure_button_format_summary (EMailPart *part,
+			      EMailPartValidityFlags crypto_system,
+			      const gchar *system_label,
+			      GString *html)
+{
+	CamelCipherValidity *first_validity = NULL;
+	CamelCipherValidityEncrypt encrypt_status = CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE;
+	CamelCipherValiditySign sign_status = CAMEL_CIPHER_VALIDITY_SIGN_NONE;
+	GQueue signers = G_QUEUE_INIT;
+	GQueue *encrypters = NULL;
+	GString *buffer;
+	GList *link;
 	const gchar *icon_name;
 	gchar *description;
+	gboolean sender_signer_mismatch = FALSE;
 	gint icon_width, icon_height;
 	gint info_index;
-	guint length;
-	GString *buffer;
 
-	g_return_if_fail (validity != NULL);
+	for (link = g_queue_peek_head_link (&part->validities); link; link = g_list_next (link)) {
+		EMailPartValidityPair *pair = link->data;
+		GList *link2;
+
+		if (!secure_button_pair_is_system (pair, crypto_system))
+			continue;
+
+		if (!first_validity)
+			first_validity = pair->validity;
+
+		if (secure_button_sign_severity (pair->validity->sign.status) > secure_button_sign_severity (sign_status))
+			sign_status = pair->validity->sign.status;
+
+		if ((pair->validity_type & E_MAIL_PART_VALIDITY_SENDER_SIGNER_MISMATCH) != 0)
+			sender_signer_mismatch = TRUE;
+
+		if (pair->validity->encrypt.status > encrypt_status) {
+			encrypt_status = pair->validity->encrypt.status;
+			encrypters = &pair->validity->encrypt.encrypters;
+		}
+
+		for (link2 = g_queue_peek_head_link (&pair->validity->sign.signers); link2; link2 = g_list_next (link2)) {
+			CamelCipherCertInfo *info = link2->data;
+
+			if (!secure_button_cert_info_listed (&signers, info))
+				g_queue_push_tail (&signers, info);
+		}
+	}
+
+	if (!first_validity)
+		return FALSE;
 
 	buffer = g_string_new ("");
 
-	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+	if (sign_status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
 		const gchar *desc = NULL;
-		gint status;
 
-		status = validity->sign.status;
-
-		format_cert_infos (&validity->sign.signers, buffer);
+		format_cert_infos (&signers, buffer);
 
 		if (sender_signer_mismatch)
-			desc = smime_sign_table[status].shortdesc_mismatch;
+			desc = smime_sign_table[sign_status].shortdesc_mismatch;
 		if (!desc)
-			desc = smime_sign_table[status].shortdesc;
+			desc = smime_sign_table[sign_status].shortdesc;
 
 		g_string_prepend (buffer, gettext (desc));
 	}
 
-	if (validity->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
-		const gchar *desc;
-		gint status;
-
-		if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
+	if (encrypt_status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
+		if (sign_status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
 			g_string_append (buffer, "<br>\n");
 
-		status = validity->encrypt.status;
-		desc = smime_encrypt_table[status].shortdesc;
-		g_string_append (buffer, gettext (desc));
+		g_string_append (buffer, gettext (smime_encrypt_table[encrypt_status].shortdesc));
+	}
+
+	if (system_label && *system_label) {
+		gchar *markup;
+
+		markup = g_markup_printf_escaped ("<b>%s</b>&nbsp;&mdash; ", system_label);
+		g_string_prepend (buffer, markup);
+
+		g_free (markup);
 	}
 
 	description = g_string_free (buffer, FALSE);
 
-	info_index = validity->sign.status;
+	info_index = sign_status;
 	if (sender_signer_mismatch && info_index == CAMEL_CIPHER_VALIDITY_SIGN_GOOD)
 		info_index = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
 
 	/* FIXME: need to have it based on encryption and signing too */
-	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
+	if (sign_status != CAMEL_CIPHER_VALIDITY_SIGN_NONE)
 		icon_name = smime_sign_table[info_index].icon;
 	else
-		icon_name = smime_encrypt_table[validity->encrypt.status].icon;
+		icon_name = smime_encrypt_table[encrypt_status].icon;
 
 	if (!gtk_icon_size_lookup (GTK_ICON_SIZE_LARGE_TOOLBAR, &icon_width, &icon_height)) {
 		icon_width = 24;
@@ -374,7 +459,7 @@ secure_button_format_validity (EMailPart *part,
 	}
 
 	g_string_append (html, "<table width=\"100%\" style=\"margin-bottom:4px; vertical-align:middle;");
-	if (validity->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE &&
+	if (sign_status != CAMEL_CIPHER_VALIDITY_SIGN_NONE &&
 	    smime_sign_colour[info_index].alpha > 1e-9) {
 		g_string_append_printf (html, " background:#%06x; color:#%06x;",
 			e_rgba_to_value (&smime_sign_colour[info_index]),
@@ -385,13 +470,47 @@ secure_button_format_validity (EMailPart *part,
 	g_string_append_printf (html,
 		"<td style=\"width:1px;\"><button type=\"button\" class=\"secure-button\" id=\"secure-button\" value=\"%p:%p\" accesskey=\"\" style=\"vertical-align:middle;\">"
 		"<img src=\"gtk-stock://%s?size=%d\" width=\"%dpx\" height=\"%dpx\" style=\"vertical-align:middle;\"></button></td><td><span style=\"vertical-align:middle;\">",
-		part, validity, icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR,
-		icon_width, icon_height);
+		part, first_validity, icon_name, GTK_ICON_SIZE_LARGE_TOOLBAR, icon_width, icon_height);
 
-	g_queue_foreach (&validity->sign.signers, add_photo_cb, html);
-	g_queue_foreach (&validity->encrypt.encrypters, add_photo_cb, html);
+	g_queue_foreach (&signers, add_photo_cb, html);
+	if (encrypters)
+		g_queue_foreach (encrypters, add_photo_cb, html);
 
 	g_string_append_printf (html, "%s</span></td></tr>", description);
+
+	g_queue_clear (&signers);
+	g_free (description);
+
+	return TRUE;
+}
+
+static void
+secure_button_format_encryption (EMailPart *part,
+				 CamelCipherValidity *validity,
+				 GString *html)
+{
+	guint length;
+
+	e_util_markup_append_escaped (html, "<b>%s</b><br>%s<br>", _("Encryption"), secure_button_get_encrypt_description (validity->encrypt.status));
+
+	length = g_queue_get_length (&validity->encrypt.encrypters);
+	if (length) {
+		add_cert_table (html, _("Encrypted by:"),
+			&validity->encrypt.encrypters,
+			length, part, validity);
+	}
+
+	add_details_part (html, part, validity, validity->encrypt.description, "encr");
+}
+
+static void
+secure_button_format_details (EMailPart *part,
+			      CamelCipherValidity *validity,
+			      GString *html)
+{
+	guint length;
+
+	g_return_if_fail (validity != NULL);
 
 	e_util_markup_append_escaped (html,
 		"<tr id=\"secure-button-details-%p\" class=\"secure-button-details\" hidden><td></td><td><small>"
@@ -411,25 +530,155 @@ secure_button_format_validity (EMailPart *part,
 
 	add_details_part (html, part, validity, validity->sign.description, "sign");
 
-	e_util_markup_append_escaped (html,
-		"<br>"
-		"<b>%s</b><br>"
-		"%s<br>",
-		_("Encryption"),
-		secure_button_get_encrypt_description (validity->encrypt.status));
+	g_string_append (html, "<br>");
+	secure_button_format_encryption (part, validity, html);
 
-	length = g_queue_get_length (&validity->encrypt.encrypters);
+	g_string_append (html, "</small></td></tr>\n");
+}
+
+#if defined (ENABLE_SMIME)
+static gboolean
+secure_button_smime_signer_listed (GQueue *signers,
+				   CamelCipherCertInfo *info)
+{
+	GList *link;
+
+	for (link = g_queue_peek_head_link (signers); link; link = g_list_next (link)) {
+		CamelCipherCertInfo *known = link->data;
+
+		if (known->cert_data && CERT_CompareCerts (known->cert_data, info->cert_data))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/* Every outer signer also signed the inner layer */
+static gboolean
+secure_button_same_signers_smime (CamelCipherValidity *outer,
+				  CamelCipherValidity *inner)
+{
+	GList *link;
+
+	if (g_queue_is_empty (&outer->sign.signers))
+		return FALSE;
+
+	for (link = g_queue_peek_head_link (&outer->sign.signers); link; link = g_list_next (link)) {
+		CamelCipherCertInfo *info = link->data;
+
+		if (!info->cert_data || !secure_button_smime_signer_listed (&inner->sign.signers, info))
+			return FALSE;
+	}
+
+	return TRUE;
+}
+#endif
+
+static void
+secure_button_format_layer (EMailPart *part,
+			    EMailPartValidityPair *pair,
+			    const gchar *layer_label,
+			    GString *html)
+{
+	CamelCipherValidity *validity = pair->validity;
+	const gchar *desc = NULL;
+	guint length;
+
+	if ((pair->validity_type & E_MAIL_PART_VALIDITY_SENDER_SIGNER_MISMATCH) != 0)
+		desc = smime_sign_table[validity->sign.status].shortdesc_mismatch;
+	if (!desc)
+		desc = smime_sign_table[validity->sign.status].shortdesc;
+
+	e_util_markup_append_escaped (html, "<div style=\"margin-left:12px; margin-top:4px;\"><b>%s</b><br>%s<br>", layer_label, gettext (desc));
+
+	length = g_queue_get_length (&validity->sign.signers);
 	if (length) {
-		add_cert_table (html, _("Encrypted by:"),
-			&validity->encrypt.encrypters,
+		add_cert_table (html,
+			g_dngettext (GETTEXT_PACKAGE, "Signer:", "Signers:", length),
+			&validity->sign.signers,
 			length, part, validity);
 	}
 
-	add_details_part (html, part, validity, validity->encrypt.description, "encr");
+	add_details_part (html, part, validity, validity->sign.description, "sign");
 
-	g_string_append (html, "</small></td></tr></table>\n");
+	g_string_append (html, "</div>");
+}
 
-	g_free (description);
+static void
+secure_button_format_layered_details (EMailPart *part,
+				      EMailPartValidityPair *outer,
+				      EMailPartValidityPair *inner,
+				      GString *html)
+{
+	CamelCipherValiditySign sign_status = inner->validity->sign.status;
+
+	if (secure_button_sign_severity (outer->validity->sign.status) > secure_button_sign_severity (sign_status))
+		sign_status = outer->validity->sign.status;
+
+	e_util_markup_append_escaped (html,
+		"<tr id=\"secure-button-details-%p\" class=\"secure-button-details\" hidden><td></td><td><small>"
+		"<b>%s</b><br>%s<br>",
+		inner->validity, _("Digital Signature"), secure_button_get_sign_description (sign_status));
+
+	secure_button_format_layer (part, outer, _("Outer signature (over the encrypted message)"), html);
+	secure_button_format_layer (part, inner, _("Inner signature (over the message content)"), html);
+
+	g_string_append (html, "<br>");
+	secure_button_format_encryption (part, inner->validity, html);
+
+	g_string_append (html, "</small></td></tr>\n");
+}
+
+static void
+secure_button_format_system (EMailPart *part,
+			     EMailPartValidityFlags crypto_system,
+			     const gchar *system_label,
+			     GString *html)
+{
+	EMailPartValidityPair *outer = NULL, *inner = NULL;
+	GList *head, *link;
+	gboolean merge_layers = FALSE;
+
+	head = g_queue_peek_head_link (&part->validities);
+
+	for (link = head; link != NULL; link = g_list_next (link)) {
+		EMailPartValidityPair *pair = link->data;
+
+		if (!secure_button_pair_is_system (pair, crypto_system))
+			continue;
+
+		if ((pair->validity_type & E_MAIL_PART_VALIDITY_OUTER) != 0) {
+			if (!outer)
+				outer = pair;
+		} else if (!inner) {
+			inner = pair;
+		}
+	}
+
+	if (!secure_button_format_summary (part, crypto_system, system_label, html))
+		return;
+
+#if defined (ENABLE_SMIME)
+	merge_layers = outer && inner && crypto_system == E_MAIL_PART_VALIDITY_SMIME &&
+		outer->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD &&
+		inner->validity->sign.status == CAMEL_CIPHER_VALIDITY_SIGN_GOOD &&
+		secure_button_same_signers_smime (outer->validity, inner->validity);
+#endif
+
+	if (outer && inner && !merge_layers) {
+		secure_button_format_layered_details (part, outer, inner, html);
+	} else {
+		for (link = head; link != NULL; link = g_list_next (link)) {
+			EMailPartValidityPair *pair = link->data;
+
+			if (!secure_button_pair_is_system (pair, crypto_system) || (pair == outer && inner))
+				continue;
+
+			secure_button_format_details (part, pair->validity, html);
+		}
+	}
+
+	g_string_append (html, "</table>\n");
 }
 
 static gboolean
@@ -440,26 +689,51 @@ emfe_secure_button_format (EMailFormatterExtension *extension,
                            GOutputStream *stream,
                            GCancellable *cancellable)
 {
+	/* PGP, S/MIME and none */
+	EMailPartValidityFlags crypto_systems[3];
 	GList *head, *link;
 	GString *html;
+	guint n_crypto_systems = 0, ii;
 
 	if ((context->mode != E_MAIL_FORMATTER_MODE_NORMAL) &&
 	    (context->mode != E_MAIL_FORMATTER_MODE_RAW) &&
 	    (context->mode != E_MAIL_FORMATTER_MODE_ALL_HEADERS))
 		return FALSE;
 
-	html = g_string_new ("");
 	head = g_queue_peek_head_link (&part->validities);
 
-	for (link = head; link != NULL; link = g_list_next (link)) {
+	/* One bar per crypto system */
+	for (link = head; link != NULL && n_crypto_systems < G_N_ELEMENTS (crypto_systems); link = g_list_next (link)) {
 		EMailPartValidityPair *pair = link->data;
-		gboolean sender_signer_mismatch;
+		EMailPartValidityFlags crypto_system;
+		gboolean known = FALSE;
 
 		if (!pair)
 			continue;
 
-		sender_signer_mismatch = (pair->validity_type & E_MAIL_PART_VALIDITY_SENDER_SIGNER_MISMATCH) != 0;
-		secure_button_format_validity (part, sender_signer_mismatch, pair->validity, html);
+		crypto_system = pair->validity_type & SECURE_BUTTON_CRYPTO_SYSTEMS;
+
+		for (ii = 0; ii < n_crypto_systems && !known; ii++) {
+			known = crypto_systems[ii] == crypto_system;
+		}
+
+		if (!known)
+			crypto_systems[n_crypto_systems++] = crypto_system;
+	}
+
+	html = g_string_new ("");
+
+	for (ii = 0; ii < n_crypto_systems; ii++) {
+		const gchar *system_label = NULL;
+
+		if (n_crypto_systems > 1) {
+			if (crypto_systems[ii] == E_MAIL_PART_VALIDITY_PGP)
+				system_label = _("GPG");
+			else if (crypto_systems[ii] == E_MAIL_PART_VALIDITY_SMIME)
+				system_label = _("S/MIME");
+		}
+
+		secure_button_format_system (part, crypto_systems[ii], system_label, html);
 	}
 
 	g_output_stream_write_all (stream, html->str, html->len, NULL, cancellable, NULL);
