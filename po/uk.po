@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-09-22 18:18+0000\n"
-"PO-Revision-Date: 2026-09-22 21:43+0300\n"
+"POT-Creation-Date: 2026-10-07 11:46+0000\n"
+"PO-Revision-Date: 2026-10-07 19:31+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -865,9 +865,9 @@ msgid ""
 "If “true”, show sub-tasks indented under their parent task; if “false”, show "
 "all tasks in a flat list"
 msgstr ""
-"Якщо має значення «true», показати підзавдання з відступом під їхнім батьківс"
-"ьким завданням; якщо має значення «false», показати усі завдання у форматі пр"
-"остого списку"
+"Якщо має значення «true», показати підзавдання з відступом під їхнім "
+"батьківським завданням; якщо має значення «false», показати усі завдання у "
+"форматі простого списку"
 
 #: ../data/org.gnome.evolution.calendar.gschema.xml.in.h:121
 msgid ""
@@ -4881,7 +4881,7 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:298
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/e-virtual-tree-customize-popover.c:955
-#: ../src/e-util/e-web-view.c:4044 ../src/e-util/evolution-source-viewer.c:819
+#: ../src/e-util/e-web-view.c:4076 ../src/e-util/evolution-source-viewer.c:819
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:250
 #: ../src/mail/e-mail-config-window.c:294 ../src/mail/e-mail-label-dialog.c:162
 #: ../src/mail/e-mail-reader.c:5304 ../src/mail/e-mail-tag-editor.c:140
@@ -4983,7 +4983,7 @@ msgstr "Параметри"
 #: ../src/e-util/e-attachment-store.c:815
 #: ../src/e-util/e-attachment-store.c:822
 #: ../src/e-util/e-mail-signature-script-dialog.c:334
-#: ../src/e-util/e-webdav-browser.c:2665 ../src/e-util/e-web-view.c:4044
+#: ../src/e-util/e-webdav-browser.c:2665 ../src/e-util/e-web-view.c:4076
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:251
 #: ../src/modules/rss/evolution/e-rss-preferences.c:919
 #: ../src/shell/e-shell-content.c:598 ../src/shell/e-shell-utils.c:118
@@ -5444,7 +5444,7 @@ msgstr "Відкрити сертифікат X.509"
 #: ../src/e-util/e-html-editor-actions.c:479
 #: ../src/e-util/e-html-editor-actions.c:525
 #: ../src/e-util/e-html-editor-actions.c:638
-#: ../src/e-util/e-image-chooser-dialog.c:156 ../src/e-util/e-web-view.c:1676
+#: ../src/e-util/e-image-chooser-dialog.c:156 ../src/e-util/e-web-view.c:1706
 #: ../src/mail/e-mail-viewer.c:593 ../src/plugins/face/face.c:282
 #: ../src/shell/e-shell-utils.c:54 ../src/smime/gui/certificate-manager.c:925
 msgid "_Open"
@@ -6383,12 +6383,12 @@ msgid "Copy the email address to the clipboard"
 msgstr "Копіює елементи у буфер обміну"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:259
-#: ../src/e-util/e-web-view.c:1632
+#: ../src/e-util/e-web-view.c:1662
 msgid "_Send New Message To…"
 msgstr "_Надіслати нове повідомлення до…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:261
-#: ../src/e-util/e-web-view.c:1634
+#: ../src/e-util/e-web-view.c:1664
 msgid "Send a mail message to this address"
 msgstr "Перетворити виділене повідомлення на завдання"
 
@@ -8427,7 +8427,7 @@ msgstr "Завершено: %s"
 
 #: ../src/calendar/gui/comp-util.c:2403 ../src/calendar/gui/e-to-do-pane.c:632
 #: ../src/e-util/e-misc-utils.c:4352 ../src/e-util/e-text.c:539
-#: ../src/e-util/e-web-view.c:4230
+#: ../src/e-util/e-web-view.c:4262
 msgid "…"
 msgstr "…"
 
@@ -10567,7 +10567,7 @@ msgstr "Закрити поточне вікно"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2253
 #: ../src/e-util/e-html-editor-actions.c:1354 ../src/e-util/e-text.c:2032
-#: ../src/e-util/e-web-view.c:1659 ../src/mail/e-mail-browser.c:600
+#: ../src/e-util/e-web-view.c:1689 ../src/mail/e-mail-browser.c:600
 #: ../src/mail/e-mail-viewer.c:1758 ../src/mail/mail.error.xml.h:150
 #: ../src/shell/e-shell-window-actions.c:838
 msgid "_Copy"
@@ -10575,7 +10575,7 @@ msgstr "_Скопіювати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:211
 #: ../src/e-util/e-focus-tracker.c:267 ../src/e-util/e-focus-tracker.c:320
-#: ../src/e-util/e-web-view.c:1661 ../src/e-util/e-web-view.c:2322
+#: ../src/e-util/e-web-view.c:1691 ../src/e-util/e-web-view.c:2354
 #: ../src/mail/e-mail-browser.c:602 ../src/shell/e-shell-window-actions.c:840
 msgid "Copy the selection"
 msgstr "Копіювати виділене"
@@ -10597,7 +10597,7 @@ msgstr "_Вирізати"
 
 #: ../src/calendar/gui/e-comp-editor.c:2269 ../src/e-util/e-focus-tracker.c:204
 #: ../src/e-util/e-focus-tracker.c:260 ../src/e-util/e-focus-tracker.c:314
-#: ../src/e-util/e-web-view.c:2331 ../src/mail/e-mail-browser.c:609
+#: ../src/e-util/e-web-view.c:2363 ../src/mail/e-mail-browser.c:609
 #: ../src/shell/e-shell-window-actions.c:847
 msgid "Cut the selection"
 msgstr "Вирізати виділене"
@@ -10622,7 +10622,7 @@ msgstr "Вст_авити"
 
 #: ../src/calendar/gui/e-comp-editor.c:2290 ../src/e-util/e-focus-tracker.c:218
 #: ../src/e-util/e-focus-tracker.c:274 ../src/e-util/e-focus-tracker.c:326
-#: ../src/e-util/e-web-view.c:2340 ../src/mail/e-mail-browser.c:616
+#: ../src/e-util/e-web-view.c:2372 ../src/mail/e-mail-browser.c:616
 #: ../src/shell/e-shell-window-actions.c:875
 msgid "Paste the clipboard"
 msgstr "Вставити з буфера обміну"
@@ -10643,7 +10643,7 @@ msgid "Pre_view…"
 msgstr "_Перегляд…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2309
-#: ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1683
+#: ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1713
 #: ../src/mail/e-mail-browser.c:621 ../src/shell/e-shell-window-actions.c:901
 msgid "Select _All"
 msgstr "Вибрати _все"
@@ -13505,36 +13505,36 @@ msgstr ""
 "Не вдалося зашифрувати повідомлення: для облікового запису не встановлений "
 "сертифікат шифрування"
 
-#: ../src/composer/e-msg-composer.c:1681
+#: ../src/composer/e-msg-composer.c:1732
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Не вдалося отримати оброблені звичайні текстові дані"
 
-#: ../src/composer/e-msg-composer.c:1805
+#: ../src/composer/e-msg-composer.c:1856
 msgid "Failed to retrieve draft content"
 msgstr "Не вдалося отримати вміст чернетки"
 
-#: ../src/composer/e-msg-composer.c:1818
+#: ../src/composer/e-msg-composer.c:1869
 msgid "Failed to retrieve HTML processed content"
 msgstr "Не вдалося отримати оброблені дані HTML"
 
-#: ../src/composer/e-msg-composer.c:2130 ../src/composer/e-msg-composer.c:2844
+#: ../src/composer/e-msg-composer.c:2181 ../src/composer/e-msg-composer.c:2895
 msgid "Compose Message"
 msgstr "Нове повідомлення"
 
-#: ../src/composer/e-msg-composer.c:5063
+#: ../src/composer/e-msg-composer.c:5114
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:355
 msgid "Reading text content…"
 msgstr "Читаємо текстові дані…"
 
-#: ../src/composer/e-msg-composer.c:5129
+#: ../src/composer/e-msg-composer.c:5180
 msgid "Send _without encryption"
 msgstr "Надіслати _без шифрування"
 
-#: ../src/composer/e-msg-composer.c:5189
+#: ../src/composer/e-msg-composer.c:5240
 msgid "Waiting for OpenPGP key data…"
 msgstr "Очікування на дані ключа OpenPGP…"
 
-#: ../src/composer/e-msg-composer.c:5983
+#: ../src/composer/e-msg-composer.c:6034
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Переглянути долучення перед надсиланням."
@@ -13542,7 +13542,7 @@ msgstr[1] "Переглянути долучення перед надсилан
 msgstr[2] "Переглянути долучення перед надсиланням."
 msgstr[3] "Переглянути долучення перед надсиланням."
 
-#: ../src/composer/e-msg-composer.c:5988
+#: ../src/composer/e-msg-composer.c:6039
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13563,7 +13563,7 @@ msgstr[3] ""
 "Зовнішньою програмою додано одне долучення. Перш ніж надсилати повідомлення, "
 "переконайтеся, що у долученні не міститься ніяких конфіденційних даних."
 
-#: ../src/composer/e-msg-composer.c:6114
+#: ../src/composer/e-msg-composer.c:6165
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редактор містить не текстовий вміст, який неможливо редагувати."
 
@@ -14131,11 +14131,21 @@ msgstr "Імпортувати сертифікат"
 msgid "Details"
 msgstr "Подробиці"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:401
+#: ../src/em-format/e-mail-formatter-secure-button.c:494
+msgid "Encryption"
+msgstr "Шифрування"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:498
+msgid "Encrypted by:"
+msgstr "Зашифровано:"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:520
+#: ../src/em-format/e-mail-formatter-secure-button.c:621
 msgid "Digital Signature"
 msgstr "Цифровий підпис"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:407
+#: ../src/em-format/e-mail-formatter-secure-button.c:526
+#: ../src/em-format/e-mail-formatter-secure-button.c:597
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "Власники підпису:"
@@ -14143,13 +14153,26 @@ msgstr[1] "Власники підпису:"
 msgstr[2] "Власники підпису:"
 msgstr[3] "Власник підпису:"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:418
-msgid "Encryption"
-msgstr "Шифрування"
+#: ../src/em-format/e-mail-formatter-secure-button.c:623
+#| msgid "Put the signature at the top of the message"
+msgid "Outer signature (over the encrypted message)"
+msgstr "Зовнішній підпис (над зашифрованим повідомленням)"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:423
-msgid "Encrypted by:"
-msgstr "Зашифровано:"
+#: ../src/em-format/e-mail-formatter-secure-button.c:624
+#| msgid "Include signature in new messages only"
+msgid "Inner signature (over the message content)"
+msgstr "Внутрішній підпис (над вмістом повідомлення)"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:731
+#| msgctxt "cert-kind"
+#| msgid "PGP"
+msgid "GPG"
+msgstr "GPG"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:733
+#| msgid "S/MIME Sig_n"
+msgid "S/MIME"
+msgstr "S/MIME"
 
 #: ../src/em-format/e-mail-formatter-source.c:152
 msgid "Display source of a MIME part"
@@ -14249,7 +14272,7 @@ msgid "Could not parse PGP message: %s"
 msgstr "Неможливо розібрати лист PGP: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-signed.c:66
-#: ../src/em-format/e-mail-parser-multipart-signed.c:150
+#: ../src/em-format/e-mail-parser-multipart-signed.c:165
 #, c-format
 msgid "Error verifying signature: %s"
 msgstr "Помилка перевіряння підпису: %s"
@@ -14284,7 +14307,7 @@ msgid "Pointer to unknown external data (“%s” type)"
 msgstr "Вказівник на невідомі зовнішні дані (тип «%s»)"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:61
-#: ../src/em-format/e-mail-parser-multipart-signed.c:96
+#: ../src/em-format/e-mail-parser-multipart-signed.c:109
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Не вдалося розібрати MIME-повідомлення. Показуємо як код."
 
@@ -14297,7 +14320,7 @@ msgstr "Непідтримуваний тип шифрування для multip
 msgid "Could not parse PGP/MIME message: %s"
 msgstr "Неможливо розібрати лист PGP/MIME: %s"
 
-#: ../src/em-format/e-mail-parser-multipart-signed.c:136
+#: ../src/em-format/e-mail-parser-multipart-signed.c:149
 msgid "Unsupported signature format"
 msgstr "Непідтримуваний формат підпису"
 
@@ -16249,15 +16272,15 @@ msgstr "+4"
 msgid "Copy _Link Location"
 msgstr "Копіювати адресу п_осилання"
 
-#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1600
+#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1630
 msgid "Copy the link to the clipboard"
 msgstr "Копіювати посилання у буфер обміну"
 
-#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1608
+#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1638
 msgid "_Open Link in Browser"
 msgstr "_Відкрити посилання у Інтернет-навігаторі"
 
-#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1610
+#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1640
 msgid "Open the link in a web browser"
 msgstr "Відкрити посилання у Інтернет-навігаторі"
 
@@ -17963,28 +17986,28 @@ msgstr "Панель інструментів"
 msgid "Enter a URL here"
 msgstr "Введіть URL тут"
 
-#: ../src/e-util/e-virtual-tree.c:6961 ../src/e-util/e-virtual-tree.c:7069
+#: ../src/e-util/e-virtual-tree.c:6993 ../src/e-util/e-virtual-tree.c:7101
 msgid "Sort _Ascending"
 msgstr "Сортування за з_ростанням"
 
-#: ../src/e-util/e-virtual-tree.c:6963 ../src/e-util/e-virtual-tree.c:7070
+#: ../src/e-util/e-virtual-tree.c:6995 ../src/e-util/e-virtual-tree.c:7102
 msgid "Sort _Descending"
 msgstr "Сортування за с_паданням"
 
-#: ../src/e-util/e-virtual-tree.c:6965 ../src/e-util/e-virtual-tree.c:7071
+#: ../src/e-util/e-virtual-tree.c:6997 ../src/e-util/e-virtual-tree.c:7103
 msgid "_Unsort"
 msgstr "_Без впорядковування"
 
-#: ../src/e-util/e-virtual-tree.c:6967 ../src/e-util/e-virtual-tree.c:7076
+#: ../src/e-util/e-virtual-tree.c:6999 ../src/e-util/e-virtual-tree.c:7108
 msgid "_Remove This Column"
 msgstr "Ви_лучити цей стовпчик"
 
-#: ../src/e-util/e-virtual-tree.c:6969 ../src/e-util/e-virtual-tree.c:7103
+#: ../src/e-util/e-virtual-tree.c:7001 ../src/e-util/e-virtual-tree.c:7135
 #: ../src/shell/e-shell-view.c:1126
 msgid "Custo_mize Current View…"
 msgstr "З_мінити поточний вигляд…"
 
-#: ../src/e-util/e-virtual-tree.c:7099
+#: ../src/e-util/e-virtual-tree.c:7131
 msgid "Available _Columns"
 msgstr "Д_оступні стовпчики"
 
@@ -18167,79 +18190,79 @@ msgstr "Створити _календар"
 msgid "Create Collectio_n"
 msgstr "Створити з_бірку"
 
-#: ../src/e-util/e-web-view.c:1598
+#: ../src/e-util/e-web-view.c:1628
 msgid "_Copy Link Location"
 msgstr "_Копіювати посилання"
 
-#: ../src/e-util/e-web-view.c:1618
+#: ../src/e-util/e-web-view.c:1648
 msgid "_Copy Name and Email Address"
 msgstr "_Копіювати ім'я і адресу ел.пошти"
 
-#: ../src/e-util/e-web-view.c:1620
+#: ../src/e-util/e-web-view.c:1650
 msgid "Copy the email address with the name to the clipboard"
 msgstr "Копіює адресу електронної пошти із іменем до буфера обміну"
 
-#: ../src/e-util/e-web-view.c:1625
+#: ../src/e-util/e-web-view.c:1655
 msgid "Copy Only Email Add_ress"
 msgstr "Копіювати лише ад_ресу ел.пошти"
 
-#: ../src/e-util/e-web-view.c:1627
+#: ../src/e-util/e-web-view.c:1657
 msgid "Copy only the email address without the name to the clipboard"
 msgstr ""
 "Копіювати лише адресу електронної пошти без імені до буфера обміну даними"
 
-#: ../src/e-util/e-web-view.c:1642
+#: ../src/e-util/e-web-view.c:1672
 msgid "_Copy Image"
 msgstr "_копіювати зображення"
 
-#: ../src/e-util/e-web-view.c:1644
+#: ../src/e-util/e-web-view.c:1674
 msgid "Copy the image to the clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../src/e-util/e-web-view.c:1649
+#: ../src/e-util/e-web-view.c:1679
 msgid "Save _Image…"
 msgstr "З_берегти зображення…"
 
-#: ../src/e-util/e-web-view.c:1651
+#: ../src/e-util/e-web-view.c:1681
 msgid "Save the image to a file"
 msgstr "Зберегти зображення у файл"
 
-#: ../src/e-util/e-web-view.c:1666 ../src/mail/e-mail-browser.c:628
+#: ../src/e-util/e-web-view.c:1696 ../src/mail/e-mail-browser.c:628
 #: ../src/mail/e-mail-reader.c:3521
 msgid "Search _Web…"
 msgstr "Шукати в _інтернеті…"
 
-#: ../src/e-util/e-web-view.c:1668 ../src/mail/e-mail-browser.c:630
+#: ../src/e-util/e-web-view.c:1698 ../src/mail/e-mail-browser.c:630
 #: ../src/mail/e-mail-reader.c:3523
 msgid "Search the Web with the selected text"
 msgstr "Шукати позначений фрагмент тексту в інтернеті"
 
-#: ../src/e-util/e-web-view.c:1685 ../src/e-util/e-web-view.c:2344
+#: ../src/e-util/e-web-view.c:1715 ../src/e-util/e-web-view.c:2376
 msgid "Select all text and images"
 msgstr "Виділити весь текст та зображення"
 
-#: ../src/e-util/e-web-view.c:1693 ../src/mail/e-mail-viewer.c:1737
+#: ../src/e-util/e-web-view.c:1723 ../src/mail/e-mail-viewer.c:1737
 msgid "_Print"
 msgstr "_Надрукувати"
 
-#: ../src/e-util/e-web-view.c:1703
+#: ../src/e-util/e-web-view.c:1733
 msgid "Save _as…"
 msgstr "Зберегти _як…"
 
-#: ../src/e-util/e-web-view.c:3854
+#: ../src/e-util/e-web-view.c:3886
 msgid "Copying image to clipboard"
 msgstr "Копіювати зображення в буфер"
 
-#: ../src/e-util/e-web-view.c:4042
+#: ../src/e-util/e-web-view.c:4074
 msgid "Save Image"
 msgstr "Зберегти зображення"
 
-#: ../src/e-util/e-web-view.c:4079
+#: ../src/e-util/e-web-view.c:4111
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Збереження зображення до «%s»"
 
-#: ../src/e-util/e-web-view.c:4234
+#: ../src/e-util/e-web-view.c:4266
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "Не вдалося отримати URI «%s», невідомо, як його завантажити."
