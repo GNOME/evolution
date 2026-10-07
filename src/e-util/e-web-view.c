@@ -1002,13 +1002,41 @@ web_view_web_context_gone (gpointer user_data,
 }
 
 static void
-web_view_ensure_scheme_known (WebKitWebContext *web_context,
-			      const gchar *scheme)
+web_view_update_cors_allow_list (WebKitWebView *web_view)
 {
+	GPtrArray *allow_list;
 	GSList *link;
 
-	g_return_if_fail (WEBKIT_IS_WEB_CONTEXT (web_context));
+	allow_list = g_ptr_array_new_full (g_slist_length (known_schemes), g_free);
+
+	for (link = known_schemes; link; link = g_slist_next (link)) {
+		const gchar *scheme_str = link->data;
+
+		if (scheme_str && *scheme_str) {
+			/* construct pattern like "cid://_/_" (where '_' is '*', but in the comment
+			   it cannot be used verbatim), which is what the WebKitGTK expects */
+			g_ptr_array_add (allow_list, g_strconcat (scheme_str, "://*/*", NULL));
+		}
+	}
+
+	g_ptr_array_add (allow_list, NULL);
+
+	webkit_web_view_set_cors_allowlist (web_view, (const gchar * const *) allow_list->pdata);
+
+	g_ptr_array_unref (allow_list);
+}
+
+static void
+web_view_ensure_scheme_known (WebKitWebView *web_view,
+			      const gchar *scheme)
+{
+	WebKitWebContext *web_context;
+	GSList *link;
+
+	g_return_if_fail (WEBKIT_IS_WEB_VIEW (web_view));
 	g_return_if_fail (scheme != NULL);
+
+	web_context = webkit_web_view_get_context (web_view);
 
 	for (link = known_schemes; link; link = g_slist_next (link)) {
 		if (g_strcmp0 (scheme, link->data) == 0)
@@ -1019,6 +1047,8 @@ web_view_ensure_scheme_known (WebKitWebContext *web_context,
 		known_schemes = g_slist_prepend (known_schemes, g_strdup (scheme));
 
 		webkit_web_context_register_uri_scheme (web_context, scheme, web_view_process_uri_request_cb, NULL, NULL);
+
+		web_view_update_cors_allow_list (web_view);
 	}
 }
 
@@ -1340,7 +1370,7 @@ e_web_view_register_content_request_for_scheme (EWebView *web_view,
 
 	g_hash_table_insert (web_view->priv->scheme_handlers, g_strdup (scheme), g_object_ref (content_request));
 
-	web_view_ensure_scheme_known (webkit_web_view_get_context (WEBKIT_WEB_VIEW (web_view)), scheme);
+	web_view_ensure_scheme_known (WEBKIT_WEB_VIEW (web_view), scheme);
 }
 
 static void
@@ -1862,6 +1892,8 @@ web_view_constructed (GObject *object)
 		G_CALLBACK (e_web_view_spell_settings_changed_cb), web_view, 0);
 	e_web_view_update_spell_checking (web_view, settings);
 	g_clear_object (&settings);
+
+	web_view_update_cors_allow_list (WEBKIT_WEB_VIEW (web_view));
 }
 
 static void
