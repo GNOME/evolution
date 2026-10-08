@@ -2222,6 +2222,12 @@ virtual_tree_refill (EVirtualTree *self)
 
 			gtk_tree_path_free (anchor_path);
 		}
+	} else if (self->cursor_row >= 0) {
+		GtkTreePath *invalid_path = gtk_tree_path_new_from_indices ((gint) rows->len, -1);
+
+		gtk_tree_view_set_cursor (self->tree_view, invalid_path, NULL, FALSE);
+
+		gtk_tree_path_free (invalid_path);
 	}
 
 	g_signal_handler_unblock (selection, self->selection_changed_id);
