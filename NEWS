@@ -1,3 +1,17 @@
+Evolution 3.62.1 2026-10-09
+---------------------------
+
+Bug Fixes:
+	eds-I#672 - Calendar: Limit which local files are inlined in components
+	M!244 - Composer: De-duplicate attachments in a mailto URI (Jaroslav Jindrak)
+
+Miscellaneous:
+	EWebView: Set CORS allow list on the WebKitWebView for known URI-s
+
+Translations:
+	Efstathios Iosifidis (el)
+	Roy-Magne Mo (nn)
+
 Evolution 3.62.0 2026-09-11
 ---------------------------
 
