@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-09-27 11:34+0000\n"
-"PO-Revision-Date: 2026-09-29 11:47+0300\n"
+"POT-Creation-Date: 2026-10-10 12:25+0000\n"
+"PO-Revision-Date: 2026-10-11 08:00+0300\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <takim@gnome.org.tr>\n"
 "Language: tr\n"
@@ -4274,7 +4274,7 @@ msgstr "Notlar"
 #: ../data/org.gnome.Evolution.desktop.in.in.h:12
 #: ../src/calendar/gui/e-cal-table-tasks.c:644 ../src/calendar/gui/print.c:2510
 #: ../src/calendar/importers/icalendar-importer.c:57
-#: ../src/calendar/importers/icalendar-importer.c:1179
+#: ../src/calendar/importers/icalendar-importer.c:1190
 #: ../src/e-util/e-webdav-browser.c:520
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:85
 #: ../src/modules/calendar/e-cal-shell-content.c:1937
@@ -4807,7 +4807,7 @@ msgstr ""
 #: ../src/e-util/e-source-selector-dialog.c:298
 #: ../src/e-util/e-timezone-dialog.ui.h:2
 #: ../src/e-util/e-virtual-tree-customize-popover.c:955
-#: ../src/e-util/e-web-view.c:4044 ../src/e-util/evolution-source-viewer.c:819
+#: ../src/e-util/e-web-view.c:4076 ../src/e-util/evolution-source-viewer.c:819
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:250
 #: ../src/mail/e-mail-config-window.c:294 ../src/mail/e-mail-label-dialog.c:162
 #: ../src/mail/e-mail-reader.c:5304 ../src/mail/e-mail-tag-editor.c:140
@@ -4909,7 +4909,7 @@ msgstr "Seçenekler"
 #: ../src/e-util/e-attachment-store.c:815
 #: ../src/e-util/e-attachment-store.c:822
 #: ../src/e-util/e-mail-signature-script-dialog.c:334
-#: ../src/e-util/e-webdav-browser.c:2665 ../src/e-util/e-web-view.c:4044
+#: ../src/e-util/e-webdav-browser.c:2665 ../src/e-util/e-web-view.c:4076
 #: ../src/e-util/gal-view-instance-save-as-dialog.c:251
 #: ../src/modules/rss/evolution/e-rss-preferences.c:919
 #: ../src/shell/e-shell-content.c:598 ../src/shell/e-shell-utils.c:118
@@ -5370,7 +5370,7 @@ msgstr "X.509 sertifikasını aç"
 #: ../src/e-util/e-html-editor-actions.c:479
 #: ../src/e-util/e-html-editor-actions.c:525
 #: ../src/e-util/e-html-editor-actions.c:638
-#: ../src/e-util/e-image-chooser-dialog.c:156 ../src/e-util/e-web-view.c:1676
+#: ../src/e-util/e-image-chooser-dialog.c:156 ../src/e-util/e-web-view.c:1706
 #: ../src/mail/e-mail-viewer.c:593 ../src/plugins/face/face.c:282
 #: ../src/shell/e-shell-utils.c:54 ../src/smime/gui/certificate-manager.c:925
 msgid "_Open"
@@ -6310,12 +6310,12 @@ msgid "Copy the email address to the clipboard"
 msgstr "E-posta adresini panoya kopyala"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:259
-#: ../src/e-util/e-web-view.c:1632
+#: ../src/e-util/e-web-view.c:1662
 msgid "_Send New Message To…"
 msgstr "Şuna Yeni İleti _Gönder…"
 
 #: ../src/addressbook/gui/widgets/eab-contact-display.c:261
-#: ../src/e-util/e-web-view.c:1634
+#: ../src/e-util/e-web-view.c:1664
 msgid "Send a mail message to this address"
 msgstr "Bu adrese posta iletisi gönder"
 
@@ -7097,9 +7097,9 @@ msgstr ""
 #: ../src/addressbook/importers/evolution-csv-importer.c:779
 #: ../src/addressbook/importers/evolution-ldif-importer.c:535
 #: ../src/addressbook/importers/evolution-vcard-importer.c:219
-#: ../src/calendar/importers/icalendar-importer.c:558
-#: ../src/calendar/importers/icalendar-importer.c:1041
-#: ../src/calendar/importers/icalendar-importer.c:1081
+#: ../src/calendar/importers/icalendar-importer.c:569
+#: ../src/calendar/importers/icalendar-importer.c:1052
+#: ../src/calendar/importers/icalendar-importer.c:1092
 #: ../src/mail/e-mail-viewer.c:504
 msgid "Importing…"
 msgstr "İçe aktarılıyor…"
@@ -8157,7 +8157,7 @@ msgid "Description Contains"
 msgstr "Tanım İçerir"
 
 #: ../src/calendar/gui/comp-util.c:1589 ../src/calendar/gui/comp-util.c:3073
-#: ../src/calendar/importers/icalendar-importer.c:1529
+#: ../src/calendar/importers/icalendar-importer.c:1540
 #: ../src/modules/itip-formatter/itip-view.c:3263
 #, c-format
 msgid "with one guest"
@@ -8223,7 +8223,7 @@ msgstr "İptal Edilmiş"
 #: ../src/calendar/gui/e-meeting-list-view.c:181
 #: ../src/calendar/gui/e-meeting-store.c:163
 #: ../src/calendar/gui/e-meeting-store.c:186
-#: ../src/modules/itip-formatter/itip-view.c:7849
+#: ../src/modules/itip-formatter/itip-view.c:7854
 msgid "Accepted"
 msgstr "Onaylandı"
 
@@ -8231,7 +8231,7 @@ msgstr "Onaylandı"
 #: ../src/calendar/gui/e-meeting-list-view.c:182
 #: ../src/calendar/gui/e-meeting-store.c:165
 #: ../src/calendar/gui/e-meeting-store.c:188
-#: ../src/modules/itip-formatter/itip-view.c:7855
+#: ../src/modules/itip-formatter/itip-view.c:7860
 msgid "Declined"
 msgstr "Reddedildi"
 
@@ -8247,7 +8247,7 @@ msgstr "Belirsiz"
 #: ../src/calendar/gui/e-meeting-list-view.c:184
 #: ../src/calendar/gui/e-meeting-store.c:169
 #: ../src/calendar/gui/e-meeting-store.c:192
-#: ../src/modules/itip-formatter/itip-view.c:7858
+#: ../src/modules/itip-formatter/itip-view.c:7863
 msgid "Delegated"
 msgstr "Devredildi"
 
@@ -8347,7 +8347,7 @@ msgstr "Tamamlanan: %s"
 
 #: ../src/calendar/gui/comp-util.c:2403 ../src/calendar/gui/e-to-do-pane.c:632
 #: ../src/e-util/e-misc-utils.c:4352 ../src/e-util/e-text.c:539
-#: ../src/e-util/e-web-view.c:4230
+#: ../src/e-util/e-web-view.c:4262
 msgid "…"
 msgstr "…"
 
@@ -8964,7 +8964,7 @@ msgstr "%s (%d)"
 #: ../src/calendar/gui/print.c:1316 ../src/e-util/e-charset.c:34
 #: ../src/modules/calendar/e-calendar-preferences.c:788
 #: ../src/modules/itip-formatter/itip-view.c:4375
-#: ../src/modules/itip-formatter/itip-view.c:7861
+#: ../src/modules/itip-formatter/itip-view.c:7866
 #: ../src/modules/mail/em-composer-prefs.c:860
 #: ../src/modules/plugin-manager/evolution-plugin-manager.c:86
 msgid "Unknown"
@@ -10440,7 +10440,7 @@ msgstr "Geçerli pencereyi kapat"
 #. copy menu item
 #: ../src/calendar/gui/e-comp-editor.c:2253
 #: ../src/e-util/e-html-editor-actions.c:1354 ../src/e-util/e-text.c:2032
-#: ../src/e-util/e-web-view.c:1659 ../src/mail/e-mail-browser.c:600
+#: ../src/e-util/e-web-view.c:1689 ../src/mail/e-mail-browser.c:600
 #: ../src/mail/e-mail-viewer.c:1758 ../src/mail/mail.error.xml.h:150
 #: ../src/shell/e-shell-window-actions.c:838
 msgid "_Copy"
@@ -10448,7 +10448,7 @@ msgstr "_Kopyala"
 
 #: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:211
 #: ../src/e-util/e-focus-tracker.c:267 ../src/e-util/e-focus-tracker.c:320
-#: ../src/e-util/e-web-view.c:1661 ../src/e-util/e-web-view.c:2322
+#: ../src/e-util/e-web-view.c:1691 ../src/e-util/e-web-view.c:2354
 #: ../src/mail/e-mail-browser.c:602 ../src/shell/e-shell-window-actions.c:840
 msgid "Copy the selection"
 msgstr "Seçimi kopyala"
@@ -10470,7 +10470,7 @@ msgstr "K_es"
 
 #: ../src/calendar/gui/e-comp-editor.c:2269 ../src/e-util/e-focus-tracker.c:204
 #: ../src/e-util/e-focus-tracker.c:260 ../src/e-util/e-focus-tracker.c:314
-#: ../src/e-util/e-web-view.c:2331 ../src/mail/e-mail-browser.c:609
+#: ../src/e-util/e-web-view.c:2363 ../src/mail/e-mail-browser.c:609
 #: ../src/shell/e-shell-window-actions.c:847
 msgid "Cut the selection"
 msgstr "Seçimi kes"
@@ -10495,7 +10495,7 @@ msgstr "_Yapıştır"
 
 #: ../src/calendar/gui/e-comp-editor.c:2290 ../src/e-util/e-focus-tracker.c:218
 #: ../src/e-util/e-focus-tracker.c:274 ../src/e-util/e-focus-tracker.c:326
-#: ../src/e-util/e-web-view.c:2340 ../src/mail/e-mail-browser.c:616
+#: ../src/e-util/e-web-view.c:2372 ../src/mail/e-mail-browser.c:616
 #: ../src/shell/e-shell-window-actions.c:875
 msgid "Paste the clipboard"
 msgstr "Panodan yapıştır"
@@ -10516,7 +10516,7 @@ msgid "Pre_view…"
 msgstr "Ön İz_le…"
 
 #: ../src/calendar/gui/e-comp-editor.c:2309
-#: ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1683
+#: ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1713
 #: ../src/mail/e-mail-browser.c:621 ../src/shell/e-shell-window-actions.c:901
 msgid "Select _All"
 msgstr "Tümünü _Seç"
@@ -11324,7 +11324,7 @@ msgstr "Önceki Günler"
 msgid "Appointments and Meetings"
 msgstr "Randevular ve Toplantılar"
 
-#: ../src/calendar/importers/icalendar-importer.c:326
+#: ../src/calendar/importers/icalendar-importer.c:337
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:479
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:73
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:262
@@ -11332,196 +11332,196 @@ msgstr "Randevular ve Toplantılar"
 msgid "New Calendar"
 msgstr "Yeni Takvim"
 
-#: ../src/calendar/importers/icalendar-importer.c:329
+#: ../src/calendar/importers/icalendar-importer.c:340
 #: ../src/modules/accounts-window/e-accounts-window-editors.c:487
 #: ../src/modules/calendar/e-cal-base-shell-backend.c:270
 #: ../src/modules/calendar/e-task-shell-view-actions.c:234
 msgid "New Task List"
 msgstr "Yeni Görev Listesi"
 
-#: ../src/calendar/importers/icalendar-importer.c:424
+#: ../src/calendar/importers/icalendar-importer.c:435
 msgid "Cre_ate new calendar"
 msgstr "Yeni takvim ol_uştur"
 
-#: ../src/calendar/importers/icalendar-importer.c:428
+#: ../src/calendar/importers/icalendar-importer.c:439
 msgid "Cre_ate new task list"
 msgstr "Yeni görev listesi ol_uştur"
 
-#: ../src/calendar/importers/icalendar-importer.c:580
-#: ../src/calendar/importers/icalendar-importer.c:1009
+#: ../src/calendar/importers/icalendar-importer.c:591
+#: ../src/calendar/importers/icalendar-importer.c:1020
 msgid "Opening calendar"
 msgstr "Talvim açılıyor"
 
-#: ../src/calendar/importers/icalendar-importer.c:728
+#: ../src/calendar/importers/icalendar-importer.c:739
 msgid "iCalendar files (.ics)"
 msgstr "iCalendar dosyaları (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:729
+#: ../src/calendar/importers/icalendar-importer.c:740
 msgid "Evolution iCalendar importer"
 msgstr "Evolution iCalendar aktarıcı"
 
-#: ../src/calendar/importers/icalendar-importer.c:897
+#: ../src/calendar/importers/icalendar-importer.c:908
 msgid "vCalendar files (.vcs)"
 msgstr "vCalendar dosyaları (.vcs)"
 
-#: ../src/calendar/importers/icalendar-importer.c:898
+#: ../src/calendar/importers/icalendar-importer.c:909
 msgid "Evolution vCalendar importer"
 msgstr "Evolution vCalendar aktarıcı"
 
-#: ../src/calendar/importers/icalendar-importer.c:1172
+#: ../src/calendar/importers/icalendar-importer.c:1183
 msgid "Calendar Events"
 msgstr "Takvim Olayları"
 
-#: ../src/calendar/importers/icalendar-importer.c:1215
+#: ../src/calendar/importers/icalendar-importer.c:1226
 msgid "GNOME Calendar"
 msgstr "GNOME Takvim"
 
-#: ../src/calendar/importers/icalendar-importer.c:1216
+#: ../src/calendar/importers/icalendar-importer.c:1227
 msgid "Evolution Calendar intelligent importer"
 msgstr "Evolution Takvim akıllı aktarıcı"
 
-#: ../src/calendar/importers/icalendar-importer.c:1306
-#: ../src/calendar/importers/icalendar-importer.c:1698
+#: ../src/calendar/importers/icalendar-importer.c:1317
+#: ../src/calendar/importers/icalendar-importer.c:1709
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Toplantı"
 
-#: ../src/calendar/importers/icalendar-importer.c:1306
-#: ../src/calendar/importers/icalendar-importer.c:1698
+#: ../src/calendar/importers/icalendar-importer.c:1317
+#: ../src/calendar/importers/icalendar-importer.c:1709
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Olay"
 
-#: ../src/calendar/importers/icalendar-importer.c:1309
-#: ../src/calendar/importers/icalendar-importer.c:1699
+#: ../src/calendar/importers/icalendar-importer.c:1320
+#: ../src/calendar/importers/icalendar-importer.c:1710
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Görev"
 
-#: ../src/calendar/importers/icalendar-importer.c:1312
-#: ../src/calendar/importers/icalendar-importer.c:1700
+#: ../src/calendar/importers/icalendar-importer.c:1323
+#: ../src/calendar/importers/icalendar-importer.c:1711
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Not"
 
-#: ../src/calendar/importers/icalendar-importer.c:1321
+#: ../src/calendar/importers/icalendar-importer.c:1332
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "örneğidir"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1324
+#: ../src/calendar/importers/icalendar-importer.c:1335
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "yinelemeleri var"
 
-#: ../src/calendar/importers/icalendar-importer.c:1329
+#: ../src/calendar/importers/icalendar-importer.c:1340
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "anımsatıcıları var"
 
-#: ../src/calendar/importers/icalendar-importer.c:1334
+#: ../src/calendar/importers/icalendar-importer.c:1345
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "eklentileri var"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1346
+#: ../src/calendar/importers/icalendar-importer.c:1357
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Herkese Açık"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1349
+#: ../src/calendar/importers/icalendar-importer.c:1360
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Özel"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1352
+#: ../src/calendar/importers/icalendar-importer.c:1363
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Gizli"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1356
+#: ../src/calendar/importers/icalendar-importer.c:1367
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Sınıflandırma"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1361
-#: ../src/calendar/importers/icalendar-importer.c:1743
+#: ../src/calendar/importers/icalendar-importer.c:1372
+#: ../src/calendar/importers/icalendar-importer.c:1754
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Özet"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1368
+#: ../src/calendar/importers/icalendar-importer.c:1379
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Konum"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1376
-#: ../src/calendar/importers/icalendar-importer.c:1738
+#: ../src/calendar/importers/icalendar-importer.c:1387
+#: ../src/calendar/importers/icalendar-importer.c:1749
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Başlangıç"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1386
+#: ../src/calendar/importers/icalendar-importer.c:1397
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Tamamlanma"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1400
+#: ../src/calendar/importers/icalendar-importer.c:1411
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Bitiş"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1409
+#: ../src/calendar/importers/icalendar-importer.c:1420
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Kategoriler"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1434
+#: ../src/calendar/importers/icalendar-importer.c:1445
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Tamamlandı"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1441
+#: ../src/calendar/importers/icalendar-importer.c:1452
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1459
-#: ../src/calendar/importers/icalendar-importer.c:1462
+#: ../src/calendar/importers/icalendar-importer.c:1470
+#: ../src/calendar/importers/icalendar-importer.c:1473
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Düzenleyen"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1545
+#: ../src/calendar/importers/icalendar-importer.c:1556
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Katılımcılar"
 
-#: ../src/calendar/importers/icalendar-importer.c:1564
-#: ../src/calendar/importers/icalendar-importer.c:1572
+#: ../src/calendar/importers/icalendar-importer.c:1575
+#: ../src/calendar/importers/icalendar-importer.c:1583
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Açıklama"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
-#: ../src/calendar/importers/icalendar-importer.c:1733
+#: ../src/calendar/importers/icalendar-importer.c:1744
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Tür"
@@ -13376,41 +13376,41 @@ msgstr ""
 "Gönderilecek iletiler şifrelenemiyor: Bu hesap için imzalama sertifikası "
 "belirtilmemiş"
 
-#: ../src/composer/e-msg-composer.c:1681
+#: ../src/composer/e-msg-composer.c:1732
 msgid "Failed to retrieve text/plain processed content"
 msgstr "Metin/düz işlenmiş içerik alınamadı"
 
-#: ../src/composer/e-msg-composer.c:1805
+#: ../src/composer/e-msg-composer.c:1856
 msgid "Failed to retrieve draft content"
 msgstr "Taslak içeriği alınamadı"
 
-#: ../src/composer/e-msg-composer.c:1818
+#: ../src/composer/e-msg-composer.c:1869
 msgid "Failed to retrieve HTML processed content"
 msgstr "HTML işlenmiş içerik alınamadı"
 
-#: ../src/composer/e-msg-composer.c:2130 ../src/composer/e-msg-composer.c:2844
+#: ../src/composer/e-msg-composer.c:2181 ../src/composer/e-msg-composer.c:2895
 msgid "Compose Message"
 msgstr "İleti Yaz"
 
-#: ../src/composer/e-msg-composer.c:5063
+#: ../src/composer/e-msg-composer.c:5114
 #: ../src/modules/composer-to-meeting/e-composer-to-meeting.c:355
 msgid "Reading text content…"
 msgstr "Metin içeriği okunuyor…"
 
-#: ../src/composer/e-msg-composer.c:5129
+#: ../src/composer/e-msg-composer.c:5180
 msgid "Send _without encryption"
 msgstr "Şifrelemeden _gönder"
 
-#: ../src/composer/e-msg-composer.c:5189
+#: ../src/composer/e-msg-composer.c:5240
 msgid "Waiting for OpenPGP key data…"
 msgstr "OpenPGP anahtar verisi bekleniyor…"
 
-#: ../src/composer/e-msg-composer.c:5983
+#: ../src/composer/e-msg-composer.c:6034
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Ek(ler)i göndermeden gözden geçir."
 
-#: ../src/composer/e-msg-composer.c:5988
+#: ../src/composer/e-msg-composer.c:6039
 #, c-format
 msgid ""
 "%d attachment was added by an external application. Make sure it does not "
@@ -13422,7 +13422,7 @@ msgstr[0] ""
 "%d ek dış uygulamaca eklendi. İletiyi göndermeden önce hassas bilgi "
 "barındırmadığından emin olun."
 
-#: ../src/composer/e-msg-composer.c:6114
+#: ../src/composer/e-msg-composer.c:6165
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "Düzenleyicide metin olmayan ve düzenlenemeyen ileti gövdesi bulunmaktadır."
@@ -13985,22 +13985,40 @@ msgstr "Sertifikayı İçe Aktar"
 msgid "Details"
 msgstr "Ayrıntılar"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:401
+#: ../src/em-format/e-mail-formatter-secure-button.c:494
+msgid "Encryption"
+msgstr "Şifreleme"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:498
+msgid "Encrypted by:"
+msgstr "Şifreleyen:"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:520
+#: ../src/em-format/e-mail-formatter-secure-button.c:621
 msgid "Digital Signature"
 msgstr "Sayısal İmza"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:407
+#: ../src/em-format/e-mail-formatter-secure-button.c:526
+#: ../src/em-format/e-mail-formatter-secure-button.c:597
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "İmzalayan:"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:418
-msgid "Encryption"
-msgstr "Şifreleme"
+#: ../src/em-format/e-mail-formatter-secure-button.c:623
+msgid "Outer signature (over the encrypted message)"
+msgstr "Dış imza (şifreli iletinin üzerinde)"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:423
-msgid "Encrypted by:"
-msgstr "Şifreleyen:"
+#: ../src/em-format/e-mail-formatter-secure-button.c:624
+msgid "Inner signature (over the message content)"
+msgstr "İç imza (ileti içeriğinin üzerinde)"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:731
+msgid "GPG"
+msgstr "GPG"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:733
+msgid "S/MIME"
+msgstr "S/MIME"
 
 #: ../src/em-format/e-mail-formatter-source.c:152
 msgid "Display source of a MIME part"
@@ -14100,7 +14118,7 @@ msgid "Could not parse PGP message: %s"
 msgstr "PGP iletisi ayrıştırılamadı: %s"
 
 #: ../src/em-format/e-mail-parser-inlinepgp-signed.c:66
-#: ../src/em-format/e-mail-parser-multipart-signed.c:150
+#: ../src/em-format/e-mail-parser-multipart-signed.c:165
 #, c-format
 msgid "Error verifying signature: %s"
 msgstr "İmza doğrulanırken hata: %s"
@@ -14135,7 +14153,7 @@ msgid "Pointer to unknown external data (“%s” type)"
 msgstr "Bilinmeyen harici veriye bağ (“%s” türünde)"
 
 #: ../src/em-format/e-mail-parser-multipart-encrypted.c:61
-#: ../src/em-format/e-mail-parser-multipart-signed.c:96
+#: ../src/em-format/e-mail-parser-multipart-signed.c:109
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "S/MIME iletisi ayrıştırılamadı: Kaynak olarak gösteriliyor."
 
@@ -14148,7 +14166,7 @@ msgstr "multipart/encrypted için desteklenmeyen sıkıştırma türü"
 msgid "Could not parse PGP/MIME message: %s"
 msgstr "PGP/MIME iletisi ayrıştırılamadı: %s"
 
-#: ../src/em-format/e-mail-parser-multipart-signed.c:136
+#: ../src/em-format/e-mail-parser-multipart-signed.c:149
 msgid "Unsupported signature format"
 msgstr "Desteklenmeyen imza biçimi"
 
@@ -16055,15 +16073,15 @@ msgstr "+4"
 msgid "Copy _Link Location"
 msgstr "Bağ Konumunu _Kopyala"
 
-#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1600
+#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1630
 msgid "Copy the link to the clipboard"
 msgstr "Bağlantıyı panoya kopyalayın"
 
-#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1608
+#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1638
 msgid "_Open Link in Browser"
 msgstr "_Bağlantıyı Tarayıcıda Aç"
 
-#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1610
+#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1640
 msgid "Open the link in a web browser"
 msgstr "Bağlantıyı tarayıcıda aç"
 
@@ -17755,28 +17773,28 @@ msgstr "Araç Çubuğu"
 msgid "Enter a URL here"
 msgstr "Buraya URL girin"
 
-#: ../src/e-util/e-virtual-tree.c:6961 ../src/e-util/e-virtual-tree.c:7069
+#: ../src/e-util/e-virtual-tree.c:6999 ../src/e-util/e-virtual-tree.c:7107
 msgid "Sort _Ascending"
 msgstr "Artan _Sıralama"
 
-#: ../src/e-util/e-virtual-tree.c:6963 ../src/e-util/e-virtual-tree.c:7070
+#: ../src/e-util/e-virtual-tree.c:7001 ../src/e-util/e-virtual-tree.c:7108
 msgid "Sort _Descending"
 msgstr "Azalan Sı_ralama"
 
-#: ../src/e-util/e-virtual-tree.c:6965 ../src/e-util/e-virtual-tree.c:7071
+#: ../src/e-util/e-virtual-tree.c:7003 ../src/e-util/e-virtual-tree.c:7109
 msgid "_Unsort"
 msgstr "Sıralamayı _Kaldır"
 
-#: ../src/e-util/e-virtual-tree.c:6967 ../src/e-util/e-virtual-tree.c:7076
+#: ../src/e-util/e-virtual-tree.c:7005 ../src/e-util/e-virtual-tree.c:7114
 msgid "_Remove This Column"
 msgstr "_Bu Sütunu _Kaldır"
 
-#: ../src/e-util/e-virtual-tree.c:6969 ../src/e-util/e-virtual-tree.c:7103
+#: ../src/e-util/e-virtual-tree.c:7007 ../src/e-util/e-virtual-tree.c:7141
 #: ../src/shell/e-shell-view.c:1126
 msgid "Custo_mize Current View…"
 msgstr "Geçerli Görünümü Ö_zelleştir…"
 
-#: ../src/e-util/e-virtual-tree.c:7099
+#: ../src/e-util/e-virtual-tree.c:7137
 msgid "Available _Columns"
 msgstr "Kullanılabilir _Sütunlar"
 
@@ -17958,78 +17976,78 @@ msgstr "_Takvim Oluştur"
 msgid "Create Collectio_n"
 msgstr "Koleksiyon _oluştur"
 
-#: ../src/e-util/e-web-view.c:1598
+#: ../src/e-util/e-web-view.c:1628
 msgid "_Copy Link Location"
 msgstr "Bağ Konumunu _Kopyala"
 
-#: ../src/e-util/e-web-view.c:1618
+#: ../src/e-util/e-web-view.c:1648
 msgid "_Copy Name and Email Address"
 msgstr "Adı ve E-posta Adresini _Kopyala"
 
-#: ../src/e-util/e-web-view.c:1620
+#: ../src/e-util/e-web-view.c:1650
 msgid "Copy the email address with the name to the clipboard"
 msgstr "E-posta adresini adla birlikte panoya kopyala"
 
-#: ../src/e-util/e-web-view.c:1625
+#: ../src/e-util/e-web-view.c:1655
 msgid "Copy Only Email Add_ress"
 msgstr "_Yalnızca E-posta Adresini Kopyala"
 
-#: ../src/e-util/e-web-view.c:1627
+#: ../src/e-util/e-web-view.c:1657
 msgid "Copy only the email address without the name to the clipboard"
 msgstr "Ad olmadan yalnızca e-posta adresini panoya kopyala"
 
-#: ../src/e-util/e-web-view.c:1642
+#: ../src/e-util/e-web-view.c:1672
 msgid "_Copy Image"
 msgstr "_Resmi Kopyala"
 
-#: ../src/e-util/e-web-view.c:1644
+#: ../src/e-util/e-web-view.c:1674
 msgid "Copy the image to the clipboard"
 msgstr "Resmi panoya kopyala"
 
-#: ../src/e-util/e-web-view.c:1649
+#: ../src/e-util/e-web-view.c:1679
 msgid "Save _Image…"
 msgstr "_Resmi Kaydet…"
 
-#: ../src/e-util/e-web-view.c:1651
+#: ../src/e-util/e-web-view.c:1681
 msgid "Save the image to a file"
 msgstr "Görüntüyü dosyaya kaydet"
 
-#: ../src/e-util/e-web-view.c:1666 ../src/mail/e-mail-browser.c:628
+#: ../src/e-util/e-web-view.c:1696 ../src/mail/e-mail-browser.c:628
 #: ../src/mail/e-mail-reader.c:3521
 msgid "Search _Web…"
 msgstr "_Webʼde Ara…"
 
-#: ../src/e-util/e-web-view.c:1668 ../src/mail/e-mail-browser.c:630
+#: ../src/e-util/e-web-view.c:1698 ../src/mail/e-mail-browser.c:630
 #: ../src/mail/e-mail-reader.c:3523
 msgid "Search the Web with the selected text"
 msgstr "Seçilen metinle Web’de arama yapın"
 
-#: ../src/e-util/e-web-view.c:1685 ../src/e-util/e-web-view.c:2344
+#: ../src/e-util/e-web-view.c:1715 ../src/e-util/e-web-view.c:2376
 msgid "Select all text and images"
 msgstr "Tüm metin ve resimleri seç"
 
-#: ../src/e-util/e-web-view.c:1693 ../src/mail/e-mail-viewer.c:1737
+#: ../src/e-util/e-web-view.c:1723 ../src/mail/e-mail-viewer.c:1737
 msgid "_Print"
 msgstr "_Yazdır"
 
-#: ../src/e-util/e-web-view.c:1703
+#: ../src/e-util/e-web-view.c:1733
 msgid "Save _as…"
 msgstr "F_arklı Kaydet…"
 
-#: ../src/e-util/e-web-view.c:3854
+#: ../src/e-util/e-web-view.c:3886
 msgid "Copying image to clipboard"
 msgstr "Resim panoya kopyalanıyor"
 
-#: ../src/e-util/e-web-view.c:4042
+#: ../src/e-util/e-web-view.c:4074
 msgid "Save Image"
 msgstr "Görüntüyü Kaydet"
 
-#: ../src/e-util/e-web-view.c:4079
+#: ../src/e-util/e-web-view.c:4111
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Resim “%s” konumuna kaydediliyor"
 
-#: ../src/e-util/e-web-view.c:4234
+#: ../src/e-util/e-web-view.c:4266
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "URI “%s” alınamıyor, nasıl indirileceği bilinmiyor."
@@ -26702,7 +26720,7 @@ msgstr "Olay Olarak İçe _Aktar"
 
 #: ../src/modules/itip-formatter/itip-view.c:2307
 #: ../src/modules/itip-formatter/itip-view.c:2540
-#: ../src/modules/itip-formatter/itip-view.c:8185
+#: ../src/modules/itip-formatter/itip-view.c:8190
 msgid "Due date:"
 msgstr "Tamamlanma tarihi:"
 
@@ -27048,27 +27066,27 @@ msgstr "takvim.ics"
 msgid "Save Calendar"
 msgstr "Takvimi Kaydet"
 
-#: ../src/modules/itip-formatter/itip-view.c:6747
-#: ../src/modules/itip-formatter/itip-view.c:6760
+#: ../src/modules/itip-formatter/itip-view.c:6748
+#: ../src/modules/itip-formatter/itip-view.c:6761
 msgid "The calendar attached is not valid"
 msgstr "Eklenmiş takvim geçerli değil"
 
-#: ../src/modules/itip-formatter/itip-view.c:6748
-#: ../src/modules/itip-formatter/itip-view.c:6761
+#: ../src/modules/itip-formatter/itip-view.c:6749
+#: ../src/modules/itip-formatter/itip-view.c:6762
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
 msgstr "İleti takvim içerdiğini belirtiyor ama geçerli iCalendar değil."
 
-#: ../src/modules/itip-formatter/itip-view.c:6843
-#: ../src/modules/itip-formatter/itip-view.c:6928
-#: ../src/modules/itip-formatter/itip-view.c:7056
+#: ../src/modules/itip-formatter/itip-view.c:6848
+#: ../src/modules/itip-formatter/itip-view.c:6933
+#: ../src/modules/itip-formatter/itip-view.c:7061
 msgid "The item in the calendar is not valid"
 msgstr "Takvimdeki öge geçerli değil"
 
-#: ../src/modules/itip-formatter/itip-view.c:6844
-#: ../src/modules/itip-formatter/itip-view.c:6929
-#: ../src/modules/itip-formatter/itip-view.c:7057
+#: ../src/modules/itip-formatter/itip-view.c:6849
+#: ../src/modules/itip-formatter/itip-view.c:6934
+#: ../src/modules/itip-formatter/itip-view.c:7062
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -27076,23 +27094,23 @@ msgstr ""
 "İleti takvim içeriyor ama takvim olay, görev ya da uygun/meşgul bilgisi "
 "içermiyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:6938
+#: ../src/modules/itip-formatter/itip-view.c:6943
 msgid "The calendar attached contains multiple items"
 msgstr "Eklenmiş takvim çoklu öge içeriyor"
 
-#: ../src/modules/itip-formatter/itip-view.c:6939
+#: ../src/modules/itip-formatter/itip-view.c:6944
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 "Bu ögelerin tümünü işlemek için, dosya kaydedilmeli ve takvim içe aktarılmalı"
 
-#: ../src/modules/itip-formatter/itip-view.c:7800
+#: ../src/modules/itip-formatter/itip-view.c:7805
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/modules/itip-formatter/itip-view.c:7852
+#: ../src/modules/itip-formatter/itip-view.c:7857
 msgid "Tentatively Accepted"
 msgstr "Belirsiz Olarak Kabul Edildi"
 
