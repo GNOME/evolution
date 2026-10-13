@@ -225,7 +225,7 @@ update_objects (ECalClient *cal_client,
 		else
 			i_cal_component_set_method (vcal, I_CAL_METHOD_PUBLISH);
 		clone = i_cal_component_clone (icomp);
-		e_cal_util_sanitize_untrusted (clone);
+		e_cal_util_sanitize_untrusted (clone, NULL, NULL);
 		i_cal_component_take_component (vcal, clone);
 	} else if (kind == I_CAL_VCALENDAR_COMPONENT) {
 		ICalComponent *subcomp;
@@ -237,7 +237,7 @@ update_objects (ECalClient *cal_client,
 		for (subcomp = i_cal_component_get_first_component (vcal, I_CAL_ANY_COMPONENT);
 		     subcomp;
 		     g_object_unref (subcomp), subcomp = i_cal_component_get_next_component (vcal, I_CAL_ANY_COMPONENT)) {
-			e_cal_util_sanitize_untrusted (subcomp);
+			e_cal_util_sanitize_untrusted (subcomp, NULL, NULL);
 		}
 	} else {
 		if (done_cb)

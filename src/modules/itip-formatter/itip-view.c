@@ -6798,7 +6798,7 @@ extract_itip_data (ItipView *view,
 	for (subcomp = i_cal_component_get_first_component (view->priv->main_comp, I_CAL_ANY_COMPONENT);
 	     subcomp;
 	     g_object_unref (subcomp), subcomp = i_cal_component_get_next_component (view->priv->main_comp, I_CAL_ANY_COMPONENT)) {
-		e_cal_util_sanitize_untrusted (subcomp);
+		e_cal_util_sanitize_untrusted (subcomp, NULL, NULL);
 	}
 
 	iter = i_cal_component_begin_component (view->priv->main_comp, I_CAL_VTIMEZONE_COMPONENT);
