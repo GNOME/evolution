@@ -433,6 +433,10 @@ notify_default_action_cb (NotifyNotification *notification,
 
 	/* Present the shell window. */
 	shell_window = E_SHELL_WINDOW (list->data);
+
+	if (notify_notification_get_activation_token (notification))
+		gtk_window_set_startup_id (GTK_WINDOW (shell_window), notify_notification_get_activation_token (notification));
+
 	gtk_window_present (GTK_WINDOW (shell_window));
 
 	/* Switch to the mail view. */
