@@ -1110,6 +1110,7 @@ sort_column_to_column_index (CamelFolderViewColumn column,
 
 static void message_list_regen (EMessageList *self);
 static void on_folder_view_folder_changed (CamelFolderView *folder_view, gpointer user_data);
+static void message_list_select_uid_full (EMessageList *self, const gchar *uid, gboolean with_fallback, gboolean allow_requeue);
 
 static void
 on_folder_view_rebuild_needed (CamelFolderView *folder_view,
@@ -1352,7 +1353,7 @@ message_list_regen_done_cb (GObject *source_object,
 
 		self->pending_select_uid = NULL;
 		self->pending_select_fallback = FALSE;
-		e_message_list_select_uid (self, uid, fallback);
+		message_list_select_uid_full (self, uid, fallback, FALSE);
 		camel_pstring_free (uid);
 	}
 
@@ -4013,17 +4014,16 @@ e_message_list_select (EMessageList *self,
 	}
 }
 
-void
-e_message_list_select_uid (EMessageList *self,
-			    const gchar *uid,
-			    gboolean with_fallback)
+static void
+message_list_select_uid_full (EMessageList *self,
+			      const gchar *uid,
+			      gboolean with_fallback,
+			      gboolean allow_requeue)
 {
 	EVirtualTreeModel *model;
 	const gchar *puid;
 	guint row = G_MAXUINT;
 	gboolean regen_active;
-
-	g_return_if_fail (E_IS_MESSAGE_LIST (self));
 
 	model = E_VIRTUAL_TREE_MODEL (self->model);
 
@@ -4045,9 +4045,16 @@ e_message_list_select_uid (EMessageList *self,
 	}
 
 	if (row != G_MAXUINT) {
+		e_virtual_tree_unselect_all (self->vtree);
 		e_virtual_tree_set_cursor_centered (self->vtree, (gint) row);
 		e_virtual_tree_select_row (self->vtree, row);
 		return;
+	}
+
+	if (uid && allow_requeue) {
+		camel_pstring_free (self->pending_select_uid);
+		self->pending_select_uid = camel_pstring_strdup (uid);
+		self->pending_select_fallback = with_fallback;
 	}
 
 	if (with_fallback) {
@@ -4088,6 +4095,7 @@ e_message_list_select_uid (EMessageList *self,
 			oldest_unread_row = newest_read_row;
 
 		if (oldest_unread_row != G_MAXUINT) {
+			e_virtual_tree_unselect_all (self->vtree);
 			e_virtual_tree_set_cursor_centered (self->vtree, (gint) oldest_unread_row);
 			e_virtual_tree_select_row (self->vtree, oldest_unread_row);
 			return;
@@ -4096,6 +4104,16 @@ e_message_list_select_uid (EMessageList *self,
 
 	if (!uid)
 		e_virtual_tree_set_cursor (self->vtree, -1);
+}
+
+void
+e_message_list_select_uid (EMessageList *self,
+			   const gchar *uid,
+			   gboolean with_fallback)
+{
+	g_return_if_fail (E_IS_MESSAGE_LIST (self));
+
+	message_list_select_uid_full (self, uid, with_fallback, TRUE);
 }
 
 void
