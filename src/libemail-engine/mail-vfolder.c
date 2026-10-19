@@ -790,6 +790,7 @@ mail_vfolder_rename_folder (CamelStore *store,
 	CamelVeeFolder *vf;
 	CamelService *service;
 	CamelSession *session;
+	CamelStoreClass *klass;
 	gint changed = 0;
 	gchar *old_uri;
 	gchar *new_uri;
@@ -797,6 +798,13 @@ mail_vfolder_rename_folder (CamelStore *store,
 	d (printf ("vfolder rename uri: %s to %s\n", cfrom, cto));
 
 	if (context == NULL)
+		return;
+
+	klass = CAMEL_STORE_GET_CLASS (store);
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (klass->equal_folder_name != NULL);
+
+	if (klass->equal_folder_name (old_folder_name, new_folder_name))
 		return;
 
 	if (folder_is_spethal (store, old_folder_name))
