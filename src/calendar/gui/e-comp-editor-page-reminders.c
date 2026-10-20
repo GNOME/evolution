@@ -510,6 +510,12 @@ ecep_reminders_selected_to_widgets (ECompEditorPageReminders *page_reminders)
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin),
 				i_cal_duration_get_days (duration));
 		}
+
+		if (i_cal_duration_get_weeks (duration) > 0) {
+			e_dialog_combo_box_set (page_reminders->priv->repeat_unit_combo, DUR_DAYS, duration_units_map);
+			gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->repeat_every_spin),
+				i_cal_duration_get_weeks (duration) * 7);
+		}
 	} else {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (page_reminders->priv->repeat_check), FALSE);
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (page_reminders->priv->repeat_times_spin), 1);
