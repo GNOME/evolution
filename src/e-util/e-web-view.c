@@ -1007,7 +1007,7 @@ web_view_update_cors_allow_list (WebKitWebView *web_view)
 	GPtrArray *allow_list;
 	GSList *link;
 
-	allow_list = g_ptr_array_new_full (g_slist_length (known_schemes), g_free);
+	allow_list = g_ptr_array_new_full (g_slist_length (known_schemes) + 1, g_free);
 
 	for (link = known_schemes; link; link = g_slist_next (link)) {
 		const gchar *scheme_str = link->data;
