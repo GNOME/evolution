@@ -66,7 +66,7 @@ emfpe_headers_format (EMailFormatterExtension *extension,
 	buf = camel_medium_get_header (CAMEL_MEDIUM (mime_part), "subject");
 	subject = camel_header_decode_string (buf, "UTF-8");
 	str = g_string_new ("");
-	g_string_append_printf (str, "<h1>%s</h1>\n", subject);
+	e_util_markup_append_escaped (str, "<h1>%s</h1>\n", subject ? subject : "");
 	g_free (subject);
 
 	g_string_append (

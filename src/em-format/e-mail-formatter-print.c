@@ -66,7 +66,7 @@ mail_formatter_print_write_attachments (EMailFormatter *formatter,
 
 		size = g_format_size (g_file_info_get_size (file_info));
 
-		g_string_append_printf (
+		e_util_markup_append_escaped (
 			str, "<tr><td>%s</td><td>%s</td></tr>\n",
 			name, size);
 

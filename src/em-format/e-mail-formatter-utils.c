@@ -277,6 +277,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 	const gchar *label, *txt;
 	gboolean addrspec = FALSE;
 	gchar *str_field = NULL;
+	gchar *escaped_label;
 	gint i;
 
 	g_return_if_fail (E_IS_MAIL_FORMATTER (formatter));
@@ -295,7 +296,9 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		}
 	}
 
-	label = _(canon_name);
+	/* the header name comes from the message */
+	escaped_label = g_markup_escape_text (_(canon_name), -1);
+	label = escaped_label;
 
 	if (addrspec) {
 		struct _camel_header_address *addrs;
@@ -312,6 +315,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 		if (addrs == NULL) {
 			g_free (fmt_charset);
 			g_free (buf);
+			g_free (escaped_label);
 			return;
 		}
 
@@ -412,6 +416,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 
 		if (!(ng = camel_header_newsgroups_decode (buf))) {
 			g_free (buf);
+			g_free (escaped_label);
 			return;
 		}
 
@@ -461,6 +466,7 @@ e_mail_formatter_format_header (EMailFormatter *formatter,
 
 	g_free (value);
 	g_free (str_field);
+	g_free (escaped_label);
 }
 
 GList *

@@ -124,16 +124,16 @@ format_cert_infos (GQueue *cert_infos,
 		cinfo = g_queue_pop_head (&valid);
 
 		if (cinfo->name != NULL && *cinfo->name != '\0') {
-			g_string_append (output_buffer, cinfo->name);
+			e_util_markup_append_escaped_text (output_buffer, cinfo->name);
 
 			if (cinfo->email != NULL && *cinfo->email != '\0') {
 				g_string_append (output_buffer, " &lt;");
-				g_string_append (output_buffer, cinfo->email);
+				e_util_markup_append_escaped_text (output_buffer, cinfo->email);
 				g_string_append (output_buffer, "&gt;");
 			}
 
 		} else if (cinfo->email != NULL && *cinfo->email != '\0') {
-			g_string_append (output_buffer, cinfo->email);
+			e_util_markup_append_escaped_text (output_buffer, cinfo->email);
 		}
 
 		if (!g_queue_is_empty (&valid))

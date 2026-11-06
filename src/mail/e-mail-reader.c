@@ -2670,7 +2670,7 @@ mail_source_retrieved (GObject *source_object,
 		if (display) {
 			gchar *status;
 
-			status = g_strdup_printf (
+			status = g_markup_printf_escaped (
 				"%s<br>%s",
 				_("Failed to retrieve message:"),
 				error->message);
@@ -2698,7 +2698,7 @@ action_mail_show_source_cb (EUIAction *action,
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *message_uid;
-	gchar *string;
+	gchar *string, *markup;
 	EActivity *activity;
 	GCancellable *cancellable;
 	EMailReaderClosure *closure;
@@ -2734,8 +2734,10 @@ action_mail_show_source_cb (EUIAction *action,
 	display = e_mail_reader_get_mail_display (E_MAIL_READER (browser));
 
 	string = g_strdup_printf (_("Retrieving message “%s”"), message_uid);
+	markup = g_markup_escape_text (string, -1);
 	e_mail_display_set_part_list (display, NULL);
-	e_mail_display_set_status (display, string);
+	e_mail_display_set_status (display, markup);
+	g_free (markup);
 	gtk_widget_show (browser);
 
 	activity = e_mail_reader_new_activity (E_MAIL_READER (browser));
@@ -4304,12 +4306,13 @@ mail_reader_message_selected_timeout_cb (gpointer user_data)
 			GCancellable *cancellable;
 			CamelFolder *folder;
 			EActivity *activity;
-			gchar *string;
+			gchar *string, *markup;
 
-			string = g_strdup_printf (
-				_("Retrieving message “%s”"), cursor_uid);
+			string = g_strdup_printf (_("Retrieving message “%s”"), cursor_uid);
+			markup = g_markup_escape_text (string, -1);
 			e_mail_display_set_part_list (display, NULL);
-			e_mail_display_set_status (display, string);
+			e_mail_display_set_status (display, markup);
+			g_free (markup);
 			g_free (string);
 
 			activity = e_mail_reader_new_activity (reader);

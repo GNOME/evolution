@@ -62,14 +62,14 @@ mail_formatter_audio_format (EMailFormatterExtension *extension,
 {
 	CamelMimePart *mime_part;
 	CamelDataWrapper *content;
-	CamelTransferEncoding encoding;
 	GOutputStream *mem_stream;
+	const guchar *data;
 	const gchar *mime_type;
-	gchar *html;
+	gchar *base64, *html;
+	gsize size;
 	GError *local_error = NULL;
 
 	mime_part = e_mail_part_ref_mime_part (part);
-	encoding = camel_mime_part_get_encoding (mime_part);
 	content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	mime_type = e_mail_part_get_mime_type (part);
@@ -78,42 +78,22 @@ mail_formatter_audio_format (EMailFormatterExtension *extension,
 
 	mem_stream = g_memory_output_stream_new_resizable ();
 
-	if (encoding == CAMEL_TRANSFER_ENCODING_BASE64) {
-		const gchar *data;
+	/* decode, because Camel does not check a base64 body, which could end the attribute */
+	camel_data_wrapper_decode_to_output_stream_sync (
+		content, mem_stream, cancellable, &local_error);
 
-		camel_data_wrapper_write_to_output_stream_sync (
-			content, mem_stream, cancellable, &local_error);
+	data = g_memory_output_stream_get_data (
+		G_MEMORY_OUTPUT_STREAM (mem_stream));
+	size = g_memory_output_stream_get_data_size (
+		G_MEMORY_OUTPUT_STREAM (mem_stream));
 
-		data = g_memory_output_stream_get_data (
-			G_MEMORY_OUTPUT_STREAM (mem_stream));
-
-		html = g_strdup_printf (
-			"<audio controls>"
-			"<source src=\"data:%s;base64,%s\"/>"
-			"</audio>",
-			mime_type, data);
-
-	} else {
-		const guchar *data;
-		gchar *base64;
-		gsize size;
-
-		camel_data_wrapper_decode_to_output_stream_sync (
-			content, mem_stream, cancellable, &local_error);
-
-		data = g_memory_output_stream_get_data (
-			G_MEMORY_OUTPUT_STREAM (mem_stream));
-		size = g_memory_output_stream_get_data_size (
-			G_MEMORY_OUTPUT_STREAM (mem_stream));
-
-		base64 = g_base64_encode (data, size);
-		html = g_strdup_printf (
-			"<audio controls>"
-			"<source src=\"data:%s;base64,%s\"/>"
-			"</audio>",
-			mime_type, base64);
-		g_free (base64);
-	}
+	base64 = g_base64_encode (data, size);
+	html = g_markup_printf_escaped (
+		"<audio controls>"
+		"<source src=\"data:%s;base64,%s\"/>"
+		"</audio>",
+		mime_type, base64);
+	g_free (base64);
 
 	/* XXX Should show the error message in the UI somehow. */
 	if (local_error != NULL) {

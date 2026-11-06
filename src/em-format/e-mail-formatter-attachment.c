@@ -146,11 +146,11 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 			description = e_attachment_dup_description (attachment);
 			if (description != NULL && *description != '\0') {
-				name = g_strdup_printf (
+				name = g_markup_printf_escaped (
 					"<h2>Attachment: %s (%s)</h2>\n",
 					description, display_name);
 			} else {
-				name = g_strdup_printf (
+				name = g_markup_printf_escaped (
 					"<h2>Attachment: %s</h2>\n",
 					display_name);
 			}

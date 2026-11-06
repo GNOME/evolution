@@ -121,7 +121,7 @@ empe_msg_external_parse (EMailParserExtension *extension,
 	}
 
 	mime_type = "text/html";
-	content = g_strdup_printf ("<a href=\"%s\">%s</a>", url, desc);
+	content = g_markup_printf_escaped ("<a href=\"%s\">%s</a>", url, desc);
 	camel_mime_part_set_content (
 		newpart, content, strlen (content), mime_type);
 	g_free (content);
