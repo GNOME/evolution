@@ -659,7 +659,7 @@ render_title_block (EABContactFormatter *formatter,
 		photo_data = g_base64_encode (
 				photo->data.inlined.data,
 				photo->data.inlined.length);
-		g_string_append_printf (
+		e_util_markup_append_escaped (
 			buffer,
 			"<img id=\"__evo-contact-photo\" border=\"1\" src=\"data:%s;base64,%s\">",
 			photo->data.inlined.mime_type,
@@ -668,7 +668,7 @@ render_title_block (EABContactFormatter *formatter,
 		gboolean is_local = g_str_has_prefix (photo->data.uri, "file://");
 		const gchar *uri = photo->data.uri;
 
-		g_string_append_printf (
+		e_util_markup_append_escaped (
 			buffer, "<img id=\"__evo-contact-photo\" border=\"1\" src=\"%s%s\">",
 			is_local ? "evo-" : "", uri);
 	}
@@ -1337,7 +1337,7 @@ render_compact (EABContactFormatter *formatter,
 			gboolean is_local = g_str_has_prefix (photo->data.uri, "file://");
 			const gchar *uri = photo->data.uri;
 
-			g_string_append_printf (
+			e_util_markup_append_escaped (
 				buffer,
 				"<img id=\"__evo-contact-photo\" width=\"%dpx\" height=\"%dpx\" src=\"%s%s\">",
 				calced_width, calced_height,
@@ -1348,7 +1348,7 @@ render_compact (EABContactFormatter *formatter,
 			photo_data = g_base64_encode (
 					photo->data.inlined.data,
 					photo->data.inlined.length);
-			g_string_append_printf (
+			e_util_markup_append_escaped (
 				buffer,
 				"<img id=\"__evo-contact-photo\" border=\"1\" src=\"data:%s;base64,%s\" "
 					"width=\"%dpx\" height=\"%dpx\">",
