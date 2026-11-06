@@ -3432,6 +3432,19 @@ itip_view_get_end (ItipView *view,
 	return view->priv->end_tm;
 }
 
+/* the messages are plain text, which the web view inserts as HTML */
+static gchar *
+itip_view_dup_escaped_message (const gchar *message)
+{
+	gchar *valid, *escaped;
+
+	valid = e_utf8_ensure_valid (message);
+	escaped = g_markup_escape_text (valid, -1);
+	g_free (valid);
+
+	return escaped;
+}
+
 guint
 itip_view_add_upper_info_item (ItipView *view,
                                ItipViewInfoItemType type,
@@ -3447,7 +3460,7 @@ itip_view_add_upper_info_item (ItipView *view,
 	item = g_new0 (ItipViewInfoItem, 1);
 
 	item->type = type;
-	item->message = e_utf8_ensure_valid (message);
+	item->message = itip_view_dup_escaped_message (message);
 	item->id = priv->next_info_item_id++;
 
 	priv->upper_info_items = g_slist_append (priv->upper_info_items, item);
@@ -3544,7 +3557,7 @@ itip_view_add_lower_info_item (ItipView *view,
 	item = g_new0 (ItipViewInfoItem, 1);
 
 	item->type = type;
-	item->message = e_utf8_ensure_valid (message);
+	item->message = itip_view_dup_escaped_message (message);
 	item->id = priv->next_info_item_id++;
 
 	priv->lower_info_items = g_slist_append (priv->lower_info_items, item);

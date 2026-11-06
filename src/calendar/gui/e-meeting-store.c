@@ -1962,8 +1962,8 @@ soup_authenticate (SoupMessage *msg,
 		gchar *password, *bold_host, *bold_user;
 		GString *description;
 
-		bold_host = g_strconcat ("<b>", g_uri_get_host (guri), "</b>", NULL);
-		bold_user = g_strconcat ("<b>", g_uri_get_user (guri), "</b>", NULL);
+		bold_host = g_markup_printf_escaped ("<b>%s</b>", g_uri_get_host (guri) ? g_uri_get_host (guri) : "");
+		bold_user = g_markup_printf_escaped ("<b>%s</b>", g_uri_get_user (guri) ? g_uri_get_user (guri) : "");
 
 		description = g_string_new ("");
 
@@ -1976,10 +1976,12 @@ soup_authenticate (SoupMessage *msg,
 		g_free (bold_user);
 
 		if (retrying && soup_message_get_reason_phrase (msg) && *soup_message_get_reason_phrase (msg)) {
+			gchar *reason;
+
+			reason = g_strdup_printf (_("Failure reason: %s"), soup_message_get_reason_phrase (msg));
 			g_string_append_c (description, '\n');
-			g_string_append_printf (
-				description, _("Failure reason: %s"),
-				soup_message_get_reason_phrase (msg));
+			e_util_markup_append_escaped_text (description, reason);
+			g_free (reason);
 		}
 
 		password = e_passwords_ask_password (
