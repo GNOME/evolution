@@ -205,25 +205,25 @@ accum_address (GString *buffer,
 		}
 
 		if (adr->po && *adr->po)
-			g_string_append_printf (buffer, "%s<br>", adr->po);
+			e_util_markup_append_escaped (buffer, "%s<br>", adr->po);
 
 		if (adr->ext && *adr->ext)
-			g_string_append_printf (buffer, "%s<br>", adr->ext);
+			e_util_markup_append_escaped (buffer, "%s<br>", adr->ext);
 
 		if (adr->street && *adr->street)
-			g_string_append_printf (buffer, "%s<br>", adr->street);
+			e_util_markup_append_escaped (buffer, "%s<br>", adr->street);
 
 		if (adr->locality && *adr->locality)
-			g_string_append_printf (buffer, "%s<br>", adr->locality);
+			e_util_markup_append_escaped (buffer, "%s<br>", adr->locality);
 
 		if (adr->region && *adr->region)
-			g_string_append_printf (buffer, "%s<br>", adr->region);
+			e_util_markup_append_escaped (buffer, "%s<br>", adr->region);
 
 		if (adr->code && *adr->code)
-			g_string_append_printf (buffer, "%s<br>", adr->code);
+			e_util_markup_append_escaped (buffer, "%s<br>", adr->code);
 
 		if (adr->country && *adr->country)
-			g_string_append_printf (buffer, "%s<br>", adr->country);
+			e_util_markup_append_escaped (buffer, "%s<br>", adr->country);
 
 		if (TEXT_IS_RIGHT_TO_LEFT) {
 			g_string_append_printf (
@@ -332,7 +332,10 @@ accum_attribute (GString *buffer,
 	if (str != NULL && *str != '\0') {
 		gchar *tmp = NULL;
 
-		tmp = maybe_create_url (str, html_flags);
+		if (html_flags)
+			tmp = maybe_create_url (str, html_flags);
+		else
+			tmp = e_text_to_html (str, 0);
 		if (tmp)
 			str = tmp;
 
@@ -382,7 +385,7 @@ accum_gender (GString *buffer,
 
 		/* Translators: this is a gender sex with identity, in this order, making things
 		   like "Other, something" or "Male, something", where the "something" is a user-entered text */
-		str = g_strdup_printf (C_("gender", "%s, %s"), sex, gender->identity);
+		str = g_markup_printf_escaped (C_("gender", "%s, %s"), sex, gender->identity);
 		render_table_row (buffer, html_label, str, NULL, 0);
 		g_free (str);
 	} else if (sex) {
@@ -519,7 +522,7 @@ accum_attribute_multival (GString *buffer,
 
 			g_free (value);
 		} else {
-			g_string_append (val, str);
+			e_util_markup_append_escaped_text (val, str);
 		}
 
 		g_free (tmp);
@@ -600,7 +603,7 @@ accum_sip (GString *buffer,
 		} else {
 			if (val->len)
 				g_string_append (val, "<br>");
-			g_string_append (val, str);
+			e_util_markup_append_escaped_text (val, str);
 		}
 
 		g_free (tmp);
@@ -720,7 +723,7 @@ render_contact_list_row (EABContactFormatter *formatter,
 
 	g_string_append (buffer, "<tr>");
 	if (e_destination_is_evolution_list (destination)) {
-		g_string_append_printf (
+		e_util_markup_append_escaped (
 			buffer,
 			"<td width=" IMAGE_COL_WIDTH " valign=\"top\" align=\"left\">"
 			"<button type=\"button\" id=\"%s\" class=\"header-collapse _evo_vcard_collapse_button\" style=\"display: inline-block;\">"
@@ -733,7 +736,7 @@ render_contact_list_row (EABContactFormatter *formatter,
 
 		if (!list_collapsed) {
 			const GList *dest, *dests;
-			g_string_append_printf (
+			e_util_markup_append_escaped (
 				buffer,
 				"<br><table cellspacing=\"1\" id=\"list-%s\">",
 				e_destination_get_contact_uid (destination));
@@ -751,14 +754,14 @@ render_contact_list_row (EABContactFormatter *formatter,
 
 	} else {
 		if (name && *name) {
-			g_string_append_printf (
+			e_util_markup_append_escaped (
 				buffer,
 				"<td colspan=\"2\">%s &lt"
 				"<a href=\"mailto:%s\">%s</a>&gt;"
 				"</td>",
 				name, email_addr, email_addr);
 		} else {
-			g_string_append_printf (
+			e_util_markup_append_escaped (
 				buffer,
 				"<td colspan=\"2\">"
 				"<a href=\"mailto:%s\">%s</a>"
@@ -945,7 +948,7 @@ accum_tel (GString *buffer,
 		else
 			str = tel;
 
-		if ((html_flags & E_TEXT_TO_HTML_CONVERT_URLS) != 0) {
+		if (str && *str) {
 			gchar *value = e_text_to_html (str, html_flags);
 
 			g_free (tmp);
@@ -1000,8 +1003,21 @@ render_contact_column (EABContactFormatter *formatter,
 		if (!value)
 			continue;
 
-		if (!eab_parse_qp_email (value, &name, &mail))
+		if (eab_parse_qp_email (value, &name, &mail)) {
+			gchar *escaped;
+
+			escaped = g_markup_escape_text (mail, -1);
+			g_free (mail);
+			mail = escaped;
+
+			if (name) {
+				escaped = g_markup_escape_text (name, -1);
+				g_free (name);
+				name = escaped;
+			}
+		} else {
 			mail = e_text_to_html (value, 0);
+		}
 
 		g_string_append_printf (
 			email,
@@ -1414,7 +1430,7 @@ render_compact (EABContactFormatter *formatter,
 
 		if (str) {
 			html = e_text_to_html (str, 0);
-			g_string_append_printf (buffer, "<b>%s:</b> %s<br>", _ ("Job Title"), str);
+			g_string_append_printf (buffer, "<b>%s:</b> %s<br>", _ ("Job Title"), html);
 			g_free (html);
 		}
 
