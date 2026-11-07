@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-09-26 23:00+0000\n"
-"PO-Revision-Date: 2026-09-27 16:31+0500\n"
+"POT-Creation-Date: 2026-10-31 23:00+0000\n"
+"PO-Revision-Date: 2026-11-06 23:11+0500\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <kk_KZ@googlegroups.com>\n"
 "Language: kk\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #: ../data/org.gnome.evolution.addressbook.gschema.xml.in.h:1
 msgid "Enable address formatting"
@@ -3183,7 +3183,7 @@ msgstr "Пошта"
 msgid "Memos"
 msgstr "Естеліктер"
 
-#: ../data/org.gnome.Evolution.desktop.in.in.h:12 ../src/calendar/gui/e-cal-table-tasks.c:644 ../src/calendar/gui/print.c:2510 ../src/calendar/importers/icalendar-importer.c:57 ../src/calendar/importers/icalendar-importer.c:1179 ../src/e-util/e-webdav-browser.c:520
+#: ../data/org.gnome.Evolution.desktop.in.in.h:12 ../src/calendar/gui/e-cal-table-tasks.c:644 ../src/calendar/gui/print.c:2510 ../src/calendar/importers/icalendar-importer.c:57 ../src/calendar/importers/icalendar-importer.c:1190 ../src/e-util/e-webdav-browser.c:520
 #: ../src/modules/calendar/e-calendar-preferences.ui.h:85 ../src/modules/calendar/e-cal-shell-content.c:1937 ../src/modules/calendar/e-task-shell-view-actions.c:252 ../src/modules/calendar/e-task-shell-view-actions.c:269 ../src/modules/calendar/e-task-shell-view.c:561
 msgid "Tasks"
 msgstr "Тапсырмалар"
@@ -3594,7 +3594,7 @@ msgstr "«{0}» контактісі «{1}» адрес кітабында бұ�
 #: ../src/e-util/e-collection-account-wizard.c:231 ../src/e-util/e-collection-account-wizard.c:1934 ../src/e-util/e-collection-account-wizard.c:2181 ../src/e-util/e-color-chooser-widget.c:106 ../src/e-util/e-filter-datespec.c:277 ../src/e-util/e-html-editor-actions.c:479
 #: ../src/e-util/e-html-editor-actions.c:525 ../src/e-util/e-html-editor-actions.c:638 ../src/e-util/e-image-chooser-dialog.c:153 ../src/e-util/e-mail-signature-script-dialog.c:330 ../src/e-util/e-passwords.c:469 ../src/e-util/e-rule-context.c:794
 #: ../src/e-util/e-rule-editor.c:164 ../src/e-util/e-rule-editor.c:277 ../src/e-util/e-rule-editor.c:330 ../src/e-util/e-rule-editor.c:966 ../src/e-util/e-source-config-dialog.c:335 ../src/e-util/e-source-selector-dialog.c:298 ../src/e-util/e-timezone-dialog.ui.h:2
-#: ../src/e-util/e-virtual-tree-customize-popover.c:955 ../src/e-util/e-web-view.c:4044 ../src/e-util/evolution-source-viewer.c:819 ../src/e-util/gal-view-instance-save-as-dialog.c:250 ../src/mail/e-mail-config-window.c:294 ../src/mail/e-mail-label-dialog.c:162
+#: ../src/e-util/e-virtual-tree-customize-popover.c:955 ../src/e-util/e-web-view.c:4076 ../src/e-util/evolution-source-viewer.c:819 ../src/e-util/gal-view-instance-save-as-dialog.c:250 ../src/mail/e-mail-config-window.c:294 ../src/mail/e-mail-label-dialog.c:162
 #: ../src/mail/e-mail-reader.c:5304 ../src/mail/e-mail-tag-editor.c:140 ../src/mail/e-mail-viewer.c:593 ../src/mail/em-composer-utils.c:4511 ../src/mail/em-folder-selector.c:606 ../src/mail/mail-config.ui.h:2 ../src/mail/mail.error.xml.h:16 ../src/mail/mail-send-recv.c:866
 #: ../src/mail/mail-send-recv.c:947 ../src/mail/mail-vfolder-ui.c:136 ../src/mail/mail-vfolder-ui.c:257 ../src/modules/accounts-window/e-accounts-window-editors.c:265 ../src/modules/backup-restore/evolution-backup-tool.c:1297
 #: ../src/modules/book-config-ldap/evolution-book-config-ldap.c:398 ../src/modules/calendar/e-cal-attachment-handler.c:253 ../src/modules/rss/evolution/e-rss-preferences.c:1151 ../src/plugins/email-custom-header/org-gnome-email-custom-header.ui.h:3
@@ -3656,14 +3656,14 @@ msgstr "Жазбаларды көрсету"
 msgid "Show Certificates"
 msgstr "Сертификаттарды көрсету"
 
-#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13 ../src/calendar/gui/e-comp-editor-page-reminders.c:2473 ../src/em-format/e-mail-formatter-attachment.c:314 ../src/mail/mail-config.ui.h:43
+#: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:13 ../src/calendar/gui/e-comp-editor-page-reminders.c:2479 ../src/em-format/e-mail-formatter-attachment.c:314 ../src/mail/mail-config.ui.h:43
 msgid "Options"
 msgstr "Опциялар"
 
 #: ../src/addressbook/gui/contact-editor/contact-editor.ui.h:15 ../src/addressbook/gui/contact-editor/e-contact-editor.c:3533 ../src/addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3 ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4585
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:4614 ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:370 ../src/addressbook/gui/widgets/eab-contact-merging.c:872 ../src/calendar/calendar.error.xml.h:56 ../src/calendar/gui/comp-util.c:3730
 #: ../src/calendar/gui/e-comp-editor.c:2398 ../src/composer/e-composer-actions.c:248 ../src/composer/e-composer-actions.c:423 ../src/e-util/e-attachment-store.c:815 ../src/e-util/e-attachment-store.c:822 ../src/e-util/e-mail-signature-script-dialog.c:334
-#: ../src/e-util/e-webdav-browser.c:2665 ../src/e-util/e-web-view.c:4044 ../src/e-util/gal-view-instance-save-as-dialog.c:251 ../src/modules/rss/evolution/e-rss-preferences.c:919 ../src/shell/e-shell-content.c:598 ../src/shell/e-shell-utils.c:118
+#: ../src/e-util/e-webdav-browser.c:2665 ../src/e-util/e-web-view.c:4076 ../src/e-util/gal-view-instance-save-as-dialog.c:251 ../src/modules/rss/evolution/e-rss-preferences.c:919 ../src/shell/e-shell-content.c:598 ../src/shell/e-shell-utils.c:118
 #: ../src/smime/gui/certificate-manager.c:629 ../src/smime/gui/certificate-manager.c:698
 msgid "_Save"
 msgstr "_Сақтау"
@@ -4006,7 +4006,7 @@ msgstr "X.509 сертификатын ашу"
 
 #: ../src/addressbook/gui/contact-editor/e-contact-editor.c:3259 ../src/addressbook/gui/contact-editor/e-contact-editor.c:4386 ../src/addressbook/gui/contact-editor/e-contact-editor.c:4393 ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3173
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor-certificate.c:743 ../src/e-util/e-attachment-store.c:636 ../src/e-util/e-category-editor.c:159 ../src/e-util/e-html-editor-actions.c:479 ../src/e-util/e-html-editor-actions.c:525 ../src/e-util/e-html-editor-actions.c:638
-#: ../src/e-util/e-image-chooser-dialog.c:156 ../src/e-util/e-web-view.c:1676 ../src/mail/e-mail-viewer.c:593 ../src/plugins/face/face.c:282 ../src/shell/e-shell-utils.c:54 ../src/smime/gui/certificate-manager.c:925
+#: ../src/e-util/e-image-chooser-dialog.c:156 ../src/e-util/e-web-view.c:1706 ../src/mail/e-mail-viewer.c:593 ../src/plugins/face/face.c:282 ../src/shell/e-shell-utils.c:54 ../src/smime/gui/certificate-manager.c:925
 msgid "_Open"
 msgstr "_Ашу"
 
@@ -4377,7 +4377,7 @@ msgid "Web Address"
 msgstr "Веб-адресі"
 
 #: ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:2981 ../src/addressbook/gui/vcard-editor/e-vcard-editor.c:3501 ../src/calendar/gui/caltypes.xml.in.h:14 ../src/calendar/gui/e-cal-table-events.c:23 ../src/calendar/gui/e-cal-table-tasks.c:31
-#: ../src/mail/e-message-list.c:2696 ../src/plugins/publish-calendar/publish-calendar.c:848 ../src/plugins/publish-calendar/publish-calendar.ui.h:23 ../src/plugins/save-calendar/csv-format.c:361
+#: ../src/mail/e-message-list.c:2697 ../src/plugins/publish-calendar/publish-calendar.c:848 ../src/plugins/publish-calendar/publish-calendar.ui.h:23 ../src/plugins/save-calendar/csv-format.c:361
 msgid "Location"
 msgstr "Орналасуы"
 
@@ -4769,11 +4769,11 @@ msgstr "Email а_дресін көшіру"
 msgid "Copy the email address to the clipboard"
 msgstr "Электрондық пошта адресін алмасу буферіне көшіру"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:259 ../src/e-util/e-web-view.c:1632
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:259 ../src/e-util/e-web-view.c:1662
 msgid "_Send New Message To…"
 msgstr "_Жаңа хабарламаны келесіге жіберу…"
 
-#: ../src/addressbook/gui/widgets/eab-contact-display.c:261 ../src/e-util/e-web-view.c:1634
+#: ../src/addressbook/gui/widgets/eab-contact-display.c:261 ../src/e-util/e-web-view.c:1664
 msgid "Send a mail message to this address"
 msgstr "Осы адреске пошта хабарын жіберу"
 
@@ -5491,8 +5491,8 @@ msgstr ""
 "\n"
 "Жаңа контакт жасау үшін осында екі рет шертіңіз."
 
-#: ../src/addressbook/importers/evolution-csv-importer.c:779 ../src/addressbook/importers/evolution-ldif-importer.c:535 ../src/addressbook/importers/evolution-vcard-importer.c:219 ../src/calendar/importers/icalendar-importer.c:558
-#: ../src/calendar/importers/icalendar-importer.c:1041 ../src/calendar/importers/icalendar-importer.c:1081 ../src/mail/e-mail-viewer.c:504
+#: ../src/addressbook/importers/evolution-csv-importer.c:779 ../src/addressbook/importers/evolution-ldif-importer.c:535 ../src/addressbook/importers/evolution-vcard-importer.c:219 ../src/calendar/importers/icalendar-importer.c:569
+#: ../src/calendar/importers/icalendar-importer.c:1052 ../src/calendar/importers/icalendar-importer.c:1092 ../src/mail/e-mail-viewer.c:504
 msgid "Importing…"
 msgstr "Импорттау…"
 
@@ -6362,7 +6362,7 @@ msgstr "Жиынтығында бар"
 msgid "Description Contains"
 msgstr "Сипаттамасында бар"
 
-#: ../src/calendar/gui/comp-util.c:1589 ../src/calendar/gui/comp-util.c:3073 ../src/calendar/importers/icalendar-importer.c:1529 ../src/modules/itip-formatter/itip-view.c:3263
+#: ../src/calendar/gui/comp-util.c:1589 ../src/calendar/gui/comp-util.c:3073 ../src/calendar/importers/icalendar-importer.c:1540 ../src/modules/itip-formatter/itip-view.c:3263
 #, c-format
 msgid "with one guest"
 msgid_plural "with %d guests"
@@ -6423,11 +6423,11 @@ msgctxt "iCalendarStatus"
 msgid "Cancelled"
 msgstr "Бас тартылған"
 
-#: ../src/calendar/gui/comp-util.c:1933 ../src/calendar/gui/e-meeting-list-view.c:181 ../src/calendar/gui/e-meeting-store.c:163 ../src/calendar/gui/e-meeting-store.c:186 ../src/modules/itip-formatter/itip-view.c:7849
+#: ../src/calendar/gui/comp-util.c:1933 ../src/calendar/gui/e-meeting-list-view.c:181 ../src/calendar/gui/e-meeting-store.c:163 ../src/calendar/gui/e-meeting-store.c:186 ../src/modules/itip-formatter/itip-view.c:7854
 msgid "Accepted"
 msgstr "Қабылданған"
 
-#: ../src/calendar/gui/comp-util.c:1934 ../src/calendar/gui/e-meeting-list-view.c:182 ../src/calendar/gui/e-meeting-store.c:165 ../src/calendar/gui/e-meeting-store.c:188 ../src/modules/itip-formatter/itip-view.c:7855
+#: ../src/calendar/gui/comp-util.c:1934 ../src/calendar/gui/e-meeting-list-view.c:182 ../src/calendar/gui/e-meeting-store.c:165 ../src/calendar/gui/e-meeting-store.c:188 ../src/modules/itip-formatter/itip-view.c:7860
 msgid "Declined"
 msgstr "Бас тартылған"
 
@@ -6435,7 +6435,7 @@ msgstr "Бас тартылған"
 msgid "Tentative"
 msgstr "Мүмкін деп"
 
-#: ../src/calendar/gui/comp-util.c:1936 ../src/calendar/gui/e-meeting-list-view.c:184 ../src/calendar/gui/e-meeting-store.c:169 ../src/calendar/gui/e-meeting-store.c:192 ../src/modules/itip-formatter/itip-view.c:7858
+#: ../src/calendar/gui/comp-util.c:1936 ../src/calendar/gui/e-meeting-list-view.c:184 ../src/calendar/gui/e-meeting-store.c:169 ../src/calendar/gui/e-meeting-store.c:192 ../src/modules/itip-formatter/itip-view.c:7863
 msgid "Delegated"
 msgstr "Тапсырылған"
 
@@ -6447,7 +6447,7 @@ msgstr "Әрекетті қажет етеді"
 #. string will be in a form:
 #. * Status: Accepted: X   Declined: Y   ...
 #: ../src/calendar/gui/comp-util.c:2002 ../src/calendar/gui/e-cal-table-events.c:28 ../src/calendar/gui/e-cal-table-memos.c:25 ../src/calendar/gui/e-cal-table-tasks.c:29 ../src/calendar/gui/e-meeting-list-view.c:666 ../src/calendar/gui/tasktypes.xml.in.h:8
-#: ../src/mail/e-message-list.c:2528 ../src/mail/e-message-list.c:2529 ../src/mail/filtertypes.xml.in.h:36 ../src/mail/searchtypes.xml.in.h:38 ../src/mail/vfoldertypes.xml.in.h:38
+#: ../src/mail/e-message-list.c:2529 ../src/mail/e-message-list.c:2530 ../src/mail/filtertypes.xml.in.h:36 ../src/mail/searchtypes.xml.in.h:38 ../src/mail/vfoldertypes.xml.in.h:38
 msgid "Status"
 msgstr "Қалып-күйі"
 
@@ -6515,7 +6515,7 @@ msgstr "Мерзімі: %s"
 msgid "Completed: %s"
 msgstr "Аяқталған: %s"
 
-#: ../src/calendar/gui/comp-util.c:2403 ../src/calendar/gui/e-to-do-pane.c:632 ../src/e-util/e-misc-utils.c:4352 ../src/e-util/e-text.c:539 ../src/e-util/e-web-view.c:4230
+#: ../src/calendar/gui/comp-util.c:2403 ../src/calendar/gui/e-to-do-pane.c:632 ../src/e-util/e-misc-utils.c:4352 ../src/e-util/e-text.c:539 ../src/e-util/e-web-view.c:4262
 msgid "…"
 msgstr "…"
 
@@ -6701,28 +6701,28 @@ msgstr "Көбірек оқиғаларды табу үшін осында ше�
 
 #. Translators: Part of: [ Play a sound ] [ x ] [ minute(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-alarm-list.c:374 ../src/calendar/gui/e-comp-editor-page-reminders.c:2308
+#: ../src/calendar/gui/e-alarm-list.c:374 ../src/calendar/gui/e-comp-editor-page-reminders.c:2314
 msgctxt "cal-reminders"
 msgid "Play a sound"
 msgstr "Дыбысты ойнату"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-alarm-list.c:378 ../src/calendar/gui/e-comp-editor-page-reminders.c:2306
+#: ../src/calendar/gui/e-alarm-list.c:378 ../src/calendar/gui/e-comp-editor-page-reminders.c:2312
 msgctxt "cal-reminders"
 msgid "Pop up an alert"
 msgstr "Ескертуді шығару"
 
 #. Translators: Part of: [ Send an email ] [ x ] [ minute(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-alarm-list.c:382 ../src/calendar/gui/e-comp-editor-page-reminders.c:2312
+#: ../src/calendar/gui/e-alarm-list.c:382 ../src/calendar/gui/e-comp-editor-page-reminders.c:2318
 msgctxt "cal-reminders"
 msgid "Send an email"
 msgstr "Эл. пошта хатын жіберу"
 
 #. Translators: Part of: [ Run a program ] [ x ] [ minute(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-alarm-list.c:386 ../src/calendar/gui/e-comp-editor-page-reminders.c:2310
+#: ../src/calendar/gui/e-alarm-list.c:386 ../src/calendar/gui/e-comp-editor-page-reminders.c:2316
 msgctxt "cal-reminders"
 msgid "Run a program"
 msgstr "Бағдарламаны жөнелту"
@@ -7074,7 +7074,7 @@ msgid "%s (%d)"
 msgstr "%s (%d)"
 
 #: ../src/calendar/gui/e-cal-model.c:466 ../src/calendar/gui/e-meeting-list-view.c:156 ../src/calendar/gui/e-meeting-list-view.c:170 ../src/calendar/gui/e-meeting-store.c:119 ../src/calendar/gui/e-meeting-store.c:154 ../src/calendar/gui/e-meeting-store.c:199
-#: ../src/calendar/gui/print.c:1299 ../src/calendar/gui/print.c:1316 ../src/e-util/e-charset.c:34 ../src/modules/calendar/e-calendar-preferences.c:788 ../src/modules/itip-formatter/itip-view.c:4375 ../src/modules/itip-formatter/itip-view.c:7861
+#: ../src/calendar/gui/print.c:1299 ../src/calendar/gui/print.c:1316 ../src/e-util/e-charset.c:34 ../src/modules/calendar/e-calendar-preferences.c:788 ../src/modules/itip-formatter/itip-view.c:4375 ../src/modules/itip-formatter/itip-view.c:7866
 #: ../src/modules/mail/em-composer-prefs.c:860 ../src/modules/plugin-manager/evolution-plugin-manager.c:86
 msgid "Unknown"
 msgstr "Белгісіз"
@@ -7585,7 +7585,7 @@ msgid "Memo — %s"
 msgstr "Естелік — %s"
 
 #: ../src/calendar/gui/e-comp-editor-page-attachments.c:152 ../src/calendar/gui/e-comp-editor-page-attachments.c:157 ../src/em-format/e-mail-formatter-attachment.c:373 ../src/e-util/e-attachment-bar.c:140 ../src/e-util/e-attachment-bar.c:145
-#: ../src/e-util/e-attachment-paned.c:156 ../src/e-util/e-attachment-paned.c:161 ../src/mail/e-message-list.c:2539 ../src/mail/e-message-list.c:2540
+#: ../src/e-util/e-attachment-paned.c:156 ../src/e-util/e-attachment-paned.c:161 ../src/mail/e-message-list.c:2540 ../src/mail/e-message-list.c:2541
 msgid "Attachment"
 msgid_plural "Attachments"
 msgstr[0] "Салыным"
@@ -8033,11 +8033,11 @@ msgstr "Бұл кездесуде Evolution өңдей алмайтын қайт
 msgid "Exceptions"
 msgstr "Ерекше жағдайлар"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2498 ../src/calendar/gui/e-comp-editor-page-reminders.c:2262 ../src/mail/e-mail-config-identity-page.c:838 ../src/mail/mail-config.ui.h:77
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2498 ../src/calendar/gui/e-comp-editor-page-reminders.c:2268 ../src/mail/e-mail-config-identity-page.c:838 ../src/mail/mail-config.ui.h:77
 msgid "A_dd"
 msgstr "Қ_осу"
 
-#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2514 ../src/calendar/gui/e-comp-editor-page-reminders.c:2270 ../src/mail/mail-config.ui.h:78
+#: ../src/calendar/gui/e-comp-editor-page-recurrence.c:2514 ../src/calendar/gui/e-comp-editor-page-reminders.c:2276 ../src/mail/mail-config.ui.h:78
 msgid "Re_move"
 msgstr "Ө_шіру"
 
@@ -8049,16 +8049,16 @@ msgstr "Алдын-ала қарау"
 msgid "Send To"
 msgstr "Қайда жіберу"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1699
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1705
 msgid "_Reminders"
 msgstr "_Еске салғыштар"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1701
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1707
 msgid "Set or unset reminders"
 msgstr "Еске салғыштарды орнату немесе алып тастау"
 
 #. Translators: "None" for "No reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1801
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1807
 msgctxt "cal-reminders"
 msgid "None"
 msgstr "Бос"
@@ -8068,175 +8068,175 @@ msgstr "Бос"
 #. "1 hour before", "1 day before", but, if user has set, also more
 #. complicated strings like
 #. "2 days 13 hours 1 minute before".
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1811
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1817
 #, c-format
 msgctxt "cal-reminders"
 msgid "%s before"
 msgstr "%s дейін"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1816
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1822
 msgctxt "cal-reminders"
 msgid "at the start"
 msgstr "басталу кезінде"
 
 #. Translators: "Custom" for "Custom reminder set"
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1824
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1830
 msgctxt "cal-reminders"
 msgid "Custom"
 msgstr "Таңдауыңызша"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1826
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1832
 msgid "Add predefined time…"
 msgstr "Алдын ала анықталған уақытты қосу…"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1829
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1835
 msgid "Remove predefined times"
 msgstr "Алдын ала анықталған уақыттарды өшіру"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1973
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1979
 msgid "Set a custom predefined time to"
 msgstr "Арнайы алдын ала анықталған уақытты келесіге орнату"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days
 #. [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1986
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:1992
 msgctxt "cal-reminders"
 msgid "da_ys"
 msgstr "_күн"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days
 #. [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2002
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2008
 msgctxt "cal-reminders"
 msgid "_hours"
 msgstr "_сағат"
 
 #. Translators: this is part of: "Set a custom predefined time to [nnn] days
 #. [nnn] hours [nnn] minutes", where the text in "[]" means a separate widget
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2018
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2024
 msgctxt "cal-reminders"
 msgid "_minutes"
 msgstr "_минут"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2024
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2030
 msgid "_Add time"
 msgstr "Уақытты қ_осу"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2120 ../src/modules/calendar/e-calendar-preferences.ui.h:86
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2126 ../src/modules/calendar/e-calendar-preferences.ui.h:86
 msgid "Reminders"
 msgstr "Еске салулар"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2145
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2151
 msgid "_Reminder"
 msgstr "_Еске салғыш"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2343
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2349
 msgctxt "cal-reminders"
 msgid "minute(s)"
 msgstr "минут"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ hour(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2345
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2351
 msgctxt "cal-reminders"
 msgid "hour(s)"
 msgstr "сағат"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ day(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2347
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2353
 msgctxt "cal-reminders"
 msgid "day(s)"
 msgstr "күн"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2364
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2370
 msgctxt "cal-reminders"
 msgid "before"
 msgstr "дейін"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ after ] [
 #. start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2366
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2372
 msgctxt "cal-reminders"
 msgid "after"
 msgstr "кейін"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [
 #. start ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2382
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2388
 msgctxt "cal-reminders"
 msgid "start"
 msgstr "басталу"
 
 #. Translators: Part of: [ Pop up an alert ] [ x ] [ minute(s) ] [ before ] [
 #. end ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2384
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2390
 msgctxt "cal-reminders"
 msgid "end"
 msgstr "аяқталу"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [
 #. minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2403
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2409
 msgid "Re_peat the reminder"
 msgstr "Еске салғышты қай_талау"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [
 #. minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2428
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2434
 msgctxt "cal-reminders"
 msgid "extra times every"
 msgstr "қосымша рет сайын"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [
 #. minutes ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2465
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2471
 msgctxt "cal-reminders"
 msgid "minutes"
 msgstr "минут"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [
 #. hours ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2467
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2473
 msgctxt "cal-reminders"
 msgid "hours"
 msgstr "сағат"
 
 #. Translators: Part of: Repeat the reminder [ x ] extra times every [ y ] [
 #. days ]
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2469
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2475
 msgctxt "cal-reminders"
 msgid "days"
 msgstr "күн"
 
 #. page_reminders->priv->custom_email_entry is initialized on demand
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2506 ../src/calendar/gui/e-comp-editor-page-reminders.c:2664
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2512 ../src/calendar/gui/e-comp-editor-page-reminders.c:2670
 msgctxt "cal-reminders"
 msgid "Custom _message"
 msgstr "Арнайы _хабарлама"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2551
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2557
 msgctxt "cal-reminders"
 msgid "Custom reminder _sound"
 msgstr "Еске салғыштың арнайы _дыбысы"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2562
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2568
 msgid "Select a sound file"
 msgstr "Дыбыстық файлды таңдаңыз"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2590
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2596
 msgid "_Program:"
 msgstr "_Бағдарлама:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2615
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2621
 msgid "_Arguments:"
 msgstr "_Аргументтер:"
 
-#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2647
+#: ../src/calendar/gui/e-comp-editor-page-reminders.c:2653
 msgid "_Send To:"
 msgstr "_Кіме жіберу:"
 
@@ -8461,12 +8461,12 @@ msgid "Close the current window"
 msgstr "Ағымдағы терезені жабу"
 
 #. copy menu item
-#: ../src/calendar/gui/e-comp-editor.c:2253 ../src/e-util/e-html-editor-actions.c:1354 ../src/e-util/e-text.c:2032 ../src/e-util/e-web-view.c:1659 ../src/mail/e-mail-browser.c:600 ../src/mail/e-mail-viewer.c:1758 ../src/mail/mail.error.xml.h:150
+#: ../src/calendar/gui/e-comp-editor.c:2253 ../src/e-util/e-html-editor-actions.c:1354 ../src/e-util/e-text.c:2032 ../src/e-util/e-web-view.c:1689 ../src/mail/e-mail-browser.c:600 ../src/mail/e-mail-viewer.c:1758 ../src/mail/mail.error.xml.h:150
 #: ../src/shell/e-shell-window-actions.c:838
 msgid "_Copy"
 msgstr "_Көшіріп алу"
 
-#: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:211 ../src/e-util/e-focus-tracker.c:267 ../src/e-util/e-focus-tracker.c:320 ../src/e-util/e-web-view.c:1661 ../src/e-util/e-web-view.c:2322 ../src/mail/e-mail-browser.c:602
+#: ../src/calendar/gui/e-comp-editor.c:2255 ../src/e-util/e-focus-tracker.c:211 ../src/e-util/e-focus-tracker.c:267 ../src/e-util/e-focus-tracker.c:320 ../src/e-util/e-web-view.c:1691 ../src/e-util/e-web-view.c:2354 ../src/mail/e-mail-browser.c:602
 #: ../src/shell/e-shell-window-actions.c:840
 msgid "Copy the selection"
 msgstr "Ерекшелеуді көшіріп алу"
@@ -8484,7 +8484,7 @@ msgstr "Құралдар панеліндегі әрекеттерді бапт�
 msgid "Cu_t"
 msgstr "Қ_иып алу"
 
-#: ../src/calendar/gui/e-comp-editor.c:2269 ../src/e-util/e-focus-tracker.c:204 ../src/e-util/e-focus-tracker.c:260 ../src/e-util/e-focus-tracker.c:314 ../src/e-util/e-web-view.c:2331 ../src/mail/e-mail-browser.c:609 ../src/shell/e-shell-window-actions.c:847
+#: ../src/calendar/gui/e-comp-editor.c:2269 ../src/e-util/e-focus-tracker.c:204 ../src/e-util/e-focus-tracker.c:260 ../src/e-util/e-focus-tracker.c:314 ../src/e-util/e-web-view.c:2363 ../src/mail/e-mail-browser.c:609 ../src/shell/e-shell-window-actions.c:847
 msgid "Cut the selection"
 msgstr "Ерекшелеуді қиып алу"
 
@@ -8501,7 +8501,7 @@ msgstr "Көмекті қарау"
 msgid "_Paste"
 msgstr "Кірі_стіру"
 
-#: ../src/calendar/gui/e-comp-editor.c:2290 ../src/e-util/e-focus-tracker.c:218 ../src/e-util/e-focus-tracker.c:274 ../src/e-util/e-focus-tracker.c:326 ../src/e-util/e-web-view.c:2340 ../src/mail/e-mail-browser.c:616 ../src/shell/e-shell-window-actions.c:875
+#: ../src/calendar/gui/e-comp-editor.c:2290 ../src/e-util/e-focus-tracker.c:218 ../src/e-util/e-focus-tracker.c:274 ../src/e-util/e-focus-tracker.c:326 ../src/e-util/e-web-view.c:2372 ../src/mail/e-mail-browser.c:616 ../src/shell/e-shell-window-actions.c:875
 msgid "Paste the clipboard"
 msgstr "Алмасу буферінен кірістіру"
 
@@ -8514,7 +8514,7 @@ msgstr "Бас_паға шығару…"
 msgid "Pre_view…"
 msgstr "Алд_ын-ала қарау…"
 
-#: ../src/calendar/gui/e-comp-editor.c:2309 ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1683 ../src/mail/e-mail-browser.c:621 ../src/shell/e-shell-window-actions.c:901
+#: ../src/calendar/gui/e-comp-editor.c:2309 ../src/e-util/e-html-editor-actions.c:1382 ../src/e-util/e-web-view.c:1713 ../src/mail/e-mail-browser.c:621 ../src/shell/e-shell-window-actions.c:901
 msgid "Select _All"
 msgstr "Барлығын _таңдау"
 
@@ -9251,191 +9251,191 @@ msgstr "Алдыңғы күндер"
 msgid "Appointments and Meetings"
 msgstr "Кездесулер мен жиналыстар"
 
-#: ../src/calendar/importers/icalendar-importer.c:326 ../src/modules/accounts-window/e-accounts-window-editors.c:479 ../src/modules/calendar/e-cal-base-shell-backend.c:73 ../src/modules/calendar/e-cal-base-shell-backend.c:262
+#: ../src/calendar/importers/icalendar-importer.c:337 ../src/modules/accounts-window/e-accounts-window-editors.c:479 ../src/modules/calendar/e-cal-base-shell-backend.c:73 ../src/modules/calendar/e-cal-base-shell-backend.c:262
 #: ../src/modules/calendar/e-cal-shell-view-actions.c:177
 msgid "New Calendar"
 msgstr "Жаңа күнтізбе"
 
-#: ../src/calendar/importers/icalendar-importer.c:329 ../src/modules/accounts-window/e-accounts-window-editors.c:487 ../src/modules/calendar/e-cal-base-shell-backend.c:270 ../src/modules/calendar/e-task-shell-view-actions.c:234
+#: ../src/calendar/importers/icalendar-importer.c:340 ../src/modules/accounts-window/e-accounts-window-editors.c:487 ../src/modules/calendar/e-cal-base-shell-backend.c:270 ../src/modules/calendar/e-task-shell-view-actions.c:234
 msgid "New Task List"
 msgstr "Жаңа тапсырмалар тізімі"
 
-#: ../src/calendar/importers/icalendar-importer.c:424
+#: ../src/calendar/importers/icalendar-importer.c:435
 msgid "Cre_ate new calendar"
 msgstr "Жаңа күнтізбе жа_сау"
 
-#: ../src/calendar/importers/icalendar-importer.c:428
+#: ../src/calendar/importers/icalendar-importer.c:439
 msgid "Cre_ate new task list"
 msgstr "Жаңа тапсырмалар тізімін жа_сау"
 
-#: ../src/calendar/importers/icalendar-importer.c:580 ../src/calendar/importers/icalendar-importer.c:1009
+#: ../src/calendar/importers/icalendar-importer.c:591 ../src/calendar/importers/icalendar-importer.c:1020
 msgid "Opening calendar"
 msgstr "Күнтізбені ашу"
 
-#: ../src/calendar/importers/icalendar-importer.c:728
+#: ../src/calendar/importers/icalendar-importer.c:739
 msgid "iCalendar files (.ics)"
 msgstr "iCalendar файлдары (.ics)"
 
-#: ../src/calendar/importers/icalendar-importer.c:729
+#: ../src/calendar/importers/icalendar-importer.c:740
 msgid "Evolution iCalendar importer"
 msgstr "Evolution iCalendar импорттаушысы"
 
-#: ../src/calendar/importers/icalendar-importer.c:897
+#: ../src/calendar/importers/icalendar-importer.c:908
 msgid "vCalendar files (.vcs)"
 msgstr "vCalendar файлдары (.vcs)"
 
-#: ../src/calendar/importers/icalendar-importer.c:898
+#: ../src/calendar/importers/icalendar-importer.c:909
 msgid "Evolution vCalendar importer"
 msgstr "Evolution vCalendar импорттаушысы"
 
-#: ../src/calendar/importers/icalendar-importer.c:1172
+#: ../src/calendar/importers/icalendar-importer.c:1183
 msgid "Calendar Events"
 msgstr "Күнтізбе оқиғалары"
 
-#: ../src/calendar/importers/icalendar-importer.c:1215
+#: ../src/calendar/importers/icalendar-importer.c:1226
 msgid "GNOME Calendar"
 msgstr "GNOME күнтізбесі"
 
-#: ../src/calendar/importers/icalendar-importer.c:1216
+#: ../src/calendar/importers/icalendar-importer.c:1227
 msgid "Evolution Calendar intelligent importer"
 msgstr "Evolution күнтізбесінің интеллектуалды импорттаушысы"
 
-#: ../src/calendar/importers/icalendar-importer.c:1306 ../src/calendar/importers/icalendar-importer.c:1698
+#: ../src/calendar/importers/icalendar-importer.c:1317 ../src/calendar/importers/icalendar-importer.c:1709
 msgctxt "iCalImp"
 msgid "Meeting"
 msgstr "Жиналыс"
 
-#: ../src/calendar/importers/icalendar-importer.c:1306 ../src/calendar/importers/icalendar-importer.c:1698
+#: ../src/calendar/importers/icalendar-importer.c:1317 ../src/calendar/importers/icalendar-importer.c:1709
 msgctxt "iCalImp"
 msgid "Event"
 msgstr "Оқиға"
 
-#: ../src/calendar/importers/icalendar-importer.c:1309 ../src/calendar/importers/icalendar-importer.c:1699
+#: ../src/calendar/importers/icalendar-importer.c:1320 ../src/calendar/importers/icalendar-importer.c:1710
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "Үрдіс"
 
-#: ../src/calendar/importers/icalendar-importer.c:1312 ../src/calendar/importers/icalendar-importer.c:1700
+#: ../src/calendar/importers/icalendar-importer.c:1323 ../src/calendar/importers/icalendar-importer.c:1711
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Естелік"
 
-#: ../src/calendar/importers/icalendar-importer.c:1321
+#: ../src/calendar/importers/icalendar-importer.c:1332
 msgctxt "iCalImp"
 msgid "is an instance"
 msgstr "нұсқа болып табылады"
 
 #. have ? NULL :
-#: ../src/calendar/importers/icalendar-importer.c:1324
+#: ../src/calendar/importers/icalendar-importer.c:1335
 msgctxt "iCalImp"
 msgid "has recurrences"
 msgstr "қайталанулары бар"
 
-#: ../src/calendar/importers/icalendar-importer.c:1329
+#: ../src/calendar/importers/icalendar-importer.c:1340
 msgctxt "iCalImp"
 msgid "has reminders"
 msgstr "еске салғыштары бар"
 
-#: ../src/calendar/importers/icalendar-importer.c:1334
+#: ../src/calendar/importers/icalendar-importer.c:1345
 msgctxt "iCalImp"
 msgid "has attachments"
 msgstr "салынымдары бар"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1346
+#: ../src/calendar/importers/icalendar-importer.c:1357
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "Ортақ"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1349
+#: ../src/calendar/importers/icalendar-importer.c:1360
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "Жеке"
 
 #. Translators: Appointment's classification
-#: ../src/calendar/importers/icalendar-importer.c:1352
+#: ../src/calendar/importers/icalendar-importer.c:1363
 msgctxt "iCalImp"
 msgid "Confidential"
 msgstr "Құпия"
 
 #. Translators: Appointment's classification section name
-#: ../src/calendar/importers/icalendar-importer.c:1356
+#: ../src/calendar/importers/icalendar-importer.c:1367
 msgctxt "iCalImp"
 msgid "Classification"
 msgstr "Жіктеуі"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
-#: ../src/calendar/importers/icalendar-importer.c:1361 ../src/calendar/importers/icalendar-importer.c:1743
+#: ../src/calendar/importers/icalendar-importer.c:1372 ../src/calendar/importers/icalendar-importer.c:1754
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "Қорытынды"
 
 #. Translators: Appointment's location
-#: ../src/calendar/importers/icalendar-importer.c:1368
+#: ../src/calendar/importers/icalendar-importer.c:1379
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "Орналасуы"
 
 #. Translators: Appointment's start time
 #. Translators: Column header for a component start date/time
-#: ../src/calendar/importers/icalendar-importer.c:1376 ../src/calendar/importers/icalendar-importer.c:1738
+#: ../src/calendar/importers/icalendar-importer.c:1387 ../src/calendar/importers/icalendar-importer.c:1749
 msgctxt "iCalImp"
 msgid "Start"
 msgstr "Бастау"
 
 #. Translators: 'Due' like the time due a task should be finished
-#: ../src/calendar/importers/icalendar-importer.c:1386
+#: ../src/calendar/importers/icalendar-importer.c:1397
 msgctxt "iCalImp"
 msgid "Due"
 msgstr "Мерзімі"
 
 #. Translators: Appointment's end time
-#: ../src/calendar/importers/icalendar-importer.c:1400
+#: ../src/calendar/importers/icalendar-importer.c:1411
 msgctxt "iCalImp"
 msgid "End"
 msgstr "Соңы"
 
 #. Translators: Appointment's categories
-#: ../src/calendar/importers/icalendar-importer.c:1409
+#: ../src/calendar/importers/icalendar-importer.c:1420
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "Санаттар"
 
 #. Translators: Appointment's complete value (either percentage, or a
 #. date/time of a completion)
-#: ../src/calendar/importers/icalendar-importer.c:1434
+#: ../src/calendar/importers/icalendar-importer.c:1445
 msgctxt "iCalImp"
 msgid "Completed"
 msgstr "Аяқталған"
 
 #. Translators: Appointment's URL
-#: ../src/calendar/importers/icalendar-importer.c:1441
+#: ../src/calendar/importers/icalendar-importer.c:1452
 msgctxt "iCalImp"
 msgid "URL"
 msgstr "URL"
 
 #. Translators: Appointment's organizer
-#: ../src/calendar/importers/icalendar-importer.c:1459 ../src/calendar/importers/icalendar-importer.c:1462
+#: ../src/calendar/importers/icalendar-importer.c:1470 ../src/calendar/importers/icalendar-importer.c:1473
 msgctxt "iCalImp"
 msgid "Organizer"
 msgstr "Басқару"
 
 #. Translators: Appointment's attendees
-#: ../src/calendar/importers/icalendar-importer.c:1545
+#: ../src/calendar/importers/icalendar-importer.c:1556
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Қатысушылар"
 
-#: ../src/calendar/importers/icalendar-importer.c:1564 ../src/calendar/importers/icalendar-importer.c:1572
+#: ../src/calendar/importers/icalendar-importer.c:1575 ../src/calendar/importers/icalendar-importer.c:1583
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "Сипаттамасы"
 
 #. Translators: Column header for a component type; it can be Event, Task or
 #. Memo
-#: ../src/calendar/importers/icalendar-importer.c:1733
+#: ../src/calendar/importers/icalendar-importer.c:1744
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "Түрі"
@@ -11248,46 +11248,46 @@ msgstr "Шығыс хабарламаға қол қою мүмкін емес: �
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
 msgstr "Шығыс хабарламаны шифрлеу мүмкін емес: Бұл тіркелгі үшін шифрлеу сертификаты орнатылмаған"
 
-#: ../src/composer/e-msg-composer.c:1681
+#: ../src/composer/e-msg-composer.c:1732
 msgid "Failed to retrieve text/plain processed content"
 msgstr "text/plain өңделген мазмұнын алу сәтсіз аяқталды"
 
-#: ../src/composer/e-msg-composer.c:1805
+#: ../src/composer/e-msg-composer.c:1856
 msgid "Failed to retrieve draft content"
 msgstr "Шимай мазмұнын алу сәтсіз аяқталды"
 
-#: ../src/composer/e-msg-composer.c:1818
+#: ../src/composer/e-msg-composer.c:1869
 msgid "Failed to retrieve HTML processed content"
 msgstr "HTML өңделген мазмұнын алу сәтсіз аяқталды"
 
-#: ../src/composer/e-msg-composer.c:2130 ../src/composer/e-msg-composer.c:2844
+#: ../src/composer/e-msg-composer.c:2181 ../src/composer/e-msg-composer.c:2895
 msgid "Compose Message"
 msgstr "Хатты жазу"
 
-#: ../src/composer/e-msg-composer.c:5063 ../src/modules/composer-to-meeting/e-composer-to-meeting.c:355
+#: ../src/composer/e-msg-composer.c:5114 ../src/modules/composer-to-meeting/e-composer-to-meeting.c:355
 msgid "Reading text content…"
 msgstr "Мәтіндік мазмұн оқылуда…"
 
-#: ../src/composer/e-msg-composer.c:5129
+#: ../src/composer/e-msg-composer.c:5180
 msgid "Send _without encryption"
 msgstr "Шифрлеу_сіз жіберу"
 
-#: ../src/composer/e-msg-composer.c:5189
+#: ../src/composer/e-msg-composer.c:5240
 msgid "Waiting for OpenPGP key data…"
 msgstr "OpenPGP кілт деректері күтілуде…"
 
-#: ../src/composer/e-msg-composer.c:5983
+#: ../src/composer/e-msg-composer.c:6034
 msgid "Review attachment before sending."
 msgid_plural "Review attachments before sending."
 msgstr[0] "Жібермес бұрын салынған файлды тексеріңіз."
 
-#: ../src/composer/e-msg-composer.c:5988
+#: ../src/composer/e-msg-composer.c:6039
 #, c-format
 msgid "%d attachment was added by an external application. Make sure it does not contain any sensitive information before sending the message."
 msgid_plural "%d attachments were added by an external application. Make sure they do not contain any sensitive information before sending the message."
 msgstr[0] "Сыртқы қолданба арқылы %d салынған файл қосылды. Хабарламаны жібермес бұрын, оның ішінде құпия ақпарат жоқ екеніне көз жеткізіңіз."
 
-#: ../src/composer/e-msg-composer.c:6114
+#: ../src/composer/e-msg-composer.c:6165
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Редакторда мәтіндік емес хабарлама мазмұны бар, оны түзету мүмкін емес."
 
@@ -11546,7 +11546,7 @@ msgstr "Аудио плеері"
 msgid "Play the attachment in embedded audio player"
 msgstr "Салынған файлды ішіне орнатылған аудио ойнатқышта ойнату"
 
-#: ../src/em-format/e-mail-formatter-headers.c:97 ../src/em-format/e-mail-part-headers.c:29 ../src/mail/e-mail-tag-editor.c:176 ../src/mail/e-message-list.c:2556 ../src/modules/mail/em-mailer-prefs.c:56
+#: ../src/em-format/e-mail-formatter-headers.c:97 ../src/em-format/e-mail-part-headers.c:29 ../src/mail/e-mail-tag-editor.c:176 ../src/mail/e-message-list.c:2557 ../src/modules/mail/em-mailer-prefs.c:56
 msgid "From"
 msgstr "Кімнен"
 
@@ -11586,11 +11586,11 @@ msgstr "RFC822 хабары"
 msgid "Format part as an RFC822 message"
 msgstr "Бөлікті RFC822 хабарламасы ретінде пішімдеу"
 
-#: ../src/em-format/e-mail-formatter-print.c:37 ../src/e-util/e-attachment-tree-view.c:182 ../src/mail/e-message-list.c:2576
+#: ../src/em-format/e-mail-formatter-print.c:37 ../src/e-util/e-attachment-tree-view.c:182 ../src/mail/e-message-list.c:2577
 msgid "Size"
 msgstr "Өлшемі"
 
-#: ../src/em-format/e-mail-formatter-quote-headers.c:171 ../src/em-format/e-mail-part-headers.c:34 ../src/mail/e-mail-tag-editor.c:181 ../src/mail/e-message-list.c:2562 ../src/mail/filtertypes.xml.in.h:16 ../src/mail/searchtypes.xml.in.h:17
+#: ../src/em-format/e-mail-formatter-quote-headers.c:171 ../src/em-format/e-mail-part-headers.c:34 ../src/mail/e-mail-tag-editor.c:181 ../src/mail/e-message-list.c:2563 ../src/mail/filtertypes.xml.in.h:16 ../src/mail/searchtypes.xml.in.h:17
 #: ../src/mail/vfoldertypes.xml.in.h:17 ../src/modules/mail/em-mailer-prefs.c:61 ../src/smime/gui/certificate-manager.c:1556
 msgid "Subject"
 msgstr "Тақырыбы"
@@ -11717,22 +11717,38 @@ msgstr "Сертификатты импорттау"
 msgid "Details"
 msgstr "Ақпараты"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:401
+#: ../src/em-format/e-mail-formatter-secure-button.c:494
+msgid "Encryption"
+msgstr "Шифрлеу"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:498
+msgid "Encrypted by:"
+msgstr "Шифрлеген:"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:520 ../src/em-format/e-mail-formatter-secure-button.c:621
 msgid "Digital Signature"
 msgstr "Цифрлық қолтаңба"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:407
+#: ../src/em-format/e-mail-formatter-secure-button.c:526 ../src/em-format/e-mail-formatter-secure-button.c:597
 msgid "Signer:"
 msgid_plural "Signers:"
 msgstr[0] "Қол қоюшы:"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:418
-msgid "Encryption"
-msgstr "Шифрлеу"
+#: ../src/em-format/e-mail-formatter-secure-button.c:623
+msgid "Outer signature (over the encrypted message)"
+msgstr "Сыртқы қолтаңба (шифрленген хабарламаның үстінен)"
 
-#: ../src/em-format/e-mail-formatter-secure-button.c:423
-msgid "Encrypted by:"
-msgstr "Шифрлеген:"
+#: ../src/em-format/e-mail-formatter-secure-button.c:624
+msgid "Inner signature (over the message content)"
+msgstr "Ішкі қолтаңба (хабарлама мазмұнының үстінен)"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:731
+msgid "GPG"
+msgstr "GPG"
+
+#: ../src/em-format/e-mail-formatter-secure-button.c:733
+msgid "S/MIME"
+msgstr "S/MIME"
 
 #: ../src/em-format/e-mail-formatter-source.c:152
 msgid "Display source of a MIME part"
@@ -11746,7 +11762,7 @@ msgstr "Markdown мәтіні"
 msgid "Format part as markdown text"
 msgstr "Бөлікті markdown мәтіні ретінде пішімдеу"
 
-#: ../src/em-format/e-mail-formatter-utils.c:201 ../src/em-format/e-mail-formatter-utils.c:226 ../src/em-format/e-mail-part-headers.c:31 ../src/mail/e-message-list.c:2583 ../src/mail/searchtypes.xml.in.h:11 ../src/mail/vfoldertypes.xml.in.h:11
+#: ../src/em-format/e-mail-formatter-utils.c:201 ../src/em-format/e-mail-formatter-utils.c:226 ../src/em-format/e-mail-part-headers.c:31 ../src/mail/e-message-list.c:2584 ../src/mail/searchtypes.xml.in.h:11 ../src/mail/vfoldertypes.xml.in.h:11
 #: ../src/modules/mail/em-mailer-prefs.c:58
 msgid "To"
 msgstr "Кімге"
@@ -11759,7 +11775,7 @@ msgstr "Көшірме"
 msgid "Bcc"
 msgstr "Жасырын көшірме"
 
-#: ../src/em-format/e-mail-formatter-utils.c:451 ../src/em-format/e-mail-formatter-utils.c:715 ../src/mail/e-mail-config-security-page.c:920 ../src/modules/mail-config/e-mail-config-remote-accounts.c:260 ../src/modules/mail-config/e-mail-config-smtp-backend.c:196
+#: ../src/em-format/e-mail-formatter-utils.c:451 ../src/em-format/e-mail-formatter-utils.c:723 ../src/mail/e-mail-config-security-page.c:920 ../src/modules/mail-config/e-mail-config-remote-accounts.c:260 ../src/modules/mail-config/e-mail-config-smtp-backend.c:196
 msgid "Security"
 msgstr "Қауіпсіздік"
 
@@ -11795,11 +11811,11 @@ msgstr "S/MIME шифрленген"
 msgid "partially S/MIME encrypted"
 msgstr "ішінара S/MIME шифрленген"
 
-#: ../src/em-format/e-mail-formatter-utils.c:709
+#: ../src/em-format/e-mail-formatter-utils.c:717
 msgid "Show parts not being secured"
 msgstr "Қорғалмаған бөліктерді көрсету"
 
-#: ../src/em-format/e-mail-formatter-utils.c:710
+#: ../src/em-format/e-mail-formatter-utils.c:718
 msgid "Hide parts not being secured"
 msgstr "Қорғалмаған бөліктерді жасыру"
 
@@ -11818,7 +11834,7 @@ msgstr "S/MIME хабарын талдау мүмкін болмады: %s"
 msgid "Could not parse PGP message: %s"
 msgstr "PGP хабарын талдау мүмкін болмады: %s"
 
-#: ../src/em-format/e-mail-parser-inlinepgp-signed.c:66 ../src/em-format/e-mail-parser-multipart-signed.c:150
+#: ../src/em-format/e-mail-parser-inlinepgp-signed.c:66 ../src/em-format/e-mail-parser-multipart-signed.c:165
 #, c-format
 msgid "Error verifying signature: %s"
 msgstr "Қолтаңбаны тексеру қатесі: %s"
@@ -11852,7 +11868,7 @@ msgstr "Қашықтағы деректерге (%s) сілтеме"
 msgid "Pointer to unknown external data (“%s” type)"
 msgstr "Белгісіз сыртқы деректерге («%s» түрі) сілтеме"
 
-#: ../src/em-format/e-mail-parser-multipart-encrypted.c:61 ../src/em-format/e-mail-parser-multipart-signed.c:96
+#: ../src/em-format/e-mail-parser-multipart-encrypted.c:61 ../src/em-format/e-mail-parser-multipart-signed.c:109
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "MIME хабарын талдау мүмкін болмады. Бастапқы код ретінде көрсетілуде."
 
@@ -11865,7 +11881,7 @@ msgstr "multipart/encrypted үшін қолдау көрсетілмейтін �
 msgid "Could not parse PGP/MIME message: %s"
 msgstr "PGP/MIME хабарын талдау мүмкін болмады: %s"
 
-#: ../src/em-format/e-mail-parser-multipart-signed.c:136
+#: ../src/em-format/e-mail-parser-multipart-signed.c:149
 msgid "Unsupported signature format"
 msgstr "Қолдау көрсетілмейтін қолтаңба пішімі"
 
@@ -11873,7 +11889,7 @@ msgstr "Қолдау көрсетілмейтін қолтаңба пішімі"
 msgid "Reply-To"
 msgstr "Жауап беру"
 
-#: ../src/em-format/e-mail-part-headers.c:35 ../src/e-util/e-dateedit.c:579 ../src/e-util/e-dateedit.c:601 ../src/mail/e-message-list.c:2570 ../src/modules/mail/em-mailer-prefs.c:62
+#: ../src/em-format/e-mail-part-headers.c:35 ../src/e-util/e-dateedit.c:579 ../src/e-util/e-dateedit.c:601 ../src/mail/e-message-list.c:2571 ../src/modules/mail/em-mailer-prefs.c:62
 msgid "Date"
 msgstr "Күні"
 
@@ -11929,11 +11945,11 @@ msgid "Task Lists"
 msgstr "Тапсырмалар тізімдері"
 
 #: ../src/e-util/e-accounts-window.c:1406 ../src/e-util/filter.ui.h:23 ../src/mail/e-mail-account-tree-view.c:64 ../src/modules/mail/em-composer-prefs.c:2632 ../src/modules/plugin-manager/evolution-plugin-manager.c:394
-#: ../src/plugins/mail-notification/mail-notification.c:1253 ../src/plugins/publish-calendar/publish-calendar.c:841
+#: ../src/plugins/mail-notification/mail-notification.c:1257 ../src/plugins/publish-calendar/publish-calendar.c:841
 msgid "Enabled"
 msgstr "Іске қосулы"
 
-#: ../src/e-util/e-accounts-window.c:1422 ../src/mail/e-mail-account-tree-view.c:88 ../src/plugins/mail-notification/mail-notification.c:1269
+#: ../src/e-util/e-accounts-window.c:1422 ../src/mail/e-mail-account-tree-view.c:88 ../src/plugins/mail-notification/mail-notification.c:1273
 msgid "Account Name"
 msgstr "Тіркелгі аты"
 
@@ -13632,15 +13648,15 @@ msgstr "+4"
 msgid "Copy _Link Location"
 msgstr "_Сілтеме адресін көшіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1600
+#: ../src/e-util/e-html-editor-actions.c:2025 ../src/e-util/e-web-view.c:1630
 msgid "Copy the link to the clipboard"
 msgstr "Сілтемені алмасу буферіне көшіру"
 
-#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1608
+#: ../src/e-util/e-html-editor-actions.c:2030 ../src/e-util/e-web-view.c:1638
 msgid "_Open Link in Browser"
 msgstr "_Сілтемені браузерде ашу"
 
-#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1610
+#: ../src/e-util/e-html-editor-actions.c:2032 ../src/e-util/e-web-view.c:1640
 msgid "Open the link in a web browser"
 msgstr "Сілтемені веб-браузерде ашу"
 
@@ -15202,27 +15218,27 @@ msgstr "Саймандар панелі"
 msgid "Enter a URL here"
 msgstr "URL адресін осында енгізіңіз"
 
-#: ../src/e-util/e-virtual-tree.c:6961 ../src/e-util/e-virtual-tree.c:7069
+#: ../src/e-util/e-virtual-tree.c:6999 ../src/e-util/e-virtual-tree.c:7107
 msgid "Sort _Ascending"
 msgstr "Өс_у ретімен сұрыптау"
 
-#: ../src/e-util/e-virtual-tree.c:6963 ../src/e-util/e-virtual-tree.c:7070
+#: ../src/e-util/e-virtual-tree.c:7001 ../src/e-util/e-virtual-tree.c:7108
 msgid "Sort _Descending"
 msgstr "К_ему ретімен сұрыптау"
 
-#: ../src/e-util/e-virtual-tree.c:6965 ../src/e-util/e-virtual-tree.c:7071
+#: ../src/e-util/e-virtual-tree.c:7003 ../src/e-util/e-virtual-tree.c:7109
 msgid "_Unsort"
 msgstr "Сұрыптауды болд_ырмау"
 
-#: ../src/e-util/e-virtual-tree.c:6967 ../src/e-util/e-virtual-tree.c:7076
+#: ../src/e-util/e-virtual-tree.c:7005 ../src/e-util/e-virtual-tree.c:7114
 msgid "_Remove This Column"
 msgstr "Бұл бағанды ө_шіру"
 
-#: ../src/e-util/e-virtual-tree.c:6969 ../src/e-util/e-virtual-tree.c:7103 ../src/shell/e-shell-view.c:1126
+#: ../src/e-util/e-virtual-tree.c:7007 ../src/e-util/e-virtual-tree.c:7141 ../src/shell/e-shell-view.c:1126
 msgid "Custo_mize Current View…"
 msgstr "Ағымдағы көріністі бап_тау…"
 
-#: ../src/e-util/e-virtual-tree.c:7099
+#: ../src/e-util/e-virtual-tree.c:7137
 msgid "Available _Columns"
 msgstr "Қолжетімді баға_ндар"
 
@@ -15400,76 +15416,76 @@ msgstr "Кү_нтізбені жасау"
 msgid "Create Collectio_n"
 msgstr "Ж_инақты жасау"
 
-#: ../src/e-util/e-web-view.c:1598
+#: ../src/e-util/e-web-view.c:1628
 msgid "_Copy Link Location"
 msgstr "_Сілтемені көшіріп алу"
 
-#: ../src/e-util/e-web-view.c:1618
+#: ../src/e-util/e-web-view.c:1648
 msgid "_Copy Name and Email Address"
 msgstr "Аты мен электрондық пошта адресін _көшіру"
 
-#: ../src/e-util/e-web-view.c:1620
+#: ../src/e-util/e-web-view.c:1650
 msgid "Copy the email address with the name to the clipboard"
 msgstr "Атымен бірге электрондық пошта адресін алмасу буферіне көшіру"
 
-#: ../src/e-util/e-web-view.c:1625
+#: ../src/e-util/e-web-view.c:1655
 msgid "Copy Only Email Add_ress"
 msgstr "Тек электрондық пошта адр_есін көшіру"
 
-#: ../src/e-util/e-web-view.c:1627
+#: ../src/e-util/e-web-view.c:1657
 msgid "Copy only the email address without the name to the clipboard"
 msgstr "Атсыз тек электрондық пошта адресін алмасу буферіне көшіру"
 
-#: ../src/e-util/e-web-view.c:1642
+#: ../src/e-util/e-web-view.c:1672
 msgid "_Copy Image"
 msgstr "Сурет_ті көшіру"
 
-#: ../src/e-util/e-web-view.c:1644
+#: ../src/e-util/e-web-view.c:1674
 msgid "Copy the image to the clipboard"
 msgstr "Суретті алмасу буферіне көшіру"
 
-#: ../src/e-util/e-web-view.c:1649
+#: ../src/e-util/e-web-view.c:1679
 msgid "Save _Image…"
 msgstr "С_уретті сақтау…"
 
-#: ../src/e-util/e-web-view.c:1651
+#: ../src/e-util/e-web-view.c:1681
 msgid "Save the image to a file"
 msgstr "Суретті файлға сақтау"
 
-#: ../src/e-util/e-web-view.c:1666 ../src/mail/e-mail-browser.c:628 ../src/mail/e-mail-reader.c:3521
+#: ../src/e-util/e-web-view.c:1696 ../src/mail/e-mail-browser.c:628 ../src/mail/e-mail-reader.c:3521
 msgid "Search _Web…"
 msgstr "_Вебтен іздеу…"
 
-#: ../src/e-util/e-web-view.c:1668 ../src/mail/e-mail-browser.c:630 ../src/mail/e-mail-reader.c:3523
+#: ../src/e-util/e-web-view.c:1698 ../src/mail/e-mail-browser.c:630 ../src/mail/e-mail-reader.c:3523
 msgid "Search the Web with the selected text"
 msgstr "Таңдалған мәтінмен вебтен іздеу"
 
-#: ../src/e-util/e-web-view.c:1685 ../src/e-util/e-web-view.c:2344
+#: ../src/e-util/e-web-view.c:1715 ../src/e-util/e-web-view.c:2376
 msgid "Select all text and images"
 msgstr "Барлық мәтін мен суреттерді таңдау"
 
-#: ../src/e-util/e-web-view.c:1693 ../src/mail/e-mail-viewer.c:1737
+#: ../src/e-util/e-web-view.c:1723 ../src/mail/e-mail-viewer.c:1737
 msgid "_Print"
 msgstr "_Басып шығару"
 
-#: ../src/e-util/e-web-view.c:1703
+#: ../src/e-util/e-web-view.c:1733
 msgid "Save _as…"
 msgstr "Қалайша _сақтау…"
 
-#: ../src/e-util/e-web-view.c:3854
+#: ../src/e-util/e-web-view.c:3886
 msgid "Copying image to clipboard"
 msgstr "Суретті алмасу буферіне көшіру"
 
-#: ../src/e-util/e-web-view.c:4042
+#: ../src/e-util/e-web-view.c:4074
 msgid "Save Image"
 msgstr "Суретті сақтау"
 
-#: ../src/e-util/e-web-view.c:4079
+#: ../src/e-util/e-web-view.c:4111
 #, c-format
 msgid "Saving image to “%s”"
 msgstr "Суретті “%s” ішіне сақтау"
 
-#: ../src/e-util/e-web-view.c:4234
+#: ../src/e-util/e-web-view.c:4266
 #, c-format
 msgid "Cannot get URI “%s”, do not know how to download it."
 msgstr "“%s” URI алу мүмкін емес, оны қалай жүктеп алу керектігі белгісіз."
@@ -17798,7 +17814,7 @@ msgstr "Файл мазмұнын оқу сәтсіз аяқталды"
 msgid "No folder selected."
 msgstr "Бума таңдалмады."
 
-#: ../src/mail/e-message-list.c:479 ../src/mail/e-message-list.c:1431
+#: ../src/mail/e-message-list.c:479 ../src/mail/e-message-list.c:1432
 msgid "Generating message list…"
 msgstr "Хабарламалар тізімін генерациялау…"
 
@@ -17816,121 +17832,121 @@ msgstr ""
 msgid "There are no messages in this folder."
 msgstr "Бұл бумада хабарламалар жоқ."
 
-#: ../src/mail/e-message-list.c:1583
+#: ../src/mail/e-message-list.c:1584
 msgid "Follow-up"
 msgstr "Орындау үшін"
 
-#: ../src/mail/e-message-list.c:2453
+#: ../src/mail/e-message-list.c:2454
 msgid "(Preview not available)"
 msgstr "(Алдын ала қарау қолжетімсіз)"
 
-#: ../src/mail/e-message-list.c:2550 ../src/mail/e-message-list.c:2551
+#: ../src/mail/e-message-list.c:2551 ../src/mail/e-message-list.c:2552
 msgid "Flagged"
 msgstr "Жалауша бар"
 
-#: ../src/mail/e-message-list.c:2590 ../src/mail/filtertypes.xml.in.h:13 ../src/mail/searchtypes.xml.in.h:14 ../src/mail/vfoldertypes.xml.in.h:14
+#: ../src/mail/e-message-list.c:2591 ../src/mail/filtertypes.xml.in.h:13 ../src/mail/searchtypes.xml.in.h:14 ../src/mail/vfoldertypes.xml.in.h:14
 msgid "CC"
 msgstr "Көшірме"
 
-#: ../src/mail/e-message-list.c:2597
+#: ../src/mail/e-message-list.c:2598
 msgid "Received"
 msgstr "Алынған"
 
-#: ../src/mail/e-message-list.c:2603 ../src/mail/filtertypes.xml.in.h:1 ../src/mail/searchtypes.xml.in.h:1 ../src/mail/vfoldertypes.xml.in.h:1
+#: ../src/mail/e-message-list.c:2604 ../src/mail/filtertypes.xml.in.h:1 ../src/mail/searchtypes.xml.in.h:1 ../src/mail/vfoldertypes.xml.in.h:1
 msgid "Sender"
 msgstr "Жіберуші"
 
-#: ../src/mail/e-message-list.c:2610
+#: ../src/mail/e-message-list.c:2611
 msgid "Sender EMail"
 msgstr "Жіберушінің эл. поштасы"
 
-#: ../src/mail/e-message-list.c:2617 ../src/mail/filtertypes.xml.in.h:12 ../src/mail/searchtypes.xml.in.h:10 ../src/mail/vfoldertypes.xml.in.h:10
+#: ../src/mail/e-message-list.c:2618 ../src/mail/filtertypes.xml.in.h:12 ../src/mail/searchtypes.xml.in.h:10 ../src/mail/vfoldertypes.xml.in.h:10
 msgid "Recipients"
 msgstr "Алушылар"
 
-#: ../src/mail/e-message-list.c:2624
+#: ../src/mail/e-message-list.c:2625
 msgid "Recipients EMail"
 msgstr "Алушылардың эл. поштасы"
 
-#: ../src/mail/e-message-list.c:2631
+#: ../src/mail/e-message-list.c:2632
 msgid "Correspondents"
 msgstr "Хат алысушылар"
 
-#: ../src/mail/e-message-list.c:2638
+#: ../src/mail/e-message-list.c:2639
 msgid "Subject Trimmed"
 msgstr "Қысқартылған тақырып"
 
-#: ../src/mail/e-message-list.c:2645 ../src/mail/em-folder-properties.c:1456 ../src/mail/mail-config.ui.h:134
+#: ../src/mail/e-message-list.c:2646 ../src/mail/em-folder-properties.c:1456 ../src/mail/mail-config.ui.h:134
 msgid "Labels"
 msgstr "Белгілер"
 
-#: ../src/mail/e-message-list.c:2652
+#: ../src/mail/e-message-list.c:2653
 msgid "Mailing List"
 msgstr "Тарату тізімі"
 
-#: ../src/mail/e-message-list.c:2664 ../src/mail/e-message-list.c:2665
+#: ../src/mail/e-message-list.c:2665 ../src/mail/e-message-list.c:2666
 msgid "Flag Status"
 msgstr "Жалауша күйі"
 
-#: ../src/mail/e-message-list.c:2671
+#: ../src/mail/e-message-list.c:2672
 msgid "Follow Up Flag"
 msgstr "Орындау жалаушасы"
 
-#: ../src/mail/e-message-list.c:2678 ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49 ../src/mail/vfoldertypes.xml.in.h:50
+#: ../src/mail/e-message-list.c:2679 ../src/mail/filtertypes.xml.in.h:47 ../src/mail/searchtypes.xml.in.h:49 ../src/mail/vfoldertypes.xml.in.h:50
 msgid "Follow Up Due By"
 msgstr "Бақылау мерзімі"
 
-#: ../src/mail/e-message-list.c:2689 ../src/mail/e-message-list.c:2690 ../src/mail/filtertypes.xml.in.h:30 ../src/mail/searchtypes.xml.in.h:32 ../src/mail/vfoldertypes.xml.in.h:32
+#: ../src/mail/e-message-list.c:2690 ../src/mail/e-message-list.c:2691 ../src/mail/filtertypes.xml.in.h:30 ../src/mail/searchtypes.xml.in.h:32 ../src/mail/vfoldertypes.xml.in.h:32
 msgid "Score"
 msgstr "Нәтиже"
 
-#: ../src/mail/e-message-list.c:2703
+#: ../src/mail/e-message-list.c:2704
 msgid "Body Preview"
 msgstr "Негізгі мәтінді алдын ала қарау"
 
-#: ../src/mail/e-message-list.c:2710
+#: ../src/mail/e-message-list.c:2711
 msgid "User Header 1"
 msgstr "Пайдаланушы тақырыптамасы 1"
 
-#: ../src/mail/e-message-list.c:2717
+#: ../src/mail/e-message-list.c:2718
 msgid "User Header 2"
 msgstr "Пайдаланушы тақырыптамасы 2"
 
-#: ../src/mail/e-message-list.c:2724
+#: ../src/mail/e-message-list.c:2725
 msgid "User Header 3"
 msgstr "Пайдаланушы тақырыптамасы 3"
 
-#: ../src/mail/e-message-list.c:2731 ../src/plugins/save-calendar/csv-format.c:346
+#: ../src/mail/e-message-list.c:2732 ../src/plugins/save-calendar/csv-format.c:346
 msgid "UID"
 msgstr "UID"
 
-#: ../src/mail/e-message-list.c:2738
+#: ../src/mail/e-message-list.c:2739
 msgid "Messages"
 msgstr "Хабарламалар"
 
-#: ../src/mail/e-message-list.c:2782
+#: ../src/mail/e-message-list.c:2783
 msgid "Messages To"
 msgstr "Хабарламалар:"
 
-#: ../src/mail/e-message-list.c:2952 ../src/mail/em-folder-tree.c:2620
+#: ../src/mail/e-message-list.c:2953 ../src/mail/em-folder-tree.c:2620
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Хабарламалар %s бумасына жылжытылуда"
 
-#: ../src/mail/e-message-list.c:2954 ../src/mail/em-folder-tree.c:2624
+#: ../src/mail/e-message-list.c:2955 ../src/mail/em-folder-tree.c:2624
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Хабарламалар %s бумасына көшірілуде"
 
-#: ../src/mail/e-message-list.c:3116
+#: ../src/mail/e-message-list.c:3117
 msgid "Select all visible messages"
 msgstr "Барлық көрінетін хабарламаларды таңдау"
 
-#: ../src/mail/e-message-list.c:3274
+#: ../src/mail/e-message-list.c:3275
 msgid "Message List"
 msgstr "Хабарламалар тізімі"
 
-#: ../src/mail/e-message-list.c:3275
+#: ../src/mail/e-message-list.c:3276
 msgid "List of email messages in the selected folder"
 msgstr "Таңдалған бумадағы эл. пошта хабарламаларының тізімі"
 
@@ -23490,7 +23506,7 @@ msgstr "Им_порттау"
 msgid "Im_port as Event"
 msgstr "Оқиға ретінде им_порттау"
 
-#: ../src/modules/itip-formatter/itip-view.c:2307 ../src/modules/itip-formatter/itip-view.c:2540 ../src/modules/itip-formatter/itip-view.c:8185
+#: ../src/modules/itip-formatter/itip-view.c:2307 ../src/modules/itip-formatter/itip-view.c:2540 ../src/modules/itip-formatter/itip-view.c:8190
 msgid "Due date:"
 msgstr "Орындалу мерзімі:"
 
@@ -23830,36 +23846,36 @@ msgstr "calendar.ics"
 msgid "Save Calendar"
 msgstr "Күнтізбені сақтау"
 
-#: ../src/modules/itip-formatter/itip-view.c:6747 ../src/modules/itip-formatter/itip-view.c:6760
+#: ../src/modules/itip-formatter/itip-view.c:6748 ../src/modules/itip-formatter/itip-view.c:6761
 msgid "The calendar attached is not valid"
 msgstr "Тіркелген күнтізбе қате"
 
-#: ../src/modules/itip-formatter/itip-view.c:6748 ../src/modules/itip-formatter/itip-view.c:6761
+#: ../src/modules/itip-formatter/itip-view.c:6749 ../src/modules/itip-formatter/itip-view.c:6762
 msgid "The message claims to contain a calendar, but the calendar is not a valid iCalendar."
 msgstr "Хабарламада күнтізбе бар деп көрсетілген, бірақ күнтізбе дұрыс iCalendar емес."
 
-#: ../src/modules/itip-formatter/itip-view.c:6843 ../src/modules/itip-formatter/itip-view.c:6928 ../src/modules/itip-formatter/itip-view.c:7056
+#: ../src/modules/itip-formatter/itip-view.c:6848 ../src/modules/itip-formatter/itip-view.c:6933 ../src/modules/itip-formatter/itip-view.c:7061
 msgid "The item in the calendar is not valid"
 msgstr "Күнтізбедегі элемент қате"
 
-#: ../src/modules/itip-formatter/itip-view.c:6844 ../src/modules/itip-formatter/itip-view.c:6929 ../src/modules/itip-formatter/itip-view.c:7057
+#: ../src/modules/itip-formatter/itip-view.c:6849 ../src/modules/itip-formatter/itip-view.c:6934 ../src/modules/itip-formatter/itip-view.c:7062
 msgid "The message does contain a calendar, but the calendar contains no events, tasks or free/busy information"
 msgstr "Хабарламада күнтізбе бар, бірақ күнтізбеде оқиғалар, тапсырмалар немесе бос/бос емес ақпараты жоқ"
 
-#: ../src/modules/itip-formatter/itip-view.c:6938
+#: ../src/modules/itip-formatter/itip-view.c:6943
 msgid "The calendar attached contains multiple items"
 msgstr "Тіркелген күнтізбеде бірнеше элемент бар"
 
-#: ../src/modules/itip-formatter/itip-view.c:6939
+#: ../src/modules/itip-formatter/itip-view.c:6944
 msgid "To process all of these items, the file should be saved and the calendar imported"
 msgstr "Осы элементтердің барлығын өңдеу үшін файлды сақтап, күнтізбені импорттау керек"
 
-#: ../src/modules/itip-formatter/itip-view.c:7800
+#: ../src/modules/itip-formatter/itip-view.c:7805
 msgctxt "cal-itip"
 msgid "None"
 msgstr "Бос"
 
-#: ../src/modules/itip-formatter/itip-view.c:7852
+#: ../src/modules/itip-formatter/itip-view.c:7857
 msgid "Tentatively Accepted"
 msgstr "Алдын ала қабылданды"
 
@@ -23973,7 +23989,7 @@ msgid "Mbox spool directory cannot be empty"
 msgstr "mbox спул бумасы бос болмауы тиіс"
 
 #: ../src/modules/mail-config/e-mail-config-remote-accounts.c:186 ../src/modules/mail-config/e-mail-config-sendmail-backend.c:44 ../src/modules/mail-config/e-mail-config-smtp-backend.c:135 ../src/modules/plugin-manager/evolution-plugin-manager.c:183
-#: ../src/plugins/mail-notification/mail-notification.c:1349
+#: ../src/plugins/mail-notification/mail-notification.c:1353
 msgid "Configuration"
 msgstr "Баптаулар"
 
@@ -25880,7 +25896,7 @@ msgstr ""
 "Тақырыптама: {0}"
 
 #. Translators: '%d' is the count of mails received.
-#: ../src/plugins/mail-notification/mail-notification.c:570
+#: ../src/plugins/mail-notification/mail-notification.c:574
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -25888,85 +25904,85 @@ msgstr[0] "Сіз %d жаңа хабарлама алдыңыз."
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../src/plugins/mail-notification/mail-notification.c:579
+#: ../src/plugins/mail-notification/mail-notification.c:583
 #, c-format
 msgid "From: %s"
 msgstr "Кімнен: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../src/plugins/mail-notification/mail-notification.c:587
+#: ../src/plugins/mail-notification/mail-notification.c:591
 #, c-format
 msgid "Subject: %s"
 msgstr "Тақырыбы: %s"
 
 #. Translators: The '%s' is replaced by the folder name, where a new
 #. * mail message arrived. Example: "Folder: On This Computer : Inbox"
-#: ../src/plugins/mail-notification/mail-notification.c:595
+#: ../src/plugins/mail-notification/mail-notification.c:599
 #, c-format
 msgid "Folder: %s"
 msgstr "Бума: %s"
 
 #. Translators: %d is the count of mails received in addition
 #. * to the one displayed in this notification.
-#: ../src/plugins/mail-notification/mail-notification.c:606
+#: ../src/plugins/mail-notification/mail-notification.c:610
 #, c-format
 msgid "(and %d more)"
 msgid_plural "(and %d more)"
 msgstr[0] "(және тағы %d)"
 
-#: ../src/plugins/mail-notification/mail-notification.c:616
+#: ../src/plugins/mail-notification/mail-notification.c:620
 msgid "New email in Evolution"
 msgstr "Evolution-дағы жаңа пошта"
 
 #. Translators: The '%s' is a mail
 #. * folder name.  (e.g. "Show Inbox")
-#: ../src/plugins/mail-notification/mail-notification.c:657
+#: ../src/plugins/mail-notification/mail-notification.c:661
 #, c-format
 msgid "Show %s"
 msgstr "%s көрсету"
 
-#: ../src/plugins/mail-notification/mail-notification.c:673
+#: ../src/plugins/mail-notification/mail-notification.c:677
 msgid "Mark as read"
 msgstr "Оқылған ретінде белгілеу"
 
-#: ../src/plugins/mail-notification/mail-notification.c:926
+#: ../src/plugins/mail-notification/mail-notification.c:930
 msgid "_Play sound when a new message arrives"
 msgstr "Жаңа хабарлама келгенде дыбысты о_йнату"
 
-#: ../src/plugins/mail-notification/mail-notification.c:952
+#: ../src/plugins/mail-notification/mail-notification.c:956
 msgid "_Beep"
 msgstr "_Дыбыстық сигнал"
 
-#: ../src/plugins/mail-notification/mail-notification.c:965
+#: ../src/plugins/mail-notification/mail-notification.c:969
 msgid "Use sound _theme"
 msgstr "Дыбыс те_масын қолдану"
 
-#: ../src/plugins/mail-notification/mail-notification.c:984
+#: ../src/plugins/mail-notification/mail-notification.c:988
 msgid "Play _file:"
 msgstr "Файл_ды ойнату:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:993
+#: ../src/plugins/mail-notification/mail-notification.c:997
 msgid "Select sound file"
 msgstr "Дыбыс файлын таңдау"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1143
+#: ../src/plugins/mail-notification/mail-notification.c:1147
 msgid "Select _accounts for which enable notifications:"
 msgstr "Хабарландырулар іске қосылатын тіркел_гілерді таңдаңыз:"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1305 ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
+#: ../src/plugins/mail-notification/mail-notification.c:1309 ../src/plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid "Mail Notification"
 msgstr "Пошта хабарландыруы"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1319
+#: ../src/plugins/mail-notification/mail-notification.c:1323
 msgid "Notify new messages for _Inbox only"
 msgstr "Тек Кі_ріс бумасы үшін жаңа хабарламалар туралы хабарлау"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1335
+#: ../src/plugins/mail-notification/mail-notification.c:1339
 msgid "Show _notification when a new message arrives"
 msgstr "Жаңа хабарлама келгенде ха_барландыруды көрсету"
 
-#: ../src/plugins/mail-notification/mail-notification.c:1353
+#: ../src/plugins/mail-notification/mail-notification.c:1357
 msgid "Accounts"
 msgstr "Тіркелгілер"
 
