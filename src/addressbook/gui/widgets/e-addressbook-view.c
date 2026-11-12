@@ -1123,7 +1123,7 @@ addressbook_view_table_got_selected_cb (GObject *source_object,
 	else if (error)
 		g_task_return_error (task, error);
 	else
-		g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED, "%s", "Failed to get contacts: Unknown error");
+		g_task_return_new_error (task, G_IO_ERROR, G_IO_ERROR_FAILED, "%s", _("Failed to get contacts with unknown error"));
 
 	g_object_unref (task);
 }

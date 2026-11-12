@@ -2120,7 +2120,8 @@ collection_account_wizard_constructed (GObject *object)
 	g_signal_connect_swapped (wizard->priv->display_name_entry, "changed",
 		G_CALLBACK (collection_account_wizard_notify_can_run), wizard);
 
-	widget = gtk_label_new ("The above name will be used to identify this account.\nUse for example, “Work” or “Personal”.");
+	widget = gtk_label_new (_("The above name will be used to identify this account.\n"
+		"Use for example, “Work” or “Personal”."));
 	gtk_label_set_xalign (GTK_LABEL (widget), 0);
 	gtk_grid_attach (grid, widget, 1, 2, 1, 1);
 	gtk_widget_show (widget);

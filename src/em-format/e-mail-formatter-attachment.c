@@ -121,7 +121,7 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 			return FALSE;
 
 		if (context->mode == E_MAIL_FORMATTER_MODE_PRINTING) {
-			gchar *name;
+			gchar *name, *heading;
 			EAttachment *attachment;
 			GFileInfo *file_info;
 			GSettings *settings;
@@ -146,14 +146,15 @@ emfe_attachment_format (EMailFormatterExtension *extension,
 
 			description = e_attachment_dup_description (attachment);
 			if (description != NULL && *description != '\0') {
-				name = g_markup_printf_escaped (
-					"<h2>Attachment: %s (%s)</h2>\n",
-					description, display_name);
+				/* Translators: Heading of a printed attachment; the first '%s' is its description, the second '%s' its file name */
+				heading = g_strdup_printf (_("Attachment: %s (%s)"), description, display_name);
 			} else {
-				name = g_markup_printf_escaped (
-					"<h2>Attachment: %s</h2>\n",
-					display_name);
+				/* Translators: Heading of a printed attachment; the '%s' is its file name */
+				heading = g_strdup_printf (_("Attachment: %s"), display_name);
 			}
+
+			name = g_markup_printf_escaped ("<h2>%s</h2>\n", heading);
+			g_free (heading);
 
 			g_output_stream_write_all (
 				stream, name, strlen (name),

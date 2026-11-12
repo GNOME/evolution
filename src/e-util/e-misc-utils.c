@@ -3274,7 +3274,7 @@ e_util_save_image_from_clipboard (GtkClipboard *clipboard)
 		g_set_error (
 			&error, G_FILE_ERROR,
 			g_file_error_from_errno (errno),
-			"Could not create temporary file: %s",
+			_("Could not create temporary file: %s"),
 			g_strerror (errno));
 		goto exit;
 	}
