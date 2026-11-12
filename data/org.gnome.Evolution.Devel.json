@@ -21,6 +21,7 @@
 		"--share=network",
 		"--socket=fallback-x11",
 		"--socket=wayland",
+		"--socket=gpg-agent",
 		"--socket=pulseaudio",
 		"--socket=pcsc",
 		"--device=dri",
