@@ -113,6 +113,11 @@ guint			e_virtual_tree_get_group_depth	(EVirtualTree *self);
 void			e_virtual_tree_set_editable	(EVirtualTree *self,
 							 gboolean editable);
 gboolean		e_virtual_tree_get_editable	(EVirtualTree *self);
+void			e_virtual_tree_set_auto_select_on_removal
+							(EVirtualTree *self,
+							 gboolean auto_select);
+gboolean		e_virtual_tree_get_auto_select_on_removal
+							(EVirtualTree *self);
 void			e_virtual_tree_set_selection_mode
 							(EVirtualTree *self,
 							 GtkSelectionMode mode);

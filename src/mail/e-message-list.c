@@ -26,6 +26,7 @@ struct _EMessageListNode {
 	GObject parent_instance;
 	CamelFolderViewRow *row;
 	CamelFolderViewGeneration *generation;
+	const gchar *uid;
 	gchar *group_label;
 	guint row_index;
 	guint depth;
@@ -47,6 +48,7 @@ e_message_list_node_finalize (GObject *object)
 
 	self->row = NULL;
 	g_clear_pointer (&self->generation, camel_folder_view_generation_unref);
+	g_clear_pointer (&self->uid, camel_pstring_free);
 	g_free (self->group_label);
 
 	G_OBJECT_CLASS (e_message_list_node_parent_class)->finalize (object);
@@ -132,6 +134,7 @@ model_get_rows (EVirtualTreeModel *model,
 
 				node->row = row;
 				node->generation = camel_folder_view_ref_current_generation (self->folder_view);
+				node->uid = camel_pstring_strdup (uid);
 				depth = camel_folder_view_get_depth (self->folder_view, uid);
 				node->depth = self->grouping_active ? depth + 1 : depth;
 				node->expandable = camel_folder_view_is_expandable (self->folder_view, uid);
@@ -283,10 +286,7 @@ model_get_row_key (EVirtualTreeModel *model,
 {
 	EMessageListNode *node = E_MESSAGE_LIST_NODE (row_object);
 
-	if (node->row)
-		return camel_folder_view_row_get_uid (node->row);
-
-	return NULL;
+	return node->uid;
 }
 
 static EVirtualTreeKeyType
@@ -3262,6 +3262,7 @@ e_message_list_constructed (GObject *object)
 	g_signal_connect (self->vtree, "destroy",
 		G_CALLBACK (gtk_widget_destroyed), &self->vtree);
 	e_virtual_tree_set_selection_mode (self->vtree, GTK_SELECTION_MULTIPLE);
+	e_virtual_tree_set_auto_select_on_removal (self->vtree, FALSE);
 	g_signal_connect (self->vtree, "get-legacy-etable-column-map",
 		G_CALLBACK (message_list_get_legacy_etable_column_map_cb), NULL);
 	g_settings_bind (self->mail_settings, "message-list-sort-on-header-click",
@@ -4189,10 +4190,7 @@ get_node_uid (GObject *row_obj)
 {
 	EMessageListNode *node = E_MESSAGE_LIST_NODE (row_obj);
 
-	if (node->row)
-		return camel_folder_view_row_get_uid (node->row);
-
-	return NULL;
+	return node->uid;
 }
 
 GPtrArray *

@@ -51,7 +51,7 @@ struct _EMailReaderClosure {
 	EActivity *activity;
 	CamelMimeMessage *message;
 	CamelFolder *folder;
-	gchar *message_uid;
+	const gchar *message_uid; /* string-pooled */
 	gboolean selection_is_html;
 };
 
@@ -123,7 +123,7 @@ mail_reader_closure_free (EMailReaderClosure *closure)
 	g_clear_object (&closure->activity);
 	g_clear_object (&closure->folder);
 	g_clear_object (&closure->message);
-	g_free (closure->message_uid);
+	g_clear_pointer (&closure->message_uid, camel_pstring_free);
 
 	g_slice_free (EMailReaderClosure, closure);
 }
@@ -1898,7 +1898,7 @@ action_mail_redirect_cb (EUIAction *action,
 	closure = g_slice_new0 (EMailReaderClosure);
 	closure->activity = activity;
 	closure->reader = g_object_ref (reader);
-	closure->message_uid = g_strdup (message_uid);
+	closure->message_uid = camel_pstring_strdup (message_uid);
 
 	folder = e_mail_reader_ref_folder (reader);
 
@@ -2748,7 +2748,7 @@ action_mail_show_source_cb (EUIAction *action,
 	closure = g_slice_new0 (EMailReaderClosure);
 	closure->reader = E_MAIL_READER (g_object_ref (browser));
 	closure->activity = g_object_ref (activity);
-	closure->message_uid = g_strdup (message_uid);
+	closure->message_uid = camel_pstring_strdup (message_uid);
 
 	camel_folder_get_message (
 		folder, message_uid, G_PRIORITY_DEFAULT,
@@ -3888,7 +3888,11 @@ static void
 schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
+	EMailDisplay *display;
+	EMailPartList *parts;
 	EMessageList *message_list;
+	const gchar *cursor_uid;
+	const gchar *message_uid;
 	guint seen_id;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
@@ -3898,18 +3902,24 @@ schedule_timeout_mark_seen (EMailReader *reader)
 	message_list = e_mail_reader_get_message_list (reader);
 	g_return_if_fail (message_list != NULL);
 
-	if (e_message_list_get_cursor_uid (message_list)) {
-		EMailReaderClosure *timeout_closure;
+	seen_id = e_message_list_get_seen_id (message_list);
+	if (seen_id > 0) {
+		g_source_remove (seen_id);
+		e_message_list_set_seen_id (message_list, 0);
+	}
 
-		seen_id = e_message_list_get_seen_id (message_list);
-		if (seen_id > 0) {
-			g_source_remove (seen_id);
-			e_message_list_set_seen_id (message_list, 0);
-		}
+	display = e_mail_reader_get_mail_display (reader);
+	parts = display ? e_mail_display_get_part_list (display) : NULL;
+	message_uid = parts ? e_mail_part_list_get_message_uid (parts) : NULL;
+	cursor_uid = e_message_list_get_cursor_uid (message_list);
+
+	if (message_uid && cursor_uid &&
+	    g_strcmp0 (message_uid, cursor_uid) == 0) {
+		EMailReaderClosure *timeout_closure;
 
 		timeout_closure = g_slice_new0 (EMailReaderClosure);
 		timeout_closure->reader = g_object_ref (reader);
-		timeout_closure->message_uid = g_strdup (e_message_list_get_cursor_uid (message_list));
+		timeout_closure->message_uid = camel_pstring_strdup (message_uid);
 
 		e_message_list_set_seen_id (message_list,
 			e_named_timeout_add_full (
@@ -4322,7 +4332,7 @@ mail_reader_message_selected_timeout_cb (gpointer user_data)
 			closure = g_slice_new0 (EMailReaderClosure);
 			closure->activity = activity;
 			closure->reader = g_object_ref (reader);
-			closure->message_uid = g_strdup (cursor_uid);
+			closure->message_uid = camel_pstring_strdup (cursor_uid);
 
 			folder = e_mail_reader_ref_folder (reader);
 

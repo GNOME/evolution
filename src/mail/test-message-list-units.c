@@ -34,6 +34,7 @@ G_DECLARE_FINAL_TYPE (TestSession, test_session, TEST, SESSION, CamelSession)
 
 struct _TestSession {
 	CamelSession parent_instance;
+	guint n_pending_jobs;
 };
 
 G_DEFINE_FINAL_TYPE (TestSession, test_session, CAMEL_TYPE_SESSION)
@@ -44,8 +45,29 @@ test_session_class_init (TestSessionClass *klass)
 }
 
 static void
+test_session_job_started_cb (CamelSession *session)
+{
+	TestSession *self = TEST_SESSION (session);
+
+	self->n_pending_jobs++;
+}
+
+static void
+test_session_job_finished_cb (CamelSession *session)
+{
+	TestSession *self = TEST_SESSION (session);
+
+	g_assert_cmpuint (self->n_pending_jobs, >, 0);
+	self->n_pending_jobs--;
+}
+
+static void
 test_session_init (TestSession *self)
 {
+	g_signal_connect (self, "job-started",
+		G_CALLBACK (test_session_job_started_cb), NULL);
+	g_signal_connect (self, "job-finished",
+		G_CALLBACK (test_session_job_finished_cb), NULL);
 }
 
 static CamelSession *
@@ -257,6 +279,46 @@ test_folder_get_message_sync (CamelFolder *folder,
 	return camel_mime_message_new ();
 }
 
+static gboolean
+test_folder_synchronize_sync (CamelFolder *folder,
+			      gboolean expunge,
+			      GCancellable *cancellable,
+			      GError **error)
+{
+	if (expunge) {
+		CamelFolderSummary *summary = camel_folder_get_folder_summary (folder);
+		CamelFolderChangeInfo *changes;
+		GPtrArray *all_uids;
+		guint ii;
+
+		if (!camel_folder_summary_get_deleted_count (summary))
+			return TRUE;
+
+		all_uids = camel_folder_dup_uids (folder);
+		if (!all_uids)
+			return TRUE;
+
+		changes = camel_folder_change_info_new ();
+
+		for (ii = 0; ii < all_uids->len; ii++) {
+			const gchar *uid = g_ptr_array_index (all_uids, ii);
+
+			if ((camel_folder_summary_get_info_flags (summary, uid) & CAMEL_MESSAGE_DELETED) != 0) {
+				camel_folder_change_info_remove_uid (changes, uid);
+				camel_folder_summary_remove_uid (summary, uid);
+			}
+		}
+
+		if (camel_folder_change_info_changed (changes))
+			camel_folder_changed (folder, changes);
+
+		camel_folder_change_info_free (changes);
+		g_ptr_array_unref (all_uids);
+	}
+
+	return TRUE;
+}
+
 static void
 test_folder_class_init (TestFolderClass *klass)
 {
@@ -266,6 +328,7 @@ test_folder_class_init (TestFolderClass *klass)
 	folder_class->get_filename = test_folder_get_filename;
 	folder_class->get_message_info = test_folder_get_message_info;
 	folder_class->get_message_sync = test_folder_get_message_sync;
+	folder_class->synchronize_sync = test_folder_synchronize_sync;
 }
 
 static void
@@ -559,6 +622,258 @@ wait_for_message_selected (MLFixture *fixture)
 }
 
 static void
+wait_milliseconds_pumping (guint milliseconds)
+{
+	gint64 deadline = g_get_monotonic_time () + (gint64) milliseconds * 1000;
+
+	do {
+		flush_main_context ();
+		g_usleep (2000);
+	} while (g_get_monotonic_time () < deadline);
+
+	flush_main_context ();
+}
+
+static gboolean
+wait_for_message_list_count (EMessageList *message_list,
+			     guint expected_count,
+			     guint timeout_ms)
+{
+	gint64 deadline = g_get_monotonic_time () + (gint64) timeout_ms * 1000;
+
+	while (e_message_list_count (message_list) != expected_count) {
+		if (g_get_monotonic_time () > deadline) {
+			g_test_message ("Timed out waiting for %u messages, have %u",
+				expected_count, e_message_list_count (message_list));
+			return FALSE;
+		}
+
+		flush_main_context ();
+		g_usleep (5000);
+	}
+
+	/* Let the pending message-selected/update-actions idles run. */
+	flush_main_context ();
+
+	return TRUE;
+}
+
+/* Waits until all pending session jobs (like the search folder rebuilds) are
+ * done. A short idle period is required too, because a job is submitted from
+ * an idle callback. */
+static gboolean
+wait_for_pending_jobs (MLFixture *fixture)
+{
+	TestSession *session = TEST_SESSION (fixture->session);
+	gint64 deadline = g_get_monotonic_time () + 10 * G_USEC_PER_SEC;
+	gint64 idle_since = 0;
+
+	do {
+		flush_main_context ();
+
+		if (session->n_pending_jobs > 0) {
+			idle_since = 0;
+			g_usleep (2000);
+			continue;
+		}
+
+		if (!idle_since)
+			idle_since = g_get_monotonic_time ();
+		else if (g_get_monotonic_time () - idle_since > 100000)
+			return TRUE;
+
+		g_usleep (2000);
+	} while (g_get_monotonic_time () < deadline);
+
+	g_test_message ("Timed out waiting for pending jobs, have %u", session->n_pending_jobs);
+
+	return FALSE;
+}
+
+/* Returns the row index of @uid; when @allow_suffix is TRUE, the row uid may
+ * have a search-folder prefix before @uid (as vfolder uids do). */
+static gint
+find_row_for_uid (EMessageList *message_list,
+		  const gchar *uid,
+		  gboolean allow_suffix)
+{
+	EVirtualTree *vtree;
+	guint ii, total;
+
+	vtree = e_message_list_get_virtual_tree (message_list);
+	total = e_message_list_count (message_list);
+
+	for (ii = 0; ii < total; ii++) {
+		gchar *row_uid = get_row_uid_at (vtree, ii);
+		gboolean match = FALSE;
+
+		if (row_uid) {
+			if (allow_suffix)
+				match = strlen (row_uid) > strlen (uid) && g_str_has_suffix (row_uid, uid);
+			else
+				match = g_str_equal (row_uid, uid);
+		}
+
+		g_free (row_uid);
+
+		if (match)
+			return (gint) ii;
+	}
+
+	return -1;
+}
+
+/* Waits until the row for @uid is present in (or absent from) the list.
+ * When @allow_suffix is TRUE, the row uid may have a search-folder prefix
+ * before @uid (as vfolder uids do). */
+static gboolean
+wait_for_row_presence (EMessageList *message_list,
+		       const gchar *uid,
+		       gboolean allow_suffix,
+		       gboolean present,
+		       guint timeout_ms)
+{
+	gint64 deadline = g_get_monotonic_time () + (gint64) timeout_ms * 1000;
+
+	while ((find_row_for_uid (message_list, uid, allow_suffix) >= 0) != present) {
+		if (g_get_monotonic_time () > deadline) {
+			g_test_message ("Timed out waiting for '%s' to be %s",
+				uid, present ? "present" : "absent");
+			return FALSE;
+		}
+
+		flush_main_context ();
+		g_usleep (5000);
+	}
+
+	flush_main_context ();
+
+	return TRUE;
+}
+
+/* Waits until the search folder contains (or does not contain) @real_uid. */
+static gboolean
+wait_for_vee_folder_uid (CamelFolder *vfolder,
+			 const gchar *real_uid,
+			 gboolean present,
+			 guint timeout_ms)
+{
+	gint64 deadline = g_get_monotonic_time () + (gint64) timeout_ms * 1000;
+
+	while (TRUE) {
+		GPtrArray *uids = camel_folder_dup_uids (vfolder);
+		gboolean found = FALSE;
+		guint ii;
+
+		for (ii = 0; uids && ii < uids->len; ii++) {
+			const gchar *vuid = g_ptr_array_index (uids, ii);
+
+			if (vuid && strlen (vuid) > strlen (real_uid) && g_str_has_suffix (vuid, real_uid)) {
+				found = TRUE;
+				break;
+			}
+		}
+
+		g_clear_pointer (&uids, g_ptr_array_unref);
+
+		if (found == present) {
+			flush_main_context ();
+			return TRUE;
+		}
+
+		if (g_get_monotonic_time () > deadline) {
+			g_test_message ("Timed out waiting for '%s' to be %s in the search folder",
+				real_uid, present ? "present" : "absent");
+			return FALSE;
+		}
+
+		flush_main_context ();
+		g_usleep (5000);
+	}
+}
+
+/* Creates a "Unread" search folder over the fixture folder; the source folder
+ * must not contain any unread message yet. */
+static CamelFolder *
+create_unread_vee_folder (MLFixture *fixture)
+{
+	CamelFolder *vfolder;
+	GError *local_error = NULL;
+	gboolean success;
+
+	vfolder = camel_vee_folder_new (fixture->store, "vf-unread", 0);
+	g_assert_nonnull (vfolder);
+	g_assert_true (CAMEL_IS_VEE_FOLDER (vfolder));
+
+	success = camel_vee_folder_add_folder_sync (CAMEL_VEE_FOLDER (vfolder), fixture->folder,
+		CAMEL_VEE_FOLDER_OP_FLAG_NONE, NULL, &local_error);
+	g_assert_no_error (local_error);
+	g_assert_true (success);
+
+	success = camel_vee_folder_set_expression_sync (CAMEL_VEE_FOLDER (vfolder),
+		"(match-all (not (system-flag \"seen\")))",
+		CAMEL_VEE_FOLDER_OP_FLAG_NONE, NULL, &local_error);
+	g_assert_no_error (local_error);
+	g_assert_true (success);
+
+	return vfolder;
+}
+
+static void
+add_vee_source_message (MLFixture *fixture,
+			const gchar *uid,
+			const gchar *subject,
+			gint64 dsent)
+{
+	CamelFolderChangeInfo *changes;
+	gchar *part;
+
+	part = test_build_part_string ((guint64) dsent, NULL, 0);
+
+	test_add_messages (fixture->folder,
+		"uid", uid, "subject", subject, "from", "vee@test.com",
+		"dsent", dsent, "dreceived", dsent,
+		"size", (guint32) 100, "flags", (guint32) 0, "part", part, "",
+		NULL);
+
+	g_free (part);
+
+	changes = camel_folder_change_info_new ();
+	camel_folder_change_info_add_uid (changes, uid);
+	camel_folder_changed (fixture->folder, changes);
+	camel_folder_change_info_free (changes);
+}
+
+/* Marks the message in the source folder as seen, which makes it stop
+ * matching the "Unread" search folder expression. */
+static void
+mark_vee_source_message_seen (MLFixture *fixture,
+			      const gchar *uid)
+{
+	CamelFolderSummary *summary;
+	CamelFolderChangeInfo *changes;
+	CamelMessageInfo *info;
+	GError *local_error = NULL;
+
+	summary = camel_folder_get_folder_summary (fixture->folder);
+
+	info = camel_folder_get_message_info (fixture->folder, uid);
+	g_assert_nonnull (info);
+	g_assert_true (camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN));
+	g_object_unref (info);
+
+	/* The search folder queries the store database, thus push the flag
+	 * change there before the rebuild happens. */
+	g_assert_true (camel_folder_summary_save (summary, &local_error));
+	g_assert_no_error (local_error);
+
+	changes = camel_folder_change_info_new ();
+	camel_folder_change_info_change_uid (changes, uid);
+	camel_folder_changed (fixture->folder, changes);
+	camel_folder_change_info_free (changes);
+}
+
+static void
 add_flat_messages (CamelFolder *folder)
 {
 	gchar *part_a = test_build_part_string (MSG_ID_A, NULL, 0);
@@ -614,6 +929,12 @@ add_all_read_flat_messages (CamelFolder *folder)
 	g_free (part_a);
 	g_free (part_b);
 	g_free (part_c);
+}
+
+static void
+add_no_messages (CamelFolder *folder)
+{
+	/* Intentionally empty: the fixture folder starts with no messages. */
 }
 
 static void
@@ -737,8 +1058,10 @@ ml_fixture_set_up (MLFixture *fixture,
 	mail_settings = e_util_ref_settings ("org.gnome.evolution.mail");
 	fixture->show_deleted = g_settings_get_boolean (mail_settings, "show-deleted");
 	fixture->show_junk = g_settings_get_boolean (mail_settings, "show-junk");
-	g_settings_set_boolean (mail_settings, "show-deleted", FALSE);
-	g_settings_set_boolean (mail_settings, "show-junk", FALSE);
+	/* The search folder tests want no implicit deleted/junk filter in the
+	 * folder view, to focus on the selection behaviour of the message list. */
+	g_settings_set_boolean (mail_settings, "show-deleted", user_data == add_no_messages);
+	g_settings_set_boolean (mail_settings, "show-junk", user_data == add_no_messages);
 	g_clear_object (&mail_settings);
 
 	fixture->signal_log = g_string_new ("");
@@ -750,6 +1073,8 @@ ml_fixture_set_up (MLFixture *fixture,
 
 	if (user_data == add_threaded_messages)
 		add_threaded_messages (fixture->folder);
+	else if (user_data == add_no_messages)
+		add_no_messages (fixture->folder);
 	else if (user_data == add_many_flat_messages)
 		add_many_flat_messages (fixture->folder);
 	else if (user_data == add_many_messages_with_collapsible_thread)
@@ -1977,6 +2302,283 @@ test_scroll_stability_delete_cursor_causes_reposition (MLFixture *fixture,
 	gtk_tree_path_free (path);
 }
 
+/* Removes @uid from the fixture folder and notifies the views. */
+static void
+remove_message_from_folder (MLFixture *fixture,
+			    const gchar *uid)
+{
+	CamelFolderChangeInfo *changes;
+
+	camel_folder_summary_remove_uid (camel_folder_get_folder_summary (fixture->folder), uid);
+
+	changes = camel_folder_change_info_new ();
+	camel_folder_change_info_remove_uid (changes, uid);
+	camel_folder_changed (fixture->folder, changes);
+	camel_folder_change_info_free (changes);
+}
+
+static void
+test_removal_clears_preview (MLFixture *fixture,
+			     gconstpointer user_data)
+{
+	gchar *pattern;
+
+	e_message_list_select_uid (fixture->message_list, "m1", FALSE);
+	wait_for_message_selected (fixture);
+	flush_main_context ();
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 1);
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, "m1");
+
+	g_string_truncate (fixture->signal_log, 0);
+
+	/* m1 was the only selected (and displayed) message; it disappears from
+	 * the folder, so nothing is selected anymore and the preview must be
+	 * emptied - the row which took its place must not be selected. */
+	remove_message_from_folder (fixture, "m1");
+
+	g_assert_true (wait_for_message_list_count (fixture->message_list, 4, 10000));
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, "m2");
+
+	g_assert_nonnull (strstr (fixture->signal_log->str, "message-selected(null)"));
+	g_assert_nonnull (strstr (fixture->signal_log->str, "update-actions"));
+
+	pattern = g_strdup_printf ("message-selected(%s)", "m2");
+	g_assert_null (strstr (fixture->signal_log->str, pattern));
+	g_free (pattern);
+}
+
+static void
+test_removal_multi_select_keeps_remaining (MLFixture *fixture,
+					   gconstpointer user_data)
+{
+	EVirtualTree *vtree = e_message_list_get_virtual_tree (fixture->message_list);
+	gint row_m1, row_m2;
+
+	row_m1 = find_row_for_uid (fixture->message_list, "m1", FALSE);
+	row_m2 = find_row_for_uid (fixture->message_list, "m2", FALSE);
+	g_assert_cmpint (row_m1, >=, 0);
+	g_assert_cmpint (row_m2, >=, 0);
+
+	e_virtual_tree_set_cursor (vtree, row_m1);
+	e_virtual_tree_select_row (vtree, (guint) row_m1);
+	e_virtual_tree_select_row (vtree, (guint) row_m2);
+	flush_main_context ();
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 2);
+
+	g_string_truncate (fixture->signal_log, 0);
+
+	/* The cursored and selected row disappears, but another selected row
+	 * remains. That remaining selection is a real user selection and it
+	 * must still be reported, so the preview is not left stale/empty. */
+	remove_message_from_folder (fixture, "m1");
+
+	g_assert_true (wait_for_message_list_count (fixture->message_list, 4, 10000));
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 1);
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, "m2");
+	g_assert_nonnull (strstr (fixture->signal_log->str, "message-selected(m2)"));
+}
+
+static void
+test_removal_vee_folder_cursored_removed (MLFixture *fixture,
+					  gconstpointer user_data)
+{
+	EVirtualTree *vtree = e_message_list_get_virtual_tree (fixture->message_list);
+	CamelFolder *vfolder;
+	CamelMessageInfo *info;
+	gchar *v1_vuid, *v2_vuid, *pattern;
+	gint row;
+
+	vfolder = create_unread_vee_folder (fixture);
+	e_message_list_set_folder (fixture->message_list, vfolder);
+
+	fixture->list_built = FALSE;
+	wait_for_list_built (fixture);
+
+	g_assert_cmpuint (e_message_list_count (fixture->message_list), ==, 0);
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+
+	g_string_truncate (fixture->signal_log, 0);
+
+	/* The first unread message arrives: the list notices it, but it must
+	 * not be selected (thus not loaded and not marked as read). */
+	add_vee_source_message (fixture, "v1", "First unread", 2000100);
+	g_assert_true (wait_for_message_list_count (fixture->message_list, 1, 10000));
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+	g_assert_cmpuint (e_message_list_count (fixture->message_list), ==, 1);
+	g_assert_null (e_message_list_get_cursor_uid (fixture->message_list));
+	g_assert_null (strstr (fixture->signal_log->str, "message-selected("));
+
+	row = find_row_for_uid (fixture->message_list, "v1", TRUE);
+	g_assert_cmpint (row, >=, 0);
+	v1_vuid = get_row_uid_at (vtree, (guint) row);
+	g_assert_nonnull (v1_vuid);
+
+	/* Let any pending changes settle, then another unread message arrives;
+	 * still nothing may be selected. */
+	wait_milliseconds_pumping (1000);
+
+	g_string_truncate (fixture->signal_log, 0);
+
+	add_vee_source_message (fixture, "v2", "Second unread", 2000200);
+	g_assert_true (wait_for_message_list_count (fixture->message_list, 2, 10000));
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+	g_assert_null (e_message_list_get_cursor_uid (fixture->message_list));
+	g_assert_null (strstr (fixture->signal_log->str, "message-selected("));
+
+	/* Park the cursor on v1 without selecting it (nothing is displayed). */
+	row = find_row_for_uid (fixture->message_list, "v1", TRUE);
+	g_assert_cmpint (row, >=, 0);
+	e_virtual_tree_set_cursor (vtree, row);
+	flush_main_context ();
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, v1_vuid);
+
+	/* v1 gets read elsewhere, then a new unread message arrives. The search
+	 * folder rebuild drops v1 and adds v3 in one go. */
+	mark_vee_source_message_seen (fixture, "v1");
+
+	g_assert_true (wait_for_pending_jobs (fixture));
+
+	g_string_truncate (fixture->signal_log, 0);
+
+	add_vee_source_message (fixture, "v3", "Third unread", 2000300);
+
+	g_assert_true (wait_for_vee_folder_uid (vfolder, "v1", FALSE, 10000));
+	g_assert_true (wait_for_vee_folder_uid (vfolder, "v3", TRUE, 10000));
+	g_assert_true (wait_for_row_presence (fixture->message_list, "v1", TRUE, FALSE, 10000));
+	g_assert_true (wait_for_row_presence (fixture->message_list, "v3", TRUE, TRUE, 10000));
+
+	/* Only v2 and v3 are left; the cursored v1 is gone. v2 takes the cursor
+	 * of the removed row, but it must not be selected, thus not loaded and
+	 * not marked as read either. */
+	v2_vuid = get_row_uid_at (vtree, (guint) find_row_for_uid (fixture->message_list, "v2", TRUE));
+	g_assert_nonnull (v2_vuid);
+
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, v2_vuid);
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+
+	g_assert_nonnull (strstr (fixture->signal_log->str, "message-selected(null)"));
+
+	pattern = g_strdup_printf ("message-selected(%s)", v2_vuid);
+	g_assert_null (strstr (fixture->signal_log->str, pattern));
+	g_free (pattern);
+
+	/* v2 is still unread */
+	info = camel_folder_get_message_info (fixture->folder, "v2");
+	g_assert_nonnull (info);
+	g_assert_cmpuint (camel_message_info_get_flags (info) & CAMEL_MESSAGE_SEEN, ==, 0);
+	g_object_unref (info);
+
+	g_free (v1_vuid);
+	g_free (v2_vuid);
+	g_clear_object (&vfolder);
+}
+
+static void
+test_removal_vee_folder_other_removed (MLFixture *fixture,
+				       gconstpointer user_data)
+{
+	EVirtualTree *vtree = e_message_list_get_virtual_tree (fixture->message_list);
+	CamelFolder *vfolder;
+	gchar *v1_vuid, *pattern;
+	gint row;
+
+	vfolder = create_unread_vee_folder (fixture);
+	e_message_list_set_folder (fixture->message_list, vfolder);
+
+	fixture->list_built = FALSE;
+	wait_for_list_built (fixture);
+
+	g_assert_cmpuint (e_message_list_count (fixture->message_list), ==, 0);
+
+	add_vee_source_message (fixture, "v1", "First unread", 2000200);
+	g_assert_true (wait_for_message_list_count (fixture->message_list, 1, 10000));
+
+	wait_milliseconds_pumping (1000);
+
+	add_vee_source_message (fixture, "v2", "Second unread", 2000300);
+	g_assert_true (wait_for_message_list_count (fixture->message_list, 2, 10000));
+
+	row = find_row_for_uid (fixture->message_list, "v1", TRUE);
+	g_assert_cmpint (row, >=, 0);
+	v1_vuid = get_row_uid_at (vtree, (guint) row);
+	g_assert_nonnull (v1_vuid);
+
+	e_virtual_tree_set_cursor (vtree, row);
+	flush_main_context ();
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, v1_vuid);
+
+	/* The newer v2 gets read elsewhere, then an older unread v3 arrives.
+	 * The rebuild drops v2 and adds v3 below the cursor, so the cursor row
+	 * index shifts up. The cursored v1 is left, but it must not become
+	 * selected - it is only cursored. */
+	mark_vee_source_message_seen (fixture, "v2");
+
+	g_assert_true (wait_for_pending_jobs (fixture));
+
+	g_string_truncate (fixture->signal_log, 0);
+
+	add_vee_source_message (fixture, "v3", "Third unread", 2000100);
+
+	g_assert_true (wait_for_vee_folder_uid (vfolder, "v2", FALSE, 10000));
+	g_assert_true (wait_for_vee_folder_uid (vfolder, "v3", TRUE, 10000));
+	g_assert_true (wait_for_row_presence (fixture->message_list, "v2", TRUE, FALSE, 10000));
+	g_assert_true (wait_for_row_presence (fixture->message_list, "v1", TRUE, TRUE, 10000));
+	g_assert_true (wait_for_row_presence (fixture->message_list, "v3", TRUE, TRUE, 10000));
+
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, v1_vuid);
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+	g_assert_cmpint (find_row_for_uid (fixture->message_list, "v1", TRUE), ==, 0);
+
+	pattern = g_strdup_printf ("message-selected(%s)", v1_vuid);
+	g_assert_null (strstr (fixture->signal_log->str, pattern));
+	g_free (pattern);
+
+	/* Second arrangement: the removed row is below the cursor, thus the
+	 * cursor row index does not change. Nothing may be emitted at all. */
+	row = find_row_for_uid (fixture->message_list, "v3", TRUE);
+	g_assert_cmpint (row, >=, 0);
+
+	e_virtual_tree_set_cursor (vtree, 0);
+	flush_main_context ();
+
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, v1_vuid);
+
+	g_string_truncate (fixture->signal_log, 0);
+
+	mark_vee_source_message_seen (fixture, "v3");
+
+	g_assert_true (wait_for_pending_jobs (fixture));
+
+	add_vee_source_message (fixture, "v4", "Fourth unread", 2000000);
+
+	g_assert_true (wait_for_vee_folder_uid (vfolder, "v3", FALSE, 10000));
+	g_assert_true (wait_for_vee_folder_uid (vfolder, "v4", TRUE, 10000));
+	g_assert_true (wait_for_row_presence (fixture->message_list, "v3", TRUE, FALSE, 10000));
+	g_assert_true (wait_for_row_presence (fixture->message_list, "v4", TRUE, TRUE, 10000));
+
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, v1_vuid);
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+	g_assert_cmpint (find_row_for_uid (fixture->message_list, "v1", TRUE), ==, 0);
+
+	g_assert_null (strstr (fixture->signal_log->str, "message-selected("));
+	g_assert_null (strstr (fixture->signal_log->str, "cursor-changed"));
+
+	g_free (v1_vuid);
+	g_clear_object (&vfolder);
+}
+
 static void
 test_avatar_initials (void)
 {
@@ -2356,6 +2958,12 @@ main (int argc,
 	add_collapsible_thread_test ("/message-list/scroll-stability/collapsed-thread-no-shift", test_scroll_stability_collapsed_thread_no_shift);
 	add_far_orphan_test ("/message-list/scroll-stability/far-reposition-no-shift", test_scroll_stability_far_reposition_no_shift);
 	add_many_test ("/message-list/scroll-stability/delete-cursor-causes-reposition", test_scroll_stability_delete_cursor_causes_reposition);
+	add_flat_test ("/message-list/removal/preview-clears", test_removal_clears_preview);
+	add_flat_test ("/message-list/removal/multi-select-keeps-remaining", test_removal_multi_select_keeps_remaining);
+	g_test_add ("/message-list/removal/vee-folder-cursored-removed", MLFixture, add_no_messages,
+		ml_fixture_set_up, test_removal_vee_folder_cursored_removed, ml_fixture_tear_down);
+	g_test_add ("/message-list/removal/vee-folder-other-removed", MLFixture, add_no_messages,
+		ml_fixture_set_up, test_removal_vee_folder_other_removed, ml_fixture_tear_down);
 	add_many_test ("/message-list/cell-click/status-toggles-without-selecting", test_click_status_cell_toggles_without_selecting);
 	add_many_test ("/message-list/select/navigation-updates-shift-click-anchor", test_navigation_updates_shift_click_anchor);
 	add_many_test ("/message-list/composite/columns-show-from-and-to", test_composite_columns_show_from_and_to);

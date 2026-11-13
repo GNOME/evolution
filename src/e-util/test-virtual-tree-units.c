@@ -831,6 +831,14 @@ process_command (TestFixture *fixture,
 		wait_milliseconds (event_processing_delay_ms);
 		return TRUE;
 
+	} else if (g_str_has_prefix (command, "auto-select-on-removal:")) {
+		const gchar *value = command + strlen ("auto-select-on-removal:");
+
+		e_virtual_tree_set_auto_select_on_removal (fixture->vtree,
+			g_ascii_strcasecmp (value, "false") != 0 &&
+			g_ascii_strcasecmp (value, "0") != 0);
+		return TRUE;
+
 	} else if (g_str_has_prefix (command, "selection-mode:")) {
 		const gchar *mode = command + 15;
 		if (g_str_equal (mode, "single"))
@@ -1683,6 +1691,44 @@ test_signals_on_remove_cursored (TestFixture *fixture)
 		"remove-node:B\n"
 		"assert-signals:cursor-changed:3:C|selection-changed|\n"
 		"assert-selected:2\n"))
+		g_test_fail ();
+}
+
+static void
+test_signals_on_remove_cursored_no_auto_select (TestFixture *fixture)
+{
+	if (!process_commands (fixture,
+		"assert-tree:A(A1(A1a,A1b),A2),B(B1(B1a)),C\n"
+		/* By default the row which replaces the removed cursored row is
+		 * selected (and would be loaded in a preview pane). */
+		"click-row:3\n"
+		"assert-cursor:3\n"
+		"assert-selected:3\n"
+		"assert-selected-count:1\n"
+		/* With auto-selection disabled the cursor still parks on the
+		 * replacing row, so the keyboard navigation can continue from
+		 * there, but nothing becomes selected. */
+		"auto-select-on-removal:false\n"
+		"clear-log\n"
+		"remove-node:A1b\n"
+		"assert-cursor:3\n"
+		"assert-selected-count:0\n"
+		"assert-signals:cursor-changed:3:A2|selection-changed|\n"
+		/* The arrow keys work from the parked cursor and select a row */
+		"clear-log\n"
+		"seq:u\n"
+		"assert-cursor:2\n"
+		"assert-selected:2\n"
+		"seq:d\n"
+		"assert-cursor:3\n"
+		"assert-selected:3\n"
+		/* The property can be turned on again */
+		"auto-select-on-removal:true\n"
+		"clear-log\n"
+		"remove-node:A2\n"
+		"assert-cursor:3\n"
+		"assert-selected:3\n"
+		"assert-signals:cursor-changed:3:B|selection-changed|\n"))
 		g_test_fail ();
 }
 
@@ -4222,6 +4268,7 @@ main (gint argc,
 	add_test ("/signals/selection-changed", test_signals_selection_changed);
 	add_test ("/signals/no-redundant-on-reclick", test_signals_no_redundant_on_reclick);
 	add_test ("/signals/on-remove-cursored", test_signals_on_remove_cursored);
+	add_test ("/signals/on-remove-cursored-no-auto-select", test_signals_on_remove_cursored_no_auto_select);
 	add_test ("/signals/on-remove-multi-select", test_signals_on_remove_multi_select);
 	add_test ("/cell-click/hit-test-accounts-for-expander-indent", test_cell_click_hit_test_accounts_for_expander_indent);
 	add_test ("/cell-click/expander-indent-not-hit-for-leaf-row", test_cell_click_expander_indent_not_hit_for_leaf_row);

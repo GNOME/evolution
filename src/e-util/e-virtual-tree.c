@@ -1371,6 +1371,7 @@ enum {
 	PROP_SELECTION_MODE,
 	PROP_EMPTY_MESSAGE,
 	PROP_HEADER_CLICK_SORT_POLICY,
+	PROP_AUTO_SELECT_ON_REMOVAL,
 	N_PROPERTIES,
 	PROP_HADJUSTMENT = N_PROPERTIES,
 	PROP_VADJUSTMENT,
@@ -1486,6 +1487,7 @@ struct _EVirtualTree {
 	gboolean editable;
 	GtkSelectionMode selection_mode;
 	EAutomaticActionPolicy header_click_sort_policy;
+	gboolean auto_select_on_removal;
 
 	gulong model_rows_changed_id;
 	gulong model_rows_inserted_id;
@@ -2429,6 +2431,7 @@ on_model_rows_removed (EVirtualTreeModel *model,
 	virtual_tree_update_scrollbar (self);
 
 	if (cursor_was_removed && self->cursor_row >= 0 &&
+	    self->auto_select_on_removal &&
 	    virtual_tree_selection_is_empty (self)) {
 		GObject *obj = e_virtual_tree_model_dup_row (self->model, (guint) self->cursor_row);
 
@@ -2521,7 +2524,8 @@ on_model_row_count_changed (EVirtualTreeModel *model,
 
 		set_cursor_object (self, obj);
 
-		if (obj && virtual_tree_selection_is_empty (self)) {
+		if (obj && self->auto_select_on_removal &&
+		    virtual_tree_selection_is_empty (self)) {
 			gconstpointer key = e_virtual_tree_model_get_row_key (self->model, obj);
 
 			if (key) {
@@ -4211,6 +4215,9 @@ e_virtual_tree_set_property (GObject *object,
 	case PROP_HEADER_CLICK_SORT_POLICY:
 		e_virtual_tree_set_header_click_sort_policy (self, g_value_get_enum (value));
 		break;
+	case PROP_AUTO_SELECT_ON_REMOVAL:
+		e_virtual_tree_set_auto_select_on_removal (self, g_value_get_boolean (value));
+		break;
 	case PROP_HADJUSTMENT:
 		virtual_tree_set_hadjustment (self, g_value_get_object (value));
 		break;
@@ -4254,6 +4261,9 @@ e_virtual_tree_get_property (GObject *object,
 		break;
 	case PROP_HEADER_CLICK_SORT_POLICY:
 		g_value_set_enum (value, self->header_click_sort_policy);
+		break;
+	case PROP_AUTO_SELECT_ON_REMOVAL:
+		g_value_set_boolean (value, self->auto_select_on_removal);
 		break;
 	case PROP_HADJUSTMENT:
 		g_value_set_object (value, self->hadjustment);
@@ -4958,6 +4968,21 @@ e_virtual_tree_class_init (EVirtualTreeClass *klass)
 		E_AUTOMATIC_ACTION_POLICY_ASK,
 		G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
 
+	/**
+	 * EVirtualTree:auto-select-on-removal:
+	 *
+	 * When the cursored row is removed, the cursor is moved to the row
+	 * which takes its place. If this property is %TRUE and no row is
+	 * selected at that moment, the row under the cursor is selected
+	 * too; if it is %FALSE, the cursor moves but nothing is selected.
+	 *
+	 * Since: 3.64
+	 **/
+	properties[PROP_AUTO_SELECT_ON_REMOVAL] = g_param_spec_boolean (
+		"auto-select-on-removal", NULL, NULL,
+		TRUE,
+		G_PARAM_READWRITE | G_PARAM_EXPLICIT_NOTIFY | G_PARAM_STATIC_STRINGS);
+
 	g_object_class_install_properties (object_class, N_PROPERTIES, properties);
 
 	g_object_class_override_property (object_class, PROP_HADJUSTMENT, "hadjustment");
@@ -5180,6 +5205,7 @@ e_virtual_tree_init (EVirtualTree *self)
 	self->metrics_valid = FALSE;
 	self->selection_mode = GTK_SELECTION_SINGLE;
 	self->header_click_sort_policy = E_AUTOMATIC_ACTION_POLICY_ASK;
+	self->auto_select_on_removal = TRUE;
 	self->alternating_row_colors = TRUE;
 	self->prelight_row_colors = TRUE;
 }
@@ -5758,6 +5784,30 @@ e_virtual_tree_get_editable (EVirtualTree *self)
 	g_return_val_if_fail (E_IS_VIRTUAL_TREE (self), FALSE);
 
 	return self->editable;
+}
+
+void
+e_virtual_tree_set_auto_select_on_removal (EVirtualTree *self,
+					    gboolean auto_select)
+{
+	g_return_if_fail (E_IS_VIRTUAL_TREE (self));
+
+	auto_select = auto_select != FALSE;
+
+	if (self->auto_select_on_removal == auto_select)
+		return;
+
+	self->auto_select_on_removal = auto_select;
+
+	g_object_notify_by_pspec (G_OBJECT (self), properties[PROP_AUTO_SELECT_ON_REMOVAL]);
+}
+
+gboolean
+e_virtual_tree_get_auto_select_on_removal (EVirtualTree *self)
+{
+	g_return_val_if_fail (E_IS_VIRTUAL_TREE (self), FALSE);
+
+	return self->auto_select_on_removal;
 }
 
 void
