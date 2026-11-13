@@ -91,6 +91,7 @@ struct _MessageListPrivate {
 	gboolean thread_flat;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
 	gboolean regen_selects_unread;
+	gboolean regen_was_folder_changed;
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
@@ -1037,6 +1038,17 @@ select_node (MessageList *message_list,
 	e_tree_table_adapter_show_node (etta, node);
 	e_tree_set_cursor (tree, node);
 	e_tree_selection_model_select_single_path (etsm, node);
+}
+
+static void
+move_cursor (MessageList *message_list,
+             GNode *node)
+{
+	ETreeSelectionModel *etsm;
+
+	etsm = E_TREE_SELECTION_MODEL (e_tree_get_selection_model (E_TREE (message_list)));
+
+	e_tree_selection_model_change_cursor (etsm, node);
 }
 
 /**
@@ -5030,6 +5042,8 @@ build_flat (MessageList *message_list,
 			g_signal_emit (
 				message_list,
 				signals[MESSAGE_SELECTED], 0, NULL);
+		} else if (message_list_selected_count (message_list) == 0) {
+			move_cursor (message_list, node);
 		} else if (!folder_changed || !e_tree_get_item (E_TREE (message_list))) {
 			e_tree_set_cursor (E_TREE (message_list), node);
 		}
@@ -5191,6 +5205,8 @@ message_list_folder_changed (CamelFolder *folder,
 					message_list_change_first_visible_parent (message_list, node);
 				}
 			}
+
+			message_list->priv->regen_was_folder_changed = TRUE;
 
 			g_signal_emit (
 				message_list,
@@ -5649,6 +5665,14 @@ message_list_set_regen_selects_unread (MessageList *message_list,
 		return;
 
 	message_list->priv->regen_selects_unread = regen_selects_unread;
+}
+
+gboolean
+message_list_get_regen_was_folder_changed (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), FALSE);
+
+	return message_list->priv->regen_was_folder_changed;
 }
 
 static gboolean
@@ -6776,7 +6800,10 @@ message_list_regen_done_cb (GObject *source_object,
 
 				e_table_item_freeze (table_item);
 
-				e_tree_set_cursor (E_TREE (message_list), node);
+				if (message_list_selected_count (message_list) == 0)
+					move_cursor (message_list, node);
+				else if (g_strcmp0 (saveuid, message_list->cursor_uid) == 0)
+					e_tree_set_cursor (E_TREE (message_list), node);
 
 				/* Show the cursor unless we're responding to a
 				 * "folder-changed" signal from our CamelFolder. */
@@ -6910,8 +6937,12 @@ message_list_regen_done_cb (GObject *source_object,
 				node = e_tree_table_adapter_node_at_row (adapter, regen_data->last_row);
 		}
 
-		if (node && sel_count <= 1)
-			select_node (message_list, node);
+		if (node && sel_count <= 1) {
+			if (sel_count > 0)
+				select_node (message_list, node);
+			else
+				move_cursor (message_list, node);
+		}
 	}
 
 	if (last_row_uid)
@@ -6921,6 +6952,8 @@ message_list_regen_done_cb (GObject *source_object,
 
 	g_signal_handlers_unblock_by_func (
 		adapter, ml_tree_sorting_changed, message_list);
+
+	message_list->priv->regen_was_folder_changed = regen_data->folder_changed;
 
 	g_signal_emit (
 		message_list,

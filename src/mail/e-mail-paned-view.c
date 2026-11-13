@@ -160,8 +160,10 @@ mail_paned_view_message_list_built_cb (EMailView *view,
 		gboolean with_fallback = TRUE;
 		gchar *uid = NULL;
 
-		/* This is for regen when setting filter, or when folder changed or such */
+		/* This is for regen when setting filter, or for other
+		 * user-initiated changes, but not for folder changes. */
 		if (!ensure_message_selected &&
+		    !message_list_get_regen_was_folder_changed (message_list) &&
 		    !message_list_selected_count (message_list) &&
 		    !mail_paned_view_message_list_is_empty (message_list)) {
 			ensure_message_selected = TRUE;

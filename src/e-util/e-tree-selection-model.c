@@ -33,6 +33,7 @@ struct _ETreeSelectionModelPrivate {
 	ETreePath start_path;
 	gint cursor_col;
 	gchar *cursor_save_id;
+	gboolean cursor_selected;
 
 	gint tree_model_pre_change_id;
 	gint tree_model_node_changed_id;
@@ -109,6 +110,7 @@ free_id (ETreeSelectionModel *etsm)
 {
 	g_free (etsm->priv->cursor_save_id);
 	etsm->priv->cursor_save_id = NULL;
+	etsm->priv->cursor_selected = FALSE;
 }
 
 static void
@@ -124,7 +126,8 @@ restore_cursor (ETreeSelectionModel *etsm,
 		if (etsm->priv->cursor_path != NULL && etsm->priv->cursor_col == -1)
 			etsm->priv->cursor_col = 0;
 
-		select_single_path (etsm, etsm->priv->cursor_path);
+		if (etsm->priv->cursor_selected)
+			select_single_path (etsm, etsm->priv->cursor_path);
 	}
 
 	e_selection_model_selection_changed (E_SELECTION_MODEL (etsm));
@@ -151,10 +154,14 @@ etsm_pre_change (ETreeModel *etm,
 {
 	g_free (etsm->priv->cursor_save_id);
 	etsm->priv->cursor_save_id = NULL;
+	etsm->priv->cursor_selected = FALSE;
 
-	if (etsm->priv->cursor_path != NULL)
+	if (etsm->priv->cursor_path != NULL) {
 		etsm->priv->cursor_save_id = e_tree_model_get_save_id (
 			etm, etsm->priv->cursor_path);
+		etsm->priv->cursor_selected = g_hash_table_contains (
+			etsm->priv->paths, etsm->priv->cursor_path);
+	}
 }
 
 static void

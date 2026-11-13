@@ -3894,6 +3894,10 @@ schedule_timeout_mark_seen (EMailReader *reader)
 {
 	EMailReaderPrivate *priv;
 	MessageList *message_list;
+	EMailDisplay *display;
+	EMailPartList *parts;
+	const gchar *cursor_uid;
+	const gchar *message_uid;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
@@ -3902,19 +3906,25 @@ schedule_timeout_mark_seen (EMailReader *reader)
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
 	g_return_if_fail (message_list != NULL);
 
-	if (message_list->cursor_uid) {
-		EMailReaderClosure *timeout_closure;
+	if (message_list->seen_id > 0) {
+		g_source_remove (message_list->seen_id);
+		message_list->seen_id = 0;
+	}
 
-		if (message_list->seen_id > 0) {
-			g_source_remove (message_list->seen_id);
-			message_list->seen_id = 0;
-		}
+	display = e_mail_reader_get_mail_display (reader);
+	parts = display ? e_mail_display_get_part_list (display) : NULL;
+	message_uid = parts ? e_mail_part_list_get_message_uid (parts) : NULL;
+	cursor_uid = message_list->cursor_uid;
+
+	if (cursor_uid && message_uid &&
+	    g_strcmp0 (cursor_uid, message_uid) == 0) {
+		EMailReaderClosure *timeout_closure;
 
 		timeout_closure = g_slice_new0 (EMailReaderClosure);
 		timeout_closure->reader = g_object_ref (reader);
-		timeout_closure->message_uid = g_strdup (message_list->cursor_uid);
+		timeout_closure->message_uid = g_strdup (cursor_uid);
 
-		MESSAGE_LIST (message_list)->seen_id =
+		message_list->seen_id =
 			e_named_timeout_add_full (
 				G_PRIORITY_DEFAULT, priv->schedule_mark_seen_interval,
 				mail_reader_message_seen_cb,
