@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-11-13 11:14+0000\n"
-"PO-Revision-Date: 2026-11-14 07:20+0100\n"
+"POT-Creation-Date: 2026-11-14 06:23+0000\n"
+"PO-Revision-Date: 2026-11-18 10:03+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
 "Language: ka\n"
@@ -12939,14 +12939,12 @@ msgstr ""
 #. Translators: Heading of a printed attachment; the first '%s' is its description, the second '%s' its file name
 #: ../src/em-format/e-mail-formatter-attachment.c:150
 #, c-format
-#| msgid "Attachments"
 msgid "Attachment: %s (%s)"
 msgstr "მიმაგრებული ფაილი: %s (%s)"
 
 #. Translators: Heading of a printed attachment; the '%s' is its file name
 #: ../src/em-format/e-mail-formatter-attachment.c:153
 #, c-format
-#| msgid "Attachments"
 msgid "Attachment: %s"
 msgstr "მიმაგრებული ფაილი: %s"
 
@@ -16233,10 +16231,9 @@ msgid "_Do not show this message again"
 msgstr ""
 
 #: ../src/e-util/e-misc-utils.c:3277
-#, fuzzy, c-format
-#| msgid "Cannot create Temporary File"
+#, c-format
 msgid "Could not create temporary file: %s"
-msgstr "დროებითი ფაილის შექმნის შეცდომა"
+msgstr "დროებითი ფაილის შექმნის შეცდომა: %s"
 
 #: ../src/e-util/e-misc-utils.c:3586
 msgid ""
@@ -21202,7 +21199,7 @@ msgstr ""
 
 #: ../src/mail/mail-config.ui.h:96
 msgid "Message Display"
-msgstr ""
+msgstr "შეტყობინების ჩვენება"
 
 #: ../src/mail/mail-config.ui.h:97
 msgid "_Use the same fonts as other applications"
