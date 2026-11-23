@@ -439,6 +439,32 @@ rss_unset_flagged_flag (const gchar *uid,
 	}
 }
 
+static void
+rss_folder_sync_counts (CamelFolder *folder,
+			CamelFolderSummary *summary)
+{
+	CamelRssFolder *self;
+	CamelStore *parent_store;
+	CamelRssStoreSummary *rss_store_summary;
+
+	self = CAMEL_RSS_FOLDER (folder);
+	parent_store = camel_folder_get_parent_store (folder);
+
+	if (!parent_store || !CAMEL_IS_RSS_STORE (parent_store))
+		return;
+
+	rss_store_summary = camel_rss_store_get_summary (CAMEL_RSS_STORE (parent_store));
+	if (!rss_store_summary)
+		return;
+
+	camel_rss_store_summary_set_unread_count (rss_store_summary, self->priv->id,
+		camel_folder_summary_get_unread_count (summary));
+	camel_rss_store_summary_set_total_count (rss_store_summary, self->priv->id,
+		camel_folder_summary_get_saved_count (summary));
+
+	camel_rss_store_summary_save (rss_store_summary, NULL);
+}
+
 static gboolean
 rss_folder_synchronize_sync (CamelFolder *folder,
 			     gboolean expunge,
@@ -447,6 +473,7 @@ rss_folder_synchronize_sync (CamelFolder *folder,
 {
 	CamelFolderSummary *summary;
 	GPtrArray *changed;
+	gboolean success;
 
 	if (expunge) {
 		if (!camel_folder_expunge_sync (folder, cancellable, error))
@@ -462,7 +489,11 @@ rss_folder_synchronize_sync (CamelFolder *folder,
 		g_ptr_array_free (changed, TRUE);
 	}
 
-	return camel_folder_summary_save (summary, error);
+	success = camel_folder_summary_save (summary, error);
+
+	rss_folder_sync_counts (folder, summary);
+
+	return success;
 }
 
 static void
