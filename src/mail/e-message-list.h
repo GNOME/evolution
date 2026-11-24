@@ -119,6 +119,9 @@ gboolean		e_message_list_select		(EMessageList *self,
 							 EMessageListSelectDirection direction,
 							 guint32 flags,
 							 guint32 mask);
+gboolean		e_message_list_select_skip_uids	(EMessageList *self,
+							 EMessageListSelectDirection direction,
+							 GPtrArray *skip_uids);
 void			e_message_list_select_uid	(EMessageList *self,
 							 const gchar *uid,
 							 gboolean with_fallback);

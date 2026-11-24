@@ -4193,6 +4193,72 @@ get_node_uid (GObject *row_obj)
 	return node->uid;
 }
 
+gboolean
+e_message_list_select_skip_uids (EMessageList *self,
+				 EMessageListSelectDirection direction,
+				 GPtrArray *skip_uids)
+{
+	EVirtualTreeModel *model;
+	GHashTable *skip_set = NULL;
+	guint total, ii;
+	gint cursor, step;
+	gboolean forward;
+
+	g_return_val_if_fail (E_IS_MESSAGE_LIST (self), FALSE);
+
+	model = E_VIRTUAL_TREE_MODEL (self->model);
+	total = e_virtual_tree_model_get_row_count (model);
+	if (total == 0)
+		return FALSE;
+
+	if (skip_uids && skip_uids->len > 0) {
+		skip_set = g_hash_table_new (g_str_hash, g_str_equal);
+
+		for (ii = 0; ii < skip_uids->len; ii++) {
+			g_hash_table_add (skip_set, g_ptr_array_index (skip_uids, ii));
+		}
+	}
+
+	forward = (direction & E_MESSAGE_LIST_SELECT_DIRECTION) == E_MESSAGE_LIST_SELECT_NEXT;
+	step = forward ? 1 : -1;
+	cursor = e_virtual_tree_get_cursor (self->vtree);
+
+	if (cursor < 0)
+		ii = forward ? 0 : total - 1;
+	else
+		ii = (guint) (cursor + step);
+
+	while (ii < total) {
+		GObject *row_obj;
+		const gchar *uid;
+		gboolean skip;
+
+		row_obj = e_virtual_tree_model_dup_row (model, ii);
+		if (!row_obj) {
+			ii = (guint) ((gint) ii + step);
+			continue;
+		}
+
+		uid = get_node_uid (row_obj);
+		skip = uid && skip_set && g_hash_table_contains (skip_set, uid);
+		g_object_unref (row_obj);
+
+		if (!skip) {
+			e_virtual_tree_set_cursor (self->vtree, (gint) ii);
+			e_virtual_tree_unselect_all (self->vtree);
+			e_virtual_tree_select_row (self->vtree, ii);
+			g_clear_pointer (&skip_set, g_hash_table_destroy);
+			return TRUE;
+		}
+
+		ii = (guint) ((gint) ii + step);
+	}
+
+	g_clear_pointer (&skip_set, g_hash_table_destroy);
+
+	return FALSE;
+}
+
 GPtrArray *
 e_message_list_get_selected (EMessageList *self)
 {

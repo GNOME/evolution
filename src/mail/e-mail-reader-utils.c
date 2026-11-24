@@ -3094,7 +3094,8 @@ exit:
 
 void
 e_mail_reader_select_next_message (EMailReader *reader,
-                                   gboolean or_else_previous)
+                                   gboolean or_else_previous,
+				   GPtrArray *skip_uids)
 {
 	EMessageList *message_list;
 	gboolean hide_deleted;
@@ -3105,15 +3106,16 @@ e_mail_reader_select_next_message (EMailReader *reader,
 	hide_deleted = e_mail_reader_get_hide_deleted (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	success = e_message_list_select (message_list, E_MESSAGE_LIST_SELECT_NEXT, 0, 0);
+	success = e_message_list_select_skip_uids (message_list, E_MESSAGE_LIST_SELECT_NEXT, skip_uids);
 
 	if (!success && (hide_deleted || or_else_previous))
-		e_message_list_select (message_list, E_MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+		e_message_list_select_skip_uids (message_list, E_MESSAGE_LIST_SELECT_PREVIOUS, skip_uids);
 }
 
 void
 e_mail_reader_select_previous_message (EMailReader *reader,
-				       gboolean or_else_next)
+				       gboolean or_else_next,
+				       GPtrArray *skip_uids)
 {
 	EMessageList *message_list;
 	gboolean hide_deleted;
@@ -3124,10 +3126,10 @@ e_mail_reader_select_previous_message (EMailReader *reader,
 	hide_deleted = e_mail_reader_get_hide_deleted (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	success = e_message_list_select (message_list, E_MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+	success = e_message_list_select_skip_uids (message_list, E_MESSAGE_LIST_SELECT_PREVIOUS, skip_uids);
 
 	if (!success && (hide_deleted || or_else_next))
-		e_message_list_select (message_list, E_MESSAGE_LIST_SELECT_NEXT, 0, 0);
+		e_message_list_select_skip_uids (message_list, E_MESSAGE_LIST_SELECT_NEXT, skip_uids);
 }
 
 /* Helper for e_mail_reader_create_filter_from_selected() */

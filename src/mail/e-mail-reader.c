@@ -664,6 +664,7 @@ action_mail_delete_cb (EUIAction *action,
 		       gpointer user_data)
 {
 	EMailReader *reader = user_data;
+	GPtrArray *uids;
 	guint32 mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
 	guint32 set = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
 
@@ -673,13 +674,17 @@ action_mail_delete_cb (EUIAction *action,
 	/* FIXME Verify all selected messages are deletable.
 	 *       But handle it by disabling this action. */
 
+	uids = e_mail_reader_get_selected_uids_with_collapsed_threads (reader);
+
 	if (e_mail_reader_mark_selected (reader, mask, set) != 0 &&
 	    !e_mail_reader_close_on_delete_or_junk (reader)) {
 		if (e_mail_reader_get_delete_selects_previous (reader))
-			e_mail_reader_select_previous_message (reader, FALSE);
+			e_mail_reader_select_previous_message (reader, FALSE, uids);
 		else
-			e_mail_reader_select_next_message (reader, FALSE);
+			e_mail_reader_select_next_message (reader, FALSE, uids);
 	}
+
+	g_clear_pointer (&uids, g_ptr_array_unref);
 }
 
 static void
@@ -1243,19 +1248,22 @@ action_mail_mark_junk_cb (EUIAction *action,
 			  uids->len),
 		NULL);
 
-	g_ptr_array_unref (uids);
 	g_free (primary);
 
-	if (!can_do_it)
+	if (!can_do_it) {
+		g_ptr_array_unref (uids);
 		return;
+	}
 
 	if (e_mail_reader_mark_selected (reader, mask, set) != 0 &&
 	    !e_mail_reader_close_on_delete_or_junk (reader)) {
 		if (e_mail_reader_get_delete_selects_previous (reader))
-			e_mail_reader_select_previous_message (reader, TRUE);
+			e_mail_reader_select_previous_message (reader, TRUE, uids);
 		else
-			e_mail_reader_select_next_message (reader, TRUE);
+			e_mail_reader_select_next_message (reader, TRUE, uids);
 	}
+
+	g_ptr_array_unref (uids);
 }
 
 static void
@@ -1274,9 +1282,9 @@ action_mail_mark_notjunk_cb (EUIAction *action,
 
 	if (e_mail_reader_mark_selected (reader, mask, set) != 0) {
 		if (e_mail_reader_get_delete_selects_previous (reader))
-			e_mail_reader_select_previous_message (reader, TRUE);
+			e_mail_reader_select_previous_message (reader, TRUE, NULL);
 		else
-			e_mail_reader_select_next_message (reader, TRUE);
+			e_mail_reader_select_next_message (reader, TRUE, NULL);
 	}
 }
 

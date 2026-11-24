@@ -1285,6 +1285,78 @@ test_selected_count (MLFixture *fixture,
 }
 
 static void
+test_select_skip_uids_next (MLFixture *fixture,
+			    gconstpointer user_data)
+{
+	EVirtualTree *vtree = e_message_list_get_virtual_tree (fixture->message_list);
+	GPtrArray *skip_uids;
+	gint row;
+
+	skip_uids = g_ptr_array_new ();
+	g_ptr_array_add (skip_uids, (gpointer) "m2");
+	g_ptr_array_add (skip_uids, (gpointer) "m4");
+
+	row = find_row_for_uid (fixture->message_list, "m3", FALSE);
+	g_assert_cmpint (row, >=, 0);
+	e_virtual_tree_set_cursor (vtree, row);
+
+	g_assert_true (e_message_list_select_skip_uids (fixture->message_list, E_MESSAGE_LIST_SELECT_NEXT, skip_uids));
+
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, "m1");
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 1);
+
+	g_ptr_array_unref (skip_uids);
+}
+
+static void
+test_select_skip_uids_previous (MLFixture *fixture,
+				gconstpointer user_data)
+{
+	EVirtualTree *vtree = e_message_list_get_virtual_tree (fixture->message_list);
+	GPtrArray *skip_uids;
+	gint row;
+
+	skip_uids = g_ptr_array_new ();
+	g_ptr_array_add (skip_uids, (gpointer) "m2");
+	g_ptr_array_add (skip_uids, (gpointer) "m4");
+
+	row = find_row_for_uid (fixture->message_list, "m3", FALSE);
+	g_assert_cmpint (row, >=, 0);
+	e_virtual_tree_set_cursor (vtree, row);
+
+	g_assert_true (e_message_list_select_skip_uids (fixture->message_list, E_MESSAGE_LIST_SELECT_PREVIOUS, skip_uids));
+
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, "m5");
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 1);
+
+	g_ptr_array_unref (skip_uids);
+}
+
+static void
+test_select_skip_uids_end (MLFixture *fixture,
+			   gconstpointer user_data)
+{
+	EVirtualTree *vtree = e_message_list_get_virtual_tree (fixture->message_list);
+	GPtrArray *skip_uids;
+	gint row;
+
+	skip_uids = g_ptr_array_new ();
+	g_ptr_array_add (skip_uids, (gpointer) "m2");
+	g_ptr_array_add (skip_uids, (gpointer) "m1");
+
+	row = find_row_for_uid (fixture->message_list, "m3", FALSE);
+	g_assert_cmpint (row, >=, 0);
+	e_virtual_tree_set_cursor (vtree, row);
+
+	g_assert_false (e_message_list_select_skip_uids (fixture->message_list, E_MESSAGE_LIST_SELECT_NEXT, skip_uids));
+
+	g_assert_cmpstr (e_message_list_get_cursor_uid (fixture->message_list), ==, "m3");
+	g_assert_cmpuint (e_message_list_selected_count (fixture->message_list), ==, 0);
+
+	g_ptr_array_unref (skip_uids);
+}
+
+static void
 test_count (MLFixture *fixture,
 	    gconstpointer user_data)
 {
@@ -2936,6 +3008,9 @@ main (int argc,
 	add_flat_test ("/message-list/select/uid-null-no-fallback-selects-nothing", test_select_uid_null_no_fallback_selects_nothing);
 	add_flat_test ("/message-list/select/get-selected", test_get_selected);
 	add_flat_test ("/message-list/select/selected-count", test_selected_count);
+	add_flat_test ("/message-list/select/skip-uids-next", test_select_skip_uids_next);
+	add_flat_test ("/message-list/select/skip-uids-previous", test_select_skip_uids_previous);
+	add_flat_test ("/message-list/select/skip-uids-end", test_select_skip_uids_end);
 	add_flat_test ("/message-list/query/count", test_count);
 	add_flat_test ("/message-list/query/contains-uid", test_contains_uid);
 	add_threaded_test ("/message-list/threaded/count", test_count_threaded);
