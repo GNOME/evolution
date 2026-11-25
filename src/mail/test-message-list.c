@@ -465,6 +465,10 @@ on_threading_clicked (GtkButton *btn,
 		gtk_button_set_label (btn, "Threading: Flat");
 		break;
 	case CAMEL_FOLDER_VIEW_THREADING_FLAT:
+		mode = CAMEL_FOLDER_VIEW_THREADING_FLAT_ROOT_LATEST;
+		gtk_button_set_label (btn, "Threading: Flat Root Latest");
+		break;
+	case CAMEL_FOLDER_VIEW_THREADING_FLAT_ROOT_LATEST:
 		mode = CAMEL_FOLDER_VIEW_THREADING_FULL;
 		gtk_button_set_label (btn, "Threading: Full");
 		break;

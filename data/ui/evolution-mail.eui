@@ -50,6 +50,7 @@
           <item action='mail-threads-full' group='mail-threads-mode'/>
           <item action='mail-threads-compressed' group='mail-threads-mode'/>
           <item action='mail-threads-flat' group='mail-threads-mode'/>
+          <item action='mail-threads-flat-root-latest' group='mail-threads-mode'/>
         </submenu>
         <separator/>
         <item action='mail-threads-expand-all'/>

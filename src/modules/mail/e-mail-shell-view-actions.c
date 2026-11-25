@@ -1934,7 +1934,14 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		  N_("_Flat Threads"),
 		  NULL,
 		  N_("Group messages into flat threads"),
-		  NULL, CAMEL_FOLDER_VIEW_THREADING_FLAT }
+		  NULL, CAMEL_FOLDER_VIEW_THREADING_FLAT },
+
+		{ "mail-threads-flat-root-latest",
+		  NULL,
+		  N_("Flat Threads, _Latest First"),
+		  NULL,
+		  N_("Group messages into flat threads, with the latest message as the thread root"),
+		  NULL, CAMEL_FOLDER_VIEW_THREADING_FLAT_ROOT_LATEST }
 	};
 
 	static const EUIActionEnumEntry mail_view_entries[] = {
@@ -2137,6 +2144,11 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	e_binding_bind_property (
 		ACTION (MAIL_THREADS_GROUP_BY), "active",
 		ACTION (MAIL_THREADS_FLAT), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	e_binding_bind_property (
+		ACTION (MAIL_THREADS_GROUP_BY), "active",
+		ACTION (MAIL_THREADS_FLAT_ROOT_LATEST), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	e_binding_bind_property (

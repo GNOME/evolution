@@ -191,6 +191,8 @@
 	E_SHELL_VIEW_ACTION ((view), "mail-threads-group-by")
 #define E_SHELL_VIEW_ACTION_MAIL_THREADS_FLAT(view) \
 	E_SHELL_VIEW_ACTION ((view), "mail-threads-flat")
+#define E_SHELL_VIEW_ACTION_MAIL_THREADS_FLAT_ROOT_LATEST(view) \
+	E_SHELL_VIEW_ACTION ((view), "mail-threads-flat-root-latest")
 #define E_SHELL_VIEW_ACTION_MAIL_THREADS_FULL(view) \
 	E_SHELL_VIEW_ACTION ((view), "mail-threads-full")
 #define E_SHELL_VIEW_ACTION_MAIL_THREADS_COMPRESSED(view) \
