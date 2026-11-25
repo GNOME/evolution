@@ -60,6 +60,21 @@ unset_timeout_data_free (gpointer ptr)
 	}
 }
 
+static void
+activity_proxy_clear_timeout (EActivityProxy *proxy)
+{
+	guint timeout_id = proxy->priv->timeout_id;
+
+	if (timeout_id > 0) {
+		/* The g_source_remove() can call activity_proxy_weak_notify_cb() due to the activity
+		   having the last reference, which calls e_activity_proxy_set_activity() and tries
+		   to remove the same priv->timeout_id, thus unset it first in the priv->timeout_id
+		   and only then call g_source_remove(). */
+		proxy->priv->timeout_id = 0;
+		g_source_remove (timeout_id);
+	}
+}
+
 static gboolean
 activity_proxy_unset_timeout_id (gpointer user_data)
 {
@@ -92,8 +107,7 @@ activity_proxy_feedback (EActivityProxy *proxy)
 	if (state != E_ACTIVITY_CANCELLED)
 		return;
 
-	if (proxy->priv->timeout_id > 0)
-		g_source_remove (proxy->priv->timeout_id);
+	activity_proxy_clear_timeout (proxy);
 
 	utd = g_slice_new0 (UnsetTimeoutData);
 	utd->proxy = proxy;
@@ -278,10 +292,7 @@ activity_proxy_dispose (GObject *object)
 {
 	EActivityProxy *self = E_ACTIVITY_PROXY (object);
 
-	if (self->priv->timeout_id > 0) {
-		g_source_remove (self->priv->timeout_id);
-		self->priv->timeout_id = 0;
-	}
+	activity_proxy_clear_timeout (self);
 
 	if (self->priv->idle_proxy_update_source) {
 		g_source_destroy (self->priv->idle_proxy_update_source);
@@ -403,10 +414,7 @@ e_activity_proxy_set_activity (EActivityProxy *proxy,
 	if (activity != NULL)
 		g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	if (proxy->priv->timeout_id > 0) {
-		g_source_remove (proxy->priv->timeout_id);
-		proxy->priv->timeout_id = 0;
-	}
+	activity_proxy_clear_timeout (proxy);
 
 	if (proxy->priv->activity != NULL) {
 		g_signal_handlers_disconnect_matched (
