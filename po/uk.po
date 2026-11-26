@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-11-25 16:43+0000\n"
-"PO-Revision-Date: 2026-11-25 19:55+0200\n"
+"POT-Creation-Date: 2026-11-26 12:24+0000\n"
+"PO-Revision-Date: 2026-11-26 19:13+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -24726,8 +24726,15 @@ msgstr "Знайти адресну книгу"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Уникати IfMatch (потрібно для Apache < 2.2.8)"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:278
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:411
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:231
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:348
+msgid "Use quick synchronization (if server supports it)"
+msgstr ""
+"Скористатися швидкою синхронізацією (якщо її підтримку передбачено на сервері"
+")"
+
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:288
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:421
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:171
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:357
 msgid "URL is not a valid http:// nor https:// URL"
@@ -28176,17 +28183,15 @@ msgid "Group messages into flat threads"
 msgstr "Групувати повідомлення до плоских гілок"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1941
-#| msgid "_Flat Threads"
 msgid "Flat Threads, _Latest First"
 msgstr "Плоскі гілки, _найновіші першими"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1943
-#| msgid "Whether sort threads based on latest message in that thread"
 msgid ""
 "Group messages into flat threads, with the latest message as the thread root"
 msgstr ""
-"Групувати повідомлення у плоскі гілки, у яких найсвіжіше повідомлення буде ко"
-"реневим для гілки"
+"Групувати повідомлення у плоскі гілки, у яких найсвіжіше повідомлення буде "
+"кореневим для гілки"
 
 #: ../src/modules/mail/e-mail-shell-view-actions.c:1953
 msgid "Show message preview below the message list"
