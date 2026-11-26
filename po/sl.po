@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: https://gitlab.gnome.org/GNOME/evolution/issues/\n"
-"POT-Creation-Date: 2026-11-25 16:43+0000\n"
-"PO-Revision-Date: 2026-11-25 20:25+0100\n"
+"POT-Creation-Date: 2026-11-26 12:24+0000\n"
+"PO-Revision-Date: 2026-11-26 21:32+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "Language: sl\n"
@@ -23532,8 +23532,13 @@ msgstr "Najdi imenik"
 msgid "Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "Izogibajte se IfMatch (zahtevano na Apache < 2.2.8)"
 
-#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:278
-#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:411
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:231
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:348
+msgid "Use quick synchronization (if server supports it)"
+msgstr "Uporabi _hitro usklajevanje (če strežnik to podpira)"
+
+#: ../src/modules/book-config-carddav/evolution-book-config-carddav.c:288
+#: ../src/modules/cal-config-caldav/evolution-cal-config-caldav.c:421
 #: ../src/modules/cal-config-webcal/evolution-cal-config-webcal.c:171
 #: ../src/modules/cal-config-webdav-notes/evolution-cal-config-webdav-notes.c:357
 msgid "URL is not a valid http:// nor https:// URL"
