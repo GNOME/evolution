@@ -228,6 +228,16 @@ book_config_carddav_insert_widgets (ESourceConfigBackend *backend,
 	e_source_config_add_refresh_on_metered_network (config, scratch_source);
 	e_source_config_add_timeout_interval_for_webdav (config, scratch_source);
 
+	widget = gtk_check_button_new_with_label (_("Use quick synchronization (if server supports it)"));
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		extension, "allow-sync-collection",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	e_binding_bind_property (
 		extension, "avoid-ifmatch",
 		context->avoid_ifmatch, "active",

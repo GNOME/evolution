@@ -345,6 +345,16 @@ cal_config_caldav_insert_widgets (ESourceConfigBackend *backend,
 			G_BINDING_SYNC_CREATE);
 	}
 
+	widget = gtk_check_button_new_with_label (_("Use quick synchronization (if server supports it)"));
+	e_source_config_insert_widget (config, scratch_source, NULL, widget);
+	gtk_widget_show (widget);
+
+	e_binding_bind_property (
+		extension, "allow-sync-collection",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	if (context->auto_schedule_toggle) {
 		e_binding_bind_property (
 			extension, "calendar-auto-schedule",
