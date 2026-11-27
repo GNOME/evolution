@@ -1,3 +1,17 @@
+Evolution 3.62.2 2026-11-27
+---------------------------
+
+Bug Fixes:
+	I#3414 - mail-notification: Pass activation ID from the notification to the window
+	I#3419 - Calendar: Handle 'week' duration in repeated reminder interval
+	I#3429 - EMessageList: Do not auto-select on newly arrived mail
+	M!250 - Mail: Freeze when a Search Folder source folder is renamed to the same name (Stratos Laspas)
+	M!251 - EWebView: Prevent a memory reallocation when setting the CORS allow list (Debarshi Ray)
+
+Translations:
+	Kjartan Maraas (nb)
+	Vasil Pupkin (be)
+
 Evolution 3.62.1 2026-10-09
 ---------------------------
 
